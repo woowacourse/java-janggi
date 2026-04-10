@@ -3,17 +3,11 @@ package application;
 import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
-import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Players;
-import domain.score.ScorePolicy;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
-import persistence.JdbcGameRepository;
-import persistence.SavedGame;
 import persistence.SavedGameSummary;
 import view.InputView;
 import view.OutputView;
@@ -23,12 +17,12 @@ import view.parser.InputParser;
 public class GameManager {
     private final InputView inputView;
     private final OutputView outputView;
-    private final JdbcGameRepository gameRepository;
+    private final GameSessionHandler gameSessionHandler;
 
-    public GameManager(InputView inputView, OutputView outputView, JdbcGameRepository gameRepository) {
+    public GameManager(InputView inputView, OutputView outputView, GameSessionHandler gameSessionHandler) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameRepository = gameRepository;
+        this.gameSessionHandler = gameSessionHandler;
     }
 
     public void play() {
@@ -39,7 +33,7 @@ public class GameManager {
         while (!game.isOver()) {
             playTurn(session);
         }
-        gameRepository.finishGame(session.gameId());
+        gameSessionHandler.finish(session);
         printFinalScore(game);
         outputView.printWinner(game.getWinner());
     }
@@ -55,7 +49,7 @@ public class GameManager {
     }
 
     private GameSession selectAndRestoreGame() {
-        List<SavedGameSummary> savedGames = gameRepository.findInProgressGames();
+        List<SavedGameSummary> savedGames = gameSessionHandler.findInProgressGames();
         if (savedGames.isEmpty()) {
             throw new IllegalArgumentException("불러올 진행 중 게임이 없습니다. 새로 시작을 선택하세요.");
         }
@@ -63,49 +57,22 @@ public class GameManager {
         int selectedNumber = retry(
                 () -> InputParser.parseMenuNumber(inputView.readSavedGameNumber(), 1, savedGames.size())
         );
-        long selectedGameId = savedGames.get(selectedNumber - 1).id();
-        Optional<SavedGame> savedGame = gameRepository.findInProgressById(selectedGameId);
-        if (savedGame.isEmpty()) {
-            throw new IllegalArgumentException("선택한 게임을 불러올 수 없습니다. 다시 시도하세요.");
-        }
-        return restoreGame(savedGame.get());
-    }
-
-    private GameSession restoreGame(SavedGame savedGame) {
-        Players players = restorePlayers(savedGame);
-        Board board = savedGame.board();
-        Game game = new Game(board, players, new ScorePolicy());
-        outputView.printResume(savedGame.choPlayerName(), savedGame.hanPlayerName(), savedGame.moveCount());
-        return new GameSession(savedGame.id(), game, savedGame.moveCount());
-    }
-
-    private Players restorePlayers(SavedGame savedGame) {
-        Players players = Players.createInitial(
-                new Name(savedGame.choPlayerName()),
-                new Name(savedGame.hanPlayerName())
-        );
-        if (savedGame.currentSide() == Side.HAN) {
-            players.switchPlayer();
-        }
-        return players;
+        SavedGameSummary selectedGame = savedGames.get(selectedNumber - 1);
+        GameSession restoredSession = gameSessionHandler.restoreSession(selectedGame.id());
+        outputView.printResume(selectedGame.choPlayerName(), selectedGame.hanPlayerName(), selectedGame.moveCount());
+        return restoredSession;
     }
 
     private GameSession initializeNewGame() {
         InitializedPlayers initializedPlayers = initializePlayers();
         Formation choFormation = getFormation(Side.CHO);
         Formation hanFormation = getFormation(Side.HAN);
-        Board board = BoardFactory.create(choFormation, hanFormation);
-        Game game = new Game(board, initializedPlayers.players(), new ScorePolicy());
-        long gameId = gameRepository.createGame(
-                initializedPlayers.choName().name(),
-                initializedPlayers.hanName().name(),
+        return gameSessionHandler.initializeNewSession(
+                initializedPlayers.choName(),
+                initializedPlayers.hanName(),
                 choFormation,
-                hanFormation,
-                game.getBoard(),
-                game.getCurrentSide(),
-                0
+                hanFormation
         );
-        return new GameSession(gameId, game, 0);
     }
 
     private InitializedPlayers initializePlayers() {
@@ -130,11 +97,7 @@ public class GameManager {
         Position source = selectPiecePosition(game);
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
-            game.selectSource(source).validateDestinations(target);
-            game.move(source, target);
-            int nextTurn = session.nextMoveCount();
-            gameRepository.updateGameState(session.gameId(), game.getBoard(), game.getCurrentSide(), nextTurn);
-            session.updateMoveCount(nextTurn);
+            gameSessionHandler.move(session, source, target);
         });
         outputView.printBoard(game.getBoard());
         printScore(game);
