@@ -1,7 +1,11 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.PalaceDiagonalForwardMoveRule;
+import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
+import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,11 +27,15 @@ class CannonStrategyTest {
 
     @BeforeEach
     void setUp() {
-        cannonMoveStrategy = new CannonStrategy();
-        cannon = new Piece(Team.HAN, cannonMoveStrategy);
-        otherSideCannon = new Piece(Team.CHO, cannonMoveStrategy);
-        notCannon = new Piece(Team.HAN, new ChariotStrategy());
-        otherSideNotCannon = new Piece(Team.CHO, new ChariotStrategy());
+        cannonMoveStrategy = new CannonStrategy(List.of(
+                new StraightForwardMoveRule(),
+                new PalaceDiagonalForwardMoveRule(List.of(
+                        PalaceFactory.createPalace(Team.HAN),
+                        PalaceFactory.createPalace(Team.CHO)))));
+        cannon = PieceFactory.createCannon(Team.HAN);
+        otherSideCannon = PieceFactory.createCannon(Team.CHO);
+        notCannon = PieceFactory.createChariot(Team.HAN);
+        otherSideNotCannon = PieceFactory.createChariot(Team.CHO);
     }
 
     @ParameterizedTest
@@ -143,5 +151,39 @@ class CannonStrategyTest {
     void testNotCaptureWhenAllyPieceOnDestination() {
         // when & then
         assertThat(cannonMoveStrategy.canCapture(cannon, notCannon)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("포는 궁성 대각선을 따라 이동 가능하다.")
+    @CsvSource({
+            "4, 1, 5, 2",
+            "4, 1, 6, 3",
+            "6, 3, 4, 1",
+            "4, 8, 6, 10",
+            "6, 10, 4, 8"
+    })
+    void testMoveCannonDiagonalInPalace(int preX, int preY, int nextX, int nextY) {
+        assertThat(cannonMoveStrategy.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선 2칸 이동 시 포가 아닌 기물 1개를 넘어야 이동 가능하다.")
+    void testCheckPathRuleWhenOnePieceInPalaceDiagonalPath() {
+        // given
+        List<Piece> pathPieces = List.of(notCannon);
+
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(pathPieces)).isTrue();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선 2칸 이동 시 포를 넘을 수 없다.")
+    void testNotCheckPathRuleWhenCannonInPalaceDiagonalPath() {
+        // given
+        List<Piece> pathPieces = List.of(otherSideCannon);
+
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(pathPieces)).isFalse();
     }
 }

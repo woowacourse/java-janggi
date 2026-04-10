@@ -8,6 +8,7 @@ public class InputView {
     private static final String CHOICE_REGEX = "[1-4]";
     private static final int CHOICE_MIN_SIZE = 2;
     private static final int POSITION_SIZE = 2;
+    private static final String GAME_CHOICE_REGEX = "[1-4]";
 
     private final Scanner sc;
 
@@ -39,6 +40,21 @@ public class InputView {
     public List<Integer> readStartPiecePosition() {
         System.out.println("이동할 기물의 시작 좌표를 입력하세요.(쉼표로 구분 예:1,3)");
         return readPiecePosition();
+    }
+
+    public int readMenuChoice() {
+        System.out.println("메뉴를 선택하세요.");
+        String input = sc.nextLine().trim();
+        if (!input.matches(GAME_CHOICE_REGEX)) {
+            throw new IllegalArgumentException("1~4번 중에서 선택해주세요.");
+        }
+        return Integer.parseInt(input);
+    }
+
+    public Long readGameId() {
+        System.out.println("입장할 게임방 번호를 입력하세요.");
+        String input = sc.nextLine().trim();
+        return Long.parseLong(input);
     }
 
     private List<Integer> readPiecePosition() {

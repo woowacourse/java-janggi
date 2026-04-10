@@ -1,7 +1,11 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.PalaceDiagonalForwardMoveRule;
+import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
+import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +27,14 @@ class ChariotStrategyTest {
 
     @BeforeEach
     void setUp() {
-        chariotMoveStrategy = new ChariotStrategy();
-        chariot = new Piece(Team.HAN, chariotMoveStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        chariotMoveStrategy = new DefaultMoveStrategy(List.of(
+                new StraightForwardMoveRule(),
+                new PalaceDiagonalForwardMoveRule(List.of(
+                        PalaceFactory.createPalace(Team.HAN),
+                        PalaceFactory.createPalace(Team.CHO)))));
+        chariot = PieceFactory.createChariot(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -38,7 +46,7 @@ class ChariotStrategyTest {
             "8, 3, 2, 4",
     })
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
@@ -53,7 +61,7 @@ class ChariotStrategyTest {
             "8, 3, 8, 1",
     })
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
@@ -64,7 +72,7 @@ class ChariotStrategyTest {
     void testFindDestinationPath() {
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3));
@@ -95,16 +103,42 @@ class ChariotStrategyTest {
         // when & then
         assertThat(chariotMoveStrategy.canCapture(chariot, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureWhenDestinationIsEnemy() {
         // when & then
         assertThat(chariotMoveStrategy.canCapture(chariot, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureWhenDestinationIsAlly() {
         // when & then
         assertThat(chariotMoveStrategy.canCapture(chariot, sameTeamPiece)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("차는 궁성 대각선을 따라 이동 가능하다.")
+    @CsvSource({
+            "4, 1, 5, 2",
+            "4, 1, 6, 3",
+            "6, 3, 4, 1",
+            "4, 8, 6, 10",
+            "6, 10, 4, 8"
+    })
+    void testMoveChariotDiagonalInPalace(int preX, int preY, int nextX, int nextY) {
+        assertThat(chariotMoveStrategy.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("차는 궁성 대각선 2칸 이동 시 경로에 기물이 있으면 이동할 수 없다.")
+    void testNotCheckPathRuleWhenPieceInPalaceDiagonalPath() {
+        // given
+        List<Piece> pathPieces = List.of(otherTeamPiece);
+
+        // when & then
+        assertThat(chariotMoveStrategy.checkPathRule(pathPieces)).isFalse();
     }
 }

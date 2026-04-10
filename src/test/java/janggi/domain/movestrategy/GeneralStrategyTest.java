@@ -1,7 +1,11 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.PalaceDiagonalOneStepMoveRule;
+import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
+import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +26,12 @@ class GeneralStrategyTest {
 
     @BeforeEach
     void setUp() {
-        generalStrategy = new GeneralStrategy();
-        general = new Piece(Team.HAN, generalStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        generalStrategy = new PalaceRestrictMoveStrategy(PalaceFactory.createPalace(Team.HAN),
+                List.of(new StraightOneStepMoveRule(),
+                        new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(Team.HAN))));
+        general = PieceFactory.createGeneral(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -37,7 +43,7 @@ class GeneralStrategyTest {
             "5,2,5,1"
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -46,12 +52,12 @@ class GeneralStrategyTest {
     @DisplayName("궁은 상하좌우 두 칸 이상 이동하지 못한다.")
     @CsvSource({
             "5,2,7,2",
-            "5,2,4,3",
+            "5,2,3,2",
             "5,2,5,4",
             "5,2,3,2"
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -64,7 +70,7 @@ class GeneralStrategyTest {
             "5,2,5,1"
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
 
         assertThat(path).isEmpty();
@@ -95,16 +101,34 @@ class GeneralStrategyTest {
         // when & then
         assertThat(generalStrategy.canCapture(general, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureWhenDestinationIsEnemy() {
         // when & then
         assertThat(generalStrategy.canCapture(general, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureWhenDestinationIsAlly() {
         // when & then
         assertThat(generalStrategy.canCapture(general, sameTeamPiece)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("궁성 영역 밖으로는 이동할 수 없다.")
+    @CsvSource({
+            "4, 1, 3, 1",
+            "6, 3, 7, 3",
+            "5, 3, 5, 4",
+    })
+    void testCanNotMoveOutsidePalace(int preX, int preY, int nextX, int nextY) {
+        // given
+        Position from = new Position(preX, preY);
+        Position to = new Position(nextX, nextY);
+
+        // when & then
+        assertThat(generalStrategy.canMove(from, to)).isFalse();
     }
 }

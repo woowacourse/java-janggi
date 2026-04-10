@@ -23,4 +23,8 @@ public class Turn {
     public Team getTeam() {
         return team;
     }
+
+    public String getTeamName() {
+        return team.name();
+    }
 }

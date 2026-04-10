@@ -1,128 +1,84 @@
 package janggi.domain.board;
 
-import janggi.domain.movestrategy.*;
-import janggi.domain.piece.*;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.Team;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoardInitializer {
 
-    public static Board initializeBoard(int hanOpeningFormationChoice, int choOpeningFormationChoice) {
-        Map<Position, Piece> board = new LinkedHashMap<>();
-        initializeHan(board, hanOpeningFormationChoice);
-        initializeCho(board, choOpeningFormationChoice);
+    private static final Map<Integer, List<List<Integer>>> HAN_ATTIRE = Map.of(
+            1, List.of(List.of(2, 7), List.of(2, 8)),
+            2, List.of(List.of(3, 8), List.of(2, 7)),
+            3, List.of(List.of(3, 7), List.of(2, 8)),
+            4, List.of(List.of(2, 8), List.of(3, 7))
+    );
 
+    private static final Map<Integer, List<List<Integer>>> CHO_ATTIRE = Map.of(
+            1, List.of(List.of(3, 8), List.of(2, 7)),
+            2, List.of(List.of(2, 7), List.of(3, 8)),
+            3, List.of(List.of(3, 7), List.of(2, 8)),
+            4, List.of(List.of(2, 8), List.of(3, 7))
+    );
+
+    public static Board initializeBoard(final int hanChoice, final int choChoice) {
+        Map<Position, Piece> board = new LinkedHashMap<>();
+        initializeTeam(board, Team.HAN,
+                1, 4, 3, 2,
+                BoardDirection.UP, HAN_ATTIRE.get(hanChoice));
+        initializeTeam(board, Team.CHO,
+                10, 7, 8, 9,
+                BoardDirection.DOWN, CHO_ATTIRE.get(choChoice));
         return new Board(board);
     }
 
-    private static void initializeHanAttire(Map<Position, Piece> board, int choice) {
-        if (choice == 1) {
-            board.put(new Position(2, 1), new Piece(Team.HAN, new ElephantStrategy()));
-            board.put(new Position(7, 1), new Piece(Team.HAN, new ElephantStrategy()));
+    private static void initializeTeam(Map<Position, Piece> board, Team team,
+                                       int baseRow, int soldierRow, int cannonRow, int generalRow,
+                                       BoardDirection direction, List<List<Integer>> attire) {
+        initializeChariots(board, team, baseRow);
+        initializeGuards(board, team, baseRow);
+        initializeGeneral(board, team, generalRow);
+        initializeCannons(board, team, cannonRow);
+        initializeSoldiers(board, team, soldierRow, direction);
+        initializeAttire(board, team, baseRow, attire);
+    }
 
-            board.put(new Position(3, 1), new Piece(Team.HAN, new HorseStrategy()));
-            board.put(new Position(8, 1), new Piece(Team.HAN, new HorseStrategy()));
-        }
+    private static void initializeChariots(Map<Position, Piece> board, Team team, int row) {
+        board.put(new Position(1, row), PieceFactory.createChariot(team));
+        board.put(new Position(9, row), PieceFactory.createChariot(team));
+    }
 
-        if (choice == 2) {
-            board.put(new Position(3, 1), new Piece(Team.HAN, new ElephantStrategy()));
-            board.put(new Position(8, 1), new Piece(Team.HAN, new ElephantStrategy()));
+    private static void initializeGuards(Map<Position, Piece> board, Team team, int row) {
+        board.put(new Position(4, row), PieceFactory.createGuard(team));
+        board.put(new Position(6, row), PieceFactory.createGuard(team));
+    }
 
-            board.put(new Position(2, 1), new Piece(Team.HAN, new HorseStrategy()));
-            board.put(new Position(7, 1), new Piece(Team.HAN, new HorseStrategy()));
-        }
-        if (choice == 3) {
-            board.put(new Position(3, 1), new Piece(Team.HAN, new ElephantStrategy()));
-            board.put(new Position(7, 1), new Piece(Team.HAN, new ElephantStrategy()));
+    private static void initializeGeneral(Map<Position, Piece> board, Team team, int row) {
+        board.put(new Position(5, row), PieceFactory.createGeneral(team));
+    }
 
-            board.put(new Position(2, 1), new Piece(Team.HAN, new HorseStrategy()));
-            board.put(new Position(8, 1), new Piece(Team.HAN, new HorseStrategy()));
-        }
+    private static void initializeCannons(Map<Position, Piece> board, Team team, int row) {
+        board.put(new Position(2, row), PieceFactory.createCannon(team));
+        board.put(new Position(8, row), PieceFactory.createCannon(team));
+    }
 
-        if (choice == 4) {
-            board.put(new Position(2, 1), new Piece(Team.HAN, new ElephantStrategy()));
-            board.put(new Position(8, 1), new Piece(Team.HAN, new ElephantStrategy()));
-
-            board.put(new Position(3, 1), new Piece(Team.HAN, new HorseStrategy()));
-            board.put(new Position(7, 1), new Piece(Team.HAN, new HorseStrategy()));
+    private static void initializeSoldiers(Map<Position, Piece> board, Team team,
+                                           int row, BoardDirection direction) {
+        for (int x = 1; x <= 9; x += 2) {
+            board.put(new Position(x, row), PieceFactory.createSolider(team, direction));
         }
     }
 
-    private static void initializeChoAttire(Map<Position, Piece> board, int choice) {
-        if (choice == 1) { //상마상마
-            board.put(new Position(3, 10), new Piece(Team.CHO, new ElephantStrategy()));
-            board.put(new Position(8, 10), new Piece(Team.CHO, new ElephantStrategy()));
-
-            board.put(new Position(2, 10), new Piece(Team.CHO, new HorseStrategy()));
-            board.put(new Position(7, 10), new Piece(Team.CHO, new HorseStrategy()));
-        }
-
-        if (choice == 2) { // 마상마상
-            board.put(new Position(2, 10), new Piece(Team.CHO, new ElephantStrategy()));
-            board.put(new Position(7, 10), new Piece(Team.CHO, new ElephantStrategy()));
-
-            board.put(new Position(3, 10), new Piece(Team.CHO, new HorseStrategy()));
-            board.put(new Position(8, 10), new Piece(Team.CHO, new HorseStrategy()));
-        }
-
-        if (choice == 3) { // 마상상마
-            board.put(new Position(3, 10), new Piece(Team.CHO, new ElephantStrategy()));
-            board.put(new Position(7, 10), new Piece(Team.CHO, new ElephantStrategy()));
-
-            board.put(new Position(2, 10), new Piece(Team.CHO, new HorseStrategy()));
-            board.put(new Position(8, 10), new Piece(Team.CHO, new HorseStrategy()));
-        }
-
-        if (choice == 4) { // 상마마상
-            board.put(new Position(2, 10), new Piece(Team.CHO, new ElephantStrategy()));
-            board.put(new Position(8, 10), new Piece(Team.CHO, new ElephantStrategy()));
-
-            board.put(new Position(3, 10), new Piece(Team.CHO, new HorseStrategy()));
-            board.put(new Position(7, 10), new Piece(Team.CHO, new HorseStrategy()));
-        }
-    }
-
-
-    private static void initializeHan(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 4), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        board.put(new Position(3, 4), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        board.put(new Position(5, 4), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        board.put(new Position(7, 4), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        board.put(new Position(9, 4), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-
-        board.put(new Position(2, 3), new Piece(Team.HAN, new CannonStrategy()));
-        board.put(new Position(8, 3), new Piece(Team.HAN, new CannonStrategy()));
-
-        board.put(new Position(5, 2), new Piece(Team.HAN, new GeneralStrategy()));
-
-        board.put(new Position(4, 1), new Piece(Team.HAN, new GuardStrategy()));
-        board.put(new Position(6, 1), new Piece(Team.HAN, new GuardStrategy()));
-
-        board.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        board.put(new Position(9, 1), new Piece(Team.HAN, new ChariotStrategy()));
-
-        initializeHanAttire(board, openingFormationChoice);
-    }
-
-    private static void initializeCho(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 7), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-        board.put(new Position(3, 7), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-        board.put(new Position(5, 7), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-        board.put(new Position(7, 7), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-        board.put(new Position(9, 7), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-
-        board.put(new Position(2, 8), new Piece(Team.CHO, new CannonStrategy()));
-        board.put(new Position(8, 8), new Piece(Team.CHO, new CannonStrategy()));
-
-        board.put(new Position(5, 9), new Piece(Team.CHO, new GeneralStrategy()));
-
-        board.put(new Position(4, 10), new Piece(Team.CHO, new GuardStrategy()));
-        board.put(new Position(6, 10), new Piece(Team.CHO, new GuardStrategy()));
-
-        board.put(new Position(1, 10), new Piece(Team.CHO, new ChariotStrategy()));
-        board.put(new Position(9, 10), new Piece(Team.CHO, new ChariotStrategy()));
-
-        initializeChoAttire(board, openingFormationChoice);
+    private static void initializeAttire(Map<Position, Piece> board, Team team,
+                                         int baseRow, List<List<Integer>> formation) {
+        List<Integer> elephant = formation.get(0);
+        List<Integer> horse = formation.get(1);
+        board.put(new Position(elephant.get(0), baseRow), PieceFactory.createElephant(team));
+        board.put(new Position(elephant.get(1), baseRow), PieceFactory.createElephant(team));
+        board.put(new Position(horse.get(0), baseRow), PieceFactory.createHorse(team));
+        board.put(new Position(horse.get(1), baseRow), PieceFactory.createHorse(team));
     }
 }

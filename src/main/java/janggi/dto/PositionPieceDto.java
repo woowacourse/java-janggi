@@ -1,5 +1,6 @@
 package janggi.dto;
 
+import janggi.constants.Color;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 
@@ -9,7 +10,10 @@ public record PositionPieceDto(int x, int y, String pieceName, String teamName) 
                 piece.getPieceName(), piece.getTeamName());
     }
 
-    public boolean isSame(int x, int y) {
-        return this.x == x && this.y == y;
+    public String teamColor() {
+        if (teamName.equals("HAN")) {
+            return Color.RED;
+        }
+        return Color.GREEN;
     }
 }

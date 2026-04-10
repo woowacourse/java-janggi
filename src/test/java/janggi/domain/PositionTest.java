@@ -219,4 +219,69 @@ class PositionTest {
         // then
         assertThat(from.moveDiagonal(to)).isEqualTo(expected);
     }
+
+    @ParameterizedTest
+    @DisplayName("좌표가 대각선 상에 존재하면 true를 반환한다.")
+    @CsvSource({
+            "5, 4, 6, 5",
+            "1, 2, 2, 3",
+            "5, 5, 6, 6",
+            "1, 1, 6, 6",
+            "6, 1, 4, 3"
+    })
+    void testIsOnSameDiagonal(int x1, int y1, int x2, int y2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isOneSameDiagonal(to)).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("좌표가 대각선 상에 존재하지 않으면 false를 반환한다.")
+    @CsvSource({
+            "1, 1, 1, 3",
+            "1, 2, 2, 4",
+            "1, 5, 6, 6"
+    })
+    void testIsNotOnSameDiagonal(int x1, int y1, int x2, int y2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isOneSameDiagonal(to)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("위치가 범위 안에 있으면 true를 반환한다.")
+    @CsvSource({
+            "4, 1",
+            "5, 2",
+            "6, 3"
+    })
+    void testTrueWhenInRange(int x, int y) {
+        // given
+        Position position = new Position(x, y);
+
+        // when & then
+        assertThat(position.isInRange(4, 6, 1, 3)).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("위치가 범위 밖에 있으면 false를 반환한다.")
+    @CsvSource({
+            "3, 2",
+            "7, 2",
+            "4, 4",
+            "5, 4"
+    })
+    void testFalseWhenOutOfRange(int x, int y) {
+        // given
+        Position position = new Position(x, y);
+
+        // when & then
+        assertThat(position.isInRange(4, 6, 1, 3)).isFalse();
+    }
 }

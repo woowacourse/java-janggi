@@ -31,6 +31,13 @@ public class Position {
         return other.x == this.x || other.y == this.y;
     }
 
+    public boolean isOneSameDiagonal(Position other) {
+        if (other.equals(this)) {
+            return false;
+        }
+        return Math.abs(other.x - this.x) == Math.abs(other.y - this.y);
+    }
+
     public boolean isMatchDistance(Position other, int value1, int value2) {
         int xDistance = Math.abs(calculateX(other));
         int yDistance = Math.abs(calculateY(other));
@@ -87,5 +94,9 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public boolean isInRange(int minX, int maxX, int minY, int maxY) {
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
 }

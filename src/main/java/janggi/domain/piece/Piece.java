@@ -2,18 +2,18 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.MoveStrategy;
+
 import java.util.List;
-import java.util.Map;
 
 public class Piece {
+    private final PieceType pieceType;
     private final Team team;
     private final MoveStrategy moveStrategy;
-    private final PieceType pieceType;
 
-    public Piece(Team team, MoveStrategy moveStrategy) {
+    public Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
+        this.pieceType = pieceType;
         this.team = team;
         this.moveStrategy = moveStrategy;
-        this.pieceType = moveStrategy.getIdentity();
     }
 
     public String getPieceName() {
@@ -26,6 +26,10 @@ public class Piece {
 
     public boolean isSameTeam(Piece piece) {
         return piece.team.equals(this.team);
+    }
+
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
     public Team getTeam() {
@@ -52,7 +56,11 @@ public class Piece {
         return moveStrategy.canCapture(from, to);
     }
 
-    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
-        return moveStrategy.determineMovingRule(this, positionPieces, to);
+    public Score getScore() {
+        return pieceType.getScore();
+    }
+
+    public String getPieceTypeName() {
+        return pieceType.name();
     }
 }
