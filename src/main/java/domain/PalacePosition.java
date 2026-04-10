@@ -34,7 +34,7 @@ public enum PalacePosition {
 
     public static PalacePosition findByPosition(Position position) {
         for (PalacePosition palacePosition : PalacePosition.values()) {
-            if (palacePosition.getPosition().equals(position)) {
+            if (position.isSamePosition(palacePosition.getPosition())) {
                 return palacePosition;
             }
         }

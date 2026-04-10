@@ -33,6 +33,10 @@ public class Position {
         throw new IllegalArgumentException("[ERROR] 좌표가 궁성 내에 위치해 있지 않습니다.");
     }
 
+    public boolean isSamePosition(Position otherPosition) {
+        return this.equals(otherPosition);
+    }
+
     public boolean isInsidePalace() {
         return isInsideHanPalace() || isInsideChoPalace();
     }
