@@ -16,15 +16,15 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
-import repository.FileGameRepository;
 import repository.GameRepository;
+import repository.H2GameRepository;
 import ui.view.InputView;
 import ui.view.OutputView;
 
 public class GameConsole {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    GameRepository gameRepository = new FileGameRepository();
+    GameRepository gameRepository = new H2GameRepository();
 
     private long gameId;
     private Game game;
