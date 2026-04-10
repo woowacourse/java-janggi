@@ -30,7 +30,9 @@ public class GameService {
         Board board = new Board(choStrategy, hanStrategy);
         game = new Game(board);
 
-        try (Connection connection = DatabaseConfig.createConnection()) {
+        Connection connection = DatabaseConfig.createConnection();
+
+        try {
             connection.setAutoCommit(false);
 
             gameRepository.save(game, connection);
@@ -39,7 +41,22 @@ public class GameService {
             connection.commit();
             return game;
         } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    throw new RuntimeException(rollbackException);
+                }
+            }
             throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                }
+            }
+            throw new RuntimeException();
         }
     }
 
@@ -56,7 +73,8 @@ public class GameService {
     }
 
     public void playTurn(MoveCommand command) {
-        try (Connection connection = DatabaseConfig.createConnection()) {
+        Connection connection = DatabaseConfig.createConnection();
+        try {
             connection.setAutoCommit(false);
 
             game.board().move(command.from(), command.to(), command.pieceType(), game.turn());
@@ -69,7 +87,20 @@ public class GameService {
 
             connection.commit();
         } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    throw new RuntimeException(rollbackException);
+                }
+            }
             throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {}
+            }
         }
     }
 
