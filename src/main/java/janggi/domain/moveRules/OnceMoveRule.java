@@ -16,18 +16,15 @@ public class OnceMoveRule implements MoveRule {
     public List<Position> calculateAvailablePositions(Position startPosition, Team team, Map<Position, Piece> state) {
         Piece piece = state.get(startPosition);
         List<Direction> directions = findDirections(piece, team);
-        int currentColumn = startPosition.getColumn();
-        int currentRow = startPosition.getRow();
-        List<Position> result = new ArrayList<>();
+        List<Position> availablePositions = new ArrayList<>();
         for (Direction direction : directions) {
-            int newColumn = currentColumn + direction.getColumn();
-            int newRaw = currentRow + direction.getRow();
-            if (Position.isInsideBoundary(newColumn, newRaw)) {
-                Position movePosition = new Position(newColumn, newRaw);
-                result.add(movePosition);
+            if (startPosition.cannotMoveTo(direction)) {
+                continue;
             }
+            Position movePosition = startPosition.move(direction);
+            availablePositions.add(movePosition);
         }
-        return result;
+        return availablePositions;
     }
 
     private List<Direction> choZolRoutes() {

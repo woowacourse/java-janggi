@@ -26,16 +26,16 @@ public enum Direction {
         this.row = row;
     }
 
-    public static List<Direction> getStraightDirections() {
-        return STRAIGHT_DIRECTIONS;
-    }
-
     public Position sumDirection(Position position) {
         return new Position(this.column + position.getColumn(), this.row + position.getRow());
     }
 
     private boolean isStraight() {
         return (column == 0 || row == 0);
+    }
+
+    public static List<Direction> getStraightDirections() {
+        return STRAIGHT_DIRECTIONS;
     }
 
     public int getColumn() {

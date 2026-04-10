@@ -23,19 +23,14 @@ public class ChaMoveRule implements MoveRule {
     private List<Position> findPositionsByDirection(Position startPosition, Direction direction,
                                                     Map<Position, Piece> state) {
         List<Position> result = new ArrayList<>();
-        int currentColumn = startPosition.getColumn() + direction.getColumn();
-        int currentRow = startPosition.getRow() + direction.getRow();
-
-        while (Position.isInsideBoundary(currentColumn, currentRow)) {
-            Position movePosition = new Position(currentColumn, currentRow);
-            result.add(movePosition);
-            if (state.containsKey(movePosition)) {
+        Position currentPosition = startPosition;
+        while (!currentPosition.cannotMoveTo(direction)) {
+            currentPosition = currentPosition.move(direction);
+            result.add(currentPosition);
+            if (state.containsKey(currentPosition)) {
                 break;
             }
-            currentColumn += direction.getColumn();
-            currentRow += direction.getRow();
         }
-
         return result;
     }
 }
