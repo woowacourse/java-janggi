@@ -7,6 +7,8 @@ import janggi.domain.piece.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.Map;
 
@@ -152,5 +154,14 @@ public class BoardTest {
         board.movePiece(Position.of(7, 4), Position.of(8, 4));
 
         assertThat(board.isOnlyGeneralOfCampAlive(camp)).isTrue();
+    }
+
+    @DisplayName("해당 진영의 총 점수를 계산해서 반환한다")
+    @ParameterizedTest
+    @EnumSource(Camp.class)
+    void calculateTotalScore_ReturnScore(Camp camp) {
+        Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+
+        assertThat(board.calculateTotalScore(camp)).isEqualTo(72);
     }
 }
