@@ -8,7 +8,7 @@ CREATE TABLE game_room (
     is_finished BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_loaded_at DATETIME NULL,
-    INDEX idx_created_at (created_at),
+    INDEX idx_created_at (created_at)
 );
 
 CREATE TABLE board_state (
