@@ -8,6 +8,8 @@ public class InputView {
     private static final int MOVE_COMMAND_TOKEN_SIZE = 4;
     private static final int DISPLAYED_LAST_ROW = 0;
     private static final int ACTUAL_LAST_ROW = 10;
+    private static final String YES = "y";
+    private static final String NO = "n";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -61,5 +63,19 @@ public class InputView {
         }
 
         return scanner.nextLine().trim();
+    }
+
+    public boolean readContinueAnswer() {
+        String input = readLine();
+
+        if (YES.equalsIgnoreCase(input)) {
+            return true;
+        }
+
+        if (NO.equalsIgnoreCase(input)) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("[ERROR] y 또는 n 중 하나를 입력해야 합니다.");
     }
 }

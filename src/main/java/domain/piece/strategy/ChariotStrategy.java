@@ -3,13 +3,14 @@ package domain.piece.strategy;
 import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Piece;
-
 import java.util.List;
 
 public class ChariotStrategy implements MoveStrategy {
     @Override
-    public void move(Position from, Position to, BoardChecker checker) {
-        List<Position> path = from.findPath(to);
+    public void validateMove(Position from, Position to, BoardChecker checker) {
+        List<Position> path = checker.findMovePath(from, to)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 차의 이동 방향이 올바르지 않습니다."));
+
         List<Piece> piecesInPath = checker.findPiecesInPath(path);
 
         if (!piecesInPath.isEmpty()) {

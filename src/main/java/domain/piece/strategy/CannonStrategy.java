@@ -8,8 +8,10 @@ import java.util.List;
 
 public class CannonStrategy implements MoveStrategy {
     @Override
-    public void move(Position from, Position to, BoardChecker boardChecker) {
-        List<Position> path = from.findPath(to);
+    public void validateMove(Position from, Position to, BoardChecker boardChecker) {
+        List<Position> path = boardChecker.findMovePath(from, to)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 포의 이동 방향이 올바르지 않습니다."));
+
         List<Piece> piecesInPath = boardChecker.findPiecesInPath(path);
         boolean targetPieceType = boardChecker.isTargetType(to, PieceType.CANNON);
 

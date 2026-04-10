@@ -110,7 +110,7 @@ public class PositionTest {
         Position from = new Position(1, 2);
         Position to = new Position(1, 6);
 
-        List<Position> intermediatePositions = from.findPath(to);
+        List<Position> intermediatePositions = from.findOrthogonalPath(to);
 
         assertThat(intermediatePositions.size()).isEqualTo(3);
     }
@@ -121,7 +121,7 @@ public class PositionTest {
         Position from = new Position(3, 2);
         Position to = new Position(1, 6);
 
-        assertThatThrownBy(() -> from.findPath(to))
+        assertThatThrownBy(() -> from.findOrthogonalPath(to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 좌표로 이동할 수 없습니다.");
     }
@@ -132,7 +132,7 @@ public class PositionTest {
         Position from = new Position(1, 2);
         Position to = new Position(1, 6);
 
-        List<Position> path = from.findPath(to);
+        List<Position> path = from.findOrthogonalPath(to);
 
         assertThat(path).containsExactly(
                 new Position(1, 3),

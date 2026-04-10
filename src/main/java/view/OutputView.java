@@ -2,6 +2,7 @@ package view;
 
 import domain.board.Board;
 import domain.piece.Camp;
+import domain.game.TurnResult;
 
 public class OutputView {
     private static final String SETUP_OPTIONS =
@@ -16,6 +17,10 @@ public class OutputView {
     private static final String ELEPHANT_SETUP_MESSAGE = "%s 상차림 번호를 입력하세요.%n";
     private static final String CHO_CAMP = "초나라";
     private static final String HAN_CAMP = "한나라";
+    public static final String GAME_WINNER_MESSAGE = "게임이 종료되었습니다. 승자는 %s 입니다!";
+    public static final String EACH_CAMP_SCORE = "초나라 점수: %d, 한나라 점수: %d%n";
+    private static final String RESUME_MESSAGE = "진행중인 게임이 있습니다. 이어서 하시겠습니까? (y/n)%n";
+    private static final String CHECK_MESSAGE = "%s 장군입니다.%n";
 
     private final BoardRenderer boardRenderer;
 
@@ -47,6 +52,28 @@ public class OutputView {
         if (camp == Camp.CHO) {
             return CHO_CAMP;
         }
+
         return HAN_CAMP;
+    }
+
+    public void printWinner(Camp camp) {
+        System.out.printf(GAME_WINNER_MESSAGE, campName(camp));
+    }
+
+    public void printScore(int choScore, int hanScore) {
+        System.out.printf(EACH_CAMP_SCORE, choScore, hanScore);
+    }
+
+    public void printResumePrompt() {
+        System.out.printf(RESUME_MESSAGE);
+    }
+
+    public void printTurnResult(TurnResult turnResult) {
+        turnResult.checkedCamp()
+                .ifPresent(this::printCheck);
+    }
+
+    private void printCheck(Camp camp) {
+        System.out.printf(CHECK_MESSAGE, campName(camp));
     }
 }

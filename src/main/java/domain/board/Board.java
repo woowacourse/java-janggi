@@ -1,7 +1,9 @@
 package domain.board;
 
+import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +13,28 @@ import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
     private final Map<Position, Piece> board;
+    private final Palace palace;
 
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
+        this.palace = new Palace();
     }
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(board.get(position));
+    }
+
+    public List<BoardPiece> pieces() {
+        List<BoardPiece> boardPieces = new ArrayList<>();
+
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+
+            boardPieces.add(new BoardPiece(position, piece.camp(), piece.type()));
+        }
+
+        return boardPieces;
     }
 
     @Override
@@ -27,13 +44,16 @@ public class Board implements BoardChecker {
                 .orElse(false);
     }
 
-    public void move(Position from, Position to) {
+    public Optional<Piece> movePiece(Position from, Position to) {
         Piece targetPiece = findBy(from);
+        Optional<Piece> capturedPiece = findPiece(to);
 
-        targetPiece.move(from, to, this);
+        targetPiece.validateMove(from, to, this);
 
         board.remove(from);
         board.put(to, targetPiece);
+
+        return capturedPiece;
     }
 
     public Piece findBy(Position position) {
@@ -56,5 +76,41 @@ public class Board implements BoardChecker {
         return findPiece(to)
                 .map(toPiece -> fromPiece.camp() == toPiece.camp())
                 .orElse(false);
+    }
+
+    @Override
+    public Optional<List<Position>> findMovePath(Position from, Position to) {
+        if (from.isOrthogonallyAligned(to)) {
+            return Optional.of(from.findOrthogonalPath(to));
+        }
+
+        return palace.findDiagonalPath(from, to);
+    }
+
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return palace.contains(position);
+    }
+
+    public int scoreOf(Camp camp) {
+        return board.values().stream()
+                .filter(piece -> piece.camp() == camp)
+                .mapToInt(Piece::score)
+                .sum();
+    }
+
+    public Position findPositionOf(Camp camp, PieceType pieceType) {
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            if (isTargetPiece(entry, camp, pieceType)) {
+                return entry.getKey();
+            }
+        }
+
+        throw new NoSuchElementException("[ERROR] 조건에 맞는 기물이 존재하지 않습니다.");
+    }
+
+    private boolean isTargetPiece(Map.Entry<Position, Piece> entry, Camp camp, PieceType pieceType) {
+        Piece piece = entry.getValue();
+        return piece.camp() == camp && piece.type() == pieceType;
     }
 }

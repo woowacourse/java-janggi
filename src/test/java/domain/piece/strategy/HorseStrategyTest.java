@@ -58,7 +58,7 @@ public class HorseStrategyTest {
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> horse.move(from, to, boardChecker))
+        assertThatThrownBy(() -> horse.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 이동 방향이 올바르지 않습니다.");
     }
@@ -71,7 +71,7 @@ public class HorseStrategyTest {
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatCode(() -> horse.move(from, to, boardChecker))
+        assertThatCode(() -> horse.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -88,7 +88,7 @@ public class HorseStrategyTest {
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> horse.move(from, to, boardChecker))
+        assertThatThrownBy(() -> horse.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 멱이 있어 이동할 수 없습니다.");
     }

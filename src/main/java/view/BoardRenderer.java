@@ -52,7 +52,7 @@ public class BoardRenderer {
 
     private String formatRowLabel(int y) {
         if (y == MAX_Y) {
-            return "10";
+            return "0 ";
         }
 
         return y + " ";

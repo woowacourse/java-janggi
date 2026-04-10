@@ -1,22 +1,21 @@
 package domain.board;
 
-import domain.piece.Camp;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 public class BoardTest {
     Board board;
@@ -52,6 +51,21 @@ public class BoardTest {
         assertThatThrownBy(() -> board.findBy(new Position(4, 4)))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("[ERROR] 해당 좌표에 기물이 없습니다.");
+    }
+
+    @Test
+    @DisplayName("상대 기물이 있는 위치로 이동하면 잡힌 기물을 반환한다.")
+    void returnCapturedPiece_When_MoveToOpponentPiece() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+
+        Piece capturedPiece = board.movePiece(new Position(5, 5), new Position(5, 2))
+                .orElseThrow();
+
+        assertThat(capturedPiece.camp()).isEqualTo(Camp.HAN);
+        assertThat(capturedPiece.type()).isEqualTo(PieceType.GENERAL);
     }
 
     @Nested
@@ -156,7 +170,6 @@ public class BoardTest {
             Position from = new Position(1, 1);
             Position to = new Position(1, 4);
 
-
             assertTrue(boardChecker.isSameCamp(from, to));
         }
 
@@ -168,5 +181,82 @@ public class BoardTest {
 
             assertFalse(boardChecker.isSameCamp(from, to));
         }
+    }
+
+    @Test
+    @DisplayName("직선 이동이면 일반 경로를 반환한다.")
+    void findMovePath_When_StraightMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(1, 1), new Position(1, 4)))
+                .contains(List.of(new Position(1, 2), new Position(1, 3)));
+    }
+
+    @Test
+    @DisplayName("궁성 대각선 이동이면 궁성 경로를 반환한다.")
+    void findMovePath_When_PalaceDiagonalMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(4, 1), new Position(6, 3)))
+                .contains(List.of(new Position(5, 2)));
+    }
+
+    @Test
+    @DisplayName("직선 이동도 궁성 대각선 이동도 아니면 빈 값을 반환한다.")
+    void findMovePath_When_InvalidMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(1, 1), new Position(2, 2)))
+                .isEmpty();
+    }
+
+    @Test
+    @DisplayName("특정 진영의 남아 있는 기물 점수 합을 반환한다.")
+    void returnScoreOfCamp_When_CalculateRemainingPieceScore() {
+        Board board = new Board(Map.of(
+                new Position(1, 1), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(2, 1), new Piece(Camp.CHO, PieceType.SOLDIER),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
+        ));
+
+        assertThat(board.scoreOf(Camp.CHO)).isEqualTo(15);
+        assertThat(board.scoreOf(Camp.HAN)).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("현재 보드 위에 있는 기물들의 상태를 반환한다.")
+    void returnBoardPieces() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+
+        List<BoardPiece> boardPieces = board.pieces();
+
+        assertThat(boardPieces).contains(
+                new BoardPiece(new Position(5, 2), Camp.HAN, PieceType.GENERAL),
+                new BoardPiece(new Position(5, 5), Camp.CHO, PieceType.CHARIOT)
+        );
+    }
+
+    @Test
+    @DisplayName("보드는 왕의 위치를 찾을 수 있다.")
+    void findGeneralPosition() {
+        Position generalPosition = board.findPositionOf(Camp.HAN, PieceType.GENERAL);
+
+        assertThat(generalPosition).isEqualTo(new Position(5, 2));
+    }
+
+    @Test
+    @DisplayName("기물을 찾을 수 없는 경우 예외를 발생한다.")
+    void throwException_When_CanNotFoundPiece() {
+        Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL)
+        ));
+
+        assertThatThrownBy(() -> board.findPositionOf(Camp.HAN, PieceType.GENERAL))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("[ERROR] 조건에 맞는 기물이 존재하지 않습니다.");
     }
 }

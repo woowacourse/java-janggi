@@ -49,7 +49,7 @@ public class ChariotStrategyTest {
 
         Piece chariot = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> chariot.move(from, to, boardChecker))
+        assertThatThrownBy(() -> chariot.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차 이동 경로 상에 기물이 존재하여 움직일 수 없습니다.");
     }
@@ -62,7 +62,40 @@ public class ChariotStrategyTest {
 
         Piece chariot = dummyBoard.get(from);
 
-        assertThatCode(() -> chariot.move(from, to, boardChecker))
+        assertThatCode(() -> chariot.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("차는 궁성 대각선으로 이동할 수 있다.")
+    void moveSuccessfully_When_PalaceDiagonalMove() {
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.CHARIOT));
+        boardChecker = new Board(dummyBoard);
+
+        Piece chariot = dummyBoard.get(from);
+
+        assertThatCode(() -> chariot.validateMove(from, to, boardChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("차의 궁성 대각선 경로가 막혀 있으면 이동할 수 없다.")
+    void throwException_When_PalaceDiagonalPathBlocked() {
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.CHARIOT));
+        dummyBoard.put(new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL));
+        boardChecker = new Board(dummyBoard);
+
+        Piece chariot = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> chariot.validateMove(from, to, boardChecker))
+                .hasMessage("[ERROR] 차 이동 경로 상에 기물이 존재하여 움직일 수 없습니다.");
     }
 }

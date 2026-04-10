@@ -1,7 +1,8 @@
 package view;
 
 import domain.game.Game;
+import domain.game.TurnResult;
 
 public interface GameCommand {
-    void execute(Game game);
+    TurnResult execute(Game game);
 }

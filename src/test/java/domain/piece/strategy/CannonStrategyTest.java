@@ -39,7 +39,7 @@ public class CannonStrategyTest {
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 이동 경로 상의 기물을 하나 넘어야만 움직일 수 있습니다.");
     }
@@ -66,7 +66,7 @@ public class CannonStrategyTest {
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포 이동 경로 상에 기물이 두 개 이상 있어 움직일 수 없습니다.");
     }
@@ -89,7 +89,7 @@ public class CannonStrategyTest {
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포 이동 경로 상에 포가 존재하여 움직일 수 없습니다.");
     }
@@ -112,7 +112,7 @@ public class CannonStrategyTest {
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatCode(() -> cannon.move(from, to, boardChecker))
+        assertThatCode(() -> cannon.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -138,8 +138,60 @@ public class CannonStrategyTest {
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선 이동 시 가운데 기물을 넘어 이동할 수 있다.")
+    void moveSuccessfully_When_PalaceDiagonalMoveWithStopover() {
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER));
+        boardChecker = new Board(dummyBoard);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatCode(() -> cannon.validateMove(from, to, boardChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선 이동 시 가운데 기물이 없으면 이동할 수 없다.")
+    void throwException_When_PalaceDiagonalMoveWithoutStopover() {
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.CANNON));
+        boardChecker = new Board(dummyBoard);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 이동 경로 상의 기물을 하나 넘어야만 움직일 수 있습니다.");
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선 이동 시 가운데 기물이 포이면 이동할 수 없다.")
+    void throwException_When_CannonExistsInPalaceDiagonalPath() {
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(5, 2), new Piece(Camp.HAN, PieceType.CANNON));
+        boardChecker = new Board(dummyBoard);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> cannon.validateMove(from, to, boardChecker))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포 이동 경로 상에 포가 존재하여 움직일 수 없습니다.");
     }
 }

@@ -28,7 +28,15 @@ public record Position(int x, int y) {
         return to.y - this.y;
     }
 
-    public List<Position> findPath(Position destination) {
+    boolean isAfter(Position other) {
+        if (this.x != other.x) {
+            return this.x > other.x;
+        }
+
+        return this.y > other.y;
+    }
+
+    List<Position> findOrthogonalPath(Position destination) {
         List<Position> path = new ArrayList<>();
 
         int dx = Integer.compare(destination.x(), this.x());
@@ -49,5 +57,9 @@ public record Position(int x, int y) {
         }
 
         return path;
+    }
+
+    boolean isOrthogonallyAligned(Position to) {
+        return this.x() == to.x() || this.y() == to.y();
     }
 }
