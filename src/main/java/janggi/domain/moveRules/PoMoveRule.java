@@ -13,55 +13,48 @@ public class PoMoveRule implements MoveRule {
     @Override
     public List<Position> calculateAvailablePositions(Position position, Team team, Map<Position, Piece> state) {
         List<Position> availablePositions = new ArrayList<>();
-        List<Direction> directions = Direction.getStraightDirections();
-        for (Direction direction : directions) {
+        for (Direction direction : Direction.getStraightDirections()) {
             Position bridge = findBridge(position, direction, state);
             if (bridge != null) {
-                collectPositions(bridge, direction, team, state, availablePositions);
+                List<Position> destinations = findDestinationsAfterBridge(bridge, direction, team, state);
+                availablePositions.addAll(destinations);
             }
         }
         return availablePositions;
     }
 
-    private Position findBridge(Position currentPosition, Direction direction, Map<Position, Piece> state) {
-        if (currentPosition.cannotMoveTo(direction)) {
-            return null;
-        }
+    private Position findBridge(Position start, Direction direction, Map<Position, Piece> state) {
+        Position current = start;
+        while (!current.cannotMoveTo(direction)) {
+            current = current.move(direction);
+            Piece piece = state.get(current);
 
-        Position next = currentPosition.move(direction);
-        Piece piece = state.get(next);
-
-        if (piece == null) {
-            return findBridge(next, direction, state);
+            if (piece != null) {
+                return piece.isPo() ? null : current;
+            }
         }
-        if (piece.isPo()) {
-            return null;
-        }
-        return next;
+        return null;
     }
 
-    private void collectPositions(Position currentPosition, Direction direction, Team team, Map<Position, Piece> state,
-                                  List<Position> result) {
-        if (currentPosition.cannotMoveTo(direction)) {
-            return;
-        }
-        Position next = currentPosition.move(direction);
-        Piece piece = state.get(next);
+    private List<Position> findDestinationsAfterBridge(Position bridge, Direction direction, Team team,
+                                                       Map<Position, Piece> state) {
+        List<Position> destinations = new ArrayList<>();
+        Position current = bridge;
 
-        addIfValid(piece, next, team, result);
+        while (!current.cannotMoveTo(direction)) {
+            current = current.move(direction);
+            Piece piece = state.get(current);
 
-        if (piece == null) {
-            collectPositions(next, direction, team, state, result);
-        }
-    }
+            if (piece == null) {
+                destinations.add(current);
+                continue;
+            }
 
-    private void addIfValid(Piece piece, Position next, Team team, List<Position> result) {
-        if (piece == null) {
-            result.add(next);
-            return;
+            if (piece.isEnemy(team) && !piece.isPo()) {
+                destinations.add(current);
+            }
+            break;
         }
-        if (piece.isEnemy(team) && !piece.isPo()) {
-            result.add(next);
-        }
+        return destinations;
     }
 }
