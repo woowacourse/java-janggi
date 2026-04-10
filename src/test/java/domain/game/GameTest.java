@@ -155,15 +155,18 @@ public class GameTest {
     @Test
     @DisplayName("자기 장군을 공격 당하는 수를 두었을 때 보드와 턴은 유지된다.")
     void keepBoardAndTurn_When_MoveAttackOwnGeneral() {
-
         Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
                 new Position(5, 4), new Piece(Camp.HAN, PieceType.SOLDIER),
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
 
         Game game = Game.restore(board, Camp.HAN, false);
-        game.playMove(new Position(5, 4), new Position(4, 4));
+
+        assertThatThrownBy(() -> game.playMove(new Position(5, 4), new Position(4, 4)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 자신의 장군이 공격받는 수는 둘 수 없습니다.");
 
         assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
         assertThat(game.board().findBy(new Position(5, 4)).type()).isEqualTo(PieceType.SOLDIER);
@@ -185,5 +188,25 @@ public class GameTest {
                 .hasMessage("[ERROR] 장군 상태에서는 턴을 넘길 수 없습니다.");
 
         assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
+    }
+
+    @Test
+    @DisplayName("상대가 외통수가 되면 승자가 결정되고 게임이 종료된다.")
+    void finishGame_When_Checkmate() {
+        Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(4, 4), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(6, 4), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(1, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
+        ));
+        Game game = Game.restore(board, Camp.CHO, false);
+
+        TurnResult turnResult = game.playMove(new Position(1, 5), new Position(5, 5));
+
+        assertThat(turnResult.winner()).contains(Camp.CHO);
+        assertThat(turnResult.checkedCamp()).isEmpty();
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.currentTurn()).isEqualTo(Camp.CHO);
     }
 }

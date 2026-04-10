@@ -19,7 +19,7 @@ public class Game {
     }
 
     public static Game restore(Board board, Camp currentTurn, boolean finished) {
-        return new Game(board, currentTurn, findWinner(currentTurn, finished));
+        return new Game(board, currentTurn, determineWinner(currentTurn, finished));
     }
 
     private Game(SetUp choSetUp, SetUp hanSetUp) {
@@ -49,7 +49,7 @@ public class Game {
         LegalMoveAnalyzer.validate(board, from, to);
 
         Optional<Piece> capturedPiece = board.movePiece(from, to);
-        Optional<Camp> determinedWinner = findWinner(capturedPiece, movingCamp);
+        Optional<Camp> determinedWinner = determineWinner(capturedPiece, movingCamp, opponentCamp);
         Optional<Camp> checkedCamp = findCheckedCamp(determinedWinner, opponentCamp);
 
         winner = determinedWinner;
@@ -92,10 +92,20 @@ public class Game {
         return board.scoreOf(camp);
     }
 
-    private Optional<Camp> findWinner(Optional<Piece> capturedPiece, Camp movingCamp) {
-        return capturedPiece
+    private Optional<Camp> determineWinner(Optional<Piece> capturedPiece, Camp movingCamp, Camp opponentCamp) {
+        Optional<Camp> capturedWinner = capturedPiece
                 .filter(target -> target.type() == PieceType.GENERAL)
                 .map(ignored -> movingCamp);
+
+        if (capturedWinner.isPresent()) {
+            return capturedWinner;
+        }
+
+        if (CheckmateAnalyzer.isCheckmate(board, opponentCamp)) {
+            return Optional.of(movingCamp);
+        }
+
+        return Optional.empty();
     }
 
     private Optional<Camp> findCheckedCamp(Optional<Camp> winner, Camp opponentCamp) {
@@ -116,7 +126,7 @@ public class Game {
         }
     }
 
-    private static Optional<Camp> findWinner(Camp currentTurn, boolean finished) {
+    private static Optional<Camp> determineWinner(Camp currentTurn, boolean finished) {
         if (finished) {
             return Optional.of(currentTurn);
         }
