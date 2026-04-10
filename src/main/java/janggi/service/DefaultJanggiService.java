@@ -1,12 +1,11 @@
 package janggi.service;
 
-import janggi.domain.board.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.domain.board.Location;
 import janggi.domain.piece.Piece;
-import janggi.domain.state.GameContext;
-import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.BoardAssembler;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.arrangement.DBArrangementStrategy;
 import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.repository.dao.GameDao;
@@ -57,7 +56,7 @@ public class DefaultJanggiService implements JanggiService {
             ArrangementStrategy arrangementStrategy = new DBArrangementStrategy(locationMap);
             Board board = Board.create(BoardAssembler.of(List.of(arrangementStrategy), intersectionInitializer));
 
-            return new GameInformation(gameEntity.getId(), board, Side.valueOf(gameEntity.getTurn()));
+            return GameInformation.of(gameEntity.getId(), board, Side.valueOf(gameEntity.getTurn()));
         });
     }
 
@@ -73,15 +72,15 @@ public class DefaultJanggiService implements JanggiService {
             PieceEntityMapper.toEntities(gameId, board2DArray)
                     .forEach(pieceDao::insert);
 
-            return new GameInformation(gameId, board, Side.CHO);
+            return GameInformation.of(gameId, board, Side.CHO);
         });
     }
 
     @Override
-    public void movePiece(GameInformation gameInformation, Location from, Location to, GameContext gameContext) {
+    public void movePiece(GameInformation gameInformation, Location from, Location to) {
         executeInTransaction(() -> {
-            Long gameId = gameInformation.gameId();
-            Board board = gameInformation.board();
+            Long gameId = gameInformation.getGameId();
+            Board board = gameInformation.getBoard();
             Piece removedPiece = board.move(from, to);
 
             Optional<PieceEntity> fromPiece = pieceDao.findByGameIdAndLocation(gameId, from);
@@ -89,9 +88,9 @@ public class DefaultJanggiService implements JanggiService {
             fromPiece.ifPresent(pieceEntity -> pieceDao.updatePosition(pieceEntity.getId(), to));
             toPiece.ifPresent(pieceEntity -> pieceDao.deleteById(pieceEntity.getId()));
 
-            gameContext.update(removedPiece);
-            if(gameContext.isInProgress()) {
-                gameDao.updateTurn(gameId, gameContext.getCurrentSide().name());
+            gameInformation.update(removedPiece);
+            if(gameInformation.isInProgress()) {
+                gameDao.updateTurn(gameId, gameInformation.getCurrentSide().name());
             }
         });
     }

@@ -1,14 +1,13 @@
 package janggi.controller;
 
-import janggi.domain.board.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.state.GameContext;
+import janggi.domain.board.Location;
+import janggi.domain.strategy.StrategyLabel;
 import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.arrangement.ArrangementStrategyFactory;
 import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
-import janggi.domain.strategy.StrategyLabel;
 import janggi.exception.JanggiException;
 import janggi.service.JanggiService;
 import janggi.service.dto.GameInformation;
@@ -34,15 +33,13 @@ public class JanggiController {
 
     public void process() {
         GameInformation gameInformation = initializeGameInformation();
-        Board board = gameInformation.board();
 
-        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), gameInformation.currentSide());
-        while (gameContext.isInProgress()) {
-            printBoard(board);
-            view.respondCurrentSide(SideViewResolver.toDisplayName(gameContext.getCurrentSide()));
-            retryAction(() -> playTurn(gameInformation, gameContext));
+        while (gameInformation.isInProgress()) {
+            printBoard(gameInformation.getBoard());
+            view.respondCurrentSide(SideViewResolver.toDisplayName(gameInformation.getCurrentSide()));
+            retryAction(() -> playTurn(gameInformation));
         }
-        finish(gameContext, gameInformation);
+        finish(gameInformation);
     }
 
     private GameInformation initializeGameInformation() {
@@ -64,15 +61,15 @@ public class JanggiController {
         return janggiService.createGame(strategies, intersectionInitializer);
     }
 
-    private void playTurn(GameInformation gameInformation, GameContext gameContext) {
-        Location from = askLocationOfPiece(gameContext.getCurrentSide(), gameInformation.board());
-        Location to = askLocationToMove(gameContext.getCurrentSide(), gameInformation.board());
-        janggiService.movePiece(gameInformation, from, to, gameContext);
+    private void playTurn(GameInformation gameInformation) {
+        Location from = askLocationOfPiece(gameInformation.getCurrentSide(), gameInformation.getBoard());
+        Location to = askLocationToMove(gameInformation.getCurrentSide(), gameInformation.getBoard());
+        janggiService.movePiece(gameInformation, from, to);
     }
 
-    private void finish(GameContext gameContext, GameInformation gameInformation) {
-        view.respondWinner(gameContext.getWinner());
-        janggiService.endGame(gameInformation.gameId());
+    private void finish(GameInformation gameInformation) {
+        view.respondWinner(gameInformation.getWinner());
+        janggiService.endGame(gameInformation.getGameId());
     }
 
     private void printBoard(Board board) {

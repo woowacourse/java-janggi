@@ -5,7 +5,6 @@ import janggi.domain.Side;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.state.GameContext;
 import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.domain.strategy.arrangement.MaSangMaSang;
@@ -79,7 +78,7 @@ class DefaultJanggiServiceTest {
         GameInformation gameInformation = janggiService.loadGameInformation(gameId, intersectionInitializer);
 
         // then
-        List<List<Piece>> grid = gameInformation.board().to2DArray();
+        List<List<Piece>> grid = gameInformation.getBoard().to2DArray();
 
         Assertions.assertThat(grid.get(1).get(1).getType()).isEqualTo(PieceType.CHA);
         Assertions.assertThat(grid.get(1).get(2).getType()).isEqualTo(PieceType.MA);
@@ -99,9 +98,9 @@ class DefaultJanggiServiceTest {
         GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
 
         // then
-        Assertions.assertThat(game.gameId()).isNotNull();
-        Assertions.assertThat(game.currentSide()).isEqualTo(Side.CHO);
-        Assertions.assertThat(game.board().getAlivePieces()).hasSize(1);
+        Assertions.assertThat(game.getGameId()).isNotNull();
+        Assertions.assertThat(game.getCurrentSide()).isEqualTo(Side.CHO);
+        Assertions.assertThat(game.getBoard().getAlivePieces()).hasSize(1);
     }
 
     @Test
@@ -114,12 +113,11 @@ class DefaultJanggiServiceTest {
         );
         IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
         GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
-        GameContext context = GameContext.createInProgress(game.board().getAlivePieces(), game.currentSide());
 
         // when
-        janggiService.movePiece(game, Location.of(9, 0), Location.of(8, 0), context);
-        List<List<Piece>> updatedBoardGrid = janggiService.loadGameInformation(game.gameId(),
-                new PalaceIntersectionInitializer()).board().to2DArray();
+        janggiService.movePiece(game, Location.of(9, 0), Location.of(8, 0));
+        List<List<Piece>> updatedBoardGrid = janggiService.loadGameInformation(game.getGameId(),
+                new PalaceIntersectionInitializer()).getBoard().to2DArray();
 
         // then
         Assertions.assertThat(updatedBoardGrid.get(8).get(0).getType()).isEqualTo(PieceType.CHA);
@@ -138,7 +136,7 @@ class DefaultJanggiServiceTest {
         GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
 
         // when
-        janggiService.endGame(game.gameId());
+        janggiService.endGame(game.getGameId());
         List<Long> activeGameIds = janggiService.findActiveGameIds();
 
         // then

@@ -1,7 +1,6 @@
 package janggi.service;
 
 import janggi.domain.board.Location;
-import janggi.domain.state.GameContext;
 import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.service.dto.GameInformation;
@@ -14,7 +13,7 @@ public interface JanggiService {
 
     GameInformation createGame(List<ArrangementStrategy> strategies, IntersectionInitializer intersectionInitializer);
 
-    void movePiece(GameInformation gameInformation, Location from, Location to, GameContext gameContext);
+    void movePiece(GameInformation gameInformation, Location from, Location to);
 
     void endGame(Long gameId);
 }
