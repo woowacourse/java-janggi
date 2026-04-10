@@ -41,7 +41,7 @@ class PalaceBoundaryPolicyTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("궁성 영역을 넘어갈 수 없다.")
     void applyTest() {
         // given
         Board board = new Board(new PalaceTest().initialize());
