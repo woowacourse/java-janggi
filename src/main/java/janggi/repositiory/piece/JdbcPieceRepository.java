@@ -22,13 +22,13 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public void updateALL(Long gameId, Map<Position, Piece> map) {
+    public void updateALL(BoardSnapshot boardSnapshot) {
         try (Connection conn = getConnection()) {
             conn.setAutoCommit(false);
 
             try {
-                deleteALL(conn, gameId);
-                saveAll(conn, gameId, map);
+                deleteALL(conn, boardSnapshot.gameId());
+                saveAll(conn, boardSnapshot.gameId(), boardSnapshot.pieces());
                 conn.commit();
             } catch (SQLException e) {
                 conn.rollback();

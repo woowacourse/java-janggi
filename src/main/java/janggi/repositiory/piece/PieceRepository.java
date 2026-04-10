@@ -6,7 +6,6 @@ import janggi.domain.vo.position.Position;
 import java.util.Map;
 
 public interface PieceRepository {
-    void updateALL(Long gameId, Map<Position, Piece> map);
-
+    void updateALL(BoardSnapshot boardSnapshot);
     Map<Position, Piece> findAll(Long gameId);
 }

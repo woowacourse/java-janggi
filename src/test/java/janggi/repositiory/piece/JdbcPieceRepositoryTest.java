@@ -37,7 +37,7 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         );
 
         // when
-        pieceRepository.updateALL(gameId, board);
+        pieceRepository.updateALL(new BoardSnapshot(gameId, board));
 
         // then
         Map<Position, Piece> all = pieceRepository.findAll(gameId);
