@@ -1,6 +1,7 @@
 package domain.board;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +16,12 @@ public record Position(
     private static final int MIN_ROW_RANGE = 1;
     private static final int MAX_ROW_RANGE = 9;
 
-    private static final Map<Position, List<Position>> DIAGONAL_EDGES = createDiagonalEdges();
-
     private static final Position HAN_PALACE_LEFT_UP = Position.of(1, 4);
     private static final Position HAN_PALACE_RIGHT_DOWN = Position.of(3, 6);
-    private static final Position HAN_PALACE_MIDDLE = Position.of(2, 5);
-
     private static final Position CHO_PALACE_LEFT_UP = Position.of(8, 4);
     private static final Position CHO_PALACE_RIGHT_DOWN = Position.of(10, 6);
-    private static final Position CHO_PALACE_MIDDLE = Position.of(9, 5);
+
+    private static final Map<Position, List<Position>> DIAGONAL_EDGES = createDiagonalEdges();
 
     private static Map<Position, List<Position>> createDiagonalEdges() {
         Map<Position, List<Position>> edges = new HashMap<>();
@@ -38,7 +36,7 @@ public record Position(
         connect(edges, Position.of(10, 4), Position.of(9, 5));
         connect(edges, Position.of(10, 6), Position.of(9, 5));
 
-        return edges;
+        return Collections.unmodifiableMap(edges);
     }
 
     private static void connect(Map<Position, List<Position>> map, Position from, Position to) {
@@ -72,11 +70,6 @@ public record Position(
 
     public boolean isDiagonalConnected(Position other) {
         return DIAGONAL_EDGES.containsKey(this) && DIAGONAL_EDGES.get(this).contains(other);
-    }
-
-    public boolean isMiddleOfPalace() {
-        return (column == CHO_PALACE_MIDDLE.column && row == CHO_PALACE_MIDDLE.row)
-                || (column == HAN_PALACE_MIDDLE.column && row == HAN_PALACE_MIDDLE.row);
     }
 
     public boolean isInsidePalace() {
