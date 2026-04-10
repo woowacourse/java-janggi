@@ -1,6 +1,6 @@
 package domain.state;
 
-public abstract class Running implements State {
+public abstract class Running implements GameState {
 
     private final Side side;
 
@@ -9,12 +9,12 @@ public abstract class Running implements State {
     }
 
     @Override
-    public State endGame() {
+    public GameState endGame() {
         return new Finished(side);
     }
 
     @Override
-    public State nextTurn() {
+    public GameState nextTurn() {
         return changeTurn();
     }
 
@@ -28,5 +28,5 @@ public abstract class Running implements State {
         return false;
     }
 
-    protected abstract State changeTurn();
+    protected abstract GameState changeTurn();
 }

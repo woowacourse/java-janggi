@@ -1,6 +1,6 @@
 package domain.state;
 
-public class Finished implements State {
+public class Finished implements GameState {
 
     private final Side winner;
 
@@ -9,12 +9,12 @@ public class Finished implements State {
     }
 
     @Override
-    public State endGame() {
+    public GameState endGame() {
         throw new IllegalStateException("이미 종료된 게임입니다.");
     }
 
     @Override
-    public State nextTurn() {
+    public GameState nextTurn() {
         throw new IllegalStateException("이미 종료된 게임입니다.");
     }
 

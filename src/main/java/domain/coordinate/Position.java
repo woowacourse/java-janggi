@@ -51,7 +51,6 @@ public record Position(int col, int row) {
                 && row >= POSITION_THRESHOLD && row < ROW_SIZE;
     }
 
-
     public boolean isInPalace() {
         return (row >= PALACE_ROW_START && row <= PALACE_ROW_END) &&
                 ((col >= TOP_PALACE_COL_START && col <= TOP_PALACE_COL_END) ||

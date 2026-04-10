@@ -5,7 +5,6 @@ import domain.coordinate.Position;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.policy.MovePolicy;
 import domain.policy.MovePolicyRegistry;
 import domain.state.Side;
 
@@ -136,8 +135,7 @@ public class Board {
     }
 
     private List<Position> getLegalMovesInPath(Position start, PieceType type, List<Direction> path) {
-        List<MovePolicy> policies = movePolicyRegistry.findBy(type);
-        return policies.stream()
+        return movePolicyRegistry.findBy(type).stream()
                 .map(policy -> policy.apply(this, start, path))
                 .reduce(this::calculateIntersection)
                 .orElse(List.of());

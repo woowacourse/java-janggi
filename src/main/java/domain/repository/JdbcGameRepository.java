@@ -8,7 +8,7 @@ import domain.piece.*;
 import domain.state.ChuSide;
 import domain.state.HanSide;
 import domain.state.Side;
-import domain.state.State;
+import domain.state.GameState;
 import persistence.DatabaseConnector;
 import persistence.DatabaseInitializer;
 import domain.piece.PieceFactory;
@@ -172,9 +172,9 @@ public class JdbcGameRepository implements GameRepository {
 
     private Game assembleGame(ResultSet rs, Long gameId, Map<Position, Piece> pieceMap) throws SQLException {
         Side turnSide = Side.valueOf(rs.getString("current_turn"));
-        State state = turnSide == Side.CHU ? new ChuSide() : new HanSide();
+        GameState gameState = turnSide == Side.CHU ? new ChuSide() : new HanSide();
 
-        Game game = new Game(new Board(new DatabaseInitializer(pieceMap).initialize()), state);
+        Game game = new Game(new Board(new DatabaseInitializer(pieceMap).initialize()), gameState);
         game.assignId(gameId);
         return game;
     }
