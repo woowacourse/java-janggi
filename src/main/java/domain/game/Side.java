@@ -5,7 +5,6 @@ import domain.direction.Direction;
 import domain.direction.Down;
 import domain.direction.MoveAmount;
 import domain.direction.Up;
-import java.util.Arrays;
 import java.util.List;
 
 public enum Side {
@@ -56,13 +55,6 @@ public enum Side {
         this.baseRow = baseRow;
         this.baseFile = baseFile;
         this.forwardDirection = forwardDirection;
-    }
-
-    public static Side from(String sideName) {
-        return Arrays.stream(values())
-                .filter(side -> side.name().equals(sideName))
-                .findAny()
-                .orElse(NONE);
     }
 
     public int getRowAt(MoveAmount distanceFromBaseRow) {

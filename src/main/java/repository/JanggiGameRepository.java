@@ -109,7 +109,7 @@ public final class JanggiGameRepository {
             pstmt.setLong(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    Side currentTurn = Side.from(rs.getString("current_turn"));
+                    Side currentTurn = Side.valueOf(rs.getString("current_turn"));
                     Map<Intersection, Piece> pieces = findPieces(conn, gameId);
 
                     return new JanggiGame(
@@ -205,7 +205,7 @@ public final class JanggiGameRepository {
                     Intersection intersection = new Intersection(rs.getInt("position_row"), rs.getInt("position_file"));
                     Piece piece = Piece.of(
                             PieceType.from(rs.getString("piece_type")),
-                            Side.from(rs.getString("side"))
+                            Side.valueOf(rs.getString("side"))
                     );
                     pieces.put(intersection, piece);
                 }
