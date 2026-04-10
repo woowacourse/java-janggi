@@ -110,7 +110,7 @@ public class StandardBoardInitializerTest {
     private void putPieces(Map<Position, Piece> board, PieceType pieceType, Camp camp,
                            Position... positions) {
         for (Position position : positions) {
-            board.put(position, new Piece(pieceType, camp));
+            board.put(position, new Piece(camp, pieceType));
         }
     }
 

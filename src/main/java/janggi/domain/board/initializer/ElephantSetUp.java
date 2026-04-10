@@ -30,7 +30,7 @@ public enum ElephantSetUp {
         for (int i = 0; i < settingColumns.size(); i++) {
             map.put(
                     new Position(camp.getStartRowPosition(), settingColumns.get(i)),
-                    new Piece(elephantOrder.get(i), camp)
+                    new Piece(camp, elephantOrder.get(i))
             );
         }
 

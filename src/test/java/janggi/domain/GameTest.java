@@ -17,8 +17,8 @@ class GameTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 4);
         Board board = new Board(() -> Map.of(
-                source, new Piece(PieceType.CHARIOT, Camp.CHO),
-                destination, new Piece(PieceType.GENERAL, Camp.HAN)
+                source, new Piece(Camp.CHO, PieceType.CHARIOT),
+                destination, new Piece(Camp.HAN, PieceType.GENERAL)
         ));
         Game game = Game.newGame(board);
 
@@ -38,8 +38,8 @@ class GameTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 4);
         Board board = new Board(() -> Map.of(
-                source, new Piece(PieceType.CHARIOT, Camp.CHO),
-                destination, new Piece(PieceType.HORSE, Camp.HAN)
+                source, new Piece(Camp.CHO, PieceType.CHARIOT),
+                destination, new Piece(Camp.HAN, PieceType.HORSE)
         ));
         Game game = Game.newGame(board);
 
@@ -59,7 +59,7 @@ class GameTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 4);
         Board board = new Board(() -> Map.of(
-                source, new Piece(PieceType.CHARIOT, Camp.CHO)
+                source, new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
         Game game = Game.newGame(board);
 
@@ -77,13 +77,13 @@ class GameTest {
     void 각_진영별_보너스_점수를_더한_최종_점수를_계산한다() {
         // given
         Board board = new Board(() -> Map.of(
-                new Position(1, 4), new Piece(PieceType.GENERAL, Camp.CHO),
-                new Position(0, 0), new Piece(PieceType.CHARIOT, Camp.CHO),
-                new Position(0, 8), new Piece(PieceType.CHARIOT, Camp.CHO),
+                new Position(1, 4), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(0, 0), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(0, 8), new Piece(Camp.CHO, PieceType.CHARIOT),
 
-                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
-                new Position(7, 1), new Piece(PieceType.CANNON, Camp.HAN),
-                new Position(7, 7), new Piece(PieceType.CANNON, Camp.HAN)
+                new Position(4, 1), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(7, 1), new Piece(Camp.HAN, PieceType.CANNON),
+                new Position(7, 7), new Piece(Camp.HAN, PieceType.CANNON)
         ));
         Game game = Game.newGame(board);
 

@@ -7,10 +7,16 @@ import java.util.List;
 
 public class FriendlyPalaceSingleStepStrategy extends SingleStepStraightStrategy {
 
+    private final Camp camp;
+
+    public FriendlyPalaceSingleStepStrategy(Camp camp) {
+        this.camp = camp;
+    }
+
     @Override
-    public List<Position> findPath(Position source, Position destination, Camp camp) {
+    public List<Position> findPath(Position source, Position destination) {
         Palace.validateFriendlyPalace(camp, destination);
 
-        return super.findPath(source, destination, camp);
+        return super.findPath(source, destination);
     }
 }

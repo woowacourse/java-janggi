@@ -70,8 +70,8 @@ public class GameRepository {
         for (StoredGamePiece storedGamePiece : storedGamePieces) {
             Position position = new Position(storedGamePiece.rowPosition(), storedGamePiece.columnPosition());
             Piece piece = new Piece(
-                    PieceType.valueOf(storedGamePiece.pieceType()),
-                    Camp.valueOf(storedGamePiece.camp())
+                    Camp.valueOf(storedGamePiece.camp()),
+                    PieceType.valueOf(storedGamePiece.pieceType())
             );
             boardSnapshot.put(position, piece);
         }
@@ -89,8 +89,8 @@ public class GameRepository {
             storedGamePieces.add(new StoredGamePiece(
                     position.row(),
                     position.column(),
-                    piece.pieceType().name(),
-                    piece.camp().name()
+                    piece.getPieceType().name(),
+                    piece.getCamp().name()
             ));
         }
 

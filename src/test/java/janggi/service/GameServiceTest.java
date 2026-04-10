@@ -159,8 +159,8 @@ class GameServiceTest {
 
     private Board createEndingBoard() {
         return new Board(() -> Map.of(
-                new Position(0, 0), new Piece(PieceType.CHARIOT, Camp.CHO),
-                new Position(0, 4), new Piece(PieceType.GENERAL, Camp.HAN)
+                new Position(0, 0), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(0, 4), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
     }
 

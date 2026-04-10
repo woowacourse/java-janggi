@@ -10,6 +10,6 @@ public class EmptyConditionTestBoardInitializer implements BoardInitializer {
 
     @Override
     public Map<Position, Piece> initialize() {
-        return Map.of(new Position(0, 4), new Piece(PieceType.CHARIOT, Camp.HAN));
+        return Map.of(new Position(0, 4), new Piece(Camp.HAN, PieceType.CHARIOT));
     }
 }

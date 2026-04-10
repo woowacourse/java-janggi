@@ -28,7 +28,7 @@ public enum PieceFormat {
 
     PieceFormat(String symbol, PieceType pieceType, Camp camp) {
         this.symbol = symbol;
-        this.piece = new Piece(pieceType, camp);
+        this.piece = new Piece(camp, pieceType);
     }
 
     public static PieceFormat from(Piece piece) {

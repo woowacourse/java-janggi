@@ -1,7 +1,6 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class ElephantStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> findPath(Position source, Position destination, Camp camp) {
+    public List<Position> findPath(Position source, Position destination) {
         DirectionInformation directionInfo = new DirectionInformation(source, destination);
 
         validateElephantMovement(directionInfo);

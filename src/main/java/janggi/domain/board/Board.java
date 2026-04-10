@@ -52,7 +52,7 @@ public class Board implements BoardChecker {
         if (destinationPiece == null) {
             return Optional.empty();
         }
-        return Optional.of(destinationPiece.pieceType());
+        return Optional.of(destinationPiece.getPieceType());
     }
 
     public void validateCampTurn(Position source, Camp turn) {

@@ -3,7 +3,6 @@ package janggi.domain.piece.condition;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class EmptyCondition implements MoveCondition {
@@ -12,7 +11,7 @@ public class EmptyCondition implements MoveCondition {
     private static final String SAME_CAMP_PIECE_AT_DESTINATION = "[ERROR] 목적지에 같은 진영의 기물이 존재합니다.";
 
     @Override
-    public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceType pieceType) {
+    public void checkPath(List<Position> path, Camp camp, BoardChecker board) {
         for (int i = 0; i < path.size() - 1; i++) {
             validateEmptyPosition(path.get(i), board);
         }

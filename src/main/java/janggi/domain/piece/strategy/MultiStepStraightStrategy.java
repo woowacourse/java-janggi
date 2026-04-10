@@ -2,7 +2,6 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.board.Palace;
 import janggi.domain.board.Position;
-import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class MultiStepStraightStrategy implements MoveStrategy {
             "[ERROR] 궁성 내에 대각선이 존재하지 않는 경로 입니다.";
 
     @Override
-    public List<Position> findPath(Position source, Position destination, Camp camp) {
+    public List<Position> findPath(Position source, Position destination) {
         DirectionInformation directionInformation = new DirectionInformation(source, destination);
         validatePieceMoved(directionInformation);
 

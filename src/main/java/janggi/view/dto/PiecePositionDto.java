@@ -16,7 +16,7 @@ public record PiecePositionDto(
                 position.row(),
                 position.column(),
                 pieceFormat.symbol(),
-                CampDto.from(piece.camp())
+                CampDto.from(piece.getCamp())
         );
     }
 }

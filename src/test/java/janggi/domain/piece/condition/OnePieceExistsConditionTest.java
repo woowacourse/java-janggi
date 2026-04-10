@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class OnePieceExistsConditionTest {
 
-    MoveCondition condition = new OnePieceExistsCondition();
+    MoveCondition condition = new OnePieceExistsCondition(PieceType.CANNON);
 
     @Test
     void 이동하려는_경로에_기물이_존재하지_않으면_예외가_발생한다() {
@@ -32,7 +32,7 @@ public class OnePieceExistsConditionTest {
         BoardInitializer boardInitializer = Map::of;
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
     }
@@ -51,12 +51,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceType.CHARIOT, Camp.HAN),
-                new Position(0, 4), new Piece(PieceType.ELEPHANT, Camp.HAN)
+                new Position(0, 3), new Piece(Camp.HAN, PieceType.CHARIOT),
+                new Position(0, 4), new Piece(Camp.HAN, PieceType.ELEPHANT)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
     }
@@ -75,11 +75,11 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 4), new Piece(PieceType.CANNON, Camp.CHO)
+                new Position(0, 4), new Piece(Camp.CHO, PieceType.CANNON)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 경로상에 같은 종류의 기물이 존재합니다.");
     }
@@ -98,12 +98,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceType.SOLDIER, Camp.HAN),
-                new Position(0, 5), new Piece(PieceType.CHARIOT, Camp.HAN)
+                new Position(0, 3), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(0, 5), new Piece(Camp.HAN, PieceType.CHARIOT)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 목적지에 같은 진영의 기물이 존재합니다.");
     }
@@ -122,12 +122,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceType.SOLDIER, Camp.HAN),
-                new Position(0, 5), new Piece(PieceType.CANNON, Camp.CHO)
+                new Position(0, 3), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(0, 5), new Piece(Camp.CHO, PieceType.CANNON)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 목적지에 같은 종류의 기물이 존재합니다.");
     }

@@ -17,7 +17,7 @@ class PieceTest {
     @Test
     void 같은_룰이_적용되는_기물인지_확인한다() {
         // given
-        Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+        Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
         // when
         boolean result = piece.isSamePieceType(PieceType.CANNON);
         // then
@@ -27,7 +27,7 @@ class PieceTest {
     @Test
     void 기물이_같은_진영인지_확인한다() {
         // given
-        Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+        Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
         // when
         boolean result = piece.isSameCamp(Camp.CHO);
         // then
@@ -40,7 +40,7 @@ class PieceTest {
         @Test
         void 궁은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.GENERAL, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.GENERAL);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -51,7 +51,7 @@ class PieceTest {
         @Test
         void 궁은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.GENERAL, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.GENERAL);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -67,7 +67,7 @@ class PieceTest {
         @Test
         void 사는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.GUARD, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.GUARD);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -78,7 +78,7 @@ class PieceTest {
         @Test
         void 사는_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.GUARD, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.GUARD);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -94,7 +94,7 @@ class PieceTest {
         @Test
         void 마는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.HORSE, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.HORSE);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -105,9 +105,9 @@ class PieceTest {
         @Test
         void 마는_이동_경로에_기물이_있으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.HORSE, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.HORSE);
             BoardChecker board = new Board(() -> Map.of(
-                    new Position(1, 1), new Piece(PieceType.CHARIOT, Camp.HAN)
+                    new Position(1, 1), new Piece(Camp.HAN, PieceType.CHARIOT)
             ));
             // when & then
             Assertions.assertThatThrownBy(
@@ -119,7 +119,7 @@ class PieceTest {
         @Test
         void 마는_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.HORSE, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.HORSE);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -135,7 +135,7 @@ class PieceTest {
         @Test
         void 상은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.ELEPHANT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.ELEPHANT);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -146,7 +146,7 @@ class PieceTest {
         @Test
         void 상은_행마법을_따르지_않으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceType.ELEPHANT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.ELEPHANT);
             BoardChecker board = new Board(Map::of);
             //when & then
             Assertions.assertThatThrownBy(
@@ -162,7 +162,7 @@ class PieceTest {
         @Test
         void 포는_이동_경로에_기물이_없으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
             BoardChecker board = new Board(Map::of);
             //when & then
             Assertions.assertThatThrownBy(
@@ -174,10 +174,10 @@ class PieceTest {
         @Test
         void 포는_이동_경로에_기물이_2개_이상_있으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
             BoardChecker board = new Board(() -> Map.of(
-                    new Position(3, 1), new Piece(PieceType.CHARIOT, Camp.HAN),
-                    new Position(5, 1), new Piece(PieceType.CHARIOT, Camp.CHO)
+                    new Position(3, 1), new Piece(Camp.HAN, PieceType.CHARIOT),
+                    new Position(5, 1), new Piece(Camp.CHO, PieceType.CHARIOT)
             ));
             //when & then
             Assertions.assertThatThrownBy(
@@ -189,9 +189,9 @@ class PieceTest {
         @Test
         void 포는_이동_경로에_기물이_1개만_있으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
             BoardChecker board = new Board(() -> Map.of(
-                    new Position(3, 1), new Piece(PieceType.CHARIOT, Camp.HAN)
+                    new Position(3, 1), new Piece(Camp.HAN, PieceType.CHARIOT)
             ));
             // when & then
             assertDoesNotThrow(() ->
@@ -202,9 +202,9 @@ class PieceTest {
         @Test
         void 포는_궁성_내에서_대각선으로_이동할_수_있다() {
             // given
-            Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CANNON);
             BoardChecker board = new Board(() -> Map.of(
-                    new Position(1, 4), new Piece(PieceType.CHARIOT, Camp.HAN)
+                    new Position(1, 4), new Piece(Camp.HAN, PieceType.CHARIOT)
             ));
             // when & then
             assertDoesNotThrow(() ->
@@ -219,7 +219,7 @@ class PieceTest {
         @Test
         void 차는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.CHARIOT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CHARIOT);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -230,10 +230,10 @@ class PieceTest {
         @Test
         void 차는_이동_경로에_기물이_1개_이상_있으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceType.CHARIOT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CHARIOT);
             BoardChecker board = new Board(() -> Map.of(
-                    new Position(1, 0), new Piece(PieceType.CHARIOT, Camp.HAN),
-                    new Position(5, 1), new Piece(PieceType.CHARIOT, Camp.CHO)
+                    new Position(1, 0), new Piece(Camp.HAN, PieceType.CHARIOT),
+                    new Position(5, 1), new Piece(Camp.CHO, PieceType.CHARIOT)
 
             ));
             //when & then
@@ -246,7 +246,7 @@ class PieceTest {
         @Test
         void 차는_행마법을_따르지_않으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceType.CHARIOT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CHARIOT);
             BoardChecker board = new Board(Map::of);
             //when & then
             Assertions.assertThatThrownBy(
@@ -258,7 +258,7 @@ class PieceTest {
         @Test
         void 차는_궁성_내에서_대각선으로_이동할_수_있다() {
             // given
-            Piece piece = new Piece(PieceType.CHARIOT, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.CHARIOT);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -273,7 +273,7 @@ class PieceTest {
         @Test
         void 졸은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -284,7 +284,7 @@ class PieceTest {
         @Test
         void 졸은_후진할_시_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -296,7 +296,7 @@ class PieceTest {
         @Test
         void 졸은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.CHO);
+            Piece piece = new Piece(Camp.CHO, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -312,7 +312,7 @@ class PieceTest {
         @Test
         void 병은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.HAN);
+            Piece piece = new Piece(Camp.HAN, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             assertDoesNotThrow(() ->
@@ -323,7 +323,7 @@ class PieceTest {
         @Test
         void 병은_후진할_시_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.HAN);
+            Piece piece = new Piece(Camp.HAN, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
@@ -335,7 +335,7 @@ class PieceTest {
         @Test
         void 병은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceType.SOLDIER, Camp.HAN);
+            Piece piece = new Piece(Camp.HAN, PieceType.SOLDIER);
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(

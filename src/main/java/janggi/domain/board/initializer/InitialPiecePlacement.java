@@ -40,7 +40,7 @@ public enum InitialPiecePlacement {
 
     InitialPiecePlacement(int row, int column, Camp camp, PieceType pieceType) {
         this.position = new Position(row, column);
-        this.piece = new Piece(pieceType, camp);
+        this.piece = new Piece(camp, pieceType);
     }
 
     public static Map<Position, Piece> initialize() {
