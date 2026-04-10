@@ -8,8 +8,6 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.Position;
-import domain.Route;
-import domain.TeamColor;
 import domain.palace.PalaceRouter;
 
 public class RookMoveStrategy extends MoveStrategy {
@@ -81,13 +79,5 @@ public class RookMoveStrategy extends MoveStrategy {
             return List.of();
         }
         return List.of(new MovePath(List.of(step, step)));
-    }
-
-    @Override
-    public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
-        if (!blockingPieces.isEmpty()) {
-            return false;
-        }
-        return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
     }
 }

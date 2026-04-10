@@ -45,6 +45,13 @@ public abstract class MoveStrategy {
         return Optional.of(new Route(start, currentPos, intermediates));
     }
 
-    public abstract boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam);
+    // 대포는 예외 규칙이 있어 CannonMoveStrategy에서 오버라이드한다.
+    public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
+        if (!blockingPieces.isEmpty()) {
+            return false;
+        }
+
+        return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
+    }
 
 }

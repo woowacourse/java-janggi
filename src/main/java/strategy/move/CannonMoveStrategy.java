@@ -81,6 +81,7 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     @Override
+    // 대포는 다리(bridge) 기물 1개를 뛰어넘는 등 기본 규칙과 달라 별도 검증이 필요하다.
     public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
         if (blockingPieces.size() != 1) {
             return false;
