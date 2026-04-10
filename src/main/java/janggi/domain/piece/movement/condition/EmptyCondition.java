@@ -1,4 +1,4 @@
-package janggi.domain.piece.condition;
+package janggi.domain.piece.movement.condition;
 
 import janggi.domain.board.BoardChecker;
 import janggi.domain.board.Position;

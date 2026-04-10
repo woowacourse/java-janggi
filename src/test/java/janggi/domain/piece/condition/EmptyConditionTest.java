@@ -7,6 +7,8 @@ import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.piece.Camp;
+import janggi.domain.piece.movement.condition.EmptyCondition;
+import janggi.domain.piece.movement.condition.MoveCondition;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
+import janggi.domain.piece.movement.strategy.FriendlyPalaceSingleStepStrategy;
+import janggi.domain.piece.movement.strategy.MoveStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -71,9 +73,9 @@ class FriendlyPalaceSingleStepStrategyTest {
         }
     }
 
-        @DisplayName("예외 경우")
-        @Nested
-        class exception {
+    @DisplayName("예외 경우")
+    @Nested
+    class exception {
         @Test
         void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
             assertThatThrownBy(() -> strategy(Camp.CHO).findPath(new Position(0, 4), new Position(2, 4)))

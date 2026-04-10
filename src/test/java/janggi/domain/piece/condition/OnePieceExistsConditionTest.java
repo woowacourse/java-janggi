@@ -8,6 +8,8 @@ import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.movement.condition.MoveCondition;
+import janggi.domain.piece.movement.condition.OnePieceExistsCondition;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

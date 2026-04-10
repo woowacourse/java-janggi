@@ -1,10 +1,10 @@
-package janggi.domain;
+package janggi.domain.piece.movement;
 
 import janggi.domain.board.BoardChecker;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.condition.MoveCondition;
-import janggi.domain.piece.strategy.MoveStrategy;
+import janggi.domain.piece.movement.condition.MoveCondition;
+import janggi.domain.piece.movement.strategy.MoveStrategy;
 import java.util.List;
 
 public class Movement {

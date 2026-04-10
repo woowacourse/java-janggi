@@ -1,4 +1,4 @@
-package janggi.domain.piece.strategy;
+package janggi.domain.piece.movement.strategy;
 
 import janggi.domain.board.Position;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.MoveFactory;
-import janggi.domain.Movement;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.board.Position;
+import janggi.domain.piece.movement.Movement;
+import janggi.domain.piece.movement.MovementFactory;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class Piece {
     public Piece(Camp camp, PieceType pieceType) {
         this.camp = camp;
         this.pieceType = pieceType;
-        this.movement = MoveFactory.create(camp, pieceType);
+        this.movement = MovementFactory.create(camp, pieceType);
     }
 
     public void validateMove(Position source, Position destination, BoardChecker board) {

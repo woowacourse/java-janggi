@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
+import janggi.domain.piece.movement.strategy.MoveStrategy;
+import janggi.domain.piece.movement.strategy.SoldierStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;

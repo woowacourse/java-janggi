@@ -1,18 +1,18 @@
-package janggi.domain;
+package janggi.domain.piece.movement;
 
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.condition.EmptyCondition;
-import janggi.domain.piece.condition.OnePieceExistsCondition;
-import janggi.domain.piece.strategy.ElephantStrategy;
-import janggi.domain.piece.strategy.FriendlyPalaceSingleStepStrategy;
-import janggi.domain.piece.strategy.HorseStrategy;
-import janggi.domain.piece.strategy.MultiStepStraightStrategy;
-import janggi.domain.piece.strategy.SoldierStrategy;
+import janggi.domain.piece.movement.condition.EmptyCondition;
+import janggi.domain.piece.movement.condition.OnePieceExistsCondition;
+import janggi.domain.piece.movement.strategy.ElephantStrategy;
+import janggi.domain.piece.movement.strategy.FriendlyPalaceSingleStepStrategy;
+import janggi.domain.piece.movement.strategy.HorseStrategy;
+import janggi.domain.piece.movement.strategy.MultiStepStraightStrategy;
+import janggi.domain.piece.movement.strategy.SoldierStrategy;
 
-public class MoveFactory {
+public class MovementFactory {
 
-    private MoveFactory() {
+    private MovementFactory() {
     }
 
     public static Movement create(Camp camp, PieceType pieceType) {
