@@ -41,13 +41,14 @@ public class JanggiGame {
         return currentTurn;
     }
 
-    private void changeTurn() {
+    public void move(Position from, Position to) {
+        board.move(from, to, currentTurn);
         currentTurn = currentTurn.anotherTeam();
     }
 
     public void skipTurn() {
         skip.put(currentTurn, true);
-        changeTurn();
+        currentTurn = currentTurn.anotherTeam();
     }
 
     public void resign() {
@@ -78,10 +79,5 @@ public class JanggiGame {
 
     private boolean isKingCaught() {
         return board.kingsOnBoard().size() < 2;
-    }
-
-    public void move(Position from, Position to) {
-        board.move(from, to, currentTurn);
-        changeTurn();
     }
 }
