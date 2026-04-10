@@ -1,7 +1,5 @@
 package janggi.domain.game;
 
-import java.util.Objects;
-
 public class Turn {
     private Side current;
 
