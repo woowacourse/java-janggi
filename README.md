@@ -154,6 +154,36 @@
 
 - 게임을 JSON 파일로 `/data` 폴더에 저장
 
+### H2
+
+#### games
+
+| 컬럼명 | 타입 |
+| --- | --- |
+| `id` | `bigint` |
+| `cho_player_name` | `varchar(255)` |
+| `han_player_name` | `varchar(255)` |
+| `current_team` | `varchar(20)` |
+
+#### board_pieces
+
+| 컬럼명 | 타입 |
+| --- | --- |
+| `game_id` | `bigint` |
+| `row_num` | `int` |
+| `column_num` | `int` |
+| `piece_type` | `varchar(20)` |
+| `team` | `varchar(20)` |
+
+#### caught_pieces
+
+| 컬럼명 | 타입 |
+| --- | --- |
+| `game_id` | `bigint` |
+| `sequence_num` | `int` |
+| `piece_type` | `varchar(20)` |
+| `team` | `varchar(20)` |
+
 ## 실행 예시
 
 ### 새로운 게임 생성
