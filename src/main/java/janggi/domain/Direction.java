@@ -17,6 +17,8 @@ public enum Direction {
     private static final List<Direction> STRAIGHT_DIRECTIONS = Arrays.stream(values())
             .filter(Direction::isStraight)
             .toList();
+    private static final List<Direction> ALL_DIRECTIONS = Arrays.stream(Direction.values())
+            .toList();
 
     private final int column;
     private final int row;
@@ -36,6 +38,10 @@ public enum Direction {
 
     public static List<Direction> getStraightDirections() {
         return STRAIGHT_DIRECTIONS;
+    }
+
+    public static List<Direction> getAllDirections() {
+        return ALL_DIRECTIONS;
     }
 
     public int getColumn() {
