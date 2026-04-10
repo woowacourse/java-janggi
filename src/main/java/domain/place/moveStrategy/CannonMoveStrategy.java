@@ -17,6 +17,10 @@ public class CannonMoveStrategy extends AbstractOrthogonalMoveStrategy {
             return false;
         }
 
+        return canMoveOrthogonally(board, from, to);
+    }
+
+    private boolean canMoveOrthogonally(BoardView board, Position from, Position to) {
         if (from.isNotStraightLine(to)) {
             return false;
         }
