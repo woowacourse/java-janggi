@@ -22,12 +22,9 @@ public class ScoreBoard {
     private double hanScore = 0;
     private double choScore = 0;
 
-    public void saveHanScore(List<Piece> pieces) {
-        hanScore = calculateScore(pieces) + 1.5;
-    }
-
-    public void saveChoScore(List<Piece> pieces) {
-        choScore = calculateScore(pieces);
+    public ScoreBoard(List<Piece> hanPieces, List<Piece> choPieces) {
+        this.choScore = calculateScore(hanPieces) + 1.5;
+        this.hanScore = calculateScore(choPieces);
     }
 
     public Team winner() {

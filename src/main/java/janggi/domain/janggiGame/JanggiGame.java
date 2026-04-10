@@ -56,8 +56,6 @@ public class JanggiGame {
     }
 
     public Team decideWinner() {
-        ScoreBoard scoreBoard = new ScoreBoard();
-
         if (winner != Team.NONE) {
             return winner;
         }
@@ -67,8 +65,7 @@ public class JanggiGame {
             return winner;
         }
 
-        scoreBoard.saveHanScore(board.piecesOf(Team.HAN));
-        scoreBoard.saveChoScore(board.piecesOf(Team.CHO));
+        ScoreBoard scoreBoard = new ScoreBoard(board.piecesOf(Team.HAN), board.piecesOf(Team.CHO));
 
         return scoreBoard.winner();
     }
