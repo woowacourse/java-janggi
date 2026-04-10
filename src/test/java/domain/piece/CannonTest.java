@@ -1,7 +1,9 @@
 package domain.piece;
 
 import domain.Side;
+import domain.board.BasicBoardInitializer;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +14,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonTest {
 
-private Pieces piecesFrom(Map<Position, Piece> pieces) {
-        return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
+    private static final Topology DEFAULT_TOPOLOGY = new Topology(Map.of());
+    private static final Topology PALACE_TOPOLOGY = new BasicBoardInitializer().createTopology();
+
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return piecesFrom(pieces, DEFAULT_TOPOLOGY);
+    }
+
+    private Pieces piecesFrom(Map<Position, Piece> pieces, Topology topology) {
+        return new Pieces() {
+            @Override
+            public Piece getPiece(Position position) {
+                return pieces.getOrDefault(position, EmptyPiece.getInstance());
+            }
+
+            @Override
+            public Topology getTopology() {
+                return topology;
+            }
+        };
     }
 
     @Test
@@ -124,6 +143,63 @@ private Pieces piecesFrom(Map<Position, Piece> pieces) {
                 new Position(2, 4),
                 new Position(1, 4),
                 new Position(0, 4)
+        );
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선을 따라 기물을 뛰어넘어 이동할 수 있다.")
+    void canJumpDiagonallyInPalace() {
+        // given
+        Cannon cannon = new Cannon(Side.HAN);
+        Position start = new Position(0, 3); // 상단 궁성 좌상단 꼭짓점
+        Pieces pieces = piecesFrom(Map.of(
+                start, cannon,
+                new Position(1, 4), new Guard(Side.CHU) // 중앙에 넘을 기물
+        ), PALACE_TOPOLOGY);
+
+        // when
+        List<Position> moves = cannon.getPossibleMoves(start, pieces);
+
+        // then
+        assertThat(moves).contains(new Position(2, 5)); // 대각선으로 넘어서 착지
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 넘을 기물이 없으면 이동할 수 없다.")
+    void cannotMoveDiagonallyWithoutJumpPiece() {
+        // given
+        Cannon cannon = new Cannon(Side.HAN);
+        Position start = new Position(0, 3); // 상단 궁성 좌상단 꼭짓점
+        Pieces pieces = piecesFrom(Map.of(start, cannon), PALACE_TOPOLOGY);
+
+        // when
+        List<Position> moves = cannon.getPossibleMoves(start, pieces);
+
+        // then
+        assertThat(moves).doesNotContain(
+                new Position(1, 4),
+                new Position(2, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 포를 넘거나 잡을 수 없다.")
+    void cannotJumpCannonOnPalaceDiagonal() {
+        // given
+        Cannon cannon = new Cannon(Side.HAN);
+        Position start = new Position(0, 3);
+        Pieces pieces = piecesFrom(Map.of(
+                start, cannon,
+                new Position(1, 4), new Cannon(Side.CHU) // 중앙에 포
+        ), PALACE_TOPOLOGY);
+
+        // when
+        List<Position> moves = cannon.getPossibleMoves(start, pieces);
+
+        // then
+        assertThat(moves).doesNotContain(
+                new Position(1, 4),
+                new Position(2, 5)
         );
     }
 }
