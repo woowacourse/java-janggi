@@ -13,23 +13,23 @@ public class Palace {
     private final Map<Team, Set<Position>> area;
     private final Map<Position, List<Delta>> diagonalMovables;
 
-    public Palace(Map<Team, Set<Position>> area, Map<Position, List<Delta>> diagonalMovables) {
+    public Palace(final Map<Team, Set<Position>> area, final Map<Position, List<Delta>> diagonalMovables) {
         this.area = area;
         this.diagonalMovables = diagonalMovables;
     }
 
 
-    public boolean inAllyPalace(Position position, Team team) {
+    public boolean inAllyPalace(final Position position, final Team team) {
         return area.get(team).contains(position);
     }
 
-    public boolean inAnyPalace(Position position) {
+    public boolean inAnyPalace(final Position position) {
         return area.values().stream()
                 .anyMatch(set -> set.contains(position));
     }
 
 
-    public List<Delta> getDiagonalDeltas(Position position) {
+    public List<Delta> getDiagonalDeltas(final Position position) {
         return diagonalMovables.getOrDefault(position, List.of());
     }
 }

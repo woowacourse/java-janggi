@@ -48,6 +48,15 @@ public class Board {
         return pieces.containsKey(position);
     }
 
+    public boolean inPalace(final Position position) {
+        return palace.inAnyPalace(position);
+    }
+
+    public boolean inAllyPalace(final Position position, final Team team) {
+        return palace.inAllyPalace(position, team);
+    }
+
+
     public Position findGeneral(final Team team) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getPieceType() == PieceType.GENERAL)
@@ -64,7 +73,6 @@ public class Board {
                 .toList();
     }
 
-
     public Piece getPiece(final Position position) {
         if (hasPiece(position)) {
             return pieces.get(position);
@@ -72,12 +80,8 @@ public class Board {
         throw new IllegalStateException(EMPTY_POSITION);
     }
 
-    public List<Delta> getPalaceDeltas(Position pos) {
-        return palace.getDiagonalDeltas(pos);
-    }
-
-    public boolean inPalace(Position pos) {
-        return palace.inAnyPalace(pos);
+    public List<Delta> getPalaceDeltas(final Position position) {
+        return palace.getDiagonalDeltas(position);
     }
 
     public int getMinRowRange() {
