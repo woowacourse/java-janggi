@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GameDao {
-    Integer save(GameEntity game);
+    int save(GameEntity game);
 
     // Read
     GameEntity findById(int id);
@@ -19,4 +19,6 @@ public interface GameDao {
     void delete(int id);
 
     void updateWinner(Integer id, Side side);
+
+    void update(GameEntity gameEntity);
 }

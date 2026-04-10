@@ -8,7 +8,6 @@ import janggi.dao.GameDao;
 import janggi.dao.entity.GameEntity;
 import janggi.domain.game.Status;
 import janggi.domain.side.Side;
-import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,8 +30,7 @@ class H2GameDaoTest {
         game = new GameEntity(
                 null,
                 "테스트 게임",
-                BoardSetUpFormat.IN_ELEPHANT,
-                BoardSetUpFormat.IN_ELEPHANT,
+                Side.CHO,
                 Status.IN_PROGRESS,
                 null
         );

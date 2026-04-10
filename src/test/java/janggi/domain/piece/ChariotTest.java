@@ -56,7 +56,7 @@ class ChariotTest {
                          List<Point> expected) {
         Piece piece = new Chariot(side);
 
-        List<Point> points = piece.availablePoints(point, new Board(1, piecesOnPaths));
+        List<Point> points = piece.availablePoints(point, new Board(1, , piecesOnPaths));
 
         assertThat(points)
                 .hasSameSizeAs(expected)

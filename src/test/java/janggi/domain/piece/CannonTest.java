@@ -55,7 +55,7 @@ class CannonTest {
             Side side = Side.CHO;
 
             BoardInfo boardInfo = new Board(
-                    1, Map.of(new Point(4, 5), new Cannon(Side.HAN)));
+                    1, , Map.of(new Point(4, 5), new Cannon(Side.HAN)));
 
             Piece piece = new Cannon(side);
             List<Point> points = piece.availablePoints(new Point(5, 5), boardInfo);
@@ -72,7 +72,7 @@ class CannonTest {
             Side side = Side.CHO;
 
             BoardInfo boardInfo = new Board(
-                    1, Map.of(new Point(5, 6), new Soldier(Side.CHO), new Point(5, 8), new Cannon(Side.CHO)));
+                    1, , Map.of(new Point(5, 6), new Soldier(Side.CHO), new Point(5, 8), new Cannon(Side.CHO)));
 
             Piece piece = new Cannon(side);
             List<Point> points = piece.availablePoints(new Point(5, 5), boardInfo);
@@ -87,7 +87,7 @@ class CannonTest {
         @DisplayName("경로에 두개의 기물이 있다면, 기물 사이의 경로를 전달한다.")
         void betweenPoints() {
             Side side = Side.CHO;
-            BoardInfo boardInfo = new Board(1, Map.of(new Point(7, 5), new Soldier(Side.CHO), new Point(9, 5),
+            BoardInfo boardInfo = new Board(1, , Map.of(new Point(7, 5), new Soldier(Side.CHO), new Point(9, 5),
                     new Soldier(Side.HAN)));
 
             Piece piece = new Cannon(side);

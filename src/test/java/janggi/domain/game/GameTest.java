@@ -18,9 +18,9 @@ class GameTest {
     @BeforeEach
     void setUp() {
         game = Game.createGame(
+                null,
                 SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
-                SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
-                Status.IN_PROGRESS
+                SetUpEntity.IN_ELEPHANT.getBoardSetUp()
         );
     }
 

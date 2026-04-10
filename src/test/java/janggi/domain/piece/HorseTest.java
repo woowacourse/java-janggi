@@ -49,7 +49,7 @@ class HorseTest {
                          List<Point> expected) {
         Piece horse = new Horse(side);
 
-        List<Point> points = horse.availablePoints(point, new Board(1, piecesOnPaths));
+        List<Point> points = horse.availablePoints(point, new Board(1, , piecesOnPaths));
 
         assertThat(points)
                 .hasSameSizeAs(expected)

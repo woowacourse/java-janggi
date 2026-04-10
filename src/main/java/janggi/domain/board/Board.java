@@ -13,24 +13,24 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Board implements BoardInfo {
-    private final Integer id;
+    private final Integer gameId;
     private final Map<Point, Piece> pieces;
 
-    public Board(Integer id, Map<Point, Piece> pieces) {
-        this.id = id;
+    public Board(Integer gameId, Map<Point, Piece> pieces) {
+        this.gameId = gameId;
         this.pieces = new HashMap<>(pieces);
     }
 
-    public static Board setUp(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+    public static Board setUp(Integer gameId, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
         Map<Point, Piece> board = new HashMap<>();
         board.putAll(choBoardSetUp.generate(Side.CHO));
         board.putAll(hanBoardSetUp.generate(Side.HAN));
 
-        return new Board(id, board);
+        return new Board(gameId, board);
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getGameId() {
+        return gameId;
     }
 
     public Map<Point, Piece> getPieces() {

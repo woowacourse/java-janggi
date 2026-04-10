@@ -5,7 +5,6 @@ import janggi.dao.JdbcDataSource;
 import janggi.dao.entity.GameEntity;
 import janggi.domain.game.Status;
 import janggi.domain.side.Side;
-import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,17 +23,16 @@ public class H2GameDao implements GameDao {
     }
 
     @Override
-    public Integer save(GameEntity game) {
-        String sql = "INSERT INTO game (name, CHO_SET_UP, HAN_SET_UP, status, winner) " +
-                "VALUES (?, ?, ?, ?, ?)";
+    public int save(GameEntity game) {
+        String sql = "INSERT INTO game (NAME,TURN, STATUS, WINNER) " +
+                "VALUES (?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, game.name());
-            stmt.setString(2, game.choSetUp().name());
-            stmt.setString(3, game.hanSetUp().name());
-            stmt.setString(4, game.status().name());
-            stmt.setString(5, getWinnerName(game));
+            stmt.setString(2, game.turn().name());
+            stmt.setString(3, game.status().name());
+            stmt.setString(4, getWinnerName(game));
 
             stmt.executeUpdate();
             ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -49,7 +47,7 @@ public class H2GameDao implements GameDao {
 
     @Override
     public GameEntity findById(int id) {
-        String sql = "SELECT id, name, CHO_SET_UP, HAN_SET_UP , status, winner FROM game WHERE id = ?";
+        String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE ID = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -57,7 +55,7 @@ public class H2GameDao implements GameDao {
 
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return mapResultSetToGame(resultSet);
+                return mapResultSetToGameEntity(resultSet);
             }
             return null;
         } catch (SQLException e) {
@@ -67,7 +65,7 @@ public class H2GameDao implements GameDao {
 
     @Override
     public Optional<GameEntity> findByName(String name) {
-        String sql = "SELECT id, name, CHO_SET_UP, HAN_SET_UP, status, winner FROM game WHERE NAME = ?";
+        String sql = "SELECT * FROM game WHERE NAME = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -75,7 +73,7 @@ public class H2GameDao implements GameDao {
 
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(mapResultSetToGame(resultSet));
+                return Optional.of(mapResultSetToGameEntity(resultSet));
             }
             return Optional.empty();
         } catch (SQLException e) {
@@ -133,12 +131,40 @@ public class H2GameDao implements GameDao {
         }
     }
 
-    private GameEntity mapResultSetToGame(ResultSet resultSet) throws SQLException {
+    @Override
+    public void update(GameEntity gameEntity) {
+        String sql = """
+                    UPDATE game
+                    SET turn = ?,
+                        status = ?,
+                        winner = ?
+                    WHERE id = ?
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, gameEntity.turn().name());
+            stmt.setString(2, gameEntity.status().name());
+            stmt.setString(3,
+                    gameEntity.winner() != null ? gameEntity.winner().name() : null
+            );
+            stmt.setLong(4, gameEntity.id());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Game 업데이트 실패 gameId: " + gameEntity.id(), e
+            );
+        }
+    }
+
+    private GameEntity mapResultSetToGameEntity(ResultSet resultSet) throws SQLException {
         return new GameEntity(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
-                BoardSetUpFormat.valueOf(resultSet.getString("cho_set_up")),
-                BoardSetUpFormat.valueOf(resultSet.getString("han_set_up")),
+                Side.valueOf(resultSet.getString("turn")),
                 Status.valueOf(resultSet.getString("status")),
                 getWinner(resultSet)
         );

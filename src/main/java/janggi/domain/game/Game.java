@@ -12,31 +12,28 @@ import java.util.Set;
 
 public class Game {
     private static final Side INIT_TURN = Side.CHO;
+    private static final Rules rules = Rules.createWithDefaultRules();
 
     private final Integer id;
-    private final Rules rules;
+    private final String name;
     private final Board board;
     private Status status;
     private Side turn;
+    private Side winner;
 
-    public Game(Integer id, Rules rules, Board board, Status status, Side turn) {
+    public Game(Integer id, String name, Board board, Status status, Side turn, Side winner) {
         this.id = id;
-        this.rules = rules;
+        this.name = name;
         this.board = board;
         this.status = status;
         this.turn = turn;
+        this.winner = winner;
     }
 
-    public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp, Status status) {
-        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(null, choBoardSetUp, hanBoardSetUp),
-                status, INIT_TURN);
+    public static Game createGame(String name, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+        return new Game(null, name,
+                Board.setUp(null, choBoardSetUp, hanBoardSetUp), Status.IN_PROGRESS, INIT_TURN, null);
     }
-
-    public static Game createGameWithId(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp, Status status) {
-        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(null, choBoardSetUp, hanBoardSetUp),
-                status, INIT_TURN);
-    }
-
 
     public Side getTurn() {
         return turn;
@@ -89,13 +86,14 @@ public class Game {
         }
         if (rules.isEnd(board.getPieces())) {
             status = Status.FINISHED;
+            winner = winnerSide();
             return false;
         }
         return true;
     }
 
     public Side winnerSide() {
-        return rules.winner(board.getPieces());
+        return winner;
     }
 
     public Integer getId() {
@@ -104,5 +102,13 @@ public class Game {
 
     public Status getStatus() {
         return status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Side getWinner() {
+        return winner;
     }
 }
