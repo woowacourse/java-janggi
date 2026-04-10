@@ -15,11 +15,7 @@ public class Application {
         dataSource.setUser("sa");
         dataSource.setPassword("");
 
-        GameRepository gameRepository = new JdbcGameRepository(dataSource);
-        PieceRepository pieceRepository = new JdbcPieceRepository(dataSource);
-
-        JanggiService janggiService = new JanggiService(gameRepository, pieceRepository);
-        JanggiController janggiController = new JanggiController(janggiService);
+        JanggiController janggiController = new JanggiController(new JdbcGameRepository(dataSource), new JdbcPieceRepository(dataSource));
         janggiController.run();
     }
 }

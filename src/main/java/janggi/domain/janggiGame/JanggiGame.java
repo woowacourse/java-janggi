@@ -40,16 +40,13 @@ public class JanggiGame {
         return currentTurn;
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
         currentTurn = currentTurn.anotherTeam();
     }
 
     public void skipTurn() {
         skip.put(currentTurn, true);
-    }
-
-    public void playTurn() {
-        skip.put(currentTurn, false);
+        changeTurn();
     }
 
     public void resign() {
@@ -84,5 +81,6 @@ public class JanggiGame {
 
     public void move(Position from, Position to) {
         board.move(from, to, currentTurn);
+        changeTurn();
     }
 }

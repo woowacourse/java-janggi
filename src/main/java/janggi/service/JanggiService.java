@@ -1,67 +1,89 @@
 package janggi.service;
 
-import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.dto.MoveCommand;
-import janggi.domain.janggiGame.StartGameResponse;
+import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 import janggi.repositiory.game.GameData;
 import janggi.repositiory.game.GameRepository;
-import janggi.repositiory.piece.PieceData;
 import janggi.repositiory.piece.PieceRepository;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class JanggiService {
     private final GameRepository gameRepository;
     private final PieceRepository pieceRepository;
-    private Long gameId;
+    private final JanggiGame janggiGame;
+    private final Long gameId;
+    private final boolean isResumed;
 
-    public JanggiService(GameRepository gameRepository, PieceRepository pieceRepository) {
+    private JanggiService(GameRepository gameRepository, PieceRepository pieceRepository, JanggiGame janggiGame, Long gameId, Boolean isResumed) {
         this.gameRepository = gameRepository;
         this.pieceRepository = pieceRepository;
+        this.janggiGame = janggiGame;
+        this.gameId = gameId;
+        this.isResumed = isResumed;
     }
 
-    public StartGameResponse startGame() {
-        Optional<GameData> gameData = gameRepository.findLatestOngoingGame();
+    public static JanggiService startGame(GameRepository gameRepository, PieceRepository pieceRepository) {
+        Optional<GameData> gameData = gameRepository.findLatestGame();
+        JanggiGame game;
+        Long gameId;
 
-        if (gameData.isEmpty()) {
-            JanggiGame game = new JanggiGame(new Board(BoardInitializer.createBoard()));
+        if (gameData.isEmpty() || gameData.get().isFinished()) {
+            game = new JanggiGame(new Board(BoardInitializer.createBoard()));
             gameId = gameRepository.save(game.isFinished(), game.getCurrentTeam());
-            return new StartGameResponse(game, false);
+            pieceRepository.updateALL(gameId, game.getBoard());
+
+            return new JanggiService(gameRepository, pieceRepository, game, gameId, false);
         }
 
         gameId = gameData.get().gameId();
-        JanggiGame resumedGame = new JanggiGame(new Board(loadPieces()), gameData.get().currentTurn());
-        return new StartGameResponse(resumedGame, true);
+        game = new JanggiGame(new Board(pieceRepository.findAll(gameId)), gameData.get().currentTurn());
+
+        return new JanggiService(gameRepository, pieceRepository, game, gameId, true);
     }
 
-    public void playTurn(MoveCommand moveCommand, JanggiGame janggiGame) {
-        janggiGame.playTurn();
+    public void playTurn(MoveCommand moveCommand) {
         janggiGame.move(moveCommand.getFrom(), moveCommand.getTo());
-        janggiGame.changeTurn();
 
         pieceRepository.updateALL(gameId, janggiGame.getBoard());
         gameRepository.update(gameId, janggiGame.isFinished(), janggiGame.getCurrentTeam());
     }
 
-    private Map<Position, Piece> loadPieces() {
-        Map<Position, Piece> pieces = new HashMap<>();
-        List<PieceData> pieceData = pieceRepository.findAll(gameId);
+    public void skipTurn() {
+        janggiGame.skipTurn();
 
-        for (PieceData data : pieceData) {
-            Position position = new Position(data.row(), data.col());
-            Piece piece = PieceFactory.create(data.type(), data.team());
+        gameRepository.update(gameId, janggiGame.isFinished(), janggiGame.getCurrentTeam());
+    }
 
-            pieces.put(position, piece);
-        }
+    public void resign() {
+        janggiGame.resign();
 
-        return pieces;
+        gameRepository.update(gameId, janggiGame.isFinished(), janggiGame.getCurrentTeam());
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return janggiGame.getBoard();
+    }
+
+    public boolean isFinished() {
+        return janggiGame.isFinished();
+    }
+
+    public Team getCurrentTeam() {
+        return janggiGame.getCurrentTeam();
+    }
+
+    public Team decideWinner() {
+        return janggiGame.decideWinner();
+    }
+
+    public boolean isResumed() {
+        return isResumed;
     }
 }
