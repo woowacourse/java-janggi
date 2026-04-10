@@ -97,9 +97,7 @@ public class Board {
                 .mapToDouble(Piece::getScore)
                 .sum();
 
-        if (team == Team.HAN) {
-            score += 1.5;
-        }
+        score += team.getBonusScore();
         return score;
     }
 }
