@@ -19,17 +19,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class JanggiGameRepositoryTest {
+class JDBCGameRepositoryTest {
 
     private Connection connection;
-    private JanggiGameRepository repository;
+    private JDBCGameRepository repository;
 
     @BeforeEach
     void setUp() throws SQLException {
         connection = DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
         connection.setAutoCommit(false);
         DatabaseInitializer.initialize(connection);
-        repository = new JanggiGameRepository();
+        repository = new JDBCGameRepository();
     }
 
     @AfterEach

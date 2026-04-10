@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JanggiGameRepository implements GameRepository {
+public class JDBCGameRepository implements GameRepository {
 
     @Override
     public List<GameSessionDTO> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException {
