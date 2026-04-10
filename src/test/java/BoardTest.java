@@ -5,6 +5,8 @@ import domain.Camp;
 import domain.InvalidMoveException;
 import domain.Position;
 import domain.pieces.Cannon;
+import domain.pieces.Chariot;
+import domain.pieces.General;
 import domain.pieces.Horse;
 import domain.pieces.Soldier;
 import org.junit.jupiter.api.Assertions;
@@ -69,5 +71,21 @@ public class BoardTest {
         board.locatePiece(position, piece);
 
         Assertions.assertFalse(board.isNotCannon(position));
+    }
+
+    @Test
+    void 상대_왕을_잡으면_게임_종료() {
+        Board board = new Board();
+        Position choGeneralPos = new Position(4, 1);
+        Position hanGeneralPos = new Position(4, 6);
+        Position hanChariotPos = new Position(4, 5);
+
+        board.locatePiece(choGeneralPos, new General(Camp.CHO));
+        board.locatePiece(hanGeneralPos, new General(Camp.HAN));
+        board.locatePiece(hanChariotPos, new Chariot(Camp.HAN));
+
+        board.move(hanChariotPos, choGeneralPos);
+
+        Assertions.assertTrue(board.isGameOver());
     }
 }
