@@ -72,17 +72,31 @@ class BlockingPieceValidatorTest {
                     new PathInfo(new Position(4, 6), null)
             );
 
-            assertThatCode(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos))
+            assertThatCode(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos, new Position(4, 6)))
                     .doesNotThrowAnyException();
         }
 
         @Test
-        void 경로가_두_칸이_아니면_예외가_발생한다() {
+        void 경로가_길어도_도착지_이전의_기물이_하나면_예외가_발생하지_않는다() {
+            Position destination = new Position(4, 8);
+            List<PathInfo> pathInfos = List.of(
+                    new PathInfo(new Position(4, 5), null),
+                    new PathInfo(new Position(4, 6), Piece.of(Camp.CHO, PieceType.SOLDIER)),
+                    new PathInfo(new Position(4, 7), null),
+                    new PathInfo(destination, null)
+            );
+
+            assertThatCode(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos, destination))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 도착지_이전_경로에_기물이_없으면_예외가_발생한다() {
             List<PathInfo> pathInfos = List.of(
                     new PathInfo(new Position(4, 5), Piece.of(Camp.CHO, PieceType.SOLDIER))
             );
 
-            assertThatThrownBy(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos))
+            assertThatThrownBy(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos, new Position(4, 5)))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -93,7 +107,7 @@ class BlockingPieceValidatorTest {
                     new PathInfo(new Position(4, 6), null)
             );
 
-            assertThatThrownBy(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos))
+            assertThatThrownBy(() -> BlockingPieceValidator.validateHasBlockingPiece(pathInfos, new Position(4, 6)))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

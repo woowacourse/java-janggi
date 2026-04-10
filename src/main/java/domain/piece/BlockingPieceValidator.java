@@ -21,8 +21,13 @@ public class BlockingPieceValidator {
         }
     }
 
-    public static void validateHasBlockingPiece(List<PathInfo> pathInfos) {
-        if (pathInfos.size() != 2) {
+    public static void validateHasBlockingPiece(List<PathInfo> pathInfos, Position destination) {
+        long blockingPieceCount = pathInfos.stream()
+                .filter(pathInfo -> !pathInfo.position().equals(destination))
+                .filter(PathInfo::hasPiece)
+                .count();
+
+        if (blockingPieceCount != 1) {
             throw new IllegalArgumentException("포는 반드시 하나의 기물만을 이동할 수 있습니다.");
         }
         if (pathInfos.stream().anyMatch(pathInfo -> pathInfo.isPieceType(PieceType.CANNON))) {

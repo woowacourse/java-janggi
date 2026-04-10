@@ -15,6 +15,6 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        BlockingPieceValidator.validateHasBlockingPiece(pathInfos);
+        BlockingPieceValidator.validateHasBlockingPiece(pathInfos, destination);
     }
 }
