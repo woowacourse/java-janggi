@@ -1,9 +1,11 @@
 package view;
 
+import dao.GameRoomRawData;
 import domain.board.Board;
 import domain.game.Team;
 import domain.piece.Piece;
 import domain.position.Position;
+import java.util.List;
 
 public class OutputView {
     private static final int MIN_ROW = 1;
@@ -24,6 +26,22 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+    }
+
+    public void printRoomList(List<GameRoomRawData> rooms) {
+        if (rooms.isEmpty()) {
+            System.out.println("저장된 게임방이 없습니다.");
+            return;
+        }
+        System.out.println("=== 게임방 목록 ===");
+        for (GameRoomRawData room : rooms) {
+            System.out.printf("[%d] %s (턴: %s, 상태: %s)%n",
+                    room.id(), room.name(), room.currentTurn(), room.status());
+        }
+    }
+
+    public void printGameCreated(long roomId) {
+        System.out.println("게임방이 생성되었습니다. (ID: " + roomId + ")");
     }
 
     public void printResult(Team winner, double choScore, double hanScore) {
