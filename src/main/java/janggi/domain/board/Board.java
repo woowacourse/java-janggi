@@ -74,8 +74,12 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
         }
 
-        board.remove(from);
+        remove(from);
         place(to, fromPiece);
+    }
+    
+    public void remove(Position position) {
+        board.remove(position);
     }
 
     public void place(Position position, Piece piece) {
