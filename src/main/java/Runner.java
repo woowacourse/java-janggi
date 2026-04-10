@@ -7,6 +7,7 @@ import java.util.Optional;
 import domain.Board;
 import domain.GameDeadline;
 import domain.GameStatus;
+import domain.JanggiGame;
 import domain.MovableRoutes;
 import domain.Piece;
 import domain.Position;
@@ -26,7 +27,7 @@ import strategy.formation.InitialFormationStrategyFactory;
 
 public class Runner {
 
-    private record GameSession(Board board, TurnManager turnManager, GameDeadline deadline) {}
+    private record GameContext(JanggiGame game, GameDeadline deadline) {}
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -45,13 +46,13 @@ public class Runner {
 
     public void run() {
         outputView.printGameStart();
-        GameSession session = resolveInitialSession();
-        outputView.printBoard(session.board());
-        persistSession(session);
-        runGameLoop(session);
+        GameContext context = resolveInitialSession();
+        outputView.printBoard(context.game().board());
+        persistInProgress(context);
+        runGameLoop(context);
     }
 
-    private GameSession resolveInitialSession() {
+    private GameContext resolveInitialSession() {
         Optional<SavedGameState> saved = gameStateRepository.load();
         if (saved.isEmpty()) {
             return startFreshSession();
@@ -59,7 +60,7 @@ public class Runner {
         return resumeOrNewSession(saved.get());
     }
 
-    private GameSession resumeOrNewSession(SavedGameState saved) {
+    private GameContext resumeOrNewSession(SavedGameState saved) {
         if (saved.gameStatus() == GameStatus.ENDED) {
             TeamColor winner = saved.winner();
             if (winner == null) {
@@ -76,19 +77,21 @@ public class Runner {
         return startFreshSession();
     }
 
-    private GameSession resumeSession(SavedGameState saved) {
+    private GameContext resumeSession(SavedGameState saved) {
         Board board = new Board(saved.snapshot().pieces());
         TurnManager turnManager = new TurnManager(saved.currentTurn());
+        JanggiGame game = new JanggiGame(board, turnManager);
         GameDeadline deadline = resolveDeadlineForResume(saved);
-        return new GameSession(board, turnManager, deadline);
+        return new GameContext(game, deadline);
     }
 
-    private GameSession startFreshSession() {
+    private GameContext startFreshSession() {
         Board board = initializeNewBoard();
         GameDeadline deadline = readNewDeadline();
         TurnManager turnManager = new TurnManager();
         turnManager.start();
-        return new GameSession(board, turnManager, deadline);
+        JanggiGame game = new JanggiGame(board, turnManager);
+        return new GameContext(game, deadline);
     }
 
     private GameDeadline resolveDeadlineForResume(SavedGameState saved) {
@@ -168,18 +171,18 @@ public class Runner {
         return initializer.initialize();
     }
 
-    private void persistSession(GameSession session) {
+    private void persistInProgress(GameContext context) {
         gameStateRepository.save(
                 new SaveGameStateRequest(
-                        session.board().capture(),
-                        session.turnManager().getCurrentTurn(),
+                        context.game().captureSnapshot(),
+                        context.game().currentTurn(),
                         GameStatus.IN_PROGRESS,
                         null,
-                        session.deadline()));
+                        context.deadline()));
     }
 
-    private void runGameLoop(GameSession session) {
-        while (playTurn(session.board(), session.turnManager(), session.deadline())) {
+    private void runGameLoop(GameContext context) {
+        while (playTurn(context.game(), context.deadline())) {
         }
     }
 
@@ -202,47 +205,33 @@ public class Runner {
         }
     }
 
-    private boolean playTurn(Board board, TurnManager turnManager, GameDeadline deadline) {
+    private boolean playTurn(JanggiGame game, GameDeadline deadline) {
         if (deadline.isExpired(clock)) {
-            endByScore(board, turnManager, deadline);
+            endByScore(game, deadline);
             return false;
         }
-        TeamColor currentTurn = turnManager.getCurrentTurn();
-        outputView.printCurrentTurn(currentTurn);
-        outputView.printBoard(board);
-        return runTurnInputLoop(board, turnManager, currentTurn, deadline);
+        outputView.printCurrentTurn(game.currentTurn());
+        outputView.printBoard(game.board());
+        return runTurnInputLoop(game, deadline);
     }
 
-    private void endByScore(Board board, TurnManager turnManager, GameDeadline deadline) {
+    private void endByScore(JanggiGame game, GameDeadline deadline) {
         TeamScores scores =
-                scoreCalculator.calculate(board.piecesOfTeam(TeamColor.CHO), board.piecesOfTeam(TeamColor.HAN));
+                scoreCalculator.calculate(game.piecesOfTeam(TeamColor.CHO), game.piecesOfTeam(TeamColor.HAN));
         Optional<TeamColor> winner = scores.winner();
         if (winner.isEmpty()) {
             outputView.printTimeOverDraw(scores);
-            gameStateRepository.save(
-                    new SaveGameStateRequest(
-                            board.capture(),
-                            turnManager.getCurrentTurn(),
-                            GameStatus.ENDED,
-                            null,
-                            deadline));
+            saveEndedState(game, null, deadline);
             return;
         }
         TeamColor winnerColor = winner.get();
         outputView.printTimeOverWinnerByScore(scores, winnerColor);
-        gameStateRepository.save(
-                new SaveGameStateRequest(
-                        board.capture(),
-                        turnManager.getCurrentTurn(),
-                        GameStatus.ENDED,
-                        winnerColor,
-                        deadline));
+        saveEndedState(game, winnerColor, deadline);
     }
 
-    private boolean runTurnInputLoop(
-            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
+    private boolean runTurnInputLoop(JanggiGame game, GameDeadline deadline) {
         while (true) {
-            TurnOutcome outcome = trySingleTurnAction(board, turnManager, currentTurn, deadline);
+            TurnOutcome outcome = trySingleTurnAction(game, deadline);
             Boolean gameContinues = interpretOutcome(outcome);
             if (gameContinues != null) {
                 return gameContinues;
@@ -257,28 +246,25 @@ public class Runner {
         return outcome != TurnOutcome.GAME_OVER;
     }
 
-    private TurnOutcome trySingleTurnAction(
-            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
+    private TurnOutcome trySingleTurnAction(JanggiGame game, GameDeadline deadline) {
         try {
-            return processPieceSelection(board, turnManager, currentTurn, deadline);
+            return processPieceSelection(game, deadline);
         } catch (RuntimeException exception) {
             outputView.printError(exception.getMessage());
             return TurnOutcome.RETRY;
         }
     }
 
-    private TurnOutcome processPieceSelection(
-            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
-        List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
+    private TurnOutcome processPieceSelection(JanggiGame game, GameDeadline deadline) {
+        List<Map.Entry<Position, Piece>> pieces = game.currentTurnPieces();
         outputView.printPieceOptions(pieces);
-        int pieceChoice = inputView.readPieceChoice(currentTurn);
+        int pieceChoice = inputView.readPieceChoice(game.currentTurn());
         Piece selectedPiece = getSelectedPiece(pieces, pieceChoice);
-        return followRoutes(board, turnManager, selectedPiece, deadline);
+        return followRoutes(game, selectedPiece, deadline);
     }
 
-    private TurnOutcome followRoutes(
-            Board board, TurnManager turnManager, Piece selectedPiece, GameDeadline deadline) {
-        MovableRoutes movable = board.findMovableRoutes(selectedPiece);
+    private TurnOutcome followRoutes(JanggiGame game, Piece selectedPiece, GameDeadline deadline) {
+        MovableRoutes movable = game.findMovableRoutes(selectedPiece);
         List<Route> routes = movable.routes();
         if (routes.isEmpty()) {
             throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
@@ -286,7 +272,7 @@ public class Runner {
         printKingNoticeIfApplicable(movable);
         outputView.printRouteOptions(routes);
         int routeChoice = inputView.readRouteChoice();
-        return applyRouteChoice(board, turnManager, selectedPiece, routes, routeChoice, deadline);
+        return applyRouteChoice(game, selectedPiece, routes, routeChoice, deadline);
     }
 
     private void printKingNoticeIfApplicable(MovableRoutes movable) {
@@ -297,38 +283,28 @@ public class Runner {
     }
 
     private TurnOutcome applyRouteChoice(
-            Board board,
-            TurnManager turnManager,
-            Piece selectedPiece,
-            List<Route> routes,
-            int routeChoice,
-            GameDeadline deadline) {
+            JanggiGame game, Piece selectedPiece, List<Route> routes, int routeChoice, GameDeadline deadline) {
         if (routeChoice == 0) {
             return TurnOutcome.RETRY;
         }
-        return completeMove(board, turnManager, selectedPiece, routes, routeChoice, deadline);
+        return completeMove(game, selectedPiece, routes, routeChoice, deadline);
     }
 
     private TurnOutcome completeMove(
-            Board board,
-            TurnManager turnManager,
-            Piece piece,
-            List<Route> routes,
-            int routeChoice,
-            GameDeadline deadline) {
+            JanggiGame game, Piece piece, List<Route> routes, int routeChoice, GameDeadline deadline) {
         Position destination = getSelectedRoute(routes, routeChoice).endPos();
-        Optional<Piece> captured = board.move(piece, destination);
+        Optional<Piece> captured = game.move(piece, destination);
         outputView.printMoveResult(piece, destination);
-        return afterMove(board, turnManager, captured, deadline);
+        return afterMove(game, captured, deadline);
     }
 
-    private TurnOutcome afterMove(
-            Board board, TurnManager turnManager, Optional<Piece> captured, GameDeadline deadline) {
+    private TurnOutcome afterMove(JanggiGame game, Optional<Piece> captured, GameDeadline deadline) {
         if (isKingCapture(captured)) {
-            persistFinalState(board, turnManager, deadline);
+            outputView.printGameEnd(game.currentTurn());
+            saveEndedState(game, game.currentTurn(), deadline);
             return TurnOutcome.GAME_OVER;
         }
-        progressTurnAndPersist(board, turnManager, deadline);
+        progressTurnAndPersist(game, deadline);
         return TurnOutcome.TURN_DONE;
     }
 
@@ -336,23 +312,22 @@ public class Runner {
         return captured.filter(Piece::isKing).isPresent();
     }
 
-    private void persistFinalState(Board board, TurnManager turnManager, GameDeadline deadline) {
-        outputView.printGameEnd(turnManager.getCurrentTurn());
+    private void saveEndedState(JanggiGame game, TeamColor winner, GameDeadline deadline) {
         gameStateRepository.save(
                 new SaveGameStateRequest(
-                        board.capture(),
-                        turnManager.getCurrentTurn(),
+                        game.captureSnapshot(),
+                        game.currentTurn(),
                         GameStatus.ENDED,
-                        turnManager.getCurrentTurn(),
+                        winner,
                         deadline));
     }
 
-    private void progressTurnAndPersist(Board board, TurnManager turnManager, GameDeadline deadline) {
-        turnManager.progressTurn();
+    private void progressTurnAndPersist(JanggiGame game, GameDeadline deadline) {
+        game.progressTurn();
         gameStateRepository.save(
                 new SaveGameStateRequest(
-                        board.capture(),
-                        turnManager.getCurrentTurn(),
+                        game.captureSnapshot(),
+                        game.currentTurn(),
                         GameStatus.IN_PROGRESS,
                         null,
                         deadline));
