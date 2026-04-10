@@ -40,7 +40,6 @@ class JanggiGameTest {
 
         // when
         janggiGame.skipTurn(); // 초(CHO) 턴 이행하지 않음
-        janggiGame.changeTurn(); // 턴 넘어감
         janggiGame.skipTurn(); // 한(HAN) 턴 이행하지 않음
 
         // then
@@ -52,13 +51,14 @@ class JanggiGameTest {
     @Test
     void 연속_기권_아닌_경우_게임_정상_진행_테스트() {
         // given
-        board = createBoardWithKings();
+        Position from = new Position(3, 2);
+        Position to = new Position(3, 3);
+        board = createBoardWithKings(new Position(3, 2), new Soldier(Team.HAN));
         janggiGame = new JanggiGame(board);
 
         // when
-        janggiGame.skipTurn();
-        janggiGame.changeTurn();
-        janggiGame.playTurn();
+        janggiGame.skipTurn(); // 초(CHO) 턴 이행하지 않음
+        janggiGame.move(from, to); // 한(HAN) 기물 이동
 
         // then
         assertThat(janggiGame.isFinished()).isFalse();
