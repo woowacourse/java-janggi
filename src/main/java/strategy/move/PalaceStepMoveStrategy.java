@@ -1,5 +1,8 @@
 package strategy.move;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -7,10 +10,8 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import domain.palace.PalaceRouter;
-import java.util.ArrayList;
-import java.util.List;
 
-public final class KingAndGuardMoveStrategy extends MoveStrategy {
+public final class PalaceStepMoveStrategy extends MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH)),

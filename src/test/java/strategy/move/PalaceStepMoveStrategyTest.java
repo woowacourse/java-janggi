@@ -1,6 +1,10 @@
 package strategy.move;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 import domain.Board;
 import domain.Piece;
@@ -8,15 +12,12 @@ import domain.PieceType;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.Test;
 
-public class KingAndGuardMoveStrategyTest {
+public class PalaceStepMoveStrategyTest {
     
     @Test
     void 왕과_사는_장애물이_없으면_지나갈수_있다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
         boolean canMove = strategy.canMove(route, List.of(), null, TeamColor.CHO);
@@ -26,7 +27,7 @@ public class KingAndGuardMoveStrategyTest {
 
     @Test
     void 왕과_사는_장애물이_하나라도_있으면_지나갈수_없다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
         boolean canMove = strategy.canMove(
@@ -40,7 +41,7 @@ public class KingAndGuardMoveStrategyTest {
 
     @Test
     void 왕은_궁성_중앙에서_8방향으로_이동할_수_있다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Position curPos = Position.of(8, 4);
         Board router = new Board(Map.<Position, Piece>of());
 
@@ -58,7 +59,7 @@ public class KingAndGuardMoveStrategyTest {
 
     @Test
     void 사는_궁성_중앙에서_8방향으로_이동할_수_있다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Position curPos = Position.of(8, 4);
         Board router = new Board(Map.<Position, Piece>of());
 
@@ -76,7 +77,7 @@ public class KingAndGuardMoveStrategyTest {
 
     @Test
     void 왕은_궁성_밖에서는_이동경로가_없다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Position curPos = Position.of(5, 4);
         Board router = new Board(Map.<Position, Piece>of());
 
@@ -87,7 +88,7 @@ public class KingAndGuardMoveStrategyTest {
 
     @Test
     void 사는_궁성_밖에서는_이동경로가_없다() {
-        MoveStrategy strategy = new KingAndGuardMoveStrategy();
+        MoveStrategy strategy = new PalaceStepMoveStrategy();
         Position curPos = Position.of(5, 4);
         Board router = new Board(Map.<Position, Piece>of());
 
