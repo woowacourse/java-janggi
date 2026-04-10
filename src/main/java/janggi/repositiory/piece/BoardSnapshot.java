@@ -10,6 +10,6 @@ public record BoardSnapshot(
         Map<Position, Piece> pieces
 ) {
     public BoardSnapshot updatePieces(Map<Position, Piece> board) {
-        return new BoardSnapshot(this.gameId, pieces);
+        return new BoardSnapshot(this.gameId, board);
     }
 }
