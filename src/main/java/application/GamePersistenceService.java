@@ -39,4 +39,8 @@ public final class GamePersistenceService {
         GameState gameState = gameStateMapper.mapFrom(janggiGame);
         repository.save(gameState);
     }
+
+    public boolean exist() {
+        return repository.exist();
+    }
 }
