@@ -1,11 +1,14 @@
 package janggi.domain.board.coordinate;
 
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
+import janggi.domain.board.Board;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.Pattern;
+
 public class LinearPathStrategy implements PathStrategy {
+
     private static final int LINEAR_SIZE = 1;
 
     @Override
@@ -22,7 +25,7 @@ public class LinearPathStrategy implements PathStrategy {
         int dx = direction.getDx();
         int dy = direction.getDy();
 
-        while (Point.isInRange(from.x() + dx, from.y() + dy)) {
+        while (Board.isInBoard(from.x() + dx, from.y() + dy)) {
             Point point = from.add(dx, dy);
             path.add(point);
             dx += direction.getDx();

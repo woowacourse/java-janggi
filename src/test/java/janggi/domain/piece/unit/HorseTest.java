@@ -2,65 +2,131 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+import java.util.Map;
+
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.side.Side;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 class HorseTest {
-    public static Stream<Arguments> patterns() {
-        return Stream.of(
-                Arguments.of(Side.CHO, List.of(
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST))
-                ))
-        );
+
+    private final Palace palace = new Palace();
+    private final Horse horse = new Horse(Side.CHO);
+
+    private final List<Path> paths = List.of(
+            new Path(List.of(Point.of(0, 3), Point.of(1, 4)), true),
+            new Path(List.of(Point.of(1, 2), Point.of(2, 3)), true),
+            new Path(List.of(Point.of(1, 2), Point.of(2, 1)), true),
+            new Path(List.of(Point.of(0, 1), Point.of(1, 0)), true)
+    );
+
+    @Nested
+    @DisplayName("patterns():")
+    class Patterns {
+
+        @Test
+        @DisplayName("8가지 이동 패턴을 반환한다")
+        void patterns() {
+            List<Pattern> expected = List.of(
+                    new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)),
+                    new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)),
+                    new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)),
+                    new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST)),
+                    new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST)),
+                    new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST)),
+                    new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST)),
+                    new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST))
+            );
+
+            List<Pattern> actual = horse.patterns(Point.of(0, 2), palace);
+
+            assertThat(actual)
+                    .hasSize(8)
+                    .containsExactlyInAnyOrderElementsOf(expected);
+        }
     }
 
-    public static Stream<Arguments> availablePoints() {
-        return Stream.of(
-                Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(Point.of(1, 1), Point.of(2, 0))),
-                                new Path(List.of(Point.of(1, 1), Point.of(2, 2))),
-                                new Path(List.of(Point.of(0, 2), Point.of(1, 3)))), // 경로에 기물 존재
-                        Map.of(Point.of(0, 2), new Horse(Side.CHO)),
-                        List.of(Point.of(2, 0), Point.of(2, 2)))
-        );
-    }
+    @Nested
+    @DisplayName("availablePoints():")
+    class AvailablePoints {
 
-    @ParameterizedTest
-    @MethodSource
-    @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths, List<Point> expected) {
-        Piece horse = new Horse(side);
+        @Test
+        @DisplayName("경로 위의 이동 가능한 모든 좌표를 반환한다")
+        void availablePoints() {
+            List<Point> actual = horse.availablePoints(paths, Map.of(), palace);
 
-        List<Point> points = horse.availablePoints(paths, piecesOnPaths);
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(1, 4),
+                    Point.of(2, 3),
+                    Point.of(2, 1),
+                    Point.of(1, 0)
+            );
+        }
 
-        assertThat(expected.containsAll(points)).isTrue();
-    }
+        @Test
+        @DisplayName("경로 중간에 기물(적군)이 있으면 해당 경로로 이동할 수 없다")
+        void availablePoints_otherSideOnPath() {
+            Map<Point, Piece> board = Map.of(Point.of(0, 3), new Horse(Side.HAN));
 
-    @ParameterizedTest
-    @MethodSource
-    @DisplayName("patterns(): 이동 경로의 방향을 전달한다.")
-    void patterns(Side side, List<Pattern> expected) {
-        Piece horse = new Horse(side);
+            List<Point> actual = horse.availablePoints(paths, board, palace);
 
-        List<Pattern> patterns = horse.patterns();
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(2, 3),
+                    Point.of(2, 1),
+                    Point.of(1, 0)
+            );
+        }
 
-        assertThat(expected.containsAll(patterns)).isTrue();
+        @Test
+        @DisplayName("경로 중간에 기물(아군)이 있으면 해당 경로로 이동할 수 없다")
+        void availablePoints_sameSideOnPath() {
+            Map<Point, Piece> board = Map.of(
+                    Point.of(0, 3), new Horse(Side.CHO),
+                    Point.of(1, 2), new Horse(Side.CHO)
+            );
+
+            List<Point> actual = horse.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(1, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("도착 지점에 기물(적군)이 있으면 해당 좌표까지 반환한다")
+        void availablePoints_otherSideOnDestination() {
+            Map<Point, Piece> board = Map.of(Point.of(1, 4), new Horse(Side.HAN));
+
+            List<Point> actual = horse.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(1, 4),
+                    Point.of(2, 3),
+                    Point.of(2, 1),
+                    Point.of(1, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("도착 지점에 기물(아군)이 있으면 해당 좌표까지 반환한다")
+        void availablePoints_sameSideOnDestination() {
+            Map<Point, Piece> board = Map.of(Point.of(1, 4), new Horse(Side.CHO));
+
+            List<Point> actual = horse.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(1, 4),
+                    Point.of(2, 3),
+                    Point.of(2, 1),
+                    Point.of(1, 0)
+            );
+        }
     }
 }

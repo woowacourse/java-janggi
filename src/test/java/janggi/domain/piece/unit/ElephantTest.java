@@ -2,68 +2,127 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+import java.util.Map;
+
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.side.Side;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 class ElephantTest {
-    public static Stream<Arguments> patterns() {
-        return Stream.of(
-                Arguments.of(Side.CHO, List.of(
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST))
-                ))
-        );
+
+    private final Palace palace = new Palace();
+    private final Elephant elephant = new Elephant(Side.CHO);
+
+    private final List<Path> paths = List.of(
+            new Path(List.of(Point.of(0, 2), Point.of(1, 3), Point.of(2, 4)), true),
+            new Path(List.of(Point.of(1, 1), Point.of(2, 2), Point.of(3, 3)), true),
+            new Path(List.of(Point.of(1, 1), Point.of(2, 0)), true)
+    );
+
+    @Nested
+    @DisplayName("patterns():")
+    class Patterns {
+
+        @Test
+        @DisplayName("8가지 이동 패턴을 반환한다")
+        void patterns() {
+            List<Pattern> expected = List.of(
+                    new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                    new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                    new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                    new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+                    new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+                    new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)),
+                    new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                    new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST))
+            );
+
+            List<Pattern> actual = elephant.patterns(Point.of(0, 1), palace);
+
+            assertThat(actual)
+                    .hasSize(8)
+                    .containsExactlyInAnyOrderElementsOf(expected);
+        }
     }
 
-    public static Stream<Arguments> availablePoints() {
-        return Stream.of(
-                Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(Point.of(1, 2), Point.of(2, 1), Point.of(3, 0))), // 경로에 기물 존재
-                                new Path(List.of(Point.of(1, 2), Point.of(2, 3), Point.of(3, 4))),
-                                new Path(List.of(Point.of(0, 3), Point.of(1, 4), Point.of(2, 5)))), // 경로에 기물 존재
-                        Map.of(Point.of(2, 1), new Elephant(Side.CHO), Point.of(0, 3), new Elephant(Side.CHO)),
-                        List.of(
-                                Point.of(3, 0),
-                                Point.of(3, 4)
-                        ))
-        );
+    @Nested
+    @DisplayName("availablePoints():")
+    class AvailablePoints {
+
+        @Test
+        @DisplayName("경로 위에 이동 가능한 모든 좌표를 반환한다")
+        void availablePoints() {
+            List<Point> actual = elephant.availablePoints(paths, Map.of(), palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(2, 4),
+                    Point.of(3, 3),
+                    Point.of(2, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("경로 위에 기물(적군)이 있으면 해당 경로로 이동할 수 없다")
+        void availablePoints_otherSideOnPath() {
+            Map<Point, Piece> board = Map.of(Point.of(1, 3), new Elephant(Side.HAN));
+
+            List<Point> actual = elephant.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(3, 3),
+                    Point.of(2, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("경로 중간에 기물(아군)이 있으면 해당 경로로 이동할 수 없다")
+        void availablePoints_sameSideOnPath() {
+            Map<Point, Piece> board = Map.of(
+                    Point.of(1, 3), new Elephant(Side.CHO),
+                    Point.of(2, 2), new Elephant(Side.CHO)
+            );
+
+            List<Point> actual = elephant.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(2, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("도착 지점에 기물(적군)이 있으면 해당 좌표까지 반환한다")
+        void availablePoints_otherSideOnDestination() {
+            Map<Point, Piece> board = Map.of(Point.of(2, 4), new Elephant(Side.HAN));
+
+            List<Point> actual = elephant.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(2, 4),
+                    Point.of(3, 3),
+                    Point.of(2, 0)
+            );
+        }
+
+        @Test
+        @DisplayName("도착 지점에 기물(아군)이 있으면 해당 좌표까지 반환한다")
+        void availablePoints_sameSideOnDestination() {
+            Map<Point, Piece> board = Map.of(Point.of(2, 4), new Elephant(Side.CHO));
+
+            List<Point> actual = elephant.availablePoints(paths, board, palace);
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                    Point.of(2, 4),
+                    Point.of(3, 3),
+                    Point.of(2, 0)
+            );
+        }
     }
 
-    @ParameterizedTest
-    @MethodSource
-    @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths, List<Point> expected) {
-        Piece piece = new Elephant(side);
-
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
-
-        assertThat(expected.containsAll(points)).isTrue();
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    @DisplayName("patterns(): 이동 경로의 방향을 전달한다.")
-    void patterns(Side side, List<Pattern> expected) {
-        Piece piece = new Elephant(side);
-
-        List<Pattern> patterns = piece.patterns();
-
-        assertThat(expected.containsAll(patterns)).isTrue();
-    }
 }

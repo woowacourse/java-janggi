@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,7 +20,7 @@ class PathTest {
                                 Point.of(0, 2),
                                 Point.of(0, 3),
                                 Point.of(0, 4),
-                                Point.of(0, 5))),
+                                Point.of(0, 5)), false),
                         Point.of(0, 4),
                         List.of(
                                 Point.of(0, 1),

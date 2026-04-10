@@ -1,28 +1,34 @@
 package janggi.domain.piece.unit;
 
+import java.util.List;
+import java.util.Map;
+
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public abstract class Piece {
-    protected PieceName name;
-    protected Side side;
-    protected PathStrategy pathStrategy;
 
-    public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
-        this.name = name;
+    private final Side side;
+    private final PathStrategy pathStrategy;
+
+    public Piece(Side side, PathStrategy pathStrategy) {
         this.side = side;
         this.pathStrategy = pathStrategy;
     }
 
+    public abstract PieceType getType();
+
     public String getName() {
-        return name.getNameFormat(side);
+        return getType().getNameFormat(side);
+    }
+
+    public double getScore() {
+        return getType().getScore();
     }
 
     public final Side getSide() {
@@ -41,30 +47,9 @@ public abstract class Piece {
         return !path.isEmpty();
     }
 
-    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
+    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths, Palace palace);
 
-    public abstract List<Pattern> patterns();
+    public abstract List<Pattern> patterns(Point from, Palace palace);
 
-    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
-
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(name);
-        result = 31 * result + Objects.hashCode(side);
-        return result;
-    }
-
-    @Override
-    public final boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Piece piece)) {
-            return false;
-        }
-
-        return name == piece.name && side == piece.side;
-    }
-
+    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace);
 }

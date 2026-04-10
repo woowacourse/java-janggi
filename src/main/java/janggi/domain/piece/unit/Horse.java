@@ -1,20 +1,23 @@
 package janggi.domain.piece.unit;
 
+import java.util.List;
+import java.util.Map;
+
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.FixedPathStrategy;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
-import java.util.List;
-import java.util.Map;
 
 public class Horse extends Piece {
-    private static final PieceName NAME = PieceName.HORSE;
+
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
-    private static final List<Pattern> PATTERNS = List.of(
+
+    private static final List<Pattern> BASE_PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)),
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)),
             new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)),
@@ -26,25 +29,30 @@ public class Horse extends Piece {
     );
 
     public Horse(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(side, DEFAULT_STRATEGY);
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
+    public PieceType getType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths, Palace palace) {
         return paths.stream()
-                .map(path -> cutPath(path, piecesOnPaths))
+                .map(path -> cutPath(path, piecesOnPaths, palace))
                 .filter(path -> isValidPath(path, piecesOnPaths))
                 .map(path -> path.getPath().getLast())
                 .toList();
     }
 
     @Override
-    public List<Pattern> patterns() {
-        return PATTERNS;
+    public List<Pattern> patterns(Point from, Palace palace) {
+        return BASE_PATTERNS;
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace) {
         return path;
     }
 

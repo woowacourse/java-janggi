@@ -3,16 +3,16 @@ package janggi.view;
 import java.util.Arrays;
 
 public enum XPointFormat {
-    가("가", 0),
-    나("나", 1),
-    다("다", 2),
-    라("라", 3),
-    마("마", 4),
-    바("바", 5),
-    사("사", 6),
-    아("아", 7),
-    자("자", 8),
-    차("차", 9);
+    GA("가", 0),
+    NA("나", 1),
+    DA("다", 2),
+    RA("라", 3),
+    MA("마", 4),
+    BA("바", 5),
+    SA("사", 6),
+    A("아", 7),
+    JA("자", 8),
+    CHA("차", 9);
 
     private final String format;
     private final int pointX;
@@ -20,6 +20,10 @@ public enum XPointFormat {
     XPointFormat(String format, int pointX) {
         this.format = format;
         this.pointX = pointX;
+    }
+
+    public String getFormat() {
+        return format;
     }
 
     public int getPointX() {

@@ -1,14 +1,16 @@
 package janggi.domain.board.setup;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.unit.Elephant;
 import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
-import java.util.HashMap;
-import java.util.Map;
 
 public class OutSetUp implements BoardSetUp {
+
     @Override
     public Map<Point, Piece> generate(Side side) {
         Map<Point, Piece> setUp = new HashMap<>(createCommonBoard(side));

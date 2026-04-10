@@ -2,17 +2,19 @@ package janggi.domain.board.coordinate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class FixedPathStrategyTest {
+
     private static final PathStrategy FIXED_PATH_STRATEGY = new FixedPathStrategy();
 
     public static Stream<Arguments> calculate() {

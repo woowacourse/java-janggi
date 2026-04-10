@@ -2,22 +2,24 @@ package janggi.domain.piece;
 
 import janggi.domain.side.Side;
 
-public enum PieceName {
-    CHARIOT("車", "車"),
-    CANNON("包", "包"),
-    HORSE("馬", "馬"),
-    ELEPHANT("象", "象"),
-    SOLDIER("卒", "兵"),
-    ADVISOR("士", "士"),
-    GENERAL("楚", "漢"),
-    NONE("  ", "  ");
+public enum PieceType {
+    CHARIOT("車", "車", 13),
+    CANNON("包", "包", 7),
+    HORSE("馬", "馬", 5),
+    ELEPHANT("象", "象", 3),
+    ADVISOR("士", "士", 3),
+    SOLDIER("卒", "兵", 2),
+    GENERAL("楚", "漢", 0),
+    NONE("  ", "  ", 0);
 
     private final String hanName;
     private final String choName;
+    private final double score;
 
-    PieceName(String hanName, String choName) {
+    PieceType(String hanName, String choName, double score) {
         this.hanName = hanName;
         this.choName = choName;
+        this.score = score;
     }
 
     public String getNameFormat(Side side) {
@@ -28,6 +30,10 @@ public enum PieceName {
             return choName;
         }
         throw new IllegalStateException("Side는 Han 또는 Cho를 넣어주세요");
+    }
+
+    public double getScore() {
+        return score;
     }
 
 }

@@ -1,15 +1,15 @@
 package janggi.domain.board;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

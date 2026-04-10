@@ -1,5 +1,9 @@
 package janggi.domain.board.setup;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.unit.Advisor;
 import janggi.domain.piece.unit.Cannon;
@@ -8,11 +12,9 @@ import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public interface BoardSetUp {
+
     Map<Point, Piece> generate(Side side);
 
     default Map<Point, Piece> createCommonBoard(Side side) {

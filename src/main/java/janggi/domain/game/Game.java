@@ -1,14 +1,16 @@
 package janggi.domain.game;
 
+import java.util.Map;
+import java.util.Set;
+
 import janggi.domain.board.Board;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
-import java.util.Map;
-import java.util.Set;
 
 public class Game {
+
     private static final Side INIT_TURN = Side.CHO;
     private final Board board;
 
@@ -23,6 +25,12 @@ public class Game {
         return new Game(Board.setUp(choBoardSetUp, hanBoardSetUp));
     }
 
+    public static Game loadGame(Map<Point, Piece> saveBoard, Side turn) {
+        Game game = new Game(Board.load(saveBoard));
+        game.turn = turn;
+        return game;
+    }
+
     public Side getTurn() {
         return turn;
     }
@@ -30,32 +38,34 @@ public class Game {
     public Set<Point> destinations(Point from) {
         Side pointPieceSide = board.getPointPieceSide(from);
         if (!turn.equals(pointPieceSide)) {
-            throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
+            throw new IllegalArgumentException("%s 사이드의 기물이 아닙니다.".formatted(turn.getName()));
         }
         return board.destinations(from);
     }
 
-    public void move(Point from, Point to) {
-        Side pointPieceSide = board.getPointPieceSide(from);
-        if (!turn.equals(pointPieceSide)) {
-            throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
+    public GameResult move(Point from, Point to) {
+        if (board.moveTo(from, to)) {
+            return GameResult.win(turn);
         }
-        board.moveTo(from, to);
         switchTurn();
+        return GameResult.progress();
     }
 
     public Map<Point, Piece> getBoard() {
         return board.getBoard();
     }
 
+    public double getScore(Side side) {
+        return board.calculateScore(side);
+    }
+
     private void switchTurn() {
-        Side switchTurn = Side.NONE;
         if (turn.equals(Side.HAN)) {
-            switchTurn = Side.CHO;
+            turn = Side.CHO;
+            return;
         }
         if (turn.equals(Side.CHO)) {
-            switchTurn = Side.HAN;
+            turn = Side.HAN;
         }
-        turn = switchTurn;
     }
 }

@@ -1,21 +1,15 @@
 package janggi.domain.board.coordinate;
 
-public record Point(
-        int x,
-        int y
-) {
-    private static final int MIN_X = 0;
-    private static final int MAX_X = 9;
+import janggi.domain.board.Board;
 
-    private static final int MIN_Y = 0;
-    private static final int MAX_Y = 8;
+public record Point(int x, int y) {
 
     private static final Point[][] CACHE = initCache();
 
     private static Point[][] initCache() {
-        Point[][] cache = new Point[MAX_X + 1][MAX_Y + 1];
-        for (int x = MIN_X; x <= MAX_X; x++) {
-            for (int y = MIN_Y; y <= MAX_Y; y++) {
+        Point[][] cache = new Point[Board.X_SIZE + 1][Board.Y_SIZE + 1];
+        for (int x = 0; x <= Board.X_SIZE; x++) {
+            for (int y = 0; y <= Board.Y_SIZE; y++) {
                 cache[x][y] = new Point(x, y);
             }
         }
@@ -27,17 +21,14 @@ public record Point(
         return CACHE[x][y];
     }
 
-    public static boolean isInRange(int nx, int ny) {
-        return nx >= MIN_X && nx <= MAX_X && ny >= MIN_Y && ny <= MAX_Y;
+    public Point add(int dx, int dy) {
+        return Point.of(this.x + dx, this.y + dy);
     }
 
     private static void validateRange(int x, int y) {
-        if (!isInRange(x, y)) {
-            throw new IllegalStateException("좌표의 범위는 {%d,%d} ~ {%d,%d} 입니다.".formatted(MIN_X, MIN_Y, MAX_X, MAX_Y));
+        if (!Board.isInBoard(x, y)) {
+            throw new IllegalStateException(
+                    "좌표의 범위는 {%d,%d} ~ {%d,%d} 입니다.".formatted(0, 0, Board.X_SIZE, Board.Y_SIZE));
         }
-    }
-
-    public Point add(int dx, int dy) {
-        return Point.of(this.x + dx, this.y + dy);
     }
 }
