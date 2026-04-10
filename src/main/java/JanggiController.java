@@ -18,7 +18,6 @@ public class JanggiController {
 
     public void run() {
         Board board = generateBoard();
-        printBoard(board);
 
         playJanggi(board);
     }
@@ -34,27 +33,18 @@ public class JanggiController {
 
     private void playJanggi(Board board) {
         Camp camp = Camp.CHO;
-        while (true) {
+        printBoard(board);
+        while (!board.isGameOver()) {
             try {
                 Position fromPosition = askFromPosition(camp, board);
                 Position toPosition = askToPosition(camp);
                 board.move(fromPosition, toPosition);
+                printBoard(board);
+                camp = camp.turnCamp();
             } catch (InvalidMoveException e) {
                 outputView.printErrorMessage(e);
-                continue;
             }
-            printBoard(board);
-            camp = turnCamp(camp);
-
-            //Todo: 사이클2 왕이 잡히면, 게임이 종료
         }
-    }
-
-    private Camp turnCamp(Camp camp) {
-        if (camp.equals(Camp.CHO)) {
-            return Camp.HAN;
-        }
-        return Camp.CHO;
     }
 
     private Position askFromPosition(Camp camp, Board board) {

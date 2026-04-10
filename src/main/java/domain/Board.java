@@ -53,7 +53,6 @@ public class Board implements BoardChecker {
             board.remove(fromPosition);
             return;
         }
-
         throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
     }
 
@@ -89,5 +88,14 @@ public class Board implements BoardChecker {
         }
 
         return board.get(position).isSameCamp(camp);
+    }
+
+    public boolean isGameOver() {
+        return leftOneGeneral();
+    }
+
+    private boolean leftOneGeneral() {
+        return board.values().stream().filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+                .count() == 1;
     }
 }

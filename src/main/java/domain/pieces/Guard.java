@@ -18,7 +18,7 @@ public class Guard extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
-        Set<Position> destination = new HashSet<>(moveNormal(from));
+        Set<Position> destination = new HashSet<>(moveStraight(from));
         if (from.isPalaceDiagonalPosition()) {
             destination.addAll(moveDiagonal(from));
         }
@@ -35,7 +35,7 @@ public class Guard extends Piece {
         return destination;
     }
 
-    private Set<Position> moveNormal(Position from) {
+    private Set<Position> moveStraight(Position from) {
         Set<Position> destination = new HashSet<>();
         for (MovingFunction movement : getMovements()) {
             move(from, movement)
