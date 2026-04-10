@@ -1,6 +1,12 @@
 package domain.piece;
 
 import domain.*;
+import domain.board.BoardReader;
+import domain.board.Palace;
+import domain.position.Direction;
+import domain.position.MoveDirection;
+import domain.position.Position;
+import domain.position.Route;
 
 import java.util.List;
 

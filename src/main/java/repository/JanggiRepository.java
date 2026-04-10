@@ -2,6 +2,7 @@ package repository;
 
 import domain.*;
 import domain.piece.Piece;
+import domain.position.Position;
 
 import java.sql.*;
 import java.util.HashMap;

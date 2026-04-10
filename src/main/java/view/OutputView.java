@@ -2,7 +2,7 @@ package view;
 
 import domain.Camp;
 import domain.PieceType;
-import domain.Position;
+import domain.position.Position;
 import domain.piece.Piece;
 
 import java.util.EnumMap;

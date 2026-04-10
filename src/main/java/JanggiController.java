@@ -1,5 +1,7 @@
 import domain.*;
+import domain.board.Board;
 import domain.piece.Piece;
+import domain.position.Position;
 import repository.JanggiRepository;
 import view.InputView;
 import view.OutputView;

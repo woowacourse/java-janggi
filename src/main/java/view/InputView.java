@@ -2,7 +2,7 @@ package view;
 
 import domain.Camp;
 import domain.ElephantFormation;
-import domain.Position;
+import domain.position.Position;
 
 import java.util.Arrays;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 public enum Direction {
     NORTH(0, -1),

@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Board;
+import domain.board.Board;
 import domain.Camp;
-import domain.Position;
+import domain.position.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

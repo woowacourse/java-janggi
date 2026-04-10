@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.BoardReader;
+import domain.board.BoardReader;
 import domain.Camp;
 import domain.PieceType;
-import domain.Position;
+import domain.position.Position;
 
 public abstract class Piece {
 

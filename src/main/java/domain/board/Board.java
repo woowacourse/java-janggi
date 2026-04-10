@@ -1,6 +1,11 @@
-package domain;
+package domain.board;
 
+import domain.Camp;
+import domain.ElephantFormation;
+import domain.PieceGenerator;
+import domain.PieceType;
 import domain.piece.Piece;
+import domain.position.Position;
 
 import java.util.Collections;
 import java.util.EnumMap;

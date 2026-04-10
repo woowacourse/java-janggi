@@ -1,6 +1,8 @@
-package domain;
+package domain.board;
 
-import domain.piece.MoveDirection;
+import domain.position.Direction;
+import domain.position.MoveDirection;
+import domain.position.Position;
 
 import java.util.HashSet;
 import java.util.Set;

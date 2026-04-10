@@ -8,6 +8,8 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.Soldier;
+import domain.position.Position;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
