@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.db.ConnectionFactory;
+import janggi.db.DatabaseException;
 import janggi.db.SchemaInitializer;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
@@ -18,6 +19,8 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class Application {
+    private static final String DATABASE_ERROR_MESSAGE =
+            "데이터베이스 처리 중 문제가 발생했습니다. 프로그램을 다시 실행해 주세요.";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -31,6 +34,14 @@ public class Application {
     }
 
     private void run() {
+        try {
+            runGame();
+        } catch (DatabaseException e) {
+            outputView.printErrorMessage(DATABASE_ERROR_MESSAGE);
+        }
+    }
+
+    private void runGame() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         initializeSchema(connectionFactory);
         GameRepository gameRepository = new JdbcGameRepository(connectionFactory);

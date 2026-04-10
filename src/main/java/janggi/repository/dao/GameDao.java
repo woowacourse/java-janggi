@@ -1,5 +1,6 @@
 package janggi.repository.dao;
 
+import janggi.db.DatabaseException;
 import janggi.repository.data.GameData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,7 +56,7 @@ public class GameDao {
     private long findGeneratedGameId(PreparedStatement statement) throws SQLException {
         try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
             if (!generatedKeys.next()) {
-                throw new IllegalStateException("저장된 게임 id를 찾을 수 없습니다.");
+                throw new DatabaseException("저장된 게임 id를 찾을 수 없습니다.");
             }
             return generatedKeys.getLong(1);
         }

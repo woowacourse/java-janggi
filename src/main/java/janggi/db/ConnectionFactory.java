@@ -20,7 +20,7 @@ public class ConnectionFactory {
         try {
             return DriverManager.getConnection(url);
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 연결에 실패했습니다.", e);
+            throw new DatabaseException("데이터베이스 연결에 실패했습니다.", e);
         }
     }
 }

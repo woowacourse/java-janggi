@@ -26,18 +26,18 @@ public class SchemaInitializer {
                 }
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("스키마 초기화에 실패했습니다.", e);
+            throw new DatabaseException("스키마 초기화에 실패했습니다.", e);
         }
     }
 
     private String readSchema() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("schema.sql")) {
             if (inputStream == null) {
-                throw new IllegalStateException("schema.sql 파일을 찾을 수 없습니다.");
+                throw new DatabaseException("schema.sql 파일을 찾을 수 없습니다.");
             }
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException("schema.sql 파일을 읽는 데 실패했습니다.", e);
+            throw new DatabaseException("schema.sql 파일을 읽는 데 실패했습니다.", e);
         }
     }
 }

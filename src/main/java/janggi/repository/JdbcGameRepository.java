@@ -1,6 +1,7 @@
 package janggi.repository;
 
 import janggi.db.ConnectionFactory;
+import janggi.db.DatabaseException;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
@@ -38,7 +39,7 @@ public class JdbcGameRepository implements GameRepository {
         try (Connection connection = connectionFactory.create()) {
             return saveNewGameWithTransaction(connection, janggiGame);
         } catch (SQLException e) {
-            throw new IllegalStateException("새 게임 저장에 실패했습니다.", e);
+            throw new DatabaseException("새 게임 저장에 실패했습니다.", e);
         }
     }
 
@@ -56,7 +57,7 @@ public class JdbcGameRepository implements GameRepository {
             JanggiGame janggiGame = JanggiGame.restore(board, currentTurnTeam);
             return Optional.of(new SavedGame(savedGameId, janggiGame));
         } catch (SQLException e) {
-            throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", e);
+            throw new DatabaseException("진행 중인 게임 조회에 실패했습니다.", e);
         }
     }
 
@@ -65,7 +66,7 @@ public class JdbcGameRepository implements GameRepository {
         try (Connection connection = connectionFactory.create()) {
             applyMoveResultWithTransaction(connection, savedGameId, moveResult);
         } catch (SQLException e) {
-            throw new IllegalStateException("수 반영 저장에 실패했습니다.", e);
+            throw new DatabaseException("수 반영 저장에 실패했습니다.", e);
         }
     }
 
@@ -115,7 +116,7 @@ public class JdbcGameRepository implements GameRepository {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            throw new IllegalStateException("트랜잭션 롤백에 실패했습니다.", e);
+            throw new DatabaseException("트랜잭션 롤백에 실패했습니다.", e);
         }
     }
 
