@@ -47,7 +47,9 @@ public class BoardRepository {
                     Piece.of(camp, pieceType));
         }
 
-        return new Board(pieces, boardDto.gameInProgress(), boardDto.turn());
+        Board board = new Board(pieces, boardDto.gameInProgress(), boardDto.turn());
+        board.assignId(boardDto.id());
+        return board;
     }
 
     public List<BoardDto> findAll(Connection connection) {
