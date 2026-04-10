@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS boards (
     piece_type VARCHAR(20) NOT NULL
 );
 
-CREATE INDEX board_game_idx ON boards (game_id);
+CREATE INDEX IF NOT EXISTS board_game_idx ON boards (game_id);
