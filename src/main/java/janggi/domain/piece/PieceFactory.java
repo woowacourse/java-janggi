@@ -5,17 +5,22 @@ import janggi.domain.movestrategy.CannonStrategy;
 import janggi.domain.movestrategy.DefaultMoveStrategy;
 import janggi.domain.movestrategy.PalaceRestrictMoveStrategy;
 import janggi.domain.movestrategy.rule.*;
+import janggi.domain.palace.Palace;
 import janggi.domain.palace.PalaceFactory;
 
 import java.util.List;
 
 public class PieceFactory {
 
+    private PieceFactory() {
+    }
+
     public static Piece createGeneral(Team team) {
+        Palace palace = PalaceFactory.createPalace(team);
         return new Piece(PieceType.GENERAL, team, new PalaceRestrictMoveStrategy(
-                PalaceFactory.createPalace(team),
+                palace,
                 List.of(new StraightOneStepMoveRule(),
-                        new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(team)))
+                        new PalaceDiagonalOneStepMoveRule(palace))
         ));
     }
 
