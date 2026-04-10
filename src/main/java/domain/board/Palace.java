@@ -35,6 +35,15 @@ public class Palace {
             new Intersection(10, 4)
     );
 
+    private static final Palace INSTANCE = new Palace();
+
+    private Palace() {
+    }
+
+    public static Palace getInstance() {
+        return INSTANCE;
+    }
+
     public boolean contains(Intersection intersection) {
         return NO_VECTOR_PALACES.contains(intersection)
                 || DESCENDING_DIAGONAL_PALACES.contains(intersection)

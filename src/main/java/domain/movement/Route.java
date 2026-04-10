@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Route {
 
-    private final Palace palace = new Palace();
+    private final Palace palace = Palace.getInstance();
     private final List<Intersection> route;
 
     public Route(List<Intersection> intersections) {

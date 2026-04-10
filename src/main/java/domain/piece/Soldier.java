@@ -19,7 +19,7 @@ public final class Soldier extends StaticPositionedPiece {
     private static final MoveAmount MAX_MOVE_DISTANCE = new MoveAmount(1);
 
     private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
-    private final Palace palace = new Palace();
+    private final Palace palace = Palace.getInstance();
 
     public Soldier(Side side) {
         super(side);

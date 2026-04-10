@@ -166,7 +166,7 @@ class ChariotTest {
             // given
             Chariot chariot = new Chariot(SIDE);
             Intersection palaceIntersection = new Intersection(2, 5);
-            Palace palace = new Palace();
+            Palace palace = Palace.getInstance();
 
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     palaceIntersection, chariot

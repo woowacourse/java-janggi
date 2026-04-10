@@ -128,7 +128,7 @@ class PalacePieceTest {
         void 궁성의_대각선으로_이동할_수_있다() {
             // given
             PalacePiece palacePiece = new Guard(SIDE);
-            Palace palace = new Palace();
+            Palace palace = Palace.getInstance();
 
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     PALACE_CENTER, palacePiece
