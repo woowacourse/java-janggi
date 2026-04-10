@@ -16,7 +16,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(BoardInitializer.init(BoardSetting.LEFT_ELEPHANT_SET_UP));
+        board = Board.from(BoardInitializer.init(BoardSetting.LEFT_ELEPHANT_SET_UP));
     }
 
     @Test
@@ -56,7 +56,7 @@ class BoardTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, departurePiece);
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -75,7 +75,7 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, departurePiece);
         pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -94,7 +94,7 @@ class BoardTest {
         pieces.put(choGeneralPosition, Piece.of(Camp.CHO, PieceType.GENERAL));
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -110,7 +110,7 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -125,7 +125,7 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 

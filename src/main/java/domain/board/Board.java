@@ -5,15 +5,27 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
+    private Long id;
     private final Map<Position, Piece> pieces;
     private boolean gameInProgress;
+    private Camp turn;
 
-    public Board(Map<Position, Piece> pieces) {
+    public static Board from(Map<Position, Piece> pieces){
+        return new Board(pieces, Camp.CHO);
+    }
+
+    public Board(Map<Position, Piece> pieces, Camp turn) {
         this.pieces = pieces;
+        this.turn = turn;
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
     }
 
     public boolean isExistPieceAt(Position position) {
@@ -28,8 +40,20 @@ public class Board {
         return pieces.get(position);
     }
 
+    public Long id() {
+        return id;
+    }
+
     public boolean isGameInProgress() {
         return gameInProgress;
+    }
+
+    public Map<Position, Piece> pieces() {
+        return Collections.unmodifiableMap(pieces);
+    }
+
+    public Camp turn(){
+        return turn;
     }
 
     public Camp winner() {
@@ -85,6 +109,12 @@ public class Board {
         if (destinationPiece.isSameType(PieceType.GENERAL)) {
             gameInProgress = true;
         }
+
+        if (destinationPiece.camp().equals(Camp.CHO)) {
+            turn = Camp.HAN;
+            return;
+        }
+        turn = Camp.CHO;
     }
 
     private void executeMove(Position departure, Position destination) {
