@@ -98,7 +98,7 @@ class BoardTest {
 
         fakeBoard.move(from, to);
 
-        assertThat(fakeBoard.isGameInProgress()).isTrue();
+        assertThat(fakeBoard.isGameInProgress()).isFalse();
         assertThat(fakeBoard.winner()).isEqualTo(Camp.CHO);
     }
 

@@ -58,7 +58,7 @@ public class Board {
     }
 
     public Camp winner() {
-        if (!gameInProgress) {
+        if (gameInProgress) {
             throw new IllegalStateException("아직 게임이 종료되지 않았습니다.");
         }
 
@@ -108,7 +108,7 @@ public class Board {
 
     private void updateGameProgress(Piece destinationPiece) {
         if (destinationPiece.isSameType(PieceType.GENERAL)) {
-            gameInProgress = true;
+            gameInProgress = false;
         }
 
         if (destinationPiece.camp().equals(Camp.CHO)) {
