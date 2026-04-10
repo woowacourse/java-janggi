@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
 import janggi.domain.state.ChoTurn;
+import janggi.domain.state.Draw;
 import janggi.domain.state.GameState;
 import janggi.domain.state.GiveUp;
 import janggi.view.dto.PieceStatus;
@@ -63,8 +64,12 @@ public class Janggi {
         return gameState.isOngoing();
     }
 
-    public void stopGame() {
+    public void giveUpGame() {
         gameState = new GiveUp(gameState.turn());
+    }
+
+    public void drawGame() {
+        gameState = new Draw(gameState.turn());
     }
 
     public Camp currentTurn() {
@@ -75,9 +80,14 @@ public class Janggi {
         if (gameState.isOngoing()) {
             throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
         }
-        return new GameResult(
+        return GameResult.from(
                 board.calculateTotalScore(Camp.CHO),
                 board.calculateTotalScore(Camp.HAN)
         );
+    }
+
+    public GameResult processGiveUpRequest() {
+        giveUpGame();
+        return GameResult.giveUpRequest(gameState.turn());
     }
 }
