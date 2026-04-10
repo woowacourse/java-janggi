@@ -1,11 +1,11 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.Rule;
 import domain.rule.StepRule;
+import domain.strategy.ForwardStrategy;
 import domain.strategy.StepStrategy;
 import domain.strategy.Strategy;
 
@@ -14,14 +14,12 @@ import java.util.Map;
 
 public final class Pawn extends Piece {
 
-    private final List<Direction> directions = List.of(
-            forward(), Direction.LEFT, Direction.RIGHT);
-
-    private final Strategy strategy = new StepStrategy(directions);
+    private final Strategy strategy;
     private final Rule rule = new StepRule();
 
     public Pawn(Side side) {
         super(side);
+        this.strategy = new ForwardStrategy(new StepStrategy(), forward());
     }
 
     @Override
@@ -41,7 +39,7 @@ public final class Pawn extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Position start, Pieces pieces) {
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, pieces.getTopology());
         Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
