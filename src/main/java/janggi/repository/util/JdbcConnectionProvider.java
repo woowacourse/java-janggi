@@ -1,13 +1,12 @@
-package janggi.support;
+package janggi.repository.util;
 
-import janggi.repository.util.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class TestDBConnectionProvider implements ConnectionProvider {
+public class JdbcConnectionProvider implements ConnectionProvider {
 
-    private static final String URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema.sql'";
+    private static final String URL = "jdbc:h2:./java-janggi;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 

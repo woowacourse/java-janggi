@@ -1,8 +1,8 @@
 package janggi.repository.dao;
 
 import janggi.repository.entity.GameEntity;
-import janggi.repository.util.TransactionManager;
-import janggi.support.TestDBConnectionProvider;
+import janggi.support.TestJdbcConnectionProvider;
+import janggi.support.TestJdbcTransactionManager;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -12,20 +12,20 @@ import org.junit.jupiter.api.Test;
 
 class GameDaoTest {
 
-    TransactionManager transactionManager;
+    TestJdbcTransactionManager jdbcTransactionManager;
     GameDao gameDao;
 
     @BeforeEach
     void setup() {
-        transactionManager = new TransactionManager(new TestDBConnectionProvider());
-        gameDao = new GameDao(transactionManager);
-        transactionManager.begin();
+        jdbcTransactionManager = new TestJdbcTransactionManager(new TestJdbcConnectionProvider());
+        gameDao = new GameDao(jdbcTransactionManager);
+        jdbcTransactionManager.begin();
     }
 
     @AfterEach
     void tearDown() {
-        transactionManager.rollback();
-        transactionManager.close();
+        jdbcTransactionManager.rollback();
+        jdbcTransactionManager.close();
     }
 
     @Test

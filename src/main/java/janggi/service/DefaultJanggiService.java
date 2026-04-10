@@ -18,7 +18,6 @@ import janggi.service.mapper.PieceEntityMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class DefaultJanggiService implements JanggiService {
 
@@ -34,7 +33,7 @@ public class DefaultJanggiService implements JanggiService {
 
     @Override
     public List<Long> findActiveGameIds() {
-        return executeInTransaction(() -> {
+        return transactionManager.executeInTransaction(() -> {
             List<GameEntity> activeGameEntities = gameDao.findActiveGames();
             return activeGameEntities.stream()
                     .map(GameEntity::getId)
@@ -44,7 +43,7 @@ public class DefaultJanggiService implements JanggiService {
 
     @Override
     public GameInformation loadGameInformation(Long gameId, IntersectionInitializer intersectionInitializer) {
-        return executeInTransaction(() -> {
+        return transactionManager.executeInTransaction(() -> {
             Optional<GameEntity> game = gameDao.findById(gameId);
             if (game.isEmpty()) {
                 throw new IllegalStateException("존재하지 않는 게임입니다");
@@ -63,7 +62,7 @@ public class DefaultJanggiService implements JanggiService {
     @Override
     public GameInformation createGame(List<ArrangementStrategy> strategies,
                                       IntersectionInitializer intersectionInitializer) {
-        return executeInTransaction(() -> {
+        return transactionManager.executeInTransaction(() -> {
             Long gameId = gameDao.insert(new GameEntity(Side.CHO.name(), true));
 
             Board board = Board.create(BoardAssembler.of(strategies, intersectionInitializer));
@@ -78,7 +77,7 @@ public class DefaultJanggiService implements JanggiService {
 
     @Override
     public void movePiece(GameInformation gameInformation, Location from, Location to) {
-        executeInTransaction(() -> {
+        transactionManager.executeInTransaction(() -> {
             Long gameId = gameInformation.getGameId();
             Board board = gameInformation.getBoard();
             Piece removedPiece = board.move(from, to);
@@ -89,7 +88,7 @@ public class DefaultJanggiService implements JanggiService {
             toPiece.ifPresent(pieceEntity -> pieceDao.deleteById(pieceEntity.getId()));
 
             gameInformation.update(removedPiece);
-            if(gameInformation.isInProgress()) {
+            if (gameInformation.isInProgress()) {
                 gameDao.updateTurn(gameId, gameInformation.getCurrentSide().name());
             }
         });
@@ -97,51 +96,8 @@ public class DefaultJanggiService implements JanggiService {
 
     @Override
     public void endGame(Long gameId) {
-        executeInTransaction(() -> gameDao.updateIsActive(gameId, false));
-    }
-
-    private <T> T executeInTransaction(Supplier<T> action) {
-        boolean isNewTransaction = transactionManager.isNotActive();
-        if (isNewTransaction) {
-            transactionManager.begin();
-        }
-        try {
-            T result = action.get();
-            if (isNewTransaction) {
-                transactionManager.commit();
-            }
-            return result;
-        } catch (RuntimeException e) {
-            if (isNewTransaction) {
-                transactionManager.rollback();
-            }
-            throw e;
-        } finally {
-            if (isNewTransaction) {
-                transactionManager.close();
-            }
-        }
-    }
-
-    private void executeInTransaction(Runnable action) {
-        boolean isNewTransaction = transactionManager.isNotActive();
-        if (isNewTransaction) {
-            transactionManager.begin();
-        }
-        try {
-            action.run();
-            if (isNewTransaction) {
-                transactionManager.commit();
-            }
-        } catch (RuntimeException e) {
-            if (isNewTransaction) {
-                transactionManager.rollback();
-            }
-            throw e;
-        } finally {
-            if (isNewTransaction) {
-                transactionManager.close();
-            }
-        }
+        transactionManager.executeInTransaction(
+                () -> gameDao.updateIsActive(gameId, false)
+        );
     }
 }

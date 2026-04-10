@@ -4,8 +4,8 @@ package janggi.repository.dao;
 import janggi.domain.board.Location;
 import janggi.repository.entity.GameEntity;
 import janggi.repository.entity.PieceEntity;
-import janggi.repository.util.TransactionManager;
-import janggi.support.TestDBConnectionProvider;
+import janggi.support.TestJdbcConnectionProvider;
+import janggi.support.TestJdbcTransactionManager;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 class PieceDaoTest {
 
-    TransactionManager transactionManager;
+    TestJdbcTransactionManager transactionManager;
     PieceDao pieceDao;
     GameDao gameDao;
 
@@ -25,14 +25,13 @@ class PieceDaoTest {
 
     @BeforeEach
     void setup() {
-        transactionManager = new TransactionManager(new TestDBConnectionProvider());
+        transactionManager = new TestJdbcTransactionManager(new TestJdbcConnectionProvider());
         pieceDao = new PieceDao(transactionManager);
         gameDao = new GameDao(transactionManager);
         transactionManager.begin();
 
         gameEntity = new GameEntity("CHO", true);
         gameId = gameDao.insert(gameEntity);
-
     }
 
     @AfterEach
@@ -94,6 +93,7 @@ class PieceDaoTest {
                         Assertions.tuple("MA", "CHO")
                 );
     }
+
     @Test
     @DisplayName("기물의 식별자와 이동할 행, 열 인덱스를 전달하면 데이터베이스의 위치 정보가 갱신된다.")
     void updatePosition_UpdatesRowAndColumnIdx() {

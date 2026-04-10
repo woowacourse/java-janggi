@@ -1,22 +1,22 @@
 package janggi.service;
 
-import janggi.domain.board.Location;
 import janggi.domain.Side;
+import janggi.domain.board.Location;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.strategy.arrangement.ArrangementStrategy;
-import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.domain.strategy.arrangement.MaSangMaSang;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
 import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
 import janggi.repository.dao.GameDao;
 import janggi.repository.dao.PieceDao;
 import janggi.repository.entity.GameEntity;
 import janggi.repository.entity.PieceEntity;
-import janggi.repository.util.TransactionManager;
 import janggi.service.dto.GameInformation;
 import janggi.support.TestArrangementStrategy;
-import janggi.support.TestDBConnectionProvider;
+import janggi.support.TestJdbcConnectionProvider;
+import janggi.support.TestJdbcTransactionManager;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -27,15 +27,14 @@ import org.junit.jupiter.api.Test;
 
 class DefaultJanggiServiceTest {
 
-    TransactionManager transactionManager;
+    TestJdbcTransactionManager transactionManager;
     JanggiService janggiService;
     GameDao gameDao;
     PieceDao pieceDao;
 
     @BeforeEach
     void setup() {
-        transactionManager = new TransactionManager(new TestDBConnectionProvider());
-
+        transactionManager = new TestJdbcTransactionManager(new TestJdbcConnectionProvider());
         gameDao = new GameDao(transactionManager);
         pieceDao = new PieceDao(transactionManager);
         janggiService = new DefaultJanggiService(transactionManager);

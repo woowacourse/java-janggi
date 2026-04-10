@@ -1,7 +1,7 @@
 package janggi.repository.util;
 
 
-import janggi.support.TestDBConnectionProvider;
+import janggi.support.TestJdbcConnectionProvider;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
@@ -10,14 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class DBConnectionProviderTest {
+class JdbcConnectionProviderTest {
 
     ConnectionProvider connectionProvider;
     Connection conn;
 
     @BeforeEach
     void setup() {
-        connectionProvider = new TestDBConnectionProvider();
+        connectionProvider = new TestJdbcConnectionProvider();
     }
 
     @AfterEach
