@@ -22,7 +22,7 @@ public class HanTurn extends GameState {
     public GameState move(Position source, Position target) {
         validateAlly(source);
         Board nextBoard = getBoard().movePiece(source, target);
-        if (!nextBoard.isKingDead(Side.CHO)) {
+        if (nextBoard.isKingDead(Side.CHO)) {
             return new Finished(nextBoard, Side.HAN);
         }
         return new ChoTurn(nextBoard);
@@ -31,7 +31,7 @@ public class HanTurn extends GameState {
     private void validateAlly(Position position) {
         Piece piece = getBoard().getPiece(position);
         if (!piece.isAlly(Side.HAN)) {
-            throw new IllegalArgumentException("초나라 차례입니다. 초나라 기물만 움직일 수 있습니다.");
+            throw new IllegalArgumentException("한나라 차례입니다. 한나라 기물만 움직일 수 있습니다.");
         }
     }
 

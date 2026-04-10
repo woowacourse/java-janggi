@@ -645,11 +645,11 @@
     - [x] `Player`를 `record`로 변경하고 턴 관련 로직 모두 삭제
     - [x] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
     - [x] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
-- [ ] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)**
-    - [ ] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
-    - [ ] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
-    - [ ] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
-    - [ ] 💡 `Game` 내부에 발생 이벤트를 담을 `List<MoveEvent>` 및 `clearEvents()` 로직 추가
+- [x] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)**
+    - [x] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
+    - [x] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
+    - [x] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
+    - [x] 💡 `Game` 내부에 발생 이벤트를 담을 `List<MoveEvent>` 및 `clearEvents()` 로직 추가
 - [ ] **Phase 3: 인프라 (트랜잭션 & DB 구조 변경)**
     - [ ] `schema.sql`에서 `piece` 테이블 삭제 및 `move_history` 테이블 생성
     - [ ] `ConnectionConte t`와 `TransactionTemplate` 클래스 작성

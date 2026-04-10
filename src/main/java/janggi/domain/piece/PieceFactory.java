@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Side;
+import janggi.domain.move.ForwardStepStrategy;
 import janggi.domain.move.JumpStrategy;
 import janggi.domain.move.MovePattern;
 import janggi.domain.move.MovementStrategy;
@@ -12,8 +13,8 @@ import java.util.function.Function;
 
 public class PieceFactory {
     private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(MovePattern.LINEAR);
-    private static final MovementStrategy CHO_SOLDIER_STRATEGY = new OneStepStrategy(MovePattern.CHO_SOLDIER);
-    private static final MovementStrategy HAN_SOLDIER_STRATEGY = new OneStepStrategy(MovePattern.HAN_SOLDIER);
+    private static final MovementStrategy CHO_SOLDIER_STRATEGY = new ForwardStepStrategy(Side.CHO, MovePattern.CHO_SOLDIER);
+    private static final MovementStrategy HAN_SOLDIER_STRATEGY = new ForwardStepStrategy(Side.HAN, MovePattern.HAN_SOLDIER);
     private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(MovePattern.HORSE);
     private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(MovePattern.ELEPHANT);
     private static final MovementStrategy CONTINUOUS_STRATEGY = new SlideStrategy(MovePattern.LINEAR);
