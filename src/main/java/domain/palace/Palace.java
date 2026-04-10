@@ -9,14 +9,12 @@ public class Palace {
     private final Position bottomRight;
 
     public Palace(Position center) {
-        int row = center.row();
-        int column = center.column();
-        this.topLeft = Position.of(row - 1, column - 1);
-        this.bottomRight = Position.of(row + 1, column + 1);
+        this.topLeft = center.goUpLeft();
+        this.bottomRight = center.goDownRight();
     }
 
     public boolean contains(Position position) {
-        return isWithinRows(position) && isWithinColumns(position);
+        return position.isWithin(topLeft, bottomRight);
     }
 
     public boolean isDiagonalLink(Position from, Position to) {
@@ -69,15 +67,6 @@ public class Palace {
         int centerRow = (topLeft.row() + bottomRight.row()) / 2;
         int centerColumn = (topLeft.column() + bottomRight.column()) / 2;
         return Position.of(centerRow, centerColumn);
-    }
-
-    private boolean isWithinRows(Position position) {
-        return position.row() >= topLeft.row() && position.row() <= bottomRight.row();
-    }
-
-    private boolean isWithinColumns(Position position) {
-        return position.column() >= topLeft.column()
-                && position.column() <= bottomRight.column();
     }
 
     private boolean isCorner(Position position) {

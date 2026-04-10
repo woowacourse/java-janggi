@@ -35,6 +35,14 @@ public class Position implements Comparable<Position> {
         return next(Direction.EAST);
     }
 
+    public Position goUpLeft() {
+        return next(Direction.NORTH_WEST);
+    }
+
+    public Position goDownRight() {
+        return next(Direction.SOUTH_EAST);
+    }
+
     public static Position of(int row, int column) {
         return new Position(new Row(row), new Column(column));
     }
@@ -49,6 +57,11 @@ public class Position implements Comparable<Position> {
 
     public boolean isInsideBoard() {
         return row.isInsideBoard() && column.isInsideBoard();
+    }
+
+    public boolean isWithin(Position topLeft, Position bottomRight) {
+        return row() >= topLeft.row() && row() <= bottomRight.row()
+                && column() >= topLeft.column() && column() <= bottomRight.column();
     }
 
     public boolean sharesRowOrColumnWith(Position other) {
