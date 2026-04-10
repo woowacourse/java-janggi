@@ -6,6 +6,7 @@ import java.time.Clock;
 import io.InputView;
 import io.OutputView;
 import persistence.GameDatabase;
+import persistence.GameStatePersister;
 import persistence.GameStateRepository;
 import persistence.JdbcGameStateRepository;
 import persistence.SchemaInitializer;
@@ -16,6 +17,8 @@ public class Main {
         Connection connection = GameDatabase.openFileConnection();
         SchemaInitializer.apply(connection);
         GameStateRepository repository = new JdbcGameStateRepository(() -> connection);
-        new Runner(new InputView(), new OutputView(), repository, Clock.systemDefaultZone()).run();
+        GameStatePersister persister = new GameStatePersister(repository);
+        Runner runner = new Runner(new InputView(), new OutputView());
+        runner.run(persister, Clock.systemDefaultZone());
     }
 }
