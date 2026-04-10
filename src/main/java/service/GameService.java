@@ -38,7 +38,8 @@ public class GameService {
         new Army(hanStrategy).deployTo(board, Country.HAN);
 
         int id = janggiGameDao.createGame(Country.CHO, roomName);
-        janggiGameDao.saveGame(id, Country.CHO, BoardConverter.convertToPieceDtos(board));
+        String snapshot = BoardConverter.toSnapshot(board);
+        janggiGameDao.saveGame(id, Country.CHO, BoardConverter.convertToPieceDtos(board), snapshot);
         return new JanggiGame(id, board, Country.CHO);
     }
 
@@ -51,7 +52,8 @@ public class GameService {
     public void moveAndSave(JanggiGame game, Move move) {
         game.move(move);
         game.nextTurn();
-        janggiGameDao.saveGame(game.id(), game.turn(), BoardConverter.convertToPieceDtos(game.board()));
+        String snapshot = BoardConverter.toSnapshot(game.board());
+        janggiGameDao.saveGame(game.id(), game.turn(), BoardConverter.convertToPieceDtos(game.board()), snapshot);
     }
 
     private GameStatus findInitialStatus(String roomName) {

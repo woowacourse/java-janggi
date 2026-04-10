@@ -20,12 +20,12 @@ public class JanggiGameDao {
         this.manager = manager;
     }
 
-    public int createGame(Country turn, String roomName) {
-        String sql = "INSERT INTO janggi_game (turn, room_name) VALUES (?, ?)";
+    public int createGame(Country start_turn, String roomName) {
+        String sql = "INSERT INTO janggi_game (start_turn, room_name) VALUES (?, ?)";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setString(1, turn.name());
+            pstmt.setString(1, start_turn.name());
             pstmt.setString(2, roomName);
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -39,16 +39,17 @@ public class JanggiGameDao {
         }
     }
 
-    public void saveGame(int gameId, Country turn, List<PieceDto> pieces) {
-        String updateTurnSql = "UPDATE janggi_game SET turn = ? WHERE id = ?";
+    public void saveGame(int gameId, Country start_turn, List<PieceDto> pieces, String snapshot) {
+        String updateTurnSql = "UPDATE janggi_game SET start_turn = ? WHERE id = ?";
         String deletePiecesSql = "DELETE FROM piece WHERE janggi_game_id = ?";
         String insertPieceSql = "INSERT INTO piece (janggi_game_id, row_pos, col_pos, country, type) VALUES (?, ?, ?, ?, ?)";
+        String insertHistorySql = "INSERT INTO game_history (janggi_game_id, board_snapshot) VALUES (?, ?)";
         try (Connection conn = manager.getConnection()) {
             try {
                 conn.setAutoCommit(false);
 
                 try (PreparedStatement pstmt = conn.prepareStatement(updateTurnSql)) {
-                    pstmt.setString(1, turn.name());
+                    pstmt.setString(1, start_turn.name());
                     pstmt.setInt(2, gameId);
                     pstmt.executeUpdate();
                 }
@@ -68,6 +69,12 @@ public class JanggiGameDao {
                         pstmt.addBatch();
                     }
                     pstmt.executeBatch();
+                }
+
+                try (PreparedStatement pstmt = conn.prepareStatement(insertHistorySql)) {
+                    pstmt.setInt(1, gameId);
+                    pstmt.setString(2, snapshot);
+                    pstmt.executeUpdate();
                 }
 
                 conn.commit();
@@ -117,7 +124,7 @@ public class JanggiGameDao {
     }
 
     public GameStatus findStatusByRoomName(String roomName) {
-        String sql = "SELECT id, turn, room_name FROM janggi_game WHERE room_name = ?";
+        String sql = "SELECT id, start_turn, room_name FROM janggi_game WHERE room_name = ?";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, roomName);
@@ -125,7 +132,7 @@ public class JanggiGameDao {
             if (rs.next()) {
                 return new GameStatus(
                         rs.getInt("id"),
-                        Country.fromCountry(rs.getString("turn")),
+                        Country.fromCountry(rs.getString("start_turn")),
                         rs.getString("room_name")
                 );
             }

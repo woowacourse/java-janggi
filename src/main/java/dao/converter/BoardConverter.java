@@ -29,4 +29,19 @@ public class BoardConverter {
                 new Piece(pieceDto.country(), pieceDto.pieceType())));
         return board;
     }
+
+    public static String toSnapshot(Board board) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int row = 1; row <= 10; row++) {
+            for (int col = 1; col <= 9; col++) {
+                Position pos = Position.of(row, col);
+                board.findPiece(pos).ifPresentOrElse(
+                        piece -> sb.append(piece.country().convertLabel(piece.pieceType().label())),
+                        () -> sb.append(".")
+                );
+            }
+        }
+        return sb.toString();
+    }
 }
