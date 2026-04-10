@@ -16,14 +16,17 @@ public class ThreatAnalyzer {
     private static final int MIN_Y = 1;
     private static final int MAX_Y = 10;
 
-    public boolean isInCheck(Board board, Camp generalCamp) {
+    private ThreatAnalyzer() {
+    }
+
+    public static boolean isInCheck(Board board, Camp generalCamp) {
         Position generalPosition = board.findPositionOf(generalCamp, PieceType.GENERAL);
         Set<Position> threatenedPositions = findThreatenedPositions(board, generalCamp.opponent());
 
         return threatenedPositions.contains(generalPosition);
     }
 
-    private Set<Position> findThreatenedPositions(Board board, Camp attackerCamp) {
+    private static Set<Position> findThreatenedPositions(Board board, Camp attackerCamp) {
         Set<Position> threatenedPositions = new HashSet<>();
         List<BoardPiece> boardPieces = board.pieces();
 
@@ -38,7 +41,7 @@ public class ThreatAnalyzer {
         return threatenedPositions;
     }
 
-    private void collectThreatenedPositions(Board board, Set<Position> threatenedPositions, Position from) {
+    private static void collectThreatenedPositions(Board board, Set<Position> threatenedPositions, Position from) {
         Piece piece = board.findBy(from);
 
         for (int x = MIN_X; x <= MAX_X; x++) {
@@ -52,7 +55,7 @@ public class ThreatAnalyzer {
         }
     }
 
-    private boolean canAttack(Board board, Piece piece, Position from, Position target) {
+    private static boolean canAttack(Board board, Piece piece, Position from, Position target) {
         try {
             piece.validateMove(from, target, board);
             return true;

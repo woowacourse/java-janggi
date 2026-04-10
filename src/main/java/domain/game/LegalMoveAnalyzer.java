@@ -11,9 +11,19 @@ import java.util.stream.Collectors;
 public class LegalMoveAnalyzer {
     private static final String SELF_CHECK_ERROR_MESSAGE = "[ERROR] 자신의 장군이 공격받는 수는 둘 수 없습니다.";
 
-    private final ThreatAnalyzer threatAnalyzer = new ThreatAnalyzer();
+    private LegalMoveAnalyzer() {
+    }
 
-    public void validate(Board board, Position from, Position to) {
+    public static boolean isLegal(Board board, Position from, Position to) {
+        try {
+            validate(board, from, to);
+            return true;
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
+    }
+
+    public static void validate(Board board, Position from, Position to) {
         Camp movingCamp = board.findBy(from).camp();
         Board simulatedBoard = simulate(board);
 
@@ -22,13 +32,13 @@ public class LegalMoveAnalyzer {
         validateThreatened(simulatedBoard, movingCamp);
     }
 
-    private void validateThreatened(Board simulatedBoard, Camp movingCamp) {
-        if (threatAnalyzer.isInCheck(simulatedBoard, movingCamp)) {
+    private static void validateThreatened(Board simulatedBoard, Camp movingCamp) {
+        if (ThreatAnalyzer.isInCheck(simulatedBoard, movingCamp)) {
             throw new IllegalArgumentException(SELF_CHECK_ERROR_MESSAGE);
         }
     }
 
-    private Board simulate(Board board) {
+    private static Board simulate(Board board) {
         Map<Position, Piece> copiedBoard = board.pieces().stream()
                 .collect(Collectors.toMap(
                         BoardPiece::position,

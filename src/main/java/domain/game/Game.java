@@ -44,7 +44,9 @@ public class Game {
         Camp movingCamp = currentTurn;
         Camp opponentCamp = movingCamp.opponent();
         Piece piece = board.findBy(from);
-        validateTurn(piece);
+        validateAppropriateTurnPieces(piece);
+
+        LegalMoveAnalyzer.validate(board, from, to);
 
         Optional<Piece> capturedPiece = board.movePiece(from, to);
         Optional<Camp> determinedWinner = findWinner(capturedPiece, movingCamp);
@@ -65,7 +67,7 @@ public class Game {
         return TurnResult.empty();
     }
 
-    private void validateTurn(Piece piece) {
+    private void validateAppropriateTurnPieces(Piece piece) {
         if (piece.camp() != currentTurn) {
             throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 움직일 수 있습니다.");
         }
@@ -94,9 +96,7 @@ public class Game {
             return Optional.empty();
         }
 
-        ThreatAnalyzer threatAnalyzer = new ThreatAnalyzer();
-
-        if (threatAnalyzer.isInCheck(board, opponentCamp)) {
+        if (ThreatAnalyzer.isInCheck(board, opponentCamp)) {
             return Optional.of(opponentCamp);
         }
 

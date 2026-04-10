@@ -12,9 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ThreatAnalyzerTest {
-
-    private final ThreatAnalyzer threatAnalyzer = new ThreatAnalyzer();
-
     @Test
     @DisplayName("상대 차가 장군의 위치로 이동할 수 있으면 장군 상태다.")
     void isInCheck_When_EnemyChariotCanAttackGeneral() {
@@ -23,7 +20,7 @@ public class ThreatAnalyzerTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
 
-        boolean result = threatAnalyzer.isInCheck(board, Camp.HAN);
+        boolean result = ThreatAnalyzer.isInCheck(board, Camp.HAN);
 
         assertThat(result).isTrue();
     }
@@ -37,7 +34,7 @@ public class ThreatAnalyzerTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
 
-        boolean result = threatAnalyzer.isInCheck(board, Camp.HAN);
+        boolean result = ThreatAnalyzer.isInCheck(board, Camp.HAN);
 
         assertThat(result).isFalse();
     }
@@ -51,7 +48,7 @@ public class ThreatAnalyzerTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CANNON)
         ));
 
-        boolean result = threatAnalyzer.isInCheck(board, Camp.HAN);
+        boolean result = ThreatAnalyzer.isInCheck(board, Camp.HAN);
 
         assertThat(result).isTrue();
     }
@@ -64,7 +61,7 @@ public class ThreatAnalyzerTest {
                 new Position(4, 5), new Piece(Camp.CHO, PieceType.SOLDIER)
         ));
 
-        boolean result = threatAnalyzer.isInCheck(board, Camp.HAN);
+        boolean result = ThreatAnalyzer.isInCheck(board, Camp.HAN);
 
         assertThat(result).isFalse();
     }

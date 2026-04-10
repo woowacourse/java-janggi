@@ -13,9 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class LegalMoveAnalyzerTest {
-
-    private final LegalMoveAnalyzer legalMoveAnalyzer = new LegalMoveAnalyzer();
-
     @Test
     @DisplayName("이동 후 장군이 공격받으면 합법 수 검증에 실패한다.")
     void throwException_When_MoveAttackOwnGeneral() {
@@ -25,7 +22,7 @@ public class LegalMoveAnalyzerTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
 
-        assertThatThrownBy(() -> legalMoveAnalyzer.validate(board, new Position(5, 4), new Position(4, 4)))
+        assertThatThrownBy(() -> LegalMoveAnalyzer.validate(board, new Position(5, 4), new Position(4, 4)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 장군이 공격받는 수는 둘 수 없습니다.");
     }
@@ -39,7 +36,7 @@ public class LegalMoveAnalyzerTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
         ));
 
-        assertThatCode(() -> legalMoveAnalyzer.validate(board, new Position(5, 4), new Position(5, 5)))
+        assertThatCode(() -> LegalMoveAnalyzer.validate(board, new Position(5, 4), new Position(5, 5)))
                 .doesNotThrowAnyException();
     }
 
@@ -52,7 +49,7 @@ public class LegalMoveAnalyzerTest {
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
 
-        assertThatThrownBy(() -> legalMoveAnalyzer.validate(board, new Position(1, 7), new Position(1, 8)))
+        assertThatThrownBy(() -> LegalMoveAnalyzer.validate(board, new Position(1, 7), new Position(1, 8)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
