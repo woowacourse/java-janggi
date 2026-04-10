@@ -9,6 +9,9 @@ import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.piece.PieceType;
+import janggi.persistence.dao.JdbcBoardDao;
+import janggi.persistence.dao.JdbcGameDao;
+import janggi.persistence.repository.JdbcGameRepository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,17 +22,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class JDBCGameRepositoryTest {
+class JdbcGameRepositoryTest {
 
     private Connection connection;
-    private JDBCGameRepository repository;
+    private JdbcGameRepository repository;
 
     @BeforeEach
     void setUp() throws SQLException {
         connection = DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
         connection.setAutoCommit(false);
         DatabaseInitializer.initialize(connection);
-        repository = new JDBCGameRepository();
+        repository = new JdbcGameRepository(new JdbcGameDao(), new JdbcBoardDao());
     }
 
     @AfterEach

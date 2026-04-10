@@ -6,7 +6,7 @@ import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
-import janggi.persistence.GameRepository;
+import janggi.persistence.repository.GameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;

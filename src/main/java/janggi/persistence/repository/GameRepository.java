@@ -1,4 +1,4 @@
-package janggi.persistence;
+package janggi.persistence.repository;
 
 import janggi.domain.game.GameManager;
 import janggi.dto.GameSessionDTO;
