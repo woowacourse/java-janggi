@@ -31,8 +31,11 @@ public class JanggiController {
             if (gameType == GameType.NEW)
                 startNewGame();
 
-            if (gameType == GameType.LOAD && loadAndPlayGame())
-                continue;
+            if (gameType == GameType.LOAD) {
+                if (loadAndPlayGame()) {
+                    continue;
+                }
+            }
 
             if (gameType == GameType.EXIT)
                 break;
@@ -117,6 +120,7 @@ public class JanggiController {
     private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
             game.lose(turn);
+            janggiService.saveGame(game);
             return true;
         }
         if (input.equals(STOP_COMMAND)) {
