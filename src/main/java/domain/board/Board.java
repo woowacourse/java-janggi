@@ -15,12 +15,13 @@ public class Board {
     private boolean gameInProgress;
     private Camp turn;
 
-    public static Board from(Map<Position, Piece> pieces){
-        return new Board(pieces, Camp.CHO);
+    public static Board from(Map<Position, Piece> pieces) {
+        return new Board(pieces, Boolean.TRUE, Camp.CHO);
     }
 
-    public Board(Map<Position, Piece> pieces, Camp turn) {
+    public Board(Map<Position, Piece> pieces, boolean gameInProgress, Camp turn) {
         this.pieces = pieces;
+        this.gameInProgress = gameInProgress;
         this.turn = turn;
     }
 
@@ -52,7 +53,7 @@ public class Board {
         return Collections.unmodifiableMap(pieces);
     }
 
-    public Camp turn(){
+    public Camp turn() {
         return turn;
     }
 
@@ -76,7 +77,7 @@ public class Board {
     }
 
     private void validateGameStatus() {
-        if (gameInProgress) {
+        if (!gameInProgress) {
             throw new IllegalStateException("이미 종료된 게임입니다.");
         }
     }
