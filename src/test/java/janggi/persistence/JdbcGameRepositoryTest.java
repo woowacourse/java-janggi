@@ -85,19 +85,17 @@ class JdbcGameRepositoryTest {
     }
 
     private GameManager createInitialGameManager() {
-        return GameManager.newGame(Players.from("testCho", "testHan"), Board.initialize());
+        return GameManager.loadGame(Players.from("testCho", "testHan"), Board.initialize(), 1L);
     }
 
     private GameManager createTurnChangedGameManager() {
         GameManager manager = createInitialGameManager();
         manager.switchTurn();
-        manager.assign(1L);
         return manager;
     }
 
     private GameManager createUpdatedGameManager() {
         GameManager manager = createInitialGameManager();
-        manager.assign(1L);
         Board board = manager.getBoard();
         Destinations destinations = PieceType.PALACE.determineDestinations(new Position(8, 4), Side.CHO, board);
         manager.movePiece(new Position(8, 4), new Position(7, 4), destinations);

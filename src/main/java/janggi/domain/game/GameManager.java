@@ -10,7 +10,7 @@ public class GameManager {
 
     private final Players players;
     private final Board board;
-    private Long gameId;
+    private final Long gameId;
 
     private GameManager(Players players, Board board, Long gameId) {
         this.players = players;
@@ -76,9 +76,5 @@ public class GameManager {
 
     public Long getId() {
         return gameId;
-    }
-
-    public void assign(long gameId) {
-        this.gameId = gameId;
     }
 }
