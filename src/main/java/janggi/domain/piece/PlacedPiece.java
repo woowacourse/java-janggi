@@ -24,6 +24,15 @@ public class PlacedPiece {
         this.colPosition = colPosition;
     }
 
+    public PlacedPiece(Long placedPieceId, Long gameId, CampType campType, PieceRule pieceRule, int rowPosition, int colPosition) {
+        this.placedPieceId = placedPieceId;
+        this.gameId = gameId;
+        this.campType = campType;
+        this.pieceRule = pieceRule;
+        this.rowPosition = rowPosition;
+        this.colPosition = colPosition;
+    }
+
     public Long getPlacedPieceId() {
         return placedPieceId;
     }
