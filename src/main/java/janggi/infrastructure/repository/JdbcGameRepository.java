@@ -9,6 +9,7 @@ import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
 import janggi.domain.player.Player;
 import janggi.domain.player.Players;
+import janggi.domain.repository.GameInfo;
 import janggi.domain.repository.GameRepository;
 import janggi.domain.space.Position;
 import janggi.dto.GameDto;
@@ -93,9 +94,9 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public List<GameDto> findAllGames() {
+    public List<GameInfo> findAllGames() {
         return gameDao.findAll().stream()
-                .map(entity -> new GameDto(
+                .map(entity -> new GameInfo(
                         entity.id(),
                         entity.choPlayerName(),
                         entity.hanPlayerName(),

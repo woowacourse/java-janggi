@@ -45,7 +45,11 @@ public class GameService {
     }
 
     public List<GameDto> findAllGames() {
-        return transactionTemplate.execute(gameRepository::findAllGames);
+        return transactionTemplate.execute(() ->
+            gameRepository.findAllGames().stream()
+                    .map(GameDto::from)
+                    .toList()
+        );
     }
 
     public BoardDto getBoardDto(Long gameId) {

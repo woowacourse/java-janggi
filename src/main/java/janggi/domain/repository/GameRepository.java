@@ -1,7 +1,6 @@
 package janggi.domain.repository;
 
 import janggi.domain.Game;
-import janggi.dto.GameDto;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +12,5 @@ public interface GameRepository {
 
     Optional<Game> findById(Long gameId);
 
-    List<GameDto> findAllGames();
+    List<GameInfo> findAllGames();
 }
