@@ -655,8 +655,8 @@
     - [ ] `ConnectionContext`와 `TransactionTemplate` 클래스 작성
     - [ ] `MoveHistoryDao` 신규 생성 및 `PieceDao` 삭제
 - [ ] **Phase 4: 서비스 조립 및 레포지토리 연결**
-    - [ ] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
-    - [ ] 💡 `ConsoleController`에 `currentGameId` 인스턴스 변수를 추가하여 세션 유지 책임 부여
-    - [ ] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
+    - [x] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
+    - [x] 💡 `ConsoleController`에 `GameSession` 인스턴스 변수를 추가하여 세션 유지 책임 부여
+    - [x] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
     - [ ] `GameService.move()` 메서드에 `TransactionTemplate.execute()` 블록 적용
     - [ ] `JdbcGameRepository`에 이벤트 추출 로직(Game에서 이벤트 꺼내서 Dao에 넘기고 clear) 및 Replay 복원 로직 구현

@@ -1,18 +1,18 @@
 package janggi.controller;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public enum GameCommand {
     NEW_GAME(ConsoleController::initializeGame),
     LOAD_GAME(ConsoleController::loadGame);
 
-    private final Consumer<ConsoleController> action;
+    private final Function<ConsoleController, GameSession> action;
 
-    GameCommand(Consumer<ConsoleController> action) {
+    GameCommand(Function<ConsoleController, GameSession> action) {
         this.action = action;
     }
 
-    public void execute(ConsoleController controller) {
-        action.accept(controller);
+    public GameSession execute(ConsoleController controller) {
+        return action.apply(controller);
     }
 }

@@ -17,6 +17,7 @@ public class ConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
     private final GameService gameService;
+    private GameSession gameSession;
 
     public ConsoleController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
@@ -25,36 +26,40 @@ public class ConsoleController {
     }
 
     public void run() {
-        retry(this::startGame);
-        outputView.printBoard(gameService.getBoardDto());
-        while (gameService.isPlaying()) {
+        this.gameSession = retry(this::startGame);
+        outputView.printBoard(gameService.getBoardDto(gameSession.gameId()));
+
+        while (gameService.isPlaying(gameSession.gameId())) {
             playTurn();
         }
-        outputView.printWinner(gameService.getWinnerDto());
+        outputView.printWinner(gameService.getWinnerDto(gameSession.gameId()));
     }
 
-    private void startGame() {
+    private GameSession startGame() {
         GameCommand gameCommand = InputParser.parseGameCommand(inputView.readGameCommand());
-        gameCommand.execute(this);
+        return gameCommand.execute(this);
     }
 
-    void initializeGame() {
+    GameSession initializeGame() {
         Name choName = getPlayerName(Side.CHO);
         Formation choFormation = getFormation(Side.CHO);
         Name hanName = getPlayerName(Side.HAN);
         Formation hanFormation = getFormation(Side.HAN);
-        retry(() -> gameService.initializeGame(choName, hanName, choFormation, hanFormation));
+
+        Long gameId = retry(() -> gameService.initializeGame(choName, hanName, choFormation, hanFormation));
+        return new GameSession(gameId);
     }
 
-    void loadGame() {
-        List<GameDto> games = gameService.findAllGames();
-        if (games.isEmpty()) {
+    GameSession loadGame() {
+        List<GameDto> gameDtos = gameService.findAllGames();
+        if (gameDtos.isEmpty()) {
             outputView.printError("저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
-            initializeGame();
-            return;
+            return initializeGame();
         }
-        outputView.printGameList(games);
-        retry(() -> gameService.loadGame(InputParser.parseGameId(inputView.readGameId())));
+        outputView.printGameList(gameDtos);
+
+        Long gameId = retry(() -> InputParser.parseGameId(inputView.readGameId()));
+        return new GameSession(gameId);
     }
 
     private Name getPlayerName(Side side) {
@@ -69,16 +74,16 @@ public class ConsoleController {
         Position source = selectPiecePosition();
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
-            gameService.move(source, target);
+            gameService.move(gameSession.gameId(), source, target);
         });
-        outputView.printBoard(gameService.getBoardDto());
+        outputView.printBoard(gameService.getBoardDto(gameSession.gameId()));
     }
 
     private Position selectPiecePosition() {
         return retry(() -> {
             Position position = InputParser.parsePosition(
-                    inputView.readSourcePosition(SideDto.from(gameService.getCurrentSide())));
-            outputView.printDestinations(gameService.selectSource(position));
+                    inputView.readSourcePosition(SideDto.from(gameService.getCurrentSide(gameSession.gameId()))));
+            outputView.printDestinations(gameService.selectSource(gameSession.gameId(), position));
             return position;
         });
     }

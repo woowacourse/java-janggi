@@ -18,52 +18,50 @@ import java.util.List;
 
 public class GameService {
     private final GameRepository gameRepository;
-    private Long currentGameId;
-    private Game game;
 
     public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }
 
-    public void initializeGame(Name choName, Name hanName, Formation choFormation, Formation hanFormation) {
+    public Long initializeGame(Name choName, Name hanName, Formation choFormation, Formation hanFormation) {
         Players players = new Players(new Player(choName, Side.CHO), new Player(hanName, Side.HAN));
         Board board = BoardFactory.create(choFormation, hanFormation);
-        this.game = Game.startNew(board, players);
-        this.currentGameId = gameRepository.save(game);
+        Game game = Game.startNew(board, players);
+        return gameRepository.save(game);
     }
 
-    public void loadGame(Long gameId) {
-        this.game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
-        this.currentGameId = gameId;
-    }
-
-    public void move(Position source, Position target) {
+    public void move(Long gameId, Position source, Position target) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         game.move(source, target);
-        gameRepository.update(currentGameId, game);
+        gameRepository.update(gameId, game);
     }
 
     public List<GameDto> findAllGames() {
         return gameRepository.findAllGames();
     }
 
-    public BoardDto getBoardDto() {
+    public BoardDto getBoardDto(Long gameId) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         return BoardDto.from(game.getBoard());
     }
 
-    public boolean isPlaying() {
+    public boolean isPlaying(Long gameId) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         return game.isPlaying();
     }
 
-    public Side getCurrentSide() {
+    public Side getCurrentSide(Long gameId) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         return  game.getCurrentSide();
     }
 
-    public DestinationDto selectSource(Position source) {
+    public DestinationDto selectSource(Long gameId, Position source) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         return DestinationDto.from(game.selectSource(source));
     }
 
-    public WinnerDto getWinnerDto() {
+    public WinnerDto getWinnerDto(Long gameId) {
+        Game game = gameRepository.findById(gameId).orElseThrow();
         return WinnerDto.from(game.getWinner());
     }
 }
