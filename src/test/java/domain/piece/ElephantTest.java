@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Side;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
-private Pieces piecesFrom(Map<Position, Piece> pieces) {
-        return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
+    private static final Topology DEFAULT_TOPOLOGY = new Topology(Map.of());
+
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return new Pieces() {
+            @Override
+            public Piece getPiece(Position position) {
+                return pieces.getOrDefault(position, EmptyPiece.getInstance());
+            }
+
+            @Override
+            public Topology getTopology() {
+                return DEFAULT_TOPOLOGY;
+            }
+        };
     }
 
     @Test

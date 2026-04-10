@@ -14,7 +14,7 @@ public class Game {
     private Side turn;
 
     public Game(BoardInitializer boardInitializer) {
-        this.board = new Board(boardInitializer.initialize());
+        this.board = new Board(boardInitializer.initialize(), boardInitializer.createTopology());
         this.turn = boardInitializer.getFirstTurnSide();
     }
 
