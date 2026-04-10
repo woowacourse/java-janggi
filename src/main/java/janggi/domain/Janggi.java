@@ -6,6 +6,7 @@ import janggi.domain.state.ChoTurn;
 import janggi.domain.state.GameState;
 import janggi.domain.state.GiveUp;
 import janggi.view.dto.PieceStatus;
+import janggi.view.dto.GameResult;
 
 import java.util.List;
 import java.util.Map;
@@ -68,5 +69,15 @@ public class Janggi {
 
     public Camp currentTurn() {
         return gameState.turn();
+    }
+
+    public GameResult calculateGameResult() {
+        if (gameState.isOngoing()) {
+            throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
+        }
+        return new GameResult(
+                board.calculateTotalScore(Camp.CHO),
+                board.calculateTotalScore(Camp.HAN)
+        );
     }
 }
