@@ -60,9 +60,7 @@ public class JanggiService {
         Players players = Players.from(choName, hanName);
         Board board = Board.initialize();
         GameManager newGameManager = GameManager.newGame(players, board);
-        long gameId = gameRepository.save(connection, newGameManager);
-        newGameManager.assign(gameId);
-        return newGameManager;
+        return gameRepository.save(connection, newGameManager);
     }
 
     public void saveGameState(Connection connection, GameManager gameManager) throws SQLException {

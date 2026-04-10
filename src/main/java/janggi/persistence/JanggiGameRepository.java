@@ -104,6 +104,13 @@ public class JanggiGameRepository implements GameRepository {
         statement.setString(3, currentTurnName);
     }
 
+    private void executeAndValidateUpdate(PreparedStatement statement) throws SQLException {
+        int affectedRows = statement.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("업데이트 대상 게임을 찾을 수 없습니다.");
+        }
+    }
+
     private long extractGeneratedId(PreparedStatement statement) throws SQLException {
         try (ResultSet resultSet = statement.getGeneratedKeys()) {
             return mapToGeneratedId(resultSet);
@@ -119,33 +126,35 @@ public class JanggiGameRepository implements GameRepository {
 
     @Override
     public GameManager findByGameId(Connection connection, long gameId) throws SQLException {
-        GameSessionDTO gameInfo = findGameInfoById(connection, gameId);
         Board board = findAllPieceByGameId(connection, gameId);
-        return generateExistingGameManager(gameInfo, board);
+        return findByGameIdAndBoard(connection, gameId, board);
     }
 
-    private GameSessionDTO findGameInfoById(Connection connection, long gameId) throws SQLException {
+    private GameManager findByGameIdAndBoard(Connection connection, long gameId, Board board) throws SQLException {
         String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return executeFindById(statement, gameId);
+            return executeFindByIdAndBoard(statement, gameId, board);
         }
     }
 
-    private GameSessionDTO executeFindById(PreparedStatement statement, long gameId) throws SQLException {
+    private GameManager executeFindByIdAndBoard(PreparedStatement statement, long gameId, Board board)
+            throws SQLException {
         statement.setLong(1, gameId);
         try (ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
-            return mapToGameSessionDTO(resultSet);
+            return mapToGame(resultSet, board);
         }
     }
 
-    private GameSessionDTO mapToGameSessionDTO(ResultSet resultSet) throws SQLException {
+    private GameManager mapToGame(ResultSet resultSet, Board board) throws SQLException {
         long gameId = resultSet.getLong("game_id");
         String choPlayerName = resultSet.getString("cho_player_name");
         String hanPlayerName = resultSet.getString("han_player_name");
         String currentTurnName = resultSet.getString("current_turn");
-        LocalDateTime createdAt = resultSet.getObject("created_at", LocalDateTime.class);
-        return new GameSessionDTO(gameId, choPlayerName, hanPlayerName, currentTurnName, createdAt);
+
+        Turn currentTurn = new Turn(Side.valueOf(currentTurnName));
+        Players players = Players.fromCurrentTurn(choPlayerName, hanPlayerName, currentTurn);
+        return GameManager.loadGame(players, board, gameId);
     }
 
     public Board findAllPieceByGameId(Connection connection, long gameId) throws SQLException {
@@ -182,15 +191,7 @@ public class JanggiGameRepository implements GameRepository {
         board.put(position, piece);
     }
 
-    private GameManager generateExistingGameManager(GameSessionDTO gameInfo, Board board) {
-        long gameId = gameInfo.gameId();
-        Turn currentTurn = new Turn(Side.valueOf(gameInfo.currentTurn()));
-        Players players = Players.fromCurrentTurn(gameInfo.choPlayerName(), gameInfo.hanPlayerName(), currentTurn);
-        return GameManager.loadGame(players, board, gameId);
-    }
-
-    public void saveBoard(Connection connection, long gameId, Board board)
-            throws SQLException {
+    public void saveBoard(Connection connection, long gameId, Board board) throws SQLException {
         deleteAllPiecesByGameId(connection, gameId);
         insertAllPiecesByGameId(connection, gameId, board);
     }
@@ -246,12 +247,5 @@ public class JanggiGameRepository implements GameRepository {
         statement.setString(4, snapshot.pieceNumber());
         statement.setInt(5, snapshot.rowIndex());
         statement.setInt(6, snapshot.columnIndex());
-    }
-
-    private void executeAndValidateUpdate(PreparedStatement statement) throws SQLException {
-        int affectedRows = statement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("업데이트 대상 게임을 찾을 수 없습니다.");
-        }
     }
 }

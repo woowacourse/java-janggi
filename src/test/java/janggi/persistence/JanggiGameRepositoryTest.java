@@ -43,9 +43,9 @@ class JanggiGameRepositoryTest {
     void insertGame() throws SQLException {
         GameManager manager = createInitialGameManager();
 
-        long gameId = repository.save(connection, manager);
+        GameManager gameManager = repository.save(connection, manager);
 
-        verifyGameInserted(gameId, "CHO", false);
+        verifyGameInserted(gameManager, "CHO", false);
     }
 
     @Test
@@ -54,9 +54,9 @@ class JanggiGameRepositoryTest {
         insertDummyGame(1L, "CHO");
         GameManager manager = createTurnChangedGameManager();
 
-        repository.save(connection, manager);
+        GameManager gameManager = repository.save(connection, manager);
 
-        verifyGameTurn(1L, "HAN");
+        verifyGameTurn(gameManager, "HAN");
     }
 
     @Test
@@ -64,9 +64,9 @@ class JanggiGameRepositoryTest {
     void insertBoard() throws SQLException {
         GameManager manager = createInitialGameManager();
 
-        long gameId = repository.save(connection, manager);
+        GameManager gameManager = repository.save(connection, manager);
 
-        verifyTotalPiecesCount(gameId, 32);
+        verifyTotalPiecesCount(gameManager, 32);
     }
 
     @Test
@@ -129,16 +129,17 @@ class JanggiGameRepositoryTest {
         stmt.setInt(6, col);
     }
 
-    private void verifyGameInserted(long gameId, String expectedTurn, boolean expectedFinished) throws SQLException {
+    private void verifyGameInserted(GameManager gameManager, String expectedTurn, boolean expectedFinished)
+            throws SQLException {
         String sql = "SELECT current_turn, is_finished FROM GAME WHERE game_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, gameId);
+            stmt.setLong(1, gameManager.getId());
             verifyGameResultSet(stmt, expectedTurn, expectedFinished);
         }
     }
 
-    private void verifyGameTurn(long gameId, String expectedTurn) throws SQLException {
-        verifyGameInserted(gameId, expectedTurn, false);
+    private void verifyGameTurn(GameManager gameManager, String expectedTurn) throws SQLException {
+        verifyGameInserted(gameManager, expectedTurn, false);
     }
 
     private void verifyGameResultSet(PreparedStatement stmt, String expectedTurn, boolean expectedFinished)
@@ -150,10 +151,10 @@ class JanggiGameRepositoryTest {
         }
     }
 
-    private void verifyTotalPiecesCount(long gameId, int expectedCount) throws SQLException {
+    private void verifyTotalPiecesCount(GameManager gameManager, int expectedCount) throws SQLException {
         String sql = "SELECT COUNT(*) FROM BOARD WHERE game_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, gameId);
+            stmt.setLong(1, gameManager.getId());
             verifyCountResultSet(stmt, expectedCount);
         }
     }
