@@ -131,8 +131,7 @@ docker compose exec mysql mysql -ujanggi -p1234 janggi -e "SHOW TABLES;"
 
 ### 4. 애플리케이션 실행
 
-- MySQL 컨테이너가 정상 기동된 뒤 애플리케이션을 기존 방식대로 실행한다.
-- 애플리케이션은 더 이상 `JdbcInitializer`로 테이블을 만들지 않으므로, DB가 먼저 준비되어 있어야 한다.
+- MySQL 컨테이너가 정상 기동된 뒤 애플리케이션을 실행한다.
 
 ### 5. 스키마 변경 반영
 
