@@ -16,7 +16,7 @@ import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class GameRepository {
     private final GameRoomDao gameRoomDao;
@@ -38,16 +38,16 @@ public class GameRepository {
         boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
     }
 
-    public JanggiGame loadGame(long roomId) {
-        GameRoomRawData roomData = gameRoomDao.findById(roomId)
-                .orElseThrow(() -> new NoSuchElementException("게임방을 찾을 수 없습니다: " + roomId));
-        List<BoardPieceRawData> pieceData = boardPieceDao.findByGameRoomId(roomId);
+    public Optional<JanggiGame> loadGame(long roomId) {
+        return gameRoomDao.findById(roomId).map(this::assemble);
+    }
 
+    private JanggiGame assemble(GameRoomRawData roomData) {
+        List<BoardPieceRawData> pieceData = boardPieceDao.findByGameRoomId(roomData.id());
         Board board = toBoard(pieceData);
         Turn turn = Turn.of(Team.valueOf(roomData.currentTurn()));
         GameRecord record = new GameRecord(roomData.consecutivePassCount());
         GameStatus status = GameStatus.valueOf(roomData.status());
-
         return JanggiGame.restore(roomData.id(), turn, board, record, status);
     }
 

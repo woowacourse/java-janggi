@@ -33,16 +33,12 @@ public class JanggiController {
     }
 
     private void handleMenu(MainMenu menu) {
-        try {
-            if (menu == MainMenu.NEW_GAME) {
-                createAndPlayGame();
-                return;
-            }
-            if (menu == MainMenu.LOAD_GAME) {
-                listAndEnterRoom();
-            }
-        } catch (RuntimeException e) {
-            outputView.printError(e.getMessage());
+        if (menu == MainMenu.NEW_GAME) {
+            createAndPlayGame();
+            return;
+        }
+        if (menu == MainMenu.LOAD_GAME) {
+            listAndEnterRoom();
         }
     }
 
@@ -62,33 +58,28 @@ public class JanggiController {
             return;
         }
         long roomId = inputView.askRoomId();
-        playGame(gameService.enterGame(roomId));
+        gameService.enterGame(roomId)
+                .ifPresentOrElse(
+                        this::playGame,
+                        () -> outputView.printError("존재하지 않는 방입니다.")
+                );
     }
 
     private void playGame(JanggiGame game) {
         outputView.printBoard(game.getBoard());
         while (game.isRunning()) {
-            playTurn(game);
+            executeTurn(game);
             outputView.printBoard(game.getBoard());
         }
         outputView.printResult(game.result());
     }
 
-    private void playTurn(JanggiGame game) {
-        boolean isTurnCompleted = false;
-        while (!isTurnCompleted) {
-            isTurnCompleted = executeTurn(game);
-        }
-    }
-
-    private boolean executeTurn(JanggiGame game) {
+    private void executeTurn(JanggiGame game) {
         try {
             TurnCommand command = inputView.askTurnCommand(game.currentTurn());
             command.apply(gameService, game);
-            return true;
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return false;
         }
     }
 }

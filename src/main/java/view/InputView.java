@@ -66,12 +66,18 @@ public class InputView {
     }
 
     public TurnCommand askTurnCommand(Team team) {
-        System.out.println(team + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 입력하세요. ( 예: 2,5,4,3 / 한 수 쉬기: pass )");
-        String input = scanner.nextLine().trim();
-        if (PASS_INPUT.equalsIgnoreCase(input)) {
-            return new PassCommand();
+        while (true) {
+            System.out.println(team + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 입력하세요. ( 예: 2,5,4,3 / 한 수 쉬기: pass )");
+            try {
+                String input = scanner.nextLine().trim();
+                if (PASS_INPUT.equalsIgnoreCase(input)) {
+                    return new PassCommand();
+                }
+                return parseMoveCommand(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        return parseMoveCommand(input);
     }
 
     private MoveCommand parseMoveCommand(String input) {

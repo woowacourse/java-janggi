@@ -5,6 +5,7 @@ import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.position.Position;
 import java.util.List;
+import java.util.Optional;
 import repository.GameRepository;
 
 public class JanggiGameService {
@@ -20,7 +21,7 @@ public class JanggiGameService {
         return game;
     }
 
-    public JanggiGame enterGame(long roomId) {
+    public Optional<JanggiGame> enterGame(long roomId) {
         return gameRepository.loadGame(roomId);
     }
 
