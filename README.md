@@ -637,26 +637,3 @@
 6. **은닉화(Information Hiding):** 도메인(`Board`)은 외부 기술(DTO, DB)을 전혀 모른 채 자신이 가진 데이터에 행동을 적용하기만 하므로 내부 구조 변경에 완벽히 닫혀있음.
 7. **스레드 안전성 및 도메인 이벤트 응집력 강화:** 서비스 필드에서 상태를 제거해 다중 사용자 환경의 동시성 문제를 차단하고, 세션(`gameId`) 책임은 클라이언트 역할인 `ConsoleController`로 분리함. 또한 발생한 이벤트(이력)를 애그리거트 루트(`Game`)가 임시 보관(`List<MoveEvent>`)하고 레포지토리가 수거하도록 설계하여, 서비스 계층이 도메인 내부의 복잡한 파급 효과(기물 포획, 외통수 등)를 일일이 파악해 DB에 꽂아넣는 절차지향적 책임을 지지 않도록 도메인과 인프라를 격리함.
 
----
-
-### 구현을 위한 체크리스트
-
-- [x] **Phase 1: 도메인 캡슐화 및 다이어트**
-    - [x] `Player`를 `record`로 변경하고 턴 관련 로직 모두 삭제
-    - [x] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
-    - [x] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
-- [x] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)**
-    - [x] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
-    - [x] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
-    - [x] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
-    - [x] 💡 `Game` 내부에 발생 이벤트를 담을 `List<MoveEvent>` 및 `clearEvents()` 로직 추가
-- [x] **Phase 3: 인프라 (트랜잭션 & DB 구조 변경)**
-    - [x] `schema.sql`에서 `piece` 테이블 삭제 및 `move_history` 테이블 생성
-    - [x] `ConnectionConte t`와 `TransactionTemplate` 클래스 작성
-    - [x] `MoveHistoryDao` 신규 생성 및 `PieceDao` 삭제
-- [x] **Phase 4: 서비스 조립 및 레포지토리 연결**
-    - [x] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
-    - [x] 💡 `ConsoleController`에 `GameSession` 인스턴스 변수를 추가하여 세션 유지 책임 부여
-    - [x] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
-    - [x] `GameService.move()` 메서드에 `TransactionTemplate.e ecute()` 블록 적용
-    - [x] `JdbcGameRepository`에 이벤트 추출 로직(Game에서 이벤트 꺼내서 Dao에 넘기고 clear) 및 Replay 복원 로직 구현
