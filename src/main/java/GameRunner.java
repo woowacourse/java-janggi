@@ -1,3 +1,6 @@
+import database.ConnectionManager;
+import database.DatabaseConfig;
+import database.H2GameRepository;
 import domain.board.Board;
 import domain.board.MoveResult;
 import domain.piece.Piece;
@@ -6,6 +9,7 @@ import domain.board.Position;
 import domain.board.Route;
 import domain.game.Game;
 import domain.game.FormationType;
+import domain.game.GameRepository;
 import domain.piece.TeamColor;
 import io.InputView;
 import io.OutputView;
@@ -25,21 +29,27 @@ public class GameRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameRepository gameRepository;
     private final NewGameFactory newGameFactory;
 
     public GameRunner() {
-        this(new InputView(), new OutputView(), new NewGameFactory());
+        this(new H2GameRepository(new ConnectionManager(new DatabaseConfig())));
     }
 
-    public GameRunner(InputView inputView, OutputView outputView, NewGameFactory newGameFactory) {
+    public GameRunner(GameRepository gameRepository) {
+        this(new InputView(), new OutputView(), gameRepository, new NewGameFactory());
+    }
+
+    public GameRunner(InputView inputView, OutputView outputView, GameRepository gameRepository, NewGameFactory newGameFactory) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameRepository = gameRepository;
         this.newGameFactory = newGameFactory;
     }
 
     public void run() {
         outputView.printGameStart();
-        Game game = createNewGame();
+        Game game = loadOrCreateGame();
         outputView.printBoard(game.board());
 
         while (game.isInProgress()) {
@@ -47,10 +57,15 @@ public class GameRunner {
         }
     }
 
+    private Game loadOrCreateGame() {
+        return gameRepository.findInProgress()
+                .orElseGet(this::createNewGame);
+    }
+
     private Game createNewGame() {
         FormationType choFormation = chooseFormation(TeamColor.CHO);
         FormationType hanFormation = chooseFormation(TeamColor.HAN);
-        return newGameFactory.create(choFormation, hanFormation);
+        return gameRepository.save(newGameFactory.create(choFormation, hanFormation));
     }
 
     private FormationType chooseFormation(TeamColor teamColor) {
@@ -83,10 +98,12 @@ public class GameRunner {
                 outputView.printMoveResult(selectedPiece, destination);
                 if (moveResult.capturedKing()) {
                     game.finish();
+                    gameRepository.save(game);
                     outputView.printWinner(currentTurn);
                     return;
                 }
                 game.advanceTurn();
+                gameRepository.save(game);
                 return;
             } catch (IllegalArgumentException exception) {
                 outputView.printError(exception.getMessage());

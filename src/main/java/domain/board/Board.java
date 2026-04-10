@@ -45,6 +45,13 @@ public class Board {
                 .toList();
     }
 
+    public List<PiecePosition> findAllPieces() {
+        return pieces.entrySet().stream()
+                .sorted((left, right) -> left.getKey().compareBoardOrder(right.getKey()))
+                .map(entry -> new PiecePosition(entry.getKey(), entry.getValue()))
+                .toList();
+    }
+
     public List<Route> findMovableRoutes(Piece piece) {
         final Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
