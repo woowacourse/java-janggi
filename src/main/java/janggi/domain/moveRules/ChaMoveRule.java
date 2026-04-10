@@ -5,7 +5,6 @@ import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ public class ChaMoveRule implements MoveRule {
     @Override
     public List<Position> calculateAvailablePositions(Position startPosition, Team team, Map<Position, Piece> state) {
         List<Position> availablePositions = new ArrayList<>();
-        for (Direction direction : getStraightDirections()) {
+        for (Direction direction : Direction.getStraightDirections()) {
             availablePositions.addAll(findPositionsByDirection(startPosition, direction, state));
         }
 
@@ -38,11 +37,5 @@ public class ChaMoveRule implements MoveRule {
         }
 
         return result;
-    }
-
-    private List<Direction> getStraightDirections() {
-        return Arrays.stream(Direction.values())
-                .filter(Direction::isStraight)
-                .toList();
     }
 }

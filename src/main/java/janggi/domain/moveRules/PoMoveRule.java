@@ -5,7 +5,6 @@ import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ public class PoMoveRule implements MoveRule {
     @Override
     public List<Position> calculateAvailablePositions(Position position, Team team, Map<Position, Piece> state) {
         List<Position> availablePositions = new ArrayList<>();
-        List<Direction> directions = getPoDirections();
+        List<Direction> directions = Direction.getStraightDirections();
         for (Direction direction : directions) {
             Position bridge = findBridge(position, direction, state);
             if (bridge != null) {
@@ -64,11 +63,5 @@ public class PoMoveRule implements MoveRule {
         if (piece.isEnemy(team) && !piece.isPo()) {
             result.add(next);
         }
-    }
-
-    private List<Direction> getPoDirections() {
-        return Arrays.stream(Direction.values())
-                .filter(Direction::isStraight)
-                .toList();
     }
 }
