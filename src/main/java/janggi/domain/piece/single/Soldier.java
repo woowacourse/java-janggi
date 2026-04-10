@@ -23,11 +23,7 @@ public class Soldier extends SinglePiece {
         if (side.equals(Side.HAN) && candidatePath.isForward(Direction.NORTH)) {
             return false;
         }
-        if (side.equals(Side.CHO) && candidatePath.isForward(Direction.SOUTH)) {
-            return false;
-        }
-
-        return true;
+        return !side.equals(Side.CHO) || !candidatePath.isForward(Direction.SOUTH);
     }
 
     @Override

@@ -47,19 +47,17 @@ public class CandidatePath {
     }
 
     public boolean isForward(Direction direction) {
-        int dx = direction.getDx();
-        int dy = direction.getDy();
-
-        for (Point point : path) {
-            if (isForward(base.x(), point.x(), dx) || isForward(base.y(), point.y(), dy)) {
-                return true;
-            }
-        }
-        return false;
+        return path.stream()
+                .anyMatch(point -> isForward(point, direction));
     }
 
-    private boolean isForward(int value, int next, int deltaValue) {
-        return deltaValue != 0 && value + deltaValue == next;
+    private boolean isForward(Point nextPoint, Direction direction) {
+        Point vector = nextPoint.minus(base);
+
+        boolean dx = direction.getDx() != 0 && vector.x() == direction.getDx();
+        boolean dy = direction.getDy() != 0 && vector.y() == direction.getDy();
+
+        return dx || dy;
     }
 
     public List<Point> getPath() {
@@ -100,14 +98,10 @@ public class CandidatePath {
     }
 
     public CandidatePath takeUntil(Point to) {
-        List<Point> points = new ArrayList<>();
-        for (Point point : path) {
-            points.add(point);
-            if (point.equals(to)) {
-                break;
-            }
-        }
-        return new CandidatePath(base, points);
+        int toIndex = path.indexOf(to);
+        return new CandidatePath(base, path.stream()
+                .limit((long) toIndex + 1)
+                .toList());
     }
 
     @Override
