@@ -9,11 +9,6 @@ import java.util.stream.Stream;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
-    private static final List<Direction> ALL_DIRECTIONS = List.of(
-            Direction.UP, Direction.RIGHT_UP, Direction.RIGHT, Direction.RIGHT_DOWN,
-            Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT, Direction.LEFT_UP
-    );
-
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {
         Position anotherGeneralPosition = board.getAnotherGeneralPosition(from);
