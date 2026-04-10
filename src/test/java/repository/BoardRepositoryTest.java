@@ -1,8 +1,8 @@
 package repository;
 
+import config.TestDataSourceConfig;
 import domain.board.Board;
 import domain.board.Placement;
-import config.TestDataSourceConfig;
 import domain.piece.Side;
 import domain.position.Position;
 import janggigame.GameMetaData;
@@ -37,11 +37,11 @@ class BoardRepositoryTest {
 
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
 
         Board secondBoard = new Board();
         secondBoard.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementByGameId(secondBoard, secondGame.id());
+        boardRepository.savePlacementByGameId(secondBoard, secondGame.id(), Side.CHO);
 
         Board expectedFirstBoard = new Board();
         expectedFirstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
@@ -65,7 +65,7 @@ class BoardRepositoryTest {
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        boardRepository.savePlacementByGameId(board, gameMetaData.id());
+        boardRepository.savePlacementByGameId(board, gameMetaData.id(), Side.HAN);
 
         // then
         Board savedBoard = boardRepository.findByGameId(gameMetaData.id()).orElseThrow();
@@ -81,7 +81,7 @@ class BoardRepositoryTest {
         GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
 
         // when
         boardRepository.updatePiecePositionByGameId(Position.of(7, 9), Position.of(7, 8), firstGame.id());
@@ -103,7 +103,7 @@ class BoardRepositoryTest {
         GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
 
         // when
         boardRepository.deletePiecePositionByGameId(Position.of(7, 9), firstGame.id());

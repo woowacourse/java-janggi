@@ -52,7 +52,7 @@ public class BoardRepository {
         }
     }
 
-    public void savePlacementByGameId(Board board, Long gameId) {
+    public void savePlacementByGameId(Board board, Long gameId, Side side) {
         String sql = "INSERT INTO board (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
@@ -61,6 +61,10 @@ public class BoardRepository {
             for (Map.Entry<Position, Piece> entry : board.getState().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
+
+                if (!piece.isSameSide(side)){
+                    continue;
+                }
 
                 statement.setString(1, piece.getPieceType().name());
                 statement.setString(2, piece.getSide().name());
