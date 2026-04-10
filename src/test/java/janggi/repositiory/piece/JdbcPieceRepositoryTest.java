@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,12 +49,12 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
     void updateAll_재호출_테스트() {
         // given
         Position oldPosition = new Position(0, 0);
-        pieceRepository.updateALL(gameId, Map.of(oldPosition, new Tank(Team.HAN)));
+        pieceRepository.updateALL(new BoardSnapshot(gameId, Map.of(oldPosition, new Tank(Team.HAN))));
 
         // when
-        Position updatedPosition =new Position(8, 4);
+        Position updatedPosition = new Position(8, 4);
         Map<Position, Piece> newBoard = Map.of(updatedPosition, new King(Team.CHO));
-        pieceRepository.updateALL(gameId, newBoard);
+        pieceRepository.updateALL(new BoardSnapshot(gameId, newBoard));
 
         // then
         Map<Position, Piece> all = pieceRepository.findAll(gameId);
@@ -74,7 +73,7 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         board.put(new Position(0, 2), EmptyPiece.getInstance());
 
         // When
-        pieceRepository.updateALL(gameId, board);
+        pieceRepository.updateALL(new BoardSnapshot(gameId, board));
 
         // Then
         Map<Position, Piece> result = pieceRepository.findAll(gameId);

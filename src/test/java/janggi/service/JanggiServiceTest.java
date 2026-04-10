@@ -6,6 +6,7 @@ import janggi.domain.vo.FinishStatus;
 import janggi.domain.vo.position.Position;
 import janggi.repositiory.game.GameRepository;
 import janggi.repositiory.game.JdbcGameRepository;
+import janggi.repositiory.piece.BoardSnapshot;
 import janggi.repositiory.piece.JdbcPieceRepository;
 import janggi.repositiory.piece.PieceRepository;
 import org.h2.jdbcx.JdbcDataSource;
@@ -55,10 +56,10 @@ class JanggiServiceTest {
     void 기존_게임_재시작_테스트() {
         // given
         Long id = gameRepository.save(new FinishStatus(false), Team.HAN);
-        pieceRepository.updateALL(id, new HashMap<>() {{
+        pieceRepository.updateALL(new BoardSnapshot(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));
             put(new Position(8, 4), new King(Team.CHO));
-        }});
+        }}));
 
         // when
         service = JanggiService.startGame(gameRepository, pieceRepository);
@@ -73,11 +74,12 @@ class JanggiServiceTest {
         // given
         Long id = gameRepository.save(new FinishStatus(false), Team.CHO);
         Position oldPosition = new Position(6, 2);
-        pieceRepository.updateALL(id, new HashMap<>() {{
+
+        pieceRepository.updateALL(new BoardSnapshot(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));
             put(new Position(8, 4), new King(Team.CHO));
             put(oldPosition, new Soldier(Team.CHO));
-        }});
+        }}));
 
         service = JanggiService.startGame(gameRepository, pieceRepository);
         MoveCommand command = MoveCommand.from(new int[]{6, 2, 5, 2});
@@ -97,11 +99,11 @@ class JanggiServiceTest {
         // given
         Long id = gameRepository.save(new FinishStatus(false), Team.CHO);
         Position position = new Position(6, 2);
-        pieceRepository.updateALL(id, new HashMap<>() {{
+        pieceRepository.updateALL(new BoardSnapshot(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));
             put(new Position(8, 4), new King(Team.CHO));
             put(position, new Soldier(Team.CHO));
-        }});
+        }}));
 
         service = JanggiService.startGame(gameRepository, pieceRepository);
         MoveCommand invalidCommand = MoveCommand.from(new int[]{6, 2, 8, 8});
