@@ -1,7 +1,6 @@
 import application.GameInitializer;
 import application.GamePersistenceService;
 import controller.JanggiController;
-import domain.JanggiGame;
 
 public class Application {
 
@@ -10,9 +9,9 @@ public class Application {
         gameInitializer.initializeDatabase();
 
         GamePersistenceService gamePersistenceService = gameInitializer.createGamePersistenceService();
-        JanggiGame janggiGame = gamePersistenceService.loadOrCreate();
-        JanggiController janggiController = new JanggiController(janggiGame, gamePersistenceService);
+        JanggiController janggiController = new JanggiController(gamePersistenceService);
 
         janggiController.run();
     }
+    
 }
