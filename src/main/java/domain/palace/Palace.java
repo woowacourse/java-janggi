@@ -64,9 +64,7 @@ public class Palace {
     }
 
     private Position center() {
-        int centerRow = (topLeft.row() + bottomRight.row()) / 2;
-        int centerColumn = (topLeft.column() + bottomRight.column()) / 2;
-        return Position.of(centerRow, centerColumn);
+        return Position.centerOf(topLeft, bottomRight);
     }
 
     private boolean isCorner(Position position) {

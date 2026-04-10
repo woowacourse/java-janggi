@@ -64,6 +64,12 @@ public class Position implements Comparable<Position> {
                 && column() >= topLeft.column() && column() <= bottomRight.column();
     }
 
+    public static Position centerOf(Position topLeft, Position bottomRight) {
+        int centerRow = (topLeft.row() + bottomRight.row()) / 2;
+        int centerColumn = (topLeft.column() + bottomRight.column()) / 2;
+        return Position.of(centerRow, centerColumn);
+    }
+
     public boolean sharesRowOrColumnWith(Position other) {
         if (row() == other.row()) {
             return true;
