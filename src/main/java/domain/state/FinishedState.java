@@ -30,6 +30,11 @@ public class FinishedState implements GameState {
 
     @Override
     public Team getTeam() {
+        throw new IllegalStateException("게임이 종료되었습니다.");
+    }
+
+    @Override
+    public Team getWinner() {
         return winner;
     }
 }

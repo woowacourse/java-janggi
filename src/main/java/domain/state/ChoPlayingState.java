@@ -5,7 +5,7 @@ import domain.board.Position;
 import domain.piece.Team;
 import java.util.List;
 
-public class ChoPlayingState implements GameState {
+public class ChoPlayingState extends PlayingState {
 
     private static final Team CURRENT_PLAYING_TEAM = Team.CHO;
 
@@ -17,11 +17,6 @@ public class ChoPlayingState implements GameState {
     @Override
     public GameState nextTurn() {
         return new HanPlayingState();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 
     @Override
