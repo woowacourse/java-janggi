@@ -40,8 +40,8 @@ public class Piece {
         return this.team == other.team;
     }
 
-    public boolean isSameType() {
-        return pieceStatus.pieceType() == PieceType.CANNON;
+    public boolean isSameType(PieceType pieceType) {
+        return pieceStatus.pieceType() == pieceType;
     }
 
 
