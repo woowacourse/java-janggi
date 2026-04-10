@@ -1,27 +1,33 @@
 package janggi.domain.game;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceMapper;
-import janggi.domain.route.Destinations;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 public class GameManager {
 
     private final Players players;
     private final Board board;
-    private Turn turn;
+    private final Long gameId;
 
-    public GameManager(Players players, Board board, Turn initiativeTurn) {
+    private GameManager(Players players, Board board, Long gameId) {
         this.players = players;
         this.board = board;
-        this.turn = initiativeTurn;
+        this.gameId = gameId;
+    }
+
+    public static GameManager newGame(Players players, Board board) {
+        return new GameManager(players, board, null);
+    }
+
+    public static GameManager loadGame(Players players, Board board, Long gameId) {
+        return new GameManager(players, board, gameId);
     }
 
     public void switchTurn() {
-        turn = turn.next();
+        players.nextTurn();
     }
 
     public boolean isFinished() {
@@ -29,13 +35,13 @@ public class GameManager {
     }
 
     public Player currentPlayer() {
-        return players.currentPlayer(turn);
+        return players.currentPlayer();
     }
 
     public boolean isThereMoveablePiece(Position selectedPosition) {
         if (board.isPieceExist(selectedPosition)) {
             Piece selectedPiece = board.findPieceBy(selectedPosition);
-            return players.isCurrentSidePiece(turn, selectedPiece);
+            return players.isCurrentSidePiece(selectedPiece) && board.isMoveablePiece(selectedPosition);
         }
         return false;
     }
@@ -48,12 +54,27 @@ public class GameManager {
         return board.isPieceExist(position);
     }
 
-    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper,
-                                             PieceMapper<V> pieceMapper) {
-        return board.exportBoardState(positionMapper, pieceMapper);
-    }
-
     public void movePiece(Position selected, Position target, Destinations destinations) {
         board.movePiece(selected, target, destinations);
+    }
+
+    public double currentPlayerScore() {
+        return board.calculateScore(currentPlayer());
+    }
+
+    public Map<Side, String> getPlayersInfo() {
+        return players.getPlayersInfo();
+    }
+
+    public Map<Position, Piece> getPiecePositions() {
+        return board.piecePosition();
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Long getId() {
+        return gameId;
     }
 }

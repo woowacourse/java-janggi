@@ -21,11 +21,11 @@ class PlayersTest {
     @Test
     void currentPlayer_ReturnsPlayerMatchingTurn() {
         Players players = Players.from("초나라", "한나라");
-        Turn turn = Turn.init().next();
+        players.nextTurn();
 
-        Player current = players.currentPlayer(turn);
+        Player current = players.currentPlayer();
 
-        boolean isHanPlayer = current.map((name, side) -> side == Side.HAN);
+        boolean isHanPlayer = current.side() == Side.HAN;
         assertThat(isHanPlayer).isTrue();
     }
 
@@ -36,6 +36,6 @@ class PlayersTest {
         Turn turn = Turn.init();
         Piece choPiece = new Piece(Side.CHO, PieceType.SOLDIER, "0");
 
-        assertThat(players.isCurrentSidePiece(turn, choPiece)).isTrue();
+        assertThat(players.isCurrentSidePiece(choPiece)).isTrue();
     }
 }

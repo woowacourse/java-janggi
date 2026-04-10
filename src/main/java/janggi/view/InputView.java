@@ -14,10 +14,6 @@ public class InputView {
         return readNotBlankLine();
     }
 
-    public String readPieceName() {
-        return readNotBlankLine();
-    }
-
     public int readPosition() {
         return readInteger();
     }
@@ -38,7 +34,15 @@ public class InputView {
         }
     }
 
+    public String readUserCommand() {
+        return readNotBlankLine();
+    }
+
     public void close() {
         scanner.close();
+    }
+
+    public long readGameId() {
+        return readInteger();
     }
 }

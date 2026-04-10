@@ -1,5 +1,128 @@
 # java-janggi
 
+## 🚀 사이클 2 - 기물 확장 + DB 적용
+
+- ✔️ 궁성 구현
+    - 궁성 위치(PalacePosition) enum 추가
+    - 특정 위치에서 대각선 이동
+    - 대각선 이동은 궁성 위치 내에서만 가능하도록
+    - 대각선 이동과 기본 이동을 각각의 전략으로 구현, 병합
+- ✔️ 종료 조건
+    - 궁(장) 이 2개가 아닌 순간 게임 종료
+- ✔️ 점수 계산
+    - 장기 규칙에 맞춰 기물 점수 계산
+    - 초 진영 어드벤티지 부여(1.5)
+- ✔️ DB 적용
+    - H2 사용 - 편의성 고려
+    - 서비스 계층 - 저장소 - DAO/DTO
+    - 테이블 설계 - 참조관계 설정 - DB 구현 - 도메인 연동
+
+### 🗃️ DB 설계
+
+> ### 초기
+>
+> (id 는 공통이니 생략)
+>
+> 게임(생성일시) date
+>
+> 플레이어(닉네임, 게임id, 진영id) varchar int int
+>
+> 현재 턴(게임id, 진영 id) int int
+>
+> 진영(진영) varchar?
+>
+> 기물(종류) varchar?
+>
+> 위치(행번호, 열번호) int int
+>
+> 기물 배치 상태(게임id, 기물id, 위치id) int int int
+
+> ### 수정
+> - 도메인과 테이블이 1:1 관계인가?
+> - 0~N : 0:N 관계
+> - 없어도 될 테이블은 과감히 속성으로 격하하고
+    >
+
+- 필수적인 데이터(가변 상태)만 테이블로 묶어 저장
+
+> ```java
+> public static Players from(String choPlayerName, String hanPlayerName) {
+>     ->varchar cho_player_name, varchar han_player_name
+> }
+> // 상태와 값(enum) 을 String(varchar)으로 저장 / 로드
+> ```
+
+TABLE `GAME` (게임 정보)
+
+    game_id(PK)
+    
+    cho_player_name(VARCHAR)
+    
+    han_player_name(VARCHAR)
+    
+    current_turn[Side] (VARCHAR)
+    
+    created_at(DATETIME)
+
+    is_finished(boolean)
+
+~~TABLE `PLAYER` (플레이어 정보)~~ 정규화가 뭔가요
+
+    player_id(PK) - 필요한가? 닉네임과 게임ID 조합으로 표현 가능할거같은데 
+
+    player_nickname - 중복 검사해서 생성되겠지만 PK 로 정해두면 교차 검증 가능?
+
+    playing_game_id - 두개 조합으로 관리하는게 
+
+TABLE `BOARD` (기물 배치 상태)
+
+    game_id(FK)
+    
+    row_index(INT)
+    
+    col_index(INT)
+    
+    piece_type[PieceType] (VARCHAR)
+    
+    side(VARCHAR)
+    
+    piece_number(VARCHAR)
+
+### DB 에서 뽑아올 정보
+
+- #### 게임(진행 중인) 정보
+    - `게임ID` - 몰라도 되지만, 식별할 방법은? 플레이어 닉네임? 중복이라면?
+    - `플레이어 닉네임(초)`
+    - `플레이어 닉네임(한)`
+    - `플레이어 턴`
+    - `게임 생성 일시`
+    - `게임 종료 일시` - 없으면 게임 종료?
+- #### 해당 게임의 기물 배치 정보
+    - `기물 종류` - PieceType Enum 이름을 varchar 로
+    - `기물 위치` - 기물의 위치 Position row/column 을 int 로
+
+> 게임 ID 는 몰라도 되고, 진행 중인 게임의 목록은 출력  
+> 이어갈 게임을 선택`순번으로`하거나, `0 입력`  
+> 해당 게임 정보를 불러와서 GameManager 조립해주면 완-벽
+
+### 🛠️ 도메인 수정
+
+- `class Players`
+    - 테이블에 초/한 진영의 플레이어를 저장해야 한다.
+    - currentPlayer 를 통한 get / playerDTO 를 통한 비교는 가능하나 비즈니스 로직이 아님.
+    - > 효율화/비즈니스 로직 충족 일거양득을 위해선 ~~Map 도입~~이?
+- ### `getter`
+    - getter 를 제거하기 위해 map 을 도입했으나,
+    - PieceMapper 는 실제 Piece 클래스의 내부 구조를 그대로 표현.
+    - 근본적 목적에 부합한가?
+    - > 불변 클래스의 getter 는 나쁜 게터가 아니다  
+      불변 상태는 그대로 get 할 수 있되,   
+      그 활용은 단순 전달에 한한다.
+      >
+      > 외부에서 상태를 판단하고 결정하지 않고, 방어적 복사를 보장한다면 getter 허용.
+
+- ✔️ 선택) 게임방 구현
+
 ## 1차 PR 코멘트 반영
 
 ### `InitialBoardInfo` `Side-Effect` `Pure Function`

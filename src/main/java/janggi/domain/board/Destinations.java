@@ -1,6 +1,5 @@
-package janggi.domain.route;
+package janggi.domain.board;
 
-import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,5 +36,11 @@ public class Destinations {
 
     public boolean containsDestination(Position destination) {
         return this.destinations.contains(destination);
+    }
+
+    public Destinations retainDestination(Destinations destinations) {
+        List<Position> copyDestinations = new ArrayList<>(this.destinations);
+        copyDestinations.retainAll(destinations.destinations);
+        return new Destinations(copyDestinations);
     }
 }

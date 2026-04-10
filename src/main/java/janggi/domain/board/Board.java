@@ -1,15 +1,15 @@
 package janggi.domain.board;
 
+import janggi.domain.game.Player;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceMapper;
-import janggi.domain.route.Destinations;
+import janggi.domain.piece.PieceScoreCalculator;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 public class Board implements BoardInfo {
+
+    private static final int PALACE_MAX_COUNT = 2;
 
     private final Map<Position, Piece> piecePosition;
 
@@ -52,9 +52,29 @@ public class Board implements BoardInfo {
         return piecePosition.get(position).isCannon();
     }
 
+    public boolean isPieceExist(Position position) {
+        return piecePosition.containsKey(position);
+    }
+
+    public Piece findPieceBy(Position selectedPosition) {
+        return piecePosition.get(selectedPosition);
+    }
+
+    public boolean isBothPalaceExist() {
+        long palaceCount = piecePosition.values().stream()
+                .filter(Piece::isPalace)
+                .count();
+        return palaceCount == PALACE_MAX_COUNT;
+    }
+
     public Destinations moveablePositions(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         return piece.determineDestinations(currentPosition, this);
+    }
+
+    public boolean isMoveablePiece(Position selectedPosition) {
+        Piece piece = piecePosition.get(selectedPosition);
+        return !piece.determineDestinations(selectedPosition, this).isEmpty();
     }
 
     public void movePiece(Position selected, Position target, Destinations destinations) {
@@ -65,27 +85,11 @@ public class Board implements BoardInfo {
         piecePosition.put(target, movingPiece);
     }
 
-    public boolean isPieceExist(Position position) {
-        return piecePosition.containsKey(position);
+    public double calculateScore(Player currentPlayer) {
+        return PieceScoreCalculator.calculateScore(currentPlayer.side(), piecePosition.values());
     }
 
-    public boolean isBothPalaceExist() {
-        long palaceCount = piecePosition.values().stream()
-                .filter(Piece::isPalace)
-                .count();
-        return palaceCount == 2;
-    }
-
-    public Piece findPieceBy(Position selectedPosition) {
-        return piecePosition.get(selectedPosition);
-    }
-
-    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper,
-                                             PieceMapper<V> pieceMapper) {
-        return piecePosition.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey().map(positionMapper),
-                        entry -> entry.getValue().map(pieceMapper)
-                ));
+    public Map<Position, Piece> piecePosition() {
+        return Map.copyOf(piecePosition);
     }
 }

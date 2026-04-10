@@ -1,14 +1,16 @@
 package janggi.domain.game;
 
 import janggi.domain.piece.Piece;
-import java.util.Set;
+import java.util.Map;
 
 public class Players {
 
-    private final Set<Player> players;
+    private final Map<Side, Player> players;
+    private Turn turn;
 
-    private Players(Set<Player> players) {
+    private Players(Map<Side, Player> players, Turn turn) {
         this.players = players;
+        this.turn = turn;
     }
 
     public static Players from(String choPlayerName, String hanPlayerName) {
@@ -16,7 +18,15 @@ public class Players {
         Player choPlayer = new Player(choPlayerName, Side.CHO);
         Player hanPlayer = new Player(hanPlayerName, Side.HAN);
 
-        return new Players(Set.of(choPlayer, hanPlayer));
+        return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer), Turn.init());
+    }
+
+    public static Players fromCurrentTurn(String choPlayerName, String hanPlayerName, Turn currentTurn) {
+        validateDuplicatedNames(choPlayerName, hanPlayerName);
+        Player choPlayer = new Player(choPlayerName, Side.CHO);
+        Player hanPlayer = new Player(hanPlayerName, Side.HAN);
+
+        return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer), currentTurn);
     }
 
     private static void validateDuplicatedNames(String choPlayerName, String hanPlayerName) {
@@ -25,14 +35,24 @@ public class Players {
         }
     }
 
-    public boolean isCurrentSidePiece(Turn turn, Piece selectedPiece) {
-        return currentPlayer(turn).isOwnPiece(selectedPiece);
+    public boolean isCurrentSidePiece(Piece selectedPiece) {
+        return currentPlayer().isOwnPiece(selectedPiece);
     }
 
-    public Player currentPlayer(Turn turn) {
-        return players.stream()
-                .filter(player -> player.isMyTurn(turn))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다."));
+    public Player currentPlayer() {
+        if (!players.containsKey(turn.currentSide())) {
+            throw new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다.");
+        }
+        return players.get(turn.currentSide());
+    }
+
+    public Map<Side, String> getPlayersInfo() {
+        Player choPlayer = players.get(Side.CHO);
+        Player hanPlayer = players.get(Side.HAN);
+        return Map.of(Side.CHO, choPlayer.name(), Side.HAN, hanPlayer.name());
+    }
+
+    public void nextTurn() {
+        turn = turn.next();
     }
 }
