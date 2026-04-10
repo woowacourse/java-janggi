@@ -1,6 +1,7 @@
 package janggi.domain.turn;
 
 import janggi.domain.PieceInfo;
+import janggi.domain.ScoreStatus;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 
@@ -26,5 +27,10 @@ public abstract class Started implements PlayerTurn {
     @Override
     public Side getCurrentSide() {
         return side;
+    }
+
+    @Override
+    public ScoreStatus getCurrentScoreStatus(){
+        return board.getScoreStatus();
     }
 }

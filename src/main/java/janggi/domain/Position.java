@@ -8,7 +8,6 @@ import static janggi.domain.board.Board.BOARD_START_COLS;
 import static janggi.domain.board.Board.BOARD_START_ROWS;
 
 public record Position(int x, int y) {
-
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
@@ -61,5 +60,13 @@ public record Position(int x, int y) {
 
     public boolean isVertical(Position position) {
         return position.y == this.y;
+    }
+
+    public boolean isAbove(Position position) {
+        return position.x < x;
+    }
+
+    public boolean isBelow(Position position) {
+        return position.x > x;
     }
 }

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
@@ -18,7 +19,7 @@ public class Ma extends StepPiece {
             List.of(Movement.LEFT, Movement.DOWN_LEFT)
     );
 
-    public Ma(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.MA);
+    public Ma(Side side, PalaceTopology palaceTopology) {
+        super(MOVE_RANGE, new ClearPathPolicy(), palaceTopology, side, PieceType.MA);
     }
 }

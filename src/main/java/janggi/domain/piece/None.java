@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.board.BoardInterface;
+import janggi.domain.board.BaseBoard;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class None extends BasePiece {
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
+    public void validateRoute(List<Position> path, BaseBoard baseBoard) {
         throw new IllegalArgumentException(IMMOVABLE_PIECE_MESSAGE);
     }
 }

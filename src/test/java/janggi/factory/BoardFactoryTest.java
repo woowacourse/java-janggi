@@ -1,4 +1,4 @@
-package janggi.initializer;
+package janggi.factory;
 
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-class BoardInitializerTest {
+class BoardFactoryTest {
     private static final Map<Position, Class<? extends Piece>> initialHanPiecePosition = Map.ofEntries(
             Map.entry(new Position(1, 1), Cha.class),
             Map.entry(new Position(1, 4), Sa.class),
@@ -72,7 +72,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_10x9_모든_좌표를_생성한다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
+        Map<Position, Piece> board = BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         assertThat(board.size()).isEqualTo(Board.BOARD_END_ROWS * Board.BOARD_END_COLS);
 
@@ -85,7 +85,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_고정된_위치의_기물을_제외한_나머지_칸을_NONE으로_채운다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
+        Map<Position, Piece> board = BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         int noneCount = (int) board.values().stream()
                 .filter(piece -> piece.isEqualPieceType(PieceType.NONE))
@@ -96,7 +96,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_고정_기물을_정해진_좌표에_배치한다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
+        Map<Position, Piece> board = BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         initialHanPiecePosition.forEach((position, expectedClass) -> {
             assertPiece(board, position, expectedClass, Side.HAN);
@@ -111,7 +111,7 @@ class BoardInitializerTest {
     @ParameterizedTest
     @MethodSource("choArrangementCases")
     void 장기판은_초_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
-        Map<Position, Piece> board = BoardInitializer.createBoard(arrangement, Arrangement.MA_SANG_MA_SANG);
+        Map<Position, Piece> board = BoardFactory.createInitialBoard(arrangement, Arrangement.MA_SANG_MA_SANG);
 
         for (int i = 0; i < 4; i++) {
             assertPiece(board, initialChoMaSangPosition.get(i), pieceTypeList.get(i), Side.CHO);
@@ -121,11 +121,19 @@ class BoardInitializerTest {
     @ParameterizedTest
     @MethodSource("hanArrangementCases")
     void 장기판은_한_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, arrangement);
+        Map<Position, Piece> board = BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, arrangement);
 
         for (int i = 0; i < 4; i++) {
             assertPiece(board, initialHanMaSangPosition.get(i), pieceTypeList.get(i), Side.HAN);
         }
+    }
+
+    @Test
+    void 장기판은_진영별_초기_기물_점수를_갖는다(){
+        Map<Side, Double> scoresBySide = BoardFactory.createInitialScoresBySide();
+
+        assertThat(scoresBySide).containsEntry(Side.HAN, 73.5);
+        assertThat(scoresBySide).containsEntry(Side.CHO, 72.0);
     }
 
     private static Stream<Arguments> choArrangementCases() {

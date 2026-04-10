@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +28,7 @@ class SangTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Sang sang = new Sang(Side.CHO);
+        Sang sang = new Sang(Side.CHO, PalaceTopology.from());
 
         List<Position> actual = sang.findRoute(startPosition, endPosition);
 
@@ -45,7 +46,7 @@ class SangTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Sang sang = new Sang(Side.CHO);
+        Sang sang = new Sang(Side.CHO, PalaceTopology.from());
 
         assertThatThrownBy(() -> sang.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)

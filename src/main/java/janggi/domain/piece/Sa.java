@@ -1,12 +1,15 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.PalaceTopology;
+import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
 import java.util.List;
 
 public class Sa extends StepPiece {
+    private static final String SA_MOVE_OUTSIDE_PALACE_MESSAGE = "사는 궁성 밖으로 나갈 수 없습니다.";
     private static final List<List<Movement>> MOVE_RANGE = List.of(
             List.of(Movement.UP),
             List.of(Movement.DOWN),
@@ -14,7 +17,13 @@ public class Sa extends StepPiece {
             List.of(Movement.RIGHT)
     );
 
-    public Sa(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.SA);
+    public Sa(Side side, PalaceTopology palaceTopology) {
+        super(MOVE_RANGE, new ClearPathPolicy(), palaceTopology, side, PieceType.SA);
+    }
+
+    @Override
+    public List<Position> findRoute(Position start, Position end) {
+        validatePalace(end, SA_MOVE_OUTSIDE_PALACE_MESSAGE);
+        return super.findRoute(start, end);
     }
 }
