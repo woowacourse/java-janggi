@@ -62,4 +62,25 @@ class H2GameRepositoryTest {
 
         assertThat(repository.findInProgress()).isEmpty();
     }
+
+    @Test
+    void 진행중_게임을_삭제할_수_있다() {
+        DatabaseConfig config = DatabaseConfig.inMemory("janggi-delete");
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(new ConnectionManager(config));
+        H2GameRepository repository = new H2GameRepository(new ConnectionManager(config));
+        databaseInitializer.initialize();
+
+        repository.save(new Game(
+                new Board(Map.of(
+                        Position.of(0, 4), Piece.of(TeamColor.HAN, PieceType.KING),
+                        Position.of(9, 4), Piece.of(TeamColor.CHO, PieceType.KING)
+                )),
+                new TurnManager(),
+                GameStatus.IN_PROGRESS
+        ));
+
+        repository.deleteInProgress();
+
+        assertThat(repository.findInProgress()).isEmpty();
+    }
 }

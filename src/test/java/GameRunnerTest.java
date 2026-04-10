@@ -19,6 +19,15 @@ class GameRunnerTest {
     @Nested
     class 예외 {
         @Test
+        void 시작_옵션_번호가_범위를_벗어나면_예외가_발생한다() {
+            assertThatThrownBy(() -> invokePrivate("validateGameStartChoice",
+                    new Class<?>[]{int.class},
+                    3))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("시작 옵션 번호는 1 또는 2여야 합니다.");
+        }
+
+        @Test
         void 상차림_번호가_범위를_벗어나면_예외가_발생한다() {
             assertThatThrownBy(() -> invokePrivate("validateFormationChoice",
                     new Class<?>[]{int.class},

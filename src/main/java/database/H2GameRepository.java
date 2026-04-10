@@ -46,6 +46,7 @@ public class H2GameRepository implements GameRepository {
             INSERT INTO piece_snapshot(session_id, row_number, column_number, team_color, piece_type)
             VALUES (?, ?, ?, ?, ?)
             """;
+    private static final String DELETE_IN_PROGRESS_SQL = "DELETE FROM game_session WHERE status = ?";
 
     private final ConnectionManager connectionManager;
 
@@ -100,6 +101,17 @@ public class H2GameRepository implements GameRepository {
             }
         } catch (SQLException exception) {
             throw new IllegalStateException("게임 저장에 실패했습니다.", exception);
+        }
+    }
+
+    @Override
+    public void deleteInProgress() {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_IN_PROGRESS_SQL)) {
+            statement.setString(1, GameStatus.IN_PROGRESS.name());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new IllegalStateException("진행 중 게임 삭제에 실패했습니다.", exception);
         }
     }
 

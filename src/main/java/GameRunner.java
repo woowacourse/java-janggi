@@ -18,6 +18,8 @@ import java.util.Optional;
 
 public class GameRunner {
     private static final int FIRST_OPTION_NUMBER = 1;
+    private static final int RESUME_GAME_OPTION_NUMBER = 1;
+    private static final int NEW_GAME_OPTION_NUMBER = 2;
     private static final int BACK_OPTION_NUMBER = 0;
     private static final int ZERO_BASE_INDEX_OFFSET = 1;
     private static final List<FormationType> FORMATIONS = List.of(
@@ -59,7 +61,25 @@ public class GameRunner {
 
     private Game loadOrCreateGame() {
         return gameRepository.findInProgress()
+                .map(this::chooseGameToStart)
                 .orElseGet(this::createNewGame);
+    }
+
+    private Game chooseGameToStart(Game inProgressGame) {
+        while (true) {
+            outputView.printGameStartOptions();
+            try {
+                int gameStartChoice = inputView.readGameStartChoice();
+                validateGameStartChoice(gameStartChoice);
+                if (gameStartChoice == RESUME_GAME_OPTION_NUMBER) {
+                    return inProgressGame;
+                }
+                gameRepository.deleteInProgress();
+                return createNewGame();
+            } catch (IllegalArgumentException exception) {
+                outputView.printError("시작 옵션 입력이 올바르지 않습니다.");
+            }
+        }
     }
 
     private Game createNewGame() {
@@ -114,6 +134,13 @@ public class GameRunner {
     private FormationType createFormation(int choice) {
         validateFormationChoice(choice);
         return FORMATIONS.get(choice - ZERO_BASE_INDEX_OFFSET);
+    }
+
+    private void validateGameStartChoice(int choice) {
+        if (choice == RESUME_GAME_OPTION_NUMBER || choice == NEW_GAME_OPTION_NUMBER) {
+            return;
+        }
+        throw new IllegalArgumentException("시작 옵션 번호는 1 또는 2여야 합니다.");
     }
 
     private void validateFormationChoice(int choice) {

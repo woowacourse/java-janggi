@@ -19,6 +19,9 @@ public class OutputView {
     private static final int INNER_CELL_WIDTH = 3;
     private static final String FULL_WIDTH_SPACE = "　";
     private static final String GAME_START_MESSAGE = "장기 게임을 시작합니다.";
+    private static final String RESUME_GAME_MESSAGE = "진행 중인 게임이 있습니다.";
+    private static final String RESUME_GAME_OPTION = "1. 이어하기";
+    private static final String NEW_GAME_OPTION = "2. 새 게임 시작";
     private static final String FORMATION_SELECTION_MESSAGE = " 상차림을 선택하세요.";
     private static final String INNER_FORMATION_OPTION = "1. 안상차림 (마상상마)";
     private static final String OUTER_FORMATION_OPTION = "2. 바깥상차림 (상마마상)";
@@ -58,6 +61,12 @@ public class OutputView {
 
     public void printGameStart() {
         System.out.println(GAME_START_MESSAGE);
+    }
+
+    public void printGameStartOptions() {
+        System.out.println(RESUME_GAME_MESSAGE);
+        System.out.println(RESUME_GAME_OPTION);
+        System.out.println(NEW_GAME_OPTION);
     }
 
     public void printFormationSelectionPrompt(TeamColor teamColor) {

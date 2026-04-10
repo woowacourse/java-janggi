@@ -6,4 +6,6 @@ public interface GameRepository {
     Optional<Game> findInProgress();
 
     Game save(Game game);
+
+    void deleteInProgress();
 }
