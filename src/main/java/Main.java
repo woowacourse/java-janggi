@@ -5,6 +5,7 @@ import infrastructure.TransactionManager;
 import repository.JdbcGameInfoRepository;
 import repository.JdbcPositionHistoryRepository;
 import repository.JdbcPositionStateRepository;
+import repository.JdbcTurnHistoryRepository;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -23,6 +24,7 @@ public class Main {
                         new JdbcGameInfoRepository(),
                         new JdbcPositionStateRepository(),
                         new JdbcPositionHistoryRepository(),
+                        new JdbcTurnHistoryRepository(),
                         new TransactionManager(jdbcConnectionManager)
                 )
         );

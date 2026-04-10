@@ -12,31 +12,34 @@ import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
 import dto.GameInfo;
-import dto.PositionHistory;
 import dto.PositionState;
+import dto.TurnHistory;
 import infrastructure.TransactionManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import repository.GameInfoRepository;
 import repository.PositionHistoryRepository;
 import repository.PositionStateRepository;
+import repository.TurnHistoryRepository;
 
 public class JanggiService {
     private final GameInfoRepository gameInfoRepository;
     private final PositionStateRepository positionStateRepository;
     private final PositionHistoryRepository positionHistoryRepository;
+    private final TurnHistoryRepository turnHistoryRepository;
     private final TransactionManager transactionManager;
 
     public JanggiService(
             GameInfoRepository gameInfoRepository,
             PositionStateRepository positionStateRepository,
             PositionHistoryRepository positionHistoryRepository,
+            TurnHistoryRepository turnHistoryRepository,
             TransactionManager transactionManager) {
         this.gameInfoRepository = gameInfoRepository;
         this.positionStateRepository = positionStateRepository;
         this.positionHistoryRepository = positionHistoryRepository;
+        this.turnHistoryRepository = turnHistoryRepository;
         this.transactionManager = transactionManager;
     }
 
@@ -126,40 +129,66 @@ public class JanggiService {
         });
     }
 
-    public void insertPositionHistory(PieceInfos pieceInfos, int gameInfoId, CountryType turn) {
-        transactionManager.transaction(connection -> {
-            positionHistoryRepository.savePositionHistory(pieceInfos, gameInfoId, turn, connection);
+    public int insertTurnHistory(int gameInfoId, CountryType turn) {
+        return transactionManager.transaction(connection -> {
+            return turnHistoryRepository.saveTurnHistory(gameInfoId, turn, connection);
         });
     }
 
-    public BoardSnapshots loadPositionHistories(int gameInfoId) {
-        List<PositionHistory> positionHistories = transactionManager.transaction(connection -> {
-            return positionHistoryRepository.findPositionHistoriesByGameInfoId(gameInfoId, connection);
+    public void insertPositionHistory(PieceInfos pieceInfos, int turnHistoryId) {
+        transactionManager.transaction(connection -> {
+            positionHistoryRepository.savePositionHistory(pieceInfos, turnHistoryId, connection);
         });
-        Map<Integer, List<PositionHistory>> groupingBoardSnapshots = positionHistories.stream()
-                .collect(Collectors.groupingBy(PositionHistory::id));
+    }
+
+    public BoardSnapshots loadBoardSnapshots(int gameInfoId) {
         BoardSnapshots boardSnapshots = new BoardSnapshots();
-        for (List<PositionHistory> groupingPositionHistories : groupingBoardSnapshots.values()) {
-            boardSnapshots.addBoardSnapshot(makeBoardSnapshots(groupingPositionHistories));
+        for (TurnHistory turnHistory : loadTurnHistories(gameInfoId)) {
+            List<PositionState> positionHistories = transactionManager.transaction(connection -> {
+                return positionHistoryRepository.findPositionHistoriesByTurnHistoryId(turnHistory.id(), connection);
+            });
+            BoardSnapshot boardSnapshot = makeBoardSnapshots(positionHistories, turnHistory.turn());
+            boardSnapshots.addBoardSnapshot(boardSnapshot);
         }
         return boardSnapshots;
     }
 
-    public BoardSnapshot makeBoardSnapshots(List<PositionHistory> positionHistories) {
-        Map<Position, PieceInfo> pieceInfos = new HashMap<>();
-        CountryType turn = null;
-        for (PositionHistory positionHistory : positionHistories) {
-            Position position = new Position(positionHistory.x(), positionHistory.y());
-            PieceType pieceType = PieceType.valueOf(positionHistory.pieceType());
-            turn = CountryType.valueOf(positionHistory.countryType());
-            pieceInfos.put(position, new PieceInfo(pieceType, turn));
-        }
-        return new BoardSnapshot(new PieceInfos(pieceInfos), turn);
+    private List<TurnHistory> loadTurnHistories(int gameInfoId) {
+        return transactionManager.transaction(connection -> {
+            return turnHistoryRepository.findTurnHistoriesByGameInfoId(gameInfoId, connection);
+        });
     }
 
-    public void deleteAllPositionHistoriesInBoard(int gameInfoId) {
+    private BoardSnapshot makeBoardSnapshots(List<PositionState> positionHistories, String countryTurn) {
+        Map<Position, PieceInfo> pieceInfos = new HashMap<>();
+        for (PositionState positionHistory : positionHistories) {
+            Position position = new Position(positionHistory.x(), positionHistory.y());
+
+            PieceType pieceType = PieceType.valueOf(positionHistory.pieceType());
+            CountryType countryType = CountryType.valueOf(positionHistory.countryType());
+            PieceInfo pieceInfo = new PieceInfo(pieceType, countryType);
+
+            pieceInfos.put(position, pieceInfo);
+        }
+        return new BoardSnapshot(new PieceInfos(pieceInfos), CountryType.valueOf(countryTurn));
+    }
+
+    public void deleteBoardSnapshots(int gameInfoId) {
+        for (TurnHistory turnHistory : loadTurnHistories(gameInfoId)) {
+            deleteAllPositionHistoriesInBoard(turnHistory.id());
+        }
+        deleteAllTurnHistoriesInBoard(gameInfoId);
+    }
+
+    private void deleteAllTurnHistoriesInBoard(int gameInfoId) {
         transactionManager.transaction(connection -> {
-            positionHistoryRepository.deletePositionHistoriesByGameInfoId(gameInfoId, connection);
+            turnHistoryRepository.deleteAllTurnHistoriesByGameInfoId(gameInfoId, connection);
+        });
+    }
+
+    private void deleteAllPositionHistoriesInBoard(int turnHistoryId) {
+        transactionManager.transaction(connection -> {
+            positionHistoryRepository.deletePositionHistoriesByGameInfoId(turnHistoryId, connection);
         });
     }
 }
