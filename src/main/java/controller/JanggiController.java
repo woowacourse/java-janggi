@@ -4,7 +4,6 @@ import domain.board.ElephantSetup;
 import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import domain.state.GameState;
 import dto.JanggiGameDto;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
@@ -22,6 +21,9 @@ import view.OutputView;
 
 public class JanggiController {
 
+    private static final int NEW_GAME_OPTION = 1;
+    private static final int PREVIOUS_GAME_OPTION = 2;
+
     private final InputView inputView;
     private final OutputView outputView;
     private final JanggiGameRepository janggiGameRepository;
@@ -37,18 +39,22 @@ public class JanggiController {
     }
 
     public void run() {
+        retry(this::selectGameOption);
+    }
+
+    private void selectGameOption() {
         outputView.printPlayNewGameOrPreviousGame();
         int menuSelection = inputView.readNewGameOrPreviousGame();
 
-        if (menuSelection == 1) {
+        if (menuSelection == NEW_GAME_OPTION) {
             startNewGame();
             return;
         }
-        if (menuSelection == 2) {
+        if (menuSelection == PREVIOUS_GAME_OPTION) {
             startPreviousGame();
             return;
         }
-        throw new IllegalArgumentException("잘못입력함");
+        throw new IllegalArgumentException("잘못 입력했습니다. 1 또는 2만 입력 가능합니다.");
     }
 
     private void startNewGame() {
@@ -114,12 +120,7 @@ public class JanggiController {
     }
 
     private PiecesDto getPieceInfos(final JanggiGame janggiGame) {
-        Map<PositionDto, PieceInfoDto> pieces = janggiGame.getPieces().entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> PositionDto.of(entry.getKey()),
-                        entry -> PieceInfoDto.of(entry.getValue().getPieceType(), entry.getValue().getTeam())
-                ));
-        return PiecesDto.of(pieces);
+        return PiecesDto.from(janggiGame);
     }
 
     private void processTurn(final JanggiGame janggiGame) {

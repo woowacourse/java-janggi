@@ -31,8 +31,7 @@ public class JanggiGame {
 
     public static JanggiGame init(
             final ElephantSetup choElephantSetup,
-            final ElephantSetup hanElephantSetup,
-            final GameState gameState
+            final ElephantSetup hanElephantSetup
     ) {
         return new JanggiGame(
                 BoardInitializer.init(
