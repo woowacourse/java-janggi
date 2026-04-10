@@ -1,5 +1,7 @@
 package persistence.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.GameStatus;
 import domain.PieceProperty;
 import domain.PieceType;
@@ -10,8 +12,8 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
 import javax.sql.DataSource;
-import org.assertj.core.api.Assertions;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,13 +49,31 @@ class JdbcGameStateRepositoryTest {
         repository.save(expected);
         GameState actual = repository.load();
 
-        Assertions.assertThat(actual.gameStatus()).isEqualTo(expected.gameStatus());
-        Assertions.assertThat(actual.pieceStates()).containsExactlyInAnyOrderElementsOf(expected.pieceStates());
+        assertThat(actual.gameStatus()).isEqualTo(expected.gameStatus());
+        assertThat(actual.pieceStates()).containsExactlyInAnyOrderElementsOf(expected.pieceStates());
+    }
+
+    @Test
+    @DisplayName("저장된 게임이 없으면 false를 반환한다.")
+    void nothing_save_game_return_false_test() {
+        boolean actual = repository.exist();
+
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    @DisplayName("저장된 게임이 있으면 true를 반환한다.")
+    void have_save_game_return_true_test() {
+        repository.save(createGameState());
+
+        boolean actual = repository.exist();
+
+        assertThat(actual).isTrue();
     }
 
     private DataSource createDataSource() {
         JdbcDataSource dataSource = new JdbcDataSource();
-        dataSource.setURL("jdbc:h2:mem:janggi;DB_CLOSE_DELAY=-1");
+        dataSource.setURL("jdbc:h2:mem:" + UUID.randomUUID());
         dataSource.setUser("sa");
         dataSource.setPassword("");
         return dataSource;
