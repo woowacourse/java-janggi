@@ -142,4 +142,16 @@ public final class JdbcGameStateRepository implements GameStateRepository {
                 resultSet.getInt("col_number"));
         return new PieceState(pieceProperty, position);
     }
+
+    @Override
+    public boolean exist() {
+        String sql = "select 1 from game limit 1";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next();
+        } catch (SQLException exception) {
+            throw new IllegalStateException("저장된 게임 상태 존재 여부를 조회할 수 없습니다.", exception);
+        }
+    }
 }
