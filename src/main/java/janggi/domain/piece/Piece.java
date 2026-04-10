@@ -16,6 +16,10 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    public static Piece of(PieceType pieceType, TeamType teamType) {
+        return pieceType.createPiece(teamType);
+    }
+
     public String name() {
         return pieceType.getName();
     }

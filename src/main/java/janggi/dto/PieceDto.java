@@ -1,6 +1,5 @@
 package janggi.dto;
 
-import janggi.domain.piece.PieceFactory;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -25,7 +24,7 @@ public record PieceDto(Long id, Long turnId, PieceType pieceType, TeamType teamT
                 .filter(pieceDto -> pieceDto.teamType == teamType)
                 .collect(Collectors.toMap(
                         pieceDto -> Position.of(pieceDto.x, pieceDto.y),
-                        pieceDto -> PieceFactory.create(pieceDto.pieceType, pieceDto.teamType)
+                        pieceDto -> Piece.of(pieceDto.pieceType, pieceDto.teamType)
                 ));
     }
 }
