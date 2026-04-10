@@ -1,6 +1,7 @@
 package janggi.repositiory.piece;
 
 import janggi.domain.piece.*;
+import janggi.domain.vo.FinishStatus;
 import janggi.domain.vo.position.Position;
 import janggi.repositiory.RepositoryTest;
 import janggi.repositiory.game.JdbcGameRepository;
@@ -23,7 +24,7 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         pieceRepository = new JdbcPieceRepository(dataSource);
 
         JdbcGameRepository gameRepository = new JdbcGameRepository(dataSource);
-        gameId = gameRepository.save(false, Team.CHO);
+        gameId = gameRepository.save(new FinishStatus(false), Team.CHO);
     }
 
     @Test

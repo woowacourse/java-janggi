@@ -2,13 +2,11 @@ package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.janggiGame.JanggiGame;
-import janggi.domain.janggiGame.ScoreBoard;
 import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +24,7 @@ class JanggiGameTest {
         janggiGame = new JanggiGame(board);
 
         // when, then
-        assertThat(janggiGame.isFinished()).isTrue();
+        assertThat(janggiGame.getFinishStatus().isFinished()).isTrue();
         assertThat(janggiGame.decideWinner()).isEqualTo(Team.CHO);
     }
 
@@ -43,7 +41,7 @@ class JanggiGameTest {
         janggiGame.skipTurn(); // 한(HAN) 턴 이행하지 않음
 
         // then
-        assertThat(janggiGame.isFinished()).isTrue();
+        assertThat(janggiGame.getFinishStatus().isFinished()).isTrue();
 
         assertThat(janggiGame.decideWinner()).isEqualTo(Team.CHO); // 2.0 vs 1.5
     }
@@ -61,7 +59,7 @@ class JanggiGameTest {
         janggiGame.move(from, to); // 한(HAN) 기물 이동
 
         // then
-        assertThat(janggiGame.isFinished()).isFalse();
+        assertThat(janggiGame.getFinishStatus().isFinished()).isFalse();
     }
 
     @Test
@@ -73,7 +71,7 @@ class JanggiGameTest {
         janggiGame.resign();
 
         // then
-        assertThat(janggiGame.isFinished()).isTrue();
+        assertThat(janggiGame.getFinishStatus().isFinished()).isTrue();
         assertThat(janggiGame.decideWinner()).isEqualTo(Team.HAN);
     }
 

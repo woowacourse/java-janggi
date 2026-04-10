@@ -2,6 +2,7 @@ package janggi.repositiory.game;
 
 import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.piece.Team;
+import janggi.domain.vo.FinishStatus;
 import org.h2.jdbcx.JdbcDataSource;
 
 import java.sql.*;
@@ -15,14 +16,14 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Long save(Boolean isFinished, Team currentTurn) {
+    public Long save(FinishStatus finishStatus, Team currentTurn) {
 
         String sql = "INSERT INTO game (is_finished, current_turn) VALUES (?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setBoolean(1,isFinished);
+            pstmt.setBoolean(1,finishStatus.isFinished());
             pstmt.setString(2, currentTurn.getCode());
 
             pstmt.executeUpdate();
@@ -70,7 +71,7 @@ public class JdbcGameRepository implements GameRepository {
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setBoolean(1, game.isFinished());
+            pstmt.setBoolean(1, game.getFinishStatus().isFinished());
             pstmt.setString(2, game.getCurrentTeam().getCode());
             pstmt.setLong(3, id);
 

@@ -2,6 +2,7 @@ package janggi.service;
 
 import janggi.domain.dto.MoveCommand;
 import janggi.domain.piece.*;
+import janggi.domain.vo.FinishStatus;
 import janggi.domain.vo.position.Position;
 import janggi.repositiory.game.GameRepository;
 import janggi.repositiory.game.JdbcGameRepository;
@@ -53,7 +54,7 @@ class JanggiServiceTest {
     @Test
     void 기존_게임_재시작_테스트() {
         // given
-        Long id = gameRepository.save(false, Team.HAN);
+        Long id = gameRepository.save(new FinishStatus(false), Team.HAN);
         pieceRepository.updateALL(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));
             put(new Position(8, 4), new King(Team.CHO));
@@ -70,7 +71,7 @@ class JanggiServiceTest {
     @Test
     void 턴_정상_플레이_테스트() {
         // given
-        Long id = gameRepository.save(false, Team.CHO);
+        Long id = gameRepository.save(new FinishStatus(false), Team.CHO);
         Position oldPosition = new Position(6, 2);
         pieceRepository.updateALL(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));
@@ -94,7 +95,7 @@ class JanggiServiceTest {
     @Test
     void 잘못된_이동_요청시_DB가_업데이트되지_않는다() {
         // given
-        Long id = gameRepository.save(false, Team.CHO);
+        Long id = gameRepository.save(new FinishStatus(false), Team.CHO);
         Position position = new Position(6, 2);
         pieceRepository.updateALL(id, new HashMap<>() {{
             put(new Position(1, 4), new King(Team.HAN));

@@ -3,6 +3,7 @@ package janggi.domain.janggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import janggi.domain.vo.FinishStatus;
 import janggi.domain.vo.position.Position;
 
 import java.util.HashMap;
@@ -32,8 +33,8 @@ public class JanggiGame {
         return board.getBoard();
     }
 
-    public boolean isFinished() {
-        return isKingCaught() || winner != Team.NONE || allTeamSkip();
+    public FinishStatus getFinishStatus() {
+        return new FinishStatus(isKingCaught() || winner != Team.NONE || allTeamSkip());
     }
 
     public Team getCurrentTeam() {

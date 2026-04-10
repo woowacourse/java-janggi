@@ -36,7 +36,7 @@ public class JanggiService {
 
         if (gameData.isEmpty() || gameData.get().isFinished()) {
             game = new JanggiGame(new Board(BoardInitializer.createBoard()));
-            gameId = gameRepository.save(game.isFinished(), game.getCurrentTeam());
+            gameId = gameRepository.save(game.getFinishStatus(), game.getCurrentTeam());
             pieceRepository.updateALL(gameId, game.getBoard());
 
             return new JanggiService(gameRepository, pieceRepository, game, gameId, false);
@@ -72,7 +72,7 @@ public class JanggiService {
     }
 
     public boolean isFinished() {
-        return janggiGame.isFinished();
+        return janggiGame.getFinishStatus().isFinished();
     }
 
     public Team getCurrentTeam() {

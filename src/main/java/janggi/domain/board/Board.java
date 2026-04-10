@@ -77,7 +77,7 @@ public class Board implements BoardView {
         remove(from);
         place(to, fromPiece);
     }
-    
+
     public void remove(Position position) {
         board.remove(position);
     }
