@@ -1,11 +1,8 @@
 package janggi;
 
 import janggi.controller.JanggiController;
-import janggi.repositiory.game.GameRepository;
 import janggi.repositiory.game.JdbcGameRepository;
 import janggi.repositiory.piece.JdbcPieceRepository;
-import janggi.repositiory.piece.PieceRepository;
-import janggi.service.JanggiService;
 import org.h2.jdbcx.JdbcDataSource;
 
 public class Application {
