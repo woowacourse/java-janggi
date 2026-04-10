@@ -72,6 +72,8 @@ public class GameRepositoryTest {
         gameRepository.save(game, connection);
         Game found = gameRepository.findByGameId(game.id(), connection, pieces);
 
+        assertThat(found.id()).isEqualTo(game.id());
+        assertThat(found.turn()).isEqualTo(game.turn());
         assertThat(found.board().getPieces()).hasSize(3);
     }
 
