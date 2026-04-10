@@ -1,6 +1,10 @@
 package repository;
 
-import entity.GameEntity;
+import domain.board.Board;
+import domain.board.Team;
+import domain.game.Game;
+import domain.game.Status;
+import repository.dto.GameDto;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
@@ -11,15 +15,15 @@ import java.util.List;
 public class GameJdbcDao implements GameDao {
 
     @Override
-    public GameEntity save(Connection con, GameEntity game) {
+    public Game save(Connection con, Game game) {
         String sql = "insert into games(current_turn, status, created_at, updated_at) values(?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             OffsetDateTime now = OffsetDateTime.now();
 
-            pstmt.setString(1, game.getCurrentTurn());
-            pstmt.setString(2, game.getStatus());
+            pstmt.setString(1, game.getCurrentTeam().name());
+            pstmt.setString(2, game.getStatus().name());
             pstmt.setObject(3, now);
             pstmt.setObject(4, now);
             pstmt.executeUpdate();
@@ -27,7 +31,7 @@ public class GameJdbcDao implements GameDao {
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     Long generatedId = rs.getLong(1);
-                    return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus(), now);
+                    return Game.loadGame(generatedId, game.getBoard(), game.getCurrentTeam(), game.getStatus());
                 }
             }
             throw new RuntimeException("[ERROR] ID 생성 실패");
@@ -54,7 +58,7 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public List<GameEntity> findAll() {
+    public List<GameDto> findAll() {
         String sql = "select * from games";
 
         try (Connection con = getConnection();
@@ -62,22 +66,44 @@ public class GameJdbcDao implements GameDao {
         ) {
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                List<GameEntity> gameEntities = new ArrayList<>();
+                List<GameDto> gameDtos = new ArrayList<>();
                 while (rs.next()) {
-                    GameEntity game = new GameEntity(
+                    GameDto game = new GameDto(
                             rs.getLong("id"),
-                            rs.getString("current_turn"),
-                            rs.getString("status"),
                             rs.getTimestamp("updated_at")
                                     .toInstant()
                                     .atZone(ZoneId.of("Asia/Seoul"))
                                     .toOffsetDateTime()
                     );
-
-                    gameEntities.add(game);
+                    gameDtos.add(game);
                 }
-                return gameEntities;
+                return gameDtos;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Game findById(Long gameId, Board board) {
+        String sql = "select * from games where id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
+
+            pstmt.setLong(1, gameId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return Game.loadGame(rs.getLong("id"),
+                                board,
+                                Team.valueOf(rs.getString("current_turn")),
+                                Status.valueOf(rs.getString("status")
+                            ));
+                }
+            }
+            throw new RuntimeException("[ERROR] Game이 존재하지 않습니다.");
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         }

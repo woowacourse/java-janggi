@@ -2,8 +2,8 @@ package view;
 
 import domain.board.Formation;
 import domain.game.GameType;
+import repository.dto.GameDto;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,18 +37,20 @@ public class InputView {
         }
     }
 
-    public int readGameNumber(List<OffsetDateTime> games) {
+    public Long readGameNumber(List<GameDto> games) {
         System.out.println("어떤 게임을 이어서 하시겠어요? (숫자만 입력)");
-        for (int i = 0; i < games.size(); i++) {
-            System.out.println(i + 1 + "번 게임 마지막 수정 시간 : " + games.get(i));
+        for (GameDto game : games) {
+            System.out.println(game.getId() + "번 게임 마지막 수정 시간 : " + game.getUpdatedAt());
         }
 
         String input = scanner.nextLine().trim();
         try {
-            int parsedInput = Integer.parseInt(input);
-            if (parsedInput > games.size() || parsedInput <= 0) {
-                throw new IllegalArgumentException();
-            }
+            Long parsedInput = Long.parseLong(input);
+            games.stream()
+                    .filter(g -> g.getId().equals(parsedInput))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
+
             System.out.println();
             return parsedInput;
         }

@@ -3,7 +3,7 @@ import domain.game.Game;
 import domain.game.GameType;
 import domain.game.Status;
 import domain.vo.Position;
-import entity.GameEntity;
+import repository.dto.GameDto;
 import view.InputView;
 import view.OutputView;
 
@@ -41,8 +41,8 @@ public class JanggiController {
 
     private void startNewGame() {
         Game game = initializeGame();
-        GameEntity savedGame = janggiService.saveGame(game);
-        playGame(game, savedGame);
+        Game savedGame = janggiService.saveGame(game);
+        playGame(savedGame);
     }
 
     private Game initializeGame() {
@@ -54,34 +54,28 @@ public class JanggiController {
     }
 
     private boolean loadAndPlayGame() {
-        List<GameEntity> savedGames = janggiService.findAllGames();
+        List<GameDto> savedGames = janggiService.findAllGames();
         if (savedGames.isEmpty()) {
             outputView.printMessage("기존에 진행하던 게임이 없습니다.");
             return true;
         }
 
-        int gameId = inputView.readGameNumber(savedGames.stream()
-                .map(GameEntity::getUpdatedAt)
-                .toList());
-        GameEntity findGame = savedGames.get(gameId - 1);
-
-        Status status = Status.valueOf(findGame.getStatus());
-        if (status != Status.PLAYING) {
-            outputView.printGameResult(status);
+        Long gameId = inputView.readGameNumber(savedGames);
+        Game game = janggiService.loadGame(gameId);
+        if (game.getStatus() != Status.PLAYING) {
+            outputView.printGameResult(game.getStatus());
             return true;
         }
 
-        Game game = janggiService.loadGame(findGame);
-
-        playGame(game, findGame);
+        playGame(game);
         return false;
     }
 
 
-    private void playGame(Game game, GameEntity gameEntity) {
+    private void playGame(Game game) {
         while (true) {
             outputView.printBoard(game.getBoard().getBoard());
-            boolean isContinue = handleMove(game, gameEntity.getId());
+            boolean isContinue = handleMove(game);
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
@@ -91,17 +85,17 @@ public class JanggiController {
         outputView.printGameResult(game.getStatus());
     }
 
-    private boolean handleMove(Game game, Long gameId) {
+    private boolean handleMove(Game game) {
         try {
             String turnName = game.getTurnDisplayName();
-            return proceedMove(game, gameId, turnName);
+            return proceedMove(game, turnName);
         } catch (Exception e) {
             outputView.printMessage("[ERROR] " + e.getMessage());
-            return handleMove(game, gameId);
+            return handleMove(game);
         }
     }
 
-    private boolean proceedMove(Game game, Long gameId, String turnName) {
+    private boolean proceedMove(Game game, String turnName) {
         String currentInput = inputView.readPosition(turnName);
         if (handleQuitOrStopCommand(game, turnName, currentInput)) {
             return false;
@@ -116,7 +110,7 @@ public class JanggiController {
         }
         Position to = parsePosition(targetInput);
 
-        janggiService.moveAndSave(game, gameId, from, to);
+        janggiService.moveAndSave(game, from, to);
         return game.getStatus() == Status.PLAYING;
     }
 

@@ -5,11 +5,11 @@ import domain.board.Type;
 import domain.game.Game;
 import domain.game.Status;
 import domain.vo.Position;
-import entity.GameEntity;
 import entity.BoardEntity;
 import repository.DBConnectionUtil;
 import repository.GameDao;
 import repository.BoardDao;
+import repository.dto.GameDto;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,19 +28,18 @@ public class JanggiService {
         this.boardDao = boardDao;
     }
 
-    public List<GameEntity> findAllGames() {
+    public List<GameDto> findAllGames() {
         return gameDao.findAll();
     }
 
-    public Game loadGame(GameEntity gameEntity) {
-        List<BoardEntity> savedPieces = boardDao.findAllByGameId(gameEntity.getId());
+    public Game loadGame(Long gameId) {
+        List<BoardEntity> savedPieces = boardDao.findAllByGameId(gameId);
         Board board = convertPieceEntitiesToBoard(savedPieces);
 
-        Team team = Team.valueOf(gameEntity.getCurrentTurn());
-        return Game.loadGame(board, team, Status.valueOf(gameEntity.getStatus()));
+        return gameDao.findById(gameId, board);
     }
 
-    public void moveAndSave(Game game, Long gameId, Position from, Position to) {
+    public void moveAndSave(Game game, Position from, Position to) {
         try (Connection con = DBConnectionUtil.getConnection()) {
             con.setAutoCommit(false);
 
@@ -51,7 +50,7 @@ public class JanggiService {
                     game.changeTurn();
                 }
 
-                updateGameState(game, gameId, from, to, hasTargetPiece, con);
+                updateGameState(game, from, to, hasTargetPiece, con);
 
                 con.commit();
             } catch (Exception e) {
@@ -63,20 +62,18 @@ public class JanggiService {
         }
     }
 
-    public GameEntity saveGame(Game game) {
+    public Game saveGame(Game game) {
         try (Connection con = DBConnectionUtil.getConnection()) {
             con.setAutoCommit(false);
 
             try {
-                GameEntity gameEntity = gameDao.save(con,
-                        new GameEntity(game.getCurrentTeam().name(), game.getStatus().toString())
-                );
+                Game savedGame = gameDao.save(con, game);
 
-                List<BoardEntity> boards = convertBoardToPieceEntities(gameEntity.getId(), game.getBoard());
+                List<BoardEntity> boards = convertBoardToPieceEntities(savedGame.getId(), game.getBoard());
                 boardDao.saveAll(con, boards);
 
                 con.commit();
-                return gameEntity;
+                return savedGame;
             } catch (Exception e) {
                 con.rollback();
                 throw new RuntimeException("[ERROR] 게임 저장 실패", e);
@@ -86,13 +83,13 @@ public class JanggiService {
         }
     }
 
-    private void updateGameState(Game game, Long gameId, Position from, Position to, boolean hasTargetPiece, Connection con) {
+    private void updateGameState(Game game, Position from, Position to, boolean hasTargetPiece, Connection con) {
         if (hasTargetPiece) {
-            boardDao.deleteByPosition(con, gameId, to.getRow(), to.getCol());
+            boardDao.deleteByPosition(con, game.getId(), to.getRow(), to.getCol());
         }
-        boardDao.updatePosition(con, gameId, from.getRow(), from.getCol(), to.getRow(), to.getCol());
+        boardDao.updatePosition(con, game.getId(), from.getRow(), from.getCol(), to.getRow(), to.getCol());
 
-        gameDao.update(con, gameId, game.getCurrentTeam().name(), game.getStatus().toString());
+        gameDao.update(con, game.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
     }
 
     private Board convertPieceEntitiesToBoard(List<BoardEntity> findPieces) {

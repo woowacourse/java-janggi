@@ -10,22 +10,24 @@ import java.util.Optional;
 
 public class Game {
 
+    private final Long id;
     private final Turn turn;
     private final Board board;
     private Status status;
 
-    private Game(final Board board, final Team team, final Status status) {
+    private Game(Long id, final Board board, final Team team, final Status status) {
+        this.id = id;
         this.turn = Turn.of(team);
         this.board = board;
         this.status = status;
     }
 
     public static Game of(final Board board) {
-        return new Game(board, Team.CHU, Status.PLAYING);
+        return new Game(null, board, Team.CHU, Status.PLAYING);
     }
 
-    public static Game loadGame(final Board board, final Team team, final Status status) {
-        return new Game(board, team, status);
+    public static Game loadGame(final Long id, final Board board, final Team team, final Status status) {
+        return new Game(id, board, team, status);
     }
 
     public void tryToMove(Position from, Position to) {
@@ -80,5 +82,9 @@ public class Game {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

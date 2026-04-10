@@ -3,11 +3,8 @@ import domain.board.Formation;
 import domain.board.Team;
 import domain.game.Game;
 import domain.vo.Position;
-import entity.GameEntity;
 import org.junit.jupiter.api.*;
 import repository.*;
-
-import java.util.List;
 
 class JanggiServiceTest {
 
@@ -48,12 +45,10 @@ class JanggiServiceTest {
         ));
 
         // when
-        GameEntity savedGame = janggiService.saveGame(game);
-        List<GameEntity> games = janggiService.findAllGames();
+        Game savedGame = janggiService.saveGame(game);
 
         // then
         Assertions.assertNotNull(savedGame.getId());
-        Assertions.assertEquals("PLAYING", games.getFirst().getStatus());
     }
 
     @Test
@@ -64,10 +59,10 @@ class JanggiServiceTest {
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT,
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT
         ));
-        GameEntity savedGame = janggiService.saveGame(game);
+        Game savedGame = janggiService.saveGame(game);
 
         // when
-        Game loadedGame = janggiService.loadGame(savedGame);
+        Game loadedGame = janggiService.loadGame(savedGame.getId());
 
         // then
         Assertions.assertEquals(Team.CHU, loadedGame.getCurrentTeam());
@@ -83,16 +78,15 @@ class JanggiServiceTest {
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT
         ));
 
-        GameEntity savedGame = janggiService.saveGame(game);
+        Game savedGame = janggiService.saveGame(game);
 
         // when
-        janggiService.moveAndSave(game, savedGame.getId(), Position.of(3, 0), Position.of(4, 0));
+        janggiService.moveAndSave(savedGame, Position.of(3, 0), Position.of(4, 0));
 
-        List<GameEntity> games = janggiService.findAllGames();
-        Game loadedGame = janggiService.loadGame(games.getFirst());
+        Game loadedGame = janggiService.loadGame(1L);
 
         // then
-        Assertions.assertEquals("HAN", games.getFirst().getCurrentTurn());
+        Assertions.assertEquals(Team.HAN, loadedGame.getCurrentTeam());
         Assertions.assertTrue(loadedGame.getBoard().findPieceByPosition(Position.of(4, 0)).isPresent());
         Assertions.assertTrue(loadedGame.getBoard().findPieceByPosition(Position.of(3, 0)).isEmpty());
     }

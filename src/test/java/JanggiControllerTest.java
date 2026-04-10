@@ -4,14 +4,15 @@ import domain.board.Team;
 import domain.game.Game;
 import domain.game.GameType;
 import domain.game.Status;
-import entity.GameEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repository.dto.GameDto;
 import view.InputView;
 import view.OutputView;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -62,13 +63,19 @@ class JanggiControllerTest {
     @DisplayName("종료된 저장 게임을 불러오면 결과만 출력한다")
     void shouldPrintResultWhenLoadedGameIsFinished() {
         // given
-        GameEntity gameEntity = new GameEntity("CHU", "CHU_WIN");
+        Long id = 1L;
+        Game game = Game.loadGame(
+                id,
+                BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
+                Team.HAN,
+                Status.CHU_WIN
+        );
+        when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
+        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
+        when(inputView.readGameNumber(anyList())).thenReturn(id);
+        when(janggiService.loadGame(id)).thenReturn(game);
 
         // when
-        when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(gameEntity));
-        when(inputView.readGameNumber(anyList())).thenReturn(1);
-
         janggiController.run();
 
         // then
@@ -79,16 +86,17 @@ class JanggiControllerTest {
     @DisplayName("중단 명령을 입력하면 게임을 종료한다")
     void shouldEndGameWhenStopCommandIsEntered() {
         // given
-        GameEntity gameEntity = new GameEntity("CHU", "PLAYING");
+        Long id = 1L;
         Game game = Game.loadGame(
+                id,
                 BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
                 Team.HAN,
                 Status.PLAYING
         );
         when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(gameEntity));
-        when(inputView.readGameNumber(anyList())).thenReturn(1);
-        when(janggiService.loadGame(gameEntity)).thenReturn(game);
+        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
+        when(inputView.readGameNumber(anyList())).thenReturn(id);
+        when(janggiService.loadGame(id)).thenReturn(game);
 
         when(inputView.readPosition(anyString())).thenReturn("n");
 
@@ -105,16 +113,17 @@ class JanggiControllerTest {
     @DisplayName("기권 명령을 입력하면 게임을 종료한다")
     void shouldEndGameWhenQuitCommandIsEntered() {
         // given
-        GameEntity gameEntity = new GameEntity("CHU", "PLAYING");
+        Long id = 1L;
         Game game = Game.loadGame(
+                id,
                 BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
                 Team.HAN,
                 Status.PLAYING
         );
         when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(gameEntity));
-        when(inputView.readGameNumber(anyList())).thenReturn(1);
-        when(janggiService.loadGame(gameEntity)).thenReturn(game);
+        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
+        when(inputView.readGameNumber(anyList())).thenReturn(id);
+        when(janggiService.loadGame(id)).thenReturn(game);
 
         when(inputView.readPosition(anyString())).thenReturn("r");
 
@@ -130,16 +139,17 @@ class JanggiControllerTest {
     @DisplayName("잘못된 위치를 입력하면 에러 메시지를 출력하고 다시 입력받는다")
     void shouldRetryWhenInvalidPositionIsEntered() {
         // given
-        GameEntity gameEntity = new GameEntity("CHU", "PLAYING");
+        Long id = 1L;
         Game game = Game.loadGame(
+                id,
                 BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
                 Team.HAN,
                 Status.PLAYING
         );
         when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(gameEntity));
-        when(inputView.readGameNumber(anyList())).thenReturn(1);
-        when(janggiService.loadGame(gameEntity)).thenReturn(game);
+        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
+        when(inputView.readGameNumber(anyList())).thenReturn(id);
+        when(janggiService.loadGame(id)).thenReturn(game);
 
         when(inputView.readPosition(anyString())).thenReturn("1 0", "n");
 
@@ -155,16 +165,17 @@ class JanggiControllerTest {
     @DisplayName("상대 팀 기물을 선택하면 에러 메시지를 출력하고 다시 입력받는다")
     void shouldRetryWhenOpponentPieceIsSelected() {
         // given
-        GameEntity gameEntity = new GameEntity("CHU", "PLAYING");
+        Long id = 1L;
         Game game = Game.loadGame(
+                id,
                 BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
                 Team.HAN,
                 Status.PLAYING
         );
         when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(gameEntity));
-        when(inputView.readGameNumber(anyList())).thenReturn(1);
-        when(janggiService.loadGame(gameEntity)).thenReturn(game);
+        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
+        when(inputView.readGameNumber(anyList())).thenReturn(id);
+        when(janggiService.loadGame(id)).thenReturn(game);
 
         when(inputView.readPosition(anyString())).thenReturn("0 0", "n");
 
