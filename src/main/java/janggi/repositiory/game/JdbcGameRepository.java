@@ -40,7 +40,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<GameData> findLatestOngoingGame() {
+    public Optional<GameData> findLatestGame() {
         String sql = "SELECT id, current_turn, is_finished FROM game ORDER BY id DESC LIMIT 1";
 
         try (Connection conn = getConnection();
