@@ -26,7 +26,7 @@ public class JanggiService {
     }
 
     public Game loadGame(Long gameId) {
-        Board board = boardDao.findAllByGameId(gameId);
+        Board board = boardDao.findByGameId(gameId);
         return gameDao.findById(gameId, board);
     }
 
@@ -59,7 +59,7 @@ public class JanggiService {
 
             try {
                 Game savedGame = gameDao.save(con, game);
-                boardDao.saveAll(con, savedGame.getId(),game.getBoard());
+                boardDao.saveBoard(con, savedGame.getId(),game.getBoard());
 
                 con.commit();
                 return savedGame;

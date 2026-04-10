@@ -13,7 +13,7 @@ import java.util.Map;
 public class BoardJdbcDao implements BoardDao {
 
     @Override
-    public void saveAll(Connection con, Long gameId, Board board) {
+    public void saveBoard(Connection con, Long gameId, Board board) {
         String sql = "insert into boards(game_id, position_col, position_row, team, piece_type) values(?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -66,7 +66,7 @@ public class BoardJdbcDao implements BoardDao {
     }
 
     @Override
-    public Board findAllByGameId(Long gameId) {
+    public Board findByGameId(Long gameId) {
         String sql = "select * from boards where game_id = ?";
 
         try (Connection con = getConnection();
