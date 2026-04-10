@@ -52,21 +52,19 @@ public class Application {
         Board board;
         if (boardId == 0) {
             board = Board.from(BoardInitializer.init(InputView.readBoardSetting()));
-        } else {
-            board = transactionManager.executeTransaction(connection -> boardRepository.findById(connection, (long) boardId));
+            transactionManager.executeTransaction(connection -> {
+                boardRepository.save(connection, board);
+                return null;
+            });
+            return board;
         }
-
-        transactionManager.executeTransaction(connection -> {
-            boardRepository.save(connection, board);
-            return null;
-        });
-        return board;
+        return transactionManager.executeTransaction(connection -> boardRepository.findById(connection, (long) boardId));
     }
 
     private static void printSavedBoards(TransactionManager transactionManager, BoardRepository boardRepository) {
         transactionManager.executeTransaction(connection -> {
             List<BoardDto> boards = boardRepository.findAll(connection);
-            OutputView.printBoardSummaries(boards);
+            OutputView.printBoards(boards);
             return null;
         });
     }

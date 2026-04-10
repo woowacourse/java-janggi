@@ -35,7 +35,7 @@ public class OutputView {
         }
     }
 
-    public static void printBoardSummaries(List<BoardDto> boards) {
+    public static void printBoards(List<BoardDto> boards) {
         System.out.println("저장된 장기판 목록");
         if (boards.isEmpty()) {
             System.out.println("진행 중인 장기판이 없습니다.");
@@ -43,7 +43,9 @@ public class OutputView {
         }
 
         for (BoardDto board : boards) {
-            System.out.printf("[%d]", board.id());
+            if (board.gameInProgress()) {
+                System.out.printf("[%d]", board.id());
+            }
         }
         System.out.println();
     }
