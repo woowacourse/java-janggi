@@ -69,7 +69,24 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findByName(String name) {
+    public Optional<String> findByName(String gameName) {
+        String sql = """
+                SELECT id FROM game
+                WHERE name = ?
+                """;
+
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, gameName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String gameId = rs.getString("id");
+                    return Optional.of(gameId);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 조회 도중 오류가 발생했습니다.", e);
+        }
         return Optional.empty();
     }
 

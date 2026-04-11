@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.controller.dto.PositionRequest;
+import janggi.domain.Janggi;
 import janggi.domain.position.Position;
 import janggi.exception.DuplicateGameException;
 import janggi.service.JanggiService;
@@ -93,21 +94,13 @@ public class JanggiController {
 
     private Optional<String> loadGame() {
         List<String> gameNames = janggiService.findAllNames();
-        Optional<String> gameIdOpt = inputView.readGameName(gameNames);
+        Optional<String> gameNameOpt = inputView.readGameName(gameNames);
 
-        if (gameIdOpt.isEmpty()) {
+        if (gameNameOpt.isEmpty()) {
             return Optional.empty();
         }
-        validateGameId(gameIdOpt.get(), gameNames);
-        return gameIdOpt;
-    }
-
-    private void validateGameId(String gameName, List<String> names) {
-        boolean exists = names.stream()
-                .anyMatch(name -> name.equals(gameName));
-        if (!exists) {
-            throw new IllegalArgumentException("존재하지 않는 게임입니다.");
-        }
+        String gameId= janggiService.findGameByName(gameNameOpt.get());
+        return Optional.of(gameId);
     }
 
     private void playTurn(String gameId) {

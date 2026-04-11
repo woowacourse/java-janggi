@@ -78,6 +78,11 @@ public class JanggiService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
     }
 
+    public String findGameByName(String gameName) {
+        return gameRepository.findByName(gameName)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
+    }
+
     public Camp getCurrentCamp(String gameId) {
         return findGameById(gameId).currentCamp();
     }

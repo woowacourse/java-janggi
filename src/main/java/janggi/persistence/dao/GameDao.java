@@ -12,7 +12,7 @@ public interface GameDao {
 
     List<String> findAllNames();
 
-    Optional<GameEntity> findByName(String name);
+    Optional<String> findByName(String name);
 
     void deleteByName(String name);
 

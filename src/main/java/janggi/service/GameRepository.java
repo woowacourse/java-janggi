@@ -12,7 +12,7 @@ public interface GameRepository {
 
     List<String> findAllNames();
 
-    Optional<Janggi> findByName(String name);
+    Optional<String> findByName(String gameName);
 
     void updateGameResult(String gameId, Janggi janggi);
 

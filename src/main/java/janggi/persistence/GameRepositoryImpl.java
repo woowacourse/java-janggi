@@ -44,7 +44,7 @@ public class GameRepositoryImpl implements GameRepository {
         GameEntity gameEntity = gameMapper.toGameEntity(newGameId, name, janggi);
         gameDao.create(gameEntity);
 
-        List<PieceEntity> pieceEntities = pieceMapper.toEntity(newGameId, janggi);
+        List<PieceEntity> pieceEntities = pieceMapper.toPieceEntity(newGameId, janggi);
         pieceDao.createAll(pieceEntities);
 
         return newGameId;
@@ -64,8 +64,8 @@ public class GameRepositoryImpl implements GameRepository {
 
         GameEntity gameEntity = gameEntityOpt.get();
         List<PieceEntity> pieceEntities = pieceDao.findByGameId(gameId);
-        Map<Position, Piece> board = pieceMapper.toDomainBoard(pieceEntities);
-        Janggi resurrectedJanggi = gameMapper.toDomain(gameEntity, board);
+        Map<Position, Piece> board = pieceMapper.toBoard(pieceEntities);
+        Janggi resurrectedJanggi = gameMapper.toJanggi(gameEntity, board);
 
         activeGames.put(gameId, resurrectedJanggi);
 
@@ -76,7 +76,7 @@ public class GameRepositoryImpl implements GameRepository {
     public void update(String gameId, Janggi janggi) {
         gameDao.updateStatus(gameId, Turn.of(janggi.currentCamp()), Status.of(janggi));
         pieceDao.deleteByGameId(gameId);
-        pieceDao.createAll(pieceMapper.toEntity(gameId, janggi));
+        pieceDao.createAll(pieceMapper.toPieceEntity(gameId, janggi));
         activeGames.put(gameId, janggi.clone());
     }
 
@@ -96,8 +96,8 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Optional<Janggi> findByName(String name) {
-        return Optional.empty();
+    public Optional<String> findByName(String gameName) {
+        return gameDao.findByName(gameName);
     }
 
     @Override
