@@ -1,8 +1,8 @@
 import controller.JanggiController;
-import database.GameRepository;
 import database.jdbc.DatabaseConnector;
 import database.jdbc.JdbcGameDao;
 import database.jdbc.JdbcPieceDao;
+import database.service.GameService;
 import view.ConsolePieceAppearance;
 import view.InputView;
 import view.OutputView;
@@ -12,9 +12,9 @@ public class JanggiApplication {
         DatabaseConnector connector = new DatabaseConnector();
         JdbcGameDao jdbcGameDao = new JdbcGameDao(connector);
         JdbcPieceDao jdbcPieceDao = new JdbcPieceDao(connector);
-        GameRepository gameRepository = new GameRepository(jdbcGameDao, jdbcPieceDao);
+        GameService gameService = new GameService(connector, jdbcGameDao, jdbcPieceDao);
         JanggiController janggiController = new JanggiController(new InputView(),
-                new OutputView(new ConsolePieceAppearance()), gameRepository);
+                new OutputView(new ConsolePieceAppearance()), gameService);
         janggiController.run();
     }
 }

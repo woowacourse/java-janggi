@@ -1,7 +1,7 @@
 package controller;
 
-import database.GameRepository;
 import database.dto.GameDto;
+import database.service.GameService;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.game.Score;
@@ -18,12 +18,12 @@ import view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameRepository gameRepository;
+    private final GameService gameService;
 
-    public JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
+    public JanggiController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
 
     public void run() {
@@ -50,17 +50,17 @@ public class JanggiController {
         outputView.printWinner(board.decideWinner());
         outputView.printScore(Team.CHO, scores.get(Team.CHO));
         outputView.printScore(Team.HAN, scores.get(Team.HAN));
-        gameRepository.deleteGame(state.gameId());
+        gameService.deleteGame(state.gameId());
     }
 
     private GameState initializeGame() {
-        return gameRepository.findLatestGame()
+        return gameService.findLatestGame()
                 .map(this::resumeGame)
                 .orElseGet(this::startNewGame);
     }
 
     private GameState resumeGame(GameDto entity) {
-        Board board = new Board(gameRepository.loadPieces(entity.id()));
+        Board board = new Board(gameService.loadPieces(entity.id()));
         Turn turn = Turn.of(entity.currentTurn());
         return new GameState(board, turn, entity.id());
     }
@@ -68,7 +68,7 @@ public class JanggiController {
     private GameState startNewGame() {
         Board board = createBoard();
         Turn turn = Turn.first();
-        int gameId = gameRepository.startNewGame(turn.current(), board.getState());
+        int gameId = gameService.startNewGame(turn.current(), board.getState());
         return new GameState(board, turn, gameId);
     }
 
@@ -97,10 +97,7 @@ public class JanggiController {
         List<Position> positions = inputView.askMovePiecePosition(turn.current());
         Position src = positions.get(0);
         Position dest = positions.get(1);
-        boolean isCapture = board.hasPieceAt(dest);
-        board.move(src, dest, turn.current());
-        Turn next = turn.next();
-        gameRepository.saveMove(gameId, src, dest, isCapture, next.current());
+        Turn next = gameService.executeMove(gameId, board, turn, src, dest);
         outputView.printBoard(board);
         return next;
     }
