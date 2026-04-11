@@ -5,7 +5,7 @@ import janggi.domain.Janggi;
 import java.util.List;
 import java.util.Optional;
 
-public interface JanggiDao {
+public interface JanggiRepository {
     
     Long save(Janggi janggi);
     void update(Long id, Janggi janggi);
