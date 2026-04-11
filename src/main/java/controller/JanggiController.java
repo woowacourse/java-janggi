@@ -138,7 +138,11 @@ public final class JanggiController {
                 return;
             }
 
-            processTurn(moveCommand, janggiGame);
+            try {
+                processTurn(moveCommand, janggiGame);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
 
         finishGame(gameWrapper, janggiGame);
