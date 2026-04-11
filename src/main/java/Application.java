@@ -28,7 +28,10 @@ public class Application {
 
             playTurn(player, janggi);
             OutputView.printScore(janggi.getGameTotalScore());
-            if(janggi.isGameOver()) break;
+            if(janggi.isGameOver()) {
+                OutputView.printWinner(janggi.getWinner());
+                break;
+            }
         }
     }
 

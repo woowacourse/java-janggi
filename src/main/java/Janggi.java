@@ -12,6 +12,7 @@ public class Janggi {
     private final Players players;
     private final Board board;
     private Player currentPlayer;
+    private Player winner;
     private boolean gameOver;
     private double choScore = 72;
     private double hanScore = 73.5;
@@ -50,6 +51,10 @@ public class Janggi {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     private void validateFromPiece(Position from, Position to) {
@@ -102,6 +107,7 @@ public class Janggi {
     private boolean endGameIfGeneralCaptured(Optional<Piece> toPiece) {
         if (toPiece.filter(Piece::isGeneral).isPresent()) {
             this.gameOver = true;
+            this.winner = currentPlayer;
             return true;
         }
         return false;

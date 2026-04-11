@@ -5,6 +5,7 @@ import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
 
 import domain.place.piece.Side;
+import domain.player.Player;
 import java.util.List;
 
 public class OutputView {
@@ -27,6 +28,9 @@ public class OutputView {
 
     private static final String PRINT_SCORE =
             "초나라 점수 : %.1f, 한나라 점수: %.1f\n";
+
+    private static final String PRINT_WINNER =
+            "승자 : %s %s\n";
 
     private static final String EMPTY = "．";
 
@@ -61,6 +65,10 @@ public class OutputView {
 
     public static void printScore(List<Double> scores) {
         System.out.printf(PRINT_SCORE, scores.get(0), scores.get(1));
+    }
+
+    public static void printWinner(Player winner) {
+        System.out.printf(PRINT_WINNER, winner.getSide().getName(), winner.getName());
     }
 
     public static void printBoard(List<List<String>> boardFormats) {
