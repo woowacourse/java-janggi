@@ -5,8 +5,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
 import janggi.domain.team.TurnManager;
 import java.util.LinkedHashMap;
@@ -114,6 +117,33 @@ public class BoardTest {
             boolean actual = boardMediator.isPalace(position);
 
             assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("점수 계산 테스트")
+    class calculateScore {
+
+        @Test
+        @DisplayName("한나라 점수 계산")
+        void success_1() {
+            Map<Position, Piece> pieces = Map.of(
+                    Position.valueOf(1, 1), new Chariot(TeamType.RED),
+                    Position.valueOf(2, 1), new Cannon(TeamType.RED)
+            );
+            Board board = new Board(pieces);
+            assertThat(board.calculateScore(TeamType.RED)).isEqualTo(20.0);
+        }
+
+        @Test
+        @DisplayName("초나라 점수 계산")
+        void success_2() {
+            Map<Position, Piece> pieces = Map.of(
+                    Position.valueOf(1, 1), new Soldier(TeamType.BLUE),
+                    Position.valueOf(2, 1), new Guard(TeamType.BLUE)
+            );
+            Board board = new Board(pieces);
+            assertThat(board.calculateScore(TeamType.RED)).isEqualTo(6.5);
         }
     }
 }
