@@ -4,13 +4,13 @@ import janggi.controller.mapper.ArrangementMapper;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
 import janggi.domain.board.strategy.BoardAssembler;
+import janggi.domain.piece.Piece;
 import janggi.view.ApplicationView;
 import janggi.view.label.ArrangementStrategyLabel;
+import janggi.view.label.PieceLabel;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -58,8 +58,7 @@ public class JanggiFlow {
         return boardIn2D.stream()
                 .map(
                         row -> row.stream()
-                                .map(Piece::getPieceType)
-                                .map(PieceType::getNameFormat)
+                                .map(PieceLabel::getPieceFormatWithSideInfo)
                                 .toList()
                 ).toList();
     }

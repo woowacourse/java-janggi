@@ -23,8 +23,8 @@ public class ActivePiece implements Piece {
         Optional<List<Location>> calculatedRoute = movement.calculateRoute(from, to);
         if (calculatedRoute.isEmpty()) {
             throw new IllegalArgumentException(
-                    String.format("%s의 기물 이동 규칙 위반: 해당 위치%s에 도달할 수 없습니다.",
-                            pieceType.getNameFormat(), to.getFormattedLocation())
+                    String.format("%s 기물 이동 규칙 위반: 해당 위치%s에 도달할 수 없습니다.",
+                            pieceType.name(), to.getFormattedLocation())
             );
         }
 
