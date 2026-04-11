@@ -1,10 +1,10 @@
 package janggi.domain;
 
-import janggi.domain.moveRules.ChaPalaceMoveRule;
-import janggi.domain.moveRules.JumpMoveRule;
 import janggi.domain.moveRules.MoveRule;
-import janggi.domain.moveRules.OnceMoveRule;
-import janggi.domain.moveRules.PoPalaceMoveRule;
+import janggi.domain.moveRules.outOfPalaceMoveRules.JumpMoveRule;
+import janggi.domain.moveRules.outOfPalaceMoveRules.OnceMoveRule;
+import janggi.domain.moveRules.palaceMoveRule.ChaPalaceMoveRule;
+import janggi.domain.moveRules.palaceMoveRule.PoPalaceMoveRule;
 
 public enum PieceType {
     KING(new OnceMoveRule()),

@@ -1,4 +1,4 @@
-package janggi.domain.moveRules;
+package janggi.domain.moveRules.palaceMoveRules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,6 +7,8 @@ import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import janggi.domain.moveRules.MoveRule;
+import janggi.domain.moveRules.palaceMoveRule.ChaPalaceMoveRule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,5 +38,5 @@ class ChaPalaceMoveRuleTest {
         assertThat(availablePositions).containsAll(List.of(chaPalaceCenter, pointReflect));
     }
 
-    
+
 }

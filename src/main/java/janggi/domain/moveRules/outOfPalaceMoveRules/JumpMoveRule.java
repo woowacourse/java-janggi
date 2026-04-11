@@ -1,4 +1,4 @@
-package janggi.domain.moveRules;
+package janggi.domain.moveRules.outOfPalaceMoveRules;
 
 import janggi.domain.Direction;
 import janggi.domain.Piece;
@@ -6,6 +6,7 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Team;
+import janggi.domain.moveRules.MoveRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
