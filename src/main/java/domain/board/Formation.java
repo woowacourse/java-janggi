@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.piece.PieceDefinition;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Formation {
@@ -16,14 +17,12 @@ public enum Formation {
         this.inputNumber = inputNumber;
         this.variablePieces = variablePieces;
     }
-
+    
     public static Formation from(int inputNumber) {
-        for (Formation formation : values()) {
-            if (formation.inputNumber == inputNumber) {
-                return formation;
-            }
-        }
-        throw new IllegalArgumentException("존재하지 않는 상차림 번호입니다: " + inputNumber);
+        return Arrays.stream(values())
+                .filter(formation -> formation.inputNumber == inputNumber)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상차림 번호입니다: " + inputNumber));
     }
 
     public List<PieceDefinition> getVariablePieces() {
