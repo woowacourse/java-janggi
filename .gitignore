@@ -30,3 +30,13 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# H2 Database file
+*.mv.db
+janggi.trace.db
+
+# 컴파일된 결과물 제외
+bin/
+
+# etc
+repomix*.*
