@@ -7,15 +7,15 @@ import domain.board.Board;
 import domain.game.exception.GameEndedException;
 import domain.game.exception.GameErrorMessage;
 import domain.game.exception.InvalidTurnException;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.jupiter.api.Test;
 import domain.pieces.Cha;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Gung;
 import domain.pieces.Piece;
 import domain.pieces.Side;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
 
@@ -152,5 +152,28 @@ class JanggiGameTest {
         // then
         assertThat(janggiGame.gameResult().isEnded()).isTrue();
         assertThat(janggiGame.gameResult().winner()).isEqualTo(gameScore.winner());
+    }
+
+    @Test
+    void 복원하면_현재_턴과_게임_결과와_보드_상태를_유지한다() {
+        // given
+        Position position1 = new Position(7, 4);
+        Position position2 = new Position(8, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(position1, new Cha(Side.CHO));
+        pieces.put(position2, new Gung(Side.HAN));
+
+        Board board = new Board(pieces);
+        Side currentTurn = Side.CHO;
+        GameResult gameResult = GameResult.running();
+
+        // when
+        JanggiGame restoredGame = JanggiGame.restore(board, currentTurn, gameResult);
+
+        // then
+        assertThat(restoredGame.currentTurn()).isEqualTo(currentTurn);
+        assertThat(restoredGame.gameResult()).isEqualTo(gameResult);
+        assertThat(restoredGame.board()).isEqualTo(board);
     }
 }
