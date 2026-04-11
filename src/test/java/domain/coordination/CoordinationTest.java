@@ -66,7 +66,6 @@ class CoordinationTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> from.diagonalPathTo(to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(Coordination.NOT_DIAGONAL_PATH_MESSAGE);
+                .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 }

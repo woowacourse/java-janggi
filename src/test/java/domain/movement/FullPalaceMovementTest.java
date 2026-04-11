@@ -2,13 +2,14 @@ package domain.movement;
 
 import domain.coordination.Coordination;
 import domain.piece.Team;
-import domain.piece.error.PieceException;
+import domain.piece.error.PalaceMovementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FullPalaceMovementTest {
 
@@ -68,9 +69,8 @@ class FullPalaceMovementTest {
                 "4,3,6,1"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessage(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatThrownBy(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {
@@ -142,9 +142,8 @@ class FullPalaceMovementTest {
                 "4,10,6,8"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessage(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatThrownBy(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {

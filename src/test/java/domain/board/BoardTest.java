@@ -1,11 +1,11 @@
 package domain.board;
 
 import domain.coordination.Coordination;
-import domain.piece.Cannon;
 import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.Team;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidTargetException;
+import domain.piece.error.PathBlockedException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -35,8 +35,7 @@ class BoardTest {
         Board board = BoardFactory.initialize("1", "1");
 
         assertThatThrownBy(() -> board.move(Coordination.of(1, 10), Coordination.of(column, row)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.BLOCKED_PATH_MESSAGE);
+                .isExactlyInstanceOf(PathBlockedException.class);
     }
 
     @ParameterizedTest
@@ -54,8 +53,7 @@ class BoardTest {
         Board board = BoardFactory.initialize("1", "1");
 
         assertThatThrownBy(() -> board.move(Coordination.of(1, 10), Coordination.of(column, row)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.SAME_TEAM_TARGET_MESSAGE);
+                .isExactlyInstanceOf(InvalidTargetException.class);
     }
 
     @ParameterizedTest
@@ -64,8 +62,7 @@ class BoardTest {
         Board board = BoardFactory.initialize("1", "1");
 
         assertThatThrownBy(() -> board.move(Coordination.of(2, 8), Coordination.of(column, row)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Cannon.NO_BRIDGE_MESSAGE);
+                .isExactlyInstanceOf(PathBlockedException.class);
     }
 
     @Test
@@ -73,8 +70,7 @@ class BoardTest {
         Board board = BoardFactory.initialize("1", "1");
 
         assertThatThrownBy(() -> board.move(Coordination.of(2, 8), Coordination.of(2, 1)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Cannon.CANNON_AS_BRIDGE_MESSAGE);
+                .isExactlyInstanceOf(PathBlockedException.class);
     }
 
     @Test
@@ -84,8 +80,7 @@ class BoardTest {
         board.move(Coordination.of(1, 7), Coordination.of(2, 7));
 
         assertThatThrownBy(() -> board.move(Coordination.of(2, 8), Coordination.of(2, 3)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Cannon.CANNON_AS_TARGET_MESSAGE);
+                .isExactlyInstanceOf(InvalidTargetException.class);
     }
 
     @ParameterizedTest
@@ -96,8 +91,7 @@ class BoardTest {
         board.move(Coordination.of(2, 1), Coordination.of(1, 3));
 
         assertThatThrownBy(() -> board.move(Coordination.of(1, 3), Coordination.of(column, row)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.BLOCKED_PATH_MESSAGE);
+                .isExactlyInstanceOf(PathBlockedException.class);
     }
 
     @ParameterizedTest
@@ -117,10 +111,8 @@ class BoardTest {
         board.move(Coordination.of(1, 10), Coordination.of(1, 9));
         board.move(Coordination.of(1, 9), Coordination.of(3, 9));
 
-
         assertThatThrownBy(() -> board.move(Coordination.of(3, 10), Coordination.of(column, row)))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.BLOCKED_PATH_MESSAGE);
+                .isExactlyInstanceOf(PathBlockedException.class);
     }
 
     @Test

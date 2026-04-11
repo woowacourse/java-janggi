@@ -1,14 +1,14 @@
 package domain.movement;
 
 import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import domain.piece.error.PalaceMovementException;
 
 import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractPalaceMovement implements PalaceMovement {
 
-    public static final String IMPOSSIBLE_PALACE_MOVE_MESSAGE = "궁성 내 이동 규칙에 어긋납니다.";
+    private static final String IMPOSSIBLE_PALACE_MOVE_MESSAGE = "궁성 내 이동 규칙에 어긋납니다.";
 
     protected final Map<Coordination, List<Coordination>> palace;
 
@@ -25,7 +25,7 @@ public abstract class AbstractPalaceMovement implements PalaceMovement {
     @Override
     public void validateRule(Coordination from, Coordination to) {
         if (!palace.getOrDefault(from, List.of()).contains(to)) {
-            throw new PieceException(IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            throw new PalaceMovementException(IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
     }
 }

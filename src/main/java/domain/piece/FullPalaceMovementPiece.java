@@ -3,13 +3,13 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.movement.FullPalaceMovement;
 import domain.movement.PalaceMovement;
-import domain.piece.error.PieceException;
+import domain.piece.error.PalaceMovementException;
 
 import java.util.List;
 
 public abstract class FullPalaceMovementPiece extends Piece {
 
-    public static final String OUT_OF_PALACE_MOVE_MESSAGE = "궁성 밖으로는 이동할 수 없습니다.";
+    private static final String OUT_OF_PALACE_MOVE_MESSAGE = "궁성 밖으로는 이동할 수 없습니다.";
 
     protected final PalaceMovement palaceMovement;
 
@@ -24,7 +24,7 @@ public abstract class FullPalaceMovementPiece extends Piece {
             palaceMovement.validateRule(from, to);
             return;
         }
-        throw new PieceException(OUT_OF_PALACE_MOVE_MESSAGE);
+        throw new PalaceMovementException(OUT_OF_PALACE_MOVE_MESSAGE);
     }
 
     @Override

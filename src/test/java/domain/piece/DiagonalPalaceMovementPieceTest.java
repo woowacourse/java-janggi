@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -42,8 +42,7 @@ public abstract class DiagonalPalaceMovementPieceTest {
             assertThatThrownBy(() -> piece.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(Piece.IMPOSSIBLE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(InvalidMovementException.class);
         }
     }
 

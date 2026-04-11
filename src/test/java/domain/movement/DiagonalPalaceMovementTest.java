@@ -1,12 +1,14 @@
 package domain.movement;
 
 import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import domain.piece.error.PalaceMovementException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 class DiagonalPalaceMovementTest {
 
@@ -74,10 +76,9 @@ class DiagonalPalaceMovementTest {
             "4,3,6,3"
     })
     public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-        assertThatCode(() -> diagonalPalaceMovement.validateRule(
+        assertThatThrownBy(() -> diagonalPalaceMovement.validateRule(
                 Coordination.of(fromColumn, fromRow),
                 Coordination.of(toColumn, toRow)))
-                .isInstanceOf(PieceException.class)
-                .hasMessage(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                .isExactlyInstanceOf(PalaceMovementException.class);
     }
 }

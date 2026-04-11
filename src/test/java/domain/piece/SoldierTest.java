@@ -1,17 +1,19 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.movement.AbstractPalaceMovement;
-import domain.movement.ForwardPalaceMovement;
 import domain.movement.PalaceMovement;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
+import domain.piece.error.PalaceMovementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class SoldierTest {
 
@@ -23,8 +25,7 @@ class SoldierTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> soldier.validateRule(from, to))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.IMPOSSIBLE_MOVE_MESSAGE);
+                .isExactlyInstanceOf(InvalidMovementException.class);
     }
 
     @ParameterizedTest
@@ -46,8 +47,7 @@ class SoldierTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> soldier.validateRule(from, to))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.IMPOSSIBLE_MOVE_MESSAGE);
+                .isExactlyInstanceOf(InvalidMovementException.class);
     }
 
     @ParameterizedTest
@@ -92,15 +92,13 @@ class SoldierTest {
         public void 궁성_내_이동_불가능한_위치일_경우_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
             Soldier soldier = new Soldier(Team.CHO);
             assertThatThrownBy(() -> soldier.validateRule(Coordination.of(fromColumn, fromRow), Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         @ParameterizedTest
         @CsvSource(value = {
                 "4,3,4,2",
                 "5,2,4,1",
-
         })
         public void 두_지점이_궁성인_경우_palaceMovement_규칙을_검증한다(int fromColumn, int fromRow, int toColumn, int toRow) {
             PalaceMovement mockMovement = mock(PalaceMovement.class);
@@ -166,8 +164,7 @@ class SoldierTest {
         public void 궁성_내_이동_불가능한_위치일_경우_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
             Soldier soldier = new Soldier(Team.HAN);
             assertThatThrownBy(() -> soldier.validateRule(Coordination.of(fromColumn, fromRow), Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         @ParameterizedTest

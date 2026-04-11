@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.movement.PalaceMovement;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class Soldier extends ForwardMovementPiece {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
         if (!movable.contains(diff)) {
-            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
+            throw new InvalidMovementException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 }

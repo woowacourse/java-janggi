@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Coordination {
 
-    public static final String NOT_DIAGONAL_PATH_MESSAGE = "대각선 경로가 아닙니다.";
+    private static final String NOT_DIAGONAL_PATH_MESSAGE = "대각선 경로가 아닙니다.";
 
     private final Column column;
     private final Row row;

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EmptyPiece extends Piece {
 
-    public static final String NOT_EXISTS_PIECE_MESSAGE = "해당 위치에 기물이 존재하지 않습니다.";
+    private static final String NOT_EXISTS_PIECE_MESSAGE = "해당 위치에 기물이 존재하지 않습니다.";
 
     public EmptyPiece(Team team) {
         super(team);

@@ -23,6 +23,6 @@ class ColumnTest {
 
         assertThatThrownBy(() -> {
             new Column(index);
-        }).isInstanceOf(IllegalArgumentException.class);
+        }).isExactlyInstanceOf(IllegalArgumentException.class);
     }
 }

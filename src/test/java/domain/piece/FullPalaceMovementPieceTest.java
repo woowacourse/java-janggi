@@ -1,8 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.movement.AbstractPalaceMovement;
-import domain.piece.error.PieceException;
+import domain.piece.error.PalaceMovementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -57,8 +56,7 @@ public abstract class FullPalaceMovementPieceTest {
             assertThatThrownBy(() -> piece.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         @ParameterizedTest
@@ -73,8 +71,7 @@ public abstract class FullPalaceMovementPieceTest {
             assertThatThrownBy(() -> piece.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(FullPalaceMovementPiece.OUT_OF_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
     }
 
@@ -122,8 +119,7 @@ public abstract class FullPalaceMovementPieceTest {
             assertThatThrownBy(() -> piece.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
 
         @ParameterizedTest
@@ -137,8 +133,7 @@ public abstract class FullPalaceMovementPieceTest {
             assertThatThrownBy(() -> piece.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow)))
-                    .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(FullPalaceMovementPiece.OUT_OF_PALACE_MOVE_MESSAGE);
+                    .isExactlyInstanceOf(PalaceMovementException.class);
         }
     }
 }

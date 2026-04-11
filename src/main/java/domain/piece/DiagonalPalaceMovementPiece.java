@@ -3,7 +3,7 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.movement.DiagonalPalaceMovement;
 import domain.movement.PalaceMovement;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public abstract class DiagonalPalaceMovementPiece extends Piece {
     private void validateNormalRule(Coordination from, Coordination to) {
         boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
+            throw new InvalidMovementException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 }
