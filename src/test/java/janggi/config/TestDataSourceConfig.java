@@ -5,16 +5,20 @@ import org.h2.jdbcx.JdbcDataSource;
 
 public class TestDataSourceConfig {
 
-    private static final String URL = "jdbc:h2:mem:test";
+    private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER_NAME = "sa";
     private static final String PASSWORD = "";
 
-    public static DataSource getDataSource() {
-        JdbcDataSource dataSource = new JdbcDataSource();
+    private static DataSource dataSource;
 
-        dataSource.setURL(URL);
-        dataSource.setUser(USER_NAME);
-        dataSource.setPassword(PASSWORD);
+    public static synchronized DataSource getDataSource() {
+        if (dataSource == null) {
+            JdbcDataSource h2DataSource = new JdbcDataSource();
+            h2DataSource.setURL(URL);
+            h2DataSource.setUser(USER_NAME);
+            h2DataSource.setPassword(PASSWORD);
+            dataSource = h2DataSource;
+        }
         return dataSource;
     }
 }
