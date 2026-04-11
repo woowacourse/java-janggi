@@ -10,14 +10,6 @@ public class Turn {
         this.team = team;
     }
 
-    public String display() {
-        return team.display();
-    }
-
-    public String colorCode(String red, String green) {
-        return team.colorCode(red, green);
-    }
-
     public boolean belongsTo(Piece piece) {
         //TODO: 삭제 또는 부정표현으로 변경
         return piece.isOwnedBy(team);

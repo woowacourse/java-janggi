@@ -36,7 +36,7 @@ class TurnTest {
 
         Turn next = hanTurn.changeTeam();
 
-        assertThat(next.display()).isEqualTo(Team.CHO.display());
+        assertThat(next.getTeam()).isEqualTo(Team.CHO);
     }
 
     @Test
@@ -46,6 +46,6 @@ class TurnTest {
 
         Turn next = choTurn.changeTeam();
 
-        assertThat(next.display()).isEqualTo(Team.HAN.display());
+        assertThat(next.getTeam()).isEqualTo(Team.HAN);
     }
 }

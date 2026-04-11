@@ -28,7 +28,7 @@ class PlayingStateTest {
     @Test
     @DisplayName("설정 완료 후 CHO 팀 턴으로 시작한다")
     void gameStartsWithChoTurn() {
-        assertThat(game.getTurn().display()).isEqualTo(Team.CHO.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.CHO);
     }
 
     @Test
@@ -45,7 +45,7 @@ class PlayingStateTest {
     void turnChangesToOpponentAfterMove() {
         game.processCommand(new Command("e6 e5")); // CHO moves
 
-        assertThat(game.getTurn().display()).isEqualTo(Team.HAN.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.HAN);
     }
 
     @Test

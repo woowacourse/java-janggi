@@ -9,14 +9,6 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public String display() {
-        return team.displayPiece(pieceType);
-    }
-
-    public String colorCode(String red, String green) {
-        return team.colorCode(red, green);
-    }
-
     public PieceType getPieceType() {
         return pieceType;
     }

@@ -7,9 +7,6 @@ import domain.board.Row;
 import domain.game.Turn;
 
 public class OutputView {
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String RESET = "\u001B[0m";
     private static final String REQUEST_SETUP = """
             [%s 진영] 배치를 선택하세요.
             1. 마-상-마-상 (Horse-Elephant-Horse-Elephant)
@@ -17,9 +14,10 @@ public class OutputView {
             3. 상-마-마-상 (Elephant-Horse-Horse-Elephant)
             4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)""";
     private static final String REQUEST_MOVE = "[%s 진영] {출발 좌표} {도착 좌표} 형식으로 입력해 수를 두세요. (ex. e6 e5)";
+    private final ConsoleFormatter formatter = new ConsoleFormatter();
 
     public void printSetupTable(Turn turn) {
-        String message = String.format(REQUEST_SETUP, turn.display());
+        String message = String.format(REQUEST_SETUP, formatter.formatTurn(turn.getTeam()));
         System.out.println(message);
     }
 
@@ -36,7 +34,7 @@ public class OutputView {
 
     private void appendHeader(StringBuilder stringBuilder, Turn turn) {
         stringBuilder.append("--------------------------------------\n");
-        stringBuilder.append("현재 턴: [").append(turn.colorCode(RED, GREEN)).append(turn.display()).append(RESET)
+        stringBuilder.append("현재 턴: [").append(formatter.formatColoredTurn(turn))
                 .append(" 진영]\n\n");
         stringBuilder.append("     a   b   c   d   e   f   g   h   i\n");
     }
@@ -48,7 +46,7 @@ public class OutputView {
     }
 
     private void appendRow(StringBuilder stringBuilder, Board board, Row row) {
-        stringBuilder.append(String.format("%2s  ", row.display()));
+        stringBuilder.append(String.format("%2s  ", formatter.formatRow(row)));
         for (Column column : Column.values()) {
             appendCell(stringBuilder, board, new Position(column, row));
         }
@@ -61,11 +59,11 @@ public class OutputView {
 
     private String cellDisplay(Board board, Position position) {
         return board.findPieceByPosition(position)
-                .map(piece -> piece.colorCode(RED, GREEN) + piece.display() + RESET)
+                .map(formatter::formatPiece)
                 .orElse("...");
     }
 
     public void printPieceMovement(Turn turn) {
-        System.out.printf((REQUEST_MOVE) + "%n", turn.display());
+        System.out.printf((REQUEST_MOVE) + "%n", formatter.formatTurn(turn.getTeam()));
     }
 }

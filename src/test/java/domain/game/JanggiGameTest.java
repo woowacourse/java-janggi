@@ -16,7 +16,7 @@ class JanggiGameTest {
     void initialTurnIsHan() {
         JanggiGame game = new JanggiGame();
 
-        assertThat(game.getTurn().display()).isEqualTo(Team.HAN.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.HAN);
     }
 
     @Test
@@ -26,7 +26,7 @@ class JanggiGameTest {
 
         game.processCommand(new Command("1"));
 
-        assertThat(game.getTurn().display()).isEqualTo(Team.CHO.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.CHO);
     }
 
     @Test
@@ -38,7 +38,7 @@ class JanggiGameTest {
 
         game.processCommand(new Command("e6 e5"));
 
-        assertThat(game.getTurn().display()).isEqualTo(Team.HAN.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.HAN);
     }
 
     @Test

@@ -35,7 +35,7 @@ class ReadyStateTest {
 
         state.handle(game, new Command("1"));
 
-        assertThat(game.getTurn().display()).isEqualTo(Team.CHO.display());
+        assertThat(game.getTurn().getTeam()).isEqualTo(Team.CHO);
     }
 
     @Test

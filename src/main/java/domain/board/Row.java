@@ -13,8 +13,6 @@ public enum Row {
     SEVEN("7"),
     EIGHT("8"),
     NINE("9");
-
-
     private final String value;
 
     Row(String value) {
@@ -32,10 +30,6 @@ public enum Row {
 
     public Row reverse() {
         return Row.values()[9 - this.ordinal()];
-    }
-
-    public String display() {
-        return value;
     }
 
     public static Row toRow(char character) {
