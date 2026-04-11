@@ -32,7 +32,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected String pieceDisplayName(Camp camp) {
-        return PieceDisplayName.ELEPHANT.findDisplayName(camp);
+    protected PieceDisplayName pieceDisplayName() {
+        return PieceDisplayName.ELEPHANT;
     }
 }

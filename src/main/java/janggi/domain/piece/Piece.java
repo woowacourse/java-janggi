@@ -22,7 +22,11 @@ public abstract class Piece {
     }
 
     public String displayName() {
-        return pieceDisplayName(pieceInfo.getCamp());
+        return pieceDisplayName().findDisplayName(pieceInfo.getCamp());
+    }
+
+    public String getPieceType() {
+        return pieceDisplayName().name();
     }
 
     public boolean isSameCamp(Piece piece) {
@@ -49,5 +53,5 @@ public abstract class Piece {
 
     abstract public boolean canBeCapturedByCannon();
 
-    abstract protected String pieceDisplayName(Camp camp);
+    abstract protected PieceDisplayName pieceDisplayName();
 }

@@ -32,7 +32,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected String pieceDisplayName(Camp camp) {
-        return PieceDisplayName.SOLIDER.findDisplayName(camp);
+    protected PieceDisplayName pieceDisplayName() {
+        return PieceDisplayName.SOLIDER;
     }
 }

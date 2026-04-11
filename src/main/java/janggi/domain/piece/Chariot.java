@@ -32,7 +32,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected String pieceDisplayName(Camp camp) {
-        return PieceDisplayName.CHARIOT.findDisplayName(camp);
+    protected PieceDisplayName pieceDisplayName() {
+        return PieceDisplayName.CHARIOT;
     }
 }

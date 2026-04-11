@@ -32,7 +32,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected String pieceDisplayName(Camp camp) {
-        return PieceDisplayName.ADVISOR.findDisplayName(camp);
+    protected PieceDisplayName pieceDisplayName() {
+        return PieceDisplayName.ADVISOR;
     }
 }
