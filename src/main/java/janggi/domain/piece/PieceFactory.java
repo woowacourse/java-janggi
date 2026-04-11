@@ -11,9 +11,10 @@ import static janggi.domain.piece.PieceType.SANG;
 
 import janggi.domain.Side;
 import janggi.domain.board.GungSeong;
+import janggi.domain.rule.ByeongMovement;
 import janggi.domain.rule.ChaMovement;
 import janggi.domain.rule.GungSaMovement;
-import janggi.domain.rule.JolbyeongMovement;
+import janggi.domain.rule.JolMovement;
 import janggi.domain.rule.MaMovement;
 import janggi.domain.rule.Movement;
 import janggi.domain.rule.PoMovement;
@@ -33,8 +34,8 @@ public class PieceFactory {
         matchInfo.put(SA, GungSaMovement.create(gungSeong));
         matchInfo.put(GUNG, GungSaMovement.create(gungSeong));
         matchInfo.put(PO, PoMovement.create(gungSeong));
-        matchInfo.put(JOL, JolbyeongMovement.getInstanceBySide(Side.CHO));
-        matchInfo.put(BYEONG, JolbyeongMovement.getInstanceBySide(Side.HAN));
+        matchInfo.put(JOL, JolMovement.getInstance());
+        matchInfo.put(BYEONG, ByeongMovement.getInstance());
     }
 
     public static PieceFactory of(GungSeong gungSeong) {
