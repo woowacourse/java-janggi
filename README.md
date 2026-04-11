@@ -1,8 +1,10 @@
 # 기능 명세 및 설계
 
-# 0. 설계도
+# 0. 설계도(어플리케이션 - DB)
 
 ![image.png](asset/image.png)
+- db는 이벤트 소싱 방식을 도입
+![image.png](asset/erd.png)
 
 # 1. 기능 명세서 - 사용 흐름대로 + 초기에 설정해야 할 것
 
