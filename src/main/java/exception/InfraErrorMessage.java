@@ -15,6 +15,8 @@ public enum InfraErrorMessage {
     GAME_READ_ERROR("게임을 불러오는 과정에서 에러가 발생하였습니다."),
     PK_GENERATION_ERROR("PK 생성에 실패하였습니다."),
 
+    MOVE_EVENT_SAVE_ERROR("이동 상태를 저장하는 과정에서 에러가 발생하였습니다."),
+
     GAME_NAME_NOT_EXIST("해당 게임 이름으로 된 게임이 존재하지 않습니다."),
 
     FORMATION_READ_ERROR("상차림 정보를 불러오는 과정에서 에러가 발생하였습니다."),

@@ -3,6 +3,7 @@ package domain;
 import controller.dto.CurrentBoardStatus;
 import controller.dto.MoveStatus;
 import controller.dto.MovedPieceRequest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,29 +13,29 @@ public class Game {
     private final Board board;
     private final Map<Team, HorseElephantFormation> initializeFormations;
     private Team currentTurn;
+    private long moveSequence;
 
     /**
-     * 초기화용 생성자
+     * 어플리케이션 전략 선택시, 초기화용 생성자
      */
     public Game(String name, Map<Team, HorseElephantFormation> initializeFormations) {
         this.name = name;
         this.board = new Board(initializeFormations);
         this.initializeFormations = initializeFormations;
         this.currentTurn = Team.CHO;
+        this.moveSequence = 0;
     }
 
     /**
-     * 재구성용 생성자
-//     */
-//    public Game(String name,
-//                List<CurrentBoardStatus> statuses,
-//                Map<Team, HorseElephantFormation> initializeFormations,
-//                Team currentTurn) {
-//        this.name = name;
-//        this.board = new Board(statuses);
-//        this.initializeFormations = initializeFormations;
-//        this.currentTurn = currentTurn;
-//    }
+     * DB에 저장된 초기 배치 전략 선택시, 초기화용 생성자
+     */
+    public Game(String name, List<CurrentBoardStatus> initialStatuses) {
+        this.name = name;
+        this.board = new Board(initialStatuses);
+        this.initializeFormations = Collections.emptyMap();
+        this.currentTurn = Team.CHO;
+        this.moveSequence = 0;
+    }
 
     public List<CurrentBoardStatus> getCurrentBoardStatus() {
         return board.getCurrentStatus();
@@ -48,6 +49,7 @@ public class Game {
                 Position.from(request.nextRow(), request.nextColumn()), this.currentTurn);
 
         this.currentTurn = currentTurn.changeTurn();
+        this.moveSequence++;
     }
 
     /**
@@ -74,7 +76,7 @@ public class Game {
         return !board.isExistPiece(PieceType.KING, this.currentTurn);
     }
 
-    public String getHorseElephantFormationName(Team team){
+    public String getHorseElephantFormationName(Team team) {
         return this.initializeFormations.get(team).name();
     }
 
@@ -82,8 +84,12 @@ public class Game {
         return this.name;
     }
 
-    public String getCurrentTeamName(){
+    public String getCurrentTeamName() {
         return this.currentTurn.getKoreanName();
+    }
+
+    public long getMoveSequence() {
+        return this.moveSequence;
     }
 
     /**

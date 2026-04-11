@@ -13,11 +13,10 @@ import java.util.List;
 
 public class MoveEventDao {
     private static final String INSERT_SQL = 
-            "INSERT INTO move_event (game_id, version, piece_type, piece_team, from_row, from_column, to_row, to_column) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+            "INSERT INTO move_event (game_id, version, from_row, from_column, to_row, to_column) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SELECT_BY_GAME_ID_SQL = 
-            "SELECT id, game_id, version, piece_type, piece_team, from_row, from_column, to_row, to_column " +
+            "SELECT id, game_id, version, from_row, from_column, to_row, to_column " +
             "FROM move_event WHERE game_id = ? ORDER BY version ASC";
 
     private final JdbcConfig jdbcConfig;
@@ -25,23 +24,21 @@ public class MoveEventDao {
     public MoveEventDao(JdbcConfig jdbcConfig) {
         this.jdbcConfig = jdbcConfig;
     }
-//
-//    public void save(MoveEventEntity entity) {
-//        try (Connection conn = jdbcConfig.getConnection();
-//             PreparedStatement pstmt = conn.prepareStatement(INSERT_SQL)) {
-//            pstmt.setLong(1, entity.getGameId());
-//            pstmt.setLong(2, entity.getVersion());
-//            pstmt.setString(3, entity.getPieceType());
-//            pstmt.setString(4, entity.getPieceTeam());
-//            pstmt.setInt(5, entity.getFromRow());
-//            pstmt.setInt(6, entity.getFromColumn());
-//            pstmt.setInt(7, entity.getToRow());
-//            pstmt.setInt(8, entity.getToColumn());
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new DatabaseConnectionException(InfraErrorMessage.MOVE_EVENT_SAVE_ERROR.getMessage() + e);
-//        }
-//    }
+
+    public void save(MoveEventEntity entity) {
+        try (Connection conn = jdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(INSERT_SQL)) {
+            pstmt.setLong(1, entity.getGameId());
+            pstmt.setLong(2, entity.getVersion());
+            pstmt.setInt(3, entity.getFromRow());
+            pstmt.setInt(4, entity.getFromColumn());
+            pstmt.setInt(5, entity.getToRow());
+            pstmt.setInt(6, entity.getToColumn());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException(InfraErrorMessage.MOVE_EVENT_SAVE_ERROR.getMessage() + e);
+        }
+    }
 
     public List<MoveEventEntity> findByGameId(Long gameId) {
         List<MoveEventEntity> moveEventEntities = new ArrayList<>();
@@ -64,8 +61,6 @@ public class MoveEventDao {
                 rs.getLong("id"),
                 rs.getLong("game_id"),
                 rs.getLong("version"),
-                rs.getString("piece_type"),
-                rs.getString("piece_team"),
                 rs.getInt("from_row"),
                 rs.getInt("from_column"),
                 rs.getInt("to_row"),

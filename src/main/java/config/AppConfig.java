@@ -4,6 +4,7 @@ import controller.JanggiController;
 import exception.GameExceptionHandler;
 import infra.dao.CurrentPiecePositionDao;
 import infra.dao.FormationDao;
+import infra.dao.FormationPieceLayoutDao;
 import infra.dao.GameDao;
 import infra.dao.MoveEventDao;
 import infra.repository.GameRepository;
@@ -26,7 +27,7 @@ public class AppConfig {
     }
 
     public GameRepository gameRepository() {
-        return new JdbcGameRepository(gameDao(), currentPiecePositionDao(), formationDao(), moveEventDao());
+        return new JdbcGameRepository(gameDao(), currentPiecePositionDao(), formationDao(), moveEventDao(), formationPieceLayoutDao());
     }
 
     public GameExceptionHandler gameExceptionHandler() {
@@ -55,5 +56,9 @@ public class AppConfig {
 
     public MoveEventDao moveEventDao() {
         return new MoveEventDao(JdbcConfig.getInstance());
+    }
+
+    public FormationPieceLayoutDao formationPieceLayoutDao() {
+        return new FormationPieceLayoutDao(JdbcConfig.getInstance());
     }
 }

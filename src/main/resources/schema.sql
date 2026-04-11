@@ -70,8 +70,6 @@ CREATE TABLE IF NOT EXISTS move_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     game_id BIGINT NOT NULL,
     version BIGINT NOT NULL,
-    piece_type VARCHAR(10) NOT NULL,
-    piece_team VARCHAR(10) NOT NULL,
     from_row INT NOT NULL,
     from_column INT NOT NULL,
     to_row INT NOT NULL,
@@ -96,3 +94,155 @@ INSERT INTO formation_template (template_name, team) VALUES ('INNER_ELEPHANT', '
 INSERT INTO formation_template (template_name, team) VALUES ('OUTER_ELEPHANT', 'HAN');
 INSERT INTO formation_template (template_name, team) VALUES ('RIGHT_ELEPHANT', 'HAN');
 INSERT INTO formation_template (template_name, team) VALUES ('LEFT_ELEPHANT', 'HAN');
+
+-- 초(CHO) 마상상마(INNER_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 1),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 2),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 3),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 4),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'KING', 10, 5),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 6),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 7),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 8),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 9),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 2),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 8),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 1),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 3),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 5),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 7),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 9);
+
+-- 초(CHO) 상마마상(OUTER_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 1),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 2),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 3),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 4),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'KING', 10, 5),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 6),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 7),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 8),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 9),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 2),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 8),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 1),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 3),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 5),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 7),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 9);
+
+-- 초(CHO) 마상마상(RIGHT_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 1),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 2),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 3),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 4),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'KING', 10, 5),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 6),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 7),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 8),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 9),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 2),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 8),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 1),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 3),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 5),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 7),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 9);
+
+-- 초(CHO) 상마상마(LEFT_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 1),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 2),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 3),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 4),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'KING', 10, 5),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'GUARD', 10, 6),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'ELEPHANT', 10, 7),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'HORSE', 10, 8),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'ROOK', 10, 9),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 2),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'CANNON', 8, 8),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 1),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 3),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 5),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 7),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'CHO'), 'PAWN', 7, 9);
+
+-- 한(HAN) 마상상마(INNER_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 1),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 2),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 3),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 4),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'KING', 1, 5),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 6),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 7),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 8),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 9),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 2),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 8),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 1),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 3),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 5),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 7),
+((SELECT id FROM formation_template WHERE template_name = 'INNER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 9);
+
+-- 한(HAN) 상마마상(OUTER_ELEPHANT)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 1),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 2),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 3),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 4),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'KING', 1, 5),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 6),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 7),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 8),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 9),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 2),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 8),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 1),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 3),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 5),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 7),
+((SELECT id FROM formation_template WHERE template_name = 'OUTER_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 9);
+
+-- 한(HAN) 상마상마(RIGHT_ELEPHANT - 패턴은 마상마상이나 HAN 전략은 상마상마임)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 1),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 2),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 3),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 4),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'KING', 1, 5),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 6),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 7),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 8),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 9),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 2),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 8),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 1),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 3),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 5),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 7),
+((SELECT id FROM formation_template WHERE template_name = 'RIGHT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 9);
+
+-- 한(HAN) 마상마상(LEFT_ELEPHANT - 패턴은 상마상마이나 HAN 전략은 마상마상임)
+INSERT INTO formation_piece_layout (formation_template_id, piece_type, board_row, board_column) VALUES
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 1),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 2),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 3),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 4),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'KING', 1, 5),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'GUARD', 1, 6),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'HORSE', 1, 7),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'ELEPHANT', 1, 8),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'ROOK', 1, 9),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 2),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'CANNON', 3, 8),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 1),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 3),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 5),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 7),
+((SELECT id FROM formation_template WHERE template_name = 'LEFT_ELEPHANT' AND team = 'HAN'), 'PAWN', 4, 9);

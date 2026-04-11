@@ -36,6 +36,19 @@ public class Board {
                 initTeamBoard(horseElephantFormation.getStrategy(), team)));
     }
 
+    /**
+     * 재구성용 생성자
+     */
+    public Board(List<CurrentBoardStatus> statuses) {
+        statuses.forEach(status -> {
+            Position position = Position.from(status.row(), status.column());
+            PieceType pieceType = PieceType.getPieceType(status.pieceType());
+            Team team = Team.getTeam(status.team());
+            pieces.put(position, pieceType.createPiece(team));
+        });
+    }
+
+
     public void move(Position from, Position to, Team team) {
         Piece piece = validateMovablePiece(from, to, team);
         validateCanMove(from, to, piece);

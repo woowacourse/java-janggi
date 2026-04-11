@@ -19,6 +19,8 @@ public class GameDao {
             "SELECT id, name, current_turn, cho_formation_id, han_formation_id FROM game WHERE name = ?";
     private static final String SELECT_ALL_NAMES_SQL =
             "SELECT name FROM game";
+    private static final String UPDATE_TURN_SQL =
+            "UPDATE game SET current_turn = ? WHERE id = ?";
 
     private final JdbcConfig jdbcConfig;
 
@@ -72,6 +74,17 @@ public class GameDao {
             }
         } catch (SQLException e) {
             throw new DatabaseConnectionException(InfraErrorMessage.GAME_READ_ERROR.getMessage() + e);
+        }
+    }
+
+    public void updateTurn(Long gameId, String nextTurn) {
+        try (Connection conn = jdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_TURN_SQL)) {
+            pstmt.setString(1, nextTurn);
+            pstmt.setLong(2, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException(InfraErrorMessage.GAME_SAVE_ERROR.getMessage() + e);
         }
     }
 

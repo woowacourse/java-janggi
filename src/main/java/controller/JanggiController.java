@@ -84,7 +84,6 @@ public class JanggiController {
         while (true) {
             try {
                 movePiece();
-                /*boardRepository.save(game.getCurrentBoardStatus());*/
                 printCurrentScore();
                 printCurrentBoardStatus();
                 return;
@@ -97,6 +96,7 @@ public class JanggiController {
     private void movePiece() {
         MovedPieceRequest movedPieceRequest = readMovedPiece();
         game.movePiece(movedPieceRequest);
+        gameRepository.saveMoveEvent(game, movedPieceRequest);
         printMoveStatus(movedPieceRequest);
     }
 

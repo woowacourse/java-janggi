@@ -1,16 +1,18 @@
 package infra.repository;
 
+import controller.dto.CurrentBoardStatus;
 import controller.dto.MovedPieceRequest;
 import domain.Game;
-import domain.HorseElephantFormation;
 import domain.Team;
 import infra.dao.CurrentPiecePositionDao;
 import infra.dao.FormationDao;
+import infra.dao.FormationPieceLayoutDao;
 import infra.dao.GameDao;
 import infra.dao.MoveEventDao;
 import infra.entity.CurrentPiecePositionEntity;
 import infra.entity.GameEntity;
 import infra.entity.MoveEventEntity;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +23,16 @@ public class JdbcGameRepository implements GameRepository {
     private final CurrentPiecePositionDao currentPiecePositionDao;
     private final FormationDao formationDao;
     private final MoveEventDao moveEventDao;
+    private final FormationPieceLayoutDao formationPieceLayoutDao;
 
     public JdbcGameRepository(GameDao gameDao, CurrentPiecePositionDao currentPiecePositionDao,
-                              FormationDao formationDao, MoveEventDao moveEventDao) {
+                              FormationDao formationDao, MoveEventDao moveEventDao,
+                              FormationPieceLayoutDao formationPieceLayoutDao) {
         this.gameDao = gameDao;
         this.currentPiecePositionDao = currentPiecePositionDao;
         this.formationDao = formationDao;
         this.moveEventDao = moveEventDao;
+        this.formationPieceLayoutDao = formationPieceLayoutDao;
     }
 
     @Override
@@ -38,6 +43,22 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
+    public void saveMoveEvent(Game game, MovedPieceRequest request) {
+        GameEntity gameEntity = gameDao.findGameByName(game.getName());
+        
+        MoveEventEntity eventEntity = MoveEventEntity.createWithoutId(
+                gameEntity.getId(),
+                game.getMoveSequence(),
+                request.currentRow(),
+                request.currentColumn(),
+                request.nextRow(),
+                request.nextColumn()
+        );
+        moveEventDao.save(eventEntity);
+        gameDao.updateTurn(gameEntity.getId(), game.getCurrentTeamName());
+    }
+
+    @Override
     public List<String> findAllGameNames() {
         return gameDao.findAllGameNames();
     }
@@ -45,8 +66,15 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public Game findGameByName(String name) {
         GameEntity gameEntity = gameDao.findGameByName(name);
-        Game game = findInitialGameFormation(gameEntity);
+
+        List<CurrentBoardStatus> initialStatuses = new ArrayList<>();
+        initialStatuses.addAll(formationPieceLayoutDao.findByTemplateId(gameEntity.getChoFormationId(), Team.CHO));
+        initialStatuses.addAll(formationPieceLayoutDao.findByTemplateId(gameEntity.getHanFormationId(), Team.HAN));
+
+        Game game = new Game(gameEntity.getName(), initialStatuses);
+
         replayGame(game, moveEventDao.findByGameId(gameEntity.getId()));
+        
         return game;
     }
 
@@ -76,6 +104,9 @@ public class JdbcGameRepository implements GameRepository {
         return gameDao.save(gameEntity);
     }
 
+    /**
+     * 스냅샷 생성 - 현 어플리케이션에서는 큰 이점을 누리지 못하여, 초기 배치를 생성하는 경우에만 스냅샷을 사용한다.
+     */
     private void saveCurrentPiecePositions(Game game, Long gameId) {
         List<CurrentPiecePositionEntity> pieceEntities = game.getCurrentBoardStatus().stream()
                 .map(status -> CurrentPiecePositionEntity.createWithoutId(
@@ -87,15 +118,6 @@ public class JdbcGameRepository implements GameRepository {
                 ))
                 .collect(Collectors.toList());
         currentPiecePositionDao.save(gameId, pieceEntities);
-    }
-
-    private Game findInitialGameFormation(GameEntity gameEntity) {
-        String choFormationName = formationDao.findNameById(gameEntity.getChoFormationId());
-        String hanFormationName = formationDao.findNameById(gameEntity.getHanFormationId());
-
-        return new Game(gameEntity.getName(),
-                Map.of(Team.CHO, HorseElephantFormation.valueOf(choFormationName),
-                        Team.HAN, HorseElephantFormation.valueOf(hanFormationName)));
     }
 
     private void replayGame(Game game, List<MoveEventEntity> events) {
