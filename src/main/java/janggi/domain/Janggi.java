@@ -79,4 +79,8 @@ public class Janggi {
     public int calculateTotalScore(Camp camp) {
         return board.calculateTotalScore(camp);
     }
+
+    public String getStateType() {
+        return gameState.getStateType();
+    }
 }

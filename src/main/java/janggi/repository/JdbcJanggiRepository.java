@@ -77,7 +77,53 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public void update(Long id, Janggi janggi) {
+        try (Connection connection = DBConnectionProvider.getConnection()) {
+            executeInTransaction(connection, id, janggi);
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 업데이트 중 오류 발생", e);
+        }
+    }
 
+    private void executeInTransaction(Connection connection, Long id, Janggi janggi) throws SQLException {
+        connection.setAutoCommit(false);
+        try {
+            performUpdateSteps(connection, id, janggi);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+
+    private void performUpdateSteps(Connection connection, Long id, Janggi janggi) throws SQLException {
+        updateGameRecord(connection, id, janggi);
+        deleteAllPieces(connection, id);
+        savePieces(connection, id, janggi);
+    }
+
+    private void updateGameRecord(Connection connection, Long id, Janggi janggi) throws SQLException {
+        String sql = "UPDATE game SET turn = ?, ongoing = ?, result_type = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            bindGameUpdateParams(statement, id, janggi);
+            statement.executeUpdate();
+        }
+    }
+
+    private void bindGameUpdateParams(PreparedStatement statement, Long id, Janggi janggi) throws SQLException {
+        statement.setString(1, janggi.currentTurn().name());
+        statement.setBoolean(2, janggi.isOnGoing());
+        statement.setString(3, janggi.getStateType());
+        statement.setLong(4, id);
+    }
+
+    private void deleteAllPieces(Connection connection, Long id) throws SQLException {
+        String sql = "DELETE FROM piece WHERE game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }
     }
 
     @Override
