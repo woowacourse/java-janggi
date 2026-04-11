@@ -10,10 +10,7 @@ import janggi.domain.state.GameState;
 import janggi.domain.state.GameStateFactory;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class JdbcJanggiRepository implements JanggiRepository {
 
@@ -210,7 +207,19 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public List<Janggi> findAll() {
-        return List.of();
+        String sql = "SELECT id FROM game";
+        try (Connection connection = DBConnectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            List<Janggi> games = new ArrayList<>();
+            while (resultSet.next()) {
+                findById(resultSet.getLong("id")).ifPresent(games::add);
+            }
+            return Collections.unmodifiableList(games);
+        } catch (SQLException e) {
+            throw new RuntimeException("목록 조회 중 오류 발생", e);
+        }
     }
 
     @Override
