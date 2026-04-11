@@ -7,13 +7,11 @@ public interface Piece {
 
     boolean isEmpty();
 
-    boolean isHan();
-
-    boolean isCho();
-
     boolean isSameSide(Piece other);
 
     PieceType getType();
+
+    Side getSide();
 
     MoveContext askMoveContext(Position departure, Position destination);
 

@@ -28,7 +28,7 @@ public class BoardViewMapper {
         if (piece.isEmpty()) {
             return new PieceDto(piece.getType(), null);
         }
-        if (piece.isCho()) {
+        if (piece.getSide().isCho()) {
             return new PieceDto(piece.getType(), Side.CHO);
         }
         return new PieceDto(piece.getType(), Side.HAN);

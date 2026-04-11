@@ -111,7 +111,7 @@ class BoardTest {
             // then
             assertThat(afterBoard.pieces().get(departure).isEmpty()).isTrue();
             assertThat(afterBoard.pieces().get(destination).getType()).isEqualTo(new Po(Side.CHO).getType());
-            assertThat(afterBoard.pieces().get(destination).isCho()).isTrue();
+            assertThat(afterBoard.pieces().get(destination).getSide().isCho()).isTrue();
         }
 
         @Test
@@ -174,7 +174,7 @@ class BoardTest {
             // then
             assertThat(afterBoard.pieces().get(departure).isEmpty()).isTrue();
             assertThat(afterBoard.pieces().get(destination).getType()).isEqualTo(new Po(Side.CHO).getType());
-            assertThat(afterBoard.pieces().get(destination).isCho()).isTrue();
+            assertThat(afterBoard.pieces().get(destination).getSide().isCho()).isTrue();
         }
 
         @Test

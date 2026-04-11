@@ -36,7 +36,7 @@ public class JolByeong extends FullPiece {
         if (!PALACE.isSingleStepDiagonalConnection(departure, destination)) {
             return false;
         }
-        if (isCho()) {
+        if (this.getSide().isCho()) {
             return destination.row() > departure.row();
         }
         return destination.row() < departure.row();
@@ -45,7 +45,7 @@ public class JolByeong extends FullPiece {
     private List<Position> movableDestinations(Position departure) {
         List<Position> destinations = new ArrayList<>();
 
-        if (isCho()) {
+        if (this.getSide().isCho()) {
             if (departure.canMoveUp()) {
                 destinations.add(departure.moveUp());
             }

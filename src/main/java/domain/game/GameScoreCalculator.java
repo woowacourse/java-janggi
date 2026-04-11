@@ -15,7 +15,7 @@ public class GameScoreCalculator {
             if (piece.isEmpty()) {
                 continue;
             }
-            if (piece.isCho()) {
+            if (piece.getSide().isCho()) {
                 choScore = choScore.add(piece.getType().score());
                 continue;
             }

@@ -7,7 +7,6 @@ import domain.position.Position;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 public class SavedGameWriteMapper {
@@ -51,7 +50,7 @@ public class SavedGameWriteMapper {
         return new SavedPieceDto(
                 position.row(),
                 position.column(),
-                piece.isCho() ? Side.CHO : Side.HAN,
+                piece.getSide().isCho() ? Side.CHO : Side.HAN,
                 piece.getType()
         );
     }

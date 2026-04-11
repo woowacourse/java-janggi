@@ -15,10 +15,7 @@ public record Turn(Side side) {
     }
 
     public boolean isNotCurrentTurnPiece(Piece piece) {
-        if (side.isCho()) {
-            return piece.isHan();
-        }
-        return piece.isCho();
+        return piece.getSide() != this.side;
     }
 
     public GameErrorMessage errorMessage() {

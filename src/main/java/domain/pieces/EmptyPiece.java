@@ -13,16 +13,6 @@ public record EmptyPiece() implements Piece {
     }
 
     @Override
-    public boolean isHan() {
-        return false;
-    }
-
-    @Override
-    public boolean isCho() {
-        return false;
-    }
-
-    @Override
     public boolean isSameSide(Piece other) {
         return false;
     }
@@ -40,5 +30,10 @@ public record EmptyPiece() implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.EMPTY;
+    }
+
+    @Override
+    public Side getSide() {
+        return null;
     }
 }

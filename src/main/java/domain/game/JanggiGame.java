@@ -8,6 +8,8 @@ import domain.game.exception.InvalidTurnException;
 import domain.pieces.Piece;
 import domain.pieces.PieceType;
 import domain.pieces.Side;
+import domain.pieces.exception.NoPieceException;
+import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
 
 public class JanggiGame {
@@ -37,9 +39,14 @@ public class JanggiGame {
     public void move(Position departure, Position destination) {
         validateGameNotEnded();
 
+        Piece departurePiece = board.pieces().get(departure);
         Piece destinationPiece = board.pieces().get(destination);
 
-        if (currentTurn.isNotCurrentTurnPiece(board.pieces().get(departure))) {
+        if(departurePiece.isEmpty()){
+            throw new NoPieceException(PieceErrorMessage.NO_PIECE);
+        }
+
+        if (currentTurn.isNotCurrentTurnPiece(departurePiece)) {
             throw new InvalidTurnException(currentTurn.errorMessage());
         }
 

@@ -21,24 +21,11 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
-    public final boolean isHan() {
-        return side.isHan();
-    }
-
-    @Override
-    public final boolean isCho() {
-        return side.isCho();
-    }
-
-    @Override
     public final boolean isSameSide(Piece other) {
         if (other.isEmpty()) {
             return false;
         }
-        if (isHan() && other.isHan()) {
-            return true;
-        }
-        return isCho() && other.isCho();
+        return this.getSide() == other.getSide();
     }
 
     @Override
@@ -48,6 +35,11 @@ public abstract class FullPiece implements Piece {
         DestinationRule destinationRule = getDestinationRule();
         PathRule pathRule = getPathRule();
         return new MoveContext(pathPositions, destinationRule, pathRule);
+    }
+
+    @Override
+    public final Side getSide() {
+        return this.side;
     }
 
     protected abstract void validateDestination(Position departure, Position destination);
