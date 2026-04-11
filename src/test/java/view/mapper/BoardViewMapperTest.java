@@ -26,26 +26,32 @@ class BoardViewMapperTest {
 
     @Test
     void 보드를_출력용_이차원_컬렉션으로_변환한다() {
+        PieceDto choCha = result.get(0).get(0);
+        PieceDto hanCha = result.get(9).get(0);
         // then
-        assertThat(result.get(0).get(0).pieceType()).isEqualTo(PieceType.CHA);
-        assertThat(result.get(0).get(0).side()).isEqualTo(Side.CHO);
+        assertThat(choCha.pieceType()).isEqualTo(PieceType.CHA);
+        assertThat(choCha.side()).isEqualTo(Side.CHO);
 
-        assertThat(result.get(9).get(0).pieceType()).isEqualTo(PieceType.CHA);
-        assertThat(result.get(9).get(0).side()).isEqualTo(Side.HAN);
+        assertThat(hanCha.pieceType()).isEqualTo(PieceType.CHA);
+        assertThat(hanCha.side()).isEqualTo(Side.HAN);
     }
 
     @Test
     void 빈칸은_EMPTY와_null_side로_변환한다() {
+        PieceDto emptyPiece = result.get(4).get(4);
         // then
-        assertThat(result.get(4).get(4).pieceType()).isEqualTo(PieceType.EMPTY);
-        assertThat(result.get(4).get(4).side()).isNull();
-        assertThat(result.get(4).get(4).isEmpty()).isTrue();
+        assertThat(emptyPiece.pieceType()).isEqualTo(PieceType.EMPTY);
+        assertThat(emptyPiece.side()).isNull();
+        assertThat(emptyPiece.isEmpty()).isTrue();
     }
 
     @Test
     void 기물의_진영을_함께_변환한다() {
+        PieceDto choPiece = result.get(3).get(0);
+        PieceDto hanPiece = result.get(6).get(0);
+
         // then
-        assertThat(result.get(3).get(0).side()).isEqualTo(Side.CHO);
-        assertThat(result.get(6).get(0).side()).isEqualTo(Side.HAN);
+        assertThat(choPiece.side()).isEqualTo(Side.CHO);
+        assertThat(hanPiece.side()).isEqualTo(Side.HAN);
     }
 }
