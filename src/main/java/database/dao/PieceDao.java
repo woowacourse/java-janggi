@@ -1,14 +1,14 @@
 package database.dao;
 
-import domain.piece.Piece;
+import database.dto.PieceDto;
 import domain.position.Position;
 import java.sql.Connection;
-import java.util.Map;
+import java.util.List;
 
 public interface PieceDao {
-    void saveAll(int gameId, Map<Position, Piece> pieces);
+    void saveAll(int gameId, List<PieceDto> pieces);
 
-    Map<Position, Piece> findAll(int gameId);
+    List<PieceDto> findAll(int gameId);
 
     void updatePosition(Connection connection, int gameId, Position src, Position dest);
 

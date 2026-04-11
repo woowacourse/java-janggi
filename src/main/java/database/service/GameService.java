@@ -3,14 +3,18 @@ package database.service;
 import database.dao.GameDao;
 import database.dao.PieceDao;
 import database.dto.GameDto;
+import database.dto.PieceDto;
 import database.jdbc.DatabaseConnector;
 import domain.board.Board;
 import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
+import domain.piece.PieceDefinition;
 import domain.position.Position;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,12 +35,33 @@ public class GameService {
 
     public int startNewGame(Team initialTurn, Map<Position, Piece> pieces) {
         int gameId = gameDao.createGame(initialTurn);
-        pieceDao.saveAll(gameId, pieces);
+        pieceDao.saveAll(gameId, toPieceDtos(pieces));
         return gameId;
     }
 
     public Map<Position, Piece> loadPieces(int gameId) {
-        return pieceDao.findAll(gameId);
+        return toPiecesMap(pieceDao.findAll(gameId));
+    }
+
+    private List<PieceDto> toPieceDtos(Map<Position, Piece> pieces) {
+        return pieces.entrySet().stream()
+                .map(e -> new PieceDto(
+                        e.getValue().getType().name(),
+                        e.getValue().getTeam().name(),
+                        e.getKey().getRow(),
+                        e.getKey().getColumn()
+                ))
+                .toList();
+    }
+
+    private Map<Position, Piece> toPiecesMap(List<PieceDto> dtos) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (PieceDto dto : dtos) {
+            Position position = new Position(dto.rowIdx(), dto.colIdx());
+            Piece piece = PieceDefinition.valueOf(dto.type()).createPiece(Team.valueOf(dto.team()));
+            pieces.put(position, piece);
+        }
+        return pieces;
     }
 
     public Turn executeMove(int gameId, Board board, Turn turn, Position src, Position dest) {

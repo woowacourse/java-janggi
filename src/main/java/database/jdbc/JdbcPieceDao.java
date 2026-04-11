@@ -1,16 +1,14 @@
 package database.jdbc;
 
 import database.dao.PieceDao;
-import domain.game.Team;
-import domain.piece.Piece;
-import domain.piece.PieceDefinition;
+import database.dto.PieceDto;
 import domain.position.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcPieceDao implements PieceDao {
     private final DatabaseConnector connector;
@@ -20,19 +18,17 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void saveAll(int gameId, Map<Position, Piece> pieces) {
+    public void saveAll(int gameId, List<PieceDto> pieces) {
         String sql = "INSERT INTO piece (game_id, type, team, row_idx, col_idx) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
+            for (PieceDto piece : pieces) {
                 statement.setInt(1, gameId);
-                statement.setString(2, piece.getType().name());
-                statement.setString(3, piece.getTeam().name());
-                statement.setInt(4, position.getRow());
-                statement.setInt(5, position.getColumn());
+                statement.setString(2, piece.type());
+                statement.setString(3, piece.team());
+                statement.setInt(4, piece.rowIdx());
+                statement.setInt(5, piece.colIdx());
                 statement.addBatch();
             }
             statement.executeBatch();
@@ -42,19 +38,21 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public Map<Position, Piece> findAll(int gameId) {
+    public List<PieceDto> findAll(int gameId) {
         String sql = "SELECT type, team, row_idx, col_idx FROM piece WHERE game_id = ?";
-        Map<Position, Piece> pieces = new HashMap<>();
+        List<PieceDto> pieces = new ArrayList<>();
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, gameId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Position position = new Position(rs.getInt("row_idx"), rs.getInt("col_idx"));
-                    PieceDefinition type = PieceDefinition.valueOf(rs.getString("type"));
-                    Team team = Team.valueOf(rs.getString("team"));
-                    pieces.put(position, type.createPiece(team));
+                    pieces.add(new PieceDto(
+                            rs.getString("type"),
+                            rs.getString("team"),
+                            rs.getInt("row_idx"),
+                            rs.getInt("col_idx")
+                    ));
                 }
             }
             return pieces;
