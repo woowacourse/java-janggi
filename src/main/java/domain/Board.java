@@ -31,9 +31,9 @@ public class Board {
     /**
      * 초기화 전용 생성자
      */
-    public Board(Map<Team, HorseElephantFormation> horseElephantFormations) {
-        horseElephantFormations.forEach(((team, horseElephantFormation) ->
-                initTeamBoard(horseElephantFormation.getStrategy(), team)));
+    public Board(Map<Team, InitializeStrategy> initializeStrategies) {
+        initializeStrategies.forEach(((team, initializeStrategy) ->
+                initTeamBoard(initializeStrategy, team)));
     }
 
     /**
@@ -47,7 +47,6 @@ public class Board {
             pieces.put(position, pieceType.createPiece(team));
         });
     }
-
 
     public void move(Position from, Position to, Team team) {
         Piece piece = validateMovablePiece(from, to, team);

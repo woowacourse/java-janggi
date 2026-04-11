@@ -4,9 +4,11 @@ import controller.dto.CurrentBoardStatus;
 import controller.dto.MoveStatus;
 import controller.dto.MovedPieceRequest;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import strategy.InitializeStrategy;
 
 public class Game {
     private final String name;
@@ -20,7 +22,7 @@ public class Game {
      */
     public Game(String name, Map<Team, HorseElephantFormation> initializeFormations) {
         this.name = name;
-        this.board = new Board(initializeFormations);
+        this.board = new Board(parseToStrategy(initializeFormations));
         this.initializeFormations = initializeFormations;
         this.currentTurn = Team.CHO;
         this.moveSequence = 0;
@@ -97,5 +99,13 @@ public class Game {
      */
     private int calculateCurrentScoreOf(Team team) {
         return board.getCurrentScoreOfTeam(team);
+    }
+
+    private Map<Team, InitializeStrategy> parseToStrategy(Map<Team, HorseElephantFormation> formations) {
+        Map<Team, InitializeStrategy> strategies = new HashMap<>();
+        formations.forEach((team, horseElephantFormation) ->
+                strategies.put(team, horseElephantFormation.getStrategy())
+        );
+        return strategies;
     }
 }
