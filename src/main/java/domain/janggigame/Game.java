@@ -1,25 +1,25 @@
-package janggigame;
+package domain.janggigame;
 
 import domain.board.Board;
 import domain.piece.Side;
 
-public class GameMetaData {
+public class Game {
     private final Long id;
-    private JanggiGameStatus status;
+    private GameStatus status;
     private Side currentTurnSide;
     private JangGunCount jangGunCount;
 
-    public GameMetaData(Long id, JanggiGameStatus status, Side currentTurnSide, JangGunCount jangGunCount) {
+    public Game(Long id, GameStatus status, Side currentTurnSide, JangGunCount jangGunCount) {
         this.id = id;
         this.status = status;
         this.currentTurnSide = currentTurnSide;
         this.jangGunCount = jangGunCount;
     }
 
-    public static GameMetaData newGame() {
-        return new GameMetaData(
+    public static Game newGame() {
+        return new Game(
                 null,
-                JanggiGameStatus.WAITING_HAN_PLACEMENT,
+                GameStatus.WAITING_HAN_PLACEMENT,
                 Side.CHO,
                 new JangGunCount(0, 0)
         );
@@ -50,7 +50,7 @@ public class GameMetaData {
         return id;
     }
 
-    public JanggiGameStatus getStatus() {
+    public GameStatus getStatus() {
         return status;
     }
 

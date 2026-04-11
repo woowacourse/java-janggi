@@ -1,7 +1,7 @@
 package dto;
 
 import domain.piece.Side;
-import janggigame.ScoreBoard;
+import domain.janggigame.ScoreBoard;
 
 public record JanggiGameResultResponseDto(
         String cho,

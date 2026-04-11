@@ -1,4 +1,4 @@
-package janggigame;
+package domain.janggigame;
 
 import domain.piece.Side;
 

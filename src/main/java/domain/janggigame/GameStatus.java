@@ -1,6 +1,6 @@
-package janggigame;
+package domain.janggigame;
 
-public enum JanggiGameStatus {
+public enum GameStatus {
     WAITING_HAN_PLACEMENT,
     WAITING_CHO_PLACEMENT,
     IN_PROGRESS,

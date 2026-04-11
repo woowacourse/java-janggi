@@ -1,7 +1,8 @@
-package janggigame;
+package domain.janggigame;
 
 import domain.board.Board;
 import domain.board.Placement;
+import domain.janggigame.ScoreBoard;
 import domain.piece.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

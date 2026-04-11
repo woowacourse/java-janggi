@@ -5,7 +5,7 @@ import domain.board.Board;
 import domain.board.Placement;
 import domain.piece.Side;
 import domain.position.Position;
-import janggigame.GameMetaData;
+import domain.janggigame.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,8 +32,8 @@ class JdbcBoardRepositoryTest {
     @DisplayName("게임 Id로 게임의 장기판 상태를 가져올 수 있다.")
     void findByGameId_테스트() {
         // given
-        GameMetaData firstGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
-        GameMetaData secondGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
+        Game firstGame = jdbcJanggiGameRepository.save(Game.newGame());
+        Game secondGame = jdbcJanggiGameRepository.save(Game.newGame());
 
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
@@ -60,15 +60,15 @@ class JdbcBoardRepositoryTest {
     @DisplayName("게임 id에 속해 있는 장기판에 상차림을 저장할 수 있다.")
     void savePlacementByGameId_테스트() {
         // given
-        GameMetaData gameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
+        Game game = jdbcJanggiGameRepository.save(Game.newGame());
         Board board = new Board();
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        jdbcBoardRepository.savePlacementByGameId(board, gameMetaData.getId(), Side.HAN);
+        jdbcBoardRepository.savePlacementByGameId(board, game.getId(), Side.HAN);
 
         // then
-        Board savedBoard = jdbcBoardRepository.findByGameId(gameMetaData.getId()).orElseThrow();
+        Board savedBoard = jdbcBoardRepository.findByGameId(game.getId()).orElseThrow();
         assertThat(savedBoard.getState()).isEqualTo(board.getState());
         assertThat(savedBoard.getState().values()).allMatch(placement -> placement.getSide() == Side.HAN);
         assertThat(savedBoard.getState().values()).noneMatch(placement -> placement.getSide() == Side.CHO);
@@ -78,7 +78,7 @@ class JdbcBoardRepositoryTest {
     @DisplayName("기물의 위치정보를 변경할 수 있다.")
     void updatePiecePositionById_테스트() {
         // given
-        GameMetaData firstGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
+        Game firstGame = jdbcJanggiGameRepository.save(Game.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
         jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.getId(), Side.HAN);
@@ -100,7 +100,7 @@ class JdbcBoardRepositoryTest {
     @DisplayName("기물의 위치 정보를 삭제할 수 있다.")
     void deletePiecePositionById_테스트() {
         // given
-        GameMetaData firstGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
+        Game firstGame = jdbcJanggiGameRepository.save(Game.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
         jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.getId(), Side.HAN);

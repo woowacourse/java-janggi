@@ -1,4 +1,4 @@
-package janggigame.result;
+package domain.janggigame.result;
 
 public record TurnResult(
         boolean isIncreaseJangGunCount

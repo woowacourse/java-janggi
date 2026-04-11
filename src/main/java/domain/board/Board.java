@@ -5,7 +5,7 @@ import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
-import janggigame.ScoreBoard;
+import domain.janggigame.ScoreBoard;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,9 +1,9 @@
 package repository.jdbc;
 
 import domain.piece.Side;
-import janggigame.GameMetaData;
-import janggigame.JangGunCount;
-import janggigame.JanggiGameStatus;
+import domain.janggigame.Game;
+import domain.janggigame.JangGunCount;
+import domain.janggigame.GameStatus;
 import repository.JanggiGameRepository;
 
 import javax.sql.DataSource;
@@ -24,7 +24,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public GameMetaData save(GameMetaData gameMetaData) {
+    public Game save(Game game) {
         String sql = """
                 INSERT INTO game (current_turn, status, cho_janggun_count, han_janggun_count, created_at)
                 VALUES (?, ?, ?, ?, ?)
@@ -33,8 +33,8 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, gameMetaData.getCurrentTurnSide().name());
-            statement.setString(2, gameMetaData.getStatus().name());
+            statement.setString(1, game.getCurrentTurnSide().name());
+            statement.setString(2, game.getStatus().name());
             statement.setInt(3, 0);
             statement.setInt(4, 0);
             statement.setTimestamp(5, Timestamp.from(Instant.now()));
@@ -48,10 +48,10 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                 if (!generatedKeys.next()) {
                     throw new IllegalStateException("생성된 게임 ID를 반환받지 못했습니다.");
                 }
-                return new GameMetaData(
+                return new Game(
                         generatedKeys.getLong("id"),
-                        gameMetaData.getStatus(),
-                        gameMetaData.getCurrentTurnSide(),
+                        game.getStatus(),
+                        game.getCurrentTurnSide(),
                         new JangGunCount(0, 0)
                 );
             }
@@ -61,7 +61,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public Optional<GameMetaData> findLatestUnfinishedGame() {
+    public Optional<Game> findLatestUnfinishedGame() {
         String sql = """
                 SELECT id, current_turn, status, cho_janggun_count, han_janggun_count, created_at
                 FROM game
@@ -73,16 +73,16 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, JanggiGameStatus.FINISHED.name());
+            statement.setString(1, GameStatus.FINISHED.name());
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (!rs.next()) {
                     return Optional.empty();
                 }
 
-                GameMetaData gameMetaData = new GameMetaData(
+                Game game = new Game(
                         rs.getLong("id"),
-                        JanggiGameStatus.valueOf(rs.getString("status")),
+                        GameStatus.valueOf(rs.getString("status")),
                         Side.valueOf(rs.getString("current_turn")),
                         new JangGunCount(
                                 rs.getInt("cho_janggun_count"),
@@ -90,7 +90,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                         )
                 );
 
-                return Optional.of(gameMetaData);
+                return Optional.of(game);
             }
         } catch (SQLException e) {
             throw new IllegalStateException("최근 미종료 게임 조회에 실패했습니다.", e);
@@ -98,7 +98,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus) {
+    public void updateGameStatusById(Long gameId, GameStatus newStatus) {
         try (Connection connection = dataSource.getConnection()) {
             updateGameStatusById(gameId, newStatus, connection);
         } catch (SQLException e) {
@@ -107,7 +107,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus, Connection connection) {
+    public void updateGameStatusById(Long gameId, GameStatus newStatus, Connection connection) {
         String sql = " UPDATE game SET status = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

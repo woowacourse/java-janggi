@@ -1,12 +1,15 @@
-package janggigame;
+package controller;
 
 import domain.board.Board;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
 import dto.JanggiGameResultResponseDto;
-import janggigame.result.LoadGameResult;
-import janggigame.result.TurnResult;
+import domain.janggigame.Game;
+import domain.janggigame.GameStatus;
+import domain.janggigame.ScoreBoard;
+import domain.janggigame.result.LoadGameResult;
+import domain.janggigame.result.TurnResult;
 import service.JanggiGameService;
 import util.Parser;
 import view.InputView;
@@ -16,63 +19,63 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class JanggiGame {
+public class JanggiGameController {
     private final JanggiGameService janggiGameService;
 
-    public JanggiGame(JanggiGameService janggiGameService) {
+    public JanggiGameController(JanggiGameService janggiGameService) {
         this.janggiGameService = janggiGameService;
     }
 
     public void run() {
-        GameMetaData gameMetaData = loadOrCreateNewGame();
-        Board board = loadOrInitBoard(gameMetaData);
-        processByStatus(board, gameMetaData);
+        Game game = loadOrCreateNewGame();
+        Board board = loadOrInitBoard(game);
+        processByStatus(board, game);
     }
 
-    private GameMetaData loadOrCreateNewGame() {
+    private Game loadOrCreateNewGame() {
         OutputView.printLoadGame();
         LoadGameResult loadGameResult = janggiGameService.loadOrCreateNewGame();
 
         if (loadGameResult.isNewGame()) {
             OutputView.printCreateNewGame();
         }
-        return loadGameResult.gameMetaData();
+        return loadGameResult.game();
     }
 
-    private Board loadOrInitBoard(GameMetaData gameMetaData) {
-        return janggiGameService.loadOrInitBoard(gameMetaData);
+    private Board loadOrInitBoard(Game game) {
+        return janggiGameService.loadOrInitBoard(game);
     }
 
-    private void processByStatus(Board board, GameMetaData gameMetaData) {
-        if (gameMetaData.getStatus() == JanggiGameStatus.WAITING_HAN_PLACEMENT) {
-            handleWaitingHanPlacement(board, gameMetaData);
+    private void processByStatus(Board board, Game game) {
+        if (game.getStatus() == GameStatus.WAITING_HAN_PLACEMENT) {
+            handleWaitingHanPlacement(board, game);
             return;
         }
-        if (gameMetaData.getStatus() == JanggiGameStatus.WAITING_CHO_PLACEMENT) {
-            handleWaitingChoPlacement(board, gameMetaData);
+        if (game.getStatus() == GameStatus.WAITING_CHO_PLACEMENT) {
+            handleWaitingChoPlacement(board, game);
             return;
         }
-        handleInProgress(board, gameMetaData);
+        handleInProgress(board, game);
     }
 
-    private void handleWaitingHanPlacement(Board board, GameMetaData gameMetaData) {
+    private void handleWaitingHanPlacement(Board board, Game game) {
         selectSide();
         initPlacement(Side.HAN, board);
-        janggiGameService.completePlacement(board, gameMetaData, Side.HAN, JanggiGameStatus.WAITING_CHO_PLACEMENT);
-        handleWaitingChoPlacement(board, gameMetaData);
+        janggiGameService.completePlacement(board, game, Side.HAN, GameStatus.WAITING_CHO_PLACEMENT);
+        handleWaitingChoPlacement(board, game);
     }
 
-    private void handleWaitingChoPlacement(Board board, GameMetaData gameMetaData) {
+    private void handleWaitingChoPlacement(Board board, Game game) {
         initPlacement(Side.CHO, board);
-        janggiGameService.completePlacement(board, gameMetaData, Side.CHO, JanggiGameStatus.IN_PROGRESS);
-        handleInProgress(board, gameMetaData);
+        janggiGameService.completePlacement(board, game, Side.CHO, GameStatus.IN_PROGRESS);
+        handleInProgress(board, game);
     }
 
-    private void handleInProgress(Board board, GameMetaData gameMetaData) {
-        playGame(board, gameMetaData);
+    private void handleInProgress(Board board, Game game) {
+        playGame(board, game);
         ScoreBoard scoreBoard = board.calculateScore();
         showResult(board, scoreBoard);
-        janggiGameService.updateGameStatus(gameMetaData, JanggiGameStatus.FINISHED);
+        janggiGameService.updateGameStatus(game, GameStatus.FINISHED);
     }
 
     private void selectSide() {
@@ -115,22 +118,22 @@ public class JanggiGame {
         return InputView.inputChoPlacementCode();
     }
 
-    private void playGame(Board board, GameMetaData gameMetaData) {
+    private void playGame(Board board, Game game) {
         printBoard(board);
-        while (!gameMetaData.isGameOver(board)) {
+        while (!game.isGameOver(board)) {
             try {
-                OutputView.printSide(gameMetaData.getCurrentTurnSide());
+                OutputView.printSide(game.getCurrentTurnSide());
 
                 Position from = selectFromPosition();
                 Position to = selectToPosition();
 
-                TurnResult turnResult = janggiGameService.processTurn(from, to, board, gameMetaData);
+                TurnResult turnResult = janggiGameService.processTurn(from, to, board, game);
                 printBoard(board);
 
                 if (turnResult.isIncreaseJangGunCount()) {
                     OutputView.printIsJangGun();
                 }
-                gameMetaData.changeCurrentTurn(gameMetaData.getCurrentTurnSide());
+                game.changeCurrentTurn(game.getCurrentTurnSide());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }

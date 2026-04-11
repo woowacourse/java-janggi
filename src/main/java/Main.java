@@ -1,5 +1,5 @@
 import config.DataSourceConfig;
-import janggigame.JanggiGame;
+import controller.JanggiGameController;
 import repository.BoardRepository;
 import repository.JanggiGameRepository;
 import repository.jdbc.JdbcBoardRepository;
@@ -16,8 +16,8 @@ public class Main {
         JanggiGameRepository janggiGameRepository = new JdbcJanggiGameRepository(dataSource);
         BoardRepository jdbcBoardRepository = new JdbcBoardRepository(dataSource);
         JanggiGameService janggiGameService = new JanggiGameService(janggiGameRepository, jdbcBoardRepository, dataSource);
-        JanggiGame janggiGame = new JanggiGame(janggiGameService);
+        JanggiGameController janggiGameController = new JanggiGameController(janggiGameService);
 
-        janggiGame.run();
+        janggiGameController.run();
     }
 }
