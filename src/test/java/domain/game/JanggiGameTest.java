@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
+import domain.board.SangSetup;
 import domain.game.exception.GameEndedException;
 import domain.game.exception.GameErrorMessage;
 import domain.game.exception.InvalidTurnException;
@@ -176,4 +177,26 @@ class JanggiGameTest {
         assertThat(restoredGame.gameResult()).isEqualTo(gameResult);
         assertThat(restoredGame.board()).isEqualTo(board);
     }
+
+    @Test
+    void 생성하면_초와_한_보드를_합쳐_초의_턴인_진행중_게임을_만든다() {
+        // given & when
+        Board choBoard = new Board(Map.of(
+                new Position(0, 0), new Cha(Side.CHO)
+        ));
+        Board hanBoard = new Board(Map.of(
+                new Position(9, 0), new Cha(Side.HAN)
+        ));
+
+        SangSetup choSetup = side -> choBoard;
+        SangSetup hanSetup = side -> hanBoard;
+
+        JanggiGame janggiGame = JanggiGame.of(choSetup, hanSetup);
+
+        // then
+        assertThat(janggiGame.currentTurn()).isEqualTo(Side.CHO);
+        assertThat(janggiGame.gameResult()).isEqualTo(GameResult.running());
+        assertThat(janggiGame.board()).isEqualTo(choBoard.merge(hanBoard));
+    }
+
 }
