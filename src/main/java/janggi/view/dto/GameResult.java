@@ -14,11 +14,11 @@ public class GameResult {
         this.viewResult = isWin(choScore, hanScore);
     }
 
-    public static GameResult from(int choScore, int hanScore) {
+    public static GameResult fromDrawGameResult(int choScore, int hanScore) {
         return new GameResult(choScore, hanScore);
     }
 
-    public static GameResult giveUpRequest(Camp camp) {
+    public static GameResult fromGameResult(Camp camp) {
         if (camp.isCho()) {
             return new GameResult(-1, 0);
         }

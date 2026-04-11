@@ -12,7 +12,7 @@ public class ChoTurn extends Running {
         validateCamp(from, board);
         board.movePiece(from, to);
         if (board.isOnlyGeneralOfCampAlive(camp)) {
-            return new Checkmate(camp);
+            return new Checkmate(Camp.HAN);
         }
         return new HanTurn();
     }

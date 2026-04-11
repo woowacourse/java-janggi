@@ -5,6 +5,7 @@ import janggi.domain.Janggi;
 import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.dto.GameResult;
 import janggi.view.dto.PositionRequest;
 
 import java.util.List;
@@ -36,69 +37,74 @@ public class JanggiController {
     }
 
     private void playJanggiGame(Janggi janggi) {
+        Optional<GameResult> gameResult = Optional.empty();
         while (janggi.isOnGoing()) {
-             playTurn(janggi);
+             gameResult = playTurn(janggi);
+        }
+        if (gameResult.isPresent()) {
+            outputView.printGameResult(gameResult.orElseThrow());
         }
     }
 
-    private void playTurn(Janggi janggi) {
+    private Optional<GameResult> playTurn(Janggi janggi) {
         Camp currentCamp = janggi.currentTurn();
         List<Integer> displayRows = IntStream.rangeClosed(0, 9)
                 .map(i -> currentCamp.calculateRow(9 - i))
                 .boxed()
                 .toList();
         outputView.printBoard(janggi.piecesStatus(), displayRows);
-        selectAndMove(janggi);
+        return selectAndMove(janggi);
     }
 
-    private void selectAndMove(Janggi janggi) {
+    private Optional<GameResult> selectAndMove(Janggi janggi) {
         PositionRequest fromRequest = inputView.readPieceSelection();
         if (fromRequest.howPlaying().equals("q")) {
-            outputView.printGameResult(janggi.processGiveUpRequest());
-            return;
+            return Optional.of(janggi.processGiveUpResult());
         }
         if (fromRequest.howPlaying().equals("d")) {
-            drawHandling(janggi);
-            return;
+            return drawHandling(janggi);
         }
-        processMove(janggi, fromRequest);
+        return processMove(janggi, fromRequest);
     }
 
-    private void drawHandling(Janggi janggi) {
+    private Optional<GameResult> drawHandling(Janggi janggi) {
         if (inputView.readAcceptDrawRequest()) {
             janggi.drawGame();
-            outputView.printGameResult(janggi.calculateGameResult());
+            return Optional.of(janggi.processDrawGameResult());
         }
+        return Optional.empty();
     }
 
-    private void processMove(Janggi janggi, PositionRequest fromRequest) {
-        tryMove(janggi, fromRequest);
+    private Optional<GameResult> processMove(Janggi janggi, PositionRequest fromRequest) {
+        return tryMove(janggi, fromRequest);
     }
 
-    private void tryMove(Janggi janggi, PositionRequest from) {
+    private Optional<GameResult> tryMove(Janggi janggi, PositionRequest from) {
         try {
             janggi.validateCamp(Position.of(from.row(), from.column()));
-            executeMoveSequence(janggi, from);
+            return executeMoveSequence(janggi, from);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }
+        return Optional.empty();
     }
 
-    private void executeMoveSequence(Janggi janggi, PositionRequest fromRequest) {
+    private Optional<GameResult> executeMoveSequence(Janggi janggi, PositionRequest fromRequest) {
         Optional<PositionRequest> toRequest = inputView.readMoveDestination();
         if (toRequest.isEmpty()) {
-            return;
+            return Optional.empty();
         }
-        applyMoveToDomain(janggi, fromRequest, toRequest.get());
+        return applyMoveToDomain(janggi, fromRequest, toRequest.get());
     }
 
-    private void applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
+    private Optional<GameResult> applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
         try {
             janggi.movePiece(Position.of(fromRequest.row(), fromRequest.column()),
                     Position.of(toRequest.row(), toRequest.column()));
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            executeMoveSequence(janggi, fromRequest);
+            return executeMoveSequence(janggi, fromRequest);
         }
+        return janggi.processCheckmateResult();
     }
 }

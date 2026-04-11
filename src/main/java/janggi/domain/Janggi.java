@@ -11,6 +11,7 @@ import janggi.view.dto.GameResult;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Janggi {
     private static final List<FormationStrategy> FORMATIONS = List.of(
@@ -76,18 +77,25 @@ public class Janggi {
         return gameState.turn();
     }
 
-    public GameResult calculateGameResult() {
-        if (gameState.isOngoing()) {
+    public GameResult processDrawGameResult() {
+        if (isOnGoing()) {
             throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
         }
-        return GameResult.from(
+        return GameResult.fromDrawGameResult(
                 board.calculateTotalScore(Camp.CHO),
                 board.calculateTotalScore(Camp.HAN)
         );
     }
 
-    public GameResult processGiveUpRequest() {
+    public GameResult processGiveUpResult() {
         giveUpGame();
-        return GameResult.giveUpRequest(gameState.turn());
+        return GameResult.fromGameResult(gameState.turn());
+    }
+
+    public Optional<GameResult> processCheckmateResult() {
+        if (isOnGoing()) {
+            return Optional.empty();
+        }
+        return Optional.of(GameResult.fromGameResult(gameState.turn()));
     }
 }

@@ -24,7 +24,7 @@ public class InputView {
     }
 
     public boolean readAcceptDrawRequest() {
-        System.out.println("무승부를 받아들이시겠습니까? 받아들일 경우 점수로 승/무/패가 계산됩니다. y or n로 입력");
+        System.out.println("무승부 제안을 받아들이시겠습니까? 받아들일 경우 점수로 승/무/패가 계산됩니다. y or n로 입력");
         String input = scanner.nextLine().trim();
         return isYes(input);
     }

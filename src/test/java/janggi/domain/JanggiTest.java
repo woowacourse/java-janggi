@@ -19,30 +19,30 @@ class JanggiTest {
 
     @DisplayName("게임이 끝났다면 초와 한의 점수를 비교해서 게임 결과를 반환한다")
     @Test
-    void calculateGameResult_isGameFinished_ReturnGameResult() {
+    void processDrawGameResult_isGameFinished_ReturnGameResult() {
         Janggi janggi = Janggi.start(1, 1);
-        janggi.giveUpGame();
+        janggi.drawGame();
 
-        GameResult gameResult = janggi.calculateGameResult();
+        GameResult gameResult = janggi.processDrawGameResult();
 
         Assertions.assertThat(gameResult.getDescription()).isEqualTo("무승부");
     }
 
-    @DisplayName("게임이 끝나지 않았는데 게임 결과 계산 기능을 사용하면 예외가 발생한다")
+    @DisplayName("게임이 끝나지 않았는데 무승부 게임 결과 처리 기능을 사용하면 예외가 발생한다")
     @Test
-    void calculateGameResult_isNotGameFinished_ReturnException() {
+    void processDrawGameResult_isNotGameFinished_ReturnException() {
         Janggi janggi = Janggi.start(1, 1);
 
-        Assertions.assertThatThrownBy(() -> janggi.calculateGameResult())
+        Assertions.assertThatThrownBy(() -> janggi.processDrawGameResult())
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("게임이 종료되지 않았습니다.");
     }
 
     @DisplayName("항복 요청 시 그에 맞는 게임 결과를 반환한다")
     @Test
-    void processGiveUpRequest_ReturnCorrectGameResult() {
+    void processGiveUpResult_ReturnCorrectGameResult() {
         Janggi janggi = Janggi.start(1, 1);
-        Assertions.assertThat(janggi.processGiveUpRequest().getDescription()).isEqualTo("한 승리");
+        Assertions.assertThat(janggi.processGiveUpResult().getDescription()).isEqualTo("한 승리");
     }
 
 }
