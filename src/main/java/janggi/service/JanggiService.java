@@ -5,10 +5,12 @@ import janggi.domain.Janggi;
 import janggi.domain.Position;
 import janggi.repository.JanggiRepository;
 import janggi.view.dto.GameResult;
+import janggi.view.dto.GameRoom;
 import janggi.view.dto.PieceStatus;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class JanggiService {
     private final JanggiRepository janggiRepository;
@@ -81,5 +83,17 @@ public class JanggiService {
     private Janggi loadJanggi(Long gameId) {
         return janggiRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다. ID: " + gameId));
+    }
+
+    public List<GameRoom> findAllGames() {
+        List<Janggi> games = janggiRepository.findAll();
+
+        return IntStream.range(0, games.size())
+                .mapToObj(i -> GameRoom.from(
+                        i + 1L,
+                        games.get(i).currentTurn().name(),
+                        games.get(i).isOnGoing()
+                ))
+                .toList();
     }
 }
