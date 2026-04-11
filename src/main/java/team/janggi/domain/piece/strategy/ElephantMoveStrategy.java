@@ -18,7 +18,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
         int dx = Math.abs(from.x() - to.x());
         int dy = Math.abs(from.y() - to.y());
 
-        return (dx + dy) == 5;
+        return (dx == 3 && dy == 2) || (dx == 2 && dy == 3);
     }
 
     private boolean isPathBlock(Position from, Position to, BoardStateReader stateReader) {
@@ -35,8 +35,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
         }
 
         Position obstaclePosition = new Position(fromX, fromY);
-        Piece obstacle = stateReader.get(obstaclePosition);
-        if (!obstacle.isSamePieceType(PieceType.EMPTY)){
+        Piece obstacle = stateReader.getPiece(obstaclePosition);
+        if (!obstacle.isPieceType(PieceType.EMPTY)){
             return false;
         }
 
@@ -44,17 +44,17 @@ public class ElephantMoveStrategy implements MoveStrategy {
         int y2 = (to.y() - from.y()) / Math.abs(to.y() - from.y());
 
         Position obstaclePosition2 = new Position(fromX+x2, fromY+y2);
-        Piece obstacle2 = stateReader.get(obstaclePosition2);
-        if (!obstacle2.isSamePieceType(PieceType.EMPTY)) {
+        Piece obstacle2 = stateReader.getPiece(obstaclePosition2);
+        if (!obstacle2.isPieceType(PieceType.EMPTY)) {
             return false;
         }
         return true;
     }
 
     private boolean canKill(Position from, Position to, BoardStateReader stateReader) {
-        Piece currentPiece = stateReader.get(from);
-        Piece definationPiece = stateReader.get(to);
-        return !currentPiece.isSameTeam(definationPiece);
+        Piece currentPiece = stateReader.getPiece(from);
+        Piece destinationPiece = stateReader.getPiece(to);
+        return !currentPiece.isSameTeam(destinationPiece);
     }
 
 }

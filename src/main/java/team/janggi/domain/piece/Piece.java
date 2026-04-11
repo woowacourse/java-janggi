@@ -1,24 +1,23 @@
 package team.janggi.domain.piece;
 
 import java.util.Objects;
+import team.janggi.domain.Palace;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
 import team.janggi.domain.board.BoardStateReader;
-import team.janggi.domain.piece.strategy.CannonMoveStrategy;
-import team.janggi.domain.piece.strategy.ChariotMoveStrategy;
-import team.janggi.domain.piece.strategy.ChoSoldierMoveStrategy;
+import team.janggi.domain.piece.strategy.CannonPalaceMoveStrategy;
+import team.janggi.domain.piece.strategy.ChariotPalaceMoveStrategy;
 import team.janggi.domain.piece.strategy.ElephantMoveStrategy;
 import team.janggi.domain.piece.strategy.EmptyMoveStrategy;
-import team.janggi.domain.piece.strategy.GuardMoveStrategy;
-import team.janggi.domain.piece.strategy.HanSoldierMoveStrategy;
 import team.janggi.domain.piece.strategy.HorseMoveStrategy;
-import team.janggi.domain.piece.strategy.KingMoveStrategy;
 import team.janggi.domain.piece.strategy.MoveStrategy;
+import team.janggi.domain.piece.strategy.RoyalPieceMoveStrategy;
+import team.janggi.domain.piece.strategy.SoldierPalaceMoveStrategy;
 
 public class Piece {
-    private Team team;
-    private PieceType pieceType;
-    private MoveStrategy moveStrategy;
+    private final Team team;
+    private final PieceType pieceType;
+    private final MoveStrategy moveStrategy;
 
     public Piece(Team team, PieceType pieceType, MoveStrategy moveStrategy) {
         this.team = team;
@@ -26,11 +25,8 @@ public class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public Piece(PieceType pieceType) {
-        this(Team.NONE, pieceType, new EmptyMoveStrategy());
-    }
 
-    public final static Piece EMPTY_PIECE = new Piece(PieceType.EMPTY);
+    public final static Piece EMPTY_PIECE = new Piece(Team.NONE, PieceType.EMPTY, EmptyMoveStrategy.instance);
 
     public static Piece of(PieceType pieceType, Team team) {
         if (pieceType == PieceType.EMPTY) {
@@ -40,10 +36,10 @@ public class Piece {
             return new Piece(team, PieceType.SOLDIER, getSoldierMoveStrategyByTeam(team));
         }
         if (pieceType == PieceType.KING) {
-            return new Piece(team, PieceType.KING, KingMoveStrategy.instance);
+            return new Piece(team, PieceType.KING, getRoyalMoveStrategy(team));
         }
         if (pieceType == PieceType.GUARD) {
-            return new Piece(team, PieceType.GUARD, GuardMoveStrategy.instance);
+            return new Piece(team, PieceType.GUARD, getRoyalMoveStrategy(team));
         }
         if (pieceType == PieceType.ELEPHANT) {
             return new Piece(team, PieceType.ELEPHANT, ElephantMoveStrategy.instance);
@@ -52,10 +48,10 @@ public class Piece {
             return new Piece(team, PieceType.HORSE, HorseMoveStrategy.instance);
         }
         if (pieceType == PieceType.CHARIOT) {
-            return new Piece(team, PieceType.CHARIOT, ChariotMoveStrategy.instance);
+            return new Piece(team, PieceType.CHARIOT, ChariotPalaceMoveStrategy.instance);
         }
         if (pieceType == PieceType.CANNON) {
-            return new Piece(team, PieceType.CANNON, CannonMoveStrategy.instance);
+            return new Piece(team, PieceType.CANNON, CannonPalaceMoveStrategy.instance);
         }
 
         throw new IllegalArgumentException("지원하지 않는 기물 타입입니다: " + pieceType);
@@ -63,12 +59,22 @@ public class Piece {
 
     private static MoveStrategy getSoldierMoveStrategyByTeam(Team team) {
         if (team == Team.CHO) {
-            return ChoSoldierMoveStrategy.instance;
+            return SoldierPalaceMoveStrategy.towardTopInstance;
         }
         if (team == Team.HAN) {
-            return HanSoldierMoveStrategy.instance;
+            return SoldierPalaceMoveStrategy.towardBottomInstance;
         }
         throw new IllegalArgumentException("졸은 초 또는 한 팀에 속해야 합니다.");
+    }
+
+    private static MoveStrategy getRoyalMoveStrategy(Team team) {
+        if (team == Team.CHO) {
+            return new RoyalPieceMoveStrategy(Palace.getChoPalaceInfo());
+        }
+        if (team == Team.HAN) {
+            return new RoyalPieceMoveStrategy(Palace.getHanPalaceInfo());
+        }
+        throw new IllegalArgumentException("왕은 초 또는 한 팀에 속해야 합니다.");
     }
 
     public boolean canMove(Position from,
@@ -86,8 +92,20 @@ public class Piece {
         return this.team == otherTeam;
     }
 
-    public boolean isSamePieceType(PieceType otherPieceType) {
+    public boolean isPieceType(PieceType otherPieceType) {
         return this.pieceType == otherPieceType;
+    }
+
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     @Override

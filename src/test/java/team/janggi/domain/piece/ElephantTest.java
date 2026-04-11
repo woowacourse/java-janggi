@@ -4,18 +4,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import team.janggi.domain.EmptyBoardInitializer;
+import team.janggi.domain.EmptyBoardPiecesInitializer;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
-import team.janggi.domain.board.BoardStatus;
-import team.janggi.domain.board.LocalMemoryBoardStatus;
+import team.janggi.domain.board.BoardPieces;
 
 public class ElephantTest {
-    private final BoardStatus boardStatus = new LocalMemoryBoardStatus();
+    private final BoardPieces boardPieces = new BoardPieces();
 
     @BeforeEach
     void setUp() {
-        new EmptyBoardInitializer().initBoardStatus(boardStatus);
+        new EmptyBoardPiecesInitializer().initBoardStatus(boardPieces);
     }
 
     @ParameterizedTest
@@ -35,10 +34,10 @@ public class ElephantTest {
         Position from = new Position(startX, startY);
         Position to = new Position(endX, endY);
 
-        boardStatus.setPiece(from, elephant);
+        boardPieces.setPiece(from, elephant);
 
         // then & then
-        Assertions.assertTrue(elephant.canMove(from, to, boardStatus.getBoardStatus()));
+        Assertions.assertTrue(elephant.canMove(from, to, boardPieces.getBoardStateReader()));
     }
 
     @ParameterizedTest
@@ -57,11 +56,11 @@ public class ElephantTest {
         Piece obstacle = Piece.of(PieceType.SOLDIER, Team.HAN);
         Position obstaclePosition = new Position(obstacleX, obstacleY);
 
-        boardStatus.setPiece(from, elephant);
-        boardStatus.setPiece(obstaclePosition, obstacle);
+        boardPieces.setPiece(from, elephant);
+        boardPieces.setPiece(obstaclePosition, obstacle);
 
         // when & then
-        Assertions.assertFalse(elephant.canMove(from, to, boardStatus.getBoardStatus()));
+        Assertions.assertFalse(elephant.canMove(from, to, boardPieces.getBoardStateReader()));
     }
 
     @ParameterizedTest
@@ -76,10 +75,10 @@ public class ElephantTest {
         Position from = new Position(startX, startY);
         Position to = new Position(endX, endY);
 
-        boardStatus.setPiece(from, elephant);
+        boardPieces.setPiece(from, elephant);
 
         // then & then
-        Assertions.assertFalse(elephant.canMove(from, to, boardStatus.getBoardStatus()));
+        Assertions.assertFalse(elephant.canMove(from, to, boardPieces.getBoardStateReader()));
     }
 
     @ParameterizedTest
@@ -102,9 +101,9 @@ public class ElephantTest {
         Position to = new Position(endX, endY);
 
         // when
-        boardStatus.setPiece(from, elephant);
-        boardStatus.setPiece(to, soldier);
-        Assertions.assertFalse(elephant.canMove(from, to, boardStatus.getBoardStatus()));
+        boardPieces.setPiece(from, elephant);
+        boardPieces.setPiece(to, soldier);
+        Assertions.assertFalse(elephant.canMove(from, to, boardPieces.getBoardStateReader()));
     }
 
     @ParameterizedTest
@@ -127,9 +126,9 @@ public class ElephantTest {
         Position to = new Position(endX, endY);
 
         // when
-        boardStatus.setPiece(from, elephant);
-        boardStatus.setPiece(to, soldier);
-        Assertions.assertTrue(elephant.canMove(from, to, boardStatus.getBoardStatus()));
+        boardPieces.setPiece(from, elephant);
+        boardPieces.setPiece(to, soldier);
+        Assertions.assertTrue(elephant.canMove(from, to, boardPieces.getBoardStateReader()));
     }
 
 }

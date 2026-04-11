@@ -17,7 +17,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         int dx = Math.abs(from.x() - to.x());
         int dy = Math.abs(from.y() - to.y());
 
-        return (dx + dy) == 3;
+        return (dx == 1 && dy == 2) || (dx == 2 && dy == 1);
     }
 
     private boolean isPathBlock(Position from, Position to, BoardStateReader stateReader) {
@@ -34,13 +34,13 @@ public class HorseMoveStrategy implements MoveStrategy {
         }
 
         Position obstaclePosition = new Position(fromX, fromY);
-        Piece obstacle = stateReader.get(obstaclePosition);
-        return obstacle.isSamePieceType(PieceType.EMPTY);
+        Piece obstacle = stateReader.getPiece(obstaclePosition);
+        return obstacle.isPieceType(PieceType.EMPTY);
     }
 
     private boolean canKill(Position from, Position to, BoardStateReader stateReader) {
-        Piece currentPiece = stateReader.get(from);
-        Piece definationPiece = stateReader.get(to);
-        return !currentPiece.isSameTeam(definationPiece);
+        Piece currentPiece = stateReader.getPiece(from);
+        Piece destinationPiece = stateReader.getPiece(to);
+        return !currentPiece.isSameTeam(destinationPiece);
     }
 }

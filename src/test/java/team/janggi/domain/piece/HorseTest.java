@@ -4,19 +4,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import team.janggi.domain.EmptyBoardInitializer;
+import team.janggi.domain.EmptyBoardPiecesInitializer;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
-import team.janggi.domain.board.BoardStatus;
-import team.janggi.domain.board.LocalMemoryBoardStatus;
+import team.janggi.domain.board.BoardPieces;
 
 public class HorseTest {
 
-    private BoardStatus boardStatus = new LocalMemoryBoardStatus();
+    private BoardPieces boardPieces = new BoardPieces();
 
     @BeforeEach
     void setUp() {
-        new EmptyBoardInitializer().initBoardStatus(boardStatus);
+        new EmptyBoardPiecesInitializer().initBoardStatus(boardPieces);
     }
 
     @ParameterizedTest
@@ -36,9 +35,9 @@ public class HorseTest {
         Position from = new Position(startX, startY);
         Position to = new Position(endX, endY);
 
-        boardStatus.setPiece(from, horse);
+        boardPieces.setPiece(from, horse);
         // when & then
-        Assertions.assertTrue(horse.canMove(from, to, boardStatus.getBoardStatus()));
+        Assertions.assertTrue(horse.canMove(from, to, boardPieces.getBoardStateReader()));
     }
     @ParameterizedTest
     @CsvSource({
@@ -54,11 +53,11 @@ public class HorseTest {
 
         Piece obstacle = Piece.of(PieceType.SOLDIER, Team.CHO);
         Position obstaclePosition = new Position(obstacleX, obstacleY);
-        boardStatus.setPiece(from, horse);
-        boardStatus.setPiece(obstaclePosition, obstacle);
+        boardPieces.setPiece(from, horse);
+        boardPieces.setPiece(obstaclePosition, obstacle);
 
         // when & then
-        Assertions.assertFalse(horse.canMove(from, to, boardStatus.getBoardStatus()));
+        Assertions.assertFalse(horse.canMove(from, to, boardPieces.getBoardStateReader()));
 
     }
 }

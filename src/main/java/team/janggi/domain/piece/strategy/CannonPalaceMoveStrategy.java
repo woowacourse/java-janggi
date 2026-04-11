@@ -3,23 +3,27 @@ package team.janggi.domain.piece.strategy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import team.janggi.domain.Palace;
 import team.janggi.domain.Position;
+import team.janggi.domain.board.BoardStateReader;
 import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.PieceType;
-import team.janggi.domain.board.BoardStateReader;
 
-public class CannonMoveStrategy implements MoveStrategy {
-    public static final CannonMoveStrategy instance = new CannonMoveStrategy();
+public class CannonPalaceMoveStrategy extends CannonMoveStrategy {
+        public static final CannonPalaceMoveStrategy instance = new CannonPalaceMoveStrategy();
 
     @Override
     public boolean calculateMove(Position from, Position to, BoardStateReader stateReader) {
+        if (super.calculateMove(from, to, stateReader)) {
+            return true;
+        }
+
         if (!isAllowDirection(from, to)) {
             return false;
         }
 
-        final List<Piece> paths = getPaths(from, to, stateReader);
-
-        if (!isPathsValid(paths)) {
+        final List<Piece> paths = getPath(from, to, stateReader);
+        if (!isValidPath(paths)) {
             return false;
         }
 
@@ -29,10 +33,10 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean canKill(Piece target, Piece me) {
-        return !target.isSameTeam(me) && !target.isPieceType(PieceType.CANNON);
+        return !target.isSameTeam(me);
     }
 
-    private boolean isPathsValid(List<Piece> paths) {
+    private boolean isValidPath(List<Piece> paths) {
         if (paths.isEmpty()) {
             return false;
         }
@@ -49,7 +53,7 @@ public class CannonMoveStrategy implements MoveStrategy {
                 .anyMatch(piece::isPieceType);
     }
 
-    private List<Piece> getPaths(Position from, Position to, BoardStateReader stateReader) {
+    private List<Piece> getPath(Position from, Position to, BoardStateReader stateReader) {
         List<Piece> paths = new ArrayList<>();
 
         int dx = Integer.signum(to.x() - from.x());
@@ -58,7 +62,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         int currentX = from.x() + dx;
         int currentY = from.y() + dy;
 
-        while (currentX != to.x() || currentY != to.y()) {
+        while (currentX != to.x() && currentY != to.y()) {
             paths.add(stateReader.getPiece(new Position(currentX, currentY)));
             currentX += dx;
             currentY += dy;
@@ -68,9 +72,13 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isAllowDirection(Position from, Position to) {
-        int dx = to.x() - from.x();
-        int dy = to.y() - from.y();
+        if (!Palace.isInPalace(from) || !Palace.isInPalace(to)) {
+            return false;
+        }
 
-        return (dx == 0 && dy > 0) || (dx == 0 && dy < 0) || (dx > 0 && dy == 0) || (dx < 0 && dy == 0);
+        final int dx = Math.abs(from.x() - to.x());
+        final int dy = Math.abs(from.y() - to.y());
+
+        return dx == dy;
     }
 }

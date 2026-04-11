@@ -5,8 +5,7 @@ import team.janggi.domain.piece.Piece;
 
 public interface BoardStateReader {
 
-    Piece get(Position position);
+    Piece getPiece(Position position);
 
     int size();
-
 }

@@ -68,6 +68,8 @@ public class ConsoleInputView {
             readNormalSetup = readNormalSetup(setups);
         } while (readNormalSetup == null);
 
+        printLine("");
+
         return readNormalSetup;
     }
 
@@ -129,5 +131,43 @@ public class ConsoleInputView {
 
     private void printLine(String text) {
         System.out.println(text);
+    }
+
+    public long readGameRoomId() {
+        printLine("게임 방 번호를 입력하세요.");
+        return Long.parseLong(scanner.nextLine().trim());
+    }
+
+    public Menu readMenuChoice() {
+        printLine("1. 새 게임 시작");
+        printLine("2. 이어하기");
+        printLine("3. 종료");
+        printText("선택 (1-3): ");
+
+        int menuChoice;
+        try {
+            menuChoice = Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            printLine("1 또는 2를 입력하세요.");
+            return null;
+        }
+
+        final boolean isValidateRange = menuChoice >= 1 && menuChoice <= 3;
+        if (!isValidateRange) {
+            printLine("1, 2, 3를 입력하세요.");
+            return null;
+        }
+
+        if (menuChoice == 1) {
+            return Menu.CREATE_ROOM;
+        }
+        if (menuChoice == 2) {
+            return Menu.JOIN_ROOM;
+        }
+        if (menuChoice == 3) {
+            return Menu.EXIT;
+        }
+
+        throw new IllegalStateException("올바르지 않은 메뉴 번호입니다: " + menuChoice);
     }
 }

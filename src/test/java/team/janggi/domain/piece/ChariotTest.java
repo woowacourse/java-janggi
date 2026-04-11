@@ -2,21 +2,21 @@ package team.janggi.domain.piece;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import team.janggi.domain.EmptyBoardInitializer;
+import team.janggi.domain.EmptyBoardPiecesInitializer;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
-import team.janggi.domain.board.BoardStatus;
-import team.janggi.domain.board.LocalMemoryBoardStatus;
+import team.janggi.domain.board.BoardPieces;
 
 public class ChariotTest {
 
-    private final BoardStatus boardStatus = new LocalMemoryBoardStatus();
+    private final BoardPieces boardPieces = new BoardPieces();
 
     @BeforeEach
     void setUp() {
-        new EmptyBoardInitializer().initBoardStatus(boardStatus);
+        new EmptyBoardPiecesInitializer().initBoardStatus(boardPieces);
     }
 
     @ParameterizedTest
@@ -72,13 +72,13 @@ public class ChariotTest {
         Position to = new Position(endX, endY);
 
         // 피스 세팅
-        boardStatus.setPiece(from, me);
+        boardPieces.setPiece(from, me);
         if (isEnemyExist) {
-            boardStatus.setPiece(to, Piece.of(PieceType.SOLDIER, opponentTeam));
+            boardPieces.setPiece(to, Piece.of(PieceType.SOLDIER, opponentTeam));
         }
 
         // when
-        boolean canMove = me.canMove(from, to, boardStatus.getBoardStatus());
+        boolean canMove = me.canMove(from, to, boardPieces.getBoardStateReader());
 
         // when & then
         Assertions.assertEquals(expected, canMove);
@@ -119,13 +119,79 @@ public class ChariotTest {
         Position to = new Position(endX, endY);
 
         // 피스 세팅
-        boardStatus.setPiece(from, me);
-        boardStatus.setPiece(to, Piece.of(PieceType.SOLDIER, myTeam)); // 목표 위치에 아군 기물 세팅
+        boardPieces.setPiece(from, me);
+        boardPieces.setPiece(to, Piece.of(PieceType.SOLDIER, myTeam)); // 목표 위치에 아군 기물 세팅
 
         // when
-        boolean canMove = me.canMove(from, to, boardStatus.getBoardStatus());
+        boolean canMove = me.canMove(from, to, boardPieces.getBoardStateReader());
 
         // when & then
         Assertions.assertEquals(expected, canMove);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "3,7,   4,8",
+            "5,7,   4,8",
+            "3,9,   4,8",
+            "5,9,   4,8"
+    })
+    void 차는_궁성에서_정가운데_위치에서_네각으로_대각선_이동_할_수_있다(
+            int startX, int startY,
+            int definationX, int destinationY) {
+        // given
+        Piece chariot = Piece.of(PieceType.CHARIOT, Team.CHO);
+        Position currentPosition = new Position(startX, startY);
+
+        boardPieces.setPiece(currentPosition, chariot);
+
+        Position destinationPosition = new Position(definationX, destinationY);
+
+        // when & then
+        Assertions.assertTrue(chariot.canMove(currentPosition, destinationPosition, boardPieces.getBoardStateReader()));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "3,7,   4,8",
+            "5,7,   4,8",
+            "3,9,   4,8",
+            "5,9,   4,8",
+
+            "3,7,   5,9",
+            "5,7,   3,9",
+            "3,9,   5,7",
+            "5,9,   3,7"
+    })
+    void 차는_궁의_네각에서_정가운데_혹은_끝단으로_이동_할_수_있다(
+            int startX, int startY,
+            int destinationX, int destinationY) {
+        // given
+        Piece king = Piece.of(PieceType.CHARIOT, Team.CHO);
+        Position currentPosition = new Position(startX, startY);
+
+        boardPieces.setPiece(currentPosition, king);
+
+        Position destinationPosition = new Position(destinationX, destinationY);
+
+        // when & then
+        Assertions.assertTrue(king.canMove(currentPosition, destinationPosition, boardPieces.getBoardStateReader()));
+    }
+
+    @Test
+    void 차는_궁성_밖에서_대각선_이동_할_수_없다() {
+        // given
+        Piece chariot = Piece.of(PieceType.CHARIOT, Team.CHO);
+        Position currentPosition = new Position(5, 5);
+
+        boardPieces.setPiece(currentPosition, chariot);
+
+        Position destinationPosition = new Position(6, 6); // 대각선 이동
+
+        // when
+        boolean canMove = chariot.canMove(currentPosition, destinationPosition, boardPieces.getBoardStateReader());
+
+        // then
+        Assertions.assertFalse(canMove);
     }
 }

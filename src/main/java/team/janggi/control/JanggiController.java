@@ -1,55 +1,99 @@
 package team.janggi.control;
 
-import java.util.Map;
-import team.janggi.domain.board.Board;
 import team.janggi.domain.Position;
-import team.janggi.domain.Team;
-import team.janggi.domain.board.BoardInitializer;
-import team.janggi.domain.board.NormalSetup;
+import team.janggi.exception.GameOverException;
+import team.janggi.exception.PieceCanNotMoveException;
+import team.janggi.repository.dto.BoardViewDTO;
+import team.janggi.service.JanggiService;
 import team.janggi.view.ConsoleInputView;
 import team.janggi.view.ConsoleOutputView;
+import team.janggi.view.Menu;
 
 public class JanggiController {
     private final ConsoleOutputView consoleOutputView;
     private final ConsoleInputView consoleInputView;
+    private final JanggiService janggiService;
 
-    public JanggiController() {
+    public JanggiController(JanggiService janggiService) {
         this.consoleOutputView = new ConsoleOutputView();
         this.consoleInputView = new ConsoleInputView();
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        final Board board = createBoard();
-        board.init();
+        final long gameRoomId = getGameRoomId();
 
-        Team currentTurn = Team.CHO;
-        while (true) {
-            currentTurn = doTurn(board, currentTurn);
+        do {
+            doTurn(gameRoomId);
+        } while (!janggiService.isGameOver(gameRoomId));
+
+        consoleOutputView.printWinner(janggiService.getWinnerTeam(gameRoomId));
+    }
+
+    private long getGameRoomId() {
+        final Menu menu = consoleInputView.readMenuChoice();
+
+        if (menu == Menu.CREATE_ROOM) {
+            return createGameRoom();
+        }
+        if (menu == Menu.JOIN_ROOM) {
+            return readJoinGameRoomId();
+        }
+        if (menu == Menu.EXIT) {
+            System.exit(0);
+        }
+
+        throw new IllegalStateException("지원하지 않는 메뉴입니다: " + menu);
+    }
+
+    private long createGameRoom() {
+        return janggiService.createGameRoom(
+                consoleInputView.readChoNormalSetup(),
+                consoleInputView.readHanNormalSetup()
+        );
+    }
+
+    private long readJoinGameRoomId() {
+        boolean isValidGameRoomId;
+        long readGameRoomId;
+
+        do {
+            readGameRoomId = consoleInputView.readGameRoomId();
+            isValidGameRoomId = checkValidGameRoom(readGameRoomId);
+        } while (!isValidGameRoomId);
+
+        return readGameRoomId;
+    }
+
+    private boolean checkValidGameRoom(long gameRoomId) {
+        try {
+            janggiService.findGameRoom(gameRoomId);
+            return true;
+        } catch (Exception e) {
+            consoleOutputView.printInvalidGameRoomIdMessage();
+            return false;
         }
     }
 
-    private Board createBoard() {
-        final NormalSetup choSetup = consoleInputView.readChoNormalSetup();
-        final NormalSetup hanSetup = consoleInputView.readHanNormalSetup();
-        final BoardInitializer boardInitializer = new BoardInitializer(choSetup, hanSetup);
-        return new Board(boardInitializer);
-    }
+    private void doTurn(long gameRoomId) {
+        final BoardViewDTO boardView = janggiService.getBoardView(gameRoomId);
+        consoleOutputView.print(boardView.boardStateReader(), gameRoomId, boardView.choScore(), boardView.hanScore());
 
-    private Team doTurn(Board board, Team currentTurn) {
-        consoleOutputView.print(board);
-        final Position from = consoleInputView.readMoveSource(currentTurn);
-        final Position to = consoleInputView.readMoveDestination(currentTurn);
+        final Position from = consoleInputView.readMoveSource(boardView.currentTurn());
+        final Position to = consoleInputView.readMoveDestination(boardView.currentTurn());
 
         try {
-            board.move(currentTurn, from, to);
-            return nextTeam(currentTurn);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return currentTurn;
+            janggiService.move(gameRoomId, boardView.currentTurn(), from, to);
+        } catch (PieceCanNotMoveException e) {
+            consoleOutputView.printWarningMessage(e.getMessage());
+        } catch (GameOverException e) {
+            exitGame();
         }
     }
 
-    private Team nextTeam(Team team) {
-        return Map.of(Team.CHO, Team.HAN, Team.HAN, Team.CHO).get(team);
+    // 게임을 종료합니다.
+    private void exitGame() {
+        consoleOutputView.printExitMessage();
+        System.exit(0);
     }
 }

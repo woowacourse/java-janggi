@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation('com.h2database:h2:2.3.232')
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
