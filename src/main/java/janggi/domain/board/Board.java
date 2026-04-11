@@ -45,7 +45,6 @@ public class Board {
     private static final String ID_SECOND = "1";
 
     // 점수 계산
-    private static final double BASE_SCORE = 0.0;
     private static final double HAN_BONUS_SCORE = 1.5;
 
     private final Map<Position, Piece> piecePosition;
