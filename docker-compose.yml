@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: janggi-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 3306
+      MYSQL_DATABASE: janggi
+    ports:
+      - "3306:3306"
+    volumes:
+      - janggi-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+volumes:
+  janggi-data:
