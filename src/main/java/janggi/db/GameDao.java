@@ -17,29 +17,26 @@ import java.util.Map;
 public class GameDao {
 
     private static final int FIX_GAME_ID = 1;
-    private final DatabaseConnector databaseConnector;
+    private final DBConnector dbConnector;
 
-    public GameDao() {
-        databaseConnector = new DatabaseConnector();
-    }
-
-    public GameDao(String url) {
-        databaseConnector = new DatabaseConnector(url);
+    public GameDao(DBConnector dbConnector) {
+        this.dbConnector = dbConnector;
     }
 
     public void saveGame(GameContext gameContext) {
-        try (Connection connection = databaseConnector.getConnection()) {
+        try (Connection connection = dbConnector.getConnection()) {
             deletePiecesTable(connection);
             deleteGameTable(connection);
             insertCurrentTurn(connection, gameContext);
             insertPiece(connection, gameContext);
+            // 현재 트랜잭션 처리가 안되어있는,
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류");
         }
     }
 
     public GameContext loadPreviousGame() {
-        try (Connection connection = databaseConnector.getConnection()) {
+        try (Connection connection = dbConnector.getConnection()) {
             TurnManager turnManager = new TurnManager(selectCurrentTurn(connection));
             Board board = new Board(selectPieceMap(connection));
             return new GameContext(turnManager, board);
@@ -49,7 +46,7 @@ public class GameDao {
     }
 
     public void deleteGameRecord() {
-        try (Connection connection = databaseConnector.getConnection()) {
+        try (Connection connection = dbConnector.getConnection()) {
             deletePiecesTable(connection);
             deleteGameTable(connection);
         } catch (SQLException e) {
@@ -58,7 +55,7 @@ public class GameDao {
     }
 
     public boolean hasGameData() {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = dbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM game WHERE id = ?")) {
             statement.setInt(1, FIX_GAME_ID);
             return isGamePresent(statement);

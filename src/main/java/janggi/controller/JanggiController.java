@@ -1,6 +1,8 @@
 package janggi.controller;
 
+import janggi.db.DBConnector;
 import janggi.db.GameDao;
+import janggi.db.InitDatabaseTable;
 import janggi.domain.GameContext;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
@@ -17,9 +19,11 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
-    private final GameDao gameDao = new GameDao();
+    private final GameDao gameDao;
 
-    public JanggiController() {
+    public JanggiController(DBConnector dbConnector) {
+        InitDatabaseTable.initDatabaseTable(dbConnector);
+        this.gameDao = new GameDao(dbConnector);
     }
 
     public void run() {
