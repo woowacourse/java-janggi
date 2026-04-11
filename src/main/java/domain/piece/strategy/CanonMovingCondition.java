@@ -4,6 +4,7 @@ import domain.board.BoardState;
 import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.position.Palace;
 import domain.position.Position;
 
 public class CanonMovingCondition implements MovingCondition {
@@ -13,7 +14,10 @@ public class CanonMovingCondition implements MovingCondition {
     public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
         Directions directions = Directions.of(startPosition, endPosition);
 
-        if (!directions.checkAllDirectionIsStraight()) {
+        if (Palace.canStepDiagonal(startPosition, directions.findFirst()) && !Palace.isPalace(endPosition)) {
+            return false;
+        }
+        if (!directions.checkAllDirectionIsStraight() && !Palace.isPalace(endPosition)) {
             return false;
         }
         return hasValidCanonPath(boardState, endPosition, new LinePath(startPosition, directions));

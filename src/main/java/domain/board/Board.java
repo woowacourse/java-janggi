@@ -5,6 +5,7 @@ import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
+import domain.janggigame.ScoreBoard;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,6 +16,10 @@ public class Board implements BoardState {
 
     public Board() {
         state = new LinkedHashMap<>();
+    }
+
+    public void put(Position position, Piece piece) {
+        state.put(position, piece);
     }
 
     @Override
@@ -39,6 +44,33 @@ public class Board implements BoardState {
         validatePieceCanMove(from, to, fromPiece);
         state.put(to, fromPiece);
         state.remove(from);
+    }
+
+    public boolean isJangGun(Side currentTurnSide) {
+        Position generalPosition = findGeneralPosition(currentTurnSide);
+
+        return state.entrySet().stream()
+                .filter(entry -> !entry.getValue().isSameSide(currentTurnSide))
+                .anyMatch(entry ->
+                        entry.getValue().getMovingCondition().canMove(boardStateBySide(currentTurnSide), entry.getKey(), generalPosition)
+                );
+    }
+
+    public boolean isEmptyGeneral(Side currentTurnSide) {
+        return state.values().stream()
+                .noneMatch(piece -> piece.isSameSide(currentTurnSide) && piece.isSamePieceType(PieceType.GENERAL));
+    }
+
+    public ScoreBoard calculateScore() {
+        return ScoreBoard.from(getState());
+    }
+
+    private Position findGeneralPosition(Side currentTurnSide) {
+        return state.entrySet().stream()
+                .filter(entry -> entry.getValue().isSameSide(currentTurnSide) && entry.getValue().isSamePieceType(PieceType.GENERAL))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(currentTurnSide.getName() + "진영의 장군이 존재하지 않습니다."));
     }
 
     private void validatePieceCanMove(Position from, Position to, Piece fromPiece) {

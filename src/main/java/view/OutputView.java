@@ -3,6 +3,7 @@ package view;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
+import dto.JanggiGameResultResponseDto;
 import dto.PieceDto;
 
 import java.util.Map;
@@ -29,15 +30,40 @@ public class OutputView {
     }
 
     public static void printSideChoiceResult(Side side) {
+        System.out.println();
         System.out.println("당신은 " + side.getName() + "입니다.");
+        System.out.println();
     }
 
     public static void printErrorMessage(String message) {
         System.out.println(message);
     }
 
-    public static void printSide(Side attackerSide) {
-        System.out.println(attackerSide.getName() + "진영 차례 입니다.");
+    public static void printSide(Side currentTurnSide) {
+        System.out.println(currentTurnSide.getName() + "진영 차례 입니다.");
+    }
+
+    public static void printIsJangGun() {
+        System.out.println("장군!");
+    }
+
+    public static void printScoreBothSide(JanggiGameResultResponseDto janggiGameResultResponseDto) {
+        System.out.println("# 점수출력 #");
+        System.out.println(janggiGameResultResponseDto.cho() + " : " + janggiGameResultResponseDto.choScore());
+        System.out.println(janggiGameResultResponseDto.han() + " : " + janggiGameResultResponseDto.hanScore());
+        System.out.println("승리한 진영: " + janggiGameResultResponseDto.winSide());
+    }
+
+    public static void printWinSide(Side side) {
+        System.out.println(side.getName() + "진영이 승리하였습니다.");
+    }
+
+    public static void printLoadGame() {
+        System.out.println("진행하던 게임을 불러오는 중 입니다.");
+    }
+
+    public static void printCreateNewGame() {
+        System.out.println("기존에 진행하던 게임이 없어 새로운 게임을 생성합니다.");
     }
 
     private static void printRows(Map<Position, PieceDto> state) {
@@ -138,7 +164,7 @@ public class OutputView {
     }
 
     private static String renderColumnLabel(int column) {
-        String label = column + ".";
+        String label = String.valueOf(column);
         return padLeft() + label + " ".repeat(CELL_WIDTH - LEFT_PADDING - label.length());
     }
 

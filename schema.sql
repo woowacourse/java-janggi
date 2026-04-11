@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS game (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    current_turn VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL CHECK (status IN ('WAITING_HAN_PLACEMENT', 'WAITING_CHO_PLACEMENT', 'IN_PROGRESS', 'FINISHED')),
+    cho_janggun_count INT NOT NULL,
+    han_janggun_count INT NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS board (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    piece_type VARCHAR(50) NOT NULL,
+    side VARCHAR(50) NOT NULL,
+    position_x INT NOT NULL,
+    position_y INT NOT NULL,
+    game_id BIGINT NOT NULL,
+    CONSTRAINT fk_piece_game FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
+);

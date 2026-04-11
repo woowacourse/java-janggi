@@ -4,6 +4,8 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import domain.janggigame.ScoreBoard;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -253,5 +255,64 @@ public class BoardTest {
         // then
         Piece piece = board.findBy(Position.of(10, 8));
         assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.CANON));
+    }
+
+    @Test
+    @DisplayName("장군 상태를 판단할 수 있다.")
+    void isJangGun_장군_상태_판단_테스트_1() {
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
+        board.move(Position.of(4, 9), Position.of(4, 8), Side.CHO);
+        board.move(Position.of(1, 9), Position.of(9, 9), Side.CHO);
+
+        // when
+        boolean result = board.isJangGun(Side.HAN);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("현재 턴의 한의 장 기물이 비어있지 않은 지 확인할 수 있다.")
+    void isEmptyGeneral_비어있지_않을_때_테스트_1() {
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+
+        boolean result = board.isEmptyGeneral(Side.HAN);
+
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("현재 턴의 한의 장 기물이 비어있는지 확인할 수 있다.")
+    void isEmptyGeneral_비어있을_때_테스트_2() {
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
+        board.move(Position.of(4, 9), Position.of(4, 8), Side.CHO);
+        board.move(Position.of(1, 9), Position.of(9, 9), Side.CHO);
+        board.move(Position.of(9, 9), Position.of(9, 5), Side.CHO);
+
+        boolean result = board.isEmptyGeneral(Side.HAN);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("현재 보드판의 점수를 계산한 점수판을 만들 수 있다.")
+    void calculateScore_테스트() {
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+
+        ScoreBoard scoreBoard = board.calculateScore();
+
+        double choScore = scoreBoard.getScoreBySide(Side.CHO);
+        double hanScore = scoreBoard.getScoreBySide(Side.HAN);
+        Assertions.assertThat(choScore).isEqualTo(72.0);
+        Assertions.assertThat(hanScore).isEqualTo(73.5);
     }
 }

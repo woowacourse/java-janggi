@@ -3,6 +3,7 @@ package domain.piece.strategy;
 import domain.board.BoardState;
 import domain.direction.Direction;
 import domain.direction.Directions;
+import domain.position.Palace;
 import domain.position.Position;
 
 public class PalacePieceMovingCondition implements MovingCondition {
@@ -17,6 +18,9 @@ public class PalacePieceMovingCondition implements MovingCondition {
         }
 
         Direction direction = directions.next();
-        return direction.isStraight();
+        if (!Palace.isPalace(endPosition)) {
+            return false;
+        }
+        return direction.isStraight() || Palace.canStepDiagonal(startPosition, direction);
     }
 }
