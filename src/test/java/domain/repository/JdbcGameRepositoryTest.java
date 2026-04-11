@@ -9,6 +9,7 @@ import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.state.ChuSide;
 import domain.state.Side;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JdbcGameRepositoryTest {
 
-    private final JdbcGameRepository repository = new JdbcGameRepository();
+    private final JdbcGameRepository repository = new JdbcGameRepository(new GameRoomDao(), new BoardStateDao());
 
     @BeforeEach
     void setUp() {
+        try (Connection conn = DatabaseConnector.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.executeUpdate("TRUNCATE TABLE board_state");
+            stmt.executeUpdate("TRUNCATE TABLE game_room");
+            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @AfterEach
+    void tearDown() {
         try (Connection conn = DatabaseConnector.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
