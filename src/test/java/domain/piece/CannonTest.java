@@ -166,6 +166,39 @@ class CannonTest {
     }
 
     @Test
+    void 도착지가_빈칸이면서_중간에_말이_존재하지_않는_경우_궁성_내_간선_이동이_불가능하다() {
+        Piece cannon = new Cannon(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position to = Position.from(10, 6);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    @Test
+    void 도착지에_같은팀_기물이_있으면_궁성_내_간선_이동이_불가능하다() {
+        Piece cannon = new Cannon(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position to = Position.from(10, 6);
+        Position between = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+        testPiece.put(between, new Pawn(Team.CHO));
+        testPiece.put(to, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    @Test
     void 도착지가_빈칸이면서_중간에_포가_아닌_오직_하나의_말만_존재하는_경우_이동_가능하다() {
         // given
         Piece cannon = new Cannon(Team.CHO);
@@ -182,6 +215,23 @@ class CannonTest {
         Board board = new Board(testPiece);
 
         // then
+        assertThat(cannon.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    @Test
+    void 도착지가_빈칸이면서_중간에_포가_아닌_오직_하나의_말만_존재하는_경우_궁성_내_간선_이동가능하다() {
+        Piece cannon = new Cannon(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position to = Position.from(10, 6);
+        Position between = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+        testPiece.put(between, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
         assertThat(cannon.canMove(from, to, board)).isEqualTo(true);
     }
 }

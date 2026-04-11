@@ -15,8 +15,17 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public static String readMoveCommand(String teamName, String playerName) {
-        System.out.println(teamName + " " + playerName + " 이동 입력 (예: 졸 7,1 -> 6,1) : ");
+    public static String readMoveCommand(String teamName) {
+        System.out.println(teamName + " 이동 입력 (예: 졸 7,1 -> 6,1) : ");
         return scanner.nextLine();
+    }
+
+    public static int choiceGame() {
+        System.out.println("1. 새 게임 시작");
+        System.out.println("2. 이어하기");
+        System.out.println("선택하세요: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
     }
 }

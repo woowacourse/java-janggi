@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 import strategy.InnerElephantFormationStrategy;
 import strategy.LeftElephantFormationStrategy;
@@ -385,8 +384,8 @@ class BoardTest {
 
     @Test
     void 사가_한칸_앞으로_올바른_위치에_이동된다() {
-        Position from = Position.from(7, 4);
-        Position to = Position.from(6, 4);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(9, 4);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
@@ -400,8 +399,8 @@ class BoardTest {
 
     @Test
     void 궁이_한칸_앞으로_올바른_위치에_이동된다() {
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(9, 5);
+        Position to = Position.from(8, 5);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
@@ -456,5 +455,52 @@ class BoardTest {
         // then
         assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 킹이_잡힐경우_게임이_종료된다() {
+        Position from = Position.from(10, 4);
+        Position to = Position.from(10, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.HAN));
+        testPiece.put(to, new King(Team.CHO));
+
+        Board board = new Board(testPiece);
+        board.move(from, to, PieceType.PAWN, Team.HAN);
+
+        assertThat(board.canNextTurn()).isFalse();
+    }
+
+    @Test
+    void 보드_초기_생성시_점수_확인() {
+        // given
+        InitializeStrategy strategy = new OuterElephantFormationStrategy();
+
+        // when
+        Board board = new Board(strategy, strategy);
+
+        // then
+        assertThat(board.calculateScore(Team.CHO)).isEqualTo(72);
+        assertThat(board.calculateScore(Team.HAN)).isEqualTo(73.5);
+    }
+
+    @Test
+    void 상대편_기물을_잡았을때_점수_반영_테스트() {
+        // given
+        Map<Position, Piece> testPieces = new HashMap<>();
+        Position from = Position.from(6,1);
+        Position to = Position.from(5,1);
+
+        testPieces.put(from, new Pawn(Team.CHO));
+        testPieces.put(to, new Pawn(Team.HAN));
+        Board testBoard = new Board(testPieces);
+
+        // when
+        testBoard.move(from, to, PieceType.PAWN, Team.CHO);
+
+        // then
+        assertThat(testBoard.calculateScore(Team.CHO)).isEqualTo(2);
+        assertThat(testBoard.calculateScore(Team.HAN)).isEqualTo(1.5);
     }
 }

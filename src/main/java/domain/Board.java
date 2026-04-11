@@ -1,10 +1,12 @@
 package domain;
 
+import domain.piece.King;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import strategy.InitializeStrategy;
 
 public class Board {
@@ -12,8 +14,10 @@ public class Board {
     private static final int MIN_ROW = 1;
     private static final int MAX_COLUMN = 9;
     private static final int MIN_COLUMN = 1;
+    private static final double SECOND_PLAYER_HANDICAP = 1.5;
 
     private final Map<Position, Piece> pieces = new HashMap<>();
+    private boolean isGameOver = false;
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
         initTeamBoard(choInitializeStrategy, Team.CHO);
@@ -32,10 +36,36 @@ public class Board {
     public Board() {
     }
 
+    // db에서 기존 게임 가져올 시 사용
+    public Board(Map<Position, Piece> pieces, boolean isGameOver) {
+        this.pieces.putAll(pieces);
+        this.isGameOver = isGameOver;
+    }
+
     public void move(Position from, Position to, PieceType pieceType, Team team) {
         Piece piece = validateMovablePiece(from, to, pieceType, team);
         validateCanMove(from, to, piece);
         movePiece(from, to, piece);
+    }
+
+    public double calculateScore(Team team) {
+        double score = this.pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::getPieceScore)
+                .sum();
+
+        if (team == Team.HAN) {
+            score += SECOND_PLAYER_HANDICAP;
+        }
+        return score;
+    }
+
+    public boolean canNextTurn() {
+        return !isGameOver;
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return new HashMap<>(pieces);
     }
 
     /**
@@ -61,7 +91,7 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 피스가 없습니다.");
         }
 
-        if (piece.getType() != pieceType) {
+        if (!piece.isSameType(pieceType)) {
             throw new IllegalArgumentException("해당 위치에 해당 타입이 없습니다.");
         }
 
@@ -95,13 +125,26 @@ public class Board {
 
     private void movePiece(Position from, Position to, Piece piece) {
         pieces.remove(from);
+
+        // 킹을 잡았을 경우
+        if (!isEmpty(to) && isKing(to)) {
+            isGameOver = true;
+        }
+
         pieces.put(to, piece);
     }
 
     public boolean isExistSameType(Position position, Piece piece) {
         if (hasPieceInPosition(position)) {
-            return pieces.get(position).getType()
-                    .equals(piece.getType());
+            return pieces.get(position).isSameType(piece);
+        }
+
+        return false;
+    }
+
+    public boolean isExistSameType(Position position, PieceType pieceType) {
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).isSameType(pieceType);
         }
 
         return false;
@@ -109,6 +152,10 @@ public class Board {
 
     public boolean isEmpty(Position position) {
         return !pieces.containsKey(position);
+    }
+
+    private boolean isKing(Position position) {
+        return isExistSameType(position, PieceType.KING);
     }
 
     public boolean hasSameTeamOn(Position position, Piece piece) {

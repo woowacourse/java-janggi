@@ -27,6 +27,12 @@ public final class Position {
         return this.column;
     }
 
+    public Position getMiddlePosition(Position other) {
+        int middleRow = (this.row + other.row) / 2;
+        int middleColumn = (this.column + other.column) / 2;
+        return new Position(middleRow, middleColumn);
+    }
+
     public int rowDistanceTo(Position other) {
         return other.row - row;
     }

@@ -18,6 +18,8 @@ public abstract class Piece {
         return this.type;
     }
 
+    public Team getTeam() {return this.team;}
+
     public boolean isSameTeam(Piece other) {
         return this.team == other.team;
     }
@@ -28,6 +30,14 @@ public abstract class Piece {
 
     public boolean isSameType(PieceType type) {
         return this.type == type;
+    }
+
+    public boolean isSameType(Piece piece) {
+        return this.type == piece.getType();
+    }
+
+    public int getPieceScore() {
+        return type.getScore();
     }
 
     public abstract boolean canMove(Position from, Position to, Board board);

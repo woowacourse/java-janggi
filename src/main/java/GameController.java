@@ -1,19 +1,36 @@
-import domain.Board;
 import domain.HorseElephantFormation;
 import domain.Team;
 import dto.MoveCommand;
-import strategy.InitializeStrategy;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
 public class GameController {
-    private final Board board;
-    private final String choPlayer;
-    private final String hanPlayer;
-    private boolean choTurn = true;
+    private final GameService gameService;
+    private String choPlayer;
+    private String hanPlayer;
 
-    public GameController() {
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
+
+    public void start() {
+        int choice = InputView.choiceGame();
+
+        if (choice == 1) {
+            startNewGame();
+            return;
+        }
+
+        if (choice == 2) {
+            resumeGame();
+            return;
+        }
+
+        throw new IllegalArgumentException("잘못된 입력값입니다.");
+    }
+
+    private void startNewGame() {
         this.choPlayer = InputView.readPlayerName("초나라");
         this.hanPlayer = InputView.readPlayerName("한나라");
 
@@ -23,17 +40,29 @@ public class GameController {
         HorseElephantFormation choFormation = HorseElephantFormation.from(choFormationInput);
         HorseElephantFormation hanFormation = HorseElephantFormation.from(hanFormationInput);
 
-        InitializeStrategy choStrategy = choFormation.createStrategy();
-        InitializeStrategy hanStrategy = hanFormation.createStrategy();
+        gameService.startNewGame(choFormation, hanFormation);
 
-        this.board = new Board(choStrategy, hanStrategy);
+        OutputView.printBoard(gameService.getBoard());
 
-        OutputView.printBoard(this.board);
+        run();
     }
 
-    public void run() {
+    private void resumeGame() {
+        gameService.resumeGame();
 
+        OutputView.printBoard(gameService.getBoard());
+
+        run();
+    }
+
+
+    public void run() {
         while (true) {
+            if (gameService.isGameOver()) {
+                OutputView.printGameOver();
+                start();
+                break;
+            }
             try {
                 playTurn();
             } catch (Exception e) {
@@ -44,23 +73,20 @@ public class GameController {
 
     public void playTurn() {
         String team = "초나라";
-        Team teamType = Team.CHO;
+        Team teamType = gameService.getCurrentTeam();
         String player = choPlayer;
 
-        if (!choTurn) {
+        if (teamType == Team.HAN) {
             team = "한나라";
             player = hanPlayer;
-            teamType = Team.HAN;
         }
 
-        String moveCommand = InputView.readMoveCommand(team, player);
+        String moveCommand = InputView.readMoveCommand(team);
 
         MoveCommand command = Parser.parse(moveCommand);
 
-        board.move(command.from(), command.to(), command.pieceType(), teamType);
+        gameService.playTurn(command);
 
-        OutputView.printBoard(board);
-
-        choTurn = !choTurn;
+        OutputView.printBoard(gameService.getBoard());
     }
 }
