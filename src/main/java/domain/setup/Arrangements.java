@@ -23,8 +23,8 @@ public class Arrangements {
         return new Arrangements(newArrangements);
     }
 
-    public boolean hasArrangementFor(Team team) {
-        return arrangements.containsKey(team);
+    public boolean needsArrangementFor(Team team) {
+        return !arrangements.containsKey(team);
     }
 
     public Arrangement arrangeFor(Team team) {

@@ -16,54 +16,6 @@ class PieceTest {
     }
 
     @Test
-    @DisplayName("isChariot : 차 기물에만 true를 반환한다")
-    void isChariotReturnsTrueOnlyForChariot() {
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isChariot()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isChariot()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isChariot()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isChariot()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isChariot()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isChariot()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isChariot()).isFalse();
-    }
-
-    @Test
-    @DisplayName("isCannon : 포 기물에만 true를 반환한다")
-    void isCannonReturnsTrueOnlyForCannon() {
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isCannon()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isCannon()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isCannon()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isCannon()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isCannon()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isCannon()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isCannon()).isFalse();
-    }
-
-    @Test
-    @DisplayName("isHorseOrElephant : 마와 상 기물에만 true를 반환한다")
-    void isHorseOrElephantReturnsTrueForHorseAndElephant() {
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isHorseOrElephant()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isHorseOrElephant()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isHorseOrElephant()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isHorseOrElephant()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isHorseOrElephant()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isHorseOrElephant()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isHorseOrElephant()).isFalse();
-    }
-
-    @Test
-    @DisplayName("isSoldier : 졸 기물에만 true를 반환한다")
-    void isSoldierReturnsTrueOnlyForSoldier() {
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isSoldier()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isSoldier()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isSoldier()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isSoldier()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isSoldier()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isSoldier()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isSoldier()).isFalse();
-    }
-
-    @Test
     @DisplayName("isOwnedBy : 해당 팀 소유 기물에만 true를 반환한다")
     void isOwnedByReturnsTrueForCorrectTeam() {
         Piece hanPiece = new Piece(Team.HAN, PieceType.GENERAL);

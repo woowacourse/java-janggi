@@ -41,10 +41,10 @@ public class Pieces {
         return pieceAt(position).isEmpty();
     }
 
-    public boolean hasFriendAt(Position position, Piece piece) {
+    public boolean canOccupy(Position position, Piece piece) {
         return pieceAt(position)
-                .map(piece::isSameTeamAs)
-                .orElse(false);
+                .filter(piece::isSameTeamAs)
+                .isEmpty();
     }
 
 }

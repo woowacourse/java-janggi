@@ -8,8 +8,4 @@ public enum PieceType {
     ELEPHANT,
     HORSE,
     SOLDIER;
-
-    public boolean isCannon() {
-        return this == CANNON;
-    }
 }

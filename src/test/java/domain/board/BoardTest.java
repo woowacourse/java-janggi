@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.setup.Arrangement;
 import domain.setup.Arrangements;
@@ -40,7 +41,7 @@ class BoardTest {
         Piece piece = initialBoard.pieceAt(pos(Column.A, Row.ZERO));
 
         assertThat(piece).isNotNull();
-        assertThat(piece.isChariot()).isTrue();
+        assertThat(piece.getPieceType()).isEqualTo(PieceType.CHARIOT);
         assertThat(piece.isOwnedBy(Team.HAN)).isTrue();
     }
 

@@ -45,7 +45,7 @@ class PiecesTest {
         assertThat(moved.pieceAt(from)).isEmpty();
         Piece movedPiece = moved.pieceAt(to).orElseThrow();
         assertThat(movedPiece).isNotNull();
-        assertThat(movedPiece.isChariot()).isTrue();
+        assertThat(movedPiece.getPieceType()).isEqualTo(PieceType.CHARIOT);
         assertThat(movedPiece.isOwnedBy(Team.HAN)).isTrue();
     }
 
@@ -64,7 +64,7 @@ class PiecesTest {
         assertThat(moved.pieceAt(from)).isEmpty();
         Piece movedPiece = moved.pieceAt(to).orElseThrow();
         assertThat(movedPiece).isNotNull();
-        assertThat(movedPiece.isChariot()).isTrue();
+        assertThat(movedPiece.getPieceType()).isEqualTo(PieceType.CHARIOT);
         assertThat(movedPiece.isOwnedBy(Team.HAN)).isTrue();
     }
 

@@ -55,7 +55,7 @@ public class Board implements BoardState {
         List<Position> allAvailableTargetPosition = movement.findReachablePositions(source, this);
 
         return allAvailableTargetPosition.stream()
-                .filter(target -> !pieces.hasFriendAt(target, sourcePiece))
+                .filter(target -> pieces.canOccupy(target, sourcePiece))
                 .toList();
     }
 

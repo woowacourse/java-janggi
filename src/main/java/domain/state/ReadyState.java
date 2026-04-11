@@ -17,7 +17,7 @@ public class ReadyState implements GameState {
     public GameState handle(JanggiGame game, Command command) {
         Arrangement arrangement = command.toArrangement();
 
-        if (!arrangements.hasArrangementFor(Team.HAN)) {
+        if (arrangements.needsArrangementFor(Team.HAN)) {
             Arrangements nextArrangements = arrangements.assignArrangement(Team.HAN, arrangement);
             game.nextTurn();
             return new ReadyState(nextArrangements);

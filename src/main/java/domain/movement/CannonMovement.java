@@ -52,7 +52,7 @@ public final class CannonMovement implements Movement {
     public boolean isAvailablePath(Path path, BoardState board) {
         List<Position> obstacles = findObstacles(path, board);
 
-        if (!hasValidJumpCount(obstacles.size())) {
+        if (obstacles.size() != REQUIRED_JUMP_COUNT) {
             return false;
         }
 
@@ -73,10 +73,6 @@ public final class CannonMovement implements Movement {
 
     private boolean isOccupied(Position position, BoardState board) {
         return !board.isEmpty(position);
-    }
-
-    private boolean hasValidJumpCount(int obstacleCount) {
-        return obstacleCount == REQUIRED_JUMP_COUNT;
     }
 
     private boolean isValidDestination(Position destination, BoardState board) {
