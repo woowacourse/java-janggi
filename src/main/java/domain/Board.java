@@ -11,7 +11,19 @@ import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
 
-    private final Map<Position, Piece> board = new HashMap<>();
+    private final Map<Position, Piece> board;
+
+    private Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
+    public static Board empty() {
+        return new Board(new HashMap<>());
+    }
+
+    public static Board restore(Map<Position, Piece> board) {
+        return new Board(new HashMap<>(board));
+    }
 
     public void generatePiecesBy(Camp camp, int elephantFormation) {
         PieceGenerator pieceGenerator = new PieceGenerator();
