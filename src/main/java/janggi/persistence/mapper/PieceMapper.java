@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class PieceMapper {
 
-    public List<PieceEntity> toEntity(String gameId, Janggi janggi) {
+    public List<PieceEntity> toPieceEntity(String gameId, Janggi janggi) {
         return janggi.getBoard().entrySet().stream()
                 .map(entry -> new PieceEntity(
                         null,
@@ -25,7 +25,7 @@ public class PieceMapper {
                 .toList();
     }
 
-    public Map<Position, Piece> toDomainBoard(List<PieceEntity> pieceEntities) {
+    public Map<Position, Piece> toBoard(List<PieceEntity> pieceEntities) {
         Map<Position, Piece> pieceMap = new HashMap<>();
 
         for (PieceEntity pieceEntity : pieceEntities) {

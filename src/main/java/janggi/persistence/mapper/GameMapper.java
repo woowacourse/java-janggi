@@ -22,7 +22,7 @@ public class GameMapper {
         );
     }
 
-    public Janggi toDomain(GameEntity gameEntity, Map<Position, Piece> board) {
+    public Janggi toJanggi(GameEntity gameEntity, Map<Position, Piece> board) {
         return Janggi.load(
                 BoardFactory.load(board),
                 toCamp(gameEntity.turn()),
