@@ -2,7 +2,6 @@ package repository;
 
 import domain.game.JanggiGame;
 import domain.pieces.Piece;
-import domain.pieces.Side;
 import domain.position.Position;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public class SavedGameWriteMapper {
         return new SavedPieceDto(
                 position.row(),
                 position.column(),
-                piece.getSide().isCho() ? Side.CHO : Side.HAN,
+                piece.getSide(),
                 piece.getType()
         );
     }
