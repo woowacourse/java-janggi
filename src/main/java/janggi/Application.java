@@ -17,7 +17,7 @@ public class Application {
         OutputView outputView = new OutputView();
         JdbcDataSource dataSource = new H2DataSource();
         TransactionManager transactionManager = new TransactionManager(dataSource);
-        GameService gameService = new GameService(new H2GameDao(dataSource), new H2BoardDao(dataSource),
+        GameService gameService = new GameService(new H2GameDao(), new H2BoardDao(),
                 transactionManager);
 
         GameController gameController = new GameController(inputView, outputView, gameService);

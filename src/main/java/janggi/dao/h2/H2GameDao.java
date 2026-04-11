@@ -1,7 +1,7 @@
 package janggi.dao.h2;
 
+import janggi.dao.ConnectionHolder;
 import janggi.dao.GameDao;
-import janggi.dao.JdbcDataSource;
 import janggi.dao.entity.GameEntity;
 import janggi.domain.game.Status;
 import janggi.domain.side.Side;
@@ -16,19 +16,12 @@ import java.util.Optional;
 
 public class H2GameDao implements GameDao {
 
-    private final JdbcDataSource dataSource;
-
-    public H2GameDao(JdbcDataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
     public GameEntity save(GameEntity game) {
         String sql = "INSERT INTO game (NAME,TURN, STATUS, WINNER) " +
                 "VALUES (?, ?, ?, ?)";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, game.name());
             stmt.setString(2, game.turn().name());
             stmt.setString(3, game.status().name());
@@ -53,9 +46,8 @@ public class H2GameDao implements GameDao {
     @Override
     public Optional<GameEntity> findById(int id) {
         String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE ID = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
 
             ResultSet resultSet = stmt.executeQuery();
@@ -72,8 +64,8 @@ public class H2GameDao implements GameDao {
     public Optional<GameEntity> findByName(String name) {
         String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE NAME = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, name);
 
             ResultSet resultSet = stmt.executeQuery();
@@ -89,9 +81,8 @@ public class H2GameDao implements GameDao {
     @Override
     public List<String> findAllNames() {
         String sql = "SELECT name FROM game";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet resultSet = stmt.executeQuery();
             List<String> gameNames = new ArrayList<>();
@@ -108,8 +99,8 @@ public class H2GameDao implements GameDao {
     public void updateWinner(Integer id, Side side) {
         String sql = "UPDATE game SET WINNER = ? WHERE ID = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, side.name());
             stmt.setInt(2, id);
 
@@ -132,8 +123,8 @@ public class H2GameDao implements GameDao {
                     WHERE id = ?
                 """;
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, gameEntity.turn().name());
             stmt.setString(2, gameEntity.status().name());

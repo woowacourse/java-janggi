@@ -1,7 +1,7 @@
 package janggi.dao.h2;
 
 import janggi.dao.BoardDao;
-import janggi.dao.JdbcDataSource;
+import janggi.dao.ConnectionHolder;
 import janggi.dao.entity.BoardEntity;
 import janggi.dao.entity.MoveEntity;
 import java.sql.Connection;
@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class H2BoardDao implements BoardDao {
-    private final JdbcDataSource dataSource;
-
-    public H2BoardDao(JdbcDataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Override
     public void save(int gameId, MoveEntity move) {
@@ -32,9 +27,8 @@ public class H2BoardDao implements BoardDao {
                     CURRENT_TIMESTAMP
                 )
                 """;
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
 
             insertStmt.setInt(1, gameId);
             insertStmt.setString(2, move.pieceType());
@@ -65,9 +59,8 @@ public class H2BoardDao implements BoardDao {
                 ON b.PIECE_ID = p.ID
                 WHERE b.GAME_ID = ?
                 """;
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, gameId);
             ResultSet rs = stmt.executeQuery();
@@ -99,9 +92,8 @@ public class H2BoardDao implements BoardDao {
                 DELETE FROM BOARD
                 WHERE GAME_ID =? AND X=? AND Y=?
                 """;
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = ConnectionHolder.get();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, gameId);
             stmt.setInt(2, x);
