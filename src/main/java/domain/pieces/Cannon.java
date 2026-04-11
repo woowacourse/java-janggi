@@ -20,23 +20,20 @@ public class Cannon extends Piece {
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        for (MovingFunction movement : getMovements()) {
+        for (MovingFunction movement : MOVEMENTS) {
             routeOfDestination.putAll(move(from, movement, boardChecker, false));
         }
         if (from.isPalaceDiagonalPosition()) {
-            for (MovingFunction movement : getDiagonalMovements()) {
+            for (MovingFunction movement : DIAGONAL_MOVEMENTS) {
                 routeOfDestination.putAll(move(from, movement, boardChecker, true));
             }
         }
         return routeOfDestination.containsKey(to);
     }
 
-    private List<MovingFunction> getDiagonalMovements() {
-        return List.of(Piece::northEast, Piece::southEast, Piece::northWest, Piece::southWest);
-    }
-
-    private List<MovingFunction> getMovements() {
-        return List.of(Piece::north, Piece::south, Piece::west, Piece::east);
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
     }
 
     private Map<Position, List<Position>> move(Position position, MovingFunction movement,
@@ -92,11 +89,6 @@ public class Cannon extends Piece {
 
     private boolean checkCannonJumping(Position position, BoardChecker boardChecker) {
         return boardChecker.isExist(position) && boardChecker.isNotCannon(position);
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.CANNON;
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class Horse extends Piece {
 
-    private static final List<List<MovingFunction>> movements = List.of(
+    private static final List<List<MovingFunction>> HORSE_MOVEMENTS = List.of(
             List.of(Piece::north, Piece::northEast),
             List.of(Piece::north, Piece::northWest),
             List.of(Piece::south, Piece::southEast),
@@ -31,10 +31,15 @@ public class Horse extends Piece {
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        for (List<MovingFunction> movement : movements) {
+        for (List<MovingFunction> movement : HORSE_MOVEMENTS) {
             routeOfDestination.putAll(move(from, movement, boardChecker));
         }
         return routeOfDestination.containsKey(to);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.HORSE;
     }
 
     private Map<Position, List<Position>> move(Position position, List<MovingFunction> movements,
@@ -54,9 +59,4 @@ public class Horse extends Piece {
         return movablePositions;
     }
 
-
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.HORSE;
-    }
 }

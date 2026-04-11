@@ -10,7 +10,7 @@ public class ChariotTest {
 
     @Test
     void 다른_기물_뒤로는_이동할_수_없다() {
-        Board board = new Board();
+        Board board = Board.empty();
         Chariot chariot = new Chariot(Camp.HAN);
         Horse piece = new Horse(Camp.HAN);
 
@@ -30,7 +30,7 @@ public class ChariotTest {
 
     @Test
     void 궁성_내에서_대각성_이동_시_궁성을_벗어날_수_없다() {
-        Board board = new Board();
+        Board board = Board.empty();
         Chariot chariot = new Chariot(Camp.HAN);
 
         Position fromPosition = new Position(3, 0);
@@ -42,7 +42,7 @@ public class ChariotTest {
 
     @Test
     void 궁성_내에서_대각선_이동_가능() {
-        Board board = new Board();
+        Board board = Board.empty();
         Chariot chariot = new Chariot(Camp.HAN);
 
         Position fromPosition = new Position(3, 0);
@@ -55,7 +55,7 @@ public class ChariotTest {
 
     @Test
     void 궁성_내에서_기물에_막혀_대각선_이동_불가() {
-        Board board = new Board();
+        Board board = Board.empty();
         Chariot chariot = new Chariot(Camp.HAN);
         Horse piece = new Horse(Camp.HAN);
 

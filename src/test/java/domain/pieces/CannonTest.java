@@ -10,7 +10,7 @@ public class CannonTest {
 
     @Test
     void 다른_기물을_넘고_이동_가능() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
         Horse piece = new Horse(Camp.HAN);
 
@@ -30,7 +30,7 @@ public class CannonTest {
 
     @Test
     void 포에_막혀_이동_불가() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
         Cannon cannonForBlock = new Cannon(Camp.HAN);
 
@@ -50,7 +50,7 @@ public class CannonTest {
 
     @Test
     void 기물을_넘고_다른_기물을_만나기_전까지_이동_가능() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
         Horse pieceA = new Horse(Camp.HAN);
         Horse pieceB = new Horse(Camp.HAN);
@@ -73,7 +73,7 @@ public class CannonTest {
 
     @Test
     void 기물을_넘고_다른_기물을_만나기_전까지_이동_가능_포는_못잡음() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
         Horse pieceA = new Horse(Camp.CHO);
         Cannon pieceB = new Cannon(Camp.CHO);
@@ -96,11 +96,10 @@ public class CannonTest {
 
     @Test
     void 궁성_내에서_대각성_이동_시_궁성을_벗어날_수_없다() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
 
         Position fromPosition = new Position(3, 0);
-        Position anotherPiecePosition = new Position(4, 1);
 
         board.locatePiece(fromPosition, cannon);
 
@@ -109,7 +108,7 @@ public class CannonTest {
 
     @Test
     void 궁성_내에서_기물을_넘고_대각선_이동() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
         Horse piece = new Horse(Camp.HAN);
 
@@ -124,7 +123,7 @@ public class CannonTest {
 
     @Test
     void 궁성_내에서_대각선_이동_불가() {
-        Board board = new Board();
+        Board board = Board.empty();
         Cannon cannon = new Cannon(Camp.HAN);
 
         Position fromPosition = new Position(3, 0);

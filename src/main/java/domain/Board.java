@@ -25,25 +25,6 @@ public class Board implements BoardChecker {
         return new Board(new HashMap<>(board));
     }
 
-    public void generatePiecesBy(Camp camp, int elephantFormation) {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-        Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
-
-        board.putAll(pieces);
-    }
-
-    public void locatePiece(Position position, Piece piece) {
-        if (isExist(position) && getPieceFrom(position).isSameCamp(piece)) {
-            throw new InvalidMoveException("[ERROR] 같은 팀은 잡을 수 없습니다!");
-        }
-
-        board.put(position, piece);
-    }
-
-    public Piece getPieceFrom(Position position) {
-        return board.get(position);
-    }
-
     @Override
     public boolean isExist(Position position) {
         return board.containsKey(position);
@@ -51,7 +32,7 @@ public class Board implements BoardChecker {
 
     @Override
     public boolean isNotCannon(Position position) {
-        return board.get(position).getPieceType() != PieceType.CANNON;
+        return isExist(position) && board.get(position).getPieceType() != PieceType.CANNON;
     }
 
     public void move(Position fromPosition, Position toPosition) {
@@ -69,6 +50,37 @@ public class Board implements BoardChecker {
         throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
     }
 
+    public void generatePiecesBy(Camp camp, int elephantFormation) {
+        PieceGenerator pieceGenerator = new PieceGenerator();
+        Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
+
+        board.putAll(pieces);
+    }
+
+    public void locatePiece(Position position, Piece piece) {
+        if (canNotCatch(position, piece)) {
+            throw new InvalidMoveException("[ERROR] 같은 팀은 잡을 수 없습니다!");
+        }
+
+        board.put(position, piece);
+    }
+
+    public boolean isPieceOfCamp(Position position, Camp camp) {
+        if (!board.containsKey(position)) {
+            return false;
+        }
+
+        return board.get(position).isSameCamp(camp);
+    }
+
+    public boolean isGameOver() {
+        return leftOneGeneral();
+    }
+
+    public Piece getPieceFrom(Position position) {
+        return board.get(position);
+    }
+
     public BoardStatusDto getBoardStatus() {
         List<List<PositionStatusDto>> boardStatusDto = new ArrayList<>();
         for (int row = Position.MIN_ROW_VALUE; row <= Position.MAX_ROW_VALUE; row++) {
@@ -84,6 +96,18 @@ public class Board implements BoardChecker {
         return new BoardStatusDto(boardStatusDto);
     }
 
+    public List<Piece> getPiecesByCamp(Camp camp) {
+        return board.values().stream().filter(p -> p.isSameCamp(camp)).collect(Collectors.toList());
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
+
+    private boolean canNotCatch(Position position, Piece piece) {
+        return isExist(position) && getPieceFrom(position).isSameCamp(piece);
+    }
+
     private PositionStatusDto getPositionStatusDto(Position position) {
         if (!board.containsKey(position)) {
             return new PositionStatusDto(position, PieceType.NONE, Camp.NONE);
@@ -95,18 +119,6 @@ public class Board implements BoardChecker {
         return new PositionStatusDto(position, pieceType, camp);
     }
 
-    public boolean isPieceOfCamp(Position position, Camp camp) {
-        if (!board.containsKey(position)) {
-            return false;
-        }
-
-        return board.get(position).isSameCamp(camp);
-    }
-
-    public boolean isGameOver() {
-        return leftOneGeneral();
-    }
-
     private boolean leftOneGeneral() {
         return board.values().stream().filter(piece -> piece.getPieceType() == PieceType.GENERAL)
                 .count() == 1;
@@ -114,9 +126,8 @@ public class Board implements BoardChecker {
 
     public double calculateScoreByCamp(Camp camp) {
         List<Piece> pieces = getPiecesByCamp(camp);
-        return pieces.stream()
-                .mapToInt(p -> p.getPieceType().getScore())
-                .sum() + getBonusScore(camp);
+        return pieces.stream().mapToInt(p -> p.getPieceType().getScore()).sum() + getBonusScore(
+                camp);
     }
 
     private double getBonusScore(Camp camp) {
@@ -124,13 +135,5 @@ public class Board implements BoardChecker {
             return 1.5;
         }
         return 0;
-    }
-
-    public List<Piece> getPiecesByCamp(Camp camp) {
-        return board.values().stream().filter(p -> p.isSameCamp(camp)).collect(Collectors.toList());
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return board;
     }
 }

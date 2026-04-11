@@ -13,7 +13,7 @@ public class HorseTest {
 
     @Test
     void 위로_오른대각선_이동_가능() {
-        Board board = new Board();
+        Board board = Board.empty();
         Horse horse = new Horse(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(3, 7);
@@ -23,7 +23,7 @@ public class HorseTest {
 
     @Test
     void 위로_오른대각선_이동() {
-        Board board = new Board();
+        Board board = Board.empty();
         Horse horse = new Horse(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(3, 7);
@@ -37,7 +37,7 @@ public class HorseTest {
 
     @Test
     void 위로_오른대각선_경로_막힘() {
-        Board board = new Board();
+        Board board = Board.empty();
         Horse horse = new Horse(Camp.HAN);
         Horse piece = new Horse(Camp.HAN);
         Position fromPosition = new Position(2, 9);
@@ -52,7 +52,7 @@ public class HorseTest {
 
     @Test
     void 이동_불가_좌표_이동_불가() {
-        Board board = new Board();
+        Board board = Board.empty();
         Horse horse = new Horse(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(0, 0);

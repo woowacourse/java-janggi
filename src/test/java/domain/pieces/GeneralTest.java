@@ -13,7 +13,7 @@ class GeneralTest {
 
     @Test
     void 아래로_오른대각선_이동_가능() {
-        Board board = new Board();
+        Board board = Board.empty();
         General general = new General(Camp.HAN);
         Position fromPosition = new Position(3, 0);
         Position toPosition = new Position(4, 1);
@@ -23,7 +23,7 @@ class GeneralTest {
 
     @Test
     void 아래로_오른대각선_이동() {
-        Board board = new Board();
+        Board board = Board.empty();
         General general = new General(Camp.HAN);
         Position fromPosition = new Position(4, 1);
         Position toPosition = new Position(5, 2);
@@ -37,7 +37,7 @@ class GeneralTest {
 
     @Test
     void 아래로_오른대각선_경로_막힘() {
-        Board board = new Board();
+        Board board = Board.empty();
         General general = new General(Camp.HAN);
         General piece = new General(Camp.HAN);
         Position fromPosition = new Position(4, 1);
@@ -52,7 +52,7 @@ class GeneralTest {
 
     @Test
     void 궁성_밖으로_이동_불가() {
-        Board board = new Board();
+        Board board = Board.empty();
         General general = new General(Camp.HAN);
         Position fromPosition = new Position(5, 0);
         Position toPosition = new Position(6, 0);

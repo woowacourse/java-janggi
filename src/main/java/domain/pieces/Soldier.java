@@ -5,7 +5,6 @@ import domain.Camp;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +23,11 @@ public class Soldier extends Piece {
             destination.addAll(moveDiagonal(from));
         }
         return destination.contains(to);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.SOLDIER;
     }
 
     private Set<Position> moveStraight(Position from) {
@@ -45,38 +49,21 @@ public class Soldier extends Piece {
     }
 
 
-    private List<MovingFunction> getDiagonalMovement() {
-        List<MovingFunction> movements = new ArrayList<>();
+    private List<MovingFunction> getMovements() {
         if (this.isSameCamp(Camp.HAN)) {
-            movements = List.of(Piece::southWest, Piece::southEast);
+            return List.of(Piece::south, Piece::west, Piece::east);
         }
-        if (this.isSameCamp(Camp.CHO)) {
-            movements = List.of(Piece::northWest, Piece::northEast);
-        }
-        return movements;
+        return List.of(Piece::north, Piece::west, Piece::east);
     }
 
-    private List<MovingFunction> getMovements() {
-        List<MovingFunction> movements = new ArrayList<>();
+    private List<MovingFunction> getDiagonalMovement() {
         if (this.isSameCamp(Camp.HAN)) {
-            movements = List.of(
-                    Piece::south, Piece::west, Piece::east
-            );
+            return List.of(Piece::southWest, Piece::southEast);
         }
-        if (this.isSameCamp(Camp.CHO)) {
-            movements = List.of(
-                    Piece::north, Piece::west, Piece::east
-            );
-        }
-        return movements;
+        return List.of(Piece::northWest, Piece::northEast);
     }
 
     private Optional<Position> move(Position position, MovingFunction movement) {
         return movement.move(position);
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.SOLDIER;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class Elephant extends Piece {
 
-    private static final List<List<MovingFunction>> movements = List.of(
+    private static final List<List<MovingFunction>> ELEPHANT_MOVEMENTS = List.of(
             List.of(Piece::north, Piece::northEast, Piece::northEast),
             List.of(Piece::north, Piece::northWest, Piece::northWest),
             List.of(Piece::south, Piece::southEast, Piece::southEast),
@@ -32,11 +32,16 @@ public class Elephant extends Piece {
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        for (List<MovingFunction> movement : movements) {
+        for (List<MovingFunction> movement : ELEPHANT_MOVEMENTS) {
             routeOfDestination.putAll(
                     move(from, movement, boardChecker));
         }
         return routeOfDestination.containsKey(to);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.ELEPHANT;
     }
 
     private Map<Position, List<Position>> move(Position position, List<MovingFunction> movements,
@@ -55,10 +60,5 @@ public class Elephant extends Piece {
 
         movablePositions.put(collectedMovablePositions.getLast(), collectedMovablePositions);
         return movablePositions;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.ELEPHANT;
     }
 }

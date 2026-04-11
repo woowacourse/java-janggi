@@ -1,9 +1,19 @@
 package domain;
 
 public enum Camp {
-    HAN,
-    CHO,
-    NONE;
+    HAN("한나라"),
+    CHO("초나라"),
+    NONE("");
+
+    private final String displayName;
+
+    Camp(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 
     public Camp turnCamp() {
         if (this == HAN) {

@@ -10,11 +10,6 @@ public class Position {
     public static int MIN_COL_VALUE = 0;
     public static int MAX_ROW_VALUE = 9;
     public static int MIN_ROW_VALUE = 0;
-
-    private static final List<Position> DIAGONAL_POINTS = List.of(new Position(3, 0),
-            new Position(5, 0), new Position(4, 1), new Position(3, 2), new Position(5, 2),
-            new Position(3, 7), new Position(5, 7), new Position(4, 8), new Position(3, 9),
-            new Position(5, 9));
     public static int PALACE_MAX_COL_VALUE = 5;
     public static int PALACE_MIN_COL_VALUE = 3;
     public static int PALACE_MAX_ROW_VALUE_HAN = 2;
@@ -23,6 +18,11 @@ public class Position {
     public static int PALACE_MIN_ROW_VALUE_CHO = 7;
     private final int col;
     private final int row;
+
+    private static final List<Position> DIAGONAL_POINTS = List.of(new Position(3, 0),
+            new Position(5, 0), new Position(4, 1), new Position(3, 2), new Position(5, 2),
+            new Position(3, 7), new Position(5, 7), new Position(4, 8), new Position(3, 9),
+            new Position(5, 9));
 
     public Position(int col, int row) {
         validatePosCol(col);

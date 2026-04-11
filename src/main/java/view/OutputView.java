@@ -19,7 +19,6 @@ public class OutputView {
     private static final String[] FULL_WIDTH_NUMBERS = {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
-
     private static final Map<PieceType, String> CHO_SYMBOLS = new EnumMap<>(PieceType.class);
     private static final Map<PieceType, String> HAN_SYMBOLS = new EnumMap<>(PieceType.class);
 
@@ -80,5 +79,11 @@ public class OutputView {
         String color = (cell.camp() == Camp.CHO) ? ANSI_GREEN : ANSI_RED;
 
         return color + symbol + ANSI_RESET;
+    }
+
+    public void printResult(Camp camp, double hanScore, double choScore) {
+        System.out.println(camp.getDisplayName() + "의 승리입니다.");
+        System.out.println(Camp.HAN.getDisplayName() + " 점수: " + hanScore);
+        System.out.println(Camp.CHO.getDisplayName() + " 점수: " + choScore);
     }
 }
