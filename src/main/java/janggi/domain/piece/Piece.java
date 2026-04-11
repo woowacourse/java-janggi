@@ -24,16 +24,28 @@ public class Piece {
         movement.checkPath(path, camp, board);
     }
 
-    public boolean isSamePieceType(PieceType pieceType) {
-        return this.pieceType == pieceType;
+    public double score() {
+        return pieceType.score();
+    }
+
+    public boolean isGeneral() {
+        return pieceType.isGeneral();
     }
 
     public boolean isSameCamp(Camp camp) {
         return this.camp == camp;
     }
 
-    public double score() {
-        return pieceType.score();
+    public boolean isSamePieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
+    public Camp getCamp() {
+        return camp;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     @Override
@@ -48,13 +60,5 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(getCamp(), getPieceType());
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    public Camp getCamp() {
-        return camp;
     }
 }

@@ -40,7 +40,7 @@ public class Board implements BoardChecker {
         return foundPiece.isSamePieceType(pieceType);
     }
 
-    public Optional<PieceType> movePiece(Position source, Position destination, Camp turn) {
+    public Optional<Piece> movePiece(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
         Piece movingPiece = board.get(source);
         Piece destinationPiece = board.get(destination);
@@ -52,7 +52,7 @@ public class Board implements BoardChecker {
         if (destinationPiece == null) {
             return Optional.empty();
         }
-        return Optional.of(destinationPiece.getPieceType());
+        return Optional.of(destinationPiece);
     }
 
     public void validateCampTurn(Position source, Camp turn) {

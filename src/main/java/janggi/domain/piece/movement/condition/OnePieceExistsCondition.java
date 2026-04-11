@@ -29,23 +29,23 @@ public class OnePieceExistsCondition implements MoveCondition {
         int countOfPiece = 0;
         for (int i = 0; i < path.size() - 1; i++) {
             Position position = path.get(i);
-            countOfPiece += countPieceAt(board, unabledPieceType, position);
+            countOfPiece += countPieceAt(board, position);
         }
 
         validateExactPieceCount(countOfPiece);
         validateDestination(path.getLast(), camp, board);
     }
 
-    private int countPieceAt(BoardChecker board, PieceType pieceType, Position position) {
+    private int countPieceAt(BoardChecker board, Position position) {
         if (board.hasPieceAt(position)) {
-            validateSamePieceRule(board, pieceType, position);
+            validateSamePieceRule(board, position);
             return 1;
         }
         return 0;
     }
 
-    private void validateSamePieceRule(BoardChecker board, PieceType pieceType, Position position) {
-        if (board.hasSamePieceTypeAt(position, pieceType)) {
+    private void validateSamePieceRule(BoardChecker board, Position position) {
+        if (board.hasSamePieceTypeAt(position, unabledPieceType)) {
             throw new IllegalArgumentException(SAME_PIECE_TYPE_IN_PATH);
         }
     }
