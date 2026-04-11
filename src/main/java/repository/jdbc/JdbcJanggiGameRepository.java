@@ -1,8 +1,9 @@
-package repository;
+package repository.jdbc;
 
 import domain.piece.Side;
 import janggigame.GameMetaData;
 import janggigame.JanggiGameStatus;
+import repository.JanggiGameRepository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,13 +16,14 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public class JanggiGameRepository {
+public class JdbcJanggiGameRepository implements JanggiGameRepository {
     private final DataSource dataSource;
 
-    public JanggiGameRepository(DataSource dataSource) {
+    public JdbcJanggiGameRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public GameMetaData save(GameMetaData gameMetaData) {
         String sql = """
                 INSERT INTO game (current_turn, status, cho_janggun_count, han_janggun_count, created_at)
@@ -59,6 +61,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public Optional<GameMetaData> findLatestUnfinishedGame() {
         String sql = """
                 SELECT id, current_turn, status, cho_janggun_count, han_janggun_count, created_at
@@ -92,6 +95,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus) {
         try (Connection connection = dataSource.getConnection()) {
             updateGameStatusById(gameId, newStatus, connection);
@@ -100,6 +104,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus, Connection connection) {
         String sql = " UPDATE game SET status = ? WHERE id = ?";
 
@@ -116,6 +121,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId) {
         try (Connection connection = dataSource.getConnection()) {
             updateJangGunCountById(jangGunCount, gameId, connection);
@@ -124,6 +130,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId, Connection connection) {
         String sql = "UPDATE game SET cho_janggun_count = ?, han_janggun_count = ? WHERE id = ?";
 
@@ -141,6 +148,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateTurnById(Side currentTurnSide, Long gameId) {
         try (Connection connection = dataSource.getConnection()) {
             updateTurnById(currentTurnSide, gameId, connection);
@@ -149,6 +157,7 @@ public class JanggiGameRepository {
         }
     }
 
+    @Override
     public void updateTurnById(Side currentTurnSide, Long gameId, Connection connection) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
 

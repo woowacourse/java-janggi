@@ -1,4 +1,4 @@
-package repository;
+package repository.jdbc;
 
 import config.TestDataSourceConfig;
 import domain.board.Board;
@@ -9,8 +9,6 @@ import janggigame.GameMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.jdbc.JdbcBoardRepository;
-import repository.jdbc.JdbcJanggiGameRepository;
 import util.SchemaInitializer;
 
 import javax.sql.DataSource;

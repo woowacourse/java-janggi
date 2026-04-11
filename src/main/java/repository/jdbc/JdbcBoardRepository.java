@@ -1,4 +1,4 @@
-package repository;
+package repository.jdbc;
 
 import domain.board.Board;
 import domain.board.BoardAssembler;
@@ -7,6 +7,7 @@ import domain.piece.PieceSnapshot;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import repository.BoardRepository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,13 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class BoardRepository {
+public class JdbcBoardRepository implements BoardRepository {
     private final DataSource dataSource;
 
-    public BoardRepository(DataSource dataSource) {
+    public JdbcBoardRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public Optional<Board> findByGameId(Long gameId) {
         String sql = "SELECT * FROM board WHERE game_id = ?";
 
@@ -52,6 +54,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void savePlacementByGameId(Board board, Long gameId, Side side) {
         try (Connection connection = dataSource.getConnection()) {
             savePlacementByGameId(board, gameId, side, connection);
@@ -60,6 +63,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void savePlacementByGameId(Board board, Long gameId, Side side, Connection connection) {
         String sql = "INSERT INTO board (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -89,6 +93,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void updatePiecePositionByGameId(Position from, Position to, Long gameId) {
         try (Connection connection = dataSource.getConnection()) {
             updatePiecePositionByGameId(from, to, gameId, connection);
@@ -97,6 +102,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void updatePiecePositionByGameId(Position from, Position to, Long gameId, Connection connection) {
         String sql = "UPDATE board SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
 
@@ -116,6 +122,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void deletePiecePositionByGameId(Position from, Long gameId) {
         try (Connection connection = dataSource.getConnection()) {
             deletePiecePositionByGameId(from, gameId, connection);
@@ -124,6 +131,7 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void deletePiecePositionByGameId(Position from, Long gameId, Connection connection) {
         String sql = "DELETE FROM board WHERE position_x = ? AND position_y = ? AND game_id = ?";
 
