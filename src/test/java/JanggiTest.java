@@ -1,5 +1,6 @@
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.Janggi;
 import domain.board.Board;
 import domain.moveStrategy.StubBoard;
 import domain.place.moveStrategy.ChoSoldierMoveStrategy;

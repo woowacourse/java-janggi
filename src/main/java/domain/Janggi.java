@@ -1,3 +1,5 @@
+package domain;
+
 import domain.board.Board;
 import domain.place.piece.Piece;
 import domain.place.piece.Side;

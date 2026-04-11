@@ -40,38 +40,35 @@ public class OutputView {
 
     private static final int CELL_WIDTH = 4;
 
-    private OutputView() {
-    }
-
-    public static void printMessage(String string) {
+    public void printMessage(String string) {
         System.out.println(string);
     }
 
-    public static void printInputPlayerNames() {
+    public void printInputPlayerNames() {
         System.out.println(INPUT_PLAYER_NAMES);
     }
 
-    public static void printHorseElephantFormation(Side side) {
+    public void printHorseElephantFormation(Side side) {
         System.out.printf(HORSE_ELEPHANT_INPUT_FORMATION, side.getName());
     }
 
-    public static void printPieceMove(String name, Side side) {
+    public void printPieceMove(String name, Side side) {
         System.out.printf(INPUT_PIECE_MOVE, name, side.getName());
     }
 
-    public static void printPositionMove(String name, Side side) {
+    public void printPositionMove(String name, Side side) {
         System.out.printf(INPUT_POSITION_MOVE, name, side.getName());
     }
 
-    public static void printScore(List<Double> scores) {
+    public void printScore(List<Double> scores) {
         System.out.printf(PRINT_SCORE, scores.get(0), scores.get(1));
     }
 
-    public static void printWinner(Player winner) {
+    public void printWinner(Player winner) {
         System.out.printf(PRINT_WINNER, winner.getSide().getName(), winner.getName());
     }
 
-    public static void printBoard(List<List<String>> boardFormats) {
+    public void printBoard(List<List<String>> boardFormats) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("    ");
@@ -95,12 +92,12 @@ public class OutputView {
         System.out.print(sb + "\n");
     }
 
-    private static String formatRowLabel(String label) {
+    private String formatRowLabel(String label) {
         int visibleWidth = getDisplayWidth(label);
         return " ".repeat(Math.max(0, 4 - visibleWidth)) + label;
     }
 
-    private static String centerCell(String text) {
+    private String centerCell(String text) {
         String plain = text.replaceAll("\u001B\\[[;\\d]*m", "");
         int visibleWidth = getDisplayWidth(plain);
 
@@ -112,7 +109,7 @@ public class OutputView {
                 + " ".repeat(Math.max(0, right));
     }
 
-    private static int getDisplayWidth(String text) {
+    private int getDisplayWidth(String text) {
         int width = 0;
 
         for (char ch : text.toCharArray()) {
