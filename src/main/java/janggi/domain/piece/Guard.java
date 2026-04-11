@@ -28,6 +28,11 @@ public class Guard extends AbstractPiece {
     }
 
     @Override
+    public int score() {
+        return pieceType().score();
+    }
+
+    @Override
     public boolean isPalacePiece() {
         return true;
     }

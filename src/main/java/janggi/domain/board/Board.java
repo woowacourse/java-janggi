@@ -53,6 +53,13 @@ public class Board implements BoardMediator {
         return Map.copyOf(positionPieceMap);
     }
 
+    public double calculateScore(TeamType teamType) {
+        return positionPieceMap.values().stream()
+                .filter(piece -> piece.isSameTeamType(teamType))
+                .mapToDouble(Piece::score)
+                .sum() + teamType.bonusScore();
+    }
+
     private boolean hasPieceIn(final Position position) {
         return positionPieceMap.containsKey(position);
     }

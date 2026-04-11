@@ -25,4 +25,7 @@ public interface Piece {
     TeamType teamType();
 
     PieceType pieceType();
+
+    int score();
+
 }

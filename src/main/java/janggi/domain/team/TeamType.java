@@ -3,13 +3,15 @@ package janggi.domain.team;
 import janggi.domain.Position;
 
 public enum TeamType {
-    RED("한나라"),
-    BLUE("초나라");
+    RED("한나라", 0),
+    BLUE("초나라", 1.5);
 
     private final String name;
+    private final double bonusScore;
 
-    TeamType(final String name) {
+    TeamType(final String name, final double bonusScore) {
         this.name = name;
+        this.bonusScore = bonusScore;
     }
 
     public String getName() {
@@ -28,5 +30,9 @@ public enum TeamType {
             return position.flipAroundMiddleRow();
         }
         return position;
+    }
+
+    public double bonusScore() {
+        return bonusScore;
     }
 }

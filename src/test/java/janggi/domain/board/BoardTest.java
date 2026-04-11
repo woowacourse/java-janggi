@@ -143,7 +143,7 @@ public class BoardTest {
                     Position.valueOf(2, 1), new Guard(TeamType.BLUE)
             );
             Board board = new Board(pieces);
-            assertThat(board.calculateScore(TeamType.RED)).isEqualTo(6.5);
+            assertThat(board.calculateScore(TeamType.BLUE)).isEqualTo(6.5);
         }
     }
 }
