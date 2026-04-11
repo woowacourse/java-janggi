@@ -64,4 +64,9 @@ public class OutputView {
         System.out.println(teamScores.getHanName() + " " + teamScores.getHanScore());
         System.out.println(teamScores.getChoName() + " " + teamScores.getChoScore() + "\n");
     }
+
+    public void printWinner(TeamResponse winner) {
+        System.out.println("승자는 " + winner.getName() + "입니다.");
+        System.out.println("축하합니다!");
+    }
 }

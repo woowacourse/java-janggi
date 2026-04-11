@@ -74,6 +74,15 @@ public class Board {
         return kingCount < 2;
     }
 
+    public Team findWinner() {
+        for (Piece piece : board.values()) {
+            if (piece.isKing() && piece.isCho()) {
+                return Team.CHO;
+            }
+        }
+        return Team.HAN;
+    }
+
     private int calculateKingCount(Piece piece, int kingCount) {
         if (piece.isKing()) {
             kingCount++;

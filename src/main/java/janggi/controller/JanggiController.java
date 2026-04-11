@@ -32,6 +32,7 @@ public class JanggiController {
             isGameOver = board.isKingDead();
             team = team.next();
         }
+        outputView.printWinner(TeamResponse.from(board.findWinner()));
     }
 
     private void choiceBoardFormation(Board board) {
