@@ -3,6 +3,7 @@ package janggi;
 import janggi.controller.GameController;
 import janggi.controller.JanggiController;
 import janggi.dao.JdbcDataSource;
+import janggi.dao.TransactionManager;
 import janggi.dao.h2.H2BoardDao;
 import janggi.dao.h2.H2DataSource;
 import janggi.dao.h2.H2GameDao;
@@ -15,7 +16,9 @@ public class Application {
         InputView inputView = new InputView(System.in);
         OutputView outputView = new OutputView();
         JdbcDataSource dataSource = new H2DataSource();
-        GameService gameService = new GameService(new H2GameDao(dataSource), new H2BoardDao(dataSource));
+        TransactionManager transactionManager = new TransactionManager(dataSource);
+        GameService gameService = new GameService(new H2GameDao(dataSource), new H2BoardDao(dataSource),
+                transactionManager);
 
         GameController gameController = new GameController(inputView, outputView, gameService);
 

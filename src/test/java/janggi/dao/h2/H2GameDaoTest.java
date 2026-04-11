@@ -40,7 +40,6 @@ class H2GameDaoTest {
     private void clearDatabase() {
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
-            stmt.execute("DELETE FROM move");
             stmt.execute("DELETE FROM game");
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -51,7 +50,7 @@ class H2GameDaoTest {
     void 게임_저장_후_ID가_반환되어야_함() {
         // Arrange
         // Act
-        Integer id = gameDao.save(game);
+        Integer id = gameDao.save(game).id();
 
         // Assert
         assertNotNull(id);
@@ -61,10 +60,11 @@ class H2GameDaoTest {
     @Test
     void 저장한_게임을_ID로_조회() {
         // Arrange
-        Integer id = gameDao.save(game);
+        Integer id = gameDao.save(game).id();
 
         // Act
-        GameEntity found = gameDao.findById(id);
+        GameEntity found = gameDao.findById(id)
+                .orElse(null);
 
         // Assert
         assertNotNull(found);
@@ -88,11 +88,12 @@ class H2GameDaoTest {
     @Test
     void 게임_승자_업데이트() {
         // Arrange
-        Integer id = gameDao.save(game);
+        Integer id = gameDao.save(game).id();
 
         // Act
         gameDao.updateWinner(id, Side.CHO);
-        GameEntity updated = gameDao.findById(id);
+        GameEntity updated = gameDao.findById(id)
+                .orElse(null);
 
         // Assert
         assertEquals(Side.CHO, updated.winner());

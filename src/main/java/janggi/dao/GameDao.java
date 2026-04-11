@@ -6,17 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GameDao {
-    int save(GameEntity game);
-
-    // Read
-    GameEntity findById(int id);
+    GameEntity save(GameEntity game);
 
     Optional<GameEntity> findByName(String name);
 
     List<String> findAllNames();
-
-    // Delete
-    void delete(int id);
 
     void updateWinner(Integer id, Side side);
 

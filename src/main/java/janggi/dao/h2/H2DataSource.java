@@ -1,5 +1,6 @@
 package janggi.dao.h2;
 
+import janggi.dao.ConnectionHolder;
 import janggi.dao.JdbcDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,6 +19,12 @@ public class H2DataSource implements JdbcDataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
+        Connection conn = ConnectionHolder.get();
+
+        if (conn != null) {
+            return conn;
+        }
+
         return connectionPool.getConnection();
     }
 

@@ -2,37 +2,35 @@ package janggi.service;
 
 import janggi.dao.BoardDao;
 import janggi.dao.GameDao;
+import janggi.dao.TransactionManager;
 import janggi.dao.entity.BoardEntity;
 import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.MoveEntity;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
-import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import java.util.List;
-import java.util.Map;
 
 public class GameService {
     private final GameDao gameDao;
     private final BoardDao boardDao;
+    private final TransactionManager transactionManager;
 
-    public GameService(GameDao gameDao, BoardDao boardDao) {
+    public GameService(GameDao gameDao, BoardDao boardDao, TransactionManager transactionManager) {
         this.gameDao = gameDao;
         this.boardDao = boardDao;
+        this.transactionManager = transactionManager;
     }
 
     public Game createGame(String name, BoardSetUp choSetUp, BoardSetUp hanSetUp) {
-        Game game = Game.createGame(name, choSetUp, hanSetUp);
-        int gameId = gameDao.save(GameEntity.fromDomain(game));
-        Map<Point, Piece> board = game.getBoard();
-        BoardEntity boardEntity = new BoardEntity(gameId, board.entrySet()
-                .stream()
-                .map(MoveEntity::from)
-                .toList());
-        boardDao.save(boardEntity);
+        return transactionManager.execute(() -> {
+            Game game = Game.createGame(name, choSetUp, hanSetUp);
+            GameEntity gameEntity = gameDao.save(GameEntity.fromDomain(game));
+            BoardEntity boardEntity = BoardEntity.of(gameEntity.id(), game.getBoard());
+            boardDao.save(boardEntity);
 
-        return new Game(gameId, game.getName(), boardEntity.toDomain(), game.getStatus(), game.getTurn(),
-                null);
+            return gameEntity.toDomain(boardEntity);
+        });
     }
 
     public List<String> findAllGameNames() {
@@ -49,15 +47,17 @@ public class GameService {
     }
 
     public void updateWinner(Game game) {
-        gameDao.updateWinner(game.getId(), game.winnerSide());
+        transactionManager.execute(() -> gameDao.updateWinner(game.getId(), game.winnerSide()));
     }
 
     public void move(Game game, Point from, Point to) {
-        game.move(from, to);
-        boardDao.delete(game.getId(), from.x(), from.y());
+        transactionManager.execute(() -> {
+            game.move(from, to);
+            boardDao.delete(game.getId(), from.x(), from.y());
 
-        MoveEntity moveEntity = MoveEntity.of(game, to);
-        boardDao.save(game.getId(), moveEntity);
-        gameDao.update(GameEntity.fromDomain(game));
+            MoveEntity moveEntity = MoveEntity.of(game, to);
+            boardDao.save(game.getId(), moveEntity);
+            gameDao.update(GameEntity.fromDomain(game));
+        });
     }
 }

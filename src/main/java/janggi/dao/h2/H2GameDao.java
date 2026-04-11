@@ -23,7 +23,7 @@ public class H2GameDao implements GameDao {
     }
 
     @Override
-    public int save(GameEntity game) {
+    public GameEntity save(GameEntity game) {
         String sql = "INSERT INTO game (NAME,TURN, STATUS, WINNER) " +
                 "VALUES (?, ?, ?, ?)";
 
@@ -37,29 +37,16 @@ public class H2GameDao implements GameDao {
             stmt.executeUpdate();
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                return generatedKeys.getInt(1);
+                return new GameEntity(
+                        generatedKeys.getInt(1),
+                        game.name(),
+                        game.turn(),
+                        game.status(),
+                        game.winner());
             }
             throw new IllegalStateException("ID 생성 실패");
         } catch (SQLException e) {
             throw new IllegalStateException("게임 저장에 실패했습니다.", e);
-        }
-    }
-
-    @Override
-    public GameEntity findById(int id) {
-        String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE ID = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-
-            ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                return mapResultSetToGameEntity(resultSet);
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 아이디를 찾을 수 없습니다. id: " + id, e);
         }
     }
 
@@ -96,20 +83,6 @@ public class H2GameDao implements GameDao {
             return gameNames;
         } catch (SQLException e) {
             throw new IllegalStateException("Game 이름 조회에 실패했습니다.", e);
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        String sql = "DELETE FROM GAME WHERE id = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
         }
     }
 
@@ -157,6 +130,20 @@ public class H2GameDao implements GameDao {
             throw new IllegalStateException(
                     "Game 업데이트 실패 gameId: " + gameEntity.id(), e
             );
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "DELETE FROM GAME WHERE id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
         }
     }
 

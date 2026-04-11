@@ -13,7 +13,14 @@ public record BoardEntity(
         Integer gameId,
         List<MoveEntity> moveEntities
 ) {
-    
+
+    public static BoardEntity of(Integer gameId, Map<Point, Piece> board) {
+        return new BoardEntity(gameId, board.entrySet()
+                .stream()
+                .map(MoveEntity::from)
+                .toList());
+    }
+
     public Board toDomain() {
         Map<Point, Piece> board = new HashMap<>();
         for (MoveEntity moveEntity : moveEntities) {
