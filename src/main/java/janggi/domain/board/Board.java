@@ -65,7 +65,7 @@ public class Board implements BoardInfo {
         return piece.getSide();
     }
 
-    private Optional<Piece> getPieceAt(Point point) {
+    public Optional<Piece> getPieceAt(Point point) {
         return Optional.ofNullable(pieces.get(point));
     }
 

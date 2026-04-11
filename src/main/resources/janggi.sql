@@ -45,31 +45,6 @@ CREATE TABLE IF NOT EXISTS board
     CONSTRAINT uq_board_point UNIQUE (game_id, x, y)
 );
 
--- Move
-CREATE TABLE IF NOT EXISTS move
-(
-    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
-    game_id    BIGINT      NOT NULL,
-
-    piece_type VARCHAR(20) NOT NULL
-        CHECK (piece_type IN ('CHARIOT', 'CANNON', 'HORSE', 'ELEPHANT', 'SOLDIER', 'ADVISOR', 'GENERAL')),
-
-    side       VARCHAR(10) NOT NULL
-        CHECK (side IN ('CHO', 'HAN')),
-
-    from_x     INT         NOT NULL,
-    from_y     INT         NOT NULL,
-    to_x       INT         NOT NULL,
-    to_y       INT         NOT NULL,
-
-    timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_move_game
-        FOREIGN KEY (game_id)
-            REFERENCES game (id)
-            ON DELETE CASCADE
-);
-
 MERGE INTO PIECE (ID, PIECE_TYPE)
     KEY (PIECE_TYPE)
     VALUES (1, 'CHARIOT');

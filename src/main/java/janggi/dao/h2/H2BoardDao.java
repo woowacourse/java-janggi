@@ -3,27 +3,23 @@ package janggi.dao.h2;
 import janggi.dao.BoardDao;
 import janggi.dao.JdbcDataSource;
 import janggi.dao.entity.BoardEntity;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
-import janggi.domain.point.Point;
-import janggi.domain.side.Side;
+import janggi.dao.entity.MoveEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 
 public class H2BoardDao implements BoardDao {
-    private final JdbcDataSource jdbcDataSource;
+    private final JdbcDataSource dataSource;
 
-    public H2BoardDao(JdbcDataSource jdbcDataSource) {
-        this.jdbcDataSource = jdbcDataSource;
+    public H2BoardDao(JdbcDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
-    public void save(BoardEntity board) {
+    public void save(int gameId, MoveEntity move) {
         String insertSql = """
                 MERGE INTO BOARD (GAME_ID, PIECE_ID, SIDE, X, Y)
                 KEY (GAME_ID, X, Y)
@@ -36,66 +32,84 @@ public class H2BoardDao implements BoardDao {
                 )
                 """;
 
-        try (Connection conn = jdbcDataSource.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
 
-            Map<Point, Piece> pieces = board.board();
-            for (Entry<Point, Piece> entry : pieces.entrySet()) {
-                Point point = entry.getKey();
-                Piece piece = entry.getValue();
+            insertStmt.setInt(1, gameId);
+            insertStmt.setString(2, move.pieceType());
+            insertStmt.setString(3, move.side());
+            insertStmt.setInt(4, move.x());
+            insertStmt.setInt(5, move.y());
 
-                insertStmt.setInt(1, board.gameId());
-                insertStmt.setString(2, piece.getPieceType().name());
-                insertStmt.setString(3, piece.getSide().name());
-                insertStmt.setInt(4, point.x());
-                insertStmt.setInt(5, point.y());
-
-                insertStmt.addBatch();
-            }
-
-            insertStmt.executeBatch();
-
+            insertStmt.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException(
-                    "Board 저장에 실패했습니다. board.gameId: " + board.gameId(), e);
+                    "MOVE 저장에 실패했습니다. gameId: " + gameId, e);
         }
     }
 
     @Override
-    public BoardEntity getByGameId(int gameId) {
+    public void save(BoardEntity boardEntity) {
+        List<MoveEntity> moveEntities = boardEntity.moveEntities();
+
+        moveEntities.forEach(moveEntity -> this.save(boardEntity.gameId(), moveEntity));
+    }
+
+    @Override
+    public List<MoveEntity> findAllByGameId(int gameId) {
         String sql = """
-                SELECT p.piece_type, b.side, b.x, b.y
+                SELECT b.id, p.piece_type, b.side, b.x, b.y
                 FROM BOARD b
                 JOIN PIECE p
                 ON b.PIECE_ID = p.ID
                 WHERE b.GAME_ID = ?
                 """;
 
-        try (Connection conn = jdbcDataSource.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, gameId);
             ResultSet rs = stmt.executeQuery();
 
-            Map<Point, Piece> pieces = new HashMap<>();
+            List<MoveEntity> moveEntities = new ArrayList<>();
 
             while (rs.next()) {
-                PieceType pieceType = PieceType.valueOf(rs.getString("piece_type"));
-                Side side = Side.valueOf(rs.getString("side"));
-
-                Piece piece = pieceType.createPiece(side);
-                Point point = new Point(
+                MoveEntity moveEntity = new MoveEntity(
+                        rs.getInt("id"),
+                        rs.getString("piece_type"),
+                        rs.getString("side"),
                         rs.getInt("x"),
                         rs.getInt("y")
                 );
 
-                pieces.put(point, piece);
+                moveEntities.add(moveEntity);
             }
 
-            return new BoardEntity(gameId, pieces);
+            return moveEntities;
 
         } catch (SQLException e) {
             throw new IllegalStateException("Board 찾기에 실패했습니다. board.gameId: " + gameId, e);
+        }
+    }
+
+    @Override
+    public void delete(int gameId, int x, int y) {
+        String sql = """
+                DELETE FROM BOARD
+                WHERE GAME_ID =? AND X=? AND Y=?
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, gameId);
+            stmt.setInt(2, x);
+            stmt.setInt(3, y);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "MOVE 삭제에 실패했습니다. gameId: " + gameId, e);
         }
     }
 }

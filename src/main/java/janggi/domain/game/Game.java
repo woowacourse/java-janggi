@@ -59,9 +59,6 @@ public class Game {
         switchTurn();
     }
 
-    private boolean isPassTurn(Point from, Point to) {
-        return from.equals(to);
-    }
 
     public Map<Point, Piece> getBoard() {
         return board.getPieces();
@@ -69,6 +66,10 @@ public class Game {
 
     public PieceType getPieceType(Point point) {
         return board.getPieceType(point);
+    }
+
+    private boolean isPassTurn(Point from, Point to) {
+        return from.equals(to);
     }
 
     protected void switchTurn() {
@@ -90,6 +91,10 @@ public class Game {
             return false;
         }
         return true;
+    }
+
+    public Side getSideAt(Point point) {
+        return board.getSideAt(point);
     }
 
     public Side winnerSide() {
