@@ -2,6 +2,7 @@ package model.policy;
 
 import java.util.List;
 import model.board.Board;
+import model.board.Country;
 import model.move.Move;
 import model.pieces.Piece;
 import model.pieces.PieceType;
@@ -24,23 +25,21 @@ public class CannonPathPolicy extends PathPolicy {
     }
 
     @Override
-    public boolean validateDestination(Move move, Board board) {
-        Piece fromPiece = board.findPiece(move.from());
-        Piece toPiece = board.findPiece(move.to());
+    public boolean validateDestination(Move move, Board board, Country country) {
+        board.findPiece(move.to())
+                .ifPresent(piece -> validatePiece(piece, country));
 
-        if (toPiece == null) {
-            return true;
-        }
+        return true;
+    }
 
-        if ((fromPiece.country() != toPiece.country()
+    void validatePiece(Piece toPiece, Country country) {
+        if ((country != toPiece.country()
                 && toPiece.pieceType() == PieceType.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 먹을 수 없습니다.");
         }
 
-        if (fromPiece.country() == toPiece.country()) {
+        if (country == toPiece.country()) {
             throw new IllegalArgumentException("[ERROR] 아군 기물입니다.");
         }
-
-        return true;
     }
 }

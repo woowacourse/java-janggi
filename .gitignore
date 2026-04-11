@@ -1,9 +1,16 @@
+.env
+.gitignore
+
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+**/docker/production/db/mysql/data/**
+**/docker/test/db/mysql/data/**
+db_data/
+/db/data/
 
 ### STS ###
 .apt_generated
@@ -30,3 +37,4 @@ out/
 
 ### VS Code ###
 .vscode/
+!/.gitignore

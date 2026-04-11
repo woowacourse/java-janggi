@@ -3,6 +3,8 @@ package model.move;
 import java.util.ArrayList;
 import java.util.List;
 import model.board.Board;
+import model.board.Country;
+import model.board.Palace;
 import model.policy.PathPolicy;
 import model.position.Position;
 
@@ -15,20 +17,25 @@ public class MovePattern {
         this.pathPolicy = pathPolicy;
     }
 
-    public boolean matches(Move move, Board board) {
+    public boolean matches(Move move, Board board, Country country) {
         List<Position> path = positionsOnPath(move);
         if (!checkBoardRange(path, board) || !checkPathPolicy(path, board)) {
             return false;
         }
-        Position destination = steps.getLast().move(move.from());
-        if (!path.isEmpty()) {
-            destination = steps.getLast().move(path.getLast());
-        }
+
+        Position destination = pickDestination(path, move);
         if (!destination.isSamePosition(move.to()) || !board.isInside(destination)) {
             return false;
         }
 
-        return checkDestination(move, board);
+        return checkDestination(move, board, country);
+    }
+
+    private Position pickDestination(List<Position> path, Move move) {
+        if (!path.isEmpty()) {
+            return steps.getLast().move(path.getLast());
+        }
+        return steps.getLast().move(move.from());
     }
 
     private List<Position> positionsOnPath(Move move) {
@@ -50,7 +57,7 @@ public class MovePattern {
         return pathPolicy.validatePath(path, board);
     }
 
-    private boolean checkDestination(Move move, Board board) {
-        return pathPolicy.validateDestination(move, board);
+    private boolean checkDestination(Move move, Board board, Country country) {
+        return pathPolicy.validateDestination(move, board, country);
     }
 }

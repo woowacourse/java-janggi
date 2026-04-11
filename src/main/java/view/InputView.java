@@ -10,6 +10,18 @@ public class InputView {
 
     static Scanner sc = new Scanner(System.in);
 
+    public static int readGameMode() {
+        try {
+            return Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 올바른 번호를 입력해 주세요.");
+        }
+    }
+
+    public static String readRoomName() {
+        return sc.nextLine();
+    }
+
     public static int readArrangement() {
         try {
             return Integer.parseInt(sc.nextLine());

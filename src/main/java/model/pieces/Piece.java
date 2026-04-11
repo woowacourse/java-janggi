@@ -5,7 +5,7 @@ import model.board.Board;
 import model.board.Country;
 import model.move.Move;
 
-public abstract class Piece {
+public class Piece {
     private final Country country;
     private final PieceType pieceType;
 
@@ -19,7 +19,7 @@ public abstract class Piece {
     }
 
     public boolean canMove(Move move, Board board) {
-        return pieceType.rule().matches(move, board);
+        return pieceType.rule().matches(move, board, this.country);
     }
 
     @Override

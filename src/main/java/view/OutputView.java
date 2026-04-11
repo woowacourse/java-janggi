@@ -21,6 +21,22 @@ public class OutputView {
     private static final int MIN_COL_RANGE = 1;
     private static final int MAX_COL_RANGE = 9;
 
+    public static void printStartMode() {
+        System.out.println("1. 시작하기 2. 이어하기");
+    }
+
+    public static void printRoomName() {
+        System.out.println("게임방의 이름을 입력해주세요.");
+    }
+
+    public static void printRoomList(List<String> roomList) {
+        System.out.println("게임방 목록입니다. 입장할 방의 이름을 입력해주세요.");
+        for (int i = 1; i <= roomList.size(); i++) {
+            System.out.printf("%d. %s", i, roomList.get(i - 1));
+            System.out.println();
+        }
+    }
+
     public static void printArrangeCountry(Country country) {
         System.out.printf("%s나라의 진영을 선택해주세요.%n", country.color() + country.title() + Country.RESET);
     }
@@ -57,15 +73,35 @@ public class OutputView {
         printLine();
     }
 
+    public static void printError(String error) {
+        System.out.println(error);
+    }
+
+    public static void printDraw() {
+        System.out.println("무승부입니다. 점수로 결정합니다.");
+    }
+
+    public static void printEnd() {
+        System.out.println("종료된 게임입니다.");
+    }
+
+    public static void printWinner(Country country) {
+        System.out.printf("%s나라 우승입니다.%n", country.title());
+    }
+
+    public static void printScore(Country country, double sumScore) {
+        System.out.printf("%s나라 점수: %.1f%n", country.title(), sumScore);
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             Position position = Position.of(row, col);
-            Piece piece = board.findPiece(position);
-            if (piece == null) {
-                printBoardLine(row, col);
-                continue;
-            }
-            printMark(piece);
+
+            board.findPiece(position)
+                    .ifPresentOrElse(
+                            OutputView::printMark,
+                            () -> printBoardLine(position)
+                    );
         }
     }
 
@@ -73,7 +109,9 @@ public class OutputView {
         System.out.printf(String.format("%s ", piece.mark()));
     }
 
-    private static void printBoardLine(int row, int col) {
+    private static void printBoardLine(Position position) {
+        int row = position.row().value();
+        int col = position.column().value();
         if (col == MIN_COL_RANGE) {
             System.out.printf(String.format("%-2s", leftLine(row)));
             return;
