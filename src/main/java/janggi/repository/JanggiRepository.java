@@ -2,7 +2,7 @@ package janggi.repository;
 
 import janggi.domain.Janggi;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface JanggiRepository {
@@ -10,6 +10,6 @@ public interface JanggiRepository {
     Long save(Janggi janggi);
     void update(Long id, Janggi janggi);
     Optional<Janggi> findById(Long id);
-    List<Janggi> findAll();
+    Map<Long, Janggi> findAll();
     void delete(Long id);
 }

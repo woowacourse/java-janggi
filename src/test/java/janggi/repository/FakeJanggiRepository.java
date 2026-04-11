@@ -28,8 +28,8 @@ public class FakeJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<Janggi> findAll() {
-        return List.of();
+    public Map<Long, Janggi> findAll() {
+        return Map.of();
     }
 
     @Override

@@ -206,17 +206,18 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<Janggi> findAll() {
+    public Map<Long, Janggi> findAll() {
         String sql = "SELECT id FROM game";
         try (Connection connection = DBConnectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
-            List<Janggi> games = new ArrayList<>();
+            Map<Long, Janggi> games = new HashMap<>();
             while (resultSet.next()) {
-                findById(resultSet.getLong("id")).ifPresent(games::add);
+                long id = resultSet.getLong("id");
+                findById(id).ifPresent(janggi -> games.put(id, janggi));
             }
-            return Collections.unmodifiableList(games);
+            return Collections.unmodifiableMap(games);
         } catch (SQLException e) {
             throw new RuntimeException("목록 조회 중 오류 발생", e);
         }

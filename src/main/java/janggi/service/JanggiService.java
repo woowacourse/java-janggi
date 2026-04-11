@@ -9,6 +9,7 @@ import janggi.view.dto.GameRoom;
 import janggi.view.dto.PieceStatus;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -86,13 +87,13 @@ public class JanggiService {
     }
 
     public List<GameRoom> findAllGames() {
-        List<Janggi> games = janggiRepository.findAll();
+        Map<Long, Janggi> games = janggiRepository.findAll();
 
-        return IntStream.range(0, games.size())
-                .mapToObj(i -> GameRoom.from(
-                        i + 1L,
-                        games.get(i).currentTurn().name(),
-                        games.get(i).isOnGoing()
+        return games.entrySet().stream()
+                .map(entry -> GameRoom.from(
+                        entry.getKey(),
+                        entry.getValue().currentTurn().name(),
+                        entry.getValue().isOnGoing()
                 ))
                 .toList();
     }
