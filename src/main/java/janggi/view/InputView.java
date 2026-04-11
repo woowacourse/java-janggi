@@ -7,6 +7,7 @@ import janggi.util.Parser;
 import janggi.view.format.CampFormat;
 import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public final class InputView {
@@ -26,11 +27,15 @@ public final class InputView {
         return GameSelectionFormat.from(readLine());
     }
 
-    public static long readGameId(List<Long> gameIds) {
-        System.out.println("진행 중인 게임 목록: " + String.join(", ", gameIds.stream()
+    public static Optional<Long> readGameId(List<Long> gameRoomIds) {
+        if (gameRoomIds.isEmpty()) {
+            System.out.println(LINE_SEPARATOR + ExceptionMessage.NO_PLAYING_GAME_ROOM.getMessage());
+            return Optional.empty();
+        }
+        System.out.println(LINE_SEPARATOR + "진행 중인 게임 목록: " + gameRoomIds.stream()
                 .map(String::valueOf)
-                .toList()));
-        return Parser.parseToInt(readLine());
+                .collect(java.util.stream.Collectors.joining(", ")));
+        return Optional.of(Parser.parseToLong(readLine()));
     }
 
     public static ElephantSetUpFormat readElephantSettingCommand(CampType campType) {

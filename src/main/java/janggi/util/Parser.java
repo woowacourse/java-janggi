@@ -16,9 +16,17 @@ public final class Parser {
                 .toList();
     }
 
-    public static int parseToInt(String number) {
+    private static int parseToInt(String number) {
         try {
             return Integer.parseInt(number);
+        } catch (NumberFormatException numberFormatException) {
+            throw new IllegalArgumentException(ExceptionMessage.ONLY_NUMBERS_ALLOWED.getMessage());
+        }
+    }
+
+    public static Long parseToLong(String number) {
+        try {
+            return Long.parseLong(number);
         } catch (NumberFormatException numberFormatException) {
             throw new IllegalArgumentException(ExceptionMessage.ONLY_NUMBERS_ALLOWED.getMessage());
         }

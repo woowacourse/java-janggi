@@ -17,6 +17,7 @@ import janggi.view.OutputView;
 import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiGame {
 
@@ -39,9 +40,7 @@ public class JanggiGame {
             Board board = createBoard();
             return gameService.createGame(board);
         }
-        List<Long> gameRoomIds = gameService.findPlayingGameRoomIds();
-        long gameRoomId = InputView.readGameId(gameRoomIds);
-        return gameService.loadGame(gameRoomId);
+        return loadGame();
     }
 
     private Board createBoard() {
@@ -55,6 +54,15 @@ public class JanggiGame {
             ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(campType);
             return elephantSetUpFormat.toElephantFormation(campType);
         });
+    }
+
+    private Game loadGame() {
+        List<Long> gameRoomIds = gameService.findPlayingGameRoomIds();
+        Optional<Long> gameRoomId = InputView.readGameId(gameRoomIds);
+        if (gameRoomId.isEmpty()) {
+            return createOrLoadGame();
+        }
+        return gameService.loadGame(gameRoomId.get());
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
