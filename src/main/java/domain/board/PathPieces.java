@@ -1,22 +1,21 @@
 package domain.board;
 
-import domain.piece.Piece;
+import domain.piece.BasicPiece;
+import domain.piece.None;
 import domain.piece.PieceType;
 
 import java.util.List;
 
 public class PathPieces {
-    private final Piece sourcePiece;
-    private final List<Piece> waypointPieces;
-    private final Piece destinationPiece;
+    private final BasicPiece sourcePiece;
+    private final List<BasicPiece> waypointPieces;
+    private final BasicPiece destinationPiece;
 
-    public PathPieces(Piece sourcePiece, List<Piece> waypointPieces) {
-        this.sourcePiece = sourcePiece;
-        this.waypointPieces = waypointPieces;
-        this.destinationPiece = null;
+    public PathPieces(BasicPiece sourcePiece, List<BasicPiece> waypointPieces) {
+        this(sourcePiece, waypointPieces, None.getInstance());
     }
 
-    public PathPieces(Piece sourcePiece, List<Piece> waypointPieces, Piece destinationPiece) {
+    public PathPieces(BasicPiece sourcePiece, List<BasicPiece> waypointPieces, BasicPiece destinationPiece) {
         this.sourcePiece = sourcePiece;
         this.waypointPieces = waypointPieces;
         this.destinationPiece = destinationPiece;
@@ -32,16 +31,10 @@ public class PathPieces {
     }
 
     public boolean isDestinationType(PieceType type) {
-        if (destinationPiece == null) {
-            return false;
-        }
         return destinationPiece.isType(type);
     }
 
     public boolean isMovableDestination() {
-        if (destinationPiece == null) {
-            return true;
-        }
         return sourcePiece.isDifferentTeam(destinationPiece);
     }
 }

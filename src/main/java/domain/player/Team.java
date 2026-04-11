@@ -21,4 +21,12 @@ public enum Team {
     public int getColumn() {
         return column;
     }
+
+    public Team opposite() {
+        if (this == HAN) {
+            return CHO;
+        }
+
+        return HAN;
+    }
 }

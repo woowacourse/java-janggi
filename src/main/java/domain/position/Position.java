@@ -1,11 +1,8 @@
 package domain.position;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-
 import common.exception.JanggiException;
+
+import static common.Constants.*;
 
 public record Position(int row, int column) {
     public Position {
@@ -21,5 +18,17 @@ public record Position(int row, int column) {
                     "열값은 %s이상 %s이하여야 합니다. 입력값: %s".formatted(MIN_COLUMN, MAX_COLUMN, column)
             );
         }
+    }
+
+    public boolean isDiagonalWith(Position other) {
+        return Math.abs(this.row - other.row) == Math.abs(this.column - other.column);
+    }
+
+    public int rowDiff(Position other) {
+        return Math.abs(this.row - other.row);
+    }
+
+    public int colDiff(Position other) {
+        return Math.abs(this.column - other.column);
     }
 }

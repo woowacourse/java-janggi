@@ -1,19 +1,20 @@
 package domain.pathgenerator;
 
+import common.exception.JanggiException;
+import domain.position.Path;
+import domain.position.Position;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static domain.TestUtil.createPosition;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import common.exception.JanggiException;
-import domain.position.Path;
-import domain.position.Position;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-
 class StraightPathGeneratorTest {
 
     @Test
-    void 시작과_도착지점의_col이_같을때_이동규칙으로_Path객체를_만든다() {
+    void 시작과_도착지점의_col이_같을때_경로를_생성한다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
         Path path = straightPathGenerator.calculatePath(new Position(0, 2), new Position(2, 2));
@@ -22,29 +23,28 @@ class StraightPathGeneratorTest {
         List<Position> waypoints = path.waypoints();
         assertEquals(1, waypoints.size());
         assertEquals(createPosition(1, 2), waypoints.getFirst());
-
         assertEquals(createPosition(2, 2), path.destination());
     }
 
     @Test
-    void 시작과_도착지점의_row가_같을때_이동규칙으로_Path객체를_만든다() {
+    void 궁성_대각선_경로를_생성한다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
-        Path path = straightPathGenerator.calculatePath(new Position(2, 0), new Position(2, 2));
+        Path path = straightPathGenerator.calculatePath(new Position(0, 3), new Position(2, 5));
 
-        assertEquals(createPosition(2, 0), path.source());
+        assertEquals(createPosition(0, 3), path.source());
         List<Position> waypoints = path.waypoints();
         assertEquals(1, waypoints.size());
-        assertEquals(createPosition(2, 1), waypoints.getFirst());
-
-        assertEquals(createPosition(2, 2), path.destination());
+        assertEquals(createPosition(1, 4), waypoints.getFirst());
+        assertEquals(createPosition(2, 5), path.destination());
     }
 
     @Test
-    void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
+    void 직선도_대각선도_아닌_이동은_예외를_던진다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
         assertThrows(JanggiException.class,
-                () -> straightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
+                () -> straightPathGenerator.calculatePath(new Position(0, 0), new Position(2, 3)));
     }
 }
+

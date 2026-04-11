@@ -4,9 +4,10 @@ import domain.board.PathPieces;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+
 import java.util.Objects;
 
-public abstract class Piece {
+public abstract class Piece implements MovablePiece {
 
     private final Team team;
     private final PieceType pieceType;
@@ -16,20 +17,33 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    @Override
     public abstract Path calculatePath(Position source, Position destination);
 
+    @Override
     public abstract boolean validatePath(PathPieces pathPieces);
 
-    public boolean isDifferentTeam(Piece piece) {
-        return this.team != piece.team;
+    @Override
+    public boolean isDifferentTeam(BasicPiece other) {
+        if (other.isNone()) {
+            return true;
+        }
+        return this.team != other.getTeam();
     }
 
+    @Override
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
     }
 
+    @Override
     public boolean isType(PieceType type) {
         return this.pieceType == type;
+    }
+
+    @Override
+    public boolean isNone() {
+        return false;
     }
 
     @Override

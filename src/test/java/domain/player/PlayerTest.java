@@ -1,17 +1,14 @@
 package domain.player;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import common.exception.JanggiException;
+import domain.piece.BasicPiece;
 import domain.piece.Cha;
-import domain.piece.Piece;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -20,7 +17,7 @@ class PlayerTest {
         String nameValue = "초나라고수";
         Player player = new Player(new Name(nameValue), Team.CHO);
 
-        assertEquals(nameValue, player.getProfile().nameValue());
+        assertEquals(nameValue, player.getProfile().name().value());
         assertEquals(Team.CHO, player.getProfile().team());
     }
 
@@ -34,8 +31,8 @@ class PlayerTest {
     @Test
     void 기물과_플레이어의_팀이_다름을_확인한다() {
         Player player = new Player(new Name("p1"), Team.CHO);
-        Piece hanPiece = new Cha(Team.HAN);
-        Piece choPiece = new Cha(Team.CHO);
+        BasicPiece hanPiece = new Cha(Team.HAN);
+        BasicPiece choPiece = new Cha(Team.CHO);
 
         assertTrue(player.isDifferentTeam(hanPiece));
         assertFalse(player.isDifferentTeam(choPiece));
@@ -49,4 +46,6 @@ class PlayerTest {
         assertTrue(player.hasName(nameValue));
         assertFalse(player.hasName("다른이름"));
     }
+
+
 }
