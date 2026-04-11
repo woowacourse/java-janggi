@@ -29,6 +29,7 @@ public class JanggiController {
         while (!isGameOver) {
             playGame(team, board);
             outputView.printTeamScore(ScoreResponse.from(board.calculateScore()));
+            isGameOver = board.isKingDead();
             team = team.next();
         }
     }

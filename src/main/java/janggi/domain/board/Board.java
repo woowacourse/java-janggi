@@ -66,6 +66,21 @@ public class Board {
         return teamScores;
     }
 
+    public boolean isKingDead() {
+        int kingCount = 0;
+        for (Piece piece : board.values()) {
+            kingCount = calculateKingCount(piece, kingCount);
+        }
+        return kingCount < 2;
+    }
+
+    private int calculateKingCount(Piece piece, int kingCount) {
+        if (piece.isKing()) {
+            kingCount++;
+        }
+        return kingCount;
+    }
+
     private double calculateScoreByTeam(Team team) {
         double totalScore = team.selectStartScoreByTeam();
         for (Piece piece : board.values()) {
