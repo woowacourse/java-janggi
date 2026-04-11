@@ -25,6 +25,10 @@ public class Board {
         return new Board(initBoard);
     }
 
+    public static Board reconstruct(Map<Position, Piece> janggiBoard) {
+        return new Board(janggiBoard);
+    }
+
     private static Map<Position, Piece> initializeFormation(Camp camp, FormationStrategy formationStrategy) {
         Map<Position, Piece> formation = new HashMap<>(formationStrategy.createPieces(camp));
         int initRow = camp.baselineRow();

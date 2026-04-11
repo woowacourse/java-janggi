@@ -37,6 +37,10 @@ public class Janggi {
                 new ChoTurn());
     }
 
+    public static Janggi reconstruct(Board board, GameState gameState) {
+        return new Janggi(board, gameState);
+    }
+
     private static FormationStrategy readFormation(int choice) {
         if (choice < 1 || choice > FORMATIONS.size()) {
             throw new IllegalArgumentException("1~4 중 선택해주세요.");
@@ -50,16 +54,6 @@ public class Janggi {
 
     public void validateCamp(Position position) {
         gameState.validateCamp(position, board);
-    }
-
-    public List<PieceStatus> piecesStatus() {
-        Map<Position, String> displayBoard = board.displayBoard();
-        return displayBoard.keySet()
-                .stream()
-                .map(position -> PieceStatus.from(position,
-                        board.checkCampOfThePiece(position),
-                        displayBoard.get(position)))
-                .toList();
     }
 
     public boolean isOnGoing() {
@@ -78,29 +72,11 @@ public class Janggi {
         return gameState.turn();
     }
 
-    public GameResult processDrawGameResult() {
-        if (isOnGoing()) {
-            throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
-        }
-        return GameResult.fromDrawGameResult(
-                board.calculateTotalScore(Camp.CHO),
-                board.calculateTotalScore(Camp.HAN)
-        );
-    }
-
-    public GameResult processGiveUpResult() {
-        giveUpGame();
-        return GameResult.fromGameResult(gameState.turn());
-    }
-
-    public Optional<GameResult> processCheckmateResult() {
-        if (isOnGoing()) {
-            return Optional.empty();
-        }
-        return Optional.of(GameResult.fromGameResult(gameState.turn()));
-    }
-
     public Map<Position, Piece> getBoardSnapshot() {
         return board.getPiecesSnapshot();
+    }
+
+    public int calculateTotalScore(Camp camp) {
+        return board.calculateTotalScore(camp);
     }
 }
