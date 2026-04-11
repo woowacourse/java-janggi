@@ -96,4 +96,13 @@ public class JanggiService {
                 ))
                 .toList();
     }
+
+    public boolean deleteGame(Long gameId) {
+        Janggi game = loadJanggi(gameId);
+        if (game.isOnGoing()) {
+            return false;
+        }
+        janggiRepository.delete(gameId);
+        return true;
+    }
 }
