@@ -1,4 +1,4 @@
-package domain.movement;
+package domain.movement.vo;
 
 public enum Direction {
     UP(0, -1),

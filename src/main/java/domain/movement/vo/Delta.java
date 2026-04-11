@@ -1,4 +1,4 @@
-package domain.movement;
+package domain.movement.vo;
 
 public record Delta(int columnDelta, int rowDelta) {
     public static final Delta ZERO = new Delta(0, 0);

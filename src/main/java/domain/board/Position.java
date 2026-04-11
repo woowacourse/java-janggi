@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.movement.Delta;
+import domain.movement.vo.Delta;
 
 public record Position(Column column, Row row) {
     public boolean canShift(Delta delta) {

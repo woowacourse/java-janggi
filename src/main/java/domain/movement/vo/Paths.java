@@ -1,4 +1,4 @@
-package domain.movement;
+package domain.movement.vo;
 
 import java.util.List;
 

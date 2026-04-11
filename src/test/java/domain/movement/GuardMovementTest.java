@@ -6,6 +6,7 @@ import domain.board.BoardState;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.movement.vo.Paths;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

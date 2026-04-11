@@ -2,6 +2,8 @@ package domain.movement;
 
 import domain.board.BoardState;
 import domain.board.Position;
+import domain.movement.vo.Path;
+import domain.movement.vo.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface Movement {
         for (Path path : findPotentialPaths(source).asList()) {
             reachablePositions.addAll(extractValidDestination(path, board));
         }
- 
+
         return reachablePositions;
     }
 

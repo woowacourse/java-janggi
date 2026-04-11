@@ -2,7 +2,7 @@ package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.movement.Delta;
+import domain.movement.vo.Delta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

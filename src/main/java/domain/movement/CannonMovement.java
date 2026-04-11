@@ -2,6 +2,10 @@ package domain.movement;
 
 import domain.board.BoardState;
 import domain.board.Position;
+import domain.movement.vo.Delta;
+import domain.movement.vo.Direction;
+import domain.movement.vo.Path;
+import domain.movement.vo.Paths;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.ArrayList;
