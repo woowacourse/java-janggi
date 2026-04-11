@@ -4,7 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.game.Players;
 import janggi.domain.game.Turn;
 import janggi.domain.repository.JanggiRepository;
-import java.util.List;
+import java.util.Comparator;import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -40,7 +40,8 @@ public class FakeJanggiRepository implements JanggiRepository {
         return finishedStatus.entrySet().stream()
                 .filter(entry -> !entry.getValue())
                 .map(Map.Entry::getKey)
-                .max(Long::compare);
+                .sorted(Comparator.reverseOrder())
+                .findFirst();
     }
 
     @Override
