@@ -3,6 +3,7 @@ package repository.jdbc;
 import config.TestDataSourceConfig;
 import domain.piece.Side;
 import janggigame.GameMetaData;
+import janggigame.JangGunCount;
 import janggigame.JanggiGameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,8 +37,8 @@ class JdbcJanggiGameRepositoryTest {
         GameMetaData gameMetaData = GameMetaData.newGame();
 
         assertThat(gameMetaData).isNotNull();
-        assertThat(gameMetaData.currentTurn()).isEqualTo(Side.CHO);
-        assertThat(gameMetaData.status()).isEqualTo(JanggiGameStatus.WAITING_HAN_PLACEMENT);
+        assertThat(gameMetaData.getCurrentTurnSide()).isEqualTo(Side.CHO);
+        assertThat(gameMetaData.getStatus()).isEqualTo(JanggiGameStatus.WAITING_HAN_PLACEMENT);
     }
 
     @Test
@@ -48,9 +49,9 @@ class JdbcJanggiGameRepositoryTest {
         GameMetaData findedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
         assertThat(findedGameMetaData).isNotNull();
-        assertThat(findedGameMetaData.id()).isEqualTo(savedGameMetaData.id());
-        assertThat(findedGameMetaData.currentTurn()).isEqualTo(savedGameMetaData.currentTurn());
-        assertThat(findedGameMetaData.status()).isEqualTo(savedGameMetaData.status());
+        assertThat(findedGameMetaData.getId()).isEqualTo(savedGameMetaData.getId());
+        assertThat(findedGameMetaData.getCurrentTurnSide()).isEqualTo(savedGameMetaData.getCurrentTurnSide());
+        assertThat(findedGameMetaData.getStatus()).isEqualTo(savedGameMetaData.getStatus());
     }
 
     @Test
@@ -58,10 +59,10 @@ class JdbcJanggiGameRepositoryTest {
     void updateGameStatusById_테스트() {
         GameMetaData savedGameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
 
-        jdbcJanggiGameRepository.updateGameStatusById(savedGameMetaData.id(), JanggiGameStatus.IN_PROGRESS);
+        jdbcJanggiGameRepository.updateGameStatusById(savedGameMetaData.getId(), JanggiGameStatus.IN_PROGRESS);
 
         GameMetaData updatedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
-        assertThat(updatedGameMetaData.status()).isEqualTo(JanggiGameStatus.IN_PROGRESS);
+        assertThat(updatedGameMetaData.getStatus()).isEqualTo(JanggiGameStatus.IN_PROGRESS);
     }
 
     @Test
@@ -69,26 +70,18 @@ class JdbcJanggiGameRepositoryTest {
     void updateJangGunCountById_테스트() throws SQLException {
         // given
         GameMetaData savedGameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
-        Map<Side, Integer> jangGunCount = new HashMap<>();
-        jangGunCount.put(Side.CHO, 0);
-        jangGunCount.put(Side.HAN, 2);
+        JangGunCount jangGunCount = savedGameMetaData.getJangGunCount();
+        jangGunCount.increment(Side.CHO);
+        jangGunCount.increment(Side.CHO);
 
         // when
-        jdbcJanggiGameRepository.updateJangGunCountById(jangGunCount, savedGameMetaData.id());
+        jdbcJanggiGameRepository.updateJangGunCountById(savedGameMetaData.getId(), jangGunCount);
 
         // then
-        try (Connection connection = TestDataSourceConfig.testDataSource().getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT cho_janggun_count, han_janggun_count FROM game WHERE id = ?")) {
-
-            statement.setLong(1, savedGameMetaData.id());
-
-            try (ResultSet rs = statement.executeQuery()) {
-                assertThat(rs.next()).isTrue();
-                assertThat(rs.getInt("cho_janggun_count")).isEqualTo(0);
-                assertThat(rs.getInt("han_janggun_count")).isEqualTo(2);
-            }
-        }
+        int choJangGunCount = jangGunCount.getCount(Side.CHO);
+        int hanJangGunCount = jangGunCount.getCount(Side.HAN);
+        assertThat(choJangGunCount).isEqualTo(2);
+        assertThat(hanJangGunCount).isEqualTo(0);
     }
 
     @Test
@@ -96,9 +89,9 @@ class JdbcJanggiGameRepositoryTest {
     void updateTurnById_테스트() {
         GameMetaData gameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
 
-        jdbcJanggiGameRepository.updateTurnById(Side.HAN, gameMetaData.id());
+        jdbcJanggiGameRepository.updateTurnById(gameMetaData.getId(), Side.HAN);
         GameMetaData updatedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
-        assertThat(updatedGameMetaData.currentTurn()).isEqualTo(Side.HAN);
+        assertThat(updatedGameMetaData.getCurrentTurnSide()).isEqualTo(Side.HAN);
     }
 }

@@ -14,16 +14,11 @@ import repository.JanggiGameRepository;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.EnumMap;
-import java.util.Map;
 
 public class JanggiGameService {
-    private static final int JANGGUN_COUNT = 5;
-
     private final JanggiGameRepository janggiGameRepository;
     private final BoardRepository boardRepository;
     private final DataSource dataSource;
-    private final Map<Side, Integer> jangGunCount = new EnumMap<>(Side.class);
 
     public JanggiGameService(JanggiGameRepository janggiGameRepository, BoardRepository boardRepository, DataSource dataSource) {
         this.janggiGameRepository = janggiGameRepository;
@@ -38,7 +33,7 @@ public class JanggiGameService {
     }
 
     public Board loadOrInitBoard(GameMetaData gameMetaData) {
-        return boardRepository.findByGameId(gameMetaData.id())
+        return boardRepository.findByGameId(gameMetaData.getId())
                 .orElseGet(Board::new);
     }
 
@@ -46,13 +41,16 @@ public class JanggiGameService {
         board.placePieces(side, Placement.from(code));
     }
 
-    // 트랜잭션
+    public void updateGameStatus(GameMetaData gameMetaData, JanggiGameStatus newStatus) {
+        janggiGameRepository.updateGameStatusById(gameMetaData.getId(), newStatus);
+    }
+
     public void completePlacement(Board board, GameMetaData gameMetaData, Side side, JanggiGameStatus newStatus) {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                boardRepository.savePlacementByGameId(board, gameMetaData.id(), side, connection);
-                janggiGameRepository.updateGameStatusById(gameMetaData.id(), newStatus, connection);
+                boardRepository.savePlacementByGameId(board, gameMetaData.getId(), side, connection);
+                janggiGameRepository.updateGameStatusById(gameMetaData.getId(), newStatus, connection);
                 connection.commit();
             } catch (IllegalStateException e) {
                 connection.rollback();
@@ -63,30 +61,16 @@ public class JanggiGameService {
         }
     }
 
-    public void restoreJangGunCount(GameMetaData gameMetaData) {
-        jangGunCount.put(Side.CHO, gameMetaData.choJangGunCount());
-        jangGunCount.put(Side.HAN, gameMetaData.hanJangGunCount());
-    }
-
-    public boolean isGameOver(Board board, Side currentTurnSide) {
-        return isBigJang() || board.isEmptyGeneral(currentTurnSide);
-    }
-
-    public void updateGameStatus(GameMetaData gameMetaData, JanggiGameStatus newStatus) {
-        janggiGameRepository.updateGameStatusById(gameMetaData.id(), newStatus);
-    }
-
-    // 트랜잭션 적용
-    public TurnResult processTurn(Position from, Position to, Long gameId, Board board, Side currentTurnSide) {
+    public TurnResult processTurn(Position from, Position to, Board board, GameMetaData gameMetaData) {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                pieceMoveProcess(board, from, to, gameId, currentTurnSide, connection);
-                currentTurnSide = changeSide(currentTurnSide);
-                boolean isJangGun = updateAndStoreJangGunCount(board, gameId, currentTurnSide, connection);
-                updateTurn(gameId, currentTurnSide, connection);
+                pieceMoveProcess(board, from, to, gameMetaData, connection);
+                boolean isIncreaseJangGunCount = updateAndStoreJangGunCount(board, gameMetaData, connection);
+                updateTurn(gameMetaData, connection);
                 connection.commit();
-                return new TurnResult(currentTurnSide, isJangGun);
+
+                return new TurnResult(isIncreaseJangGunCount);
             } catch (IllegalStateException e) {
                 connection.rollback();
                 throw new IllegalStateException("턴 진행 도중에 오류가 발생하여 DB 반영에 실패하였습니다.", e);
@@ -100,42 +84,34 @@ public class JanggiGameService {
         return janggiGameRepository.save(GameMetaData.newGame());
     }
 
-    private void pieceMoveProcess(Board board, Position from, Position to, Long gameId, Side currentTurnSide, Connection connection) {
-        boolean hasEnemyPieceAtTo = board.isBlocked(to) && !board.findBy(to).isSameSide(currentTurnSide);
-        board.move(from, to, currentTurnSide);
+    private void pieceMoveProcess(Board board, Position from, Position to, GameMetaData gameMetaData, Connection connection) {
+        boolean hasEnemyPieceAtTo = board.isBlocked(to) && !board.findBy(to).isSameSide(gameMetaData.getCurrentTurnSide());
+        board.move(from, to, gameMetaData.getCurrentTurnSide());
 
         if (hasEnemyPieceAtTo) {
-            boardRepository.deletePiecePositionByGameId(to, gameId, connection);
+            boardRepository.deletePiecePositionByGameId(to, gameMetaData.getId(), connection);
         }
-        boardRepository.updatePiecePositionByGameId(from, to, gameId, connection);
+        boardRepository.updatePiecePositionByGameId(from, to, gameMetaData.getId(), connection);
     }
 
-    private Side changeSide(Side currentTurnSide) {
-        if (currentTurnSide == Side.HAN) return Side.CHO;
-        return Side.HAN;
+    private boolean updateAndStoreJangGunCount(Board board, GameMetaData gameMetaData, Connection connection) {
+        boolean isIncreaseJangGunCount = checkAndUpdateJangGunCount(board, gameMetaData);
+        janggiGameRepository.updateJangGunCountById(gameMetaData.getId(), gameMetaData.getJangGunCount(), connection);
+        return isIncreaseJangGunCount;
     }
 
-    private boolean updateAndStoreJangGunCount(Board board, Long gameId, Side currentTurnSide, Connection connection) {
-        boolean isJangGunCount = checkAndUpdateJangGunCount(board, currentTurnSide);
-        janggiGameRepository.updateJangGunCountById(jangGunCount, gameId, connection);
-        return isJangGunCount;
-    }
+    private boolean checkAndUpdateJangGunCount(Board board, GameMetaData gameMetaData) {
+        Side currentTurnSide = gameMetaData.getCurrentTurnSide();
 
-    private boolean checkAndUpdateJangGunCount(Board board, Side currentTurnSide) {
         if (board.isJangGun(currentTurnSide)) {
-            jangGunCount.put(currentTurnSide, jangGunCount.getOrDefault(currentTurnSide, 0) + 1);
+            gameMetaData.incrementJangGunCount(currentTurnSide);
             return true;
         }
-        jangGunCount.put(currentTurnSide, 0);
+        gameMetaData.resetJangGunCount(currentTurnSide);
         return false;
     }
 
-    private void updateTurn(Long gameId, Side currentTurnSide, Connection connection) {
-        janggiGameRepository.updateTurnById(currentTurnSide, gameId, connection);
-    }
-
-    private boolean isBigJang() {
-        return jangGunCount.values().stream()
-                .anyMatch(count -> count == JANGGUN_COUNT);
+    private void updateTurn(GameMetaData gameMetaData, Connection connection) {
+        janggiGameRepository.updateTurnById(gameMetaData.getId(), gameMetaData.getCurrentTurnSide(), connection);
     }
 }

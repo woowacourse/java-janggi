@@ -2,10 +2,10 @@ package repository;
 
 import domain.piece.Side;
 import janggigame.GameMetaData;
+import janggigame.JangGunCount;
 import janggigame.JanggiGameStatus;
 
 import java.sql.Connection;
-import java.util.Map;
 import java.util.Optional;
 
 public interface JanggiGameRepository {
@@ -16,9 +16,9 @@ public interface JanggiGameRepository {
     void updateGameStatusById(Long gameId, JanggiGameStatus newStatus);
     void updateGameStatusById(Long gameId, JanggiGameStatus newStatus, Connection connection);
 
-    void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId);
-    void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId, Connection connection);
+    void updateJangGunCountById(Long gameId, JangGunCount jangGunCount);
+    void updateJangGunCountById(Long gameId, JangGunCount jangGunCount, Connection connection);
 
-    void updateTurnById(Side currentTurnSide, Long gameId);
-    void updateTurnById(Side currentTurnSide, Long gameId, Connection connection);
+    void updateTurnById(Long gameId, Side currentTurnSide);
+    void updateTurnById(Long gameId, Side currentTurnSide, Connection connection);
 }

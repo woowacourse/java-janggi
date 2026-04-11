@@ -37,17 +37,17 @@ class JdbcBoardRepositoryTest {
 
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
+        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.getId(), Side.HAN);
 
         Board secondBoard = new Board();
         secondBoard.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        jdbcBoardRepository.savePlacementByGameId(secondBoard, secondGame.id(), Side.CHO);
+        jdbcBoardRepository.savePlacementByGameId(secondBoard, secondGame.getId(), Side.CHO);
 
         Board expectedFirstBoard = new Board();
         expectedFirstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        Board firstGameBoard = jdbcBoardRepository.findByGameId(firstGame.id()).orElseThrow();
+        Board firstGameBoard = jdbcBoardRepository.findByGameId(firstGame.getId()).orElseThrow();
 
         // then
         assertThat(firstGameBoard.getState().size()).isEqualTo(16);
@@ -65,10 +65,10 @@ class JdbcBoardRepositoryTest {
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        jdbcBoardRepository.savePlacementByGameId(board, gameMetaData.id(), Side.HAN);
+        jdbcBoardRepository.savePlacementByGameId(board, gameMetaData.getId(), Side.HAN);
 
         // then
-        Board savedBoard = jdbcBoardRepository.findByGameId(gameMetaData.id()).orElseThrow();
+        Board savedBoard = jdbcBoardRepository.findByGameId(gameMetaData.getId()).orElseThrow();
         assertThat(savedBoard.getState()).isEqualTo(board.getState());
         assertThat(savedBoard.getState().values()).allMatch(placement -> placement.getSide() == Side.HAN);
         assertThat(savedBoard.getState().values()).noneMatch(placement -> placement.getSide() == Side.CHO);
@@ -81,13 +81,13 @@ class JdbcBoardRepositoryTest {
         GameMetaData firstGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
+        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.getId(), Side.HAN);
 
         // when
-        jdbcBoardRepository.updatePiecePositionByGameId(Position.of(7, 9), Position.of(7, 8), firstGame.id());
+        jdbcBoardRepository.updatePiecePositionByGameId(Position.of(7, 9), Position.of(7, 8), firstGame.getId());
 
         // then
-        Board board = jdbcBoardRepository.findByGameId(firstGame.id()).orElseThrow();
+        Board board = jdbcBoardRepository.findByGameId(firstGame.getId()).orElseThrow();
 
         assertThat(board.getState().size()).isEqualTo(16);
         assertThat(board.getState().keySet())
@@ -103,13 +103,13 @@ class JdbcBoardRepositoryTest {
         GameMetaData firstGame = jdbcJanggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.id(), Side.HAN);
+        jdbcBoardRepository.savePlacementByGameId(firstBoard, firstGame.getId(), Side.HAN);
 
         // when
-        jdbcBoardRepository.deletePiecePositionByGameId(Position.of(7, 9), firstGame.id());
+        jdbcBoardRepository.deletePiecePositionByGameId(Position.of(7, 9), firstGame.getId());
 
         // then
-        Board board = jdbcBoardRepository.findByGameId(firstGame.id()).orElseThrow();
+        Board board = jdbcBoardRepository.findByGameId(firstGame.getId()).orElseThrow();
         assertThat(board.getState().size()).isEqualTo(15);
         assertThat(board.getState().keySet())
                 .noneMatch(position -> position.getRow() == 7 && position.getColumn() == 9);

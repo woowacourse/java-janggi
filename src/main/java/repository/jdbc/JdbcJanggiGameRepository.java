@@ -2,6 +2,7 @@ package repository.jdbc;
 
 import domain.piece.Side;
 import janggigame.GameMetaData;
+import janggigame.JangGunCount;
 import janggigame.JanggiGameStatus;
 import repository.JanggiGameRepository;
 
@@ -13,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Map;
 import java.util.Optional;
 
 public class JdbcJanggiGameRepository implements JanggiGameRepository {
@@ -33,8 +33,8 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, gameMetaData.currentTurn().name());
-            statement.setString(2, gameMetaData.status().name());
+            statement.setString(1, gameMetaData.getCurrentTurnSide().name());
+            statement.setString(2, gameMetaData.getStatus().name());
             statement.setInt(3, 0);
             statement.setInt(4, 0);
             statement.setTimestamp(5, Timestamp.from(Instant.now()));
@@ -50,10 +50,9 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                 }
                 return new GameMetaData(
                         generatedKeys.getLong("id"),
-                        gameMetaData.status(),
-                        gameMetaData.currentTurn(),
-                        gameMetaData.choJangGunCount(),
-                        gameMetaData.hanJangGunCount()
+                        gameMetaData.getStatus(),
+                        gameMetaData.getCurrentTurnSide(),
+                        new JangGunCount(0, 0)
                 );
             }
         } catch (SQLException e) {
@@ -85,9 +84,12 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                         rs.getLong("id"),
                         JanggiGameStatus.valueOf(rs.getString("status")),
                         Side.valueOf(rs.getString("current_turn")),
-                        rs.getInt("cho_janggun_count"),
-                        rs.getInt("han_janggun_count")
+                        new JangGunCount(
+                                rs.getInt("cho_janggun_count"),
+                                rs.getInt("han_janggun_count")
+                        )
                 );
+
                 return Optional.of(gameMetaData);
             }
         } catch (SQLException e) {
@@ -122,22 +124,23 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId) {
+    public void updateJangGunCountById(Long gameId, JangGunCount jangGunCount) {
         try (Connection connection = dataSource.getConnection()) {
-            updateJangGunCountById(jangGunCount, gameId, connection);
+            updateJangGunCountById(gameId, jangGunCount, connection);
         } catch (SQLException e) {
             throw new IllegalStateException("진영 별 장군 횟수를 업데이트하지 못했습니다.", e);
         }
     }
 
     @Override
-    public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId, Connection connection) {
+    public void updateJangGunCountById(Long gameId, JangGunCount jangGunCount, Connection connection) {
         String sql = "UPDATE game SET cho_janggun_count = ?, han_janggun_count = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, jangGunCount.getOrDefault(Side.CHO, 0));
-            statement.setInt(2, jangGunCount.getOrDefault(Side.HAN, 0));
+            statement.setInt(1, jangGunCount.getCount(Side.CHO));
+            statement.setInt(2, jangGunCount.getCount(Side.HAN));
             statement.setLong(3, gameId);
+
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows != 1) {
@@ -149,16 +152,16 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void updateTurnById(Side currentTurnSide, Long gameId) {
+    public void updateTurnById(Long gameId, Side currentTurnSide) {
         try (Connection connection = dataSource.getConnection()) {
-            updateTurnById(currentTurnSide, gameId, connection);
+            updateTurnById(gameId, currentTurnSide, connection);
         } catch (SQLException e) {
             throw new IllegalStateException("현재 차례의 진영을 수정하지 못하였습니다.", e);
         }
     }
 
     @Override
-    public void updateTurnById(Side currentTurnSide, Long gameId, Connection connection) {
+    public void updateTurnById(Long gameId, Side currentTurnSide, Connection connection) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

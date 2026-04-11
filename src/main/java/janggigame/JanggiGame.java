@@ -25,7 +25,6 @@ public class JanggiGame {
 
     public void run() {
         GameMetaData gameMetaData = loadOrCreateNewGame();
-        janggiGameService.restoreJangGunCount(gameMetaData);
         Board board = loadOrInitBoard(gameMetaData);
         processByStatus(board, gameMetaData);
     }
@@ -45,11 +44,11 @@ public class JanggiGame {
     }
 
     private void processByStatus(Board board, GameMetaData gameMetaData) {
-        if (gameMetaData.status() == JanggiGameStatus.WAITING_HAN_PLACEMENT) {
+        if (gameMetaData.getStatus() == JanggiGameStatus.WAITING_HAN_PLACEMENT) {
             handleWaitingHanPlacement(board, gameMetaData);
             return;
         }
-        if (gameMetaData.status() == JanggiGameStatus.WAITING_CHO_PLACEMENT) {
+        if (gameMetaData.getStatus() == JanggiGameStatus.WAITING_CHO_PLACEMENT) {
             handleWaitingChoPlacement(board, gameMetaData);
             return;
         }
@@ -117,21 +116,21 @@ public class JanggiGame {
     }
 
     private void playGame(Board board, GameMetaData gameMetaData) {
-        Side currentTurnSide = gameMetaData.currentTurn();
         printBoard(board);
-        while (!janggiGameService.isGameOver(board, currentTurnSide)) {
+        while (!gameMetaData.isGameOver(board)) {
             try {
-                OutputView.printSide(currentTurnSide);
+                OutputView.printSide(gameMetaData.getCurrentTurnSide());
 
                 Position from = selectFromPosition();
                 Position to = selectToPosition();
-                TurnResult turnResult = janggiGameService.processTurn(from, to, gameMetaData.id(), board, currentTurnSide);
+
+                TurnResult turnResult = janggiGameService.processTurn(from, to, board, gameMetaData);
                 printBoard(board);
 
-                if (turnResult.isJangGun()) {
+                if (turnResult.isIncreaseJangGunCount()) {
                     OutputView.printIsJangGun();
                 }
-                currentTurnSide = turnResult.nextTurnSide();
+                gameMetaData.changeCurrentTurn(gameMetaData.getCurrentTurnSide());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
