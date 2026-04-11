@@ -1,6 +1,7 @@
 package janggi.domain.piece.moverules;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Palace;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
@@ -22,8 +23,11 @@ public abstract class CommonMoveRule implements MoveRule {
     public List<Position> findMovablePositions(Board board, Position position, Team team) {
         Piece piece = board.pieceAt(position);
 
+        List<Route> routes = new ArrayList<>(findRoutes(team));
+        routes.addAll(addPalaceRoutes(position, team));
+
         return calculateAvailablePositions(board, piece,
-                convertToPositions(position, findRoutes(team)));
+                convertToPositions(position, routes));
     }
 
     private List<Position> calculateAvailablePositions(Board board, Piece piece,
@@ -38,6 +42,16 @@ public abstract class CommonMoveRule implements MoveRule {
             }
         }
         return result;
+    }
+
+    protected List<Route> addPalaceRoutes(Position position, Team team) {
+        if (Palace.CHO.isInPalace(position)) {
+            return Palace.CHO.findDiagonalRoutes(position);
+        }
+        if (Palace.HAN.isInPalace(position)) {
+            return Palace.HAN.findDiagonalRoutes(position);
+        }
+        return List.of();
     }
 
     protected abstract boolean canMove(Board board, Piece movePiece, List<Position> route, Position destination);

@@ -30,11 +30,20 @@ public class Route {
         return routePositions;
     }
 
-    public void applyContinuousDirections(Position position, Map<Position, List<Position>> continuousRoutes) {
-        Position startPosition = position;
+    public void applyContinuousDirections(Position startPosition, Map<Position, List<Position>> continuousRoutes) {
         for (Direction direction : routes) {
             direction.nextContinuousPosition(startPosition, continuousRoutes);
         }
+    }
+
+    public boolean isDownDiagonal() {
+        Direction startDirection = routes.getFirst();
+        return startDirection.isDownDiagonal();
+    }
+
+    public boolean isUpDiagonal() {
+        Direction startDirection = routes.getFirst();
+        return startDirection.isUpDiagonal();
     }
 
     @Override

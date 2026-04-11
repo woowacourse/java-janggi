@@ -1,5 +1,7 @@
 package janggi.domain.common;
 
+import janggi.domain.board.Palace;
+
 public enum Team {
     CHO("초나라"),
     HAN("한나라");
@@ -27,5 +29,12 @@ public enum Team {
             return HAN;
         }
         return CHO;
+    }
+
+    public Palace selectPalace() {
+        if (this == CHO) {
+            return Palace.CHO;
+        }
+        return Palace.HAN;
     }
 }

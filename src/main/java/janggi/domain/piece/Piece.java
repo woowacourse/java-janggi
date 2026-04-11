@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Palace;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import java.util.List;
@@ -42,6 +43,10 @@ public class Piece {
 
     public List<Position> findMovablePositions(Board board, Position position) {
         return pieceType.findMovablePositions(board, position, team);
+    }
+
+    public Palace selectPalace() {
+        return team.selectPalace();
     }
 
     @Override

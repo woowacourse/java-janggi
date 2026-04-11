@@ -32,8 +32,8 @@ public enum Palace {
             new Position(4, 3), List.of(new Route(List.of(Direction.UP_RIGHT))),
             new Position(6, 3), List.of(new Route(List.of(Direction.UP_LEFT)))));
 
-    private final int START_X = 4;
-    private final int END_X = 6;
+    private static final int START_X = 4;
+    private static final int END_X = 6;
 
     private final List<Position> palacePositions;
     private final Map<Position, List<Route>> diagonalInfos;
@@ -41,6 +41,10 @@ public enum Palace {
     Palace(int startY, int endY, Map<Position, List<Route>> diagonalInfos) {
         this.palacePositions = initializePalacePositions(startY, endY);
         this.diagonalInfos = diagonalInfos;
+    }
+
+    public static boolean isInAnyPalace(Position position) {
+        return CHO.isInPalace(position) || HAN.isInPalace(position);
     }
 
     public boolean isInPalace(Position position) {

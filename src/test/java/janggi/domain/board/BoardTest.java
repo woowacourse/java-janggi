@@ -137,6 +137,46 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("한나라 졸은 궁성 내에서도 진행방향쪽의 대각선만 가능")
+    void 한나라_졸_궁성에서_대각선_이동() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4, 8);
+        board.place(position, new Piece(Team.HAN, PieceType.ZOL));
+        Position zolDown = new Position(4, 9);
+        Position zolLeft = new Position(5, 8);
+        Position zolRight = new Position(3, 8);
+        Position zolDownLeft = new Position(5, 9);
+
+        //when
+        List<Position> zolRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(zolRoutesPositions).containsExactlyInAnyOrder(zolDown, zolLeft, zolRight, zolDownLeft);
+    }
+
+
+    @Test
+    @DisplayName("초나라 졸은 궁성 내에서도 진행방향쪽의 대각선만 가능")
+    void 초나라_졸_궁성에서_대각선_이동() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5, 2);
+        board.place(position, new Piece(Team.CHO, PieceType.ZOL));
+        Position zolUp = new Position(5, 1);
+        Position zolLeft = new Position(4, 2);
+        Position zolRight = new Position(6, 2);
+        Position zolUpLeft = new Position(4, 1);
+        Position zolUpRight = new Position(6, 1);
+
+        //when
+        List<Position> zolRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(zolRoutesPositions).containsExactlyInAnyOrder(zolUp, zolLeft, zolRight, zolUpLeft, zolUpRight);
+    }
+
+    @Test
     @DisplayName("마는 이동 경로(멱)에 장애물이 없으면 8방향 모두 이동할 수 있다")
     void 마_장애물_없을때_8방향_이동_성공() {
         //given
@@ -317,8 +357,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("사는 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
-    void 사_장애물_없을때_이동_성공() {
+    @DisplayName("사는 궁성 안에서만 움직일 수 있고 대각선으로도 이동할 수 있다")
+    void 사_궁성_안에서_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(4, 10);
@@ -326,20 +366,18 @@ public class BoardTest {
         Position saPosition1 = new Position(4, 9);
         Position saPosition2 = new Position(5, 9);
         Position saPosition3 = new Position(5, 10);
-        Position saPosition4 = new Position(3, 9);
-        Position saPosition5 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4, saPosition5);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3);
 
         //when
         List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(saRoutesPositions).hasSize(5)
+        assertThat(saRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
     @Test
-    @DisplayName("사의 목적지에 아군 기물이 있으면 이동할 수 없다 (사이클1 규칙)")
+    @DisplayName("사의 목적지에 아군 기물이 있으면 이동할 수 없다")
     void 사_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
@@ -348,15 +386,13 @@ public class BoardTest {
         board.place(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
         Position saPosition1 = new Position(4, 9);
         Position saPosition2 = new Position(5, 10);
-        Position saPosition3 = new Position(3, 9);
-        Position saPosition4 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2);
 
         //when
         List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(saRoutesPositions).hasSize(4)
+        assertThat(saRoutesPositions).hasSize(2)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -370,22 +406,20 @@ public class BoardTest {
         board.place(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
         Position saPosition1 = new Position(4, 9);
         Position saPosition2 = new Position(5, 10);
-        Position saPosition3 = new Position(3, 9);
-        Position saPosition4 = new Position(3, 10);
-        Position saPosition5 = new Position(5, 9);
-        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4, saPosition5);
+        Position saPosition3 = new Position(5, 9);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3);
 
         //when
         List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(saRoutesPositions).hasSize(5)
+        assertThat(saRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
     @Test
-    @DisplayName("왕은 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
-    void 왕_장애물_없을때_이동_성공() {
+    @DisplayName("왕은 궁성 안에서만 움직일 수 있고 대각선으로도 이동할 수 있다")
+    void 왕_궁성_안에서_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5, 9);
@@ -410,7 +444,7 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("왕의 이동하려는 목적지에 아군 기물이 있으면 이동할 수 없다(사이클1 규칙)")
+    @DisplayName("왕의 이동하려는 목적지에 아군 기물이 있으면 이동할 수 없다")
     void 왕_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
@@ -552,6 +586,59 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("차는 궁성 안에서 대각선 경로상에 장애물이 없으면 끝까지 이동할 수 있다")
+    void 차_궁성_안에_대각선_경로에_장애물_없을때_직선_끝까지_이동_성공() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4, 10);
+        Position blockPosition1 = new Position(3, 10);
+        Position blockPosition2 = new Position(4, 9);
+        Position blockPosition3 = new Position(5, 10);
+        board.place(position, new Piece(Team.HAN, PieceType.CHA));
+        board.place(blockPosition1, new Piece(Team.HAN, PieceType.MA));
+        board.place(blockPosition2, new Piece(Team.HAN, PieceType.PO));
+        board.place(blockPosition3, new Piece(Team.HAN, PieceType.ZOL));
+        List<Position> diagonalRoutes = List.of(
+                new Position(5, 9), new Position(6, 8)
+        );
+
+        List<Position> rightAnswer = new ArrayList<>();
+        rightAnswer.addAll(diagonalRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(2)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("차는 궁성 중앙에서 대각선_경로에_장애물이 없으면 대각선 방향으로 4가지 경로로 이동할 수 있다")
+    void 차_궁성_중앙에서_대각선_경로에_장애물_없을때_대각선_방향_4가지_경로_이동_성공() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5, 9);
+        board.place(position, new Piece(Team.HAN, PieceType.CHA));
+        Position chaPosition1 = new Position(4, 8);
+        Position chaPosition2 = new Position(6, 8);
+        Position chaPosition3 = new Position(4, 10);
+        Position chaPosition4 = new Position(6, 10);
+        board.place(new Position(5, 8), new Piece(Team.HAN, PieceType.CHA));
+        board.place(new Position(4, 9), new Piece(Team.HAN, PieceType.MA));
+        board.place(new Position(5, 10), new Piece(Team.HAN, PieceType.SANG));
+        board.place(new Position(6, 9), new Piece(Team.HAN, PieceType.PO));
+        List<Position> rightAnswer = List.of(chaPosition1, chaPosition2, chaPosition3, chaPosition4);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(4)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
     @DisplayName("포는 이동 경로상에 일반 기물(포다리)이 딱 1개 존재하면 그 너머로 이동할 수 있다")
     void 포_경로에_일반_기물_포다리가_1개_있을때_이동_성공() {
         //given
@@ -610,5 +697,44 @@ public class BoardTest {
         //then
         assertThat(poRoutesPositions).hasSize(1)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("포는 궁성 안에서 대각선 경로상에 일반 기물(포다리)이 딱 1개 존재하고 "
+            + "목적지에 일반 적군 기물이 존재하면 해당 기물을 포획하며 이동할 수 있다")
+    void 포_궁성_안에_대각선_경로에_일반_기물_포다리가_1개_목적지에_일반_적군_기물이_있을때_이동_성공() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4, 8);
+        Position bridge = new Position(5, 9);
+        Position destination = new Position(6, 10);
+        board.place(position, new Piece(Team.HAN, PieceType.PO));
+        board.place(bridge, new Piece(Team.CHO, PieceType.SA));
+        board.place(destination, new Piece(Team.CHO, PieceType.KING));
+
+        //when
+        List<Position> poRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(poRoutesPositions).hasSize(1).containsExactlyInAnyOrder(destination);
+    }
+
+    @Test
+    @DisplayName("포는 궁성 안에서 대각선 경로상에 포가 존재하면 그 너머로 이동할 수 없다")
+    void 포_궁성_안에_대각선_경로에_포가_있으면_포획_및_이동_불가() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4, 8);
+        Position otherPoPosition = new Position(5, 9);
+        Position destination = new Position(6, 10);
+        board.place(position, new Piece(Team.HAN, PieceType.PO));
+        board.place(otherPoPosition, new Piece(Team.CHO, PieceType.PO));
+        board.place(destination, new Piece(Team.CHO, PieceType.KING));
+
+        //when
+        List<Position> poRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(poRoutesPositions).isEmpty();
     }
 }
