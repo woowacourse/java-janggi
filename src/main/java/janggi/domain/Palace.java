@@ -64,7 +64,12 @@ public class Palace {
         return HAN_PALACE_VERTEX.contains(position);
     }
 
-    public static Position calculateOppositePalaceDiagonalPosition(Position currentPosition) {
+    public static boolean isPalaceDiagonalPosition(Position position) {
+        return isInChoPalaceVertex(position) || position.equals(CHO_PALACE_CENTER)
+                || isInHanPalaceVertex(position) || position.equals(HAN_PALACE_CENTER);
+    }
+
+    public static Position calculateOppositePalaceVertexPosition(Position currentPosition) {
         if (isInChoPalaceVertex(currentPosition)) {
             return calculatePointReflection(currentPosition, CHO_PALACE_CENTER);
         }

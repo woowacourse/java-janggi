@@ -18,7 +18,7 @@ public class OnceMoveRule implements MoveRule {
     private static final List<Direction> HAN_ZOL_ROUTES = List.of(
             Direction.SOUTH, Direction.EAST, Direction.WEST
     );
-    private static final List<Direction> PALACE_ROUTES = Direction.getAllDirections();
+    protected static final List<Direction> PALACE_ROUTES = Direction.getAllDirections();
 
     @Override
     public List<Position> calculateAvailablePositions(Position startPosition, Team team, Map<Position, Piece> state) {
@@ -45,8 +45,8 @@ public class OnceMoveRule implements MoveRule {
         return PALACE_ROUTES;
     }
 
-    private List<Position> filteredPositions(Position position, List<Position> availablePositions,
-                                             Map<Position, Piece> state) {
+    protected List<Position> filteredPositions(Position position, List<Position> availablePositions,
+                                               Map<Position, Piece> state) {
         Piece currentPiece = state.get(position);
         return availablePositions.stream()
                 .filter(targetPosition -> {
