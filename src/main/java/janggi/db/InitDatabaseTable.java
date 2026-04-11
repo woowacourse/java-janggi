@@ -14,7 +14,7 @@ public class InitDatabaseTable {
             statement.execute(CREATE_GAME_TABLE_SQL);
             statement.execute(CREATE_GAME_PIECE_SQL);
         } catch (SQLException e) {
-            throw new RuntimeException("데이터베이스 오류");
+            throw new RuntimeException("데이터베이스 오류", e);
         }
     }
 }

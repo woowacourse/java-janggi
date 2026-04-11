@@ -23,7 +23,7 @@ public class H2DBConnector implements DBConnector {
         try {
             return DriverManager.getConnection(url, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 접속 에러");
+            throw new RuntimeException("DB 접속 에러", e);
         }
     }
 }

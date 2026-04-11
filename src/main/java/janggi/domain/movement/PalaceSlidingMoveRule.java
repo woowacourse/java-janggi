@@ -8,9 +8,11 @@ import java.util.List;
 public class PalaceSlidingMoveRule implements MoveRule {
 
     private final Movement movement;
+    private final Direction direction;
 
-    public PalaceSlidingMoveRule(Movement movement) {
-        this.movement = movement;
+    public PalaceSlidingMoveRule(Direction direction) {
+        this.direction = direction;
+        this.movement = new Movement(direction);
     }
 
     @Override
