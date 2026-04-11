@@ -13,23 +13,26 @@ public class GameStateFactory {
         if (!ongoing) {
             return createFinishedState(currentCamp, stateType);
         }
-
-        if (currentCamp.isCho()) {
-            return new ChoTurn();
-        }
-        return new HanTurn();
+        return createRunningState(stateType);
     }
 
     private static GameState createFinishedState(Camp camp, String stateType) {
         if (stateType.equals("DRAW")) {
             return new Draw(camp);
         }
-        if (stateType.equals("Checkmate")) {
+        if (stateType.equals("CHECKMATE")) {
             return new Checkmate(camp);
         }
-        if (stateType.equals("GiveUp")) {
+        if (stateType.equals("GIVE UP")) {
             return new GiveUp(camp);
         }
         throw new UnsupportedOperationException("지원되지 않는 게임 종료 상태입니다.");
+    }
+
+    private static GameState createRunningState(String stateType) {
+        if (stateType.equals("CHO TURN")) {
+            return new ChoTurn();
+        }
+        return new HanTurn();
     }
 }

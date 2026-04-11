@@ -17,10 +17,10 @@ public class GameStateFactoryTest {
     static Stream<Arguments> stateProvider() {
         return Stream.of(
                 Arguments.of("DRAW", "CHO", false, Draw.class),
-                Arguments.of("Checkmate", "CHO", false, Checkmate.class),
-                Arguments.of("GiveUp", "CHO", false, GiveUp.class),
-                Arguments.of("ChoTurn", "CHO", true, ChoTurn.class),
-                Arguments.of("HanTurn", "HAN", true, HanTurn.class)
+                Arguments.of("CHECKMATE", "CHO", false, Checkmate.class),
+                Arguments.of("GIVE UP", "CHO", false, GiveUp.class),
+                Arguments.of("CHO TURN", "CHO", true, ChoTurn.class),
+                Arguments.of("HAN TURN", "HAN", true, HanTurn.class)
         );
     }
 

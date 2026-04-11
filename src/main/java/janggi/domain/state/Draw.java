@@ -14,4 +14,9 @@ public class Draw extends Finished {
     public Camp turn() {
         return camp;
     }
+
+    @Override
+    public String getStateType() {
+        return "DRAW";
+    }
 }

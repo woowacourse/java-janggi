@@ -9,4 +9,5 @@ public interface GameState {
     boolean isOngoing();
     Camp turn();
     void validateCamp(Position current, Board board);
+    String getStateType();
 }

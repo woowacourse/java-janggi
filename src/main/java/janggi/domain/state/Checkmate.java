@@ -14,4 +14,9 @@ public class Checkmate extends Finished {
     public Camp turn() {
         return camp;
     }
+
+    @Override
+    public String getStateType() {
+        return "CHECKMATE";
+    }
 }

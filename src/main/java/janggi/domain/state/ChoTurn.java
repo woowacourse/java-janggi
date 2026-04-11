@@ -28,4 +28,9 @@ public class ChoTurn extends Running {
             throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
         }
     }
+
+    @Override
+    public String getStateType() {
+        return "CHO TURN";
+    }
 }

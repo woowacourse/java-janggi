@@ -14,4 +14,9 @@ public class GiveUp extends Finished {
     public Camp turn() {
         return camp;
     }
+
+    @Override
+    public String getStateType() {
+        return "GIVE UP";
+    }
 }
