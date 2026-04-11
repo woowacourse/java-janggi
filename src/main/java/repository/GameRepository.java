@@ -6,5 +6,5 @@ import java.util.Optional;
 public interface GameRepository {
     void save(Janggi game);
     Optional<Janggi> findById(Long id);
-    void delete(Janggi game);
+    void deleteById(Long id);
 }
