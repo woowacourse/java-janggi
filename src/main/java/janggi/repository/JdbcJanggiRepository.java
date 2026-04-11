@@ -224,6 +224,13 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public void delete(Long id) {
-
+        String sql = "DELETE FROM game WHERE id = ?";
+        try (Connection connection = DBConnectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 삭제 중 오류 발생", e);
+        }
     }
 }
