@@ -27,6 +27,8 @@ public class Application {
             OutputView.printBoard(janggi.getBoardFormat());
 
             playTurn(player, janggi);
+            OutputView.printScore(janggi.getGameTotalScore());
+            if(janggi.isGameOver()) break;
         }
     }
 
@@ -67,7 +69,7 @@ public class Application {
             try {
                 Position from = getFrom(player);
                 Position to = getTo(player);
-                janggi.move(from, to);
+                janggi.playOneTurn(from, to);
                 break;
             } catch (IllegalArgumentException e) {
                 OutputView.printMessage(e.getMessage());

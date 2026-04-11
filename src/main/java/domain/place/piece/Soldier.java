@@ -13,4 +13,8 @@ public class Soldier extends Piece {
         return PieceSymbol.SOLDIER;
     }
 
+    @Override
+    public double getScore() {
+        return 2;
+    }
 }

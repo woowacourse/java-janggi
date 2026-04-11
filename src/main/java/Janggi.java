@@ -12,6 +12,9 @@ public class Janggi {
     private final Players players;
     private final Board board;
     private Player currentPlayer;
+    private boolean gameOver;
+    private double choScore = 72;
+    private double hanScore = 73.5;
 
     public Janggi(Players players, Board board) {
         this.players = players;
@@ -27,13 +30,32 @@ public class Janggi {
         return board.getFormatBoard();
     }
 
-    public void move(Position from, Position to) {
+    public void playOneTurn(Position from, Position to) {
+        validateFromPiece(from, to);
+
+        Optional<Piece> capturedPiece = board.findPiece(to);
+        board.move(from, to);
+        calculateScore(capturedPiece);
+
+        if (endGameIfGeneralCaptured(capturedPiece)) {
+            return;
+        }
+
+        changeTurn();
+    }
+
+    public List<Double> getGameTotalScore() {
+        return List.of(choScore, hanScore);
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    private void validateFromPiece(Position from, Position to) {
         Piece piece = getRequiredPiece(from);
         validateOwnPiece(piece);
         validateDestinationNotOccupiedBySameSide(piece, to);
-
-        board.move(from, to);
-        changeTurn();
     }
 
     private Piece getRequiredPiece(Position position) {
@@ -61,5 +83,27 @@ public class Janggi {
             return;
         }
         currentPlayer = players.getPlayerBySide(Side.CHO);
+    }
+
+    private void subtractOpponentScore(double score) {
+        if (currentPlayer.getSide() == Side.CHO) {
+            hanScore -= score;
+            return;
+        }
+        choScore -= score;
+    }
+
+    private void calculateScore(Optional<Piece> toPiece) {
+        double score = toPiece.map(Piece::getScore)
+                .orElse(0.0);
+        subtractOpponentScore(score);
+    }
+
+    private boolean endGameIfGeneralCaptured(Optional<Piece> toPiece) {
+        if (toPiece.filter(Piece::isGeneral).isPresent()) {
+            this.gameOver = true;
+            return true;
+        }
+        return false;
     }
 }

@@ -15,6 +15,8 @@ public abstract class Piece {
 
     public abstract PieceSymbol getSymbol();
 
+    public abstract double getScore();
+
     public String getFormat() {
         return side.colorize(getSymbol().display());
     }
@@ -28,6 +30,10 @@ public abstract class Piece {
     }
 
     public boolean isCannon() {
+        return false;
+    }
+
+    public boolean isGeneral() {
         return false;
     }
 

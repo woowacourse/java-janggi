@@ -35,7 +35,7 @@ class JanggiTest {
         Position to = new Position(7, 1);
 
         //when & then
-        assertThatThrownBy(() -> janggi.move(from, to))
+        assertThatThrownBy(() -> janggi.playOneTurn(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 현재 위치에 기물이 없습니다.");
     }
@@ -49,7 +49,7 @@ class JanggiTest {
         Position to = new Position(7, 1);
 
         //when & then
-        assertThatThrownBy(() -> janggi.move(from, to))
+        assertThatThrownBy(() -> janggi.playOneTurn(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이동하실 위치에 같은 편 기물이 존재합니다.");
     }
@@ -64,7 +64,7 @@ class JanggiTest {
         Position to = new Position(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> janggi.move(from, to))
+        assertThatThrownBy(() -> janggi.playOneTurn(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이동하실 위치에 같은 편 기물이 존재합니다.");
     }

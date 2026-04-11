@@ -25,6 +25,9 @@ public class OutputView {
     private static final String INPUT_POSITION_MOVE =
             "%s(%s)가 이동할 위치를 입력해주세요.(예시: 1,1)\n";
 
+    private static final String PRINT_SCORE =
+            "초나라 점수 : %.1f, 한나라 점수: %.1f\n";
+
     private static final String EMPTY = "．";
 
     private static final String[] NUMBERS = {
@@ -54,6 +57,10 @@ public class OutputView {
 
     public static void printPositionMove(String name, Side side) {
         System.out.printf(INPUT_POSITION_MOVE, name, side.getName());
+    }
+
+    public static void printScore(List<Double> scores) {
+        System.out.printf(PRINT_SCORE, scores.get(0), scores.get(1));
     }
 
     public static void printBoard(List<List<String>> boardFormats) {

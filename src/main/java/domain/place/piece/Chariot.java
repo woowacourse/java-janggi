@@ -12,4 +12,9 @@ public class Chariot extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.CHARIOT;
     }
+
+    @Override
+    public double getScore() {
+        return 13;
+    }
 }
