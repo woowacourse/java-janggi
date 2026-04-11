@@ -53,7 +53,6 @@ public class Board implements BoardChecker {
     }
 
     public MoveResultDto movePiece(Position source, Position destination, CampType campType) {
-
         validateSource(source, campType);
         validateDestination(destination, source, campType);
 
@@ -96,7 +95,7 @@ public class Board implements BoardChecker {
         return false;
     }
 
-    public boolean isRivalGeneralKilled(CampType campType) {
+    public boolean isGeneralKilled(CampType campType) {
         return board.values().stream()
                 .noneMatch(piece -> piece.isSameCampType(campType) && piece.isSamePieceRule(PieceRule.GENERAL));
     }

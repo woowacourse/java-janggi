@@ -131,7 +131,7 @@ class BoardTest {
         CampType currnetTurnCampType = CampType.CHO;
         Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.HAN)));
         // when
-        boolean result = board.isRivalGeneralKilled(currnetTurnCampType);
+        boolean result = board.isGeneralKilled(currnetTurnCampType);
         // then
         assertThat(result).isTrue();
     }

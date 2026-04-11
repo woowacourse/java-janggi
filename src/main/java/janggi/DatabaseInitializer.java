@@ -29,7 +29,7 @@ public class DatabaseInitializer {
                 }
             }
         } catch (SQLException | IOException e) {
-            throw new RuntimeException("schema.sql을 찾을 수 없습니다.");
+            throw new RuntimeException("schema.sql을 찾을 수 없습니다." + e.getMessage());
         }
     }
 }

@@ -1,13 +1,16 @@
 package janggi.domain.game;
 
+import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.camp.CampType;
+import janggi.dto.MoveResultDto;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 
 public class Game {
 
-    private Long gameId;
+    private Long gameRoomId;
 
     private CampType currentTurn;
 
@@ -19,30 +22,37 @@ public class Game {
 
     private LocalDateTime lastUpdatedAt;
 
-    private List<Piece> pieces;
+    private Board board;
 
-    public Game(CampType currentTurn, GameStatus gameStatus, List<Piece> pieces) {
-        this.currentTurn = currentTurn;
-        this.gameStatus = gameStatus;
-        this.pieces = pieces;
-    }
-
-    public Game(Long gameId, CampType currentTurn, GameStatus gameStatus, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime lastUpdatedAt, List<Piece> pieces) {
-        this.gameId = gameId;
+    public Game(Long gameRoomId, CampType currentTurn, GameStatus gameStatus, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime lastUpdatedAt, Board board) {
+        this.gameRoomId = gameRoomId;
         this.currentTurn = currentTurn;
         this.gameStatus = gameStatus;
         this.startAt = startAt;
         this.endAt = endAt;
         this.lastUpdatedAt = lastUpdatedAt;
-        this.pieces = pieces;
+        this.board = board;
     }
 
-    public void changeTurn(CampType campType) {
-        this.currentTurn = campType;
+    public MoveResultDto move(Position source, Position destination) {
+        return board.movePiece(source, destination, currentTurn);
     }
 
-    public long getGameId() {
-        return gameId;
+    public boolean isGameOver() {
+        return board.isGeneralKilled(currentTurn);
+    }
+
+    public void changeTurn() {
+        this.currentTurn = currentTurn.next();
+    }
+
+    public void finish() {
+        this.gameStatus = GameStatus.changeByCamp(currentTurn.next());
+        this.endAt = LocalDateTime.now();
+    }
+
+    public long getGameRoomId() {
+        return gameRoomId;
     }
 
     public CampType getCurrentTurn() {
@@ -65,7 +75,11 @@ public class Game {
         return lastUpdatedAt;
     }
 
-    public List<Piece> getPieces() {
-        return pieces;
+    public Board getBoard() {
+        return board;
+    }
+
+    public Map<Position, Piece> getPiecePositions() {
+        return board.getBoard();
     }
 }

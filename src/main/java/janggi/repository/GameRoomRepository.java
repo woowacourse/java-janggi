@@ -1,7 +1,7 @@
 package janggi.repository;
 
 import javax.sql.DataSource;
-import janggi.domain.game.Game;
+import janggi.domain.game.GameRoom;
 import janggi.domain.game.GameStatus;
 import janggi.domain.piece.camp.CampType;
 import java.sql.PreparedStatement;
@@ -11,17 +11,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameRepository {
+public class GameRoomRepository {
 
     private final DataSource dataSource;
 
-    public GameRepository(DataSource dataSource) {
+    public GameRoomRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public long save(Game game) {
-        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)",
-                game.getCurrentTurn().name(), game.getGameStatus().name());
+    public long save(GameRoom gameRoom) {
+        return insert("INSERT INTO game_rooms(current_turn, game_status) VALUES(?, ?)",
+                gameRoom.getCurrentTurn().name(),
+                gameRoom.getGameStatus().name());
     }
 
     private long insert(String sql, Object... params) {
@@ -41,43 +42,43 @@ public class GameRepository {
         }
     }
 
-    //Q: 객체를 반환하는게 더 좋은지? & findAll로 하고 filter를 자바 객체에서 해야 하는지
     public List<Long> findAllByGameStatus(GameStatus gameStatus) {
-        return executeQuery("SELECT game_id FROM games WHERE game_status = ?",
+        return executeQuery("SELECT game_room_id FROM game_rooms WHERE game_status = ?",
                 resultSet -> {
                     List<Long> ids = new ArrayList<>();
                     while (resultSet.next()) {
-                        ids.add(resultSet.getLong("game_id"));
+                        ids.add(resultSet.getLong("game_room_id"));
                     }
                     return ids;
                 }, gameStatus.name());
     }
 
-    public Game findById(long gameId) {
-        return executeQuery("SELECT * FROM games WHERE game_id = ?",
+    public GameRoom findById(long gameRoomId) {
+        return executeQuery("SELECT * FROM game_rooms WHERE game_room_id = ?",
                 rs -> {
                     if (rs.next()) {
-                        return new Game(
-                                rs.getLong("game_id"),
+                        return new GameRoom(
+                                rs.getLong("game_room_id"),
                                 CampType.valueOf(rs.getString("current_turn")),
                                 GameStatus.valueOf(rs.getString("game_status")),
                                 rs.getTimestamp("start_at").toLocalDateTime(),
                                 rs.getTimestamp("end_at") != null
                                         ? rs.getTimestamp("end_at").toLocalDateTime()
                                         : null,
-                                rs.getTimestamp("last_updated_at").toLocalDateTime(),
-                                List.of()
+                                rs.getTimestamp("last_updated_at").toLocalDateTime()
                         );
                     }
-                    throw new RuntimeException("게임을 찾을 수 없습니다. gameId: " + gameId);
-                },
-                gameId
-        );
+                    throw new RuntimeException("게임방을 찾을 수 없습니다. gameRoomId: " + gameRoomId);
+                }, gameRoomId);
     }
 
-    public void update(Game game) {
-        update("UPDATE games SET current_turn = ?, game_status = ?, start_at = ?,  end_at = ?, last_updated_at = CURRENT_TIMESTAMP WHERE game_id = ?",
-                game.getCurrentTurn().name(), game.getGameStatus().name(), game.getStartAt(), game.getEndAt(), game.getGameId()
+    public void update(GameRoom gameRoom) {
+        update("UPDATE game_rooms SET current_turn = ?, game_status = ?, start_at = ?,  end_at = ?, last_updated_at = CURRENT_TIMESTAMP WHERE game_room_id = ?",
+                gameRoom.getCurrentTurn().name(),
+                gameRoom.getGameStatus().name(),
+                gameRoom.getStartAt(),
+                gameRoom.getEndAt(),
+                gameRoom.getGameRoomId()
         );
     }
 

@@ -6,7 +6,7 @@ public class PlacedPiece {
 
     private Long placedPieceId;
 
-    private Long gameId;
+    private Long gameRoomId;
 
     private CampType campType;
 
@@ -16,29 +16,34 @@ public class PlacedPiece {
 
     private int colPosition;
 
-    public PlacedPiece(Long gameId, CampType campType, PieceRule pieceRule, int rowPosition, int colPosition) {
-        this.gameId = gameId;
+    public PlacedPiece(Long gameRoomId, CampType campType, PieceRule pieceRule, int rowPosition, int colPosition) {
+        this.gameRoomId = gameRoomId;
         this.campType = campType;
         this.pieceRule = pieceRule;
         this.rowPosition = rowPosition;
         this.colPosition = colPosition;
     }
 
-    public PlacedPiece(Long placedPieceId, Long gameId, CampType campType, PieceRule pieceRule, int rowPosition, int colPosition) {
+    public PlacedPiece(Long placedPieceId, Long gameRoomId, CampType campType, PieceRule pieceRule, int rowPosition, int colPosition) {
         this.placedPieceId = placedPieceId;
-        this.gameId = gameId;
+        this.gameRoomId = gameRoomId;
         this.campType = campType;
         this.pieceRule = pieceRule;
         this.rowPosition = rowPosition;
         this.colPosition = colPosition;
+    }
+
+    public void moveTo(int rowPosition, int columnPosition) {
+        this.rowPosition = rowPosition;
+        this.colPosition = columnPosition;
     }
 
     public Long getPlacedPieceId() {
         return placedPieceId;
     }
 
-    public Long getGameId() {
-        return gameId;
+    public Long getGameRoomId() {
+        return gameRoomId;
     }
 
     public CampType getCampType() {

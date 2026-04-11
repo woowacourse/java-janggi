@@ -22,8 +22,8 @@ public class PieceRepository {
     }
 
     public long save(PlacedPiece placedPiece) {
-        return insert("INSERT INTO pieces(game_id, camp, piece_type, row_position, col_position) VALUES(?, ?, ?, ?, ?)",
-                placedPiece.getGameId(),
+        return insert("INSERT INTO pieces(game_room_id, camp, piece_type, row_position, col_position) VALUES(?, ?, ?, ?, ?)",
+                placedPiece.getGameRoomId(),
                 placedPiece.getCampType().name(),
                 placedPiece.getPieceRule().name(),
                 placedPiece.getRowPosition(),
@@ -47,8 +47,8 @@ public class PieceRepository {
         }
     }
 
-    public Map<Position, Piece> findByGameId(long gameId) {
-        return executeQuery("SELECT * FROM pieces WHERE game_id = ?",
+    public Map<Position, Piece> findByGameRoomId(long gameRoomId) {
+        return executeQuery("SELECT * FROM pieces WHERE game_room_id = ?",
                 rs -> {
                     Map<Position, Piece> pieces = new HashMap<>();
                     while (rs.next()) {
@@ -58,13 +58,32 @@ public class PieceRepository {
                     }
                     return pieces;
                 },
-                gameId
+                gameRoomId
+        );
+    }
+
+    public PlacedPiece findByGameIdAndPosition(long gameRoomId, int row, int column) {
+        return executeQuery("SELECT * FROM pieces WHERE game_room_id = ? AND row_position = ? AND col_position = ?",
+                rs -> {
+                    if (rs.next()) {
+                        return new PlacedPiece(
+                                rs.getLong("piece_id"),
+                                rs.getLong("game_room_id"),
+                                CampType.valueOf(rs.getString("camp")),
+                                PieceRule.valueOf(rs.getString("piece_type")),
+                                rs.getInt("row_position"),
+                                rs.getInt("col_position")
+                        );
+                    }
+                    throw new RuntimeException(String.format("%d번 게임방 내 %행%d열 기물을 찾을 수 없습니다", gameRoomId, row, column));
+                },
+                gameRoomId, row, column
         );
     }
 
     public void update(PlacedPiece placedPiece) {
-        update("UPDATE pieces SET game_id = ?, camp = ?, piece_type = ?, row_position = ?, col_position = ? WHERE piece_id = ?",
-                placedPiece.getGameId(), placedPiece.getCampType().name(), placedPiece.getPieceRule().name()
+        update("UPDATE pieces SET game_room_id = ?, camp = ?, piece_type = ?, row_position = ?, col_position = ? WHERE piece_id = ?",
+                placedPiece.getGameRoomId(), placedPiece.getCampType().name(), placedPiece.getPieceRule().name()
                 , placedPiece.getRowPosition(), placedPiece.getColPosition(), placedPiece.getPlacedPieceId());
     }
 
