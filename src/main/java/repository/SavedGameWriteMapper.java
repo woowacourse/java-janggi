@@ -6,7 +6,6 @@ import domain.pieces.Side;
 import domain.position.Position;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.Map;
 
 public class SavedGameWriteMapper {
@@ -32,15 +31,9 @@ public class SavedGameWriteMapper {
                 LocalDateTime.now(clock),
                 janggiGame.board().pieces().entrySet().stream()
                         .filter(entry -> !entry.getValue().isEmpty())
-                        .sorted(byPosition())
                         .map(this::toSavedPieceDto)
                         .toList()
         );
-    }
-
-    private Comparator<Map.Entry<Position, Piece>> byPosition() {
-        return Comparator.comparingInt((Map.Entry<Position, Piece> entry) -> entry.getKey().row())
-                .thenComparingInt(entry -> entry.getKey().column());
     }
 
     private SavedPieceDto toSavedPieceDto(Map.Entry<Position, Piece> entry) {

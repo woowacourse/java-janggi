@@ -45,7 +45,7 @@ class SavedGameWriteMapperTest {
         assertThat(savedGameDto.winner()).isNull();
         assertThat(savedGameDto.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
         assertThat(savedGameDto.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
-        assertThat(savedGameDto.pieces()).containsExactly(
+        assertThat(savedGameDto.pieces()).containsExactlyInAnyOrder(
                 new SavedPieceDto(0, 0, Side.CHO, PieceType.CHA),
                 new SavedPieceDto(8, 4, Side.HAN, PieceType.GUNG)
         );
@@ -78,7 +78,7 @@ class SavedGameWriteMapperTest {
         assertThat(savedGameDto.winner()).isEqualTo(Side.CHO);
         assertThat(savedGameDto.createdAt()).isEqualTo(createdAt);
         assertThat(savedGameDto.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
-        assertThat(savedGameDto.pieces()).containsExactly(
+        assertThat(savedGameDto.pieces()).containsExactlyInAnyOrder(
                 new SavedPieceDto(8, 4, Side.CHO, PieceType.CHA)
         );
     }
