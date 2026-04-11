@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class Game {
+
+    private static final Camp SECOND_PLAYER = Camp.HAN;
+    private static final double SECOND_PLAYER_BONUS_SCORE = 1.5;
+
     private final Board board;
     private Camp turn;
 
@@ -39,11 +43,18 @@ public final class Game {
 
         Camp.getAllCamp().forEach(camp -> {
             double totalPieceScore = board.calculatePieceScore(camp);
-            double finalScore = camp.applyBonusScore(totalPieceScore);
+            double finalScore = applyBonusScore(camp, totalPieceScore);
             resultScore.put(camp, finalScore);
         });
 
         return resultScore;
+    }
+
+    private double applyBonusScore(Camp camp, double score) {
+        if (camp == SECOND_PLAYER) {
+            return score + SECOND_PLAYER_BONUS_SCORE;
+        }
+        return score;
     }
 
     public void validateSourceForCurrentTurn(Position source) {

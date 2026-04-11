@@ -5,13 +5,13 @@ import java.util.List;
 
 public enum Camp {
 
-    HAN(-1, 9, 1.5) {
+    HAN(-1, 9) {
         @Override
         public Camp next() {
             return CHO;
         }
     },
-    CHO(1, 0, 0) {
+    CHO(1, 0) {
         @Override
         public Camp next() {
             return HAN;
@@ -21,12 +21,10 @@ public enum Camp {
 
     private final int forwardDirection;
     private final int startRowPosition;
-    private final double bonusScore;
 
-    Camp(int forwardDirection, int startRowPosition, double bonusScore) {
+    Camp(int forwardDirection, int startRowPosition) {
         this.forwardDirection = forwardDirection;
         this.startRowPosition = startRowPosition;
-        this.bonusScore = bonusScore;
     }
 
     public abstract Camp next();
@@ -39,10 +37,6 @@ public enum Camp {
 
     public int getStartRowPosition() {
         return startRowPosition;
-    }
-
-    public double applyBonusScore(double score) {
-        return score + bonusScore;
     }
 
     public static List<Camp> getAllCamp() {
