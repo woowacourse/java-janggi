@@ -130,4 +130,8 @@ public class Board {
                 .mapToInt(piece -> piece.getScoreIfCampMatches(camp))
                 .sum();
     }
+
+    public Map<Position, Piece> getPiecesSnapshot() {
+        return Collections.unmodifiableMap(janggiBoard);
+    }
 }

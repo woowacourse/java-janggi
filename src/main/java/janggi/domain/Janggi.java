@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
+import janggi.domain.piece.Piece;
 import janggi.domain.state.ChoTurn;
 import janggi.domain.state.Draw;
 import janggi.domain.state.GameState;
@@ -97,5 +98,9 @@ public class Janggi {
             return Optional.empty();
         }
         return Optional.of(GameResult.fromGameResult(gameState.turn()));
+    }
+
+    public Map<Position, Piece> getBoardSnapshot() {
+        return board.getPiecesSnapshot();
     }
 }
