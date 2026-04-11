@@ -18,11 +18,6 @@ public record EmptyPiece() implements Piece {
     }
 
     @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
     public MoveContext askMoveContext(Position departure, Position destination) {
         throw new NoPieceException(PieceErrorMessage.NO_PIECE);
     }

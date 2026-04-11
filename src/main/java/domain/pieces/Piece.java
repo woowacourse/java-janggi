@@ -14,6 +14,4 @@ public interface Piece {
     Side getSide();
 
     MoveContext askMoveContext(Position departure, Position destination);
-
-    boolean isPo();
 }

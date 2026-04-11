@@ -56,11 +56,6 @@ public class Sang extends FullPiece {
     }
 
     @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.SANG;
     }

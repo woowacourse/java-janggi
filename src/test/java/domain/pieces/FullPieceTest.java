@@ -7,16 +7,6 @@ import org.junit.jupiter.api.Test;
 class FullPieceTest {
 
     @Test
-    void 포인지_여부를_반환한다() {
-        // given
-        Piece po = new Po(Side.CHO);
-        // when
-        boolean isPo = po.isPo();
-        // then
-        assertThat(isPo).isTrue();
-    }
-
-    @Test
     void 같은_진영인_경우_TURE를_반환한다() {
         // given
         Piece gung = new Gung(Side.CHO);

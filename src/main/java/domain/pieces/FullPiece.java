@@ -52,8 +52,6 @@ public abstract class FullPiece implements Piece {
 
     public abstract PieceType getType();
 
-    public abstract boolean isPo();
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

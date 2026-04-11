@@ -51,11 +51,6 @@ public class Cha extends FullPiece {
     }
 
     @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.CHA;
     }

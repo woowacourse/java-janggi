@@ -3,6 +3,7 @@ package domain.movepolicy.destination;
 import domain.movepolicy.exception.InvalidDestinationException;
 import domain.movepolicy.exception.MovePolicyErrorMessage;
 import domain.pieces.Piece;
+import domain.pieces.PieceType;
 
 public class PoDestinationRule implements DestinationRule {
 
@@ -14,7 +15,7 @@ public class PoDestinationRule implements DestinationRule {
         if (departurePiece.isSameSide(destinationPiece)) {
             throw new InvalidDestinationException(MovePolicyErrorMessage.SAME_SIDE_ATTACK);
         }
-        if (departurePiece.isPo() && destinationPiece.isPo()) {
+        if (destinationPiece.getType() == PieceType.PO) {
             throw new InvalidDestinationException(MovePolicyErrorMessage.PO_CANNOT_ATTACK_PO);
         }
     }
