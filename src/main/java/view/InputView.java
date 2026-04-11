@@ -79,7 +79,7 @@ public class InputView {
     }
 
     private int validateFormationNum(int formationNum) {
-        if (formationNum < 0 || formationNum >= FORMATION_NAMES.size()) {
+        if (formationNum < 0 || formationNum > FORMATION_NAMES.size()) {
             throw new IllegalArgumentException("[ERROR] 상차림 정보는 1 ~ 4 사이어야 합니다.");
         }
         return formationNum;
