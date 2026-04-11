@@ -45,14 +45,6 @@ public class FakeJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<Long> findAllInProgressGameIds() {
-        return finishedStatus.entrySet().stream()
-                .filter(entry -> !entry.getValue())
-                .map(Map.Entry::getKey)
-                .toList();
-    }
-
-    @Override
     public Board findBoardById(Long gameId) {
         return Optional.ofNullable(boards.get(gameId))
                 .orElseThrow(() -> new NoSuchElementException("해당 ID의 보드가 없습니다: " + gameId));

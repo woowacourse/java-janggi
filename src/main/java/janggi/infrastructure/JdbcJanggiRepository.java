@@ -153,24 +153,6 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<Long> findAllInProgressGameIds() {
-        List<Long> ids = new ArrayList<>();
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_IN_PROGRESS_IDS_SQL);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            // 데이터가 없을 때까지 반복해서 리스트에 추가
-            while (rs.next()) {
-                ids.add(rs.getLong(COLUMN_ID));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(ERROR_FIND_ALL_IN_PROGRESS + e.getMessage());
-        }
-        return ids;
-    }
-
-    @Override
     public Board findBoardById(Long gameId) {
         Map<Position, Piece> piecePosition = new HashMap<>();
 

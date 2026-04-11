@@ -8,7 +8,6 @@ import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.domain.repository.JanggiRepository;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -61,22 +60,6 @@ public class FakeJanggiRepositoryTest {
         // then
         assertThat(lastGameId).isPresent();
         assertThat(lastGameId.get()).isEqualTo(secondGameId);
-    }
-
-    @DisplayName("진행 중인 모든 게임을 조회한다.")
-    @Test
-    void 진행_중인_모든_게임_조회_테스트() {
-        // given
-        Long firstId = repository.save(Players.createInitial("pobi", "jason"));
-        Long secondId = repository.save(Players.createInitial("gugu", "lisa"));
-        Long thirdId = repository.save(Players.createInitial("gugu", "lisa"));
-
-        // when
-        List<Long> allGameIds = repository.findAllInProgressGameIds();
-
-        // then
-        assertThat(allGameIds).hasSize(3)
-                .containsExactlyInAnyOrder(firstId, secondId, thirdId);
     }
 
     @DisplayName("ID에 맞는 보드를 조회한다.")
@@ -149,7 +132,6 @@ public class FakeJanggiRepositoryTest {
 
         // then
         assertThat(repository.findInProgressGameId()).isEmpty();
-        assertThat(repository.findAllInProgressGameIds()).doesNotContain(gameId);
     }
 
     @DisplayName("한(HAN) 진영 턴에서 중단된 게임을 재시작하는 경우, 한(HAN) 진영 턴으로 복구된다.")

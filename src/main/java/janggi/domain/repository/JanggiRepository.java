@@ -3,7 +3,6 @@ package janggi.domain.repository;
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
 import janggi.domain.game.Turn;
-import java.util.List;
 import java.util.Optional;
 
 public interface JanggiRepository {
@@ -15,9 +14,6 @@ public interface JanggiRepository {
 
     // 진행 중인 가장 최근 게임 조회
     Optional<Long> findInProgressGameId();
-
-    // 진행 중인 모든 게임 조회
-    List<Long> findAllInProgressGameIds();
 
     // 게임 복구 (도메인 정보 조회)
     Board findBoardById(Long gameId);
