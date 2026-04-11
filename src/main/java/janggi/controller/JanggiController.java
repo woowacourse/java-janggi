@@ -6,6 +6,7 @@ import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameResult;
+import janggi.view.dto.GameRoom;
 import janggi.view.dto.PositionRequest;
 
 import java.util.List;
@@ -25,11 +26,21 @@ public class JanggiController {
 
     public void run() {
         try {
-            Long gameId = initializeJanggi();
+            Long gameId = lobby();
             playJanggiGame(gameId);
         } catch (RuntimeException e) {
             outputView.printError(e.getMessage());
         }
+    }
+
+    private Long lobby() {
+        List<GameRoom> gameRooms = janggiService.findAllGames();
+        Long gameId = inputView.readRoomNumber(gameRooms);
+        if (gameId == 0L) {
+            return initializeJanggi();
+        }
+        outputView.printEnterGameRoom(gameId);
+        return gameId;
     }
 
     private Long initializeJanggi() {
@@ -45,7 +56,9 @@ public class JanggiController {
         }
         if (gameResult.isPresent()) {
             outputView.printGameResult(gameResult.orElseThrow());
+            return;
         }
+        outputView.printEndGame();
     }
 
     private Optional<GameResult> playTurn(Long gameId) {

@@ -25,6 +25,14 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printEnterGameRoom(Long roomNumber) {
+        System.out.println(roomNumber + "번방에 입장하셨습니다.");
+    }
+
+    public void printEndGame() {
+        System.out.println("종료된 게임입니다.");
+    }
+
     public void printGameResult(GameResult gameResult) {
         System.out.println();
         int choScore = gameResult.getChoScore();

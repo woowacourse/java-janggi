@@ -1,15 +1,35 @@
 package janggi.view;
 
+import janggi.view.dto.GameRoom;
 import janggi.view.dto.PositionRequest;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class InputView {
     private static final String QUIT_COMMAND = "q";
-    private static final String DRAW_COMMAND = "d";
     private static final String YES_COMMAND = "y";
     private final Scanner scanner = new Scanner(System.in);
+
+    public Long readRoomNumber(List<GameRoom> gameRooms) {
+        if (gameRooms.isEmpty()) {
+            return 0L;
+        }
+        for (GameRoom gameRoom : gameRooms) {
+            System.out.printf("%d번방 | [%s차례] 진행여부: %s%n",
+                    gameRoom.getId(), gameRoom.getTurn(), isOnGoing(gameRoom.isOnGoing()));
+        }
+        System.out.println("어느 방에 입장하시겠습니까? 새 게임 참여는 0을 입력해주세요.");
+        return Long.parseLong(scanner.nextLine().trim());
+    }
+
+    private String isOnGoing(boolean isOnGoing) {
+        if (isOnGoing) {
+            return "진행 중";
+        }
+        return "게임 종료";
+    }
 
     public int readFormationChoice(int playerNumber) {
         System.out.println(playerNumber + "P 마상 배치를 선택해주세요.");
@@ -40,10 +60,6 @@ public class InputView {
 
     private boolean isQuit(String input) {
         return QUIT_COMMAND.equals(input);
-    }
-
-    private boolean isDrawRequest(String input) {
-        return DRAW_COMMAND.equals(input);
     }
 
     private boolean isYes(String input) {
