@@ -4,10 +4,13 @@ import javax.sql.DataSource;
 import janggi.domain.game.GameRoom;
 import janggi.domain.game.GameStatus;
 import janggi.domain.piece.camp.CampType;
+import janggi.exception.ExceptionMessage;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,90 +23,98 @@ public class GameRoomRepository {
     }
 
     public long save(GameRoom gameRoom) {
-        return insert("INSERT INTO game_rooms(current_turn, game_status) VALUES(?, ?)",
-                gameRoom.getCurrentTurn().name(),
-                gameRoom.getGameStatus().name());
-    }
+        String sql = "INSERT INTO game_rooms(current_turn, game_status)" +
+                " VALUES(?, ?)";
 
-    private long insert(String sql, Object... params) {
-        try {
-            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            for (int i = 0; i < params.length; i++) {
-                preparedStatement.setObject(i + 1, params[i]);
-            }
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement.setString(1, gameRoom.getCurrentTurn().name());
+            preparedStatement.setString(2, gameRoom.getGameStatus().name());
+
             preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getLong(1);
+
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong(1);
+                }
             }
             return -1L;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ExceptionMessage.GAME_ROOM_SAVE_ERROR.getMessage(), e);
         }
     }
 
     public List<Long> findAllByGameStatus(GameStatus gameStatus) {
-        return executeQuery("SELECT game_room_id FROM game_rooms WHERE game_status = ?",
-                resultSet -> {
-                    List<Long> ids = new ArrayList<>();
-                    while (resultSet.next()) {
-                        ids.add(resultSet.getLong("game_room_id"));
-                    }
-                    return ids;
-                }, gameStatus.name());
-    }
+        String sql = "SELECT game_room_id " +
+                "FROM game_rooms " +
+                "WHERE game_status = ?";
 
-    public GameRoom findById(long gameRoomId) {
-        return executeQuery("SELECT * FROM game_rooms WHERE game_room_id = ?",
-                rs -> {
-                    if (rs.next()) {
-                        return new GameRoom(
-                                rs.getLong("game_room_id"),
-                                CampType.valueOf(rs.getString("current_turn")),
-                                GameStatus.valueOf(rs.getString("game_status")),
-                                rs.getTimestamp("start_at").toLocalDateTime(),
-                                rs.getTimestamp("end_at") != null
-                                        ? rs.getTimestamp("end_at").toLocalDateTime()
-                                        : null,
-                                rs.getTimestamp("last_updated_at").toLocalDateTime()
-                        );
-                    }
-                    throw new RuntimeException("게임방을 찾을 수 없습니다. gameRoomId: " + gameRoomId);
-                }, gameRoomId);
-    }
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-    public void update(GameRoom gameRoom) {
-        update("UPDATE game_rooms SET current_turn = ?, game_status = ?, start_at = ?,  end_at = ?, last_updated_at = CURRENT_TIMESTAMP WHERE game_room_id = ?",
-                gameRoom.getCurrentTurn().name(),
-                gameRoom.getGameStatus().name(),
-                gameRoom.getStartAt(),
-                gameRoom.getEndAt(),
-                gameRoom.getGameRoomId()
-        );
-    }
+            preparedStatement.setString(1, gameStatus.name());
 
-    private void update(String sql, Object... params) {
-        try {
-            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                preparedStatement.setObject(i + 1, params[i]);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Long> ids = new ArrayList<>();
+                while (resultSet.next()) {
+                    ids.add(resultSet.getLong("game_room_id"));
+                }
+                return ids;
             }
-            preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ExceptionMessage.GAME_ROOM_FIND_ERROR.getMessage(), e);
         }
     }
 
-    private <T> T executeQuery(String sql, ResultSetMapper<T> mapper, Object... params) {
-        try {
-            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                preparedStatement.setObject(i + 1, params[i]);
+    public GameRoom findById(long gameRoomId) {
+        String sql = "SELECT * FROM game_rooms" +
+                " WHERE game_room_id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setLong(1, gameRoomId);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    return new GameRoom(
+                            rs.getLong("game_room_id"),
+                            CampType.valueOf(rs.getString("current_turn")),
+                            GameStatus.valueOf(rs.getString("game_status")),
+                            rs.getTimestamp("start_at").toLocalDateTime(),
+                            rs.getTimestamp("end_at") != null
+                                    ? rs.getTimestamp("end_at").toLocalDateTime()
+                                    : null,
+                            rs.getTimestamp("last_updated_at").toLocalDateTime()
+                    );
+                }
+                throw new IllegalArgumentException(ExceptionMessage.GAME_ROOM_NOT_FOUND.getMessage(gameRoomId));
             }
-            ResultSet rs = preparedStatement.executeQuery();
-            return mapper.map(rs);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ExceptionMessage.GAME_ROOM_FIND_ERROR.getMessage(gameRoomId), e);
+        }
+    }
+
+    public void update(GameRoom gameRoom) {
+        String sql = "UPDATE game_rooms " +
+                "SET current_turn = ?, game_status = ?, start_at = ?,  end_at = ?, last_updated_at = CURRENT_TIMESTAMP" +
+                " WHERE game_room_id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, gameRoom.getCurrentTurn().name());
+            preparedStatement.setString(2, gameRoom.getGameStatus().name());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(gameRoom.getStartAt()));
+            preparedStatement.setTimestamp(4, gameRoom.getEndAt() != null
+                    ? Timestamp.valueOf(gameRoom.getEndAt())
+                    : null);
+            preparedStatement.setLong(5, gameRoom.getGameRoomId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(ExceptionMessage.GAME_ROOM_UPDATE_ERROR.getMessage(gameRoom.getGameRoomId()), e);
         }
     }
 }
