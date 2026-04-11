@@ -1,5 +1,7 @@
 package janggi.domain.game;
 
+import java.util.Objects;
+
 public class Turn {
     private Side current;
 
@@ -21,5 +23,19 @@ public class Turn {
 
     public Side getSide() {
         return current;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Turn turn = (Turn) o;
+        return current == turn.current;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(current);
     }
 }

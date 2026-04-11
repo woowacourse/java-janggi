@@ -1,6 +1,7 @@
 package janggi.domain.game;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 public class Players implements Iterable<Player> {
@@ -63,5 +64,19 @@ public class Players implements Iterable<Player> {
                 .map(Player::getName)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(ERROR_PLAYER_NOT_FOUND));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Players players1 = (Players) o;
+        return Objects.equals(players, players1.players) && Objects.equals(turn, players1.turn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(players, turn);
     }
 }

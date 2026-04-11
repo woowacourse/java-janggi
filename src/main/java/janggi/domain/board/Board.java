@@ -8,6 +8,7 @@ import janggi.domain.game.Side;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Board {
     private static final String ERROR_NOT_FOUND_PIECE = "[ERROR] 해당 위치에 기물이 없습니다.";
@@ -202,5 +203,19 @@ public class Board {
         }
 
         return totalScore;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Board board = (Board) o;
+        return Objects.equals(piecePosition, board.piecePosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(piecePosition);
     }
 }
