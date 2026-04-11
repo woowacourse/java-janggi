@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class BoardStates {
     private static final String NOT_FOUNT_PIECE_FROM_POSITION = "[ERROR] 해당 좌표에 기물이 존재하지 않습니다.";
+    private static final int GENERAL_COUNT = 2;
 
     private final Map<Position, Piece> boardStates;
 
@@ -26,11 +27,11 @@ public class BoardStates {
         boardStates.put(to, fromPiece);
     }
 
-    public boolean isGeneralCaught(Position to) {
-        if (!boardStates.containsKey(to)) {
-            return false;
-        }
-        return boardStates.get(to).getPieceType() == PieceType.GENERAL;
+    public boolean isGeneralCaught() {
+        long generalCount = boardStates.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+                .count();
+        return generalCount != GENERAL_COUNT;
     }
 
     public boolean isEmpty(Position position) {

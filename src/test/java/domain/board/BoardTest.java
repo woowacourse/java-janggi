@@ -24,7 +24,7 @@ public class BoardTest {
     @Test
     @DisplayName("from 좌표에 기물이 존재하지 않는 경우 예외가 발생한다.")
     void existPieceFromPositionExceptionTest() {
-        assertThatThrownBy(() -> board.validateFromPosition(new Position(1, 1), CountryType.CHO))
+        assertThatThrownBy(() -> board.validateFromPosition(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
@@ -32,7 +32,7 @@ public class BoardTest {
     @Test
     @DisplayName("from 좌표의 기물이 본인 진영이 아닌 경우 예외가 발생한다.")
     void notMyCountryFromPositionExceptionTest() {
-        assertThatThrownBy(() -> board.validateFromPosition(new Position(0, 9), CountryType.CHO))
+        assertThatThrownBy(() -> board.validateFromPosition(new Position(0, 9)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 본인 진영의 기물이 아닙니다.");
     }
@@ -195,7 +195,7 @@ public class BoardTest {
     void moveSoldierTest() {
         Position from = new Position(0, 3);
         Position to = new Position(1, 3);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -209,7 +209,7 @@ public class BoardTest {
     void moveGuardTest() {
         Position from = new Position(3, 0);
         Position to = new Position(3, 1);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -223,7 +223,7 @@ public class BoardTest {
     void moveElephantTest() {
         Position from = new Position(1, 0);
         Position to = new Position(3, 3);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -237,7 +237,7 @@ public class BoardTest {
     void moveHorseTest() {
         Position from = new Position(2, 0);
         Position to = new Position(3, 2);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -251,7 +251,7 @@ public class BoardTest {
     void moveChariotTest() {
         Position from = new Position(0, 0);
         Position to = new Position(0, 2);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -265,7 +265,7 @@ public class BoardTest {
     void moveGeneralTest() {
         Position from = new Position(4, 1);
         Position to = new Position(4, 2);
-        board.checkEndAndPlay(from, to);
+        board.movePiece(from, to);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -283,8 +283,8 @@ public class BoardTest {
         stubBoardStates.put(new Position(3, 2), PieceFactory.SOLDIER.create(CountryType.HAN));
         stubBoardStates.put(from, PieceFactory.CANNON.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create());
-        board.checkEndAndPlay(from, to);
+        Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
+        board.movePiece(from, to);
         PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
@@ -296,13 +296,13 @@ public class BoardTest {
     @DisplayName("상대 기물을 정상적으로 잡는지 확인한다.")
     void killAnotherCountryPieceTest() {
         // 초나라 졸병 오른쪽으로 이동
-        board.checkEndAndPlay(new Position(0, 3), new Position(1, 3));
+        board.movePiece(new Position(0, 3), new Position(1, 3));
         // 한나라 졸병 오른쪽으로 이동
-        board.checkEndAndPlay(new Position(0, 6), new Position(1, 6));
+        board.movePiece(new Position(0, 6), new Position(1, 6));
 
         Position choChariotFrom = new Position(0, 0);
         Position hanChariotFrom = new Position(0, 9);
-        board.checkEndAndPlay(choChariotFrom, hanChariotFrom);
+        board.movePiece(choChariotFrom, hanChariotFrom);
 
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -320,8 +320,8 @@ public class BoardTest {
         stubBoardStates.put(hanSoldierFrom, PieceFactory.SOLDIER.create(CountryType.HAN));
         stubBoardStates.put(choSoldierTo, PieceFactory.SOLDIER.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create());
-        board.checkEndAndPlay(hanSoldierFrom, choSoldierTo);
+        Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
+        board.movePiece(hanSoldierFrom, choSoldierTo);
 
         assertThat(board.calculateScore(CountryType.CHO)).isEqualTo(0d);
         assertThat(board.calculateScore(CountryType.HAN)).isEqualTo(3.5d);
@@ -335,9 +335,10 @@ public class BoardTest {
         stubBoardStates.put(hanChariotFrom, PieceFactory.CHARIOT.create(CountryType.HAN));
         stubBoardStates.put(choGeneralTo, PieceFactory.GENERAL.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
+        board.movePiece(hanChariotFrom, choGeneralTo);
 
-        assertThat(board.checkEndAndPlay(hanChariotFrom, choGeneralTo)).isTrue();
+        assertThat(board.checkEndWithGeneralCaught()).isTrue();
     }
 
     @Test
@@ -346,7 +347,7 @@ public class BoardTest {
         Position from = new Position(0, 3);
         Position to = new Position(0, 3);
 
-        assertThatThrownBy(() -> board.checkEndAndPlay(from, to))
+        assertThatThrownBy(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.");
     }

@@ -2,13 +2,8 @@ package controller;
 
 import domain.Position;
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.BoardSnapshot;
-import domain.board.BoardSnapshots;
 import domain.board.TableSetting;
 import domain.country.CountryType;
-import domain.piece.PieceInfos;
-import java.util.List;
 import service.JanggiService;
 import view.CountryFormatter;
 import view.InputParser;
@@ -29,9 +24,8 @@ public class JanggiController {
     public void run() {
         int gameInfoId = askLoadOrCreate();
         Board board = janggiService.readBoard(gameInfoId);
-        BoardSnapshots boardSnapshots = janggiService.loadBoardSnapshots(gameInfoId);
 
-        playTurn(board, boardSnapshots, gameInfoId);
+        playTurn(board, gameInfoId);
     }
 
     private int askLoadOrCreate() {
@@ -39,35 +33,19 @@ public class JanggiController {
             try {
                 String input = inputView.readLoadOrCreateBoard();
                 if (InputParser.parseLoad(input)) {
-                    return loadBoard();
+                    return readLoadBoard();
                 }
-                return makeBoard();
+                return janggiService.makeBoard(readTableSetting(CountryType.CHO), readTableSetting(CountryType.HAN));
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private int loadBoard() {
+    private int readLoadBoard() {
         outputView.printBoardId(janggiService.readAllGameInfoIds());
         String input = inputView.readBoardSelect();
-        return InputParser.parseBoardId(input);
-    }
-
-    private int makeBoard() {
-        TableSetting choTableSetting = readTableSetting(CountryType.CHO);
-        TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
-        BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        int gameInfoId = janggiService.insertGameInfo();
-        initBoardState(board.getPieceInfos(), gameInfoId);
-        return gameInfoId;
-    }
-
-    private void initBoardState(PieceInfos pieceInfos, int gameInfoId) {
-        for (Position position : pieceInfos.getKeys()) {
-            janggiService.insertPositionState(position, pieceInfos.get(position), gameInfoId);
-        }
+        return janggiService.readLoadBoard(input);
     }
 
     private TableSetting readTableSetting(CountryType countryType) {
@@ -83,28 +61,26 @@ public class JanggiController {
         }
     }
 
-    private void playTurn(Board board, BoardSnapshots boardSnapshots, int gameInfoId) {
+    private void playTurn(Board board, int gameInfoId) {
         boolean isEnd = false;
         while (!isEnd) {
-            CountryType countryType = janggiService.readCountryTurn(gameInfoId);
-            isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, gameInfoId);
-            janggiService.updateGameInfo(countryType.anotherCountryType(), gameInfoId);
+            CountryType turn = board.getTurn();
+            outputView.printBoard(board.getPieceInfos(), turn, board.calculateScore(CountryType.CHO),
+                    board.calculateScore(CountryType.HAN));
+            movePiece(board, gameInfoId);
+            isEnd = isEnd(board, turn);
+            board.changeTurn();
+            janggiService.updateGameInfo(board.getTurn(), gameInfoId);
         }
-        janggiService.deleteAllPositionStates(gameInfoId);
-        janggiService.deleteBoardSnapshots(gameInfoId);
-        janggiService.deleteGameInfo(gameInfoId);
+        janggiService.deleteAllByGameInfoId(gameInfoId);
     }
 
-    private boolean checkEndAndMovePiece(Board board, CountryType turn, BoardSnapshots boardSnapshots,
-                                         int gameInfoId) {
-        outputView.printBoard(board.getPieceInfos(), turn, board.calculateScore(CountryType.CHO),
-                board.calculateScore(CountryType.HAN));
-
-        boolean isEndWithGeneralCaught = movePiece(board, turn, gameInfoId, boardSnapshots);
-        if (isEndWithGeneralCaught) {
+    private boolean isEnd(Board board, CountryType turn) {
+        boolean isEndWithGeneralCaught = board.checkEndWithGeneralCaught();
+        if (board.checkEndWithGeneralCaught()) {
             outputView.printEndWithCatchGeneral(turn);
         }
-        boolean isEndWithBoardRepeat = boardSnapshots.appearSamePositionThreeTurn();
+        boolean isEndWithBoardRepeat = board.checkEndWithBoardRepeat();
         if (isEndWithBoardRepeat) {
             outputView.printEndWithBoardRepeat(board.calculateScore(CountryType.CHO),
                     board.calculateScore(CountryType.HAN));
@@ -112,35 +88,18 @@ public class JanggiController {
         return isEndWithGeneralCaught || isEndWithBoardRepeat;
     }
 
-    private boolean movePiece(Board board, CountryType turn, int gameInfoId, BoardSnapshots boardSnapshots) {
+    private void movePiece(Board board, int gameInfoId) {
         while (true) {
             try {
-                Position from = makeFromPosition();
-                board.validateFromPosition(from, turn);
-                Position to = makeToPosition();
+                Position from = janggiService.makePosition(inputView.readFromPosition());
+                board.validateFromPosition(from);
+                Position to = janggiService.makePosition(inputView.readToPosition());
 
-                boolean isEnd = board.checkEndAndPlay(from, to);
-                BoardSnapshot boardSnapshot = new BoardSnapshot(board.getPieceInfos(), turn);
-                boardSnapshots.addBoardSnapshot(boardSnapshot);
-                int turnHistoryId = janggiService.insertTurnHistory(gameInfoId, turn);
-                janggiService.insertPositionHistory(board.getPieceInfos(), turnHistoryId);
-                janggiService.changePositionStateToAndFrom(from, to, board.getPieceInfos(), gameInfoId);
-                return isEnd;
+                janggiService.movePiece(board, from, to, gameInfoId);
+                return;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
-    }
-
-    private Position makeFromPosition() {
-        String input = inputView.readFromPosition();
-        List<Integer> positions = InputParser.parsePosition(input);
-        return new Position(positions.get(0), positions.get(1));
-    }
-
-    private Position makeToPosition() {
-        String input = inputView.readToPosition();
-        List<Integer> positions = InputParser.parsePosition(input);
-        return new Position(positions.get(0), positions.get(1));
     }
 }

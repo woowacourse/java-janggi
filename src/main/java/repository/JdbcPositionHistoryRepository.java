@@ -60,7 +60,7 @@ public class JdbcPositionHistoryRepository implements PositionHistoryRepository 
     }
 
     @Override
-    public void deletePositionHistoriesByGameInfoId(int turnHistoryId, Connection connection) {
+    public void deletePositionHistoriesByTurnHistoryId(int turnHistoryId, Connection connection) {
         String sql = "DELETE FROM `position_history` WHERE `turn_history_id` = ?";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)

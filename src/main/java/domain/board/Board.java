@@ -10,25 +10,27 @@ public class Board {
     private static final String CANNOT_MOVE_SAME_POSITION = "[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.";
 
     private final BoardStates boardStates;
+    private final BoardSnapshots boardSnapshots;
+    private CountryType turn;
 
-    public Board(BoardStates boardStates) {
+    public Board(BoardStates boardStates, BoardSnapshots boardSnapshots, CountryType turn) {
         this.boardStates = boardStates;
+        this.boardSnapshots = boardSnapshots;
+        this.turn = turn;
     }
 
-    public void validateFromPosition(Position from, CountryType countryType) {
-        if (boardStates.getPieceCountryType(from) != countryType) {
+    public void validateFromPosition(Position from) {
+        if (boardStates.getPieceCountryType(from) != turn) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
 
-    public boolean checkEndAndPlay(Position from, Position to) {
+    public void movePiece(Position from, Position to) {
         validateMoveSamePosition(from, to);
         Path path = boardStates.getPiecePath(from, to);
 
         boardStates.validatePieceMove(from, to, path);
-        boolean isGeneralCaught = boardStates.isGeneralCaught(to);
         boardStates.changePiecePosition(from, to);
-        return isGeneralCaught;
     }
 
     public void validateMoveSamePosition(Position from, Position to) {
@@ -47,5 +49,25 @@ public class Board {
             score += 1.5;
         }
         return score;
+    }
+
+    public boolean checkEndWithGeneralCaught() {
+        return boardStates.isGeneralCaught();
+    }
+
+    public boolean checkEndWithBoardRepeat() {
+        return boardSnapshots.appearSamePositionThreeTurn();
+    }
+
+    public void addBoardSnapshot(BoardSnapshot boardSnapshot) {
+        boardSnapshots.addBoardSnapshot(boardSnapshot);
+    }
+
+    public void changeTurn() {
+        turn = turn.anotherCountryType();
+    }
+
+    public CountryType getTurn() {
+        return turn;
     }
 }

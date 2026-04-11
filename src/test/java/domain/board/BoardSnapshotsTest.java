@@ -23,37 +23,37 @@ public class BoardSnapshotsTest {
         stubBoardStates.put(choRight, PieceFactory.CHARIOT.create(CountryType.CHO));
         stubBoardStates.put(hanRight, PieceFactory.CHARIOT.create(CountryType.HAN));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
 
         // A 포지션
-        board.checkEndAndPlay(choRight, choLeft);
+        board.movePiece(choRight, choLeft);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // B 포지션
-        board.checkEndAndPlay(hanRight, hanLeft);
+        board.movePiece(hanRight, hanLeft);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
         // C 포지션
-        board.checkEndAndPlay(choLeft, choRight);
+        board.movePiece(choLeft, choRight);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // D 포지션
-        board.checkEndAndPlay(hanLeft, hanRight);
+        board.movePiece(hanLeft, hanRight);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
 
         // A 포지션 2
-        board.checkEndAndPlay(choRight, choLeft);
+        board.movePiece(choRight, choLeft);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // B 포지션 2
-        board.checkEndAndPlay(hanRight, hanLeft);
+        board.movePiece(hanRight, hanLeft);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
         // C 포지션 2
-        board.checkEndAndPlay(choLeft, choRight);
+        board.movePiece(choLeft, choRight);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // D 포지션 2
-        board.checkEndAndPlay(hanLeft, hanRight);
+        board.movePiece(hanLeft, hanRight);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
         assertThat(boardSnapshots.appearSamePositionThreeTurn()).isFalse();
 
         // A 포지션 3
-        board.checkEndAndPlay(choRight, choLeft);
+        board.movePiece(choRight, choLeft);
         boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         assertThat(boardSnapshots.appearSamePositionThreeTurn()).isTrue();
     }
