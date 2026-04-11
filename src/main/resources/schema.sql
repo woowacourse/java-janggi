@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS piece (
     board_id BIGINT      NOT NULL,
     piece_type VARCHAR(20) NOT NULL,
     side VARCHAR(10)       NOT NULL,
-    pos_row INT            NOT NULL,
-    pos_col INT            NOT NULL,
+    row INT            NOT NULL,
+    col INT            NOT NULL,
 
     PRIMARY KEY (board_id, pos_row, pos_col),
     FOREIGN KEY (board_id) REFERENCES game(id)

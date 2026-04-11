@@ -77,6 +77,18 @@ public class Janggi {
     public Players players() {
         return players;
     }
+
+    public void assignId(Long id) {
+        if (this.id != null) {
+            throw new IllegalStateException("이미 id가 존재합니다.");
+        }
+        this.id = id;
+    }
+
+    public Board board() {
+        return board;
+    }
+
     private void validateFromPiece(Position from, Position to) {
         Piece piece = getRequiredPiece(from);
         validateOwnPiece(piece);
