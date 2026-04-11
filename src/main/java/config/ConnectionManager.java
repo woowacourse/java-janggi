@@ -52,7 +52,7 @@ public class ConnectionManager {
         }
     }
 
-    public static void makeBoardAndPieceDate(Connection conn) {
+    public static void makeBoardAndPieceData(Connection conn) {
         initializeSchema(conn, "schema.sql");
         initializeSchema(conn, "initializer.sql");
     }

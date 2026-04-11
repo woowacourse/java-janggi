@@ -33,6 +33,7 @@ public class JanggiController {
     public void run() {
         int gameId = initOrGetGame();
         playJanggiGame(gameId);
+
         outputView.printScore(janggiService.buildScoreDto(gameId));
         outputView.printGameOverMessage(janggiService.getFinalWinner(gameId));
     }
@@ -77,7 +78,7 @@ public class JanggiController {
             outputView.printScore(janggiService.buildScoreDto(gameId));
             outputView.printChangeTurnMessage(janggiService.getNowTurnCountry(gameId));
             playTurn(gameId);
-            outputView.printBoard(janggiService.buildBoardDto(gameId), janggiService.buildColorDto(gameId));
+            outputView.printBoard(janggiService.buildResultDto(gameId));
 
             if (janggiService.isGameOver(gameId)) {
                 break;
@@ -109,9 +110,8 @@ public class JanggiController {
     private void requestEndPosition(Position start, int gameId) {
         doRetry(() -> {
                     Optional<List<Integer>> input = inputView.requestMovePosition();
-                    if (input.isEmpty()) {
-                        throw new IllegalArgumentException("올바르지 않은 입력입니다.");
-                    }
+                    Validator.validateDataExist(!input.isEmpty(),"올바르지 않은 입력입니다.");
+
                     List<Integer> destination = input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
                     janggiService.applyMove(start, end, gameId);
@@ -122,7 +122,7 @@ public class JanggiController {
 
     private void playTurn(int gameId) {
         doRetry(() -> {
-                    outputView.printBoard(janggiService.buildBoardDto(gameId), janggiService.buildColorDto(gameId));
+                    outputView.printBoard(janggiService.buildResultDto(gameId));
                     List<PositionDto> positionDtos = requestMovePiece(gameId);
                     Optional<Position> start = requestStartPiecePosition(positionDtos);
                     Validator.validateDataExist(start.isPresent(), "올바르지 않은 입력입니다. 번호를 다시 입력해주세요.");

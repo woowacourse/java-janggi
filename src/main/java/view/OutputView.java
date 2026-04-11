@@ -8,6 +8,7 @@ import domain.Position;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
 import service.dto.PositionDto;
+import service.dto.ResultDto;
 import service.dto.ScoreDto;
 
 public class OutputView {
@@ -58,7 +59,9 @@ public class OutputView {
 
 
 
-    public void printBoard(BoardDto boardDto, ColorDto colorDto) {
+    public void printBoard(ResultDto resultDto) {
+        BoardDto boardDto = resultDto.boardDto();
+        ColorDto colorDto = resultDto.colorDto();
         System.out.println();
         for (int y = 0; y< Position.MAX_ROW; y++){
             BoardDto.Row boardRow = boardDto.rows().get(y);

@@ -186,7 +186,7 @@ public class JanggiGameRepository {
     }
 
     private void validateGameIsContinue(String stateStr) {
-        if ("EXIT".equals(stateStr)) {
+        if ("Exit".equals(stateStr)) {
             throw new IllegalStateException("종료된 게임");
         }
     }
