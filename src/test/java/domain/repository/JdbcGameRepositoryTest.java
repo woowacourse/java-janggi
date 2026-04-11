@@ -25,6 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JdbcGameRepositoryTest {
 
+    private static final int COL_SIZE = 10;
+    private static final int ROW_SIZE = 9;
+
     private final JdbcGameRepository repository = new JdbcGameRepository(new GameRoomDao(), new BoardStateDao());
 
     @BeforeEach
@@ -113,8 +116,8 @@ class JdbcGameRepositoryTest {
 
     private Game createSampleGame() {
         Map<Position, Piece> pieceMap = new HashMap<>();
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < COL_SIZE; i++) {
+            for (int j = 0; j < ROW_SIZE; j++) {
                 pieceMap.put(Position.of(i, j), EmptyPiece.getInstance());
             }
         }
