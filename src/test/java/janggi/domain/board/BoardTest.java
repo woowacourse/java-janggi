@@ -11,6 +11,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -95,6 +96,37 @@ public class BoardTest {
         // then
         assertThat(result).isTrue();
         assertThat(result2).isFalse();
+    }
+
+    @Test
+    @DisplayName("기물이 하나도 없는 상태에서 한나라는 1.5점, 초나라는 0점이다.")
+    void 기물_없을_때_각_나라_점수() {
+        // given
+        Board board = new Board();
+
+        // when
+        Map<Team, Double> teamScores = board.calculateScore();
+
+        // then
+        assertThat(teamScores.get(Team.HAN)).isEqualTo(1.5);
+        assertThat(teamScores.get(Team.CHO)).isEqualTo(0.0);
+    }
+
+    @Test
+    @DisplayName("모든 기물이 다 있는 초기 상태에서 한나라는 73.5점, 초나라는 72점으로 시작한다.")
+    void 초기_상태_각_나라_점수() {
+        // given
+        Board board = new Board();
+        BoardInitiator boardInitiator = new BoardInitiator();
+        boardInitiator.initializeByFormation(board, BoardFormation.MA_SANG_MA_SANG, Team.CHO);
+        boardInitiator.initializeByFormation(board, BoardFormation.MA_SANG_MA_SANG, Team.HAN);
+
+        // when
+        Map<Team, Double> teamScores = board.calculateScore();
+
+        // then
+        assertThat(teamScores.get(Team.HAN)).isEqualTo(73.5);
+        assertThat(teamScores.get(Team.CHO)).isEqualTo(72.0);
     }
 
     @Test

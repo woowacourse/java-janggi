@@ -5,6 +5,7 @@ import janggi.domain.common.Position;
 import janggi.dto.BoardResponse;
 import janggi.dto.PieceResponse;
 import janggi.dto.PositionResponse;
+import janggi.dto.ScoreResponse;
 import janggi.dto.TeamResponse;
 
 public class OutputView {
@@ -57,5 +58,10 @@ public class OutputView {
             System.out.print(piece.getDisplayPiece());
         }
         System.out.println();
+    }
+
+    public void printTeamScore(ScoreResponse teamScores) {
+        System.out.println(teamScores.getHanName() + " " + teamScores.getHanScore());
+        System.out.println(teamScores.getChoName() + " " + teamScores.getChoScore() + "\n");
     }
 }

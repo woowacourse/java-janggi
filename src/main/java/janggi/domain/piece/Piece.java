@@ -49,6 +49,13 @@ public class Piece {
         return team.selectPalace();
     }
 
+    public double addScore(Team currentTeam, double currentTotalScore) {
+        if (currentTeam == team) {
+            return pieceType.addScore(currentTotalScore);
+        }
+        return currentTotalScore;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Piece piece)) {

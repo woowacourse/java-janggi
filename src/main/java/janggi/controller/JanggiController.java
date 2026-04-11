@@ -6,6 +6,7 @@ import janggi.domain.board.BoardInitiator;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.dto.BoardResponse;
+import janggi.dto.ScoreResponse;
 import janggi.dto.TeamResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -27,6 +28,7 @@ public class JanggiController {
 
         while (!isGameOver) {
             playGame(team, board);
+            outputView.printTeamScore(ScoreResponse.from(board.calculateScore()));
             team = team.next();
         }
     }

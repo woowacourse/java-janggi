@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.common.Position;
+import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
@@ -54,5 +55,22 @@ public class Board {
         if (positions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 있는 좌표가 없습니다.");
         }
+    }
+
+    public Map<Team, Double> calculateScore() {
+        Map<Team, Double> teamScores = new HashMap<>();
+        for (Team team : Team.values()) {
+            double totalScore = calculateScoreByTeam(team);
+            teamScores.put(team, totalScore);
+        }
+        return teamScores;
+    }
+
+    private double calculateScoreByTeam(Team team) {
+        double totalScore = team.selectStartScoreByTeam();
+        for (Piece piece : board.values()) {
+            totalScore = piece.addScore(team, totalScore);
+        }
+        return totalScore;
     }
 }

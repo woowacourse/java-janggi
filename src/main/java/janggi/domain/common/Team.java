@@ -3,14 +3,16 @@ package janggi.domain.common;
 import janggi.domain.board.Palace;
 
 public enum Team {
-    CHO("초나라"),
-    HAN("한나라");
+    CHO("초나라", 0.0),
+    HAN("한나라", 1.5);
 
     private static final int MAX_Y = 11;
     private final String name;
+    private final double startScore;
 
-    Team(String name) {
+    Team(String name, double startScore) {
         this.name = name;
+        this.startScore = startScore;
     }
 
     public String getName() {
@@ -36,5 +38,9 @@ public enum Team {
             return Palace.CHO;
         }
         return Palace.HAN;
+    }
+
+    public double selectStartScoreByTeam() {
+        return startScore;
     }
 }
