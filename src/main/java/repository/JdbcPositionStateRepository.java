@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcPositionStateRepository implements PositionStateRepository {
+    private static final String FAIL_TO_LOAD_BOARD_STATE = "[ERROR] 보드 상태를 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_LOAD_POSITION_STATE = "[ERROR] 포지션 상태를 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_CREATE_POSITION_STATE = "[ERROR] 포지션 상태 생성에 실패했습니다.";
+    private static final String FAIL_TO_UPDATE_POSITION_STATE = "[ERROR] 포지션 상태 업데이트에 실패했습니다.";
+    private static final String FAIL_TO_DELETE_POSITION_STATE = "[ERROR] 포지션 상태 삭제에 실패했습니다.";
+    private static final String FAIL_TO_DELETE_BOARD_STATE = "[ERROR] 보드 상태 삭제에 실패했습니다.";
+
     @Override
     public List<PositionState> findAllPositionStatesByGameInfoId(int gameInfoId, Connection connection) {
         String sql = "SELECT * FROM `position_state` WHERE `game_info_id` = ?";
@@ -31,8 +38,8 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
                 positionStates.add(positionState);
             }
             return positionStates;
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 상태를 불러오는 데 실패했습니다.");
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_BOARD_STATE, exception);
         }
     }
 
@@ -53,8 +60,8 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
                 return new PositionState(position.x(), position.y(), pieceType, pieceCountry);
             }
             return null;
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 포지션을 확인하는 데 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_POSITION_STATE, exception);
         }
     }
 
@@ -71,8 +78,8 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
             preparedStatement.setInt(5, gameInfoId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 상태 생성에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_CREATE_POSITION_STATE, exception);
         }
     }
 
@@ -89,8 +96,8 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
             preparedStatement.setInt(5, gameInfoId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 상태 업데이트에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_UPDATE_POSITION_STATE, exception);
         }
     }
 
@@ -105,8 +112,8 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
             preparedStatement.setInt(3, gameInfoId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 상태 삭제에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_DELETE_POSITION_STATE, exception);
         }
     }
 
@@ -120,7 +127,7 @@ public class JdbcPositionStateRepository implements PositionStateRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 상태 삭제에 실패했습니다.", e);
+            throw new IllegalStateException(FAIL_TO_DELETE_BOARD_STATE, e);
         }
     }
 }

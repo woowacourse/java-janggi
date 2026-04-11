@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcGameInfoRepository implements GameInfoRepository {
+    private static final String FAIL_TO_LOAD_ALL_BOARD = "[ERROR] 모든 보드를 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_LOAD_BOARD = "[ERROR] 보드를 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_CREATE_BOARD = "[ERROR] 보드 생성에 실패했습니다.";
+    private static final String FAIL_TO_UPDATE_BOARD = "[ERROR] 보드 업데이트에 실패했습니다.";
+    private static final String FAIL_TO_DELETE_BOARD = "[ERROR] 보드 삭제에 실패했습니다.";
+
     @Override
     public List<GameInfo> findAllGameInfos(Connection connection) {
         String sql = "SELECT * FROM `game_info`";
@@ -27,8 +33,8 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
                 gameInfos.add(gameInfo);
             }
             return gameInfos;
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 모든 보드를 불러오는 데 실패했습니다.");
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_ALL_BOARD);
         }
     }
 
@@ -40,16 +46,13 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
         ) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new IllegalArgumentException("[ERROR] 해당 번호의 board가 없습니다.");
-            }
+            resultSet.next();
 
             String turn = resultSet.getString("turn");
 
             return new GameInfo(id, turn);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드를 불러오는 데 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_BOARD, exception);
         }
     }
 
@@ -63,12 +66,10 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (!resultSet.next()) {
-                throw new IllegalStateException("[ERROR] 생성된 보드 ID를 가져오는 데 실패했습니다.");
-            }
+            resultSet.next();
             return resultSet.getInt(1);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 생성에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_CREATE_BOARD, exception);
         }
     }
 
@@ -82,8 +83,8 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 업데이트에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_UPDATE_BOARD, exception);
         }
     }
 
@@ -96,8 +97,8 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 삭제에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_DELETE_BOARD, exception);
         }
     }
 

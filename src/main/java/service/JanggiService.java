@@ -28,6 +28,9 @@ import repository.TurnHistoryRepository;
 import view.InputParser;
 
 public class JanggiService {
+    private static final String NOT_EXIST_BOARD = "[ERROR] 현재 저장된 보드가 없습니다.";
+    private static final String NOT_FOUND_BOARD = "[ERROR] 해당 번호의 board가 존재하지 않습니다.";
+
     private final GameInfoRepository gameInfoRepository;
     private final PositionStateRepository positionStateRepository;
     private final PositionHistoryRepository positionHistoryRepository;
@@ -50,7 +53,7 @@ public class JanggiService {
     public List<Integer> readAllGameInfoIds() {
         List<GameInfo> gameInfos = transactionManager.transaction(gameInfoRepository::findAllGameInfos);
         if (gameInfos.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 현재 저장된 보드가 없습니다.");
+            throw new IllegalArgumentException(NOT_EXIST_BOARD);
         }
         return gameInfos.stream()
                 .map(GameInfo::id)
@@ -76,7 +79,7 @@ public class JanggiService {
     public int findBoardId(String input) {
         int boardId = InputParser.parseBoardId(input);
         if (!readAllGameInfoIds().contains(boardId)) {
-            throw new IllegalArgumentException("[ERROR] 해당 번호의 board가 존재하지 않습니다.");
+            throw new IllegalArgumentException(NOT_FOUND_BOARD);
         }
         return boardId;
     }

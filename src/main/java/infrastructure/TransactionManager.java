@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class TransactionManager {
+    private static final String FAIL_TO_TRANSACTION = "[ERROR] 트랜잭션에 실패했습니다.";
     private final JdbcConnectionManager jdbcConnectionManager;
 
     public TransactionManager(JdbcConnectionManager jdbcConnectionManager) {
@@ -23,10 +24,10 @@ public class TransactionManager {
                 return result;
             } catch (Exception exception) {
                 connection.rollback();
-                throw new IllegalStateException("[ERROR] 트랜잭션에 실패했습니다.", exception);
+                throw new IllegalStateException(FAIL_TO_TRANSACTION, exception);
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 트랜잭션에 실패했습니다.", exception);
+            throw new IllegalStateException(FAIL_TO_TRANSACTION, exception);
         }
     }
 
@@ -40,10 +41,10 @@ public class TransactionManager {
                 connection.commit();
             } catch (Exception exception) {
                 connection.rollback();
-                throw new IllegalStateException("[ERROR] 트랜잭션에 실패했습니다.", exception);
+                throw new IllegalStateException(FAIL_TO_TRANSACTION, exception);
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 트랜잭션에 실패했습니다.", exception);
+            throw new IllegalStateException(FAIL_TO_TRANSACTION, exception);
         }
     }
 }

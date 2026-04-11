@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcPositionHistoryRepository implements PositionHistoryRepository {
+    private static final String FAIL_TO_LOAD_BOARD_SNAPSHOT = "[ERROR] 보드 스냅샷을 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_CREATE_BOARD_SNAPSHOT = "[ERROR] 보드 스냅샷 생성에 실패했습니다.";
+    private static final String FAIL_TO_DELETE_BOARD_SNAPSHOT = "[ERROR] 보드 스냅샷 삭제에 실패했습니다.";
+
     @Override
     public List<PositionState> findPositionHistoriesByTurnHistoryId(int turnHistoryId, Connection connection) {
         List<PositionState> positionHistories = new ArrayList<>();
@@ -23,8 +27,8 @@ public class JdbcPositionHistoryRepository implements PositionHistoryRepository 
             ResultSet resultSet = preparedStatement.executeQuery();
             addSnapshots(resultSet, positionHistories);
             return positionHistories;
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 스냅샷을 불러오는 데 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_BOARD_SNAPSHOT, exception);
         }
     }
 
@@ -54,8 +58,8 @@ public class JdbcPositionHistoryRepository implements PositionHistoryRepository 
                 preparedStatement.setInt(5, turnHistoryId);
                 preparedStatement.executeUpdate();
             }
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 보드 스냅샷 생성에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_CREATE_BOARD_SNAPSHOT, exception);
         }
     }
 
@@ -68,8 +72,8 @@ public class JdbcPositionHistoryRepository implements PositionHistoryRepository 
             preparedStatement.setInt(1, turnHistoryId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 특정 보드의 모든 보드 스냅샷 삭제에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_DELETE_BOARD_SNAPSHOT, exception);
         }
     }
 }

@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseInitializer {
+    private static final String FAIL_TO_CREATE_TABLE = "[ERROR] 테이블을 생성하는 데 실패했습니다.";
+
     private static final String CREATE_GAME_INFO_SQL =
             """
                     CREATE TABLE IF NOT EXISTS game_info (
@@ -68,7 +70,7 @@ public class DatabaseInitializer {
             statement.executeUpdate(CREATE_TURN_HISTORY_SQL);
             statement.executeUpdate(CREATE_POSITION_HISTORY_SQL);
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 테이블을 생성하는 데 실패했습니다.");
+            throw new IllegalStateException(FAIL_TO_CREATE_TABLE, exception);
         }
     }
 }

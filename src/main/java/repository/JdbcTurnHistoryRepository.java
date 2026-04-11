@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTurnHistoryRepository implements TurnHistoryRepository {
+    private static final String FAIL_TO_LOAD_TURN_HISTORY = "[ERROR] 턴 상태를 불러오는 데 실패했습니다.";
+    private static final String FAIL_TO_CREATE_TURN_HISTORY = "[ERROR] 턴 상태 생성에 실패했습니다.";
+    private static final String FAIL_TO_DELETE_TURN_HISTORY = "[ERROR] 턴 상태 삭제에 실패했습니다.";
+
     @Override
     public List<TurnHistory> findTurnHistoriesByGameInfoId(int gameInfoId, Connection connection) {
         List<TurnHistory> turnHistories = new ArrayList<>();
@@ -27,8 +31,8 @@ public class JdbcTurnHistoryRepository implements TurnHistoryRepository {
                 turnHistories.add(turnHistory);
             }
             return turnHistories;
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 턴 히스토리를 불러오는 데 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_LOAD_TURN_HISTORY, exception);
         }
     }
 
@@ -43,12 +47,10 @@ public class JdbcTurnHistoryRepository implements TurnHistoryRepository {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (!resultSet.next()) {
-                throw new IllegalStateException("[ERROR] 생성된 턴 히스토리 ID를 가져오는 데 실패했습니다.");
-            }
+            resultSet.next();
             return resultSet.getInt(1);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 턴 히스토리 생성에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_CREATE_TURN_HISTORY, exception);
         }
     }
 
@@ -61,8 +63,8 @@ public class JdbcTurnHistoryRepository implements TurnHistoryRepository {
             preparedStatement.setInt(1, gameInfoId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 턴 히스토리 삭제에 실패했습니다.", e);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAIL_TO_DELETE_TURN_HISTORY, exception);
         }
     }
 }
