@@ -61,14 +61,6 @@ public abstract class Piece {
         }
     }
 
-    public boolean isCannon() {
-        return false;
-    }
-
-    public int getGeneralCount() {
-        return 0;
-    }
-
     public Team getTeam() {
         return team;
     }

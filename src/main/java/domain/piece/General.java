@@ -7,8 +7,4 @@ public class General extends PalacePiece {
         super(team, PieceDefinition.GENERAL);
     }
 
-    @Override
-    public int getGeneralCount() {
-        return 1;
-    }
 }

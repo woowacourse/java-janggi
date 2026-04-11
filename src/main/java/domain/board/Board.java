@@ -5,6 +5,7 @@ import domain.game.Scores;
 import domain.game.Team;
 import domain.piece.CannonRule;
 import domain.piece.Piece;
+import domain.piece.PieceDefinition;
 import domain.position.Position;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -39,8 +40,8 @@ public class Board {
     }
 
     private void validateRoute(Position dest, Piece piece, List<Position> route) {
-        if (piece.isCannon()) {
-            validateCannonRoute(route, dest, (CannonRule) piece);
+        if (piece instanceof CannonRule cannonRule) {
+            validateCannonRoute(route, dest, cannonRule);
             return;
         }
         validateIntermediateRoute(route);
@@ -94,7 +95,9 @@ public class Board {
     public boolean isGeneralAlive() {
         int generalCount = 0;
         for (Piece piece : pieces.values()) {
-            generalCount += piece.getGeneralCount();
+            if (piece.getType() == PieceDefinition.GENERAL) {
+                generalCount++;
+            }
         }
         return generalCount == 2;
     }
@@ -112,7 +115,7 @@ public class Board {
 
     public boolean decideWinner() {
         for (Piece piece : pieces.values()) {
-            if (piece.getGeneralCount() == 1) {
+            if (piece.getType() == PieceDefinition.GENERAL) {
                 return piece.isChoTeam();
             }
         }

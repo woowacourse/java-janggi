@@ -27,20 +27,15 @@ public class Cannon extends Piece implements CannonRule {
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
-    }
-
-    @Override
     public void validateJumpOver(Piece other) {
-        if (other.isCannon()) {
+        if (other instanceof CannonRule) {
             throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
         }
     }
 
     @Override
     public void validateCaptureDest(Piece dest) {
-        if (dest.isCannon()) {
+        if (dest instanceof CannonRule) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
