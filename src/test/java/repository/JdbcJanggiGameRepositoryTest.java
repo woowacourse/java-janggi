@@ -39,7 +39,10 @@ class JdbcJanggiGameRepositoryTest {
         dropTable(dataSource);
         DatabaseInitializer.initialize(dataSource);
 
-        janggiGameRepository = new JdbcJanggiGameRepository(dataSource);
+        JdbcGameDao jdbcGameDao = new JdbcGameDao();
+        JdbcPieceDao jdbcPieceDao = new JdbcPieceDao();
+
+        janggiGameRepository = new JdbcJanggiGameRepository(dataSource, jdbcGameDao, jdbcPieceDao);
     }
 
     void dropTable(DataSource dataSource) {
