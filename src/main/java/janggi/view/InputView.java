@@ -12,16 +12,39 @@ public class InputView {
     private static final String YES_COMMAND = "y";
     private final Scanner scanner = new Scanner(System.in);
 
-    public Long readRoomNumber(List<GameRoom> gameRooms) {
+    public int readOption() {
+        System.out.println("1. 게임 입장");
+        System.out.println("2. 게임 삭제");
+        System.out.println("3. 게임 종료");
+        System.out.println("옵션을 선택해주세요.");
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
+    public Long readEnterRoomNumber(List<GameRoom> gameRooms) {
         if (gameRooms.isEmpty()) {
+            System.out.println("존재하는 방이 없습니다. 새로 시작합니다.");
             return 0L;
         }
+        printGameRooms(gameRooms);
+        System.out.println("어느 방에 입장하시겠습니까? 새 게임 참여는 0을 입력해주세요.");
+        return Long.parseLong(scanner.nextLine().trim());
+    }
+
+    public Long readDeleteRoomNumber(List<GameRoom> gameRooms) {
+        if (gameRooms.isEmpty()) {
+            System.out.println("존재하는 방이 없습니다.");
+            return 0L;
+        }
+        printGameRooms(gameRooms);
+        System.out.println("어느 방을 삭제하시겠습니까? 종료된 게임만 삭제할 수 있습니다. 뒤로 가기는 0을 입력해주세요.");
+        return Long.parseLong(scanner.nextLine().trim());
+    }
+
+    private void printGameRooms(List<GameRoom> gameRooms) {
         for (GameRoom gameRoom : gameRooms) {
             System.out.printf("%d번방 | [%s차례] 진행여부: %s%n",
                     gameRoom.getId(), gameRoom.getTurn(), isOnGoing(gameRoom.isOnGoing()));
         }
-        System.out.println("어느 방에 입장하시겠습니까? 새 게임 참여는 0을 입력해주세요.");
-        return Long.parseLong(scanner.nextLine().trim());
     }
 
     private String isOnGoing(boolean isOnGoing) {

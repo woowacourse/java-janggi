@@ -29,8 +29,16 @@ public class OutputView {
         System.out.println(roomNumber + "번방에 입장하셨습니다.");
     }
 
-    public void printEndGame() {
-        System.out.println("종료된 게임입니다.");
+    public void printEndGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방은 종료되었습니다.");
+    }
+
+    public void printDeleteGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방을 삭제하였습니다.");
+    }
+
+    public void printCantDeleteGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방은 진행 중이여서 삭제할 수 없습니다.");
     }
 
     public void printGameResult(GameResult gameResult) {

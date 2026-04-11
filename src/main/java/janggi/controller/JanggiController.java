@@ -26,16 +26,45 @@ public class JanggiController {
 
     public void run() {
         try {
-            Long gameId = lobby();
+            Long gameId = gameStart();
             playJanggiGame(gameId);
         } catch (RuntimeException e) {
             outputView.printError(e.getMessage());
         }
     }
 
+    private Long gameStart() {
+        while (true) {
+            int option = inputView.readOption();
+            if (option == 1) {
+                return lobby();
+            }
+            if (option == 2) {
+                deleteGame();
+                continue;
+            }
+            if (option == 3) {
+                throw new IllegalArgumentException("--게임 종료--");
+            }
+        }
+    }
+
+    private void deleteGame() {
+        List<GameRoom> gameRooms = janggiService.findAllGames();
+        Long gameId = inputView.readDeleteRoomNumber(gameRooms);
+        if (gameId == 0L) {
+            return;
+        }
+        if (janggiService.deleteGame(gameId)) {
+            outputView.printDeleteGame(gameId);
+            return;
+        }
+        outputView.printCantDeleteGame(gameId);
+    }
+
     private Long lobby() {
         List<GameRoom> gameRooms = janggiService.findAllGames();
-        Long gameId = inputView.readRoomNumber(gameRooms);
+        Long gameId = inputView.readEnterRoomNumber(gameRooms);
         if (gameId == 0L) {
             return initializeJanggi();
         }
@@ -58,7 +87,7 @@ public class JanggiController {
             outputView.printGameResult(gameResult.orElseThrow());
             return;
         }
-        outputView.printEndGame();
+        outputView.printEndGame(gameId);
     }
 
     private Optional<GameResult> playTurn(Long gameId) {
