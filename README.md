@@ -52,4 +52,28 @@
 - [x] 게임 종료 시 해당 게임 레코드를 game 테이블에서 삭제한다
     - [x] Cascade로 piece 테이블의 정보도 자동으로 삭제된다
 
+### 실행 환경
+
+- Docker가 설치되어 있어야 합니다
+
+### MYSQL 컨테이너 실행
+
+```
+docker run -d \
+  --name jangi-db \
+  -e MYSQL_ROOT_PASSWORD=jangi-root-pass \
+  -e MYSQL_DATABASE=jangi-db \
+  -e MYSQL_USER=jangi \
+  -e MYSQL_PASSWORD=jangi \
+  -p 3306:3306 \
+  mysql:8.0
+```
+
+2. 테스트 환경
+
+### 테스트
+
+- 테스트는 Testcontainers를 사용하여 Docker 위에서 MySQL 컨테이너를 자동으로 띄워 실행됩니다.
+- 별도로 MySQL을 설치하거나 DB를 세팅할 필요 없이 Docker만 설치되어 있으면 됩니다.
+
 ---
