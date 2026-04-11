@@ -1,7 +1,7 @@
 package model.piece;
 
-import model.Team;
 import model.coordinate.Position;
+import model.game.Team;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -47,6 +47,50 @@ public class SoldierTest {
     void 초나라_졸은_후퇴와_두칸_이동을_할_수_없다(Position current, Position next) {
         // given
         Piece soldier = new Soldier(Team.CHO);
+        // when
+        boolean canMove = soldier.canMove(current, next);
+        // then
+        assertThat(canMove).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceTestFixture#초나라_졸_궁성_대각선_전진_가능")
+    void 초나라_졸은_궁성에서_전진_대각선으로_이동할_수_있다(Position current, Position next) {
+        // given
+        Piece soldier = new Soldier(Team.CHO);
+        // when
+        boolean canMove = soldier.canMove(current, next);
+        // then
+        assertThat(canMove).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceTestFixture#초나라_졸_궁성_대각선_후진_불가")
+    void 초나라_졸은_궁성에서_후퇴_대각선으로_이동할_수_없다(Position current, Position next) {
+        // given
+        Piece soldier = new Soldier(Team.CHO);
+        // when
+        boolean canMove = soldier.canMove(current, next);
+        // then
+        assertThat(canMove).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceTestFixture#한나라_병_궁성_대각선_전진_가능")
+    void 한나라_병은_궁성에서_전진_대각선으로_이동할_수_있다(Position current, Position next) {
+        // given
+        Piece soldier = new Soldier(Team.HAN);
+        // when
+        boolean canMove = soldier.canMove(current, next);
+        // then
+        assertThat(canMove).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceTestFixture#한나라_병_궁성_대각선_후진_불가")
+    void 한나라_병은_궁성에서_후퇴_대각선으로_이동할_수_없다(Position current, Position next) {
+        // given
+        Piece soldier = new Soldier(Team.HAN);
         // when
         boolean canMove = soldier.canMove(current, next);
         // then

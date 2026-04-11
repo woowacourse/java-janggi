@@ -1,6 +1,6 @@
 package view.mapper;
 
-import model.Team;
+import model.game.Team;
 import model.piece.PieceType;
 
 import java.util.EnumMap;

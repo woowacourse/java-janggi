@@ -1,9 +1,9 @@
 package model.piece;
 
-import model.Board;
-import model.Janggi;
-import model.Team;
+import model.board.Board;
 import model.coordinate.Position;
+import model.game.Janggi;
+import model.game.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -127,5 +127,34 @@ public class CannonTest {
 
         // then
         assertThat(board.pickPiece(new Position(1, 0)).isCannon()).isTrue();
+    }
+
+    @Test
+    void 포가_궁성_대각선으로_기물을_넘어_이동한다() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(0, 3), new Cannon(Team.CHO));
+        pieces.put(new Position(1, 4), new Soldier(Team.HAN));  // 중심에 넘을 기물
+        Board board = new Board(pieces);
+        Janggi janggi = new Janggi(board);
+
+        // when
+        janggi.move(new Position(0, 3), new Position(2, 5));
+
+        // then
+        assertThat(board.pickPiece(new Position(2, 5)).isCannon()).isTrue();
+    }
+
+    @Test
+    void 포가_궁성_대각선에서_넘을_기물이_없으면_예외가_발생한다() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(0, 3), new Cannon(Team.CHO));
+        Board board = new Board(pieces);
+        Janggi janggi = new Janggi(board);
+
+        // when & then
+        assertThatThrownBy(() -> janggi.move(new Position(0, 3), new Position(2, 5)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

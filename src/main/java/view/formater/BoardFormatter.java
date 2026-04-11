@@ -1,6 +1,6 @@
 package view.formater;
 
-import model.Team;
+import model.game.Team;
 import model.piece.Piece;
 
 import static view.mapper.ViewMapper.getSymbol;

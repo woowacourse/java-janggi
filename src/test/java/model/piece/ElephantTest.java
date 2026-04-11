@@ -1,18 +1,19 @@
 package model.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import model.board.Board;
+import model.coordinate.Position;
+import model.game.Janggi;
+import model.game.Team;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Board;
-import model.Janggi;
-import model.Team;
-import model.coordinate.Position;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ElephantTest {
 
@@ -54,7 +55,7 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isTrue();
+        assertThat(board.createRoute(path).hasPiece()).isTrue();
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isTrue();
+        assertThat(board.createRoute(path).hasPiece()).isTrue();
     }
 
     @Test
@@ -119,6 +120,6 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isFalse();
+        assertThat(board.createRoute(path).hasPiece()).isFalse();
     }
 }

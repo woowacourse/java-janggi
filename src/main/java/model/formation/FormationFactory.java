@@ -1,7 +1,7 @@
 package model.formation;
 
-import model.Team;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.Piece;
 
 import java.util.HashMap;

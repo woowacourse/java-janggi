@@ -1,7 +1,7 @@
 package model.coordinate;
 
-import static model.Board.BOARD_COL;
-import static model.Board.BOARD_ROW;
+import static model.board.Board.BOARD_COL;
+import static model.board.Board.BOARD_ROW;
 
 public record Position(int row, int col) {
 
