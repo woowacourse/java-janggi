@@ -6,7 +6,6 @@ import controller.dto.MovedPieceRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import strategy.InitializeStrategy;
 
 public class Game {
     private final String name;
@@ -75,8 +74,8 @@ public class Game {
         return !board.isExistPiece(PieceType.KING, this.currentTurn);
     }
 
-    public String getHorseElephantFormation(Team team){
-        return this.initializeFormations.get(team).getPattern();
+    public String getHorseElephantFormationName(Team team){
+        return this.initializeFormations.get(team).name();
     }
 
     public String getName() {

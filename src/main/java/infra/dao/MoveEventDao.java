@@ -25,23 +25,23 @@ public class MoveEventDao {
     public MoveEventDao(JdbcConfig jdbcConfig) {
         this.jdbcConfig = jdbcConfig;
     }
-
-    public void save(MoveEventEntity entity) {
-        try (Connection conn = jdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(INSERT_SQL)) {
-            pstmt.setLong(1, entity.getGameId());
-            pstmt.setLong(2, entity.getVersion());
-            pstmt.setString(3, entity.getPieceType());
-            pstmt.setString(4, entity.getPieceTeam());
-            pstmt.setInt(5, entity.getFromRow());
-            pstmt.setInt(6, entity.getFromColumn());
-            pstmt.setInt(7, entity.getToRow());
-            pstmt.setInt(8, entity.getToColumn());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException(InfraErrorMessage.MOVE_EVENT_SAVE_ERROR.getMessage() + e);
-        }
-    }
+//
+//    public void save(MoveEventEntity entity) {
+//        try (Connection conn = jdbcConfig.getConnection();
+//             PreparedStatement pstmt = conn.prepareStatement(INSERT_SQL)) {
+//            pstmt.setLong(1, entity.getGameId());
+//            pstmt.setLong(2, entity.getVersion());
+//            pstmt.setString(3, entity.getPieceType());
+//            pstmt.setString(4, entity.getPieceTeam());
+//            pstmt.setInt(5, entity.getFromRow());
+//            pstmt.setInt(6, entity.getFromColumn());
+//            pstmt.setInt(7, entity.getToRow());
+//            pstmt.setInt(8, entity.getToColumn());
+//            pstmt.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new DatabaseConnectionException(InfraErrorMessage.MOVE_EVENT_SAVE_ERROR.getMessage() + e);
+//        }
+//    }
 
     public List<MoveEventEntity> findByGameId(Long gameId) {
         List<MoveEventEntity> moveEventEntities = new ArrayList<>();

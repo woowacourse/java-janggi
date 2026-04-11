@@ -7,7 +7,7 @@ import java.util.List;
 
 public class OutputView {
     private static final String GAME_LIST_GUIDE = "[현재 저장된 게임 목록]";
-    private static final String EMPTY_GAME_LIST = "저장된 게임이 없습니다.",
+    private static final String EMPTY_GAME_LIST = "저장된 게임이 없습니다.";
     private static final String CURRENT_TEAM_GUIDE = "이번 턴은 %s나라 차례입니다.";
     private static final String MOVE_STATUS = "%s나라 기물 %s을(를) %d,%d로 이동하였습니다.";
     private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";

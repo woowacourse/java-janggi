@@ -50,9 +50,10 @@ public class JanggiController {
 
                 List<String> gameNames = gameRepository.findAllGameNames();
                 outputView.printGameList(gameNames);
-
-                loadJanggiGame(inputView.readGameName());
-                return;
+                if (!gameNames.isEmpty()) {
+                    loadJanggiGame(inputView.readExistGameName());
+                    return;
+                }
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
             }
@@ -60,8 +61,8 @@ public class JanggiController {
     }
 
     private void initializeJanggiGame() {
+        String gameName = readNewGameName();
         Map<Team, String> horseElephantFormations = readHorseElephantFormation();
-        String gameName = readGameName();
         this.game = new Game(gameName, parseToFormations(horseElephantFormations));
         gameRepository.save(this.game);
         printCurrentBoardStatus();
@@ -148,10 +149,10 @@ public class JanggiController {
     /**
      * 입력 단계 조율 메서드
      */
-    private String readGameName() {
+    private String readNewGameName() {
         while (true) {
             try {
-                return inputView.readGameName();
+                return inputView.readNewGameName();
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
             }

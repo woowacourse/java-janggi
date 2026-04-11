@@ -20,10 +20,10 @@ public class FormationDao {
         this.jdbcConfig = jdbcConfig;
     }
 
-    public Long findIdByNameAndTeam(String pattern, String team) {
+    public Long findIdByNameAndTeam(String name, String team) {
         try (Connection conn = jdbcConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_ID_BY_NAME_AND_TEAM_SQL)) {
-            pstmt.setString(1, pattern);
+            pstmt.setString(1, name);
             pstmt.setString(2, team);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {

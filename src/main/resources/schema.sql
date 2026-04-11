@@ -85,3 +85,14 @@ CREATE TABLE IF NOT EXISTS move_event (
     CONSTRAINT uq_move_sequence
     UNIQUE (game_id, version)
 );
+
+-- 상차림 템플릿 데이터 삽입
+INSERT INTO formation_template (template_name, team) VALUES ('INNER_ELEPHANT', 'CHO');
+INSERT INTO formation_template (template_name, team) VALUES ('OUTER_ELEPHANT', 'CHO');
+INSERT INTO formation_template (template_name, team) VALUES ('RIGHT_ELEPHANT', 'CHO');
+INSERT INTO formation_template (template_name, team) VALUES ('LEFT_ELEPHANT', 'CHO');
+
+INSERT INTO formation_template (template_name, team) VALUES ('INNER_ELEPHANT', 'HAN');
+INSERT INTO formation_template (template_name, team) VALUES ('OUTER_ELEPHANT', 'HAN');
+INSERT INTO formation_template (template_name, team) VALUES ('RIGHT_ELEPHANT', 'HAN');
+INSERT INTO formation_template (template_name, team) VALUES ('LEFT_ELEPHANT', 'HAN');

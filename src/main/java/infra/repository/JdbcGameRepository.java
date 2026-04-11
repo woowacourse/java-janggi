@@ -4,8 +4,6 @@ import controller.dto.MovedPieceRequest;
 import domain.Game;
 import domain.HorseElephantFormation;
 import domain.Team;
-import domain.piece.Horse;
-import exception.custom.GameException;
 import infra.dao.CurrentPiecePositionDao;
 import infra.dao.FormationDao;
 import infra.dao.GameDao;
@@ -58,10 +56,10 @@ public class JdbcGameRepository implements GameRepository {
     private Map<Team, Long> findFormationId(Game game) {
         Map<Team, Long> formationIds = new HashMap<>();
 
-        Long choFormationId = formationDao.findIdByNameAndTeam(game.getHorseElephantFormation(Team.CHO),
-                Team.CHO.getKoreanName());
-        Long hanFormationId = formationDao.findIdByNameAndTeam(game.getHorseElephantFormation(Team.HAN),
-                Team.HAN.getKoreanName());
+        Long choFormationId = formationDao.findIdByNameAndTeam(game.getHorseElephantFormationName(Team.CHO),
+                Team.CHO.name());
+        Long hanFormationId = formationDao.findIdByNameAndTeam(game.getHorseElephantFormationName(Team.HAN),
+                Team.HAN.name());
 
         formationIds.put(Team.CHO, choFormationId);
         formationIds.put(Team.HAN, hanFormationId);
@@ -92,12 +90,12 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     private Game findInitialGameFormation(GameEntity gameEntity) {
-        String choPattern = formationDao.findNameById(gameEntity.getChoFormationId());
-        String hanPattern = formationDao.findNameById(gameEntity.getHanFormationId());
+        String choFormationName = formationDao.findNameById(gameEntity.getChoFormationId());
+        String hanFormationName = formationDao.findNameById(gameEntity.getHanFormationId());
 
         return new Game(gameEntity.getName(),
-                Map.of(Team.CHO, HorseElephantFormation.getFormationFrom(choPattern),
-                        Team.HAN, HorseElephantFormation.getFormationFrom(hanPattern)));
+                Map.of(Team.CHO, HorseElephantFormation.valueOf(choFormationName),
+                        Team.HAN, HorseElephantFormation.valueOf(hanFormationName)));
     }
 
     private void replayGame(Game game, List<MoveEventEntity> events) {

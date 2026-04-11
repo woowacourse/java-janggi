@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class InputView {
     private static final String COMMAND_INPUT_GUIDE = "게임을 새로 시작하려면 1, 기존 게임을 불러오려면 2를 입력하세요: ";
+    private static final String NEW_GAME_NAME_INPUT_GUIDE = "새게임의 이름을 입력하세요: ";
     private static final String GAME_NAME_INPUT_GUIDE = "다시 실행할 게임의 이름을 입력하세요: ";
     private static final String HORSE_ELEPHANT_INPUT_GUIDE = "%s나라의 상마상마 상차림을 입력하세요: ";
     private static final String MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE = "이동시킬 말의 현재 위치를 입력하세요.(예: \"7,1\"): ";
@@ -20,7 +21,12 @@ public class InputView {
         return input;
     }
 
-    public String readGameName() {
+    public String readNewGameName() {
+        printMessage(NEW_GAME_NAME_INPUT_GUIDE);
+        return readInput();
+    }
+
+    public String readExistGameName() {
         printMessage(GAME_NAME_INPUT_GUIDE);
         return readInput();
     }
