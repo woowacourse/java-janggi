@@ -13,8 +13,7 @@ public record BoardEntity(
         Integer gameId,
         List<MoveEntity> moveEntities
 ) {
-
-
+    
     public Board toDomain() {
         Map<Point, Piece> board = new HashMap<>();
         for (MoveEntity moveEntity : moveEntities) {

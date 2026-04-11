@@ -21,14 +21,15 @@ public class H2BoardDao implements BoardDao {
     @Override
     public void save(int gameId, MoveEntity move) {
         String insertSql = """
-                MERGE INTO BOARD (GAME_ID, PIECE_ID, SIDE, X, Y)
+                MERGE INTO BOARD (GAME_ID, PIECE_ID, SIDE, X, Y, UPDATED_AT)
                 KEY (GAME_ID, X, Y)
                 VALUES (
                     ?,
                     (SELECT id FROM PIECE WHERE PIECE_TYPE = ?),
                     ?,
                     ?,
-                    ?
+                    ?,
+                    CURRENT_TIMESTAMP
                 )
                 """;
 

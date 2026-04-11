@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS game
         CHECK (status IN ('IN_PROGRESS', 'FINISHED')),
     winner     VARCHAR(10)
         CHECK (winner IN ('CHO', 'HAN') OR winner IS NULL),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Piece
@@ -19,19 +20,25 @@ CREATE TABLE IF NOT EXISTS piece
     piece_type VARCHAR(20) NOT NULL
         CHECK (piece_type IN ('CHARIOT', 'CANNON', 'HORSE', 'ELEPHANT', 'SOLDIER', 'ADVISOR', 'GENERAL')),
 
-    CONSTRAINT uq_piece_type UNIQUE (piece_type)
+    CONSTRAINT uq_piece_type UNIQUE (piece_type),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Board
 CREATE TABLE IF NOT EXISTS board
 (
-    id       BIGINT AUTO_INCREMENT PRIMARY KEY,
-    game_id  BIGINT      NOT NULL,
-    piece_id BIGINT      NOT NULL,
-    side     VARCHAR(10) NOT NULL
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id    BIGINT      NOT NULL,
+    piece_id   BIGINT      NOT NULL,
+    side       VARCHAR(10) NOT NULL
         CHECK (side IN ('CHO', 'HAN')),
-    x        INT         NOT NULL,
-    y        INT         NOT NULL,
+    x          INT         NOT NULL,
+    y          INT         NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_board_game
         FOREIGN KEY (game_id)
