@@ -28,48 +28,48 @@ public class JanggiController {
 
     public void run() {
         try {
-            GameState state = initializeGame();
-            outputView.printBoard(state.board());
-            playGame(state);
-            finishGame(state);
+            GameInfo gameInfo = initializeGame();
+            outputView.printBoard(gameInfo.board());
+            playGame(gameInfo);
+            finishGame(gameInfo);
         } catch (RuntimeException e) {
             outputView.printErrorMessage(e.getMessage());
         }
     }
 
-    private void playGame(GameState state) {
-        Turn turn = state.turn();
-        while (state.board().isGeneralAlive()) {
-            turn = playTurn(state.board(), turn, state.gameId());
+    private void playGame(GameInfo gameInfo) {
+        Turn turn = gameInfo.turn();
+        while (gameInfo.board().isGeneralAlive()) {
+            turn = playTurn(gameInfo.board(), turn, gameInfo.gameId());
         }
     }
 
-    private void finishGame(GameState state) {
-        Board board = state.board();
+    private void finishGame(GameInfo gameInfo) {
+        Board board = gameInfo.board();
         Map<Team, Score> scores = board.calculateScore();
         outputView.printWinner(board.decideWinner());
         outputView.printScore(Team.CHO, scores.get(Team.CHO));
         outputView.printScore(Team.HAN, scores.get(Team.HAN));
-        gameService.deleteGame(state.gameId());
+        gameService.deleteGame(gameInfo.gameId());
     }
 
-    private GameState initializeGame() {
+    private GameInfo initializeGame() {
         return gameService.findLatestGame()
                 .map(this::resumeGame)
                 .orElseGet(this::startNewGame);
     }
 
-    private GameState resumeGame(GameDto entity) {
+    private GameInfo resumeGame(GameDto entity) {
         Board board = new Board(gameService.loadPieces(entity.id()));
         Turn turn = Turn.of(entity.currentTurn());
-        return new GameState(board, turn, entity.id());
+        return new GameInfo(board, turn, entity.id());
     }
 
-    private GameState startNewGame() {
+    private GameInfo startNewGame() {
         Board board = createBoard();
         Turn turn = Turn.first();
         int gameId = gameService.startNewGame(turn.current(), board.getState());
-        return new GameState(board, turn, gameId);
+        return new GameInfo(board, turn, gameId);
     }
 
     private Board createBoard() {
