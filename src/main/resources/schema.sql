@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS piece (
     piece_type VARCHAR(20) NOT NULL,
     side VARCHAR(10)       NOT NULL,
     row INT            NOT NULL,
-    col INT            NOT NULL,
+    column INT            NOT NULL,
 
-    PRIMARY KEY (board_id, pos_row, pos_col),
+    PRIMARY KEY (board_id, row, column),
     FOREIGN KEY (board_id) REFERENCES game(id)
     ON DELETE CASCADE
 );

@@ -23,6 +23,8 @@ public class JdbcGameDao implements GameDao {
             ps.setString(3, gameDto.currentTurn().name());
             ps.setBoolean(4, gameDto.status());
 
+            ps.executeUpdate();
+
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     return rs.getLong(1);
@@ -48,6 +50,8 @@ public class JdbcGameDao implements GameDao {
             ps.setString(3, gameDto.currentTurn().name());
             ps.setBoolean(4, gameDto.status());
             ps.setLong(5, gameDto.id());
+
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("[ERROR] game 업데이트 중 오류가 발생했습니다.", e);
@@ -85,7 +89,7 @@ public class JdbcGameDao implements GameDao {
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("game 삭제 중 오류가 발생했습니다. id=" + id, e);
+            throw new IllegalArgumentException("game 삭제 중 오류가 발생했습니다. id=" + id, e);
         }
     }
 
