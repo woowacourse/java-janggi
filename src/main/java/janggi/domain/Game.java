@@ -39,7 +39,7 @@ public final class Game {
 
         Camp.getAllCamp().forEach(camp -> {
             double totalPieceScore = board.calculatePieceScore(camp);
-            double finalScore = camp.addBonusTo(totalPieceScore);
+            double finalScore = camp.applyBonusScore(totalPieceScore);
             resultScore.put(camp, finalScore);
         });
 

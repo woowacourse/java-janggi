@@ -21,12 +21,12 @@ public enum Camp {
 
     private final int forwardDirection;
     private final int startRowPosition;
-    private final double bonusScoreForSecondPlayer;
+    private final double bonusScore;
 
-    Camp(int forwardDirection, int startRowPosition, double bonusScoreForSecondPlayer) {
+    Camp(int forwardDirection, int startRowPosition, double bonusScore) {
         this.forwardDirection = forwardDirection;
         this.startRowPosition = startRowPosition;
-        this.bonusScoreForSecondPlayer = bonusScoreForSecondPlayer;
+        this.bonusScore = bonusScore;
     }
 
     public abstract Camp next();
@@ -41,8 +41,8 @@ public enum Camp {
         return startRowPosition;
     }
 
-    public double addBonusTo(double score) {
-        return score + bonusScoreForSecondPlayer;
+    public double applyBonusScore(double score) {
+        return score + bonusScore;
     }
 
     public static List<Camp> getAllCamp() {
