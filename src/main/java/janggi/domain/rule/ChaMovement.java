@@ -2,6 +2,7 @@ package janggi.domain.rule;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
 import janggi.domain.piece.Piece;
 import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
@@ -10,26 +11,30 @@ import janggi.domain.rule.route.StraightRouteProvider;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("java:S6548")
 public class ChaMovement implements Movement {
 
-    private static final ChaMovement INSTANCE = new ChaMovement();
-
     private final RouteProvider routeProvider;
+    private final GungSeong gungSeong;
     private final CollisionDetector collisionDetector;
 
-    private ChaMovement() {
+    private ChaMovement(GungSeong gungSeong) {
         this.routeProvider = StraightRouteProvider.getInstance();
+        this.gungSeong = gungSeong;
         this.collisionDetector = DefaultCollisionDetector.getInstance();
     }
 
-    public static ChaMovement getInstance() {
-        return INSTANCE;
+    public static ChaMovement create(GungSeong gungSeong) {
+        return new ChaMovement(gungSeong);
     }
 
     @Override
     public Optional<List<Location>> calculateRoute(Location from, Location to) {
-        return routeProvider.calculateRoute(from, to);
+        Optional<List<Location>> route = routeProvider.calculateRoute(from, to);
+        if (route.isPresent()) {
+            return route;
+        }
+
+        return gungSeong.findValidDiagonalPath(from, to);
     }
 
     @Override

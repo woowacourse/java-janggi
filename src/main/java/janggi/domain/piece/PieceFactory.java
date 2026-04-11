@@ -27,12 +27,12 @@ public class PieceFactory {
 
     private PieceFactory(GungSeong gungSeong) {
         this.matchInfo = new EnumMap<>(PieceType.class);
-        matchInfo.put(CHA, ChaMovement.getInstance());
+        matchInfo.put(CHA, ChaMovement.create(gungSeong));
         matchInfo.put(MA, MaMovement.getInstance());
         matchInfo.put(SANG, SangMovement.getInstance());
         matchInfo.put(SA, GungSaMovement.create(gungSeong));
         matchInfo.put(GUNG, GungSaMovement.create(gungSeong));
-        matchInfo.put(PO, PoMovement.getInstance());
+        matchInfo.put(PO, PoMovement.create(gungSeong));
         matchInfo.put(JOL, JolbyeongMovement.getInstanceBySide(Side.CHO));
         matchInfo.put(BYEONG, JolbyeongMovement.getInstanceBySide(Side.HAN));
     }
