@@ -1,5 +1,5 @@
 import controller.JanggiController;
-import dao.BoardDao;
+import dao.mongodb.BoardDao;
 import view.InputView;
 import view.OutputView;
 

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class GeneralMoveStrategyTest {
 
@@ -85,5 +87,25 @@ class GeneralMoveStrategyTest {
 
         // when // then
         assertFalse(piece.canMovePiece(from, to, pieceOfPath));
+    }
+
+    @ParameterizedTest
+    @DisplayName("궁의 0,4 또는 9,4 위치에서 대각선 이동 시 이동하지 않는다.")
+    @CsvSource({
+            "0, 4, 1, 3",
+            "0, 4, 1, 5",
+            "9, 4, 8, 3",
+            "9, 4, 8, 5"
+    })
+    void 궁_대각선_이동이_불가능한_위치면_이동_불가2(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = Position.of(fromRow, fromCol);
+        Position to = Position.of(toRow, toCol);
+        HashMap<Position, Piece> pieceOfPath = new HashMap<>();
+
+        pieceOfPath.put(to, null);
+
+        // when // then
+        assertFalse(mover.canMovePiece(from, to, pieceOfPath));
     }
 }

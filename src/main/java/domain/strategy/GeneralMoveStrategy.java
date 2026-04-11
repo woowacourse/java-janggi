@@ -43,7 +43,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
             return true;
         }
 
-        if (hanSoldierCanDiagonalMoveInPalace(from, to) || chuSoldierCanDiagonalMoveInPalace(from, to)) {
+        if (hanGeneralCanDiagonalMoveInPalace(from, to) || chuGeneralCanDiagonalMoveInPalace(from, to)) {
             return true;
         }
 
@@ -56,9 +56,9 @@ public class GeneralMoveStrategy implements MoveStrategy {
                 && (3 <= position.getCol() && position.getCol() <= 5));
     }
 
-    private boolean chuSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+    private boolean chuGeneralCanDiagonalMoveInPalace(Position from, Position to) {
         if ((from.getRow() == 7 && from.getCol() == 4) || (from.getRow() == 8 && from.getCol() == 3)
-                || (from.getRow() == 8 && from.getCol() == 5)) {
+                || (from.getRow() == 8 && from.getCol() == 5 || (from.getRow() == 0 && from.getCol() == 4))) {
             if (isDiagonal(from, to)) {
                 return true;
             }
@@ -66,9 +66,9 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return false;
     }
 
-    private boolean hanSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+    private boolean hanGeneralCanDiagonalMoveInPalace(Position from, Position to) {
         if ((from.getRow() == 2 && from.getCol() == 4) || (from.getRow() == 1 && from.getCol() == 3)
-                || (from.getRow() == 1 && from.getCol() == 5)) {
+                || (from.getRow() == 1 && from.getCol() == 5) || (from.getRow() == 9 && from.getCol() == 4)) {
             if (isDiagonal(from, to)) {
                 return true;
             }

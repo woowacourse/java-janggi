@@ -2,6 +2,7 @@ package dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dao.mongodb.BoardDao;
 import domain.Board;
 import domain.BoardFactory;
 import domain.Piece;

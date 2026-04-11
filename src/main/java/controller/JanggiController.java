@@ -1,6 +1,6 @@
 package controller;
 
-import dao.BoardDao;
+import dao.mongodb.BoardDao;
 import domain.Board;
 import domain.BoardFactory;
 import domain.Formation;

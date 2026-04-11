@@ -1,4 +1,4 @@
-package dao;
+package dao.mongodb;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
