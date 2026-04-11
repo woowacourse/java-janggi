@@ -9,12 +9,15 @@ import java.util.Map;
 
 public class BoardFixtureInitializer {
 
+    private static final int COL_SIZE = 10;
+    private static final int ROW_SIZE = 9;
+
     private final Map<Position, Piece> pieces = new HashMap<>();
 
     public BoardFixtureInitializer() {
-        for (int r = 0; r < 10; r++) {
-            for (int c = 0; c < 9; c++) {
-                pieces.put(Position.of(r, c), EmptyPiece.getInstance());
+        for (int i = 0; i < COL_SIZE; i++) {
+            for (int j = 0; j < ROW_SIZE; j++) {
+                pieces.put(Position.of(i, j), EmptyPiece.getInstance());
             }
         }
     }
