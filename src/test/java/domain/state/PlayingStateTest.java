@@ -37,7 +37,7 @@ class PlayingStateTest {
         game.processCommand(new Command("e6 e5"));
 
         assertThat(game.getBoard().isEmpty(new Position(Column.E, Row.SIX))).isTrue();
-        assertThat(game.getBoard().pieceAt(new Position(Column.E, Row.FIVE))).isPresent();
+        assertThat(game.getBoard().findPieceByPosition(new Position(Column.E, Row.FIVE))).isPresent();
     }
 
     @Test

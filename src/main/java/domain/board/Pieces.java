@@ -17,18 +17,34 @@ public class Pieces {
         return new Pieces(PositionLayout.build(arrangements));
     }
 
-    public Pieces move(Position from, Position to) {
-        Piece piece = pieces.get(from);
-        if (piece == null) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다: " + from);
-        }
-        Map<Position, Piece> newMap = new HashMap<>(pieces);
-        newMap.remove(from);
-        newMap.put(to, piece);
-        return new Pieces(newMap);
+    public Pieces move(Position source, Position target) {
+        Piece sourcePiece = pieceAtOrThrow(source);
+
+        Map<Position, Piece> updatedPieces = new HashMap<>(pieces);
+
+        updatedPieces.remove(source);
+        updatedPieces.put(target, sourcePiece);
+
+        return new Pieces(updatedPieces);
     }
 
-    public Optional<Piece> at(Position position) {
+    public Piece pieceAtOrThrow(Position position) {
+        return pieceAt(position)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다: " + position));
+    }
+
+    public Optional<Piece> pieceAt(Position position) {
         return Optional.ofNullable(pieces.get(position));
     }
+
+    public boolean isEmpty(Position position) {
+        return pieceAt(position).isEmpty();
+    }
+
+    public boolean hasFriendAt(Position position, Piece piece) {
+        return pieceAt(position)
+                .map(piece::isSameTeamAs)
+                .orElse(false);
+    }
+
 }

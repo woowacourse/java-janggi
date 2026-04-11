@@ -19,55 +19,8 @@ class PathTest {
     }
 
     @Test
-    @DisplayName("contains: Path에 포함된 Position은 true를 반환한다")
-    void containsReturnsTrueForPositionInPath() {
-        Position middle = pos(Column.A, Row.TWO);
-        Path path = new Path(List.of(pos(Column.A, Row.ONE), middle, pos(Column.A, Row.THREE)));
-
-        assertThat(path.contains(middle)).isTrue();
-        assertThat(path.contains(pos(Column.A, Row.ONE))).isTrue();
-        assertThat(path.contains(pos(Column.A, Row.THREE))).isTrue();
-    }
-
-    @Test
-    @DisplayName("contains: Path에 없는 Position은 false를 반환한다")
-    void containsReturnsFalseForPositionNotInPath() {
-        Path path = new Path(List.of(pos(Column.A, Row.ONE), pos(Column.A, Row.TWO)));
-
-        assertThat(path.contains(pos(Column.B, Row.ONE))).isFalse();
-        assertThat(path.contains(pos(Column.A, Row.FIVE))).isFalse();
-    }
-
-    @Test
-    @DisplayName("endsAt: 마지막 Position에 true를 반환한다")
-    void endsAtReturnsTrueForLastPosition() {
-        Position last = pos(Column.C, Row.FIVE);
-        Path path = new Path(List.of(pos(Column.A, Row.FIVE), pos(Column.B, Row.FIVE), last));
-
-        assertThat(path.endsAt(last)).isTrue();
-    }
-
-    @Test
-    @DisplayName("endsAt: 마지막이 아닌 Position에 false를 반환한다")
-    void endsAtReturnsFalseForNonLastPosition() {
-        Path path = new Path(List.of(pos(Column.A, Row.FIVE), pos(Column.B, Row.FIVE), pos(Column.C, Row.FIVE)));
-
-        assertThat(path.endsAt(pos(Column.A, Row.FIVE))).isFalse();
-        assertThat(path.endsAt(pos(Column.B, Row.FIVE))).isFalse();
-        assertThat(path.endsAt(pos(Column.D, Row.FIVE))).isFalse();
-    }
-
-    @Test
-    @DisplayName("intermediates: 단일 이동 경로의 중간 좌표는 비어있다")
-    void intermediatesForSinglePositionPathIsEmpty() {
-        Path path = new Path(List.of(pos(Column.A, Row.ZERO)));
-
-        assertThat(path.intermediates()).isEmpty();
-    }
-
-    @Test
-    @DisplayName("intermediates: 여러 이동 경로에서 마지막을 제외한 모든 좌표를 반환한다")
-    void intermediatesReturnsAllButLastPosition() {
+    @DisplayName("positions: 생성 시 전달한 좌표 목록을 그대로 반환한다")
+    void positionsReturnGivenPath() {
         List<Position> positions = List.of(
                 pos(Column.A, Row.ONE),
                 pos(Column.A, Row.TWO),
@@ -75,8 +28,31 @@ class PathTest {
         );
         Path path = new Path(positions);
 
-        assertThat(path.intermediates())
-                .containsExactly(pos(Column.A, Row.ONE), pos(Column.A, Row.TWO));
+        assertThat(path.positions()).containsExactlyElementsOf(positions);
+    }
+
+    @Test
+    @DisplayName("positionsBeforeDestination: 마지막 도착 좌표를 제외한 좌표를 반환한다")
+    void positionsBeforeDestinationExcludeLastPosition() {
+        Path path = new Path(List.of(
+                pos(Column.A, Row.ONE),
+                pos(Column.A, Row.TWO),
+                pos(Column.A, Row.THREE)
+        ));
+
+        assertThat(path.positionsBeforeDestination()).containsExactly(
+                pos(Column.A, Row.ONE),
+                pos(Column.A, Row.TWO)
+        );
+    }
+
+    @Test
+    @DisplayName("positions: 외부에서 수정할 수 없는 목록을 반환한다")
+    void positionsAreUnmodifiable() {
+        Path path = new Path(List.of(pos(Column.A, Row.ONE), pos(Column.A, Row.TWO)));
+
+        assertThatThrownBy(() -> path.positions().add(pos(Column.A, Row.THREE)))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
 }

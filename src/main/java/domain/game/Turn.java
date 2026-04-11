@@ -19,10 +19,15 @@ public class Turn {
     }
 
     public boolean belongsTo(Piece piece) {
+        //TODO: 삭제 또는 부정표현으로 변경
         return piece.isOwnedBy(team);
     }
 
     public Turn changeTeam() {
         return new Turn(team.enemy());
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

@@ -1,13 +1,15 @@
 package domain.movement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.board.BoardState;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
 import domain.piece.Team;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("SoldierMovement 클래스 테스트")
 class SoldierMovementTest {
@@ -17,7 +19,11 @@ class SoldierMovementTest {
     }
 
     private boolean canReach(Paths paths, Position target) {
-        return paths.asList().stream().anyMatch(p -> p.endsAt(target));
+        return paths.asList().stream().anyMatch(path -> path.positions().getLast().equals(target));
+    }
+
+    private BoardState emptyBoard() {
+        return StubBoardState.empty();
     }
 
     @Test
@@ -26,7 +32,7 @@ class SoldierMovementTest {
         SoldierMovement movement = new SoldierMovement(Team.HAN);
         Position pos = pos(Column.E, Row.FOUR);
 
-        Paths paths = movement.candidatePaths(pos);
+        Paths paths = movement.findPotentialPaths(pos);
 
         assertThat(paths.asList()).hasSize(3);
         assertThat(canReach(paths, pos(Column.E, Row.FIVE))).isTrue();
@@ -40,7 +46,7 @@ class SoldierMovementTest {
         SoldierMovement movement = new SoldierMovement(Team.CHO);
         Position pos = pos(Column.E, Row.FIVE);
 
-        Paths paths = movement.candidatePaths(pos);
+        Paths paths = movement.findPotentialPaths(pos);
 
         assertThat(paths.asList()).hasSize(3);
         assertThat(canReach(paths, pos(Column.E, Row.FOUR))).isTrue();
@@ -49,13 +55,17 @@ class SoldierMovementTest {
     }
 
     @Test
-    @DisplayName("졸의 각 이동 경로는 1개의 좌표를 갖는다")
-    void eachPathHasOnePosition() {
+    @DisplayName("졸은 후보 경로와 실제 통과 가능한 도착지가 동일하다")
+    void findValidReachablePositionsMatchCandidateDestinations() {
         SoldierMovement movement = new SoldierMovement(Team.HAN);
-        Paths paths = movement.candidatePaths(pos(Column.E, Row.FOUR));
+        Position source = pos(Column.E, Row.FOUR);
 
-        paths.asList().forEach(path ->
-                assertThat(path.intermediates()).isEmpty()
+        List<Position> destinations = movement.findReachablePositions(source, emptyBoard());
+
+        assertThat(destinations).containsExactlyInAnyOrder(
+                pos(Column.E, Row.FIVE),
+                pos(Column.D, Row.FOUR),
+                pos(Column.F, Row.FOUR)
         );
     }
 }

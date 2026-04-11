@@ -1,12 +1,17 @@
 package domain.movement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.board.BoardState;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("ElephantMovement 클래스 테스트")
 class ElephantMovementTest {
@@ -16,48 +21,32 @@ class ElephantMovementTest {
     }
 
     private boolean canReach(Paths paths, Position target) {
-        return paths.asList().stream().anyMatch(p -> p.endsAt(target));
+        return paths.asList().stream().anyMatch(path -> path.positions().getLast().equals(target));
+    }
+
+    private BoardState boardWithBlocked(Position blockedPosition) {
+        return StubBoardState.of(Map.of(blockedPosition, new Piece(Team.HAN, PieceType.SOLDIER)));
     }
 
     @Test
-    @DisplayName("기물이 보드 중앙에 위치한다 가정, 후보 경로를 정상적으로 생성한다")
-    void fromCenterReachablePositionsAreCorrect() {
+    @DisplayName("상은 열린 경로로 이동할 수 있다")
+    void elephantCanReachOpenDestination() {
         ElephantMovement movement = new ElephantMovement();
         Position center = pos(Column.E, Row.FOUR);
 
-        Paths paths = movement.candidatePaths(center);
-
-        assertThat(canReach(paths, pos(Column.C, Row.ONE))).isTrue();
-        assertThat(canReach(paths, pos(Column.G, Row.ONE))).isTrue();
-        assertThat(canReach(paths, pos(Column.C, Row.SEVEN))).isTrue();
-        assertThat(canReach(paths, pos(Column.G, Row.SEVEN))).isTrue();
-        assertThat(canReach(paths, pos(Column.B, Row.TWO))).isTrue();
-        assertThat(canReach(paths, pos(Column.B, Row.SIX))).isTrue();
-        assertThat(canReach(paths, pos(Column.H, Row.TWO))).isTrue();
-        assertThat(canReach(paths, pos(Column.H, Row.SIX))).isTrue();
+        assertThat(movement.findReachablePositions(center, StubBoardState.empty()))
+                .contains(pos(Column.C, Row.ONE), pos(Column.G, Row.SEVEN));
     }
 
     @Test
-    @DisplayName("보드 범위를 벗어나는 경로를 제외하고, 후보 경로를 정상적으로 생성한다")
-    void fromCornerHasTwoPaths() {
+    @DisplayName("후보 경로가 있어도 중간 칸 둘 중 하나가 막히면 실제로는 도달할 수 없다")
+    void blockedIntermediateMakesTargetUnreachable() {
         ElephantMovement movement = new ElephantMovement();
-        Position corner = pos(Column.A, Row.ZERO);
+        Position source = pos(Column.E, Row.FOUR);
+        Position target = pos(Column.C, Row.ONE);
+        BoardState board = boardWithBlocked(pos(Column.D, Row.TWO));
 
-        Paths paths = movement.candidatePaths(corner);
-
-        assertThat(paths.asList()).hasSize(2);
-        assertThat(canReach(paths, pos(Column.C, Row.THREE))).isTrue();
-        assertThat(canReach(paths, pos(Column.D, Row.TWO))).isTrue();
-    }
-
-    @Test
-    @DisplayName("상의 각 이동 경로는 3개의 좌표를 갖는다")
-    void eachPathHasThreePositions() {
-        ElephantMovement movement = new ElephantMovement();
-        Paths paths = movement.candidatePaths(pos(Column.E, Row.FOUR));
-
-        paths.asList().forEach(path ->
-                assertThat(path.intermediates()).hasSize(2)
-        );
+        assertThat(canReach(movement.findPotentialPaths(source), target)).isTrue();
+        assertThat(movement.findReachablePositions(source, board)).doesNotContain(target);
     }
 }

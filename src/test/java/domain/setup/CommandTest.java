@@ -1,12 +1,12 @@
 package domain.setup;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Command 클래스 테스트")
 class CommandTest {
@@ -34,8 +34,8 @@ class CommandTest {
         Coordinate coordinate = new Command("a0 b1").toCoordinate();
 
         assertThat(coordinate).isNotNull();
-        assertThat(coordinate.from()).isNotNull();
-        assertThat(coordinate.to()).isNotNull();
+        assertThat(coordinate.source()).isNotNull();
+        assertThat(coordinate.source()).isNotNull();
     }
 
     @ParameterizedTest(name = "toCoordinate({0})은 유효한 값(ex. 'a0 b2') 이외의 입력에 예외를 던진다")

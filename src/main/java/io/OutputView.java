@@ -3,8 +3,8 @@ package io;
 import domain.board.Board;
 import domain.board.Column;
 import domain.board.Position;
-import domain.game.Turn;
 import domain.board.Row;
+import domain.game.Turn;
 
 public class OutputView {
     public static final String RED = "\u001B[31m";
@@ -60,7 +60,7 @@ public class OutputView {
     }
 
     private String cellDisplay(Board board, Position position) {
-        return board.pieceAt(position)
+        return board.findPieceByPosition(position)
                 .map(piece -> piece.colorCode(RED, GREEN) + piece.display() + RESET)
                 .orElse("...");
     }

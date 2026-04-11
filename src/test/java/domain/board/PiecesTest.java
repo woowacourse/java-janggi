@@ -42,8 +42,8 @@ class PiecesTest {
 
         Pieces moved = pieces.move(from, to);
 
-        assertThat(moved.at(from)).isEmpty();
-        Piece movedPiece = moved.at(to).orElseThrow();
+        assertThat(moved.pieceAt(from)).isEmpty();
+        Piece movedPiece = moved.pieceAt(to).orElseThrow();
         assertThat(movedPiece).isNotNull();
         assertThat(movedPiece.isChariot()).isTrue();
         assertThat(movedPiece.isOwnedBy(Team.HAN)).isTrue();
@@ -61,8 +61,8 @@ class PiecesTest {
 
         Pieces moved = pieces.move(from, to);
 
-        assertThat(moved.at(from)).isEmpty();
-        Piece movedPiece = moved.at(to).orElseThrow();
+        assertThat(moved.pieceAt(from)).isEmpty();
+        Piece movedPiece = moved.pieceAt(to).orElseThrow();
         assertThat(movedPiece).isNotNull();
         assertThat(movedPiece.isChariot()).isTrue();
         assertThat(movedPiece.isOwnedBy(Team.HAN)).isTrue();

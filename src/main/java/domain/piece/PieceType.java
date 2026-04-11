@@ -1,6 +1,7 @@
 package domain.piece;
 
 public enum PieceType {
+    //TODO: 출력 책임 분리
     GENERAL("궁"),
     GUARD("사"),
     CHARIOT("차"),
@@ -17,5 +18,9 @@ public enum PieceType {
 
     public String display() {
         return displayName;
+    }
+
+    public boolean isCannon() {
+        return this == CANNON;
     }
 }

@@ -1,12 +1,14 @@
 package domain.movement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.board.BoardState;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("GuardMovement 클래스 테스트")
 class GuardMovementTest {
@@ -16,30 +18,35 @@ class GuardMovementTest {
     }
 
     private boolean canReach(Paths paths, Position target) {
-        return paths.asList().stream().anyMatch(p -> p.endsAt(target));
+        return paths.asList().stream().anyMatch(path -> path.positions().getLast().equals(target));
+    }
+
+    private BoardState emptyBoard() {
+        return StubBoardState.empty();
     }
 
     @Test
-    @DisplayName("기물이 보드 중앙에 위치한다 가정, 후보 경로를 정상적으로 생성한다")
-    void fromCenterHasFourCandidatePaths() {
+    @DisplayName("사는 상하좌우 한 칸으로 이동할 수 있다")
+    void guardMovesOneStepOrthogonally() {
         GuardMovement movement = new GuardMovement();
         Position center = pos(Column.E, Row.FOUR);
 
-        Paths paths = movement.candidatePaths(center);
+        List<Position> destinations = movement.findReachablePositions(center, emptyBoard());
 
-        assertThat(paths.asList()).hasSize(4);
-        assertThat(canReach(paths, pos(Column.E, Row.THREE))).isTrue();
-        assertThat(canReach(paths, pos(Column.E, Row.FIVE))).isTrue();
-        assertThat(canReach(paths, pos(Column.D, Row.FOUR))).isTrue();
-        assertThat(canReach(paths, pos(Column.F, Row.FOUR))).isTrue();
+        assertThat(destinations).containsExactlyInAnyOrder(
+                pos(Column.E, Row.THREE),
+                pos(Column.E, Row.FIVE),
+                pos(Column.D, Row.FOUR),
+                pos(Column.F, Row.FOUR)
+        );
     }
 
     @Test
-    @DisplayName("보드 범위를 벗어나는 경로를 제외하고, 후보 경로를 정상적으로 생성한다")
-    void fromCornerHasTwoPaths() {
+    @DisplayName("사는 보드 경계를 넘어서는 이동 후보를 만들지 않는다")
+    void guardExcludesOutOfBoardMoves() {
         GuardMovement movement = new GuardMovement();
 
-        Paths paths = movement.candidatePaths(pos(Column.A, Row.ZERO));
+        Paths paths = movement.findPotentialPaths(pos(Column.A, Row.ZERO));
 
         assertThat(paths.asList()).hasSize(2);
     }

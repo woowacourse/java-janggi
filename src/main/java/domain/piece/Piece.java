@@ -44,4 +44,8 @@ public class Piece {
     public boolean isSameTeamAs(Piece other) {
         return this.team == other.team;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }

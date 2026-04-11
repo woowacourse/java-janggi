@@ -2,9 +2,10 @@ package domain.movement;
 
 import domain.board.BoardState;
 import domain.board.Position;
+import java.util.ArrayList;
 import java.util.List;
 
-public final class GeneralMovement implements Movement {
+public final class ChariotMovement implements Movement {
     private static final List<Direction> MOVEMENT_RULES = List.of(
             Direction.UP,
             Direction.RIGHT,
@@ -30,19 +31,33 @@ public final class GeneralMovement implements Movement {
 
     private Paths parseDirectionsToPaths(Position source, List<Direction> validDirections) {
         List<Path> paths = validDirections.stream()
-                .map(direction -> createPath(source, direction))
+                .flatMap(direction -> createPaths(source, direction).stream())
                 .toList();
 
         return new Paths(paths);
     }
 
-    private Path createPath(Position source, Direction direction) {
-        Position destination = source.shift(direction.delta());
-        return new Path(List.of(destination));
+    private List<Path> createPaths(Position source, Direction direction) {
+        List<Path> paths = new ArrayList<>();
+        Position current = source;
+        List<Position> route = new ArrayList<>();
+
+        while (current.canShift(direction.delta())) {
+            current = current.shift(direction.delta());
+            route.add(current);
+            paths.add(createPath(route));
+        }
+
+        return paths;
+    }
+
+    private Path createPath(List<Position> route) {
+        return new Path(List.copyOf(route));
     }
 
     @Override
     public boolean isAvailablePath(Path path, BoardState board) {
-        return true;
+        return path.positionsBeforeDestination().stream()
+                .allMatch(board::isEmpty);
     }
 }

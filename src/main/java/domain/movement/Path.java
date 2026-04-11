@@ -15,23 +15,15 @@ public final class Path {
         this.positions = Collections.unmodifiableList(new ArrayList<>(positions));
     }
 
-    public boolean contains(Position position) {
-        return positions.contains(position);
+    public List<Position> positions() {
+        return positions;
     }
 
-    public boolean endsAt(Position position) {
-        return positions.get(positions.size() - 1).equals(position);
-    }
-
-    public List<Position> intermediates() {
+    public List<Position> positionsBeforeDestination() {
         return positions.subList(0, positions.size() - 1);
     }
 
-    public Path subPathTo(Position position) {
-        int index = positions.indexOf(position);
-        if (index == -1) {
-            throw new IllegalArgumentException("[ERROR] 해당 포지션이 경로에 없습니다: " + position);
-        }
-        return new Path(positions.subList(0, index + 1));
+    public Position destination() {
+        return positions.getLast();
     }
 }

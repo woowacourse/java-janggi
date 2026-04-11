@@ -1,16 +1,15 @@
 package domain.board;
 
-import domain.game.Turn;
 import domain.movement.Movement;
 import domain.movement.MovementFactory;
-import domain.movement.MovementValidator;
-import domain.movement.Paths;
 import domain.piece.Piece;
+import domain.piece.Team;
 import domain.setup.Arrangements;
 import domain.setup.Coordinate;
+import java.util.List;
 import java.util.Optional;
 
-public class Board {
+public class Board implements BoardState {
     private final Pieces pieces;
 
     public Board(Pieces pieces) {
@@ -21,54 +20,55 @@ public class Board {
         return new Board(Pieces.of(arrangements));
     }
 
-    public Board move(Coordinate coordinate, Turn turn) {
-        validateMove(coordinate, turn);
-        Position from = coordinate.from();
-        Position to = coordinate.to();
-        return new Board(pieces.move(from, to));
+    public Board move(Coordinate coordinate, Team currentTeam) {
+        Position source = coordinate.source();
+        Position target = coordinate.target();
+
+        Piece sourcePiece = pieces.pieceAtOrThrow(source);
+        validateSourcePieceOwnership(sourcePiece, currentTeam);
+        validateTargetIsAvailable(coordinate);
+
+        return new Board(pieces.move(source, target));
     }
 
-    public Optional<Piece> pieceAt(Position position) {
-        return pieces.at(position);
-    }
-
-    public boolean isEmpty(Position position) {
-        return pieces.at(position).isEmpty();
-    }
-
-    public boolean hasAnyPiece(Position position) {
-        return !isEmpty(position);
-    }
-
-    public boolean hasFriendOf(Position position, Piece movingPiece) {
-        return pieces.at(position)
-                .map(movingPiece::isSameTeamAs)
-                .orElse(false);
-    }
-
-    public boolean hasEnemyOf(Position position, Piece movingPiece) {
-        return pieces.at(position)
-                .map(targetPiece -> !movingPiece.isSameTeamAs(targetPiece))
-                .orElse(false);
-    }
-
-    private void validateMove(Coordinate coordinate, Turn turn) {
-        Position from = coordinate.from();
-        Position to = coordinate.to();
-
-        Piece piece = pieces.at(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 없습니다: " + from));
-
-        if (!turn.belongsTo(piece)) {
+    private void validateSourcePieceOwnership(Piece sourcePiece, Team team) {
+        if (!sourcePiece.isOwnedBy(team)) {
             throw new IllegalArgumentException("[ERROR] 출발 좌표의 기물이 상대 기물입니다.");
         }
+    }
 
-        Movement movement = MovementFactory.create(piece);
-        Paths paths = movement.candidatePaths(from);
+    private void validateTargetIsAvailable(Coordinate coordinate) {
+        Position source = coordinate.source();
+        Position target = coordinate.target();
 
-        MovementValidator validator = new MovementValidator(this);
-        if (!validator.isValid(piece, paths, to)) {
+        List<Position> availableTargets = findAvailableTargetPositions(source);
+
+        if (!availableTargets.contains(target)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 움직임입니다.");
         }
     }
+
+    public List<Position> findAvailableTargetPositions(Position source) {
+        Piece sourcePiece = pieces.pieceAtOrThrow(source);
+        Movement movement = MovementFactory.create(sourcePiece);
+
+        List<Position> allAvailableTargetPosition = movement.findReachablePositions(source, this);
+
+        return allAvailableTargetPosition.stream()
+                .filter(target -> !pieces.hasFriendAt(target, sourcePiece))
+                .toList();
+    }
+
+    public Piece pieceAt(Position position) {
+        return pieces.pieceAtOrThrow(position);
+    }
+
+    public Optional<Piece> findPieceByPosition(Position position) {
+        return pieces.pieceAt(position);
+    }
+
+    public boolean isEmpty(Position position) {
+        return pieces.isEmpty(position);
+    }
+
 }

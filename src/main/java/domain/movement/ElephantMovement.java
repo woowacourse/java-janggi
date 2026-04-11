@@ -1,63 +1,54 @@
 package domain.movement;
 
+import domain.board.BoardState;
 import domain.board.Position;
 import java.util.List;
 
-public class ElephantMovement implements Movement {
-
-    private record ElephantMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {
-    }
-
-    private static final List<ElephantMove> MOVES = List.of(
-            new ElephantMove(
-                    new Delta(new ColumnDelta(0), new RowDelta(-1)),
-                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColumnDelta(1), new RowDelta(-1))
-            ),
-            new ElephantMove(
-                    new Delta(new ColumnDelta(0), new RowDelta(1)),
-                    new Delta(new ColumnDelta(-1), new RowDelta(1)),
-                    new Delta(new ColumnDelta(1), new RowDelta(1))
-            ),
-            new ElephantMove(
-                    new Delta(new ColumnDelta(-1), new RowDelta(0)),
-                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColumnDelta(-1), new RowDelta(1))
-            ),
-            new ElephantMove(
-                    new Delta(new ColumnDelta(1), new RowDelta(0)),
-                    new Delta(new ColumnDelta(1), new RowDelta(-1)),
-                    new Delta(new ColumnDelta(1), new RowDelta(1))
-            )
+public final class ElephantMovement implements Movement {
+    private static final List<Directions> MOVEMENT_RULES = List.of(
+            new Directions(List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT)),
+            new Directions(List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT)),
+            new Directions(List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT)),
+            new Directions(List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)),
+            new Directions(List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)),
+            new Directions(List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT)),
+            new Directions(List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT)),
+            new Directions(List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT))
     );
 
     @Override
-    public Paths candidatePaths(Position from) {
-        Paths paths = Paths.empty();
-        for (ElephantMove move : MOVES) {
-            paths = addMovePaths(paths, from, move);
-        }
-        return paths;
+    public Paths findPotentialPaths(Position source) {
+        List<Directions> validMovements = filterValidMovements(source);
+
+        return parseMovementsToPaths(source, validMovements);
     }
 
-    private Paths addMovePaths(Paths paths, Position from, ElephantMove move) {
-        if (!from.canShift(move.orthogonalDelta())) {
-            return paths;
-        }
-        Position blocking = from.shift(move.orthogonalDelta());
-        paths = addDiagonalPath(paths, blocking, move.firstDiagonalDelta());
-        return addDiagonalPath(paths, blocking, move.secondDiagonalDelta());
+    private List<Directions> filterValidMovements(Position source) {
+        return MOVEMENT_RULES.stream()
+                .filter(movement -> isValidMove(source, movement))
+                .toList();
     }
 
-    private Paths addDiagonalPath(Paths paths, Position blocking, Delta diagonalDelta) {
-        if (!blocking.canShift(diagonalDelta)) {
-            return paths;
-        }
-        Position diagBlocking = blocking.shift(diagonalDelta);
-        if (!diagBlocking.canShift(diagonalDelta)) {
-            return paths;
-        }
-        Position destination = diagBlocking.shift(diagonalDelta);
-        return paths.add(new Path(List.of(blocking, diagBlocking, destination)));
+    private boolean isValidMove(Position source, Directions movement) {
+        Delta finalDestinationDelta = movement.calculateFinalDestinationDelta();
+        return source.canShift(finalDestinationDelta);
+    }
+
+    private Paths parseMovementsToPaths(Position source, List<Directions> validMovements) {
+        List<Path> paths = validMovements.stream()
+                .map(movement -> toPath(source, movement))
+                .toList();
+
+        return new Paths(paths);
+    }
+
+    private Path toPath(Position source, Directions movement) {
+        return new Path(movement.apply(source));
+    }
+
+    @Override
+    public boolean isAvailablePath(Path path, BoardState board) {
+        return path.positionsBeforeDestination().stream()
+                .allMatch(board::isEmpty);
     }
 }

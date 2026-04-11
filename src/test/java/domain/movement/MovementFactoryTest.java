@@ -32,23 +32,23 @@ class MovementFactoryTest {
     }
 
     @Test
-    @DisplayName("CHARIOT 기물은 LinearMovement를 생성한다")
+    @DisplayName("CHARIOT 기물은 ChariotMovement를 생성한다")
     void createChariotMovement() {
         Piece piece = new Piece(Team.HAN, PieceType.CHARIOT);
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(ChariotOrCannonMovement.class);
+        assertThat(movement).isInstanceOf(ChariotMovement.class);
     }
 
     @Test
-    @DisplayName("CANNON 기물은 LinearMovement를 생성한다")
+    @DisplayName("CANNON 기물은 CannonMovement를 생성한다")
     void createCannonMovement() {
         Piece piece = new Piece(Team.CHO, PieceType.CANNON);
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(ChariotOrCannonMovement.class);
+        assertThat(movement).isInstanceOf(CannonMovement.class);
     }
 
     @Test

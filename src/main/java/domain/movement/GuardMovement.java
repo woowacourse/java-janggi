@@ -1,29 +1,48 @@
 package domain.movement;
 
+import domain.board.BoardState;
 import domain.board.Position;
 import java.util.List;
 
-public class GuardMovement implements Movement {
-    private static final List<Delta> MOVES = List.of(
-            new Delta(new ColumnDelta(0), new RowDelta(-1)),
-            new Delta(new ColumnDelta(0), new RowDelta(1)),
-            new Delta(new ColumnDelta(-1), new RowDelta(0)),
-            new Delta(new ColumnDelta(1), new RowDelta(0))
+public final class GuardMovement implements Movement {
+    private static final List<Direction> MOVEMENT_RULES = List.of(
+            Direction.UP,
+            Direction.RIGHT,
+            Direction.DOWN,
+            Direction.LEFT
     );
 
     @Override
-    public Paths candidatePaths(Position from) {
-        Paths paths = Paths.empty();
-        for (Delta delta : MOVES) {
-            paths = addPathIfReachable(paths, from, delta);
-        }
-        return paths;
+    public Paths findPotentialPaths(Position source) {
+        List<Direction> validDirections = filterValidDirections(source);
+        return parseDirectionsToPaths(source, validDirections);
     }
 
-    private Paths addPathIfReachable(Paths paths, Position from, Delta delta) {
-        if (!from.canShift(delta)) {
-            return paths;
-        }
-        return paths.add(new Path(List.of(from.shift(delta))));
+    private List<Direction> filterValidDirections(Position source) {
+        return MOVEMENT_RULES.stream()
+                .filter(direction -> isValidMove(source, direction))
+                .toList();
+    }
+
+    private boolean isValidMove(Position source, Direction direction) {
+        return source.canShift(direction.delta());
+    }
+
+    private Paths parseDirectionsToPaths(Position source, List<Direction> validDirections) {
+        List<Path> paths = validDirections.stream()
+                .map(direction -> createPath(source, direction))
+                .toList();
+
+        return new Paths(paths);
+    }
+
+    private Path createPath(Position source, Direction direction) {
+        Position destination = source.shift(direction.delta());
+        return new Path(List.of(destination));
+    }
+
+    @Override
+    public boolean isAvailablePath(Path path, BoardState board) {
+        return true;
     }
 }

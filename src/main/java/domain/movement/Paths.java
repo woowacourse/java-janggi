@@ -1,6 +1,5 @@
 package domain.movement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Paths {
@@ -8,16 +7,6 @@ public final class Paths {
 
     public Paths(List<Path> paths) {
         this.paths = List.copyOf(paths);
-    }
-
-    public static Paths empty() {
-        return new Paths(new ArrayList<>());
-    }
-
-    public Paths add(Path path) {
-        List<Path> newPaths = new ArrayList<>(paths);
-        newPaths.add(path);
-        return new Paths(newPaths);
     }
 
     public List<Path> asList() {

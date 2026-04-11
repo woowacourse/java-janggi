@@ -1,7 +1,7 @@
 package domain.setup;
 
-import domain.board.Position;
 import domain.board.Column;
+import domain.board.Position;
 import domain.board.Row;
 import java.util.Arrays;
 import java.util.List;
@@ -14,12 +14,12 @@ public class Coordinate {
     private static final int END_POSITION_INDEX = 1;
     private static final int COL_POSITION_INDEX = 0;
     private static final int ROW_POSITION_INDEX = 1;
-    private final Position start;
-    private final Position end;
+    private final Position source;
+    private final Position target;
 
-    private Coordinate(Position start, Position end) {
-        this.start = start;
-        this.end = end;
+    private Coordinate(Position source, Position target) {
+        this.source = source;
+        this.target = target;
     }
 
     public static Coordinate toCoordinate(String input) {
@@ -43,11 +43,11 @@ public class Coordinate {
         }
     }
 
-    public Position from() {
-        return start;
+    public Position source() {
+        return source;
     }
 
-    public Position to() {
-        return end;
+    public Position target() {
+        return target;
     }
 }

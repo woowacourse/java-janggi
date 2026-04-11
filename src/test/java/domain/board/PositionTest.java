@@ -2,9 +2,7 @@ package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.movement.ColumnDelta;
 import domain.movement.Delta;
-import domain.movement.RowDelta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class PositionTest {
 
     private Delta delta(int col, int row) {
-        return new Delta(new ColumnDelta(col), new RowDelta(row));
+        return new Delta(col, row);
     }
 
     @Test

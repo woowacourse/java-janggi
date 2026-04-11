@@ -13,9 +13,12 @@ public enum Column {
     H,
     I;
 
+    public static final int MIN_INDEX = 0;
+    public static final int MAX_INDEX = 8;
+
     public boolean canShift(int delta) {
         int next = this.ordinal() + delta;
-        return next >= 0 && next < Column.values().length;
+        return MIN_INDEX <= next && next <= MAX_INDEX;
     }
 
     public Column shift(int delta) {
