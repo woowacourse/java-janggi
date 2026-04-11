@@ -64,11 +64,9 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePosition(int gameId, Position src, Position dest) {
+    public void updatePosition(Connection connection, int gameId, Position src, Position dest) {
         String sql = "UPDATE piece SET row_idx = ?, col_idx = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, dest.getRow());
             statement.setInt(2, dest.getColumn());
             statement.setInt(3, gameId);
@@ -81,11 +79,9 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void delete(int gameId, Position position) {
+    public void delete(Connection connection, int gameId, Position position) {
         String sql = "DELETE FROM piece WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, gameId);
             statement.setInt(2, position.getRow());
             statement.setInt(3, position.getColumn());

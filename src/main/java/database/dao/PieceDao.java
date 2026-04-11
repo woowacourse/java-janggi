@@ -2,6 +2,7 @@ package database.dao;
 
 import domain.piece.Piece;
 import domain.position.Position;
+import java.sql.Connection;
 import java.util.Map;
 
 public interface PieceDao {
@@ -9,7 +10,7 @@ public interface PieceDao {
 
     Map<Position, Piece> findAll(int gameId);
 
-    void updatePosition(int gameId, Position src, Position dest);
+    void updatePosition(Connection connection, int gameId, Position src, Position dest);
 
-    void delete(int gameId, Position position);
+    void delete(Connection connection, int gameId, Position position);
 }

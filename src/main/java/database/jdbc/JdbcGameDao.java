@@ -58,11 +58,9 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateTurn(int gameId, Team team) {
+    public void updateTurn(Connection connection, int gameId, Team team) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, team.name());
             statement.setInt(2, gameId);
             statement.executeUpdate();
