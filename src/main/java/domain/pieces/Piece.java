@@ -10,12 +10,11 @@ import java.util.Optional;
 
 public abstract class Piece {
 
-    public static final List<MovingFunction> MOVEMENTS =
-            List.of(Piece::north, Piece::south, Piece::west, Piece::east);
-    public static final List<MovingFunction> DIAGONAL_MOVEMENTS =
-            List.of(Piece::northEast, Piece::southEast, Piece::northWest, Piece::southWest);
+    public static final List<MovingFunction> MOVEMENTS = List.of(Piece::north, Piece::south,
+            Piece::west, Piece::east);
+    public static final List<MovingFunction> DIAGONAL_MOVEMENTS = List.of(Piece::northEast,
+            Piece::southEast, Piece::northWest, Piece::southWest);
     private final Camp camp;
-
 
     public Piece(Camp camp) {
         this.camp = camp;
@@ -24,6 +23,10 @@ public abstract class Piece {
     public static Piece of(PieceType pieceType, Camp camp) {
         return pieceType.create(camp);
     }
+
+    public abstract boolean canMove(Position from, Position to, BoardChecker boardChecker);
+
+    public abstract PieceType getPieceType();
 
     public static Optional<Position> north(Position position) {
         return Position.of(position.getCol(), position.getRow() - 1);
@@ -56,10 +59,6 @@ public abstract class Piece {
     public static Optional<Position> southEast(Position position) {
         return Position.of(position.getCol() + 1, position.getRow() + 1);
     }
-
-    public abstract boolean canMove(Position from, Position to, BoardChecker boardChecker);
-
-    public abstract PieceType getPieceType();
 
     public boolean isSameCamp(Piece comparedPiece) {
         return this.camp == comparedPiece.camp;

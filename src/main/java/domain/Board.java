@@ -36,18 +36,21 @@ public class Board implements BoardChecker {
     }
 
     public void move(Position fromPosition, Position toPosition) {
-        if (fromPosition.equals(toPosition)) {
-            throw new InvalidMoveException("[ERROR] 제자리 이동은 불가능합니다.");
-        }
+        validateMoveToDifferentPosition(fromPosition, toPosition);
 
         Piece piece = board.get(fromPosition);
         boolean canMove = piece.canMove(fromPosition, toPosition, this);
-        if (canMove) {
-            locatePiece(toPosition, piece);
-            board.remove(fromPosition);
-            return;
+        if (!canMove) {
+            throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
         }
-        throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
+        locatePiece(toPosition, piece);
+        board.remove(fromPosition);
+    }
+
+    private void validateMoveToDifferentPosition(Position fromPosition, Position toPosition) {
+        if (fromPosition.equals(toPosition)) {
+            throw new InvalidMoveException("[ERROR] 제자리 이동은 불가능합니다.");
+        }
     }
 
     public void generatePiecesBy(Camp camp, int elephantFormation) {
@@ -131,9 +134,6 @@ public class Board implements BoardChecker {
     }
 
     private double getBonusScore(Camp camp) {
-        if (camp == Camp.HAN) {
-            return 1.5;
-        }
-        return 0;
+        return camp.getBonusScore();
     }
 }

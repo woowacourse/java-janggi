@@ -43,7 +43,6 @@ public class JdbcRepository {
     }
 
     public void updateBoard(Long gameId, Board board) {
-
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 
             String deleteSql = "DELETE FROM board WHERE game_id = ?";
@@ -120,11 +119,11 @@ public class JdbcRepository {
             try (java.sql.ResultSet resultSet = preparedStatement.executeQuery()) {
                 Map<Position, Piece> board = new HashMap<>();
                 while (resultSet.next()) {
-                    int col_pos = resultSet.getInt("col_pos");
-                    int row_pos = resultSet.getInt("row_pos");
+                    int colPos = resultSet.getInt("col_pos");
+                    int rowPos = resultSet.getInt("row_pos");
                     String pieceTypeStr = resultSet.getString("piece_type");
                     String campStr = resultSet.getString("camp");
-                    Position position = new Position(col_pos, row_pos);
+                    Position position = new Position(colPos, rowPos);
                     PieceType pieceType = PieceType.valueOf(pieceTypeStr);
                     Camp camp = Camp.valueOf(campStr);
                     Piece piece = Piece.of(pieceType, camp);
