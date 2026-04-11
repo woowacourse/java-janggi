@@ -55,15 +55,29 @@ class PieceRepositoryTest {
         // given
         pieceRepository.save(new PlacedPiece(gameRoomId, CampType.CHO, PieceRule.CHARIOT, 0, 0));
         pieceRepository.save(new PlacedPiece(gameRoomId, CampType.HAN, PieceRule.CHARIOT, 9, 8));
-
         // when
         Map<Position, Piece> pieces = pieceRepository.findByGameRoomId(gameRoomId);
-
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(pieces).hasSize(2);
             softly.assertThat(pieces.get(new Position(0, 0))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.CHO));
             softly.assertThat(pieces.get(new Position(9, 8))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.HAN));
+        });
+    }
+
+    @Test
+    void 게임_아이디와_기물_위치로_기물을_조회한다() {
+        // given
+        pieceRepository.save(new PlacedPiece(gameRoomId, CampType.CHO, PieceRule.CHARIOT, 0, 0));
+        // when
+        PlacedPiece result = pieceRepository.findByGameIdAndPosition(gameRoomId, 0, 0);
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(result.getGameRoomId()).isEqualTo(gameRoomId);
+            softly.assertThat(result.getCampType()).isEqualTo(CampType.CHO);
+            softly.assertThat(result.getPieceRule()).isEqualTo(PieceRule.CHARIOT);
+            softly.assertThat(result.getRowPosition()).isEqualTo(0);
+            softly.assertThat(result.getColPosition()).isEqualTo(0);
         });
     }
 
