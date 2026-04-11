@@ -34,8 +34,8 @@ public class PieceFactory {
         matchInfo.put(SA, GungSaMovement.create(gungSeong));
         matchInfo.put(GUNG, GungSaMovement.create(gungSeong));
         matchInfo.put(PO, PoMovement.create(gungSeong));
-        matchInfo.put(JOL, JolMovement.getInstance());
-        matchInfo.put(BYEONG, ByeongMovement.getInstance());
+        matchInfo.put(JOL, JolMovement.create(gungSeong));
+        matchInfo.put(BYEONG, ByeongMovement.create(gungSeong));
     }
 
     public static PieceFactory of(GungSeong gungSeong) {

@@ -2,53 +2,106 @@ package janggi.domain.rule;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.support.TestPiece;
 import java.util.List;
+import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class JolMovementTest {
 
-    private static final JolMovement MOVEMENT = JolMovement.getInstance();
+    private static final JolMovement MOVEMENT = JolMovement.create(GungSeong.of(10, 9));
 
     @Nested
     class CalculateRouteTest {
 
-        @Test
-        @DisplayName("이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
-        void shouldReturnRouteForReachableLocation() {
-            // given
-            Location from = new Location(1, 0);
-            Location to = new Location(0, 0);
+        @Nested
+        class DefaultRouteTest {
 
-            // when & then
-            Assertions.assertThat(MOVEMENT.calculateRoute(from, to)).hasValue(List.of(to));
+            @Test
+            @DisplayName("이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
+            void shouldReturnRouteForReachableLocation() {
+                // given
+                Location from = new Location(1, 0);
+                Location to = new Location(0, 0);
+
+                // when & then
+                Assertions.assertThat(MOVEMENT.calculateRoute(from, to)).hasValue(List.of(to));
+            }
+
+            @ParameterizedTest
+            @DisplayName("이동할 수 없는 위치로 경로를 계산하면, 빈 결과를 반환한다.")
+            @MethodSource("provideUnreachableCoordination")
+            void shouldReturnEmptyForUnReachableLocation(Location destination) {
+                // given
+                Location from = new Location(0, 0);
+
+                // when & then
+                Assertions.assertThat(MOVEMENT.calculateRoute(from, destination)).isEmpty();
+            }
+
+            static List<Location> provideUnreachableCoordination() {
+                return List.of(
+                        new Location(-2,0), // 거리가 멀어서 도달할 수 없는 경우
+                        new Location(-1,1), // 대각선으로 이동하는 경우
+                        new Location(1,0) // 뒤로 이동하는 경우
+                );
+            }
         }
 
-        @ParameterizedTest
-        @DisplayName("이동할 수 없는 위치로 경로를 계산하면, 빈 결과를 반환한다.")
-        @MethodSource("provideUnreachableCoordination")
-        void shouldReturnEmptyForUnReachableLocation(Location destination) {
-            // given
-            Location from = new Location(0, 0);
+        @Nested
+        class GungSeongRouteTest {
 
-            // when & then
-            Assertions.assertThat(MOVEMENT.calculateRoute(from, destination)).isEmpty();
-        }
+            @ParameterizedTest
+            @DisplayName("궁성 영역에서 이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
+            @MethodSource("provideMovableLocationsInGungSeongArea")
+            void shouldReturnRouteForReachableLocation(Location from, Location to) {
+                // when & then
+                Assertions.assertThat(MOVEMENT.calculateRoute(from, to)).hasValue(List.of(to));
+            }
 
-        static List<Location> provideUnreachableCoordination() {
-            return List.of(
-                    new Location(-2,0), // 거리가 멀어서 도달할 수 없는 경우
-                    new Location(-1,1), // 대각선으로 이동하는 경우
-                    new Location(1,0) // 뒤로 이동하는 경우
-            );
+            static Stream<Arguments> provideMovableLocationsInGungSeongArea() {
+                return Stream.of(
+                        Arguments.of(
+                                new Location(9, 5),
+                                new Location(8, 4)
+                        ),
+                        Arguments.of(
+                                new Location(8, 4),
+                                new Location(7, 5)
+                        )
+                );
+            }
+
+            @ParameterizedTest
+            @DisplayName("궁성 영역에서 이동할 수 없는 경로로 계산을 시도하면, 빈 결과를 반환한다.")
+            @MethodSource("provideImmovableCoordination")
+            void shouldReturnEmptyForImmovableLocation(Location from, Location to) {
+                // when & then
+                Assertions.assertThat(MOVEMENT.calculateRoute(from, to)).isEmpty();
+            }
+
+            static Stream<Arguments> provideImmovableCoordination() {
+                return Stream.of(
+                        Arguments.of(
+                                new Location(7, 4),
+                                new Location(8, 3)
+                        ),
+                        Arguments.of(
+                                new Location(7, 4),
+                                new Location(8, 4)
+                        )
+                );
+            }
         }
     }
 
