@@ -1,4 +1,4 @@
-package janggi.domain.moveRules.palaceMoveRule;
+package janggi.domain.moveRules.palaceMoveRules;
 
 import janggi.domain.Palace;
 import janggi.domain.Piece;
@@ -55,7 +55,7 @@ public class PoPalaceMoveRule extends PoMoveRule {
         if (state.get(center).isPo()) {
             return availablePositions;
         }
-        Position diagonal = Palace.calculateOppositePalaceDiagonalPosition(position);
+        Position diagonal = Palace.calculateOppositePalaceVertexPosition(position);
         if (state.containsKey(diagonal) && !state.get(diagonal).isEnemy(team)) {
             return availablePositions;
         }

@@ -8,7 +8,6 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.moveRules.MoveRule;
-import janggi.domain.moveRules.palaceMoveRule.PoPalaceMoveRule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

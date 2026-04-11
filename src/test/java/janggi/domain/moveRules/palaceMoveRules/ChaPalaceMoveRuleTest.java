@@ -8,7 +8,6 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.moveRules.MoveRule;
-import janggi.domain.moveRules.palaceMoveRule.ChaPalaceMoveRule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ class ChaPalaceMoveRuleTest {
         customState.put(chaCurrentPosition, cha);
         MoveRule chaPalaceMoveRule = new ChaPalaceMoveRule();
         Position chaPalaceCenter = Palace.CHO_PALACE_CENTER;
-        Position pointReflect = Palace.calculateOppositePalaceDiagonalPosition(chaCurrentPosition);
+        Position pointReflect = Palace.calculateOppositePalaceVertexPosition(chaCurrentPosition);
 
         //when
         List<Position> availablePositions = chaPalaceMoveRule.calculateAvailablePositions(chaCurrentPosition, choTeam,

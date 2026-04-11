@@ -14,7 +14,7 @@ class PalaceTest {
         Position currentPosition = new Position(4, 10);
 
         //when
-        Position oppositePosition = Palace.calculateOppositePalaceDiagonalPosition(currentPosition);
+        Position oppositePosition = Palace.calculateOppositePalaceVertexPosition(currentPosition);
 
         //then
         assertThat(oppositePosition).isEqualTo(new Position(6, 8));

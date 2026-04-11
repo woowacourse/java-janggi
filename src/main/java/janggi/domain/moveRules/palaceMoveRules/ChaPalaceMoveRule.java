@@ -1,4 +1,4 @@
-package janggi.domain.moveRules.palaceMoveRule;
+package janggi.domain.moveRules.palaceMoveRules;
 
 import janggi.domain.Direction;
 import janggi.domain.Palace;
