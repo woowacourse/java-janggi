@@ -157,7 +157,8 @@ public final class JanggiController {
     }
 
     private void processTurn(MoveCommand moveCommand, JanggiGame janggiGame) {
-        Intersection startPosition = moveCommand.selectedToMove();
+        Intersection startPosition = moveCommand.selectedToMove()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 좌표(x,y) 또는 종료(exit)를 입력해주세요."));
         Side currentTurn = janggiGame.currentTurn();
 
         outputView.printBoardWithMovable(
