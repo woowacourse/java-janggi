@@ -28,8 +28,8 @@ public class JanggiMapper {
     public List<PieceDto> toPieceDtos(Board board, Long boardId) {
         List<PieceDto> pieceDtos = new ArrayList<>();
 
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 9; column++) {
+        for (int row = 1; row <= 10; row++) {
+            for (int column = 1; column <= 9; column++) {
                 Optional<Piece> pieceOptional = board.findPiece(new Position(row, column));
                 if (pieceOptional.isEmpty()) {
                     continue;

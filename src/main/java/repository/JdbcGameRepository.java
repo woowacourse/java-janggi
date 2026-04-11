@@ -7,29 +7,34 @@ import data.PieceDao;
 import data.PieceDto;
 import domain.Janggi;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import javax.sql.DataSource;
 
 public class JdbcGameRepository implements GameRepository {
     private final GameDao gameDao;
     private final PieceDao pieceDao;
     private final JanggiMapper janggiMapper;
-    private final DataSource dataSource;
+    private final String url;
+    private final String username;
+    private final String password;
 
-    public JdbcGameRepository(GameDao gameDao, PieceDao pieceDao, JanggiMapper janggiMapper, DataSource dataSource) {
+    public JdbcGameRepository(GameDao gameDao, PieceDao pieceDao, JanggiMapper janggiMapper,
+                              String url, String username, String password) {
         this.gameDao = gameDao;
         this.pieceDao = pieceDao;
         this.janggiMapper = janggiMapper;
-        this.dataSource = dataSource;
+        this.url = url;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
     public void save(Janggi game) {
         Connection conn = null;
         try {
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(false);
 
             Long gameId;
@@ -58,7 +63,7 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Optional<Janggi> findById(Long id) {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Optional<GameDto> gameDto = gameDao.findById(conn, id);
             if (gameDto.isEmpty()) {
                 return Optional.empty();
@@ -77,7 +82,7 @@ public class JdbcGameRepository implements GameRepository {
     public void deleteById(Long id) {
         Connection conn = null;
         try {
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(false);
 
             gameDao.deleteById(conn, id);

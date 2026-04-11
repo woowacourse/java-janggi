@@ -1,7 +1,7 @@
 package domain.position;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MIN_COLUMN;
+import static common.Constant.MAX_COLUMN;
+import static common.Constant.MIN_COLUMN;
 
 import java.util.Objects;
 

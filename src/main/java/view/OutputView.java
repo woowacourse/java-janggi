@@ -1,14 +1,17 @@
 package view;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
+import static common.Constant.MAX_COLUMN;
+import static common.Constant.MIN_COLUMN;
+import static common.Constant.MIN_ROW;
 
 import domain.place.piece.Side;
 import domain.player.Player;
 import java.util.List;
 
 public class OutputView {
+
+    private static final String INPUT_GAME_ID=
+            "게임 id를 입력해주세요(기존 게임을 원하시는 경우 실제 id를 입력해주시고, 새게임을 원하시면 0을 입력해주세요)";
 
     private static final String INPUT_PLAYER_NAMES =
             "초, 한 순서대로 이름을 입력해주세요(예, pobi,quda)";
@@ -21,10 +24,10 @@ public class OutputView {
                     + "4. 마상상마\n";
 
     private static final String INPUT_PIECE_MOVE =
-            "%s(%s)가 이동할 기물을 선택해주세요.(예시: 1,1)\n";
+            "%s(%s)가 이동할 기물을 선택해주세요.(예시: 1,1, 중단하려면 quit)\n";
 
     private static final String INPUT_POSITION_MOVE =
-            "%s(%s)가 이동할 위치를 입력해주세요.(예시: 1,1)\n";
+            "%s(%s)가 이동할 위치를 입력해주세요.(예시: 1,1, 중단하려면 quit)\n";
 
     private static final String PRINT_SCORE =
             "초나라 점수 : %.1f, 한나라 점수: %.1f\n";
@@ -42,6 +45,10 @@ public class OutputView {
 
     public void printMessage(String string) {
         System.out.println(string);
+    }
+
+    public void printGameId() {
+        System.out.println(INPUT_GAME_ID);
     }
 
     public void printInputPlayerNames() {

@@ -11,6 +11,7 @@ import domain.position.Position;
 import java.util.List;
 import parser.PlayerNameParser;
 import parser.PositionParser;
+import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -24,15 +25,18 @@ public class GameController {
         this.outputView = outputView;
     }
 
-    public void run(Janggi janggi) {
+    public void run(Janggi janggi, GameRepository gameRepository) {
         while (true) {
             Player player = janggi.getCurrentPlayer();
             outputView.printBoard(janggi.getBoardFormat());
 
             playTurn(player, janggi);
+            gameRepository.save(janggi);
+
             outputView.printScore(janggi.getGameTotalScore());
             if (janggi.isGameOver()) {
                 outputView.printWinner(janggi.getWinner());
+                gameRepository.deleteById(janggi.id());
                 break;
             }
         }

@@ -1,9 +1,9 @@
 package domain.position;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
+import static common.Constant.MAX_COLUMN;
+import static common.Constant.MAX_ROW;
+import static common.Constant.MIN_COLUMN;
+import static common.Constant.MIN_ROW;
 
 import domain.place.moveStrategy.Direction;
 import java.util.Objects;

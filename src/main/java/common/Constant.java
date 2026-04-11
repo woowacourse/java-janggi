@@ -1,4 +1,4 @@
-package domain.common;
+package common;
 
 public class Constant {
     public static final int MIN_ROW = 1;

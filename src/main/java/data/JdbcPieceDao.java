@@ -14,7 +14,7 @@ public class JdbcPieceDao implements PieceDao {
     @Override
     public void insertAll(Connection conn, Long boardId, List<PieceDto> pieces) {
         String sql = """
-                INSERT INTO piece (board_id, piece_type, side, row, column)
+                INSERT INTO piece (board_id, piece_type, side, pos_row, pos_col)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
@@ -37,10 +37,10 @@ public class JdbcPieceDao implements PieceDao {
     @Override
     public List<PieceDto> findByBoardId(Connection conn, Long boardId) {
         String sql = """
-                SELECT board_id, piece_type, side, row, column
+                SELECT board_id, piece_type, side, pos_row, pos_col
                 FROM piece
                 WHERE board_id = ?
-                ORDER BY row, column
+                ORDER BY pos_row, pos_col
                 """;
 
         List<PieceDto> result = new ArrayList<>();
@@ -77,8 +77,8 @@ public class JdbcPieceDao implements PieceDao {
                 rs.getLong("board_id"),
                 PieceSymbol.valueOf(rs.getString("piece_type")),
                 Side.valueOf(rs.getString("side")),
-                rs.getInt("row"),
-                rs.getInt("column")
+                rs.getInt("pos_row"),
+                rs.getInt("pos_col")
         );
     }
 }
