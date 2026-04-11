@@ -31,15 +31,15 @@ public class Board {
         int generalRow = camp.calculateRow(1);
         int cannonRow = camp.calculateRow(2);
         int soldierRow = camp.calculateRow(3);
-        formation.put(Position.of(generalRow, 4), new General(camp, new GeneralStrategy()));
-        formation.put(Position.of(initRow, 0), new Chariot(camp, new ChariotStrategy()));
-        formation.put(Position.of(initRow, 8), new Chariot(camp, new ChariotStrategy()));
-        formation.put(Position.of(initRow, 3), new Advisor(camp, new AdvisorStrategy()));
-        formation.put(Position.of(initRow, 5), new Advisor(camp, new AdvisorStrategy()));
-        formation.put(Position.of(cannonRow, 1), new Cannon(camp, new CannonStrategy()));
-        formation.put(Position.of(cannonRow, 7), new Cannon(camp, new CannonStrategy()));
+        formation.put(Position.of(generalRow, 4), PieceFactory.create("GENERAL", camp));
+        formation.put(Position.of(initRow, 0), PieceFactory.create("CHARIOT", camp));
+        formation.put(Position.of(initRow, 8), PieceFactory.create("CHARIOT", camp));
+        formation.put(Position.of(initRow, 3), PieceFactory.create("ADVISOR", camp));
+        formation.put(Position.of(initRow, 5), PieceFactory.create("ADVISOR", camp));
+        formation.put(Position.of(cannonRow, 1), PieceFactory.create("CANNON", camp));
+        formation.put(Position.of(cannonRow, 7), PieceFactory.create("CANNON", camp));
         for (int i = 0; i <= 8; i += 2) {
-            formation.put(Position.of(soldierRow, i), new Soldier(camp, new SoldierStrategy(camp.forward())));
+            formation.put(Position.of(soldierRow, i), PieceFactory.create("SOLDIER", camp));
         }
         return formation;
     }
