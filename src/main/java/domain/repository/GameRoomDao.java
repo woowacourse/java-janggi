@@ -5,13 +5,10 @@ import domain.board.Board;
 import domain.coordinate.Position;
 import domain.entity.GameRoomEntity;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.state.ChuSide;
 import domain.state.GameState;
 import domain.state.HanSide;
 import domain.state.Side;
-import persistence.DatabaseConnector;
-import persistence.DatabaseInitializer;
 
 import java.sql.*;
 import java.util.*;

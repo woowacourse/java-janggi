@@ -1,4 +1,4 @@
-package persistence;
+package domain.repository;
 
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;

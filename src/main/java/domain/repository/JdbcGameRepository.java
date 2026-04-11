@@ -4,7 +4,6 @@ import domain.Game;
 import domain.entity.GameRoomEntity;
 import domain.coordinate.Position;
 import domain.piece.*;
-import persistence.DatabaseConnector;
 
 import java.sql.*;
 import java.util.*;
