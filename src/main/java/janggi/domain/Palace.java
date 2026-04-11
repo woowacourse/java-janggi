@@ -29,51 +29,13 @@ public class Palace {
                     new Position(5, 3),
                     new Position(6, 3)
             );
-    private static final Set<List<Position>> CHO_DIGONAL_POSITIONS =
-            Set.of(
-                    List.of(
-                            new Position(4, 8),
-                            new Position(6, 10)
-                    ),
-                    List.of(
-                            new Position(4, 10),
-                            new Position(6, 8)
-                    ),
-                    List.of(
-                            new Position(6, 10),
-                            new Position(4, 8)
-                    ),
-                    List.of(
-                            new Position(6, 8),
-                            new Position(4, 10)
-                    )
-            );
-    private static final Set<List<Position>> HAN_DIGONAL_POSITIONS =
-            Set.of(
-                    List.of(
-                            new Position(4, 1),
-                            new Position(6, 3)
-                    ),
-                    List.of(
-                            new Position(4, 3),
-                            new Position(6, 1)
-                    ),
-                    List.of(
-                            new Position(6, 3),
-                            new Position(4, 1)
-                    ),
-                    List.of(
-                            new Position(6, 1),
-                            new Position(4, 3)
-                    )
-            );
-    private static final List<Position> CHO_DIAGONAL = List.of(
+    private static final List<Position> CHO_PALACE_VERTEX = List.of(
             new Position(4, 10),
             new Position(4, 8),
             new Position(6, 10),
             new Position(6, 8)
     );
-    private static final List<Position> HAN_DIAGONAL = List.of(
+    private static final List<Position> HAN_PALACE_VERTEX = List.of(
             new Position(4, 1),
             new Position(4, 3),
             new Position(6, 1),
@@ -82,8 +44,8 @@ public class Palace {
     public static final Position CHO_PALACE_CENTER = new Position(5, 9);
     public static final Position HAN_PALACE_CENTER = new Position(5, 2);
 
-    public static boolean isInPalace(Position position) {
-        return isInChoPalace(position) || isInHanPalace(position);
+    public static boolean isOutOfPalace(Position position) {
+        return !isInChoPalace(position) && !isInHanPalace(position);
     }
 
     private static boolean isInChoPalace(Position position) {
@@ -94,16 +56,16 @@ public class Palace {
         return HAN_PALACE_ZONES.contains(position);
     }
 
-    public static boolean isPoInChoPalaceDigonal(Position position) {
-        return CHO_DIAGONAL.contains(position);
+    public static boolean isInChoPalaceVertex(Position position) {
+        return CHO_PALACE_VERTEX.contains(position);
     }
 
-    public static boolean isPoInHanPalaceDiagonal(Position position) {
-        return HAN_DIAGONAL.contains(position);
+    public static boolean isInHanPalaceVertex(Position position) {
+        return HAN_PALACE_VERTEX.contains(position);
     }
 
     public static Position calculateOppositePalaceDiagonalPosition(Position currentPosition) {
-        if (isPoInChoPalaceDigonal(currentPosition)) {
+        if (isInChoPalaceVertex(currentPosition)) {
             return calculatePointReflection(currentPosition, CHO_PALACE_CENTER);
         }
         return calculatePointReflection(currentPosition, HAN_PALACE_CENTER);

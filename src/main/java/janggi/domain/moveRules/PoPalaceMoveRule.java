@@ -12,17 +12,17 @@ public class PoPalaceMoveRule extends PoMoveRule {
 
     @Override
     public List<Position> calculateAvailablePositions(
-            Position position,
+            Position startPosition,
             Team team,
             Map<Position, Piece> state) {
         final List<Position> result = new ArrayList<>();
-        final List<Position> availablePositions = super.calculateAvailablePositions(position, team, state);
+        final List<Position> availablePositions = super.calculateAvailablePositions(startPosition, team, state);
 
-        if (!Palace.isInPalace(position)) {
+        if (Palace.isOutOfPalace(startPosition)) {
             return availablePositions;
         }
 
-        final List<Position> availablePalacePositions = calculateAvailablePalacePositions(position, team, state);
+        final List<Position> availablePalacePositions = calculateAvailablePalacePositions(startPosition, team, state);
 
         result.addAll(availablePositions);
         result.addAll(availablePalacePositions);
@@ -34,12 +34,15 @@ public class PoPalaceMoveRule extends PoMoveRule {
             Position position,
             Team team,
             Map<Position, Piece> state) {
-        if (Palace.isPoInChoPalaceDigonal(position)) {
+        if (Palace.isInChoPalaceVertex(position)) {
             Position choCenter = Palace.CHO_PALACE_CENTER;
             return availablePalacePositions(position, team, state, choCenter);
         }
-        Position hanCenter = Palace.HAN_PALACE_CENTER;
-        return availablePalacePositions(position, team, state, hanCenter);
+        if (Palace.isInHanPalaceVertex(position)) {
+            Position hanCenter = Palace.HAN_PALACE_CENTER;
+            return availablePalacePositions(position, team, state, hanCenter);
+        }
+        return new ArrayList<>();
     }
 
     private List<Position> availablePalacePositions(Position position, Team team, Map<Position, Piece> state,
