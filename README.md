@@ -107,7 +107,7 @@
 
 ---
 ## 환경 설정
-### mySql 설치 및 실행 (Docker) 
+### MySql 설치 및 실행 (Docker) 
 ```
 docker run -d \
 --name janggi-mysql \
