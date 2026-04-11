@@ -11,7 +11,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public int readMenuOption() {
-        System.out.println("1. 새로 시작 2. 불러 오기 3. 나가기");
+        System.out.println("1. 새로 시작 2. 불러 오기 3. 게임 삭제 4. 나가기");
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
@@ -26,10 +26,10 @@ public class InputView {
     }
 
     public Optional<String> readGameName(List<String> gameNames) {
-        System.out.println("불러올 게임을 선택해주세요. (예: 장기1 / q: 취소)");
+        System.out.println("게임을 선택해주세요. (예: 장기1 / q: 취소)");
 
         for (int i = 0; i < gameNames.size(); i++) {
-            System.out.println((i + 1) + ". " + gameNames);
+            System.out.println((i + 1) + ". " + gameNames.get(i));
         }
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {

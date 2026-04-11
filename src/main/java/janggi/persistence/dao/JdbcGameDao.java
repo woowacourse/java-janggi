@@ -51,7 +51,7 @@ public class JdbcGameDao implements GameDao {
                 SELECT name
                 FROM game
                 """;
-        // 이름을 담을 빈 리스트 준비
+
         List<String> names = new ArrayList<>();
 
         try (Connection con = getConnection();
@@ -91,8 +91,19 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void deleteById(String id) {
+        String sql = """
+            DELETE FROM game
+            WHERE id = ?
+            """;
 
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 삭제 도중 오류가 발생했습니다.", e);
+        }
     }
 
     @Override

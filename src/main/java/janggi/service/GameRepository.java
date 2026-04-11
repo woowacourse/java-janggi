@@ -18,5 +18,5 @@ public interface GameRepository {
 
     void update(String id, Janggi janggi);
 
-    void deleteByName(String name);
+    void deleteById(String gameId);
 }

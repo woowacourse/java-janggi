@@ -25,7 +25,13 @@ public class JanggiController {
     public void run() {
         while (true) {
             int option = inputView.readMenuOption();
+
             if (option == 3) {
+                deleteGame();
+                continue;
+            }
+
+            if (option == 4) {
                 return;
             }
 
@@ -44,6 +50,17 @@ public class JanggiController {
 
             outputView.printGameResult(janggiService.getWinner(gameId));
         }
+    }
+
+    private void deleteGame() {
+        List<String> names = janggiService.findAllNames();
+        Optional<String> gameName = inputView.readGameName(names);
+
+        if (gameName.isEmpty()) {
+            return;
+        }
+
+        janggiService.deleteByName(gameName.get());
     }
 
     private Optional<String> selectGame(int option) {

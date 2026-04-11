@@ -14,7 +14,7 @@ public interface GameDao {
 
     Optional<String> findByName(String name);
 
-    void deleteByName(String name);
+    void deleteById(String id);
 
     Optional<GameEntity> findById(String id);
 

@@ -101,7 +101,9 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void deleteByName(String name) {
-
+    public void deleteById(String gameId) {
+        pieceDao.deleteByGameId(gameId);
+        gameDao.deleteById(gameId);
+        activeGames.remove(gameId);
     }
 }
