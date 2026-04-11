@@ -4,9 +4,9 @@ import database.MysqlConnectionManager;
 import java.util.List;
 import java.util.function.Supplier;
 import model.JanggiGame;
-import model.board.Board;
 import model.board.Country;
 import model.board.HorseElephantStrategy;
+import model.board.Status;
 import model.board.strategy.ElephantSetup;
 import model.move.Move;
 import model.position.Position;
@@ -34,11 +34,15 @@ public class GameController {
         });
         JanggiGame game = prepareGame(mode);
         OutputView.printBoard(game.board());
+        if (game.isFinished()) {
+            OutputView.printEnd();
+            return;
+        }
 
         while (game.isProgressing()) {
             playTurn(game);
         }
-        endGamePhase(game.board());
+        endGamePhase(game);
     }
 
     private JanggiGame prepareGame(int mode) {
@@ -118,10 +122,23 @@ public class GameController {
         return Position.of(startList.get(0), startList.get(1));
     }
 
-    private void endGamePhase(Board board) {
-        board.winnerCountry().ifPresent(OutputView::printWinner);
-        OutputView.printScore(Country.CHO, board.sumScore(Country.CHO));
-        OutputView.printScore(Country.HAN, board.sumScore(Country.HAN));
+    private void endGamePhase(JanggiGame game) {
+        if (game.status() == Status.DRAW) {
+            drawGame(game);
+            return;
+        }
+        game.board().winnerCountry().ifPresent(OutputView::printWinner);
+        game.checkFinished();
+        gameService.finishGame(game);
+    }
+
+    private void drawGame(JanggiGame game) {
+        OutputView.printDraw();
+        OutputView.printScore(Country.CHO, game.board().sumScore(Country.CHO));
+        OutputView.printScore(Country.HAN, game.board().sumScore(Country.HAN));
+        OutputView.printWinner(game.scoreWinnerCountry());
+        game.checkFinished();
+        gameService.finishGame(game);
     }
 
     private void validateMode(int mode) {

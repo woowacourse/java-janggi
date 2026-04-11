@@ -77,12 +77,20 @@ public class OutputView {
         System.out.println(error);
     }
 
+    public static void printDraw() {
+        System.out.println("무승부입니다. 점수로 결정합니다.");
+    }
+
+    public static void printEnd() {
+        System.out.println("종료된 게임입니다.");
+    }
+
     public static void printWinner(Country country) {
         System.out.printf("%s나라 우승입니다.%n", country.title());
     }
 
-    public static void printScore(Country country, int sumScore) {
-        System.out.printf("%s나라 점수: %d%n", country.title(), sumScore);
+    public static void printScore(Country country, double sumScore) {
+        System.out.printf("%s나라 점수: %.1f%n", country.title(), sumScore);
     }
 
     private static void printColumn(int row, Board board) {

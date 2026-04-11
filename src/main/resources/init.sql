@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS janggi_game (
     id BIGINT NOT NULL AUTO_INCREMENT,
     start_turn VARCHAR(8) NOT NULL,
     room_name VARCHAR(32) NOT NULL,
+    status VARCHAR(16) NOT NULL,
 
     PRIMARY KEY (id)
 );

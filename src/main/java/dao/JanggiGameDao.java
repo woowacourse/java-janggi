@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.board.Country;
+import model.board.Status;
 import model.pieces.PieceType;
 
 public class JanggiGameDao {
@@ -20,13 +21,14 @@ public class JanggiGameDao {
         this.manager = manager;
     }
 
-    public int createGame(Country start_turn, String roomName) {
-        String sql = "INSERT INTO janggi_game (start_turn, room_name) VALUES (?, ?)";
+    public int createGame(Country start_turn, String roomName, Status status) {
+        String sql = "INSERT INTO janggi_game (start_turn, room_name, status) VALUES (?, ?, ?)";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, start_turn.name());
             pstmt.setString(2, roomName);
+            pstmt.setString(3, status.name());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
 
@@ -87,6 +89,18 @@ public class JanggiGameDao {
         }
     }
 
+    public void saveStatus(int gameId, Status status) {
+        String sql = "UPDATE janggi_game SET status = ? WHERE id = ?";
+        try (Connection conn = manager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, status.name());
+            pstmt.setInt(2, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 상태 업데이트 중 DB 오류가 발생했습니다: ", e);
+        }
+    }
+
     public int countByRoomName(String roomName) {
         String sql = "SELECT COUNT(*) FROM janggi_game WHERE room_name = ?";
         try (Connection conn = manager.getConnection();
@@ -124,7 +138,7 @@ public class JanggiGameDao {
     }
 
     public GameStatus findStatusByRoomName(String roomName) {
-        String sql = "SELECT id, start_turn, room_name FROM janggi_game WHERE room_name = ?";
+        String sql = "SELECT id, start_turn, room_name, status FROM janggi_game WHERE room_name = ?";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, roomName);
@@ -133,7 +147,8 @@ public class JanggiGameDao {
                 return new GameStatus(
                         rs.getInt("id"),
                         Country.fromCountry(rs.getString("start_turn")),
-                        rs.getString("room_name")
+                        rs.getString("room_name"),
+                        Status.fromStatus(rs.getString("status"))
                 );
             }
             throw new RuntimeException("[ERROR] DB가 비어있습니다.");
@@ -161,6 +176,25 @@ public class JanggiGameDao {
             return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임을 불러오는 중 DB 오류가 발생했습니다: ", e);
+        }
+    }
+
+    public int loadSnapshotCount(int gameId, String snapshot) {
+        String sql = "SELECT COUNT(*) FROM game_history WHERE janggi_game_id = ? AND board_snapshot = ?";
+
+        try (Connection conn = manager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, gameId);
+            pstmt.setString(2, snapshot);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 스냅샷을 검사하는 중 DB 오류가 발생했습니다: ", e);
         }
     }
 }

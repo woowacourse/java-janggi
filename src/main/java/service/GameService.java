@@ -11,6 +11,7 @@ import model.board.Army;
 import model.board.Board;
 import model.board.Country;
 import model.board.HorseElephantStrategy;
+import model.board.Status;
 import model.move.Move;
 
 public class GameService {
@@ -37,23 +38,29 @@ public class GameService {
         new Army(choStrategy).deployTo(board, Country.CHO);
         new Army(hanStrategy).deployTo(board, Country.HAN);
 
-        int id = janggiGameDao.createGame(Country.CHO, roomName);
+        int id = janggiGameDao.createGame(Country.CHO, roomName, Status.PLAYING);
         String snapshot = BoardConverter.toSnapshot(board);
         janggiGameDao.saveGame(id, Country.CHO, BoardConverter.convertToPieceDtos(board), snapshot);
-        return new JanggiGame(id, board, Country.CHO);
+        return new JanggiGame(id, board, Country.CHO, Status.PLAYING);
     }
 
     public JanggiGame continueGame(String roomName) {
-        GameStatus status = findInitialStatus(roomName);
-        List<PieceDto> pieces = janggiGameDao.loadPiecesByGameId(status.id());
-        return new JanggiGame(status.id(), BoardConverter.convertToBoard(pieces), status.turn());
+        GameStatus gameStatus = findInitialStatus(roomName);
+        List<PieceDto> pieces = janggiGameDao.loadPiecesByGameId(gameStatus.id());
+        return new JanggiGame(gameStatus.id(), BoardConverter.convertToBoard(pieces), gameStatus.turn(),
+                gameStatus.status());
     }
 
     public void moveAndSave(JanggiGame game, Move move) {
-        game.move(move);
+        String nextSnapshot = BoardConverter.toSnapshot(game.board());
+        int repetitionCount = janggiGameDao.loadSnapshotCount(game.id(), nextSnapshot);
+        game.move(move, repetitionCount);
         game.nextTurn();
-        String snapshot = BoardConverter.toSnapshot(game.board());
-        janggiGameDao.saveGame(game.id(), game.turn(), BoardConverter.convertToPieceDtos(game.board()), snapshot);
+        janggiGameDao.saveGame(game.id(), game.turn(), BoardConverter.convertToPieceDtos(game.board()), nextSnapshot);
+    }
+
+    public void finishGame(JanggiGame game) {
+        janggiGameDao.saveStatus(game.id(), game.status());
     }
 
     private GameStatus findInitialStatus(String roomName) {

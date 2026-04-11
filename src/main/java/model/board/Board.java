@@ -11,11 +11,11 @@ import model.pieces.PieceType;
 import model.position.Position;
 
 public class Board {
+    private static final double PLUS_SCORE = 1.5;
     private static final int MIN_ROW = 1;
     private static final int MAX_ROW = 10;
     private static final int MIN_COL = 1;
     private static final int MAX_COL = 9;
-    private static final int GENERAL_COUNT = 2;
     private final Map<Position, Piece> board;
 
     public Board() {
@@ -79,15 +79,15 @@ public class Board {
                 .anyMatch(piece -> piece.pieceType() == type);
     }
 
-    public boolean endCondition() {
-        return countGeneral();
-    }
-
-    public int sumScore(Country country) {
-        return board.values().stream()
+    public double sumScore(Country country) {
+        double sum = board.values().stream()
                 .filter(piece -> piece.country() == country)
                 .map(Piece::pieceType)
                 .mapToInt(PieceType::score).sum();
+        if (country == Country.HAN) {
+            sum += PLUS_SCORE;
+        }
+        return sum;
     }
 
     public Optional<Country> winnerCountry() {
@@ -101,10 +101,9 @@ public class Board {
         board.forEach(action);
     }
 
-    private boolean countGeneral() {
-        int generalCount = (int) board.values().stream()
+    public int countGeneral() {
+        return (int) board.values().stream()
                 .filter(piece -> piece.pieceType() == PieceType.GENERAL).count();
-        return generalCount == GENERAL_COUNT;
     }
 
     private void executeMove(Move move, Piece piece) {
