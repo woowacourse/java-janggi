@@ -1,6 +1,6 @@
 package janggi.controller.mapper;
 
-import janggi.domain.strategy.ArrangementOption;
+import janggi.domain.board.strategy.ArrangementOption;
 import janggi.view.label.ArrangementStrategyLabel;
 import java.util.EnumMap;
 import java.util.Map;

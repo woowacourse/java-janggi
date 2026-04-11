@@ -1,11 +1,11 @@
-package janggi.strategy;
+package janggi.domain.board.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.strategy.ArrangementStrategy;
-import janggi.domain.strategy.BoardAssembler;
+import janggi.domain.board.strategy.ArrangementStrategy;
+import janggi.domain.board.strategy.BoardAssembler;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package janggi.domain.strategy;
+package janggi.domain.board.strategy;
 
 import janggi.domain.board.GungSeong;
 import janggi.domain.piece.EmptyPiece;

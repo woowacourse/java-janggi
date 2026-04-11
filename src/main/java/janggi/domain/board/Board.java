@@ -4,7 +4,7 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.strategy.BoardAssembler;
+import janggi.domain.board.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
