@@ -1,7 +1,7 @@
 package database.jdbc;
 
 import database.dao.GameDao;
-import database.entity.GameEntity;
+import database.dto.GameDto;
 import domain.game.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,16 +39,15 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findLatestPlaying() {
+    public Optional<GameDto> findLatestPlaying() {
         String sql = "SELECT id, status, current_turn FROM game WHERE status = 'PLAYING' ORDER BY id DESC LIMIT 1";
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                GameEntity entity = new GameEntity(
+                GameDto entity = new GameDto(
                         resultSet.getInt("id"),
-                        resultSet.getString("status"),
                         Team.valueOf(resultSet.getString("current_turn"))
                 );
                 return Optional.of(entity);

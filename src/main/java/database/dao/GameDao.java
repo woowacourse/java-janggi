@@ -1,13 +1,13 @@
 package database.dao;
 
-import database.entity.GameEntity;
+import database.dto.GameDto;
 import domain.game.Team;
 import java.util.Optional;
 
 public interface GameDao {
     int createGame(Team initialTurn);
 
-    Optional<GameEntity> findLatestPlaying();
+    Optional<GameDto> findLatestPlaying();
 
     void updateTurn(int gameId, Team team);
 

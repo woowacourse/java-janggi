@@ -2,7 +2,7 @@ package database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import database.entity.GameEntity;
+import database.dto.GameDto;
 import database.jdbc.DatabaseConnector;
 import database.jdbc.DatabaseInitializer;
 import database.jdbc.JdbcGameDao;
@@ -58,7 +58,7 @@ class GameRepositoryTest {
 
     @Test
     void 진행중인_게임이_없으면_빈_Optional이_반환된다() {
-        Optional<GameEntity> result = gameRepository.findLatestGame();
+        Optional<GameDto> result = gameRepository.findLatestGame();
 
         assertThat(result).isEmpty();
     }
@@ -74,7 +74,7 @@ class GameRepositoryTest {
     void 게임_시작_후_최근_게임을_조회할_수_있다() {
         gameRepository.startNewGame(Team.HAN, createPieces());
 
-        Optional<GameEntity> result = gameRepository.findLatestGame();
+        Optional<GameDto> result = gameRepository.findLatestGame();
 
         assertThat(result).isPresent();
         assertThat(result.get().currentTurn()).isEqualTo(Team.HAN);
@@ -120,7 +120,7 @@ class GameRepositoryTest {
 
         gameRepository.saveMove(gameId, src, dest, false, Team.CHO);
 
-        Optional<GameEntity> result = gameRepository.findLatestGame();
+        Optional<GameDto> result = gameRepository.findLatestGame();
         assertThat(result.get().currentTurn()).isEqualTo(Team.CHO);
     }
 

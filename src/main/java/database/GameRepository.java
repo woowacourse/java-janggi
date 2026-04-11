@@ -2,7 +2,7 @@ package database;
 
 import database.dao.GameDao;
 import database.dao.PieceDao;
-import database.entity.GameEntity;
+import database.dto.GameDto;
 import domain.game.Team;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -18,12 +18,13 @@ public class GameRepository {
         this.pieceDao = pieceDao;
     }
 
-    public Optional<GameEntity> findLatestGame() {
+    public Optional<GameDto> findLatestGame() {
         return gameDao.findLatestPlaying();
     }
 
     public int startNewGame(Team initialTurn, Map<Position, Piece> pieces) {
         int gameId = gameDao.createGame(initialTurn);
+
         pieceDao.saveAll(gameId, pieces);
         return gameId;
     }

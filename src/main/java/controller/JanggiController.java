@@ -1,7 +1,7 @@
 package controller;
 
 import database.GameRepository;
-import database.entity.GameEntity;
+import database.dto.GameDto;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.game.Score;
@@ -59,7 +59,7 @@ public class JanggiController {
                 .orElseGet(this::startNewGame);
     }
 
-    private GameState resumeGame(GameEntity entity) {
+    private GameState resumeGame(GameDto entity) {
         Board board = new Board(gameRepository.loadPieces(entity.id()));
         Turn turn = Turn.of(entity.currentTurn());
         return new GameState(board, turn, entity.id());
