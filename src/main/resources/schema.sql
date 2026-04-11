@@ -1,6 +1,7 @@
-DROP TABLE IF EXISTS `board`;
-DROP TABLE IF EXISTS `game_state`;
+CREATE DATABASE IF NOT EXISTS janggi_db;
+USE janggi_db;
 
+DROP TABLE IF EXISTS `board`;
 CREATE TABLE `board`
 (
     `id`         INT         NOT NULL AUTO_INCREMENT,
@@ -11,6 +12,7 @@ CREATE TABLE `board`
     PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `game_state`;
 CREATE TABLE `game_state`
 (
     `id`           INT AUTO_INCREMENT PRIMARY KEY,
