@@ -126,7 +126,7 @@ class BoardTest {
     }
 
     @Test
-    void 상대_진영의_왕이_존재하는지_확인한다() {
+    void 현재_차례인_진영의_왕이_존재하는지_확인한다() {
         // given
         CampType currnetTurnCampType = CampType.CHO;
         Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.HAN)));
