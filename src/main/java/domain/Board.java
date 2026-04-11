@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
 
@@ -97,5 +98,27 @@ public class Board implements BoardChecker {
     private boolean leftOneGeneral() {
         return board.values().stream().filter(piece -> piece.getPieceType() == PieceType.GENERAL)
                 .count() == 1;
+    }
+
+    public double calculateScoreByCamp(Camp camp) {
+        List<Piece> pieces = getPiecesByCamp(camp);
+        return pieces.stream()
+                .mapToInt(p -> p.getPieceType().getScore())
+                .sum() + getBonusScore(camp);
+    }
+
+    private double getBonusScore(Camp camp) {
+        if (camp == Camp.HAN) {
+            return 1.5;
+        }
+        return 0;
+    }
+
+    public List<Piece> getPiecesByCamp(Camp camp) {
+        return board.values().stream().filter(p -> p.isSameCamp(camp)).collect(Collectors.toList());
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
     }
 }

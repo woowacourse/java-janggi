@@ -88,4 +88,24 @@ public class BoardTest {
 
         Assertions.assertTrue(board.isGameOver());
     }
+
+    @Test
+    void 한나라_현재_남은_기물의_점수를_구할_수_있다() {
+        Board board = new Board();
+        board.generatePiecesBy(Camp.HAN, 1);
+
+        double totalScore = board.calculateScoreByCamp(Camp.HAN);
+
+        Assertions.assertEquals(totalScore, 73.5);
+    }
+
+    @Test
+    void 초나라_현재_남은_기물의_점수를_구할_수_있다() {
+        Board board = new Board();
+        board.generatePiecesBy(Camp.CHO, 1);
+
+        double totalScore = board.calculateScoreByCamp(Camp.CHO);
+
+        Assertions.assertEquals(totalScore, 72);
+    }
 }

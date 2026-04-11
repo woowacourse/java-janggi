@@ -13,39 +13,39 @@ import java.util.Collections;
 import java.util.List;
 
 public enum PieceType {
-    GENERAL(List.of(new Position(4, 1))) {
+    GENERAL(0, List.of(new Position(4, 1))) {
         @Override
         public Piece create(Camp camp) {
             return new General(camp);
         }
     },
-    GUARD(List.of(new Position(3, 0),
+    GUARD(3, List.of(new Position(3, 0),
             new Position(5, 0))) {
         @Override
         public Piece create(Camp camp) {
             return new Guard(camp);
         }
     },
-    HORSE(Collections.emptyList()) {
+    HORSE(5, Collections.emptyList()) {
         @Override
         public Piece create(Camp camp) {
             return new Horse(camp);
         }
     },
-    CANNON(List.of(new Position(1, 2),
+    CANNON(7, List.of(new Position(1, 2),
             new Position(7, 2))) {
         @Override
         public Piece create(Camp camp) {
             return new Cannon(camp);
         }
     },
-    ELEPHANT(Collections.emptyList()) {
+    ELEPHANT(3, Collections.emptyList()) {
         @Override
         public Piece create(Camp camp) {
             return new Elephant(camp);
         }
     },
-    SOLDIER(List.of(new Position(0, 3),
+    SOLDIER(2, List.of(new Position(0, 3),
             new Position(2, 3),
             new Position(4, 3), new Position(6, 3), new Position(8, 3))) {
         @Override
@@ -53,23 +53,25 @@ public enum PieceType {
             return new Soldier(camp);
         }
     },
-    CHARIOT(List.of(new Position(0, 0),
+    CHARIOT(13, List.of(new Position(0, 0),
             new Position(8, 0))) {
         @Override
         public Piece create(Camp camp) {
             return new Chariot(camp);
         }
     },
-    NONE(Collections.emptyList()) {
+    NONE(0, Collections.emptyList()) {
         @Override
         public Piece create(Camp camp) {
             return new Empty(camp);
         }
     };
 
+    private final int score;
     private final List<Position> initialPositions;
 
-    PieceType(List<Position> initialPositions) {
+    PieceType(int score, List<Position> initialPositions) {
+        this.score = score;
         this.initialPositions = initialPositions;
     }
 
@@ -77,5 +79,9 @@ public enum PieceType {
 
     public List<Position> getInitialPositions() {
         return initialPositions;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
