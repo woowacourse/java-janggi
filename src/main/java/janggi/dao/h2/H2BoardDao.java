@@ -24,33 +24,31 @@ public class H2BoardDao implements BoardDao {
 
     @Override
     public void save(BoardEntity board) {
-        String deleteSql = "DELETE FROM BOARD WHERE game_id=?";
         String insertSql = """
-                INSERT INTO BOARD (GAME_ID, PIECE_ID, SIDE, X, Y)
-                SELECT ?, p.id, ?, ?, ?
-                FROM PIECE p
-                WHERE p.PIECE_TYPE = ?
+                MERGE INTO BOARD (GAME_ID, PIECE_ID, SIDE, X, Y)
+                KEY (GAME_ID, X, Y)
+                VALUES (
+                    ?,
+                    (SELECT id FROM PIECE WHERE PIECE_TYPE = ?),
+                    ?,
+                    ?,
+                    ?
+                )
                 """;
 
         try (Connection conn = jdbcDataSource.getConnection();
-             PreparedStatement deleteStmt = conn.prepareStatement(deleteSql);
              PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
 
-            deleteStmt.setInt(1, board.gameId());
-            deleteStmt.executeUpdate();
-
             Map<Point, Piece> pieces = board.board();
-
             for (Entry<Point, Piece> entry : pieces.entrySet()) {
                 Point point = entry.getKey();
                 Piece piece = entry.getValue();
 
                 insertStmt.setInt(1, board.gameId());
-
-                insertStmt.setString(2, piece.getSide().name());
-                insertStmt.setInt(3, point.x());
-                insertStmt.setInt(4, point.y());
-                insertStmt.setString(5, piece.getPieceType().name());
+                insertStmt.setString(2, piece.getPieceType().name());
+                insertStmt.setString(3, piece.getSide().name());
+                insertStmt.setInt(4, point.x());
+                insertStmt.setInt(5, point.y());
 
                 insertStmt.addBatch();
             }
@@ -58,7 +56,6 @@ public class H2BoardDao implements BoardDao {
             insertStmt.executeBatch();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalStateException(
                     "Board 저장에 실패했습니다. board.gameId: " + board.gameId(), e);
         }
@@ -98,7 +95,6 @@ public class H2BoardDao implements BoardDao {
             return new BoardEntity(gameId, pieces);
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalStateException("Board 찾기에 실패했습니다. board.gameId: " + gameId, e);
         }
     }
