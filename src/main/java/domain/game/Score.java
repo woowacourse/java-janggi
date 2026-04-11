@@ -1,7 +1,6 @@
 package domain.game;
 
 public record Score(double score) {
-
     public Score add(Score other) {
         return new Score(this.score + other.score());
     }

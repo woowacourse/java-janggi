@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
-
     private final DatabaseConnector connector;
 
     public JdbcGameDao(DatabaseConnector connector) {

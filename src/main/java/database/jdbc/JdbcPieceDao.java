@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JdbcPieceDao implements PieceDao {
-
     private final DatabaseConnector connector;
 
     public JdbcPieceDao(DatabaseConnector connector) {

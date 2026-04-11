@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector {
-
     private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/jangi-db";
     private static final String DEFAULT_USER = "jangi";
     private static final String DEFAULT_PASSWORD = "jangi";

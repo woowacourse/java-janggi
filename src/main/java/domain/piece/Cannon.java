@@ -5,7 +5,6 @@ import domain.position.Position;
 import java.util.List;
 
 public class Cannon extends Piece implements CannonRule {
-
     public Cannon(Team team) {
         super(team, PieceDefinition.PHO);
     }

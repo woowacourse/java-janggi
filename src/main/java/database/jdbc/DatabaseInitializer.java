@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-
 public class DatabaseInitializer {
-
     private static final String SCHEMA_PATH = "Schema.sql";
 
     public static void initialize(DatabaseConnector connector) {
