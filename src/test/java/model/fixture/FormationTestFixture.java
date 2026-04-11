@@ -1,10 +1,10 @@
 package model.fixture;
 
+import model.Team;
 import model.formation.MaSangMaSangStrategy;
 import model.formation.MaSangSangMaStrategy;
 import model.formation.SangMaMaSangStrategy;
 import model.formation.SangMaSangMaStrategy;
-import model.game.Team;
 import model.piece.Elephant;
 import model.piece.Horse;
 import org.junit.jupiter.params.provider.Arguments;

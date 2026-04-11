@@ -1,17 +1,16 @@
 package model.piece;
 
-import model.board.Board;
-import model.coordinate.Position;
-import model.game.Team;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import model.Board;
+import model.Team;
+import model.coordinate.Position;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class ChariotTest {
 
@@ -86,7 +85,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.createRoute(path).hasPiece()).isTrue();
+        assertThat(board.hasPieceAt(path)).isTrue();
     }
 
     @Test
@@ -104,7 +103,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.createRoute(path).hasPiece()).isFalse();
+        assertThat(board.hasPieceAt(path)).isFalse();
     }
 
     @Test
@@ -120,32 +119,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.createRoute(path).hasPiece()).isFalse();
-    }
-
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#차_궁성_대각선_이동_가능")
-    void 차는_궁성_내에서_대각선으로_이동할_수_있다(Position current, Position next) {
-        // given
-        Piece chariot = new Chariot(Team.HAN);
-        // when
-        boolean canMove = chariot.canMove(current, next);
-        // then
-        assertThat(canMove).isTrue();
-    }
-
-    @Test
-    void 차는_궁성_내_대각선_이동시_경로를_반환한다() {
-        // given
-        Piece chariot = new Chariot(Team.HAN);
-        Position current = new Position(0, 3);
-        Position next = new Position(2, 5);
-
-        // when
-        List<Position> path = chariot.extractPath(current, next);
-
-        // then
-        assertThat(path).containsExactly(new Position(1, 4));
+        assertThat(board.hasPieceAt(path)).isFalse();
     }
 
 }

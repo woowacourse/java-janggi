@@ -1,31 +1,23 @@
 package model.piece;
 
-import model.coordinate.Direction;
-import model.coordinate.PalacePositions;
-import model.coordinate.Position;
-import model.game.Team;
-import model.piece.strategy.LinearReach;
-import model.piece.strategy.PalaceLinearReach;
-import model.piece.strategy.ReachStrategy;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Team;
+import model.coordinate.Direction;
+import model.coordinate.Position;
 
 public class Cannon extends Piece {
-
-    private static final ReachStrategy DEFAULT = new LinearReach();
-    private static final ReachStrategy PALACE = new PalaceLinearReach();
 
     public Cannon(Team team) {
         super(team, PieceType.CANNON);
     }
 
     @Override
-    public List<Position> extractPath(Position currentExclusive, Position nextExclusive) {
-        Direction direction = Direction.from(currentExclusive, nextExclusive);
+    public List<Position> extractPath(Position current, Position next) {
+        Direction direction = Direction.from(current, next);
         List<Position> path = new ArrayList<>();
-        Position step = currentExclusive.move(direction);
-        while (!step.equals(nextExclusive)) {
+        Position step = current.move(direction);
+        while (!step.equals(next)) {
             path.add(step);
             step = step.move(direction);
         }
@@ -33,10 +25,9 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected ReachStrategy determineReachStrategy(Position current, Position next) {
-        if (PalacePositions.onPalaceDiagonal(current) && PalacePositions.onPalaceDiagonal(next)) {
-            return PALACE;
-        }
-        return DEFAULT;
+    protected boolean isReachable(int rowDiff, int colDiff) {
+        int absRowDiff = Math.abs(rowDiff);
+        int absColDiff = Math.abs(colDiff);
+        return (absColDiff >= 1 && absRowDiff == 0) || (absColDiff == 0 && absRowDiff >= 1);
     }
 }
