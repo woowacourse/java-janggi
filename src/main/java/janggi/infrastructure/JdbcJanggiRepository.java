@@ -13,9 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -27,7 +25,6 @@ public class JdbcJanggiRepository implements JanggiRepository {
     private static final String DELETE_BOARD_SQL = "DELETE FROM board_state WHERE game_id = ?";
     private static final String INSERT_BOARD_SQL = "INSERT INTO board_state (game_id, row_index, col_index, piece_type, side, piece_number) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SELECT_IN_PROGRESS_ID_SQL = "SELECT id FROM game WHERE is_finished = FALSE ORDER BY created_at DESC LIMIT 1";
-    private static final String SELECT_ALL_IN_PROGRESS_IDS_SQL = "SELECT id FROM game WHERE is_finished = FALSE ORDER BY created_at DESC";
     private static final String SELECT_BOARD_BY_ID_SQL = "SELECT row_index, col_index, piece_type, side, piece_number FROM board_state WHERE game_id = ?";
     private static final String SELECT_PLAYERS_BY_ID_SQL = "SELECT cho_player, han_player, current_turn FROM game WHERE id = ?";
     private static final String SELECT_TURN_BY_ID_SQL = "SELECT current_turn FROM game WHERE id = ?";
@@ -49,7 +46,6 @@ public class JdbcJanggiRepository implements JanggiRepository {
     private static final String ERROR_ID_GENERATION = "[ERROR] ID 생성 실패";
     private static final String ERROR_UPDATE_STATUS = "[ERROR] 게임 상태 업데이트 실패: ";
     private static final String ERROR_FIND_IN_PROGRESS = "[ERROR] 진행 중인 게임 조회 실패: ";
-    private static final String ERROR_FIND_ALL_IN_PROGRESS = "[ERROR] 게임 목록 조회 실패: ";
     private static final String ERROR_FIND_BOARD = "[ERROR] 보드 복구 실패: ";
     private static final String ERROR_FIND_PLAYERS = "[ERROR] 플레이어 조회 실패: ";
     private static final String ERROR_NOT_FOUND_GAME = "[ERROR] 해당 ID의 게임을 찾을 수 없습니다.";
