@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class ScoreBoard {
 
+    private static final double CHO_INITIAL_SCORE = 0.0;
+    private static final double HAN_INITIAL_SCORE = 1.5;
+
     private final Map<CampType, Double> scoreBoard;
 
     public static ScoreBoard create() {
@@ -14,16 +17,14 @@ public class ScoreBoard {
     }
 
     public static ScoreBoard restore(Map<Position, Piece> pieces) {
-        double choScore = 0;
-        double hanScore = 1.5;
-        for (Piece piece : pieces.values()) {
-            if (piece.campType() == CampType.CHO) {
-                choScore += piece.getScore();
-                continue;
-            }
-            hanScore += piece.getScore();
-        }
-        return new ScoreBoard(choScore, hanScore);
+        Map<CampType, Double> scores = new EnumMap<>(Map.of(
+                CampType.CHO, CHO_INITIAL_SCORE,
+                CampType.HAN, HAN_INITIAL_SCORE
+        ));
+        pieces.values().forEach(piece ->
+                scores.merge(piece.campType(), piece.getScore(), Double::sum)
+        );
+        return new ScoreBoard(scores.get(CampType.CHO), scores.get(CampType.HAN));
     }
 
     private ScoreBoard(double choScore, double hanScore) {
