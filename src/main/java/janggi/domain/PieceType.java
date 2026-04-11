@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.moveRules.ChaMoveRule;
+import janggi.domain.moveRules.ChaPalaceMoveRule;
 import janggi.domain.moveRules.JumpMoveRule;
 import janggi.domain.moveRules.MoveRule;
 import janggi.domain.moveRules.OnceMoveRule;
@@ -11,7 +11,7 @@ public enum PieceType {
     SA(new OnceMoveRule()),
     SANG(new JumpMoveRule()),
     MA(new JumpMoveRule()),
-    CHA(new ChaMoveRule()),
+    CHA(new ChaPalaceMoveRule()),
     PO(new PoPalaceMoveRule()),
     ZOL(new OnceMoveRule());
 
