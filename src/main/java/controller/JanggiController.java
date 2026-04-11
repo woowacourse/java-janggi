@@ -1,13 +1,7 @@
 package controller;
 
-import domain.JanggiBoard;
-import domain.JanggiBoardInitializer;
-import domain.dto.JanggiBoardDto;
-import domain.piece.Blank;
-import domain.ScoreCalculator;
+import domain.JanggiGame;
 import domain.Team;
-import domain.dto.JanggiBoardDto;
-import domain.piece.MoveablePiece;
 import domain.position.Position;
 import view.InputView;
 import view.OutputView;
@@ -22,55 +16,36 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
+        JanggiGame janggiGame = new JanggiGame();
         boolean isRunning = true;
         while (isRunning) {
             try {
-                outputView.printBoard(JanggiBoardDto.from(janggiBoard));
+                outputView.printBoard(janggiGame.getBoardDto());
                 Position from = inputMovePosition();
                 Position to = inputTargetPosition();
-                if (janggiBoard.isBlank(from)) {
-                    throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
-                }
-                MoveablePiece currentPiece = (MoveablePiece) janggiBoard.getPiece(from);
-                if (currentPiece.getTeam() != janggiBoard.getTurn()) {
-                    throw new IllegalArgumentException("[ERROR] 상대방의 기물을 이동할 수 없습니다.");
-                }
-                boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
-                if (!movePiece) {
-                    throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
-                }
-                janggiBoard.move(from, to, currentPiece);
-                if (janggiBoard.isGameOver()) {
+                janggiGame.playTurn(from, to);  // 턴 전체를 JanggiGame에 위임
+                if (janggiGame.isGameOver()) {
                     isRunning = false;
                 }
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e);
             }
         }
-        ScoreCalculator scoreCalculator = new ScoreCalculator();
-        double choScore = scoreCalculator.calculateScore(JanggiBoardDto.from(janggiBoard), Team.CHO);
-        double hanScore = scoreCalculator.calculateScore(JanggiBoardDto.from(janggiBoard), Team.HAN);
-        outputView.printResult(choScore, hanScore);
+        outputView.printResult(
+                janggiGame.calculateScore(Team.CHO),
+                janggiGame.calculateScore(Team.HAN)
+        );
     }
 
     private Position inputMovePosition() {
-        String inputMovePosition = inputView.inputMovePiece();
-        String[] parts = inputMovePosition.split(",");
-
-        int row = Integer.parseInt(parts[0].trim());
-        int column = Integer.parseInt(parts[1].trim());
-
-        return new Position(row, column);
+        String input = inputView.inputMovePiece();
+        String[] parts = input.split(",");
+        return new Position(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
 
     private Position inputTargetPosition() {
-        String inputTargetPosition = inputView.inputTargetPosition();
-        String[] parts = inputTargetPosition.split(",");
-
-        int row = Integer.parseInt(parts[0].trim());
-        int column = Integer.parseInt(parts[1].trim());
-
-        return new Position(row, column);
+        String input = inputView.inputTargetPosition();
+        String[] parts = input.split(",");
+        return new Position(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
 }
