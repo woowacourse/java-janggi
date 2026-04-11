@@ -12,8 +12,6 @@ import java.util.Map;
 
 public class Game {
 
-    private static final double FIRST_MOVE_BONUS = 1.5;
-
     private Long id;
     private final Board board;
     private GameState gameState;

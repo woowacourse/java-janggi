@@ -1,5 +1,7 @@
 import controller.JanggiController;
 
+import domain.repository.BoardStateDao;
+import domain.repository.GameRoomDao;
 import domain.repository.JdbcGameRepository;
 import service.JanggiService;
 import view.InputView;
@@ -13,7 +15,7 @@ public class Application {
         JanggiController janggiController = new JanggiController(
                 new InputView(new Scanner(System.in)),
                 new OutputView(),
-                new JanggiService(new JdbcGameRepository())
+                new JanggiService(new JdbcGameRepository(new GameRoomDao(), new BoardStateDao()))
         );
         janggiController.run();
     }

@@ -54,7 +54,6 @@ class ElephantTest {
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
-        System.out.println(possibleMoves);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
