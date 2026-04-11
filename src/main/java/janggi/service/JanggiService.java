@@ -52,6 +52,7 @@ public class JanggiService {
     public GameResult drawGame(Long gameId) {
         Janggi janggi = loadJanggi(gameId);
         janggi.drawGame();
+        janggiRepository.update(gameId, janggi);
         if (janggi.isOnGoing()) {
             throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
         }

@@ -17,20 +17,20 @@ public class GameStateFactory {
     }
 
     private static GameState createFinishedState(Camp camp, String stateType) {
-        if (stateType.equals("DRAW")) {
+        if ("DRAW".equals(stateType)) {
             return new Draw(camp);
         }
-        if (stateType.equals("CHECKMATE")) {
+        if ("CHECKMATE".equals(stateType)) {
             return new Checkmate(camp);
         }
-        if (stateType.equals("GIVE UP")) {
+        if ("GIVE UP".equals(stateType)) {
             return new GiveUp(camp);
         }
         throw new UnsupportedOperationException("지원되지 않는 게임 종료 상태입니다.");
     }
 
     private static GameState createRunningState(String stateType) {
-        if (stateType.equals("CHO TURN")) {
+        if ("CHO TURN".equals(stateType)) {
             return new ChoTurn();
         }
         return new HanTurn();

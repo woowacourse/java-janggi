@@ -33,6 +33,6 @@ public class Soldier extends Piece {
 
     @Override
     protected PieceDisplayName pieceDisplayName() {
-        return PieceDisplayName.SOLIDER;
+        return PieceDisplayName.SOLDIER;
     }
 }

@@ -9,7 +9,7 @@ public enum PieceDisplayName {
     ELEPHANT("象", "象"),
     GENERAL("楚", "漢"),
     HORSE("馬", "馬"),
-    SOLIDER("卒", "兵");
+    SOLDIER("卒", "兵");
 
 
     private final String choName;

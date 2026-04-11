@@ -19,19 +19,32 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public Long save(Janggi janggi) {
-        String insertGameSql = "INSERT INTO game (turn, ongoing) VALUES (?, ?)";
-        try (Connection connection = DBConnectionProvider.getConnection();
-             PreparedStatement statement = connection.prepareStatement(insertGameSql,
-                     Statement.RETURN_GENERATED_KEYS)) {
-            return executeGameInsert(connection, statement, janggi);
+        String insertGameSql = "INSERT INTO game (turn, ongoing, state_type) VALUES (?, ?, ?)";
+        try (Connection connection = DBConnectionProvider.getConnection()) {
+            return executeInSaveTransaction(connection, insertGameSql, janggi);
         } catch (SQLException e) {
             throw new IllegalArgumentException("게임 저장 중 오류 발생");
+        }
+    }
+
+    private Long executeInSaveTransaction(Connection connection, String sql, Janggi janggi) throws SQLException {
+        connection.setAutoCommit(false);
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            Long gameId = executeGameInsert(connection, statement, janggi);
+            connection.commit();
+            return gameId;
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 
     private Long executeGameInsert(Connection connection, PreparedStatement statement, Janggi janggi) throws SQLException {
         statement.setString(1, janggi.currentTurn().name());
         statement.setBoolean(2, janggi.isOnGoing());
+        statement.setString(3, janggi.getStateType());
         statement.executeUpdate();
         return extractGameIdAndSavePieces(connection, statement, janggi);
     }
@@ -104,7 +117,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     private void updateGameRecord(Connection connection, Long id, Janggi janggi) throws SQLException {
-        String sql = "UPDATE game SET turn = ?, ongoing = ?, result_type = ? WHERE id = ?";
+        String sql = "UPDATE game SET turn = ?, ongoing = ?, state_type = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             bindGameUpdateParams(statement, id, janggi);
             statement.executeUpdate();
@@ -146,11 +159,11 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     private Optional<Janggi> reconstructJanggi(Connection connection, ResultSet resultSet, Long gameId) throws SQLException {
         if (resultSet.next()) {
-            return Optional.empty();
+            GameState gameState = extractGameState(resultSet);
+            Board board = loadBoard(connection, gameId);
+            return Optional.of(Janggi.reconstruct(board, gameState));
         }
-        GameState gameState = extractGameState(resultSet);
-        Board board = loadBoard(connection, gameId);
-        return Optional.of(Janggi.reconstruct(board, gameState));
+        return Optional.empty();
     }
 
     private GameState extractGameState(ResultSet resultSet) throws SQLException {
@@ -167,28 +180,28 @@ public class JdbcJanggiRepository implements JanggiRepository {
         }
     }
 
-    private Board executePieceSelect(PreparedStatement pstmt, Long gameId) throws SQLException {
-        pstmt.setLong(1, gameId);
-        try (ResultSet rs = pstmt.executeQuery()) {
-            return extractBoard(rs);
+    private Board executePieceSelect(PreparedStatement statement, Long gameId) throws SQLException {
+        statement.setLong(1, gameId);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            return extractBoard(resultSet);
         }
     }
 
-    private Board extractBoard(ResultSet rs) throws SQLException {
+    private Board extractBoard(ResultSet resultSet) throws SQLException {
         Map<Position, Piece> pieces = new HashMap<>();
-        while (rs.next()) {
-            putSinglePiece(pieces, rs);
+        while (resultSet.next()) {
+            putSinglePiece(pieces, resultSet);
         }
         return Board.reconstruct(pieces);
     }
 
-    private void putSinglePiece(Map<Position, Piece> pieces, ResultSet rs) throws SQLException {
-        int row = rs.getInt("row_pos");
-        int col = rs.getInt("col_pos");
+    private void putSinglePiece(Map<Position, Piece> pieces, ResultSet resultSet) throws SQLException {
+        int row = resultSet.getInt("row_pos");
+        int col = resultSet.getInt("col_pos");
         Position position = Position.of(row, col);
 
-        String pieceType = rs.getString("piece_type");
-        Camp camp = Camp.valueOf(rs.getString("camp"));
+        String pieceType = resultSet.getString("piece_type");
+        Camp camp = Camp.valueOf(resultSet.getString("camp"));
 
         Piece piece = PieceFactory.create(pieceType, camp);
 

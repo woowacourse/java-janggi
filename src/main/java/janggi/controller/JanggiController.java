@@ -79,7 +79,7 @@ public class JanggiController {
     private Optional<GameResult> processMove(Long gameId, PositionRequest fromRequest) {
         try {
             Optional<PositionRequest> toRequest = inputView.readMoveDestination();
-            if (toRequest.isPresent()) {
+            if (toRequest.isEmpty()) {
                 return Optional.empty();
             }
             janggiService.move(gameId,
