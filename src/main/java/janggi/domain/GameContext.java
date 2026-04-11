@@ -49,4 +49,8 @@ public class GameContext {
     public TeamType currentTeamType() {
         return turnManager.currentTeamType();
     }
+
+    public double calculateScore() {
+        return board.calculateScore(turnManager.currentTeamType());
+    }
 }

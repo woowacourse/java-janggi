@@ -78,6 +78,8 @@ public class JanggiController {
     }
 
     private Position pickPiece(GameContext gameContext) {
+        double score = gameContext.calculateScore();
+        OutputView.printScore(gameContext.currentTeamTypeToName(), score);
         OutputView.printBoard(BoardDto.from(gameContext), gameContext.currentTeamTypeToName());
         return findFromPosition(gameContext);
     }

@@ -64,6 +64,10 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
+    public static void printScore(String currentTeamType, double score) {
+        System.out.println(currentTeamType + "의 현재 점수: " + score);
+    }
+
     public static void printBoard(final BoardDto boardDto, String currentTeamType) {
         System.out.println(currentTeamType + "의 차례입니다.");
         printBoardWithMovable(boardDto, List.of());
