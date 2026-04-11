@@ -54,12 +54,12 @@ public class JanggiGameService {
                 boardRepository.savePlacementByGameId(board, gameMetaData.id(), side, connection);
                 janggiGameRepository.updateGameStatusById(gameMetaData.id(), newStatus, connection);
                 connection.commit();
-            } catch (Exception e) {
+            } catch (IllegalStateException e) {
                 connection.rollback();
-                throw new IllegalStateException("상차림 완료 처리에 실패했습니다.", e);
+                throw new IllegalStateException("상차림 도중 오류가 생겨 DB 반영에 실패하였습니다.", e);
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
+            throw new IllegalStateException("트랜잭션을 시작하거나 종료하는 중 오류가 발생하였습니다.", e);
         }
     }
 
@@ -85,13 +85,14 @@ public class JanggiGameService {
                 currentTurnSide = changeSide(currentTurnSide);
                 boolean isJangGun = updateAndStoreJangGunCount(board, gameId, currentTurnSide, connection);
                 updateTurn(gameId, currentTurnSide, connection);
+                connection.commit();
                 return new TurnResult(currentTurnSide, isJangGun);
-            } catch (Exception e) {
+            } catch (IllegalStateException e) {
                 connection.rollback();
-                throw new IllegalStateException("턴 진행 도중에 오류가 발생하였습니다.");
+                throw new IllegalStateException("턴 진행 도중에 오류가 발생하여 DB 반영에 실패하였습니다.", e);
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
+            throw new IllegalStateException("트랜잭션을 시작하거나 종료하는 중 오류가 발생하였습니다.", e);
         }
     }
 
