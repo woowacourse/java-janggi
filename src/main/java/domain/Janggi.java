@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public class Janggi {
 
-    private Long id;
     private final Players players;
     private final Board board;
+    private Long id;
     private Player currentPlayer;
     private boolean gameOver;
     private double choScore = 72;

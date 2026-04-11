@@ -31,7 +31,7 @@ public class GameController {
 
             playTurn(player, janggi);
             outputView.printScore(janggi.getGameTotalScore());
-            if(janggi.isGameOver()) {
+            if (janggi.isGameOver()) {
                 outputView.printWinner(janggi.getWinner());
                 break;
             }

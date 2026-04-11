@@ -1,12 +1,12 @@
 package data;
 
-import java.sql.Connection;
-import java.util.Optional;
 import domain.place.piece.Side;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
 

@@ -1,6 +1,5 @@
 package domain.place.piece;
 
-import ch.qos.logback.core.layout.EchoLayout;
 import domain.player.Player;
 
 public enum Side {
@@ -37,7 +36,9 @@ public enum Side {
     }
 
     public Player resolve(Player cho, Player han) {
-        if(this == CHO) return cho;
+        if (this == CHO) {
+            return cho;
+        }
         return han;
     }
 }

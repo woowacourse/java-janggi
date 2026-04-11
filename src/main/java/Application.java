@@ -1,15 +1,7 @@
 import controller.GameController;
 import domain.Janggi;
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.HorseElephantFormation;
-import domain.place.piece.Side;
-import domain.player.Player;
 import domain.player.Players;
-import domain.position.Position;
-import java.util.List;
-import parser.PlayerNameParser;
-import parser.PositionParser;
 import view.InputView;
 import view.OutputView;
 
