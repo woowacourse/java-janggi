@@ -18,7 +18,7 @@ public class JanggiApplication {
 
     private static DataSource initDatabase() {
         DataSource dataSource = DataSourceConfig.getDataSource();
-        DatabaseInitializer.initialize(dataSource);
+        DataSourceConfig.DatabaseInitializer.initialize(dataSource);
         return dataSource;
     }
 

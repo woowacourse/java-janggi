@@ -1,4 +1,4 @@
-package janggi;
+package janggi.config;
 
 import javax.sql.DataSource;
 import java.io.IOException;

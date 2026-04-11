@@ -3,7 +3,7 @@ package janggi.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.sql.DataSource;
-import janggi.TestDataInitializer;
+import janggi.config.TestDataInitializer;
 import janggi.config.TestDataSourceConfig;
 import janggi.domain.game.GameRoom;
 import janggi.domain.game.GameStatus;
