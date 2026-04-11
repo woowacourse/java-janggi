@@ -33,7 +33,7 @@ public class JanggiController {
             try {
                 String input = inputView.readLoadOrCreateBoard();
                 if (InputParser.parseLoad(input)) {
-                    return readLoadBoard();
+                    return readBoardSelect();
                 }
                 return janggiService.makeBoard(readTableSetting(CountryType.CHO), readTableSetting(CountryType.HAN));
             } catch (IllegalArgumentException e) {
@@ -42,19 +42,17 @@ public class JanggiController {
         }
     }
 
-    private int readLoadBoard() {
+    private int readBoardSelect() {
         outputView.printBoardId(janggiService.readAllGameInfoIds());
         String input = inputView.readBoardSelect();
-        return janggiService.readLoadBoard(input);
+        return janggiService.findBoardId(input);
     }
 
     private TableSetting readTableSetting(CountryType countryType) {
         while (true) {
             try {
                 String input = inputView.readTableSetting(CountryFormatter.from(countryType));
-                String tableNames = InputParser.parseTableSetting(input);
-
-                return TableSetting.from(tableNames);
+                return janggiService.makeTableSetting(input);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
@@ -69,8 +67,6 @@ public class JanggiController {
                     board.calculateScore(CountryType.HAN));
             movePiece(board, gameInfoId);
             isEnd = isEnd(board, turn);
-            board.changeTurn();
-            janggiService.updateGameInfo(board.getTurn(), gameInfoId);
         }
         janggiService.deleteAllByGameInfoId(gameInfoId);
     }
