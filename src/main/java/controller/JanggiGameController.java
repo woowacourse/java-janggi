@@ -120,20 +120,18 @@ public class JanggiGameController {
 
     private void playGame(Board board, Game game) {
         printBoard(board);
-        while (!game.isGameOver(board)) {
+        while (!game.isOver(board)) {
             try {
                 OutputView.printSide(game.getCurrentTurnSide());
 
                 Position from = selectFromPosition();
                 Position to = selectToPosition();
-
                 TurnResult turnResult = janggiGameService.processTurn(from, to, board, game);
                 printBoard(board);
 
                 if (turnResult.isIncreaseJangGunCount()) {
                     OutputView.printIsJangGun();
                 }
-                game.changeCurrentTurn(game.getCurrentTurnSide());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }

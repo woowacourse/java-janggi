@@ -66,8 +66,8 @@ public class JanggiGameService {
             connection.setAutoCommit(false);
             try {
                 pieceMoveProcess(board, from, to, game, connection);
-                boolean isIncreaseJangGunCount = updateAndStoreJangGunCount(board, game, connection);
                 updateTurn(game, connection);
+                boolean isIncreaseJangGunCount = updateAndStoreJangGunCount(board, game, connection);
                 connection.commit();
 
                 return new TurnResult(isIncreaseJangGunCount);
@@ -112,6 +112,7 @@ public class JanggiGameService {
     }
 
     private void updateTurn(Game game, Connection connection) {
+        game.changeCurrentTurnSide();
         janggiGameRepository.updateTurnById(game.getId(), game.getCurrentTurnSide(), connection);
     }
 }

@@ -5,9 +5,9 @@ import domain.piece.Side;
 
 public class Game {
     private final Long id;
-    private GameStatus status;
+    private final GameStatus status;
     private Side currentTurnSide;
-    private JangGunCount jangGunCount;
+    private final JangGunCount jangGunCount;
 
     public Game(Long id, GameStatus status, Side currentTurnSide, JangGunCount jangGunCount) {
         this.id = id;
@@ -25,16 +25,15 @@ public class Game {
         );
     }
 
-    public void changeCurrentTurn(Side side) {
-        if (side == Side.HAN) {
-            currentTurnSide = Side.CHO;
+    public void changeCurrentTurnSide() {
+        if (this.currentTurnSide == Side.HAN) {
+            this.currentTurnSide = Side.CHO;
+            return;
         }
-        if (side == Side.CHO) {
-            currentTurnSide = Side.HAN;
-        }
+        this.currentTurnSide = Side.HAN;
     }
 
-    public boolean isGameOver(Board board) {
+    public boolean isOver(Board board) {
         return jangGunCount.isBigJang() || board.isEmptyGeneral(currentTurnSide);
     }
 
