@@ -16,15 +16,11 @@ public class BoardFactory {
     public static Map<Position, Piece> createFormation(int choFormationNumber, int hanFormationNumber) {
         Formation choFormation = Formation.from(choFormationNumber);
         Formation hanFormation = Formation.from(hanFormationNumber);
-
         Map<Position, Piece> pieces = new HashMap<>();
-
         setFixedChoPieces(pieces);
         placeVariablePieces(pieces, Team.CHO, choFormation.getVariablePieces());
-
         setFixedHanPieces(pieces);
         placeVariablePieces(pieces, Team.HAN, hanFormation.getVariablePieces());
-
         return pieces;
     }
 
@@ -51,20 +47,19 @@ public class BoardFactory {
     }
 
     private static void placeVariablePieces(Map<Position, Piece> pieces, Team team, List<PieceDefinition> formation) {
-        List<Integer> columns;
-
-        if (team == Team.CHO) {
-            columns = List.of(2, 3, 7, 8);
-        } else {
-            columns = List.of(8, 7, 3, 2);
-        }
-
+        List<Integer> columns = setupColumns(team);
         int row = getRow(team);
-
         for (int i = 0; i < columns.size(); i++) {
             PieceDefinition pieceDefinition = formation.get(i);
             pieces.put(new Position(row, columns.get(i)), pieceDefinition.createPiece(team));
         }
+    }
+
+    private static List<Integer> setupColumns(Team team) {
+        if (team == Team.CHO) {
+            return List.of(2, 3, 7, 8);
+        }
+        return List.of(8, 7, 3, 2);
     }
 
     private static int getRow(Team team) {
