@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.Score;
+import domain.game.Scores;
 import domain.game.Team;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
@@ -215,7 +216,7 @@ public class BoardTest {
         pieces.put(new Position(9, 1), new Chariot(Team.HAN));
         Board board = new Board(pieces);
 
-        Map<Team, Score> scores = board.calculateScore();
+        Scores scores = board.calculateScore();
 
         assertThat(scores.get(Team.CHO).score()).isEqualTo(15.0);
         assertThat(scores.get(Team.HAN).score()).isEqualTo(14.5);

@@ -4,7 +4,7 @@ import database.dto.GameDto;
 import database.service.GameService;
 import domain.board.Board;
 import domain.board.BoardFactory;
-import domain.game.Score;
+import domain.game.Scores;
 import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
@@ -46,7 +46,7 @@ public class JanggiController {
 
     private void finishGame(GameInfo gameInfo) {
         Board board = gameInfo.board();
-        Map<Team, Score> scores = board.calculateScore();
+        Scores scores = board.calculateScore();
         outputView.printWinner(board.decideWinner());
         outputView.printScore(Team.CHO, scores.get(Team.CHO));
         outputView.printScore(Team.HAN, scores.get(Team.HAN));

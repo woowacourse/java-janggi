@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.game.Score;
+import domain.game.Scores;
 import domain.game.Team;
 import domain.piece.CannonRule;
 import domain.piece.Piece;
@@ -98,7 +99,7 @@ public class Board {
         return generalCount == 2;
     }
 
-    public Map<Team, Score> calculateScore() {
+    public Scores calculateScore() {
         Map<Team, Score> scores = new EnumMap<>(Team.class);
         for (Team team : Team.values()) {
             scores.put(team, team.getInitialScore());
@@ -106,7 +107,7 @@ public class Board {
         for (Piece piece : pieces.values()) {
             scores.merge(piece.getTeam(), piece.getScore(), Score::add);
         }
-        return scores;
+        return new Scores(scores);
     }
 
     public boolean decideWinner() {
