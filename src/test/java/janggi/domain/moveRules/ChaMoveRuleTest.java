@@ -86,7 +86,7 @@ class ChaMoveRuleTest {
         state.put(position, new Piece(Team.CHO, PieceType.CHA));
         state.put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
         List<Position> northRoutes = List.of(
-                new Position(1, 9), new Position(1, 8), new Position(1, 7)
+                new Position(1, 9), new Position(1, 8)
         );
 
         List<Position> eastRoutes = List.of(
@@ -103,7 +103,7 @@ class ChaMoveRuleTest {
         List<Position> chaRoutesPositions = chaMoveRul.calculateAvailablePositions(position, choTeam, state);
 
         //then
-        assertThat(chaRoutesPositions).hasSize(11)
+        assertThat(chaRoutesPositions).hasSize(10)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }

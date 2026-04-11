@@ -20,14 +20,8 @@ public class Board {
         }
         Piece currentPiece = board.get(position);
         List<Position> availablePositions = currentPiece.findAvailableDestinations(position, board);
-        List<Position> filteredPositions = availablePositions.stream()
-                .filter(targetPosition -> {
-                    Piece targetPiece = board.get(targetPosition);
-                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
-                })
-                .toList();
-        validateCantMovePiece(filteredPositions);
-        return filteredPositions;
+        validateCantMovePiece(availablePositions);
+        return availablePositions;
     }
 
     public void movePiece(Position movePiecePosition, Position destination) {

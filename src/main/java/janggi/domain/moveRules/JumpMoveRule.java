@@ -44,7 +44,7 @@ public class JumpMoveRule implements MoveRule {
                 resultPositions.add(routeToPositions.getLast());
             }
         }
-        return resultPositions;
+        return filteredPositions(startPosition, resultPositions, state);
     }
 
     private boolean hasObstacleOnRoute(List<Position> route, Map<Position, Piece> state) {
@@ -59,5 +59,16 @@ public class JumpMoveRule implements MoveRule {
             return MA_ROUTES;
         }
         return SANG_ROUTES;
+    }
+
+    private List<Position> filteredPositions(Position position, List<Position> availablePositions,
+                                             Map<Position, Piece> state) {
+        Piece currentPiece = state.get(position);
+        return availablePositions.stream()
+                .filter(targetPosition -> {
+                    Piece targetPiece = state.get(targetPosition);
+                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
+                })
+                .toList();
     }
 }

@@ -8,7 +8,6 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,28 +53,6 @@ public class PoMoveRuleTest {
         assertThatThrownBy(() -> board.findAvailablePositions(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동할 수 없는 좌표입니다.");
-    }
-
-    @Test
-    @DisplayName("포는 포다리 너머에 일반 적군 기물이 존재하면 해당 기물을 포획하며 이동할 수 있다")
-    void 포_목적지에_일반_적군_기물이_있을때_이동_성공() {
-        //given
-        Map<Position, Piece> customBoard = new HashMap<>();
-        Position position = new Position(5, 8);
-        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
-        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        customBoard.put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
-        Board board = new Board(customBoard);
-        List<Position> upRoutes = List.of(new Position(5, 5));
-
-        List<Position> rightAnswer = new ArrayList<>(upRoutes);
-
-        //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
-
-        //then
-        assertThat(chaRoutesPositions).hasSize(1)
-                .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
     @Test

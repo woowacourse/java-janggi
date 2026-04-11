@@ -31,7 +31,7 @@ public class OnceMoveRule implements MoveRule {
             Position movePosition = startPosition.move(direction);
             availablePositions.add(movePosition);
         }
-        return availablePositions;
+        return filteredPositions(startPosition, availablePositions, state);
     }
 
     private List<Direction> findDirections(Piece piece, Team team) {
@@ -42,5 +42,16 @@ public class OnceMoveRule implements MoveRule {
             return HAN_ZOL_ROUTES;
         }
         return PALACE_ROUTES;
+    }
+
+    private List<Position> filteredPositions(Position position, List<Position> availablePositions,
+                                             Map<Position, Piece> state) {
+        Piece currentPiece = state.get(position);
+        return availablePositions.stream()
+                .filter(targetPosition -> {
+                    Piece targetPiece = state.get(targetPosition);
+                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
+                })
+                .toList();
     }
 }

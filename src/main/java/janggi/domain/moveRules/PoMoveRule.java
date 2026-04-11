@@ -11,7 +11,9 @@ import java.util.Map;
 public class PoMoveRule implements MoveRule {
 
     @Override
-    public List<Position> calculateAvailablePositions(Position position, Team team, Map<Position, Piece> state) {
+    public List<Position> calculateAvailablePositions(Position position,
+                                                      Team team,
+                                                      Map<Position, Piece> state) {
         List<Position> availablePositions = new ArrayList<>();
         for (Direction direction : Direction.getStraightDirections()) {
             Position bridge = findBridge(position, direction, state);
@@ -36,7 +38,9 @@ public class PoMoveRule implements MoveRule {
         return null;
     }
 
-    private List<Position> findDestinationsAfterBridge(Position bridge, Direction direction, Team team,
+    private List<Position> findDestinationsAfterBridge(Position bridge,
+                                                       Direction direction,
+                                                       Team team,
                                                        Map<Position, Piece> state) {
         List<Position> destinations = new ArrayList<>();
         Position current = bridge;

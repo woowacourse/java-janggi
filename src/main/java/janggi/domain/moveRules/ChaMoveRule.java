@@ -16,8 +16,7 @@ public class ChaMoveRule implements MoveRule {
         for (Direction direction : Direction.getStraightDirections()) {
             availablePositions.addAll(findPositionsByDirection(startPosition, direction, state));
         }
-
-        return availablePositions;
+        return filteredPositions(startPosition, availablePositions, state);
     }
 
     private List<Position> findPositionsByDirection(Position startPosition, Direction direction,
@@ -32,5 +31,16 @@ public class ChaMoveRule implements MoveRule {
             }
         }
         return result;
+    }
+
+    private List<Position> filteredPositions(Position position, List<Position> availablePositions,
+                                             Map<Position, Piece> state) {
+        Piece currentPiece = state.get(position);
+        return availablePositions.stream()
+                .filter(targetPosition -> {
+                    Piece targetPiece = state.get(targetPosition);
+                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
+                })
+                .toList();
     }
 }

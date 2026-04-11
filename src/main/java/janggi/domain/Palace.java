@@ -79,8 +79,8 @@ public class Palace {
             new Position(6, 1),
             new Position(6, 3)
     );
-    private static final Position CHO_PALACE_CENTER = new Position(5, 9);
-    private static final Position HAN_PALACE_CENTER = new Position(5, 2);
+    public static final Position CHO_PALACE_CENTER = new Position(5, 9);
+    public static final Position HAN_PALACE_CENTER = new Position(5, 2);
 
     public static boolean isInPalace(Position position) {
         return isInChoPalace(position) || isInHanPalace(position);

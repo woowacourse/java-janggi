@@ -4,7 +4,7 @@ import janggi.domain.moveRules.ChaMoveRule;
 import janggi.domain.moveRules.JumpMoveRule;
 import janggi.domain.moveRules.MoveRule;
 import janggi.domain.moveRules.OnceMoveRule;
-import janggi.domain.moveRules.PoMoveRule;
+import janggi.domain.moveRules.PoPalaceMoveRule;
 
 public enum PieceType {
     KING(new OnceMoveRule()),
@@ -12,7 +12,7 @@ public enum PieceType {
     SANG(new JumpMoveRule()),
     MA(new JumpMoveRule()),
     CHA(new ChaMoveRule()),
-    PO(new PoMoveRule()),
+    PO(new PoPalaceMoveRule()),
     ZOL(new OnceMoveRule());
 
     private final MoveRule moveRule;
