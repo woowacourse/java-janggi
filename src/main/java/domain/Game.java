@@ -8,15 +8,33 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import strategy.InitializeStrategy;
 
-public class GameManager {
+public class Game {
+    private final String name;
     private final Board board;
+    private final Map<Team, HorseElephantFormation> initializeFormations;
+    private Team currentTurn;
 
-    public GameManager(Map<Team, InitializeStrategy> initializeStrategies) {
-        this.board = new Board(initializeStrategies);
+    /**
+     * 초기화용 생성자
+     */
+    public Game(String name, Map<Team, HorseElephantFormation> initializeFormations) {
+        this.name = name;
+        this.board = new Board(initializeFormations);
+        this.initializeFormations = initializeFormations;
+        this.currentTurn = Team.CHO;
     }
 
-    public GameManager(List<CurrentBoardStatus> statuses) {
+    /**
+     * 재구성용 생성자
+     */
+    public Game(String name,
+                List<CurrentBoardStatus> statuses,
+                Map<Team, HorseElephantFormation> initializeFormations,
+                Team currentTurn) {
+        this.name = name;
         this.board = new Board(statuses);
+        this.initializeFormations = initializeFormations;
+        this.currentTurn = currentTurn;
     }
 
     public List<CurrentBoardStatus> getCurrentBoardStatus() {
@@ -26,9 +44,11 @@ public class GameManager {
     /**
      * command
      */
-    public void movePiece(MovedPieceRequest request, Team team) {
+    public void movePiece(MovedPieceRequest request) {
         board.move(Position.from(request.currentRow(), request.currentColumn()),
-                Position.from(request.nextRow(), request.nextColumn()), team);
+                Position.from(request.nextRow(), request.nextColumn()), this.currentTurn);
+
+        this.currentTurn = currentTurn.changeTurn();
     }
 
     /**
@@ -51,8 +71,20 @@ public class GameManager {
                 ));
     }
 
-    public boolean isGameFinished(Team currentTeam) {
-        return !board.isExistPiece(PieceType.KING, currentTeam);
+    public boolean isGameFinished() {
+        return !board.isExistPiece(PieceType.KING, this.currentTurn);
+    }
+
+    public String getHorseElephantFormation(Team team){
+        return this.initializeFormations.get(team).getPattern();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getCurrentTeamName(){
+        return this.currentTurn.getKoreanName();
     }
 
     /**

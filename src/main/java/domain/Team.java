@@ -18,6 +18,14 @@ public enum Team {
         return koreanName;
     }
 
+    public Team changeTurn() {
+        if (this == CHO) {
+            return HAN;
+        }
+
+        return CHO;
+    }
+
     public static Team getTeam(String koreanName) {
         return Arrays.stream(Team.values())
                 .filter(team -> team.koreanName.equals(koreanName))

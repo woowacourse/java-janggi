@@ -31,7 +31,7 @@ public class Board {
     /**
      * 초기화 전용 생성자
      */
-    public Board(Map<Team, InitializeStrategy> initializeStrategies) {
+    public Board(Map<Team, HorseElephantFormation> initializeStrategies) {
         initializeStrategies.forEach(((team, initializeStrategy) ->
                 initTeamBoard(initializeStrategy, team)));
     }

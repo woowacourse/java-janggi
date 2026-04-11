@@ -5,11 +5,17 @@ import exception.custom.InvalidGameInputException;
 import java.util.Scanner;
 
 public class InputView {
+    private static final String GAME_NAME_INPUT_GUIDE = "게임의 이름을 입력하세요: ";
     private static final String HORSE_ELEPHANT_INPUT_GUIDE = "%s나라의 상마상마 상차림을 입력하세요: ";
     private static final String MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE = "이동시킬 말의 현재 위치를 입력하세요.(예: \"7,1\"): ";
     private static final String MOVED_PIECE_TARGET_POSITION_INPUT_GUIDE = "이동시킬 말의 도착 위치를 입력하세요.(예: \"6,1\"): ";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public String readGameName() {
+        printMessage(GAME_NAME_INPUT_GUIDE);
+        return readInput();
+    }
 
     public String readHorseElephantFormation(String teamName) {
         printMessage(String.format(HORSE_ELEPHANT_INPUT_GUIDE, teamName));

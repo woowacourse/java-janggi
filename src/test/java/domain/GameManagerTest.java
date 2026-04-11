@@ -33,48 +33,48 @@ class GameManagerTest {
     @Test
     void 초나라_턴인_경우_초나라의_궁이_존재하지_않는_경우_게임_종료() {
         //given
-        GameManager gameManager = new GameManager(Map.of(
+        Game game = new Game(Map.of(
                 Team.CHO, noInitializeStrategy,
                 Team.HAN, noInitializeStrategy
         ));
 
         //then
-        assertThat(gameManager.isGameFinished(Team.CHO)).isEqualTo(true);
+        assertThat(game.isGameFinished(Team.CHO)).isEqualTo(true);
     }
 
     @Test
     void 한나라_턴인_경우_한나라의_궁이_존재하지_않는_경우_게임_종료() {
         //given
-        GameManager gameManager = new GameManager(Map.of(
+        Game game = new Game(Map.of(
                 Team.CHO, noInitializeStrategy,
                 Team.HAN, noInitializeStrategy
         ));
 
         //then
-        assertThat(gameManager.isGameFinished(Team.HAN)).isEqualTo(true);
+        assertThat(game.isGameFinished(Team.HAN)).isEqualTo(true);
     }
 
     @Test
     void 초나라_턴인_경우_초나라의_궁이_존재하는_경우_게임_진행() {
         //given
-        GameManager gameManager = new GameManager(Map.of(
+        Game game = new Game(Map.of(
                 Team.CHO, onlyChosKingExistInitializeStrategy,
                 Team.HAN, onlyChosKingExistInitializeStrategy
         ));
 
         //then
-        assertThat(gameManager.isGameFinished(Team.CHO)).isEqualTo(false);
+        assertThat(game.isGameFinished(Team.CHO)).isEqualTo(false);
     }
 
     @Test
     void 한나라_턴인_경우_한나라의_궁이_존재하는_경우_게임_진행() {
         //given
-        GameManager gameManager = new GameManager(Map.of(
+        Game game = new Game(Map.of(
                 Team.CHO, onlyChosKingExistInitializeStrategy,
                 Team.HAN, onlyChosKingExistInitializeStrategy
         ));
 
         //then
-        assertThat(gameManager.isGameFinished(Team.HAN)).isEqualTo(false);
+        assertThat(game.isGameFinished(Team.HAN)).isEqualTo(false);
     }
 }

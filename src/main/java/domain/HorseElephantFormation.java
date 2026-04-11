@@ -21,15 +21,18 @@ public enum HorseElephantFormation {
         this.strategy = strategy;
     }
 
-    private InitializeStrategy getStrategy() {
+    public String getPattern(){
+        return this.pattern;
+    }
+
+    public InitializeStrategy getStrategy() {
         return this.strategy;
     }
 
-    public static InitializeStrategy getStrategy(String pattern) {
+    public static HorseElephantFormation getFormationFrom(String pattern) {
         return Arrays.stream(values())
                 .filter(type -> type.pattern.equals(pattern))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 포메이션입니다: " + pattern))
-                .getStrategy();
     }
 }

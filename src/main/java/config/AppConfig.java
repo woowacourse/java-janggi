@@ -2,10 +2,11 @@ package config;
 
 import controller.JanggiController;
 import exception.GameExceptionHandler;
-import infra.dao.BoardDao;
-import infra.dao.TurnDao;
-import infra.repository.BoardRepository;
-import infra.repository.JdbcBoardRepository;
+import infra.dao.CurrentPiecePositionDao;
+import infra.dao.FormationDao;
+import infra.dao.GameDao;
+import infra.repository.GameRepository;
+import infra.repository.JdbcGameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -23,8 +24,8 @@ public class AppConfig {
         return new JanggiController(gameExceptionHandler(), inputView(), outputView(), gameRepository());
     }
 
-    public BoardRepository gameRepository() {
-        return new JdbcBoardRepository(boardDao(), turnDao());
+    public GameRepository gameRepository() {
+        return new JdbcGameRepository(gameDao(), boardDao(), formationDao());
     }
 
     public GameExceptionHandler gameExceptionHandler() {
@@ -39,11 +40,15 @@ public class AppConfig {
         return new OutputView();
     }
 
-    public BoardDao boardDao() {
-        return new BoardDao(JdbcConfig.getInstance());
+    public GameDao gameDao() {
+        return new GameDao(JdbcConfig.getInstance());
     }
 
-    public TurnDao turnDao() {
-        return new TurnDao(JdbcConfig.getInstance());
+    public CurrentPiecePositionDao boardDao() {
+        return new CurrentPiecePositionDao(JdbcConfig.getInstance());
+    }
+
+    public FormationDao formationDao() {
+        return new FormationDao(JdbcConfig.getInstance());
     }
 }
