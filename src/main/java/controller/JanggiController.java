@@ -9,17 +9,16 @@ import domain.HorseElephantFormation;
 import domain.Team;
 import exception.GameExceptionHandler;
 import exception.custom.GameException;
-
 import infra.repository.GameRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
+    private static final String NEW_GAME_COMMAND = "1";
     private final GameExceptionHandler gameExceptionHandler;
     private final InputView inputView;
     private final OutputView outputView;
@@ -35,15 +34,29 @@ public class JanggiController {
     }
 
     public void start() {
-        if (shouldContinueGame()) {
-            loadJanggiGame();
-        } else {
-            initializeJanggiGame();
-        }
-
+        setGame();
         playJanggiGame();
-        printGameWinner(game.getWinner());
-        boardRepository.deleteAll();
+        printGameWinner(game.getCurrentTeamName());
+    }
+
+    private void setGame() {
+        while (true) {
+            try {
+                String command = inputView.readCommand();
+                if (NEW_GAME_COMMAND.equals(command)) {
+                    initializeJanggiGame();
+                    return;
+                }
+
+                List<String> gameNames = gameRepository.findAllGameNames();
+                outputView.printGameList(gameNames);
+
+                loadJanggiGame(inputView.readGameName());
+                return;
+            } catch (GameException e) {
+                gameExceptionHandler.handle(e);
+            }
+        }
     }
 
     private void initializeJanggiGame() {
@@ -54,8 +67,14 @@ public class JanggiController {
         printCurrentBoardStatus();
     }
 
+    private void loadJanggiGame(String gameName) {
+        this.game = gameRepository.findGameByName(gameName);
+        printCurrentBoardStatus();
+    }
+
     private void playJanggiGame() {
         while (!game.isGameFinished()) {
+            printCurrentTurnTeam();
             playTurn();
         }
     }
@@ -83,11 +102,6 @@ public class JanggiController {
     /**
      * 헬퍼 메서드
      */
-    private boolean shouldContinueGame() {
-//        return !boardRepository.readBoard().isEmpty();
-        return false;
-    }
-
     private Map<Team, HorseElephantFormation> parseToFormations(Map<Team, String> horseElephantFormations) {
         Map<Team, HorseElephantFormation> initializeStrategies = new HashMap<>();
         horseElephantFormations.forEach(
@@ -108,8 +122,8 @@ public class JanggiController {
         outputView.printCurrentBoard(statuses);
     }
 
-    private void printGameWinner(Team team) {
-        outputView.printGameWinner(team.getKoreanName());
+    private void printGameWinner(String winnerName) {
+        outputView.printGameWinner(winnerName);
     }
 
     private void printCurrentScore() {
@@ -127,22 +141,17 @@ public class JanggiController {
         outputView.printMoveStatus(moveStatus);
     }
 
-    private void printCurrentTurnTeam(Team team) {
-        outputView.printCurrentTurnTeam(team.getKoreanName());
+    private void printCurrentTurnTeam() {
+        outputView.printCurrentTurnTeam(game.getCurrentTeamName());
     }
 
     /**
      * 입력 단계 조율 메서드
      */
-    private void loadJanggiGame() {
-        this.game = new Game(boardRepository.readBoard(), boardRepository.readTurn());
-        printCurrentBoardStatus();
-    }
-
     private String readGameName() {
         while (true) {
             try {
-                return inputView.readSourcePosition();
+                return inputView.readGameName();
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
             }

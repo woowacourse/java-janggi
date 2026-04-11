@@ -6,6 +6,7 @@ public enum GameErrorMessage {
      * 잘못된 입력에 대한 예외 발생 메시지
      */
     INVALID_GAME_INPUT("잘못된 입력입니다. 다시 입력해주세요."),
+    INVALID_COMMAND_INPUT("1 또는 2만 입력 가능합니다."),
     INVALID_HORSE_ELEPHANT_FORMATION("상마상마 상차림 입력이 올바르지 않습니다. 다음 4가지 중 하나를 입력해주세요: 상마상마, 마상마상, 상마마상, 마상상마"),
     PIECE_NOT_FOUND("해당 위치에는 기물이 없습니다. 다시 입력해주세요."),
     INVALID_TEAM_TURN("현재는 %s의 차례입니다. 같은 팀 기물을 선택해주세요."),

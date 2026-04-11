@@ -26,16 +26,16 @@ public class Game {
 
     /**
      * 재구성용 생성자
-     */
-    public Game(String name,
-                List<CurrentBoardStatus> statuses,
-                Map<Team, HorseElephantFormation> initializeFormations,
-                Team currentTurn) {
-        this.name = name;
-        this.board = new Board(statuses);
-        this.initializeFormations = initializeFormations;
-        this.currentTurn = currentTurn;
-    }
+//     */
+//    public Game(String name,
+//                List<CurrentBoardStatus> statuses,
+//                Map<Team, HorseElephantFormation> initializeFormations,
+//                Team currentTurn) {
+//        this.name = name;
+//        this.board = new Board(statuses);
+//        this.initializeFormations = initializeFormations;
+//        this.currentTurn = currentTurn;
+//    }
 
     public List<CurrentBoardStatus> getCurrentBoardStatus() {
         return board.getCurrentStatus();

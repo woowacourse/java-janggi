@@ -5,12 +5,20 @@ import exception.custom.InvalidGameInputException;
 import java.util.Scanner;
 
 public class InputView {
-    private static final String GAME_NAME_INPUT_GUIDE = "게임의 이름을 입력하세요: ";
+    private static final String COMMAND_INPUT_GUIDE = "게임을 새로 시작하려면 1, 기존 게임을 불러오려면 2를 입력하세요: ";
+    private static final String GAME_NAME_INPUT_GUIDE = "다시 실행할 게임의 이름을 입력하세요: ";
     private static final String HORSE_ELEPHANT_INPUT_GUIDE = "%s나라의 상마상마 상차림을 입력하세요: ";
     private static final String MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE = "이동시킬 말의 현재 위치를 입력하세요.(예: \"7,1\"): ";
     private static final String MOVED_PIECE_TARGET_POSITION_INPUT_GUIDE = "이동시킬 말의 도착 위치를 입력하세요.(예: \"6,1\"): ";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public String readCommand() {
+        printMessage(COMMAND_INPUT_GUIDE);
+        String input = readInput();
+        validateCommand(input);
+        return input;
+    }
 
     public String readGameName() {
         printMessage(GAME_NAME_INPUT_GUIDE);
@@ -50,9 +58,12 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    /**
-     * 검증 메서드
-     */
+    private void validateCommand(String input) {
+        if (!input.equals("1") && !input.equals("2")) {
+            throw new InvalidGameInputException(GameErrorMessage.INVALID_COMMAND_INPUT.getMessage());
+        }
+    }
+
     private void validateHorseElephantFormationInput(String input) {
         if (!input.equals("상마상마") && !input.equals("마상마상") && !input.equals("상마마상") && !input.equals("마상상마")) {
             throw new InvalidGameInputException(GameErrorMessage.INVALID_HORSE_ELEPHANT_FORMATION.getMessage());

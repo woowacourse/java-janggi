@@ -3,11 +3,11 @@ package view;
 import controller.dto.CurrentBoardStatus;
 import controller.dto.CurrentScore;
 import controller.dto.MoveStatus;
-import domain.Team;
 import java.util.List;
-import java.util.Map;
 
 public class OutputView {
+    private static final String GAME_LIST_GUIDE = "[현재 저장된 게임 목록]";
+    private static final String EMPTY_GAME_LIST = "저장된 게임이 없습니다.",
     private static final String CURRENT_TEAM_GUIDE = "이번 턴은 %s나라 차례입니다.";
     private static final String MOVE_STATUS = "%s나라 기물 %s을(를) %d,%d로 이동하였습니다.";
     private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";
@@ -33,6 +33,18 @@ public class OutputView {
             printRow(board, row);
             printSeparator();
         }
+    }
+
+    public void printGameList(List<String> gameNames) {
+        System.out.println(GAME_LIST_GUIDE);
+        if (gameNames.isEmpty()) {
+            System.out.println(EMPTY_GAME_LIST);
+            return;
+        }
+        for (String name : gameNames) {
+            System.out.println("- " + name);
+        }
+        System.out.println();
     }
 
     public void printMoveStatus(MoveStatus moveStatus) {
@@ -62,18 +74,13 @@ public class OutputView {
         System.out.println(String.format(CURRENT_TEAM_GUIDE, teamName));
     }
 
-    /**
-     * 헬퍼 메서드
-     */
     private String[][] createEmptyBoard() {
         String[][] board = new String[BOARD_ROW_SIZE][BOARD_COLUMN_SIZE];
-
         for (int row = 0; row < BOARD_ROW_SIZE; row++) {
             for (int column = 0; column < BOARD_COLUMN_SIZE; column++) {
                 board[row][column] = EMPTY_CELL;
             }
         }
-
         return board;
     }
 
@@ -81,7 +88,6 @@ public class OutputView {
         for (CurrentBoardStatus status : statuses) {
             int rowIndex = status.row() - 1;
             int colIndex = status.column() - 1;
-
             board[rowIndex][colIndex] = formatPiece(status.pieceType(), status.team());
         }
     }
@@ -96,11 +102,9 @@ public class OutputView {
 
     private void printRow(String[][] board, int row) {
         System.out.printf("%2d  |", row);
-
         for (int col = 1; col <= BOARD_COLUMN_SIZE; col++) {
             System.out.printf(" %-4s |", board[row - 1][col - 1]);
         }
-
         System.out.println();
     }
 

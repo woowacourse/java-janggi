@@ -10,17 +10,12 @@ public enum InfraErrorMessage {
     CONFIG_FILE_NOT_FOUND_ERROR("application.properties이 존재하지 않습니다."),
 
     CURRENT_PIECE_POSITION_SAVE_ERROR("현재 피스 위치 정보를 저장하는 과정에서 에러가 발생하였습니다."),
-    CURRENT_PIECE_POSITION_READ_ERROR("현재 피스 위치 정보를 불러오는 과정에서 에러가 발생하였습니다."),
-    CURRENT_PIECE_POSITION_DELETE_ERROR("현재 피스 위치 정보를 삭제하는 과정에서 에러가 발생하였습니다."),
-
-    TURN_SAVE_ERROR("현재 차례를 저장하는 과정에서 에러가 발생하였습니다."),
-    TURN_READ_ERROR("현재 차례를 불러오는 과정에서 에러가 발생하였습니다."),
-    TURN_DELETE_ERROR("현재 차례를 삭제하는 과정에서 에러가 발생하였습니다."),
 
     GAME_SAVE_ERROR("게임을 저장하는 과정에서 에러가 발생하였습니다."),
     GAME_READ_ERROR("게임을 불러오는 과정에서 에러가 발생하였습니다."),
-    GAME_DELETE_ERROR("게임을 삭제하는 과정에서 에러가 발생하였습니다."),
     PK_GENERATION_ERROR("PK 생성에 실패하였습니다."),
+
+    GAME_NAME_NOT_EXIST("해당 게임 이름으로 된 게임이 존재하지 않습니다."),
 
     FORMATION_READ_ERROR("상차림 정보를 불러오는 과정에서 에러가 발생하였습니다."),
     FORMATION_NOT_FOUND_ERROR("해당 상차림 정보를 찾을 수 없습니다.");

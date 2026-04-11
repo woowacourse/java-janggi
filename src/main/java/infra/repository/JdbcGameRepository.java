@@ -1,12 +1,18 @@
 package infra.repository;
 
+import controller.dto.MovedPieceRequest;
 import domain.Game;
+import domain.HorseElephantFormation;
 import domain.Team;
+import domain.piece.Horse;
+import exception.custom.GameException;
 import infra.dao.CurrentPiecePositionDao;
 import infra.dao.FormationDao;
 import infra.dao.GameDao;
+import infra.dao.MoveEventDao;
 import infra.entity.CurrentPiecePositionEntity;
 import infra.entity.GameEntity;
+import infra.entity.MoveEventEntity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +22,14 @@ public class JdbcGameRepository implements GameRepository {
     private final GameDao gameDao;
     private final CurrentPiecePositionDao currentPiecePositionDao;
     private final FormationDao formationDao;
+    private final MoveEventDao moveEventDao;
 
     public JdbcGameRepository(GameDao gameDao, CurrentPiecePositionDao currentPiecePositionDao,
-                              FormationDao formationDao) {
+                              FormationDao formationDao, MoveEventDao moveEventDao) {
         this.gameDao = gameDao;
         this.currentPiecePositionDao = currentPiecePositionDao;
         this.formationDao = formationDao;
+        this.moveEventDao = moveEventDao;
     }
 
     @Override
@@ -29,6 +37,19 @@ public class JdbcGameRepository implements GameRepository {
         Map<Team, Long> formationId = findFormationId(game);
         Long gameId = saveGame(formationId, game);
         saveCurrentPiecePositions(game, gameId);
+    }
+
+    @Override
+    public List<String> findAllGameNames() {
+        return gameDao.findAllGameNames();
+    }
+
+    @Override
+    public Game findGameByName(String name) {
+        GameEntity gameEntity = gameDao.findGameByName(name);
+        Game game = findInitialGameFormation(gameEntity);
+        replayGame(game, moveEventDao.findByGameId(gameEntity.getId()));
+        return game;
     }
 
     /**
@@ -68,5 +89,24 @@ public class JdbcGameRepository implements GameRepository {
                 ))
                 .collect(Collectors.toList());
         currentPiecePositionDao.save(gameId, pieceEntities);
+    }
+
+    private Game findInitialGameFormation(GameEntity gameEntity) {
+        String choPattern = formationDao.findNameById(gameEntity.getChoFormationId());
+        String hanPattern = formationDao.findNameById(gameEntity.getHanFormationId());
+
+        return new Game(gameEntity.getName(),
+                Map.of(Team.CHO, HorseElephantFormation.getFormationFrom(choPattern),
+                        Team.HAN, HorseElephantFormation.getFormationFrom(hanPattern)));
+    }
+
+    private void replayGame(Game game, List<MoveEventEntity> events) {
+        for (MoveEventEntity event : events) {
+            MovedPieceRequest request = MovedPieceRequest.of(
+                    String.format("%d,%d", event.getFromRow(), event.getFromColumn()),
+                    String.format("%d,%d", event.getToRow(), event.getToColumn())
+            );
+            game.movePiece(request);
+        }
     }
 }

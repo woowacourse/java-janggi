@@ -9,13 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDao {
     private static final String INSERT_SQL =
             "INSERT INTO game (name, current_turn, cho_formation_id, han_formation_id) VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_NAME_SQL =
             "SELECT id, name, current_turn, cho_formation_id, han_formation_id FROM game WHERE name = ?";
+    private static final String SELECT_ALL_NAMES_SQL =
+            "SELECT name FROM game";
 
     private final JdbcConfig jdbcConfig;
 
@@ -43,23 +46,37 @@ public class GameDao {
         }
     }
 
-    public Optional<GameEntity> findByName(String name) {
+    public List<String> findAllGameNames() {
+        List<String> names = new ArrayList<>();
+        try (Connection conn = jdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_NAMES_SQL);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                names.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException(InfraErrorMessage.GAME_READ_ERROR.getMessage() + e);
+        }
+        return names;
+    }
+
+    public GameEntity findGameByName(String name) {
         try (Connection conn = jdbcConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_BY_NAME_SQL)) {
             pstmt.setString(1, name);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(mapToGameEntity(rs));
+                    return mapToGameEntity(rs);
                 }
+                throw new DatabaseConnectionException(InfraErrorMessage.GAME_NAME_NOT_EXIST.getMessage());
             }
         } catch (SQLException e) {
             throw new DatabaseConnectionException(InfraErrorMessage.GAME_READ_ERROR.getMessage() + e);
         }
-        return Optional.empty();
     }
 
     private GameEntity mapToGameEntity(ResultSet rs) throws SQLException {
-        return new GameEntity(
+        return GameEntity.createWithId(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("current_turn"),

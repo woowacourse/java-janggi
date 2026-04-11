@@ -5,6 +5,7 @@ import exception.GameExceptionHandler;
 import infra.dao.CurrentPiecePositionDao;
 import infra.dao.FormationDao;
 import infra.dao.GameDao;
+import infra.dao.MoveEventDao;
 import infra.repository.GameRepository;
 import infra.repository.JdbcGameRepository;
 import view.InputView;
@@ -25,7 +26,7 @@ public class AppConfig {
     }
 
     public GameRepository gameRepository() {
-        return new JdbcGameRepository(gameDao(), boardDao(), formationDao());
+        return new JdbcGameRepository(gameDao(), currentPiecePositionDao(), formationDao(), moveEventDao());
     }
 
     public GameExceptionHandler gameExceptionHandler() {
@@ -44,11 +45,15 @@ public class AppConfig {
         return new GameDao(JdbcConfig.getInstance());
     }
 
-    public CurrentPiecePositionDao boardDao() {
+    public CurrentPiecePositionDao currentPiecePositionDao() {
         return new CurrentPiecePositionDao(JdbcConfig.getInstance());
     }
 
     public FormationDao formationDao() {
         return new FormationDao(JdbcConfig.getInstance());
+    }
+
+    public MoveEventDao moveEventDao() {
+        return new MoveEventDao(JdbcConfig.getInstance());
     }
 }

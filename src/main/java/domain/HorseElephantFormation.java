@@ -33,6 +33,6 @@ public enum HorseElephantFormation {
         return Arrays.stream(values())
                 .filter(type -> type.pattern.equals(pattern))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 포메이션입니다: " + pattern))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 포메이션입니다: " + pattern));
     }
 }
