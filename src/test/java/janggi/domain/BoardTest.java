@@ -245,15 +245,13 @@ public class BoardTest {
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 9);
         Position maPos3 = new Position(5, 10);
-        Position maPos4 = new Position(3, 9);
-        Position maPos5 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(maRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -268,20 +266,18 @@ public class BoardTest {
         Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4);
+        List<Position> rightAnswer = List.of(maPos1, maPos2);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(4)
+        assertThat(maRoutesPositions).hasSize(2)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
     @Test
-    @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
+    @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다")
     void 사_목적지에_적군_존재시_이동_가능() {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
@@ -291,16 +287,14 @@ public class BoardTest {
         Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
         Position maPos5 = new Position(5, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos5);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(maRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 

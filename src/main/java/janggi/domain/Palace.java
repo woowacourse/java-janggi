@@ -64,7 +64,7 @@ public class Palace {
         return HAN_PALACE_VERTEX.contains(position);
     }
 
-    public static boolean isPalaceDiagonalPosition(Position position) {
+    public static boolean isPalaceVertexAndCenterPosition(Position position) {
         return isInChoPalaceVertex(position) || position.equals(CHO_PALACE_CENTER)
                 || isInHanPalaceVertex(position) || position.equals(HAN_PALACE_CENTER);
     }

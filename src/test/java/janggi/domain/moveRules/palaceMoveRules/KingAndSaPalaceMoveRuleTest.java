@@ -32,10 +32,10 @@ class KingAndSaPalaceMoveRuleTest {
                 customState);
 
         //then
-        assertThat(availablePositions).isEqualTo(List.of(
+        assertThat(availablePositions).containsExactlyInAnyOrder(
                 new Position(5, 8),
                 new Position(4, 9),
                 new Position(5, 9)
-        ));
+        );
     }
 }
