@@ -29,6 +29,7 @@ public class GameManager {
         }
 
         startNewGame();
+        inputView.close();
     }
 
     private void startNewGame() {

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.sql.DataSource;
 
 public class JdbcJanggiRepository implements JanggiRepository {
     // SQL 쿼리
@@ -56,9 +57,15 @@ public class JdbcJanggiRepository implements JanggiRepository {
     private static final String ERROR_FIND_TURN_NOT_FOUND = "[ERROR] 턴 정보를 찾을 수 없습니다.";
     private static final String ERROR_FINISH_GAME = "[ERROR] 게임 종료 처리 실패: ";
 
+    private final DataSource dataSource;
+
+    public JdbcJanggiRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public Long save(Players players) {
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_GAME_SQL,
                      Statement.RETURN_GENERATED_KEYS)) { // 자동으로 생성된 키 반환
 
@@ -83,7 +90,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public void updateGameStatus(Long gameId, Board board, Turn turn) {
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false); // 트랜잭션 시작
 
             try {
@@ -132,7 +139,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public Optional<Long> findInProgressGameId() {
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_IN_PROGRESS_ID_SQL);
              ResultSet rs = pstmt.executeQuery()) { // 조회 메서드
 
@@ -149,7 +156,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
     public List<Long> findAllInProgressGameIds() {
         List<Long> ids = new ArrayList<>();
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_IN_PROGRESS_IDS_SQL);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -167,7 +174,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
     public Board findBoardById(Long gameId) {
         Map<Position, Piece> piecePosition = new HashMap<>();
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_BOARD_BY_ID_SQL)) {
 
             pstmt.setLong(1, gameId);
@@ -192,7 +199,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public Players findPlayersById(Long gameId) {
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_PLAYERS_BY_ID_SQL)) {
 
             pstmt.setLong(1, gameId);
@@ -212,7 +219,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public Turn findTurnById(Long gameId) {
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_TURN_BY_ID_SQL)) {
 
             pstmt.setLong(1, gameId);
@@ -230,7 +237,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public void finishGame(Long gameId) {
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_FINISH_GAME_SQL)) {
 
             pstmt.setLong(1, gameId);
