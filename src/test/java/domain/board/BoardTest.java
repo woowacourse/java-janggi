@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Position;
 import domain.country.CountryType;
-import domain.piece.PieceFactory;
+import domain.piece.Piece;
+import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
+import domain.strategy.MoveStrategyType;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -280,8 +282,10 @@ public class BoardTest {
         Position from = new Position(1, 2);
         Position to = new Position(4, 2);
 
-        stubBoardStates.put(new Position(3, 2), PieceFactory.SOLDIER.create(CountryType.HAN));
-        stubBoardStates.put(from, PieceFactory.CANNON.create(CountryType.CHO));
+        stubBoardStates.put(new Position(3, 2), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN),
+                MoveStrategyType.SOLDIER.getMoveStrategy()));
+        stubBoardStates.put(from,
+                new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO), MoveStrategyType.CANNON.getMoveStrategy()));
 
         Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
         board.movePiece(from, to);
@@ -317,8 +321,10 @@ public class BoardTest {
         Position hanSoldierFrom = new Position(4, 4);
         Position choSoldierTo = new Position(4, 3);
         // 현재 각 진영당 기물 점수 2점씩
-        stubBoardStates.put(hanSoldierFrom, PieceFactory.SOLDIER.create(CountryType.HAN));
-        stubBoardStates.put(choSoldierTo, PieceFactory.SOLDIER.create(CountryType.CHO));
+        stubBoardStates.put(hanSoldierFrom, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN),
+                MoveStrategyType.SOLDIER.getMoveStrategy()));
+        stubBoardStates.put(choSoldierTo, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO),
+                MoveStrategyType.SOLDIER.getMoveStrategy()));
 
         Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
         board.movePiece(hanSoldierFrom, choSoldierTo);
@@ -332,8 +338,10 @@ public class BoardTest {
     void catchGeneralGameEndTest() {
         Position hanChariotFrom = new Position(4, 2);
         Position choGeneralTo = new Position(4, 1);
-        stubBoardStates.put(hanChariotFrom, PieceFactory.CHARIOT.create(CountryType.HAN));
-        stubBoardStates.put(choGeneralTo, PieceFactory.GENERAL.create(CountryType.CHO));
+        stubBoardStates.put(hanChariotFrom, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN),
+                MoveStrategyType.CHARIOT.getMoveStrategy()));
+        stubBoardStates.put(choGeneralTo, new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO),
+                MoveStrategyType.GENERAL.getMoveStrategy()));
 
         Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
         board.movePiece(hanChariotFrom, choGeneralTo);

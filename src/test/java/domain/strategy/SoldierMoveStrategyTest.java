@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
+import domain.piece.PieceType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,8 @@ public class SoldierMoveStrategyTest {
     @Test
     @DisplayName("초나라 졸병이 후진할 경우 예외가 발생한다.")
     void choSoldierDownExceptionTest() {
-        Piece piece = PieceFactory.SOLDIER.create(CountryType.CHO);
+        Piece piece = new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO),
+                MoveStrategyType.SOLDIER.getMoveStrategy());
 
         Position from = new Position(4, 1);
         Position straightTo = new Position(4, 0);
@@ -39,7 +40,8 @@ public class SoldierMoveStrategyTest {
     @Test
     @DisplayName("한나라 졸병이 후진할 경우 예외가 발생한다.")
     void hanSoldierDownExceptionTest() {
-        Piece piece = PieceFactory.SOLDIER.create(CountryType.HAN);
+        Piece piece = new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN),
+                MoveStrategyType.SOLDIER.getMoveStrategy());
 
         Position from = new Position(4, 8);
         Position straightTo = new Position(4, 9);

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Position;
 import domain.country.CountryType;
+import domain.strategy.MoveStrategyType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -13,14 +14,17 @@ public class PieceTest {
     @Test
     @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
     void soldierMoveSameCountryPieceExceptionTest() {
-        Piece piece = PieceFactory.SOLDIER.create(CountryType.CHO);
+        Piece piece = new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO),
+                MoveStrategyType.SOLDIER.getMoveStrategy());
+        Piece otherPiece = new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO),
+                MoveStrategyType.CHARIOT.getMoveStrategy());
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 2);
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, piece.pieceInfo());
-        pathPieceInfos.put(to, PieceFactory.SOLDIER.create(CountryType.CHO).pieceInfo());
+        pathPieceInfos.put(to, otherPiece.pieceInfo());
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> piece.validateMove(pieceInfos, from, to))

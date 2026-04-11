@@ -9,10 +9,10 @@ import domain.board.BoardStates;
 import domain.board.TableSetting;
 import domain.country.CountryType;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
+import domain.strategy.MoveStrategyType;
 import dto.GameInfo;
 import dto.PositionState;
 import dto.TurnHistory;
@@ -101,7 +101,8 @@ public class JanggiService {
             Position position = new Position(positionState.x(), positionState.y());
             String pieceType = positionState.pieceType();
             CountryType countryType = CountryType.valueOf(positionState.countryType());
-            Piece piece = PieceFactory.valueOf(pieceType).create(countryType);
+            Piece piece = new Piece(new PieceInfo(PieceType.valueOf(pieceType), countryType),
+                    MoveStrategyType.valueOf(pieceType).getMoveStrategy());
             boardStates.put(position, piece);
         }
         return new BoardStates(boardStates);

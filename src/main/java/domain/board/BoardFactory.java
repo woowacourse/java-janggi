@@ -3,8 +3,10 @@ package domain.board;
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
+import domain.piece.PieceInfo;
 import domain.piece.PieceType;
+import domain.strategy.MoveStrategy;
+import domain.strategy.MoveStrategyType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,47 +31,67 @@ public class BoardFactory {
     }
 
     private void initializeSoldierPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
-        boardStates.put(new Position(2, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
-        boardStates.put(new Position(4, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
-        boardStates.put(new Position(6, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
-        boardStates.put(new Position(8, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
+        MoveStrategy strategy = MoveStrategyType.SOLDIER.getMoveStrategy();
+        Piece choPiece = new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO), strategy);
+        Piece hanPiece = new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN), strategy);
 
-        boardStates.put(new Position(0, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
-        boardStates.put(new Position(2, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
-        boardStates.put(new Position(4, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
-        boardStates.put(new Position(6, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
-        boardStates.put(new Position(8, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
+        boardStates.put(new Position(0, 3), choPiece);
+        boardStates.put(new Position(2, 3), choPiece);
+        boardStates.put(new Position(4, 3), choPiece);
+        boardStates.put(new Position(6, 3), choPiece);
+        boardStates.put(new Position(8, 3), choPiece);
+
+        boardStates.put(new Position(0, 6), hanPiece);
+        boardStates.put(new Position(2, 6), hanPiece);
+        boardStates.put(new Position(4, 6), hanPiece);
+        boardStates.put(new Position(6, 6), hanPiece);
+        boardStates.put(new Position(8, 6), hanPiece);
     }
 
     private void initializeGuardPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(3, 0), PieceFactory.GUARD.create(CountryType.CHO));
-        boardStates.put(new Position(5, 0), PieceFactory.GUARD.create(CountryType.CHO));
+        MoveStrategy strategy = MoveStrategyType.GUARD.getMoveStrategy();
+        Piece choPiece = new Piece(new PieceInfo(PieceType.GUARD, CountryType.CHO), strategy);
+        Piece hanPiece = new Piece(new PieceInfo(PieceType.GUARD, CountryType.HAN), strategy);
 
-        boardStates.put(new Position(3, 9), PieceFactory.GUARD.create(CountryType.HAN));
-        boardStates.put(new Position(5, 9), PieceFactory.GUARD.create(CountryType.HAN));
+        boardStates.put(new Position(3, 0), choPiece);
+        boardStates.put(new Position(5, 0), choPiece);
+
+        boardStates.put(new Position(3, 9), hanPiece);
+        boardStates.put(new Position(5, 9), hanPiece);
     }
 
     private void initializeCannonPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(1, 2), PieceFactory.CANNON.create(CountryType.CHO));
-        boardStates.put(new Position(7, 2), PieceFactory.CANNON.create(CountryType.CHO));
+        MoveStrategy strategy = MoveStrategyType.CANNON.getMoveStrategy();
+        Piece choPiece = new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO), strategy);
+        Piece hanPiece = new Piece(new PieceInfo(PieceType.CANNON, CountryType.HAN), strategy);
 
-        boardStates.put(new Position(1, 7), PieceFactory.CANNON.create(CountryType.HAN));
-        boardStates.put(new Position(7, 7), PieceFactory.CANNON.create(CountryType.HAN));
+        boardStates.put(new Position(1, 2), choPiece);
+        boardStates.put(new Position(7, 2), choPiece);
+
+        boardStates.put(new Position(1, 7), hanPiece);
+        boardStates.put(new Position(7, 7), hanPiece);
     }
 
     private void initializeChariotPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 0), PieceFactory.CHARIOT.create(CountryType.CHO));
-        boardStates.put(new Position(8, 0), PieceFactory.CHARIOT.create(CountryType.CHO));
+        MoveStrategy strategy = MoveStrategyType.CHARIOT.getMoveStrategy();
+        Piece choPiece = new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO), strategy);
+        Piece hanPiece = new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN), strategy);
 
-        boardStates.put(new Position(0, 9), PieceFactory.CHARIOT.create(CountryType.HAN));
-        boardStates.put(new Position(8, 9), PieceFactory.CHARIOT.create(CountryType.HAN));
+        boardStates.put(new Position(0, 0), choPiece);
+        boardStates.put(new Position(8, 0), choPiece);
+
+        boardStates.put(new Position(0, 9), hanPiece);
+        boardStates.put(new Position(8, 9), hanPiece);
     }
 
     private void initializeGeneralPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(4, 1), PieceFactory.GENERAL.create(CountryType.CHO));
+        MoveStrategy strategy = MoveStrategyType.GENERAL.getMoveStrategy();
+        Piece choPiece = new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO), strategy);
+        Piece hanPiece = new Piece(new PieceInfo(PieceType.GENERAL, CountryType.HAN), strategy);
 
-        boardStates.put(new Position(4, 8), PieceFactory.GENERAL.create(CountryType.HAN));
+        boardStates.put(new Position(4, 1), choPiece);
+
+        boardStates.put(new Position(4, 8), hanPiece);
     }
 
     private void initializeChoTableSetting(Map<Position, Piece> boardStates, TableSetting choTableSetting) {
@@ -100,8 +122,9 @@ public class BoardFactory {
 
     private Piece makeElephantOrHorse(PieceType pieceType, CountryType countryType) {
         if (pieceType == PieceType.ELEPHANT) {
-            return PieceFactory.ELEPHANT.create(countryType);
+            return new Piece(new PieceInfo(PieceType.ELEPHANT, countryType),
+                    MoveStrategyType.ELEPHANT.getMoveStrategy());
         }
-        return PieceFactory.HORSE.create(countryType);
+        return new Piece(new PieceInfo(PieceType.HORSE, countryType), MoveStrategyType.HORSE.getMoveStrategy());
     }
 }

@@ -4,7 +4,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import domain.Position;
 import domain.country.CountryType;
-import domain.piece.PieceFactory;
+import domain.piece.Piece;
+import domain.piece.PieceInfo;
+import domain.piece.PieceType;
+import domain.strategy.MoveStrategyType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +23,10 @@ public class BoardSnapshotsTest {
         Position hanRight = new Position(4, 2);
         Position hanLeft = new Position(3, 2);
 
-        stubBoardStates.put(choRight, PieceFactory.CHARIOT.create(CountryType.CHO));
-        stubBoardStates.put(hanRight, PieceFactory.CHARIOT.create(CountryType.HAN));
+        stubBoardStates.put(choRight, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO),
+                MoveStrategyType.CHARIOT.getMoveStrategy()));
+        stubBoardStates.put(hanRight, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN),
+                MoveStrategyType.CHARIOT.getMoveStrategy()));
 
         Board board = new Board(stubBoardStates.create(), new BoardSnapshots(), CountryType.CHO);
 
