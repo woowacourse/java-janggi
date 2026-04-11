@@ -30,19 +30,19 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasDistancePair(to, 1, 2)) {
+        if (!from.matchesDistance(to, 1, 2)) {
             throw new IllegalArgumentException("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
         }
     }
 
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+    private void validateAllPieceEmpty(PiecesOnPath piecesOnPath) {
+        if (!piecesOnPath.isAllEmpty()) {
             throw new IllegalArgumentException("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

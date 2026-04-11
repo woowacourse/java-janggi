@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
 public class Cannon extends AbstractPiece {
 
     private static final PieceType PIECE_TYPE = PieceType.CANNON;
-    private static final int JUMP_PIECE_COUNT = 1;
 
     public Cannon(Team team) {
         super(team);
@@ -27,12 +27,15 @@ public class Cannon extends AbstractPiece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        validateMove(from, to);
+        if (Palace.isDiagonalMove(from, to)) {
+            return Palace.getDiagonalPath(from, to);
+        }
+        validateStraightMove(from, to);
         return findPath(from, to);
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
         validateJumpOnlyOnePiece(piecesOnPath);
         validateJumpCannon(piecesOnPath);
         validateSameTeam(endPiece);
@@ -50,7 +53,7 @@ public class Cannon extends AbstractPiece {
         return path;
     }
 
-    private void validateMove(Position from, Position to) {
+    private void validateStraightMove(Position from, Position to) {
         if (!from.hasOnlyStraightMove(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
         }
@@ -62,16 +65,14 @@ public class Cannon extends AbstractPiece {
         }
     }
 
-    private void validateJumpCannon(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream().anyMatch(this::isSamePiece)) {
+    private void validateJumpCannon(PiecesOnPath piecesOnPath) {
+        if (piecesOnPath.containsType(PieceType.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }
 
-    private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece())
-                .count() != JUMP_PIECE_COUNT) {
+    private void validateJumpOnlyOnePiece(PiecesOnPath piecesOnPath) {
+        if (!piecesOnPath.hasExactlyOneNonEmpty()) {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
     }

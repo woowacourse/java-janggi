@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.position.Palace;
 
 public abstract class AbstractPiece implements Piece {
 
@@ -8,6 +9,10 @@ public abstract class AbstractPiece implements Piece {
 
     protected AbstractPiece(Team team) {
         this.team = team;
+    }
+
+    protected Palace ownPalace() {
+        return Palace.of(team);
     }
 
     @Override

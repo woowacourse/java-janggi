@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.List;
 
@@ -25,18 +26,34 @@ public class Soldier extends AbstractPiece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        validateMove(from, to);
+        if (isForwardDiagonalInPalace(from, to)) {
+            return List.of();
+        }
+        validateStraightMove(from, to);
         validateBackStep(from, to);
         return List.of();
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
     }
 
-    private void validateMove(Position from, Position to) {
-        if (!from.hasDistancePair(to, 0, 1)) {
+    private boolean isForwardDiagonalInPalace(Position from, Position to) {
+        if (!Palace.isDiagonalMove(from, to)) {
+            return false;
+        }
+        if (from.rowDistanceTo(to) != 1) {
+            return false;
+        }
+        if (isSame(Team.HAN)) {
+            return to.getRowValue() > from.getRowValue();
+        }
+        return to.getRowValue() < from.getRowValue();
+    }
+
+    private void validateStraightMove(Position from, Position to) {
+        if (!from.matchesDistance(to, 0, 1)) {
             throw new IllegalArgumentException("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
         }
     }

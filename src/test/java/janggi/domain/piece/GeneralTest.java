@@ -17,48 +17,56 @@ class GeneralTest {
     @DisplayName("같은 팀의 기물인지 확인하면 올바른 결과를 반환한다.")
     @Test
     void isSameTeam() {
-        // given
         General hanGeneral = new General(Team.HAN);
         General sameTeamGeneral = new General(Team.HAN);
         General diffTeamGeneral = new General(Team.CHO);
 
-        // when & then
         assertAll(
                 () -> assertThat(hanGeneral.isSameTeam(sameTeamGeneral)).isTrue(),
                 () -> assertThat(hanGeneral.isSameTeam(diffTeamGeneral)).isFalse()
         );
     }
 
-    @DisplayName("직선으로 1칸 이동시키면 정상적으로 경로를 반환한다.")
+    @DisplayName("궁성 내에서 직선으로 1칸 이동하면 정상적으로 경로를 반환한다.")
     @Test
-    void getPath_ValidMove() {
-        // given
+    void getPath_ValidStraightMove() {
         General general = new General(Team.HAN);
-        Position from = Position.from("11");
-        Position to = Position.from("12");
 
-        // when
-        List<Position> path = general.getPath(from, to);
+        List<Position> path = general.getPath(Position.from("25"), Position.from("24"));
 
-        // then
         assertThat(path).isEmpty();
     }
 
-    @DisplayName("대각선이나 1칸을 초과하여 이동시키려 하면 예외가 발생한다.")
+    @DisplayName("궁성 내 대각선 선을 따라 1칸 이동하면 정상적으로 경로를 반환한다.")
+    @Test
+    void getPath_ValidDiagonalMove() {
+        General general = new General(Team.HAN);
+
+        List<Position> path = general.getPath(Position.from("25"), Position.from("14"));
+
+        assertThat(path).isEmpty();
+    }
+
+    @DisplayName("궁성 밖으로 이동하려 하면 예외가 발생한다.")
+    @Test
+    void getPath_MoveOutsidePalace_ThrowsException() {
+        General general = new General(Team.HAN);
+
+        assertThatThrownBy(() -> general.getPath(Position.from("14"), Position.from("13")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+    }
+
+    @DisplayName("대각선 선 위가 아닌 곳으로 대각선 이동하거나 1칸을 초과하면 예외가 발생한다.")
     @Test
     void getPath_InvalidMove_ThrowsException() {
-        // given
         General general = new General(Team.HAN);
-        Position from = Position.from("11");
-        Position invalidTo1 = Position.from("22");
-        Position invalidTo2 = Position.from("15");
 
-        // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> general.getPath(from, invalidTo1))
+                () -> assertThatThrownBy(() -> general.getPath(Position.from("15"), Position.from("24")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> general.getPath(from, invalidTo2))
+                () -> assertThatThrownBy(() -> general.getPath(Position.from("14"), Position.from("36")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.")
         );
@@ -67,13 +75,9 @@ class GeneralTest {
     @DisplayName("도착 위치에 아군 기물이 있으면 이동할 수 없고 예외가 발생한다.")
     @Test
     void canMove_TargetIsSameTeam_ThrowsException() {
-        // given
         General general = new General(Team.HAN);
-        List<Piece> path = List.of();
-        Piece sameTeamTarget = new Chariot(Team.HAN);
 
-        // when & then
-        assertThatThrownBy(() -> general.canMove(path, sameTeamTarget))
+        assertThatThrownBy(() -> general.canMove(new PiecesOnPath(List.of()), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -81,13 +85,9 @@ class GeneralTest {
     @DisplayName("도착 위치에 적군 기물이 있으면 정상적으로 이동(공격) 가능하다.")
     @Test
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
-        // given
         General general = new General(Team.HAN);
-        List<Piece> path = List.of();
-        Piece diffTeamTarget = new Chariot(Team.CHO);
 
-        // when & then
         assertThatNoException()
-                .isThrownBy(() -> general.canMove(path, diffTeamTarget));
+                .isThrownBy(() -> general.canMove(new PiecesOnPath(List.of()), new Chariot(Team.CHO)));
     }
 }

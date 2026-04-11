@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,15 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        validateMove(from, to);
+        if (Palace.isDiagonalMove(from, to)) {
+            return Palace.getDiagonalPath(from, to);
+        }
+        validateStraightMove(from, to);
         return findPath(from, to);
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
     }
@@ -47,14 +51,14 @@ public class Chariot extends AbstractPiece {
         return path;
     }
 
-    private void validateMove(Position from, Position to) {
+    private void validateStraightMove(Position from, Position to) {
         if (!from.hasOnlyStraightMove(to)) {
             throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
         }
     }
 
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+    private void validateAllPieceEmpty(PiecesOnPath piecesOnPath) {
+        if (!piecesOnPath.isAllEmpty()) {
             throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

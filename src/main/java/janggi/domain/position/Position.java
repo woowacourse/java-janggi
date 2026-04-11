@@ -39,7 +39,7 @@ public class Position {
                 column.getValue() + direction.getColOffset());
     }
 
-    public boolean hasDistancePair(Position other, int dRow, int dColumn) {
+    public boolean matchesDistance(Position other, int dRow, int dColumn) {
         int diffRowAbs = rowDistanceTo(other);
         int diffColumnAbs = colDistanceTo(other);
         return (diffRowAbs == dRow && diffColumnAbs == dColumn)

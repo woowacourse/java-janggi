@@ -17,86 +17,63 @@ class SoldierTest {
     @DisplayName("같은 팀의 기물인지 확인하면 올바른 결과를 반환한다.")
     @Test
     void isSameTeam() {
-        // given
         Soldier hanSoldier = new Soldier(Team.HAN);
         Soldier sameTeamSoldier = new Soldier(Team.HAN);
         Soldier diffTeamSoldier = new Soldier(Team.CHO);
 
-        // when & then
         assertAll(
                 () -> assertThat(hanSoldier.isSameTeam(sameTeamSoldier)).isTrue(),
                 () -> assertThat(hanSoldier.isSameTeam(diffTeamSoldier)).isFalse()
         );
     }
 
-    @DisplayName("뒤로 가는 방향이 아닌, 전진 또는 옆으로 1칸 이동시키면 정상적으로 경로를 반환한다.")
+    @DisplayName("전진 또는 옆으로 1칸 이동하면 정상적으로 경로를 반환한다.")
     @Test
     void getPath_ValidMove() {
-        // given
         Soldier soldier = new Soldier(Team.HAN);
-        Position from = Position.from("43");
-        Position to = Position.from("53");
 
-        // when
-        List<Position> path = soldier.getPath(from, to);
+        List<Position> path = soldier.getPath(Position.from("43"), Position.from("53"));
 
-        // then
         assertThat(path).isEmpty();
     }
 
     @DisplayName("대각선이나 1칸을 초과하여 이동시키려 하면 예외가 발생한다.")
     @Test
     void getPath_InvalidMove_ThrowsException() {
-        // given
         Soldier soldier = new Soldier(Team.HAN);
-        Position from = Position.from("43");
-        Position invalidTo1 = Position.from("54");
-        Position invalidTo2 = Position.from("63");
 
-        // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> soldier.getPath(from, invalidTo1))
+                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("54")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> soldier.getPath(from, invalidTo2))
+                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("63")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.")
         );
     }
 
-    @DisplayName("자신의 진영에 따라 뒤로(후퇴) 이동하려 하면 예외가 발생한다.")
+    @DisplayName("자신의 진영에 따라 뒤로 이동하려 하면 예외가 발생한다.")
     @Test
     void getPath_MoveBackward_ThrowsException() {
-        // given
         Soldier hanSoldier = new Soldier(Team.HAN);
-        Position hanFrom = Position.from("45");
-        Position hanTo = Position.from("35");
-
         Soldier choSoldier = new Soldier(Team.CHO);
-        Position choFrom = Position.from("75");
-        Position choTo = Position.from("85");
 
-        // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> hanSoldier.getPath(hanFrom, hanTo))
+                () -> assertThatThrownBy(() -> hanSoldier.getPath(Position.from("45"), Position.from("35")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> choSoldier.getPath(choFrom, choTo))
+                () -> assertThatThrownBy(() -> choSoldier.getPath(Position.from("75"), Position.from("85")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.")
         );
     }
 
-    @DisplayName("도착 위치에 아군 기물이 있으면 이동할 수 없고 예외가 발생한다.")
+    @DisplayName("도착 위치에 아군 기물이 있으면 예외가 발생한다.")
     @Test
     void canMove_TargetIsSameTeam_ThrowsException() {
-        // given
         Soldier soldier = new Soldier(Team.HAN);
-        List<Piece> path = List.of();
-        Piece sameTeamTarget = new Chariot(Team.HAN);
 
-        // when & then
-        assertThatThrownBy(() -> soldier.canMove(path, sameTeamTarget))
+        assertThatThrownBy(() -> soldier.canMove(new PiecesOnPath(List.of()), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -104,13 +81,9 @@ class SoldierTest {
     @DisplayName("도착 위치에 적군 기물이 있으면 정상적으로 이동(공격) 가능하다.")
     @Test
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
-        // given
         Soldier soldier = new Soldier(Team.HAN);
-        List<Piece> path = List.of();
-        Piece diffTeamTarget = new Chariot(Team.CHO);
 
-        // when & then
         assertThatNoException()
-                .isThrownBy(() -> soldier.canMove(path, diffTeamTarget));
+                .isThrownBy(() -> soldier.canMove(new PiecesOnPath(List.of()), new Chariot(Team.CHO)));
     }
 }

@@ -9,6 +9,18 @@ public class InputView {
     private InputView() {
     }
 
+    public static String readGameMode() {
+        System.out.println("[장기 게임]");
+        System.out.println("1: 새 게임 시작  2: 이어하기");
+        System.out.print("> ");
+        return SCANNER.nextLine().strip();
+    }
+
+    public static long readGameId() {
+        System.out.print("게임 번호를 입력하세요: ");
+        return Long.parseLong(SCANNER.nextLine().strip());
+    }
+
     public static String readHanSetup() {
         System.out.println("[한(漢) 차림 선택]");
         System.out.println("1: 왼상차림  2: 오른상차림  3: 안상차림  4: 바깥상차림(기본)");

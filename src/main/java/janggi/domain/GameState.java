@@ -1,6 +1,7 @@
 package janggi.domain;
 
 public enum GameState {
+    PLAYING,
     TURN_SUCCESS,
     TURN_FAILED,
     FINISHED,

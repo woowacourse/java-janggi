@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -96,6 +97,23 @@ public class OutputView {
         System.out.println(ANSI_BLUE + "  [CHO] CHA=車 HOR=馬 ELE=象 GRD=士 GEN=將 CAN=包 SOL=卒" + ANSI_RESET);
     }
 
+    public static void printScore(Score hanScore, Score choScore) {
+        System.out.printf("한(漢) 점수: %.1f%n", hanScore.getValue());
+        System.out.printf("초(楚) 점수: %.1f%n", choScore.getValue());
+    }
+
+    public static void printScoreWinner(Team winner) {
+        if (winner == Team.HAN) {
+            System.out.println(ANSI_RED + "한(漢)" + ANSI_RESET + " 점수 우세!");
+            return;
+        }
+        System.out.println(ANSI_BLUE + "초(楚)" + ANSI_RESET + " 점수 우세!");
+    }
+
+    public static void printDraw() {
+        System.out.println("점수가 동일합니다!");
+    }
+
     public static void printWinner(Team winner) {
         if (winner == Team.HAN) {
             System.out.println(ANSI_RED + "한(漢)" + ANSI_RESET + " 승리! 게임을 종료합니다.");
@@ -110,5 +128,9 @@ public class OutputView {
 
     public static void printGameEnd() {
         System.out.println("게임을 종료합니다.");
+    }
+
+    public static void printGameId(long gameId) {
+        System.out.println("게임 번호: " + gameId + " (이어하기 시 필요합니다.)");
     }
 }

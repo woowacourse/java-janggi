@@ -31,7 +31,7 @@ public class Elephant extends AbstractPiece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
     }
@@ -46,13 +46,13 @@ public class Elephant extends AbstractPiece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasDistancePair(to, 2, 3)) {
+        if (!from.matchesDistance(to, 2, 3)) {
             throw new IllegalArgumentException("[ERROR] 상은 해당 경로로 이동할 수 없습니다.");
         }
     }
 
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+    private void validateAllPieceEmpty(PiecesOnPath piecesOnPath) {
+        if (!piecesOnPath.isAllEmpty()) {
             throw new IllegalArgumentException("[ERROR] 상의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

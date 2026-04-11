@@ -17,12 +17,10 @@ class HorseTest {
     @DisplayName("같은 팀의 기물인지 확인하면 올바른 결과를 반환한다.")
     @Test
     void isSameTeam() {
-        // given
         Horse hanHorse = new Horse(Team.HAN);
         Horse sameTeamHorse = new Horse(Team.HAN);
         Horse diffTeamHorse = new Horse(Team.CHO);
 
-        // when & then
         assertAll(
                 () -> assertThat(hanHorse.isSameTeam(sameTeamHorse)).isTrue(),
                 () -> assertThat(hanHorse.isSameTeam(diffTeamHorse)).isFalse()
@@ -32,51 +30,34 @@ class HorseTest {
     @DisplayName("직선 1칸 후 대각선 1칸(마밭)으로 이동시키면 통과하는 경로(멱)를 반환한다.")
     @Test
     void getPath_ValidMove() {
-        // given
         Horse horse = new Horse(Team.HAN);
-        Position from = Position.from("36");
-        Position to = Position.from("57");
-        Position expectedPath = Position.from("46");
 
-        // when
-        List<Position> path = horse.getPath(from, to);
+        List<Position> path = horse.getPath(Position.from("36"), Position.from("57"));
 
-        // then
-        assertThat(path).containsExactly(expectedPath);
+        assertThat(path).containsExactly(Position.from("46"));
     }
 
     @DisplayName("마의 고유한 경로(마밭)가 아닌 곳으로 이동시키려 하면 예외가 발생한다.")
     @Test
     void getPath_InvalidMove_ThrowsException() {
-        // given
         Horse horse = new Horse(Team.HAN);
-        Position from1 = Position.from("35");
-        Position invalidTo1 = Position.from("65");
 
-        Position from2 = Position.from("11");
-        Position invalidTo2 = Position.from("22");
-
-        // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> horse.getPath(from1, invalidTo1))
+                () -> assertThatThrownBy(() -> horse.getPath(Position.from("35"), Position.from("65")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> horse.getPath(from2, invalidTo2))
+                () -> assertThatThrownBy(() -> horse.getPath(Position.from("11"), Position.from("22")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.")
         );
     }
 
-    @DisplayName("마의 이동 경로(멱)에 빈 기물이 아닌 다른 기물이 존재하여 길이 막히면 예외가 발생한다.")
+    @DisplayName("마의 이동 경로(멱)에 기물이 있으면 예외가 발생한다.")
     @Test
     void canMove_PathBlocked_ThrowsException() {
-        // given
         Horse horse = new Horse(Team.HAN);
-        List<Piece> blockedPath = List.of(new Soldier(Team.HAN));
-        Piece targetPiece = new EmptyPiece();
 
-        // when & then
-        assertThatThrownBy(() -> horse.canMove(blockedPath, targetPiece))
+        assertThatThrownBy(() -> horse.canMove(new PiecesOnPath(List.of(new Soldier(Team.HAN))), new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -84,13 +65,9 @@ class HorseTest {
     @DisplayName("도착 위치에 아군 기물이 있으면 이동할 수 없고 예외가 발생한다.")
     @Test
     void canMove_TargetIsSameTeam_ThrowsException() {
-        // given
         Horse horse = new Horse(Team.HAN);
-        List<Piece> clearPath = List.of(new EmptyPiece());
-        Piece sameTeamTarget = new Soldier(Team.HAN);
 
-        // when & then
-        assertThatThrownBy(() -> horse.canMove(clearPath, sameTeamTarget))
+        assertThatThrownBy(() -> horse.canMove(new PiecesOnPath(List.of(new EmptyPiece())), new Soldier(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -98,13 +75,9 @@ class HorseTest {
     @DisplayName("경로가 뚫려 있고 도착 위치에 적군 기물이 있으면 정상적으로 이동 가능하다.")
     @Test
     void canMove_ValidPathAndTarget_DoesNotThrow() {
-        // given
         Horse horse = new Horse(Team.HAN);
-        List<Piece> clearPath = List.of(new EmptyPiece());
-        Piece diffTeamTarget = new Chariot(Team.CHO);
 
-        // when & then
         assertThatNoException()
-                .isThrownBy(() -> horse.canMove(clearPath, diffTeamTarget));
+                .isThrownBy(() -> horse.canMove(new PiecesOnPath(List.of(new EmptyPiece())), new Chariot(Team.CHO)));
     }
 }

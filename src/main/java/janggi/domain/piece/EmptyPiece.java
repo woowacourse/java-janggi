@@ -44,6 +44,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
+        // 빈 칸은 이동할 수 없으므로 호출되지 않음
     }
 }

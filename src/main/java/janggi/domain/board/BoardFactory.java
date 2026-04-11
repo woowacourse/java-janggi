@@ -15,6 +15,7 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class BoardFactory {
 
@@ -28,15 +29,17 @@ public class BoardFactory {
         placeCho(board);
         BoardSetup.from(hanBoardType, Team.HAN).apply(board);
         BoardSetup.from(choBoardType, Team.CHO).apply(board);
-        return new Board(board);
+        return Board.from(board);
     }
 
     private static void initializeEmpty(Map<Position, Piece> board) {
-        for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
-            for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                board.put(Position.of(row, col), new EmptyPiece());
-            }
-        }
+        IntStream.rangeClosed(Row.ROW_LOWER_THRESH_HOLD, Row.ROW_UPPER_THRESH_HOLD)
+                .forEach(row -> initializeRow(board, row));
+    }
+
+    private static void initializeRow(Map<Position, Piece> board, int row) {
+        IntStream.rangeClosed(Column.COLUMN_LOWER_THRESH_HOLD, Column.COLUMN_UPPER_THRESH_HOLD)
+                .forEach(col -> board.put(Position.of(row, col), new EmptyPiece()));
     }
 
     private static void placeHan(Map<Position, Piece> board) {
