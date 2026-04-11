@@ -6,10 +6,13 @@ import domain.piece.PieceType;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
+import dto.PieceSaveInfo;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiConsumer;
 
 public class Board {
     private static final String NOT_FOUND_PIECE_FROM_POSITION = "[ERROR] 해당 좌표에 기물이 존재하지 않습니다.";
@@ -63,40 +66,58 @@ public class Board {
         return isGeneralCaught;
     }
 
-    public Map<Position, PieceInfo> getPieceInfos() {
-        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
+    public void forEachPiece(BiConsumer<Position, PieceInfo> pieceInfos) {
         for (Entry<Position, State> entry : board.entrySet()) {
             if (!entry.getValue().isEmpty()) {
-                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
+                pieceInfos.accept(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
             }
         }
-        return pieceInfos;
+    }
+
+    public List<PieceSaveInfo> toPieceSaveInfo() {
+        List<PieceSaveInfo> result = new ArrayList<>();
+        for (Entry<Position, State> entry : board.entrySet()) {
+            if (!entry.getValue().isEmpty()) {
+                PieceInfo pieceInfo = entry.getValue().getPiece().getPieceInfo();
+                result.add(PieceSaveInfo.of(entry.getKey(), pieceInfo));
+            }
+        }
+        return result;
     }
 
     public boolean isEmpty(Position position) {
         return board.get(position).isEmpty();
     }
 
-    private boolean isGeneralCaught(Position to) {
-        return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
+    public PieceInfo getSpecificPieceInfo(Position position) {
+        return board.get(position).getPiece().getPieceInfo();
     }
 
-    public Map<Country, Double> calculateScore() {
-        double choInitScore = 0;
-        double hanInitScore = 1.5;
+    public double calculateScore(Country country) {
+        double totalScore = 0;
+        if (country == Country.HAN) {
+            totalScore = 1.5;
+        }
 
-        for (PieceInfo pieceInfo : getPieceInfos().values()) {
-            if (pieceInfo.country() == Country.CHO) {
-                choInitScore += pieceInfo.pieceType().getScore();
-            }
-            if (pieceInfo.country() == Country.HAN) {
-                hanInitScore += pieceInfo.pieceType().getScore();
+        for (State state : board.values()) {
+            if (!state.isEmpty()) {
+                PieceInfo pieceInfo = state.getPiece().getPieceInfo();
+                if (pieceInfo.country() != country) {
+                    totalScore += pieceInfo.pieceType().getScore();
+                }
             }
         }
-        Map<Country, Double> totalScores = new LinkedHashMap<>();
-        totalScores.put(Country.CHO, choInitScore);
-        totalScores.put(Country.HAN, hanInitScore);
-        return totalScores;
+        return totalScore;
+    }
+
+    public int pieceCount() {
+        return (int) board.values().stream()
+                .filter(state -> !state.isEmpty())
+                .count();
+    }
+
+    private boolean isGeneralCaught(Position to) {
+        return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
     }
 
     private void validateDestination(Position from, Position to) {

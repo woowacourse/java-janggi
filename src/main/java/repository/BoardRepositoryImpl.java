@@ -4,11 +4,13 @@ import domain.board.Country;
 import domain.board.Position;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
+import dto.PieceSaveInfo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoardRepositoryImpl implements BoardRepository {
@@ -18,17 +20,17 @@ public class BoardRepositoryImpl implements BoardRepository {
     private static final String FAILED_FIND_ALL_BOARD_DATA = "[ERROR] DB에서 모든 보드 데이터를 조회하는 도중, 오류가 발생했습니다.";
 
     @Override
-    public void saveAll(Connection connection, Long gameId, Map<Position, PieceInfo> pieceInfos) {
+    public void saveAll(Connection connection, Long gameId, List<PieceSaveInfo> pieceSaveInfos) {
         String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            for (Map.Entry<Position, PieceInfo> pieceInfo : pieceInfos.entrySet()) {
-                statement.setInt(1, pieceInfo.getKey().x());
-                statement.setInt(2, pieceInfo.getKey().y());
-                statement.setString(3, pieceInfo.getValue().pieceType().getDbValue());
-                statement.setString(4, pieceInfo.getValue().country().getDbValue());
+            for (PieceSaveInfo pieceSaveInfo : pieceSaveInfos) {
+                statement.setInt(1, pieceSaveInfo.position().x());
+                statement.setInt(2, pieceSaveInfo.position().y());
+                statement.setString(3, pieceSaveInfo.pieceInfo().pieceType().getDbValue());
+                statement.setString(4, pieceSaveInfo.pieceInfo().country().getDbValue());
                 statement.setLong(5, gameId);
 
                 statement.addBatch();

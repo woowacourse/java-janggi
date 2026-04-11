@@ -35,18 +35,18 @@ public class GameService {
         return executeWithConnection(connection -> boardRepository.findAllByGameId(connection, gameId));
     }
 
-    public Long saveGame(Game game, Map<Position, PieceInfo> pieceInfos) {
+    public Long saveGame(Game game, Board board) {
         return executeWithTransaction(connection -> {
             Long gameId = gameRepository.save(connection, game)
                     .orElseThrow(() -> new IllegalStateException(NOT_EXIST_GAME));
-            boardRepository.saveAll(connection, gameId, pieceInfos);
+            boardRepository.saveAll(connection, gameId, board.toPieceSaveInfo());
             return gameId;
         });
     }
 
     public boolean move(Board board, Long gameId, Position from, Position to) {
         boolean isGeneralCaught = board.move(from, to);
-        updateBoard(gameId, from, to, board.getPieceInfos());
+        updateBoard(gameId, from, to, board.getSpecificPieceInfo(to));
         return isGeneralCaught;
     }
 
@@ -60,13 +60,12 @@ public class GameService {
         }
     }
 
-    private void updateBoard(Long gameId, Position from, Position to, Map<Position, PieceInfo> pieceInfos) {
+    private void updateBoard(Long gameId, Position from, Position to, PieceInfo pieceInfo) {
         try (
                 Connection connection = dataSource.getConnection()
         ) {
             boardRepository.delete(connection, gameId, from);
             boardRepository.delete(connection, gameId, to);
-            PieceInfo pieceInfo = pieceInfos.get(to);
             boardRepository.save(connection, gameId, to, pieceInfo);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
