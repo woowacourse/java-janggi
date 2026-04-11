@@ -7,6 +7,7 @@ import static domain.common.Constant.MIN_ROW;
 
 import domain.place.moveStrategy.Direction;
 import domain.place.piece.Piece;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +47,13 @@ public class Board implements BoardView {
         }
 
         return result;
+    }
+
+    public double calculateScore(Side side) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getScore)
+                .sum();
     }
 
     @Override

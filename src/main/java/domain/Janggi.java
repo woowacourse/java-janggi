@@ -25,6 +25,17 @@ public class Janggi {
         this.currentPlayer = players.getPlayerBySide(Side.CHO);
     }
 
+    public Janggi(Long id, Players players, Board board, Player currentPlayer, boolean gameOver, double choScore,
+                  double hanScore) {
+        this.id = id;
+        this.players = players;
+        this.board = board;
+        this.currentPlayer = currentPlayer;
+        this.gameOver = gameOver;
+        this.choScore = choScore;
+        this.hanScore = hanScore;
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -59,6 +70,13 @@ public class Janggi {
         return currentPlayer;
     }
 
+    public Long id() {
+        return id;
+    }
+
+    public Players players() {
+        return players;
+    }
     private void validateFromPiece(Position from, Position to) {
         Piece piece = getRequiredPiece(from);
         validateOwnPiece(piece);

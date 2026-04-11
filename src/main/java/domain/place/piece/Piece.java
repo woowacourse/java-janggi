@@ -21,6 +21,10 @@ public abstract class Piece {
         return side.colorize(getSymbol().display());
     }
 
+    public Side getSide() {
+        return side;
+    }
+
     public boolean isSameSide(Piece piece) {
         return this.side == piece.side;
     }

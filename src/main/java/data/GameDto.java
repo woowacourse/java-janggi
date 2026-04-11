@@ -1,10 +1,12 @@
 package data;
 
+import domain.place.piece.Side;
+
 public record GameDto(
         Long id,
         String playerCho,
         String playerHan,
-        String currentTurn,
+        Side currentTurn,
         boolean status
 ) {
 }
