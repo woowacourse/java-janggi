@@ -22,6 +22,14 @@ public class TransactionManager {
         }
     }
 
+    public void execute(SqlConsumer action) {
+        try (Connection connection = connectionManager.getConnection()) {
+            action.accept(connection);
+        } catch (SQLException e) {
+            throw new DataAccessException(DATABASE_ACCESS_FAILED, e);
+        }
+    }
+
     public <T> T executeWithTransaction(SqlFunction<T> action) {
         try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);

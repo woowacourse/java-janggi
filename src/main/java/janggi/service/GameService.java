@@ -36,7 +36,9 @@ public class GameService {
     }
 
     public void validateGameExists(long gameId) {
-        transactionManager.execute(connection -> findGame(connection, gameId));
+        transactionManager.execute(connection -> {
+            findGame(connection, gameId);
+        });
     }
 
     public long createNewGame(Board board) {
@@ -51,13 +53,13 @@ public class GameService {
     }
 
     public GameStatus getGameStatus(long gameId) {
-        return transactionManager.execute(connection ->
-                GameStatus.from(findGame(connection, gameId), false)
-        );
+        return transactionManager.execute(connection -> {
+            return GameStatus.from(findGame(connection, gameId), false);
+        });
     }
 
     public void validateSourceForCurrentTurn(long gameId, Position source) {
-        transactionManager.executeWithTransaction(connection -> {
+        transactionManager.execute(connection -> {
             findGame(connection, gameId).validateSourceForCurrentTurn(source);
         });
     }
