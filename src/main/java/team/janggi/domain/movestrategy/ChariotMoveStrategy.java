@@ -8,10 +8,20 @@ import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.PieceType;
 
 public class ChariotMoveStrategy implements MoveStrategy {
+    private static final ChariotMoveStrategy INSTANCE = new ChariotMoveStrategy();
 
-    public static final ChariotMoveStrategy INSTANCE = new ChariotMoveStrategy();
+    private static final List<Position> choDiagonalLeft = List.of(Position.of(3, 7), Position.of(4, 8),
+            Position.of(5, 9));
+    private static final List<Position> choDiagonalRight = List.of(Position.of(5, 7), Position.of(4, 8),
+            Position.of(3, 9));
 
-    private ChariotMoveStrategy() {}
+    private static final List<Position> hanDiagonalLeft = List.of(Position.of(3, 0), Position.of(4, 1),
+            Position.of(5, 2));
+    private static final List<Position> hanDiagonalRight = List.of(Position.of(5, 0), Position.of(4, 1),
+            Position.of(3, 2));
+
+    private ChariotMoveStrategy() {
+    }
 
     public static ChariotMoveStrategy getInstance() {
         return INSTANCE;
@@ -19,20 +29,35 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean calculateMove(Position from, Position to, Map<Position, Piece> mapStatus) {
+        final Piece me = mapStatus.get(from);
+        final Piece lastPiece = mapStatus.get(to);
+
+        if (!canKill(lastPiece, me)) {
+            return false;
+        }
+
+        if (isDiagonalDirection(from, to)) {
+            return true;
+        }
+
         if (!isAllowDirection(from, to)) {
             return false;
         }
 
         final List<Piece> paths = getPaths(from, to, mapStatus);
 
-        if (!isValidPaths(paths)) {
-            return false;
-        }
-
-        final Piece me = mapStatus.get(from);
-        final Piece lastPiece = mapStatus.get(to);
-        return canKill(lastPiece, me);
+        return isValidPaths(paths);
     }
+
+    private boolean isDiagonalDirection(Position from, Position to) {
+        return containDirection(choDiagonalLeft, from, to) || containDirection(choDiagonalRight, from, to) ||
+                containDirection(hanDiagonalRight, from, to) || containDirection(hanDiagonalLeft, from, to);
+    }
+
+    private boolean containDirection(List<Position> Diagonal, Position from, Position to) {
+        return Diagonal.contains(from) && Diagonal.contains(to);
+    }
+
 
     private boolean canKill(Piece target, Piece me) {
         return !target.isSameTeam(me);

@@ -1,5 +1,6 @@
 package team.janggi.domain.board;
 
+import team.janggi.domain.JanggiFormation;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
 import team.janggi.domain.piece.Cannon;
@@ -11,7 +12,6 @@ import team.janggi.domain.piece.Horse;
 import team.janggi.domain.piece.King;
 import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.Soldier;
-import team.janggi.domain.JanggiFormation;
 
 public class BoardFactory {
     private static final int BOARD_Y_SIZE = 10;
@@ -44,7 +44,7 @@ public class BoardFactory {
         batchPiece(status);
     }
 
-    private void initMapByEmpty( BoardStatus status) {
+    private void initMapByEmpty(BoardStatus status) {
         for (int y = 0; y < BOARD_Y_SIZE; y++) {
             initMapRowByEmpty(status, y);
         }

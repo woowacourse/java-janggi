@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import team.janggi.domain.EmptyBoardFactory;
-import team.janggi.domain.board.BoardStatus;
-import team.janggi.domain.board.LocalMemoryBoardStatus;
+import team.janggi.domain.JanggiFormation;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
-import team.janggi.domain.JanggiFormation;
+import team.janggi.domain.board.BoardStatus;
+import team.janggi.domain.board.LocalMemoryBoardStatus;
 
 public class CannonTest {
 
@@ -212,5 +212,57 @@ public class CannonTest {
 
         // when & then
         Assertions.assertEquals(expected, canMove);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "3, 7, 4, 8, 5, 9",
+            "5, 7, 4, 8, 3, 9",
+            "5, 9, 4, 8, 3, 7",
+            "3, 9, 4, 8, 5, 7",
+    })
+    void 초의_포는_궁성영역_에서_기물을_건너뛰어_대각선_이동이_가능하다(int startX, int startY, int middleX, int middleY, int endX, int endY) {
+        // given
+        final Piece cannon = new Cannon(Team.CHO);
+        final Position from = new Position(startX, startY);
+        final Position to = new Position(endX, endY);
+        final Position obstaclePosition = new Position(middleX, middleY);
+
+        // 포 피스 세팅
+        boardStatus.setPiece(from, cannon);
+        // 장애물 피스 세팅
+        boardStatus.setPiece(obstaclePosition, new Soldier(Team.CHO));
+
+        // when
+        final boolean canMove = cannon.canMove(from, to, boardStatus.getBoardStatus());
+
+        // when & then
+        Assertions.assertTrue(canMove);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "3, 0, 4, 1, 5, 2",
+            "5, 2, 4, 1, 3, 0",
+            "5, 0, 4, 1, 3, 2",
+            "3, 2, 4, 1, 5, 0",
+    })
+    void 한의_포는_궁성영역_에서_기물을_건너뛰어_대각선_이동이_가능하다(int startX, int startY, int middleX, int middleY, int endX, int endY) {
+        // given
+        final Piece cannon = new Cannon(Team.HAN);
+        final Position from = new Position(startX, startY);
+        final Position to = new Position(endX, endY);
+        final Position obstaclePosition = new Position(middleX, middleY);
+
+        // 포 피스 세팅
+        boardStatus.setPiece(from, cannon);
+        // 장애물 피스 세팅
+        boardStatus.setPiece(obstaclePosition, new Soldier(Team.HAN));
+
+        // when
+        final boolean canMove = cannon.canMove(from, to, boardStatus.getBoardStatus());
+
+        // when & then
+        Assertions.assertTrue(canMove);
     }
 }

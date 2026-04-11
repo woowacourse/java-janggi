@@ -1,11 +1,13 @@
 package team.janggi.view;
 
+import java.util.List;
 import java.util.Map;
-import team.janggi.domain.board.Board;
 import team.janggi.domain.Position;
 import team.janggi.domain.Team;
+import team.janggi.domain.board.Board;
 import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.PieceType;
+import team.janggi.entity.Game;
 
 public class ConsoleOutputView {
     private static final int Y_SIZE = 10;
@@ -21,12 +23,50 @@ public class ConsoleOutputView {
     public void print(Board board) {
         final Map<Position, Piece> status = board.getStatus();
 
+        printLine();
         printColumnHeader();
 
         for (int y = 0; y < Y_SIZE; y++) {
             printRow(status, y);
         }
         printLine();
+    }
+
+    public void printWinner(Team team) {
+        switch (team) {
+            case CHO -> printText("한나라 승리! 게임을 종료합니다.");
+            case HAN -> printText("초나라 승리! 게임을 종료합니다.");
+            default -> {
+            }
+        }
+    }
+
+    public void printScore(Team team, double teamScore) {
+        switch (team) {
+            case CHO -> printTextLine("초나라 기물 점수 : " + teamScore);
+            case HAN -> printTextLine("한나라 기물 점수 : " + teamScore);
+            default -> {
+            }
+        }
+    }
+
+    public void printGames(List<Game> games) {
+        if (games.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다.");
+            return;
+        }
+        games.forEach(game ->
+                System.out.println(game.getId() + ". " + game.getGameName())
+        );
+        System.out.println((games.size() + 1) + ". 새 게임 시작하기");
+    }
+
+    public void printNoSavedGames() {
+        System.out.println("저장된 게임이 없어 새 게임을 시작합니다.");
+    }
+
+    public void printSavedGame(String gameName) {
+        printText(gameName + " 을 저장했습니다. 게임이 종료됩니다.");
     }
 
     private void printColumnHeader() {
@@ -90,6 +130,10 @@ public class ConsoleOutputView {
 
     private void printText(String text) {
         System.out.print(text);
+    }
+
+    private void printTextLine(String text) {
+        System.out.println(text);
     }
 
     private void printLine() {

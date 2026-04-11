@@ -7,10 +7,10 @@ import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.PieceType;
 
 public class ElephantMoveStrategy implements MoveStrategy {
+    private static final ElephantMoveStrategy INSTANCE = new ElephantMoveStrategy();
 
-    public static final ElephantMoveStrategy INSTANCE = new ElephantMoveStrategy();
-
-    private ElephantMoveStrategy() {}
+    private ElephantMoveStrategy() {
+    }
 
     public static ElephantMoveStrategy getInstance() {
         return INSTANCE;

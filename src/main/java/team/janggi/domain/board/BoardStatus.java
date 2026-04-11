@@ -13,4 +13,7 @@ public interface BoardStatus {
 
     Map<Position, Piece> getBoardStatus();
 
+    boolean isKingDisappeared();
+
+    double getScore(Team team);
 }

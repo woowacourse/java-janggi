@@ -8,11 +8,11 @@ public class Parser {
     public static int parseByInteger(String input, String errorMessage) {
         try {
             return Integer.parseInt(input);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException(errorMessage);
         }
     }
-
+    
     public static List<Integer> parseByDelimiter(String input, String errorMessage) {
         String[] split = input.split(" ");
         if (split.length != 2) {

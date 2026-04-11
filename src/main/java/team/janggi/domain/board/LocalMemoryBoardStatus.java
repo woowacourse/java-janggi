@@ -1,6 +1,5 @@
 package team.janggi.domain.board;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import team.janggi.domain.Position;
@@ -14,6 +13,10 @@ public class LocalMemoryBoardStatus implements BoardStatus {
 
     public LocalMemoryBoardStatus() {
         this.map = new HashMap<>();
+    }
+
+    public LocalMemoryBoardStatus(Map<Position, Piece> initialStatus) {
+        this.map = new HashMap<>(initialStatus);
     }
 
     @Override
@@ -38,6 +41,24 @@ public class LocalMemoryBoardStatus implements BoardStatus {
     @Override
     public Map<Position, Piece> getBoardStatus() {
         return Map.copyOf(map);
+    }
+
+    @Override
+    public boolean isKingDisappeared() {
+        long kingCount = map.values().stream()
+                .filter(piece -> piece.isSamePieceType(PieceType.KING))
+                .count();
+
+        return kingCount != 2;
+    }
+
+    @Override
+    public double getScore(Team team) {
+        double pieceScore = map.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(piece -> piece.getPieceType().getPieceScore())
+                .sum();
+        return pieceScore + team.getHandicap();
     }
 
     private Piece getPiece(Position position) {

@@ -18,6 +18,10 @@ public class Board {
         this.boardFactory = boardFactory;
     }
 
+    public Board(Map<Position, Piece> boardPiece, BoardFactory boardFactory) {
+        this(new LocalMemoryBoardStatus(boardPiece), boardFactory);
+    }
+
     public void initBoard() {
         boardFactory.initBoardStatus(boardStatus);
     }
@@ -30,4 +34,11 @@ public class Board {
         boardStatus.movePiece(team, from, to);
     }
 
+    public boolean isKingDisappeared() {
+        return boardStatus.isKingDisappeared();
+    }
+
+    public double getScore(Team team) {
+        return boardStatus.getScore(team);
+    }
 }

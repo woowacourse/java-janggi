@@ -40,10 +40,18 @@ public class Piece {
         return pieceType;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Piece piece = (Piece) o;
         return team == piece.team;
     }

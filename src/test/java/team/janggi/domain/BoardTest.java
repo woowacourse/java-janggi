@@ -4,6 +4,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import team.janggi.domain.board.Board;
+import team.janggi.domain.board.BoardFactory;
+import team.janggi.domain.board.BoardStatus;
 import team.janggi.domain.board.LocalMemoryBoardStatus;
 import team.janggi.domain.piece.Cannon;
 import team.janggi.domain.piece.Chariot;
@@ -13,7 +15,6 @@ import team.janggi.domain.piece.Horse;
 import team.janggi.domain.piece.King;
 import team.janggi.domain.piece.Piece;
 import team.janggi.domain.piece.Soldier;
-import team.janggi.domain.board.BoardFactory;
 
 public class BoardTest {
 
@@ -75,19 +76,23 @@ public class BoardTest {
         );
     }
 
-    @Test void 초_바깥_한_바깥() {
+    @Test
+    void 초_바깥_한_바깥() {
         runTest(JanggiFormation.HEEH, JanggiFormation.HEEH);
     }
 
-    @Test void 초_바깥_한_안() {
+    @Test
+    void 초_바깥_한_안() {
         runTest(JanggiFormation.HEEH, JanggiFormation.EHHE);
     }
 
-    @Test void 초_안_한_왼() {
+    @Test
+    void 초_안_한_왼() {
         runTest(JanggiFormation.EHHE, JanggiFormation.EHEH);
     }
 
-    @Test void 초_왼_한_오른() {
+    @Test
+    void 초_왼_한_오른() {
         runTest(JanggiFormation.EHEH, JanggiFormation.HEHE);
     }
 
@@ -171,5 +176,52 @@ public class BoardTest {
         // 이동 후 해당 위치에 병이 있는지 확인
         Map<Position, Piece> pieceMap = board.getStatus();
         Assertions.assertEquals(soldier, pieceMap.get(to));
+    }
+
+    @Test
+    public void 상대_기물이_왕을_잡으면_왕의_부재를_확인한다() {
+        // given
+        EmptyBoardFactory boardFactory = new EmptyBoardFactory(JanggiFormation.HEEH,
+                JanggiFormation.HEEH);
+        BoardStatus boardStatus = new LocalMemoryBoardStatus();
+        // when
+        King Hanking = new King(Team.HAN);
+        King Choking = new King(Team.CHO);
+
+        Position HanKingPositon = Position.of(4, 1);
+        Position ChokingPositon = Position.of(4, 8);
+
+        boardStatus.setPiece(HanKingPositon, Hanking);
+        boardStatus.setPiece(ChokingPositon, Choking);
+
+        Soldier soldier = new Soldier(Team.HAN);
+        Position soldierPositon = Position.of(3, 7);
+        boardStatus.setPiece(soldierPositon, soldier);
+
+        boardStatus.movePiece(Team.HAN, soldierPositon, ChokingPositon);
+
+        // then
+        Assertions.assertTrue(boardStatus.isKingDisappeared());
+    }
+
+    @Test
+    public void 진영별_기물에_대한_점수를_반환한다() {
+        // given
+        BoardStatus boardStatus = new LocalMemoryBoardStatus();
+        BoardFactory boardFactory = new BoardFactory(JanggiFormation.HEEH, JanggiFormation.HEEH);
+        Board board = new Board(boardStatus, boardFactory);
+        board.initBoard();
+
+        // when
+
+        double choScore = board.getScore(Team.CHO);
+        double hanScore = board.getScore(Team.HAN);
+
+        double expectedChoScore = 72;
+        double expectedHanScore = 73.5;
+
+        // then
+        Assertions.assertEquals(expectedChoScore, choScore);
+        Assertions.assertEquals(expectedHanScore, hanScore);
     }
 }
