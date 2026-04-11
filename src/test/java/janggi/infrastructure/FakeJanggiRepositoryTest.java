@@ -36,7 +36,7 @@ public class FakeJanggiRepositoryTest {
         Players players = Players.createInitial("pobi", "jason");
         Long gameId = repository.save(players);
         Board board = Board.initialize();
-        Turn turn = new Turn();
+        Turn turn = Turn.from(Side.CHO);
 
         // when
         repository.updateGameStatus(gameId, board, turn);
@@ -68,7 +68,7 @@ public class FakeJanggiRepositoryTest {
         // given
         Long gameId = repository.save(Players.createInitial("pobi", "jason"));
         Board board = Board.initialize();
-        repository.updateGameStatus(gameId, board, new Turn());
+        repository.updateGameStatus(gameId, board, Turn.from(Side.CHO));
 
         // when
         Board foundBoard = repository.findBoardById(gameId);
@@ -110,7 +110,7 @@ public class FakeJanggiRepositoryTest {
     void 게임_아이디로_턴_조회_테스트() {
         // given
         Long gameId = repository.save(Players.createInitial("pobi", "jason"));
-        Turn turn = new Turn();
+        Turn turn = Turn.from(Side.CHO);
         repository.updateGameStatus(gameId, Board.initialize(), turn);
 
         // when
@@ -143,7 +143,7 @@ public class FakeJanggiRepositoryTest {
 
         // when
         Board board = Board.initialize();
-        Turn hanTurn = new Turn(Side.HAN);
+        Turn hanTurn = Turn.from(Side.HAN);
         repository.updateGameStatus(gameId, board, hanTurn);
         Players loadedPlayers = repository.findPlayersById(gameId);
 

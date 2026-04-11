@@ -3,14 +3,12 @@ package janggi.domain.game;
 public class Turn {
     private Side current;
 
-    // 게임 처음 시작할 때 사용
-    public Turn() {
-        this.current = Side.CHO;
+    private Turn(Side side) {
+        this.current = side;
     }
 
-    // DB에서 게임 불러온 상태로 복구할 때 사용
-    public Turn(Side side) {
-        this.current = side;
+    public static Turn from(Side side) {
+        return new Turn(side);
     }
 
     public void switchTurn() {

@@ -1,7 +1,6 @@
 package janggi.domain.game;
 
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 public class Players implements Iterable<Player> {
@@ -14,7 +13,7 @@ public class Players implements Iterable<Player> {
     private Players(String choPlayerName, String hanPlayerName, Side side) {
         validateDuplicatedNames(choPlayerName, hanPlayerName);
         this.players = Set.of(new Player(choPlayerName, Side.CHO), new Player(hanPlayerName, Side.HAN));
-        this.turn = new Turn(side);
+        this.turn = Turn.from(side);
     }
 
     public static Players createInitial(String choPlayerName, String hanPlayerName) {
