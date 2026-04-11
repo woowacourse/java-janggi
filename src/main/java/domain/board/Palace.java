@@ -21,22 +21,26 @@ public class Palace {
         return positions.contains(position);
     }
 
-    public boolean isDiagonalConnection(Position departure, Position destination) {
+    public boolean isSingleStepDiagonalConnection(Position departure, Position destination) {
         if (!isConnected(departure, destination)) {
             return false;
         }
-        return Math.abs(departure.row() - destination.row()) == 1
-                && Math.abs(departure.column() - destination.column()) == 1;
+        return isSingleStepDiagonal(departure, destination);
     }
 
-    public boolean isChaAndPoDiagonalConnection(Position departure, Position destination) {
-        if (!isConnected(departure, destination) && !isDoubleConnected(departure, destination)) {
+    public boolean isSlidingDiagonalConnection(Position departure, Position destination) {
+        if (!isSlidingConnected(departure, destination)) {
             return false;
         }
-        return (Math.abs(departure.row() - destination.row()) == 1
-                && Math.abs(departure.column() - destination.column()) == 1) ||
-                (Math.abs(departure.row() - destination.row()) == 2
-                        && Math.abs(departure.column() - destination.column()) == 2);
+        return isSlidingDiagonalDistance(departure, destination);
+    }
+
+    private static boolean isSlidingDiagonalDistance(Position departure, Position destination) {
+        return isSingleStepDiagonal(departure, destination) || isDoubleStepDiagonal(departure, destination);
+    }
+
+    private boolean isSlidingConnected(Position departure, Position destination) {
+        return isConnected(departure, destination) || isDoubleConnected(departure,destination);
     }
 
     public boolean isConnected(Position departure, Position destination) {
@@ -45,6 +49,16 @@ public class Palace {
 
     private boolean isDoubleConnected(Position departure, Position destination) {
         return doubleConnections.getOrDefault(departure, Set.of()).contains(destination);
+    }
+
+    private static boolean isSingleStepDiagonal(Position departure, Position destination) {
+        return Math.abs(departure.row() - destination.row()) == 1
+                && Math.abs(departure.column() - destination.column()) == 1;
+    }
+
+    private static boolean isDoubleStepDiagonal(Position departure, Position destination) {
+        return Math.abs(departure.row() - destination.row()) == 2
+                && Math.abs(departure.column() - destination.column()) == 2;
     }
 
     private Map<Position, Set<Position>> initializeDoubleConnections() {

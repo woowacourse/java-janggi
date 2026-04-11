@@ -90,7 +90,7 @@ class PalaceTest {
             Position departure = new Position(0, 3);
             Position destination = new Position(1, 4);
 
-            assertThat(palace.isDiagonalConnection(departure, destination)).isTrue();
+            assertThat(palace.isSingleStepDiagonalConnection(departure, destination)).isTrue();
         }
 
         @Test
@@ -98,7 +98,7 @@ class PalaceTest {
             Position departure = new Position(0, 4);
             Position destination = new Position(1, 4);
 
-            assertThat(palace.isDiagonalConnection(departure, destination)).isFalse();
+            assertThat(palace.isSingleStepDiagonalConnection(departure, destination)).isFalse();
         }
 
         @Test
@@ -106,7 +106,7 @@ class PalaceTest {
             Position departure = new Position(0, 3);
             Position destination = new Position(2, 5);
 
-            assertThat(palace.isChaAndPoDiagonalConnection(departure, destination)).isTrue();
+            assertThat(palace.isSlidingDiagonalConnection(departure, destination)).isTrue();
         }
 
         @Test
@@ -114,7 +114,7 @@ class PalaceTest {
             Position departure = new Position(0, 4);
             Position destination = new Position(1, 5);
 
-            assertThat(palace.isChaAndPoDiagonalConnection(departure, destination)).isFalse();
+            assertThat(palace.isSlidingDiagonalConnection(departure, destination)).isFalse();
         }
     }
 }

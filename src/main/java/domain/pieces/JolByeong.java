@@ -33,7 +33,7 @@ public class JolByeong extends FullPiece {
     }
 
     private boolean canMovePalaceDiagonal(Position departure, Position destination) {
-        if (!PALACE.isDiagonalConnection(departure, destination)) {
+        if (!PALACE.isSingleStepDiagonalConnection(departure, destination)) {
             return false;
         }
         if (isCho()) {

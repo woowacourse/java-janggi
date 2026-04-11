@@ -28,7 +28,7 @@ public class Po extends FullPiece {
             throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
         if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)
-                && !PALACE.isChaAndPoDiagonalConnection(departure, destination)) {
+                && !PALACE.isSlidingDiagonalConnection(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
         if (!departure.isGapBiggerThanOne(destination)) {

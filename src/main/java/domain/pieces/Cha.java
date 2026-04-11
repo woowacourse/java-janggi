@@ -29,7 +29,7 @@ public class Cha extends FullPiece {
         }
         if (!departure.isSameRow(destination)
                 && !departure.isSameColumn(destination)
-                && !PALACE.isChaAndPoDiagonalConnection(departure, destination)) {
+                && !PALACE.isSlidingDiagonalConnection(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
     }
