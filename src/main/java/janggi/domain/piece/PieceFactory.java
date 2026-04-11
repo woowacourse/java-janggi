@@ -1,16 +1,22 @@
 package janggi.domain.piece;
 
-import static janggi.domain.piece.PieceType.*;
+import static janggi.domain.piece.PieceType.BYEONG;
+import static janggi.domain.piece.PieceType.CHA;
+import static janggi.domain.piece.PieceType.GUNG;
+import static janggi.domain.piece.PieceType.JOL;
+import static janggi.domain.piece.PieceType.MA;
+import static janggi.domain.piece.PieceType.PO;
+import static janggi.domain.piece.PieceType.SA;
+import static janggi.domain.piece.PieceType.SANG;
 
 import janggi.domain.Side;
 import janggi.domain.board.GungSeong;
 import janggi.domain.rule.ChaMovement;
-import janggi.domain.rule.GungMovement;
+import janggi.domain.rule.GungSaMovement;
 import janggi.domain.rule.JolbyeongMovement;
 import janggi.domain.rule.MaMovement;
 import janggi.domain.rule.Movement;
 import janggi.domain.rule.PoMovement;
-import janggi.domain.rule.SaMovement;
 import janggi.domain.rule.SangMovement;
 import java.util.EnumMap;
 import java.util.Map;
@@ -24,8 +30,8 @@ public class PieceFactory {
         matchInfo.put(CHA, ChaMovement.getInstance());
         matchInfo.put(MA, MaMovement.getInstance());
         matchInfo.put(SANG, SangMovement.getInstance());
-        matchInfo.put(SA, SaMovement.create(gungSeong));
-        matchInfo.put(GUNG, GungMovement.create(gungSeong));
+        matchInfo.put(SA, GungSaMovement.create(gungSeong));
+        matchInfo.put(GUNG, GungSaMovement.create(gungSeong));
         matchInfo.put(PO, PoMovement.getInstance());
         matchInfo.put(JOL, JolbyeongMovement.getInstanceBySide(Side.CHO));
         matchInfo.put(BYEONG, JolbyeongMovement.getInstanceBySide(Side.HAN));
