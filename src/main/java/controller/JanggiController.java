@@ -11,12 +11,9 @@ import dto.GameMenu;
 import dto.GameSummary;
 import dto.GameWrapper;
 import dto.LoadCommand;
-import dto.LoadCommand.Type;
 import dto.MoveCommand;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -26,16 +23,6 @@ public final class JanggiController {
     private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
-
-    private final Map<GameMenu, Runnable> menuFlowHandler = Map.of(
-            GameMenu.NEW_GAME, this::newGameFlow,
-            GameMenu.SHOW_PREVIOUS_GAMES, this::loadGameFlow
-    );
-
-    private final Map<LoadCommand.Type, Consumer<Long>> loadCommandHandler = Map.of(
-            Type.NEW_GAME, newGameCommandNumber -> newGameFlow(),
-            Type.LOAD_GAME, this::continueGame
-    );
 
     public JanggiController(JanggiService janggiService, InputView inputView, OutputView outputView) {
         this.janggiService = janggiService;
@@ -68,12 +55,17 @@ public final class JanggiController {
     }
 
     private void dispatchMenu(GameMenu selectedMenu) {
-        final Runnable defaultFlow = () -> {
-            throw new IllegalArgumentException(selectedMenu + "를 처리할 수 없습니다.");
-        };
+        if (selectedMenu == GameMenu.NEW_GAME) {
+            newGameFlow();
+            return;
+        }
 
-        menuFlowHandler.getOrDefault(selectedMenu, defaultFlow)
-                .run();
+        if (selectedMenu == GameMenu.SHOW_PREVIOUS_GAMES) {
+            loadGameFlow();
+            return;
+        }
+
+        throw new IllegalArgumentException(selectedMenu + "를 처리할 수 없습니다.");
     }
 
     private void loadGameFlow() {
@@ -98,17 +90,22 @@ public final class JanggiController {
     }
 
     private void dispatchLoadCommand(LoadCommand loadCommand, List<Long> selectableNumbers) {
-        final Consumer<Long> defaultConsumer = gameNumber -> {
-            throw new IllegalArgumentException("핸들러에 등록되지 않은 커맨드입니다.");
-        };
-
         long gameNumberToLoad = loadCommand.gameNumberToLoad();
         if (!selectableNumbers.contains(gameNumberToLoad)) {
             throw new IllegalArgumentException(gameNumberToLoad + "는 유효하지 않는 번호입니다.");
         }
 
-        loadCommandHandler.getOrDefault(loadCommand.type(), defaultConsumer)
-                .accept(gameNumberToLoad);
+        if (loadCommand.isNewGame()) {
+            newGameFlow();
+            return;
+        }
+
+        if (loadCommand.isLoadGame()) {
+            continueGame(gameNumberToLoad);
+            return;
+        }
+
+        throw new IllegalArgumentException("핸들러에 등록되지 않은 커맨드입니다.");
     }
 
     private void newGameFlow() {

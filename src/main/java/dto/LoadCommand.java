@@ -10,7 +10,15 @@ public record LoadCommand(Type type, long gameNumberToLoad) {
         return new LoadCommand(Type.LOAD_GAME, gameNumberToLoad);
     }
 
-    public enum Type {
+    public boolean isNewGame() {
+        return type == Type.NEW_GAME;
+    }
+
+    public boolean isLoadGame() {
+        return type == Type.LOAD_GAME;
+    }
+
+    enum Type {
         NEW_GAME, LOAD_GAME
     }
 }
