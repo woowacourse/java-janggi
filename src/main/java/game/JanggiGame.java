@@ -41,6 +41,10 @@ public class JanggiGame {
         this.gameState = gameState.nextTurn(pieceType == PieceType.KING);
     }
 
+    public JanggiBoard getJanggiBoard() {
+        return janggiBoard;
+    }
+
     public Team getWinner() {
         if (!janggiBoard.isKingAlive(Team.HAN)) return Team.CHO;
         if (!janggiBoard.isKingAlive(Team.CHO)) return Team.HAN;
