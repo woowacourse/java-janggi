@@ -34,7 +34,7 @@ public record Movement(int rowDistance, int colDistance) {
         return colDistance == 0;
     }
 
-    public boolean isDiagonalLine() {
+    public boolean isDiagonal() {
         return Math.abs(rowDistance) == Math.abs(colDistance) && rowDistance != 0;
     }
 
@@ -48,5 +48,9 @@ public record Movement(int rowDistance, int colDistance) {
 
         return (absRow == firstDistance && absCol == secondDistance)
                 || (absRow == secondDistance && absCol == firstDistance);
+    }
+
+    public boolean exceedsDistance(int maxDistance) {
+        return Math.abs(rowDistance()) > maxDistance || Math.abs(colDistance()) > maxDistance;
     }
 }

@@ -13,6 +13,10 @@ public interface BoardChecker {
 
     boolean isSamePieceRule(Position source, Position target);
 
+    boolean isPalaceRange(Position source, Position destination);
+
+    boolean isAllowedDiagonalPath(Position source, Position destination);
+
     default void validateEmptyPath(List<Position> path) {
         if (path.stream().anyMatch(this::hasPieceAt)) {
             throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());

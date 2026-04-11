@@ -7,35 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class CannonStrategy extends PalaceStrategy {
+public class CannonStrategy implements MoveStrategy {
 
     private static final long REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    protected void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board) {
-        List<Position> path = findPathInPalace(source, movement);
-        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(source, pathBeforeDestination, destination, board);
+    public void validate(Position source, Position destination, BoardChecker board) {
+        Movement movement = new Movement(source, destination);
+        List<Position> path = findPath(source, destination, movement, board);
+        validatePath(source, path, destination, board);
     }
 
-    @Override
-    protected void validateNormalMove(Position source, Position destination, Movement movement, BoardChecker board) {
-        List<Position> path = findPath(source, movement);
-        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(source, pathBeforeDestination, destination, board);
-    }
-
-    private List<Position> findPathInPalace(Position source, Movement movement) {
-        if (movement.isStraight()) {
-            return findPath(source, movement);
-        }
-        if (isPalaceDiagonalPath(source, source.moveDiagonal(movement.rowDistance(), movement.colDistance()), movement)) {
+    private List<Position> findPath(Position source, Position destination, Movement movement, BoardChecker board) {
+        if (board.isPalaceRange(source, destination) && board.isAllowedDiagonalPath(source, destination)) {
             return createDiagonalPath(source, movement);
         }
-        throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+        return createStraightPath(source, movement);
     }
 
-    private List<Position> findPath(Position source, Movement movement) {
+    private List<Position> createStraightPath(Position source, Movement movement) {
         if (movement.isHorizontal()) {
             return createPath(source, movement.colDistance(), Position::moveCol);
         }
@@ -43,6 +33,19 @@ public class CannonStrategy extends PalaceStrategy {
             return createPath(source, movement.rowDistance(), Position::moveRow);
         }
         throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+    }
+
+    private List<Position> createDiagonalPath(Position source, Movement movement) {
+        List<Position> path = new ArrayList<>();
+        int colDirection = Integer.signum(movement.colDistance());
+        int rowDirection = Integer.signum(movement.rowDistance());
+        int distance = Math.abs(movement.rowDistance());
+
+        for (int i = 0; i < distance; i++) {
+            source = source.moveDiagonal(rowDirection, colDirection);
+            path.add(source);
+        }
+        return path;
     }
 
     private List<Position> createPath(Position source, int distance, BiFunction<Position, Integer, Position> move) {
@@ -56,21 +59,10 @@ public class CannonStrategy extends PalaceStrategy {
         return path;
     }
 
-    private List<Position> createDiagonalPath(Position source, Movement movement) {
-        List<Position> path = new ArrayList<>();
-        int colDirection = Integer.signum(movement.colDistance());
-        int rowDirection = Integer.signum(movement.rowDistance());
-        int distance = Math.abs(movement.rowDistance());
-        for (int i = 0; i < distance; i++) {
-            source = source.moveDiagonal(rowDirection, colDirection);
-            path.add(source);
-        }
-        return path;
-    }
-
     private void validatePath(Position source, List<Position> path, Position destination, BoardChecker board) {
-        validateJumpedPieceCount(path, board);
-        validateDifferentPieceRule(source, path, board);
+        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
+        validateJumpedPieceCount(pathBeforeDestination, board);
+        validateDifferentPieceRule(source, pathBeforeDestination, board);
         validateDestination(source, destination, board);
     }
 

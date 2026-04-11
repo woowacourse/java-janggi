@@ -5,6 +5,7 @@ import janggi.domain.ScoreBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.camp.CampType;
+import janggi.domain.piece.strategy.Palace;
 import janggi.dto.MoveResultDto;
 import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
@@ -14,19 +15,22 @@ public class Board implements BoardChecker {
 
     private final Map<Position, Piece> board;
     private final ScoreBoard scoreBoard;
+    private final Palace palace;
 
     public static Board restore(Map<Position, Piece> board) {
-        return new Board(board, ScoreBoard.restore(board));
+        return new Board(board, ScoreBoard.restore(board), new Palace());
     }
 
-    private Board(Map<Position, Piece> board, ScoreBoard scoreBoard) {
+    private Board(Map<Position, Piece> board, ScoreBoard scoreBoard, Palace palace) {
         this.board = board;
         this.scoreBoard = scoreBoard;
+        this.palace = palace;
     }
 
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
         this.scoreBoard = ScoreBoard.create();
+        this.palace = new Palace();
     }
 
     @Override
@@ -50,6 +54,16 @@ public class Board implements BoardChecker {
             return sourcePiece.isSamePieceRule(targetPiece.pieceRule());
         }
         return false;
+    }
+
+    @Override
+    public boolean isPalaceRange(Position source, Position destination) {
+        return palace.isPalaceRange(source, destination);
+    }
+
+    @Override
+    public boolean isAllowedDiagonalPath(Position source, Position destination) {
+        return palace.isAllowedDiagonalPath(source, destination);
     }
 
     public MoveResultDto movePiece(Position source, Position destination, CampType campType) {

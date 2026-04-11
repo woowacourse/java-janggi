@@ -4,24 +4,22 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.exception.ExceptionMessage;
 
-public class GeneralStrategy extends PalaceStrategy {
+public class GeneralStrategy implements MoveStrategy {
 
     private static final int DISTANCE = 1;
 
     @Override
-    protected void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board) {
-        validatePalaceStepDistance(movement, DISTANCE);
-        validatePalaceDiagonalPath(source, destination, movement);
-    }
+    public void validate(Position source, Position destination, BoardChecker board) {
+        Movement movement = new Movement(source, destination);
 
-    private void validatePalaceDiagonalPath(Position source, Position destination, Movement movement) {
-        if (movement.isDiagonalLine() && !isPalaceDiagonalPath(source, destination, movement)) {
+        if (!board.isPalaceRange(source, destination)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
         }
-    }
-
-    @Override
-    protected void validateNormalMove(Position source, Position destination, Movement movement, BoardChecker board) {
-        throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
+        if (movement.exceedsDistance(DISTANCE)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
+        }
+        if (movement.isDiagonal() && !board.isAllowedDiagonalPath(source, destination)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
+        }
     }
 }
