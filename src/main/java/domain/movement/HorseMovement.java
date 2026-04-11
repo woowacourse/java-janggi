@@ -23,14 +23,14 @@ public final class HorseMovement implements Movement {
 
     @Override
     public Paths findPotentialPaths(Position source) {
-        List<Directions> validMovements = filterValidMovements(source);
+        List<Directions> validDirections = filterValidDirections(source);
 
-        return parseMovementsToPaths(source, validMovements);
+        return parseDirectionsToPaths(source, validDirections);
     }
 
-    private List<Directions> filterValidMovements(Position source) {
+    private List<Directions> filterValidDirections(Position source) {
         return MOVEMENT_RULES.stream()
-                .filter(movement -> isValidMove(source, movement))
+                .filter(direction -> isValidMove(source, direction))
                 .toList();
     }
 
@@ -39,16 +39,16 @@ public final class HorseMovement implements Movement {
         return source.canShift(finalDestinationDelta);
     }
 
-    private Paths parseMovementsToPaths(Position source, List<Directions> validMovements) {
-        List<Path> paths = validMovements.stream()
-                .map(movement -> toPath(source, movement))
+    private Paths parseDirectionsToPaths(Position source, List<Directions> validDirections) {
+        List<Path> paths = validDirections.stream()
+                .map(direction -> createPath(source, direction))
                 .toList();
 
         return new Paths(paths);
     }
 
-    private Path toPath(Position source, Directions movement) {
-        return new Path(movement.apply(source));
+    private Path createPath(Position source, Directions direction) {
+        return new Path(direction.apply(source));
     }
 
     @Override

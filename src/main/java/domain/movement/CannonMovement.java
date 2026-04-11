@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CannonMovement implements Movement {
-    // Delta 대신 Direction Enum을 활용하여 가독성과 통일성 확보
     private static final List<Direction> MOVEMENT_RULES = List.of(
             Direction.UP,
             Direction.DOWN,
