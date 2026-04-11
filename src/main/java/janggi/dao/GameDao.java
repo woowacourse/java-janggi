@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface GameDao {
     GameEntity save(GameEntity game);
 
+    Optional<GameEntity> findById(int id);
+
     Optional<GameEntity> findByName(String name);
 
     List<String> findAllNames();

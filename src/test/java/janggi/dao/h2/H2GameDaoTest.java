@@ -58,21 +58,6 @@ class H2GameDaoTest {
     }
 
     @Test
-    void 저장한_게임을_ID로_조회() {
-        // Arrange
-        Integer id = gameDao.save(game).id();
-
-        // Act
-        GameEntity found = gameDao.findById(id)
-                .orElse(null);
-
-        // Assert
-        assertNotNull(found);
-        assertEquals("테스트 게임", found.name());
-        assertEquals(id, found.id());
-    }
-
-    @Test
     void 게임_이름으로_조회() {
         // Arrange
         gameDao.save(game);

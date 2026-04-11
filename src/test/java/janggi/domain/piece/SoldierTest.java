@@ -49,7 +49,7 @@ class SoldierTest {
                          List<Point> expected) {
         Piece piece = new Soldier(side);
 
-        List<Point> points = piece.availablePoints(point, new Board(1, , piecesOnPaths));
+        List<Point> points = piece.availablePoints(point, new Board(1, piecesOnPaths));
 
         assertThat(points)
                 .hasSameSizeAs(expected)

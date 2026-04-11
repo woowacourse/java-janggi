@@ -51,6 +51,24 @@ public class H2GameDao implements GameDao {
     }
 
     @Override
+    public Optional<GameEntity> findById(int id) {
+        String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE ID = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(mapResultSetToGameEntity(resultSet));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 아이디를 찾을 수 없습니다. id: " + id, e);
+        }
+    }
+
+    @Override
     public Optional<GameEntity> findByName(String name) {
         String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE NAME = ?";
 

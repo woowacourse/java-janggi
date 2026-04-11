@@ -17,7 +17,7 @@ class AdvisorTest {
     void availablePoints() {
         Piece piece = new Advisor(Side.CHO);
 
-        List<Point> points = piece.availablePoints(new Point(0, 3), new Board(1, , Collections.emptyMap()));
+        List<Point> points = piece.availablePoints(new Point(0, 3), new Board(1, Collections.emptyMap()));
 
         List<Point> expected = List.of(new Point(1, 3), new Point(0, 4), new Point(1, 4));
 

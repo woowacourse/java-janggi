@@ -54,7 +54,7 @@ class ElephantTest {
                          List<Point> expected) {
         Piece piece = new Elephant(side);
 
-        List<Point> points = piece.availablePoints(point, new Board(1, , piecesOnPaths));
+        List<Point> points = piece.availablePoints(point, new Board(1, piecesOnPaths));
 
         assertThat(expected)
                 .hasSameSizeAs(points)
