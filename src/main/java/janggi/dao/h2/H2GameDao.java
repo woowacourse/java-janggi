@@ -52,7 +52,7 @@ public class H2GameDao implements GameDao {
 
     @Override
     public Optional<GameEntity> findByName(String name) {
-        String sql = "SELECT * FROM game WHERE NAME = ?";
+        String sql = "SELECT ID, NAME, TURN, STATUS, WINNER FROM game WHERE NAME = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -130,20 +130,6 @@ public class H2GameDao implements GameDao {
             throw new IllegalStateException(
                     "Game 업데이트 실패 gameId: " + gameEntity.id(), e
             );
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        String sql = "DELETE FROM GAME WHERE id = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
         }
     }
 
