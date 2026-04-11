@@ -74,7 +74,7 @@ public enum PieceType {
         return moveStrategy.determineDestinations(paths, boardState, movingPiece);
     }
 
-    public double addToTotalScore(double currentScore) {
-        return currentScore + this.score;
+    public double getScore() {
+        return score;
     }
 }

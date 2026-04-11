@@ -195,7 +195,7 @@ public class Board {
     public double calculateScore(Side side) {
         double totalScore = piecePosition.values().stream()
                 .filter(piece -> piece.isOwnedBy(side))
-                .mapToDouble(piece -> piece.addToTotalScore(BASE_SCORE))
+                .mapToDouble(Piece::getScore)
                 .sum();
 
         if (side == Side.HAN) {

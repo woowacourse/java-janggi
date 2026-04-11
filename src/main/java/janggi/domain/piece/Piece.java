@@ -64,8 +64,8 @@ public class Piece {
         return pieceNumber;
     }
 
-    public double addToTotalScore(double currentTotal) {
-        return pieceType.addToTotalScore(currentTotal);
+    public double getScore() {
+        return pieceType.getScore();
     }
 
     @Override
