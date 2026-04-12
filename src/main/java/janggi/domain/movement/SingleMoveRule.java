@@ -15,6 +15,6 @@ public class SingleMoveRule implements MoveRule {
 
     @Override
     public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        return movementOrder.calculateTracesOne(from, teamType, boardMediator);
+        return movementOrder.calculateTraces(from, teamType, boardMediator, 1);
     }
 }

@@ -72,25 +72,10 @@ public class Movement {
         return calculateNextPosition(from, MAX_DISTANCE);
     }
 
-    // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
-    // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
-    public List<Position> calculateTracesOne(final Position from, final TeamType teamType,
-                                             final BoardMediator boardMediator) {
-        final List<Position> traces = new ArrayList<>();
-        if (!from.checkNextBound(direction)) {
-            return traces;
-        }
-        Position to = calculateNextPosition(from);
-        if (processPosition(to, traces, teamType, boardMediator)) {
-            return traces;
-        }
-        return traces;
-    }
-
     public List<Position> calculateTraces(final Position from, final TeamType teamType,
-                                          final BoardMediator boardMediator) {
+                                          final BoardMediator boardMediator, final int maxDistance) {
         final List<Position> traces = new ArrayList<>();
-        for (int distance = 1; distance <= MAX_DISTANCE; distance++) {
+        for (int distance = 1; distance <= maxDistance; distance++) {
             if (!from.checkNextBound(direction, distance)) {
                 break;
             }

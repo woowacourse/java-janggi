@@ -20,6 +20,6 @@ public class PalaceMoveRule implements MoveRule {
         if (!Palace.isAllowedDirection(from, direction)) {
             return List.of();
         }
-        return movement.calculateTracesOne(from, teamType, boardMediator);
+        return movement.calculateTraces(from, teamType, boardMediator, 1);
     }
 }

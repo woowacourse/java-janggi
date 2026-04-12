@@ -7,6 +7,7 @@ import java.util.List;
 
 public class SlidingMoveRule implements MoveRule {
 
+    private static final int MAX_DISTANCE = 10;
     private final Movement movementOrder;
 
     public SlidingMoveRule(Movement movementOrder) {
@@ -15,6 +16,6 @@ public class SlidingMoveRule implements MoveRule {
 
     @Override
     public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        return movementOrder.calculateTraces(from, teamType, boardMediator);
+        return movementOrder.calculateTraces(from, teamType, boardMediator, MAX_DISTANCE);
     }
 }

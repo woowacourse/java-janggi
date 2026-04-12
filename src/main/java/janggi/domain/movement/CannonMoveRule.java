@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CannonMoveRule implements MoveRule {
 
+    private static final int MAX_DISTANCE = 10;
     private final Movement movement;
 
     public CannonMoveRule(final Direction direction) {
@@ -19,7 +20,8 @@ public class CannonMoveRule implements MoveRule {
         if (isInvalidBridge(from, boardMediator)) {
             return List.of();
         }
-        return removeCannonFromPositions(movement.calculateTraces(from, teamType, boardMediator), boardMediator);
+        return removeCannonFromPositions(movement.calculateTraces(from, teamType, boardMediator, MAX_DISTANCE),
+                boardMediator);
     }
 
     private boolean isInvalidBridge(final Position bridge, final BoardMediator boardMediator) {

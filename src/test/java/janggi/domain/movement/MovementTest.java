@@ -204,7 +204,7 @@ class MovementTest {
     }
 
     @Nested
-    @DisplayName("경로 자취 계산 테스트")
+    @DisplayName("한 칸 이동 경로 자취 계산 테스트")
     class CalculateTraces {
 
         private static Map<Position, Piece> positionPieceMap;
@@ -227,8 +227,7 @@ class MovementTest {
             List<Position> expected = List.of();
 
             // when
-            List<Position> actual = Movement.calculateTracesOne(from, TeamType.RED,
-                    board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -246,7 +245,7 @@ class MovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4));
 
             // when
-            List<Position> actual = Movement.calculateTracesOne(from, TeamType.RED, board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -263,7 +262,7 @@ class MovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4));
 
             // when
-            List<Position> actual = Movement.calculateTracesOne(from, TeamType.RED, board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
