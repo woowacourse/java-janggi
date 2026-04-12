@@ -2,8 +2,10 @@ package dto;
 
 public record LoadCommand(Type type, long gameNumberToLoad) {
 
+    private static final long NEW_GAME_NUMBER = 0L;
+
     public static LoadCommand from(long gameNumberToLoad) {
-        if (gameNumberToLoad == 0L) {
+        if (gameNumberToLoad == NEW_GAME_NUMBER) {
             return new LoadCommand(Type.NEW_GAME, gameNumberToLoad);
         }
 
