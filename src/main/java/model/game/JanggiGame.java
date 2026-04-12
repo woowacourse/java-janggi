@@ -11,16 +11,21 @@ public class JanggiGame {
     private GameStatus status;
 
     public JanggiGame(Board board) {
+        this(board, Country.CHO, GameStatus.playing());
+    }
+
+    private JanggiGame(Board board, Country turn, GameStatus status) {
         this.board = board;
-        this.turn = Country.CHO;
-        this.status = GameStatus.playing();
+        this.turn = turn;
+        this.status = status;
     }
 
     public static JanggiGame restore(Board board, Country turn, boolean finished, Country winner) {
-        JanggiGame game = new JanggiGame(board);
-        game.turn = turn;
-        game.status = GameStatus.restore(finished, winner);
-        return game;
+        return new JanggiGame(
+                board,
+                turn,
+                GameStatus.restore(finished, winner)
+        );
     }
 
     public void move(Move move) {
