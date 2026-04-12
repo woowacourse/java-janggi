@@ -17,6 +17,14 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
     public String getTeamName() {
         return team.getName();
     }

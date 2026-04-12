@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.db.repository.JanggiRepository;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFormation;
 import janggi.domain.board.BoardInitiator;
@@ -18,19 +19,33 @@ public class JanggiController {
     private final OutputView outputView = new OutputView();
     private final BoardInitiator boardInitiator = new BoardInitiator();
 
+    private final JanggiRepository janggiRepository;
+    private Long gameId;
+    private Team turn;
+    private Board board;
+
+    public JanggiController(JanggiRepository janggiRepository) {
+        this.janggiRepository = janggiRepository;
+    }
+
     public void run() {
-        Team team = Team.CHO;
+        board = new Board();
+        gameId = null;
+        turn = Team.CHO;
         boolean isGameOver = false;
 
-        Board board = new Board();
         choiceBoardFormation(board);
+
+        gameId = janggiRepository.save(gameId, board, turn, isGameOver);
+
         outputView.printBoard(BoardResponse.from(board));
 
         while (!isGameOver) {
-            playGame(team, board);
-            outputView.printTeamScore(ScoreResponse.from(board.calculateScore()));
+            playGame(turn, board);
             isGameOver = board.isKingDead();
-            team = team.next();
+            turn = turn.next();
+            gameId = janggiRepository.save(gameId, board, turn, isGameOver);
+            outputView.printTeamScore(ScoreResponse.from(board.calculateScore()));
         }
         outputView.printWinner(TeamResponse.from(board.findWinner()));
     }

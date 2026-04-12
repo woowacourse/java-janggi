@@ -24,6 +24,10 @@ public class Board {
         board.put(destination, piece);
     }
 
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
+
     public Piece pieceAt(Position position) {
         return board.get(position);
     }
