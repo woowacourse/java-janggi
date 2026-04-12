@@ -19,4 +19,6 @@ public interface BoardDao {
 
     void updateResult(Long boardId, GameResult gameResult);
 
+    boolean existsById(Long boardId);
+
 }

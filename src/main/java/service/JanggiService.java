@@ -53,6 +53,7 @@ public class JanggiService {
     public void updateTurn(Moved moved) {
         executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
+            validateBoardIsExist(boardId);
             boardDao.updateTurn(boardId, moved.currentTurn());
             intersectionDao.update(boardId, moved.destination());
             intersectionDao.update(boardId, moved.origin());
@@ -71,6 +72,12 @@ public class JanggiService {
     private BoardSummaryDto readBoardSummaryDto(Long boardId) {
         return boardDao.readPlayingById(boardId)
                 .orElseThrow(() -> new BoardException(BOARD_NOT_FOUND.getMessage()));
+    }
+
+    private void validateBoardIsExist(Long boardId) {
+        if (!boardDao.existsById(boardId)) {
+            throw new BoardException(BOARD_NOT_FOUND.getMessage());
+        }
     }
 
 }

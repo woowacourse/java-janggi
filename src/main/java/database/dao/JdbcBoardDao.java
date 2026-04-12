@@ -26,15 +26,22 @@ public class JdbcBoardDao implements BoardDao {
             """;
 
     private static final String UPDATE_BOARD_QUERY = """
-            UPDATE board
-            SET current_turn = ?
-            WHERE id = ?
+            update board
+            set current_turn = ?
+            where id = ?
             """;
 
     private static final String UPDATE_BOARD_RESULT_QUERY = """
-            UPDATE board
-            SET winner = ?, han_score = ?, cho_score = ? , is_finished = true
-            WHERE id = ?;
+            update board
+            set winner = ?, han_score = ?, cho_score = ? , is_finished = true
+            where id = ?;
+            """;
+
+    private static final String EXISTS_BY_ID_QUERY = """
+            select exists(
+                select 1 from board 
+                where id = ?
+            )
             """;
 
     private final JdbcTemplate jdbcTemplate;
@@ -61,6 +68,7 @@ public class JdbcBoardDao implements BoardDao {
         );
     }
 
+    @Override
     public Optional<BoardSummaryDto> readPlayingById(Long boardId) {
         BoardSummaryDto result = jdbcTemplate.selectOne(
                 READ_BOARD_QUERY,
@@ -90,6 +98,16 @@ public class JdbcBoardDao implements BoardDao {
                 gameResult.winner().name(),
                 gameResult.hanScore(),
                 gameResult.choScore(),
+                boardId
+        );
+    }
+
+
+    @Override
+    public boolean existsById(Long boardId) {
+        return jdbcTemplate.selectOne(
+                EXISTS_BY_ID_QUERY,
+                resultSet -> resultSet.getBoolean(1),
                 boardId
         );
     }
