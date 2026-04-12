@@ -1,7 +1,7 @@
 package janggi.persistence.entity;
 
+import janggi.domain.Camp;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -23,7 +23,7 @@ class GameEntityTest {
                 "id",
                 name,
                 Status.PLAYING,
-                Turn.CHO);
+                Camp.CHO);
 
         assertThat(game).isNotNull();
     }
@@ -38,6 +38,6 @@ class GameEntityTest {
                 "id",
                 name,
                 Status.PLAYING,
-                Turn.CHO));
+                Camp.CHO));
     }
 }

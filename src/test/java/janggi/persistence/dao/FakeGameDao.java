@@ -1,10 +1,10 @@
 package janggi.persistence.dao;
 
 
+import janggi.domain.Camp;
 import janggi.exception.DuplicateGameException;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -49,9 +49,9 @@ public class FakeGameDao implements GameDao {
     }
 
     @Override
-    public void updateStatus(Connection conn, String gameId, Turn turn, Status status) {
+    public void updateStatus(Connection conn, String gameId, Camp camp, Status status) {
         GameEntity old = store.get(gameId);
-        store.put(gameId, new GameEntity(old.id(), old.name(), status, turn));
+        store.put(gameId, new GameEntity(old.id(), old.name(), status, camp));
     }
 
     public int getFindByIdCount() {

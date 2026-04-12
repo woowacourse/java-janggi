@@ -1,8 +1,8 @@
 package janggi.persistence.dao;
 
+import janggi.domain.Camp;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 
 import java.sql.Connection;
 import java.util.List;
@@ -19,5 +19,5 @@ public interface GameDao {
 
     Optional<GameEntity> findById(String id);
 
-    void updateStatus(Connection conn, String gameId, Turn turn, Status status);
+    void updateStatus(Connection conn, String gameId, Camp camp, Status status);
 }

@@ -7,7 +7,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 
 import java.util.Map;
 
@@ -18,24 +17,18 @@ public class GameMapper {
                 id,
                 name,
                 Status.of(janggi),
-                Turn.of(janggi.currentCamp())
+                janggi.currentCamp()
         );
     }
 
     public Janggi toJanggi(GameEntity gameEntity, Map<Position, Piece> board) {
         return Janggi.load(
                 BoardFactory.load(board),
-                toCamp(gameEntity.turn()),
+                gameEntity.camp(),
                 isRunning(gameEntity.status())
         );
     }
 
-    private Camp toCamp(Turn turn) {
-        if (turn.isCho()) {
-            return Camp.CHO;
-        }
-        return Camp.HAN;
-    }
 
     private boolean isRunning(Status status) {
         return status.isRunning();

@@ -1,6 +1,11 @@
 package janggi.controller.dto;
 
-public record PositionRequest(int row, int column) {
+import janggi.domain.position.Position;
+
+public record PositionRequest(
+        int row,
+        int column
+) {
     public static PositionRequest from(String input) {
         int spaceIndex = input.indexOf(" ");
         if (spaceIndex == -1) {
@@ -9,5 +14,9 @@ public record PositionRequest(int row, int column) {
         int row = Integer.parseInt(input.substring(0, spaceIndex).trim());
         int column = Integer.parseInt(input.substring(spaceIndex + 1).trim());
         return new PositionRequest(row, column);
+    }
+
+    public Position toPosition(){
+        return Position.of(this.row, this.column);
     }
 }

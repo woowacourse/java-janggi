@@ -2,10 +2,10 @@ package janggi.persistence.dao;
 
 import janggi.config.ConnectionPool;
 import janggi.config.PooledConnection;
+import janggi.domain.Camp;
 import janggi.exception.DuplicateGameException;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static janggi.config.DatabaseConfig.getConnection;
 
 public class JdbcGameDao implements GameDao {
     private final ConnectionPool pool;
@@ -38,7 +36,7 @@ public class JdbcGameDao implements GameDao {
             pstmt.setString(1, gameEntity.id());
             pstmt.setString(2, gameEntity.name());
             pstmt.setString(3, gameEntity.status().name());
-            pstmt.setString(4, gameEntity.turn().name());
+            pstmt.setString(4, gameEntity.camp().name());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -134,7 +132,7 @@ public class JdbcGameDao implements GameDao {
                             rs.getString("id"),
                             rs.getString("name"),
                             Status.valueOf(rs.getString("status")),
-                            Turn.valueOf(rs.getString("current_turn"))
+                            Camp.valueOf(rs.getString("current_turn"))
                     );
                     return Optional.of(gameEntity);
                 }
@@ -146,7 +144,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateStatus(Connection conn, String gameId, Turn turn, Status status) {
+    public void updateStatus(Connection conn, String gameId, Camp camp, Status status) {
         String sql = """
                 UPDATE game
                 SET status = ?, current_turn = ?
@@ -155,7 +153,7 @@ public class JdbcGameDao implements GameDao {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status.name());
-            pstmt.setString(2, turn.name());
+            pstmt.setString(2, camp.name());
             pstmt.setString(3, gameId);
 
             pstmt.executeUpdate();

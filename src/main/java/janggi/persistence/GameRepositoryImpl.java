@@ -1,6 +1,7 @@
 package janggi.persistence;
 
 
+import janggi.domain.Camp;
 import janggi.domain.Janggi;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -9,7 +10,6 @@ import janggi.persistence.dao.PieceDao;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.PieceEntity;
 import janggi.persistence.entity.vo.Status;
-import janggi.persistence.entity.vo.Turn;
 import janggi.persistence.mapper.GameMapper;
 import janggi.persistence.mapper.PieceMapper;
 import janggi.service.GameRepository;
@@ -75,7 +75,7 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public void update(Connection conn, String gameId, Janggi janggi) {
-        gameDao.updateStatus(conn, gameId, Turn.of(janggi.currentCamp()), Status.of(janggi));
+        gameDao.updateStatus(conn, gameId, janggi.currentCamp(), Status.of(janggi));
         pieceDao.deleteByGameId(conn, gameId);
         pieceDao.createAll(conn, pieceMapper.toPieceEntity(gameId, janggi));
 
@@ -85,9 +85,8 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public void updateGameResult(Connection conn,String gameId, Janggi janggi) {
         Status status = Status.of(janggi);
-        Turn turn = Turn.of(janggi.currentCamp());
 
-        gameDao.updateStatus(conn, gameId, turn, status);
+        gameDao.updateStatus(conn, gameId, janggi.currentCamp(), status);
 
         activeGames.remove(gameId);
     }

@@ -142,7 +142,8 @@ public class JanggiController {
                 if (selection.isEmpty()) {
                     continue;
                 }
-                Position from = Position.of(selection.get().row(), selection.get().column());
+
+                Position from = selection.get().toPosition();
                 janggiService.validateTurn(gameId, from);
 
                 Optional<PositionRequest> destination = inputView.readMoveDestination();
@@ -151,7 +152,7 @@ public class JanggiController {
                     continue;
                 }
 
-                Position to = Position.of(destination.get().row(), destination.get().column());
+                Position to = destination.get().toPosition();
 
                 janggiService.play(gameId, from, to);
                 break;
