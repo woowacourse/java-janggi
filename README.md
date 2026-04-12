@@ -227,8 +227,14 @@
     - [x] `game`: 게임 기본 정보 및 현재 턴, 종료 여부 관리
     - [x] `board_state`: 각 게임 ID별 기물의 종류, 진영, 위치, 고유 번호 관리
 
+![db_diagram.png](images/db_diagram.png)
 
 ## 6. 실행 방법
+
+**✅ 프로그램을 실행하기 위해 로컬 환경에 `MySQL`이 설치되어 있어야 하며, 아래와 같은 데이터베이스 설정이 필요합니다.**
+
+1. 데이터베이스 생성: janggi_db (또는 원하는 이름)
+2. 테이블 생성: `src/main/resources/schema.sql` 파일을 실행하여 필요한 테이블을 생성
 
 ### 프로그램 실행을 위해 필요한 환경 변수
 
@@ -236,6 +242,7 @@
 - `DB_USER`: MySQL 사용자 이름
 - `DB_PASSWORD`: MySQL 비밀번호
 
+➡️ IntelliJ를 사용하는 경우, `Run/Debug Configurations`의 `Environment variables` 항목에서 편리하게 설정할 수 있습니다.
 
 ## 3️⃣ 입출력 요구 사항
 
