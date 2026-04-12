@@ -11,7 +11,6 @@ public abstract class Piece {
 
     private static final String BLOCKED_PATH_MESSAGE = "경로에 기물이 있어 이동할 수 없습니다.";
     private static final String SAME_TEAM_TARGET_MESSAGE = "아군 기물이 있는 위치로 이동할 수 없습니다.";
-    protected static final String IMPOSSIBLE_MOVE_MESSAGE = "기물이 움직일 수 없는 위치입니다.";
 
     protected final Team team;
 

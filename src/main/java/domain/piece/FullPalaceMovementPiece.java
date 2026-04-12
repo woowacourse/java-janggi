@@ -11,7 +11,7 @@ public abstract class FullPalaceMovementPiece extends Piece {
 
     private static final String OUT_OF_PALACE_MOVE_MESSAGE = "궁성 밖으로는 이동할 수 없습니다.";
 
-    protected final PalaceMovement palaceMovement;
+    private final PalaceMovement palaceMovement;
 
     protected FullPalaceMovementPiece(Team team) {
         super(team);

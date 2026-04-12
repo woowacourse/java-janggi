@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class ForwardMovementPiece extends Piece {
 
-    protected final PalaceMovement palaceMovement;
+    private final PalaceMovement palaceMovement;
 
     protected ForwardMovementPiece(Team team) {
         this(team, new ForwardPalaceMovement(team.reverse()));

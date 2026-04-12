@@ -9,9 +9,10 @@ import java.util.List;
 
 public abstract class DiagonalPalaceMovementPiece extends Piece {
 
-    protected static final String INVALID_MOVEMENT_PATH_MESSAGE = "두 좌표 간의 이동이 기물의 이동 규칙에 위배됩니다.";
+    private static final String INVALID_MOVEMENT_PATH_MESSAGE = "두 좌표 간의 이동이 기물의 이동 규칙에 위배됩니다.";
+    private static final String IMPOSSIBLE_MOVE_MESSAGE = "기물이 움직일 수 없는 위치입니다.";
 
-    protected final PalaceMovement palaceMovement;
+    private final PalaceMovement palaceMovement;
 
     protected DiagonalPalaceMovementPiece(Team team) {
         super(team);

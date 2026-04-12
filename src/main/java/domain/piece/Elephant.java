@@ -9,6 +9,8 @@ public class Elephant extends Piece {
 
     private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(2, 3), List.of(3, 2));
 
+    private static final String IMPOSSIBLE_MOVE_MESSAGE = "기물이 움직일 수 없는 위치입니다.";
+
     public Elephant(Team team) {
         super(team);
     }

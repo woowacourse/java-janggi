@@ -10,8 +10,7 @@ public abstract class AbstractPalaceMovement implements PalaceMovement {
 
     private static final String IMPOSSIBLE_PALACE_MOVE_MESSAGE = "궁성 내 이동 규칙에 어긋납니다.";
 
-    protected final Map<Coordination, List<Coordination>> palace;
-
+    private final Map<Coordination, List<Coordination>> palace;
 
     public AbstractPalaceMovement(Map<Coordination, List<Coordination>> palace) {
         this.palace = palace;
