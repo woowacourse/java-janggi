@@ -33,11 +33,6 @@ public class General extends AbstractPiece {
     }
 
     @Override
-    public boolean isPalacePiece() {
-        return true;
-    }
-
-    @Override
     protected PieceType getPieceType() {
         return PIECE_TYPE;
     }
