@@ -6,6 +6,7 @@ import domain.move.directions.Vector;
 import domain.piece.Piece;
 import domain.point.Point;
 
+import static common.constant.JanggiConstant.CORNER_PALACE_MAX_DISTANCE;
 import static domain.intersection.IntersectionType.RIGHT_BOTTOM_PALACE;
 
 public class RightBottomPalace extends Intersection {
@@ -25,11 +26,7 @@ public class RightBottomPalace extends Intersection {
 
     @Override
     public Directions getDiagonalDirections() {
-        if (hasLinearPiece()) {
-            return Directions.cumulative(Vector.LEFT_UP, 2);
-        }
-
-        return Directions.cumulative(Vector.LEFT_UP, 1);
+        return Directions.cumulative(Vector.LEFT_UP, CORNER_PALACE_MAX_DISTANCE);
     }
 
 }

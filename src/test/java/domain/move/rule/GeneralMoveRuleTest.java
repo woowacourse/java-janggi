@@ -263,6 +263,20 @@ class GeneralMoveRuleTest {
         }
 
         @Test
+        @DisplayName("장군이 좌상 궁성(7,3)에서 우하 궁성(9,5)으로 이동 하려 할 경우 예외가 발생한다. (두칸 이동)")
+        void shouldThrowExceptionWhenGeneralMoveFromLeftTopPalaceToRightBottomPalace() {
+            // given
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPointCho, general);
+            Intersection rightBottomPalace = RightBottomPalace.empty(rightBottomPointCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, rightBottomPalace);
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftTopPointCho, rightBottomPointCho))
+                    .isInstanceOf(DirectionException.class)
+                    .hasMessage(INVALID_DIRECTION.getMessage());
+        }
+
+        @Test
         @DisplayName("장군이 궁성을 나가려고 하는 경우, 예외가 발생한다.")
         void shouldThrowExceptionWhenGeneralGoOutPalace() {
             // given

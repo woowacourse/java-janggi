@@ -35,10 +35,6 @@ public record Piece(
         return pieceType.isGeneral();
     }
 
-    public boolean isLinearPiece() {
-        return pieceType.isLinearPiece();
-    }
-
     public boolean isCannon() {
         return pieceType.isCannon();
     }

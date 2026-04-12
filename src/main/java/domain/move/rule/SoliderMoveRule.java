@@ -1,5 +1,6 @@
 package domain.move.rule;
 
+import static common.constant.JanggiConstant.GENERAL_PIECE_MAX_DISTANCE;
 import static domain.move.directions.Vector.*;
 import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
@@ -16,19 +17,13 @@ public class SoliderMoveRule implements MoveRule {
 
     private static final Directions DEFAULT_SOLIDER_DIRECTIONS = initializeDirections();
 
-
     public SoliderMoveRule() {
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
-        Directions forward = DEFAULT_SOLIDER_DIRECTIONS.toForward(origin);
-        if (origin.isPalace()) {
-            Directions forwardDiagonal = getForwardDiagonal(origin);
-            return forward.add(forwardDiagonal)
-                    .findPoints(origin, destination);
-        }
-        return forward.findPoints(origin, destination);
+        Directions availableDirections = getAvailableDirections(origin);
+        return availableDirections.findPoints(origin, destination);
     }
 
     @Override
@@ -36,8 +31,19 @@ public class SoliderMoveRule implements MoveRule {
         path.validateIsSameTeam();
     }
 
+    private Directions getAvailableDirections(Intersection origin) {
+        Directions forwardDirections = DEFAULT_SOLIDER_DIRECTIONS.toForward(origin);
+        if (origin.isPalace()) {
+            Directions forwardDiagonal = getForwardDiagonal(origin);
+            return forwardDirections.add(forwardDiagonal);
+        }
+
+        return forwardDirections;
+    }
+
     private Directions getForwardDiagonal(Intersection origin) {
         return origin.getDiagonalDirections()
+                .limitDistance(GENERAL_PIECE_MAX_DISTANCE)
                 .toForward(origin);
     }
 

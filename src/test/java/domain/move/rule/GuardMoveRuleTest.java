@@ -75,8 +75,6 @@ class GuardMoveRuleTest {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 
-        Team sameTeam = Team.CHO;
-
         Intersection origin = new LeftTopPalace(start, guard);
         Intersection emptyDestination = NormalPalace.empty(end);
         Intersection expected = new NormalPalace(end, guard);
@@ -102,7 +100,6 @@ class GuardMoveRuleTest {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 
-        Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
         Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
@@ -276,6 +273,20 @@ class GuardMoveRuleTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftPalacePoint, topPalacePoint))
+                    .isInstanceOf(DirectionException.class)
+                    .hasMessage(INVALID_DIRECTION.getMessage());
+        }
+
+        @Test
+        @DisplayName("사가 좌상 궁성(7,3)에서 우하 궁성(9,5)으로 이동 하려 할 경우 예외가 발생한다. (두칸 이동)")
+        void shouldThrowExceptionWhenGuardMoveFromLeftTopPalaceToRightBottomPalace() {
+            // given
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPointCho, guard);
+            Intersection rightBottomPalace = RightBottomPalace.empty(rightBottomPointCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, rightBottomPalace);
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftTopPointCho, rightBottomPointCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }

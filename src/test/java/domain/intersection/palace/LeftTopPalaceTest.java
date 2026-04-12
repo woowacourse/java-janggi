@@ -11,6 +11,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static common.constant.JanggiConstant.GENERAL_PIECE_MAX_DISTANCE;
+
 class LeftTopPalaceTest {
 
     int leftTopY = 0;
@@ -63,7 +65,8 @@ class LeftTopPalaceTest {
         Intersection intersection = new LeftTopPalace(leftTopPoint, general);
 
         // when
-        Directions actual = intersection.getDiagonalDirections();
+        Directions actual = intersection.getDiagonalDirections()
+                .limitDistance(GENERAL_PIECE_MAX_DISTANCE);
 
         // then
         Assertions.assertThat(actual)
@@ -81,7 +84,8 @@ class LeftTopPalaceTest {
         Intersection intersection = new LeftTopPalace(leftTopPoint, solider);
 
         // when
-        Directions actual = intersection.getDiagonalDirections();
+        Directions actual = intersection.getDiagonalDirections()
+                .limitDistance(GENERAL_PIECE_MAX_DISTANCE);
 
         // then
         Assertions.assertThat(actual)
@@ -99,7 +103,8 @@ class LeftTopPalaceTest {
         Intersection intersection = new LeftTopPalace(leftTopPoint, guard);
 
         // when
-        Directions actual = intersection.getDiagonalDirections();
+        Directions actual = intersection.getDiagonalDirections()
+                .limitDistance(GENERAL_PIECE_MAX_DISTANCE);
 
         // then
         Assertions.assertThat(actual)

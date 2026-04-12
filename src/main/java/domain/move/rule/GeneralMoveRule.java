@@ -1,5 +1,6 @@
 package domain.move.rule;
 
+import static common.constant.JanggiConstant.GENERAL_PIECE_MAX_DISTANCE;
 import static domain.move.directions.Vector.*;
 import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
@@ -24,17 +25,26 @@ public class GeneralMoveRule implements MoveRule {
 
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
-        if (origin.isPalace()) {
-            return DEFAULT_GENERAL_DIRECTIONS.add(origin.getDiagonalDirections())
-                    .findPoints(origin, destination);
-        }
-        return DEFAULT_GENERAL_DIRECTIONS.findPoints(origin, destination);
+        Directions availableDirections = getAvailableDirections(origin);
+        return availableDirections.findPoints(origin, destination);
     }
 
     @Override
     public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
         validateDestinationIsPalace(path.getDestination());
+    }
+
+    private Directions getAvailableDirections(Intersection origin) {
+        if (origin.isPalace()) {
+            return DEFAULT_GENERAL_DIRECTIONS.add(getPalaceDirections(origin));
+        }
+        return DEFAULT_GENERAL_DIRECTIONS;
+    }
+
+    private Directions getPalaceDirections(Intersection origin) {
+        return origin.getDiagonalDirections()
+                .limitDistance(GENERAL_PIECE_MAX_DISTANCE);
     }
 
     private void validateDestinationIsPalace(Intersection destination) {

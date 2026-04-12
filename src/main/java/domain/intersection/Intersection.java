@@ -70,10 +70,6 @@ public abstract class Intersection {
         return piece.hasPiece();
     }
 
-    public boolean hasLinearPiece() {
-        return piece.isLinearPiece();
-    }
-
     public boolean isSameTeam(Team team) {
         return piece.isSameTeam(team);
     }

@@ -322,6 +322,22 @@ class SoliderMoveRuleTest {
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
 
+        @Test
+        @DisplayName("졸병(한)이 좌하(9, 3)에서 우상(7, 5)으로 이동할 경우 예외가 발생한다. (두칸 이동)")
+        void shouldThrowExceptionWhenSoliderOfHanMoveFromLeftBottomPalaceToRightTop() {
+            // given
+            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    leftBottomPalace, centerCho
+            );
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftBottomPointCho, rightTopPointCho))
+                    .isInstanceOf(DirectionException.class)
+                    .hasMessage(INVALID_DIRECTION.getMessage());
+        }
+
     }
 
     @Nested
@@ -446,6 +462,19 @@ class SoliderMoveRuleTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(centerPointHan, rightBottomPointHan))
+                    .isInstanceOf(DirectionException.class)
+                    .hasMessage(INVALID_DIRECTION.getMessage());
+        }
+
+        @Test
+        @DisplayName("졸병(초)은 우상(0, 5)에서 좌하(2, 3)로 이동하면 예외가 발생한다. (대각선 두칸 이동)")
+        void shouldThrowExceptionWhenSoliderOfChoMoveFromRightTopToLeftBottom() {
+            // given
+            Intersection rightTopPalace = new RightTopPalace(rightTopPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerHan);
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(rightTopPointHan, leftBottomPointHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
