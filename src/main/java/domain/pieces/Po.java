@@ -27,13 +27,17 @@ public class Po extends FullPiece {
         if (departure.equals(destination)) {
             throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
-        if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)
-                && !PALACE.isSlidingDiagonalConnection(departure, destination)) {
+        if (!canMoveInStraightLineOrPalaceDiagonal(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
-        if (!departure.isGapBiggerThanOne(destination)) {
+        if (!departure.isMoreThanOneStepAwayFrom(destination)) {
             throw new InvalidMoveException(PieceErrorMessage.PO_ONE_SPACE_MOVE);
         }
+    }
+
+    private boolean canMoveInStraightLineOrPalaceDiagonal(Position departure, Position destination) {
+        return departure.isStraightLineTo(destination)
+                || PALACE.isSlidingDiagonalConnection(departure, destination);
     }
 
     @Override

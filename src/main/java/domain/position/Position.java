@@ -81,6 +81,10 @@ public class Position {
         return this.column.equals(departure.column);
     }
 
+    public boolean isStraightLineTo(Position destination) {
+        return isSameRow(destination) || isSameColumn(destination);
+    }
+
     public boolean isLowerRowThan(Position destination) {
         return this.row.isLowerThan(destination.row);
     }
@@ -117,7 +121,17 @@ public class Position {
                 == this.column.index() - destination.column.index();
     }
 
-    public boolean isGapBiggerThanOne(Position destination) {
+    public boolean isSingleStepDiagonalTo(Position destination) {
+        return Math.abs(row() - destination.row()) == 1
+                && Math.abs(column() - destination.column()) == 1;
+    }
+
+    public boolean isDoubleStepDiagonalTo(Position destination) {
+        return Math.abs(row() - destination.row()) == 2
+                && Math.abs(column() - destination.column()) == 2;
+    }
+
+    public boolean isMoreThanOneStepAwayFrom(Position destination) {
         return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(
                 destination.column);
     }

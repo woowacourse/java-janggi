@@ -1,6 +1,7 @@
 package domain.pieces;
 
 import domain.board.Palace;
+import domain.movement.Direction;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
@@ -8,22 +9,31 @@ import domain.movepolicy.path.PathRule;
 import domain.pieces.exception.InvalidMoveException;
 import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JolByeong extends FullPiece {
 
     private static final Palace PALACE = new Palace();
+    private final Direction forward;
+    private final List<Direction> movableDirections;
 
     public JolByeong(Side side) {
         super(side);
+        this.forward = determineForwardDirection(side);
+        this.movableDirections = List.of(forward, Direction.LEFT, Direction.RIGHT);
+    }
+
+    private Direction determineForwardDirection(Side side) {
+        if (side.isCho()) {
+            return Direction.UP;
+        }
+        return Direction.DOWN;
     }
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = movableDestinations(departure);
-
-        if (movableDestinations.contains(destination)) {
+        if (movableDestinations(departure).contains(destination)) {
             return;
         }
         if (canMovePalaceDiagonal(departure, destination)) {
@@ -33,41 +43,38 @@ public class JolByeong extends FullPiece {
     }
 
     private boolean canMovePalaceDiagonal(Position departure, Position destination) {
-        if (!PALACE.isSingleStepDiagonalConnection(departure, destination)) {
-            return false;
-        }
-        if (this.getSide().isCho()) {
+        return PALACE.isSingleStepDiagonalConnection(departure, destination)
+                && isForwardMove(departure, destination);
+    }
+
+    private boolean isForwardMove(Position departure, Position destination) {
+        if (forward == Direction.UP) {
             return destination.row() > departure.row();
         }
         return destination.row() < departure.row();
     }
 
     private List<Position> movableDestinations(Position departure) {
-        List<Position> destinations = new ArrayList<>();
+        return movableDirections.stream()
+                .filter(direction -> canMove(departure, direction))
+                .map(direction -> direction.move(departure))
+                .collect(Collectors.toList());
+    }
 
-        if (this.getSide().isCho()) {
-            if (departure.canMoveUp()) {
-                destinations.add(departure.moveUp());
-            }
-            if (departure.canMoveLeft()) {
-                destinations.add(departure.moveLeft());
-            }
-            if (departure.canMoveRight()) {
-                destinations.add(departure.moveRight());
-            }
-            return destinations;
+    private boolean canMove(Position position, Direction direction) {
+        if (direction == Direction.UP) {
+            return position.canMoveUp();
         }
-
-        if (departure.canMoveDown()) {
-            destinations.add(departure.moveDown());
+        if (direction == Direction.DOWN) {
+            return position.canMoveDown();
         }
-        if (departure.canMoveLeft()) {
-            destinations.add(departure.moveLeft());
+        if (direction == Direction.LEFT) {
+            return position.canMoveLeft();
         }
-        if (departure.canMoveRight()) {
-            destinations.add(departure.moveRight());
+        if (direction == Direction.RIGHT) {
+            return position.canMoveRight();
         }
-        return destinations;
+        return false;
     }
 
     @Override

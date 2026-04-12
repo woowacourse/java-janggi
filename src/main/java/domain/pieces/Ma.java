@@ -32,7 +32,7 @@ public class Ma extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        if (findDirectionSequenceResult(departure, destination).isEmpty()) {
+        if (!hasDirectionSequenceTo(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.MA_INVALID_MOVE);
         }
     }
@@ -57,6 +57,10 @@ public class Ma extends FullPiece {
     @Override
     public PieceType getType() {
         return PieceType.MA;
+    }
+
+    private boolean hasDirectionSequenceTo(Position departure, Position destination) {
+        return findDirectionSequenceResult(departure, destination).isPresent();
     }
 
     private java.util.Optional<DirectionSequenceResult> findDirectionSequenceResult(Position departure,

@@ -33,7 +33,7 @@ public class Sang extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        if (findDirectionSequenceResult(departure, destination).isEmpty()) {
+        if (!hasDirectionSequenceTo(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.SANG_INVALID_MOVE);
         }
     }
@@ -58,6 +58,10 @@ public class Sang extends FullPiece {
     @Override
     public PieceType getType() {
         return PieceType.SANG;
+    }
+
+    private boolean hasDirectionSequenceTo(Position departure, Position destination) {
+        return findDirectionSequenceResult(departure, destination).isPresent();
     }
 
     private Optional<DirectionSequenceResult> findDirectionSequenceResult(Position departure, Position destination) {
