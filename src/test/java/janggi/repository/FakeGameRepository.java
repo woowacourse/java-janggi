@@ -3,10 +3,7 @@ package janggi.repository;
 import janggi.domain.JanggiGame;
 import janggi.dto.GameInfo;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FakeGameRepository implements GameRepository {
 
@@ -21,25 +18,20 @@ public class FakeGameRepository implements GameRepository {
 
     @Override
     public void saveGameState(long gameId, JanggiGame game) {
-        if (!games.containsKey(gameId)) {
-            throw new IllegalArgumentException("[ERROR] 해당 게임이 존재하지 않습니다.");
-        }
         games.put(gameId, game);
     }
 
     @Override
-    public JanggiGame getById(long gameId) {
+    public Optional<JanggiGame> getById(long gameId) {
         if (!games.containsKey(gameId)) {
-            throw new IllegalArgumentException("[ERROR] 해당 게임이 존재하지 않습니다.");
+            return Optional.empty();
         }
-        return games.get(gameId);
+        return Optional.of(games.get(gameId));
     }
 
     @Override
-    public void deleteGame(long gameId) {
-        if (games.remove(gameId) == null) {
-            throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임 ID입니다.");
-        }
+    public boolean deleteGame(long gameId) {
+        return games.remove(gameId) != null;
     }
 
     @Override

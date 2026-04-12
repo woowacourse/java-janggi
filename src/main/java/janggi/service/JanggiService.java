@@ -24,7 +24,8 @@ public class JanggiService {
     }
 
     public JanggiGame loadGame(long gameId) {
-        return repository.getById(gameId);
+        return repository.getById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다."));
     }
 
     public void playTurn(long gameId, Movement movement) {
@@ -39,6 +40,8 @@ public class JanggiService {
     }
 
     public void deleteGame(long gameId) {
-        repository.deleteGame(gameId);
+        if (!repository.deleteGame(gameId)) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다.");
+        }
     }
 }

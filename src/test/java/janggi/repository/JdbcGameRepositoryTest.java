@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static janggi.domain.board.PieceSetup.OUTER_ELEPHANT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +60,7 @@ class JdbcGameRepositoryTest {
         long gameId = repository.createGame(game);
 
         // when
-        JanggiGame loaded = repository.getById(gameId);
+        JanggiGame loaded = repository.getById(gameId).get();
 
         // then
         assertAll(
@@ -75,7 +76,7 @@ class JdbcGameRepositoryTest {
         JanggiGame game = new JanggiGame(BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT), Team.FIRST_TURN);
         long gameId = repository.createGame(game);
 
-        JanggiGame loaded = repository.getById(gameId);
+        JanggiGame loaded = repository.getById(gameId).get();
         loaded.play(new janggi.domain.position.Movement(
                 janggi.domain.position.Position.from("71"),
                 janggi.domain.position.Position.from("61")));
@@ -84,7 +85,7 @@ class JdbcGameRepositoryTest {
         repository.saveGameState(gameId, loaded);
 
         // then
-        JanggiGame updated = repository.getById(gameId);
+        JanggiGame updated = repository.getById(gameId).get();
         assertThat(updated.getCurrentTeam()).isEqualTo(Team.HAN);
     }
 
@@ -152,37 +153,21 @@ class JdbcGameRepositoryTest {
         assertThat(repository.findAllGames()).isEmpty();
     }
 
-    @DisplayName("게임 삭제시 기물도 함께 삭제된다.")
+    @DisplayName("존재하지 않는 게임을 삭제하면 거짓이 반환된다.")
     @Test
-    void 게임_삭제_시_기물도_함께_삭제된다() {
-        // given
-        JanggiGame game = new JanggiGame(BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT), Team.FIRST_TURN);
-        long gameId = repository.createGame(game);
-
+    void 존재하지_않는_게임을_삭제하면_거짓이_반환된다() {
         // when
-        repository.deleteGame(gameId);
+        boolean result = repository.deleteGame(999L);
 
         // then
-        assertThatThrownBy(() -> repository.getById(gameId))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(result).isFalse();
     }
 
-    @DisplayName("존재하지 않는 게임을 삭제하면 예외가 발생한다.")
+    @DisplayName("존재하지 않는 게임을 조회하면 Empty가 반환된다.")
     @Test
-    void 존재하지_않는_게임을_삭제하면_예외가_발생한다() {
+    void 존재하지_않는_게임을_조회하면_Empty가_반환된다() {
         // when & then
-        assertThatThrownBy(() -> repository.deleteGame(999))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 존재하지 않는 게임 ID입니다.");
-    }
-
-    @DisplayName("존재하지 않는 게임을 조회하면 예외가 발생한다.")
-    @Test
-    void 존재하지_않는_게임을_조회하면_예외가_발생한다() {
-        // when & then
-        assertThatThrownBy(() -> repository.getById(999))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 게임이 존재하지 않습니다.");
+        assertThat(repository.getById(999L)).isEmpty();
     }
 
     @DisplayName("게임이 없으면 빈 목록을 반환한다.")

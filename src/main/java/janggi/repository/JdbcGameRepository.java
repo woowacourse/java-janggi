@@ -10,10 +10,7 @@ import janggi.dto.GameInfo;
 import janggi.exception.DataAccessException;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JdbcGameRepository implements GameRepository {
 
@@ -49,22 +46,22 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public JanggiGame getById(long gameId) {
-        Team currentTeam = findCurrentTeam(gameId);
-        Map<Position, Piece> pieces = findPieces(gameId);
+    public Optional<JanggiGame> getById(long gameId) {
+        Optional<Team> currentTeam = findCurrentTeam(gameId);
+        if (currentTeam.isEmpty()) {
+            return Optional.empty();
+        }
 
-        return new JanggiGame(BoardFactory.restore(pieces), currentTeam);
+        Map<Position, Piece> pieces = findPieces(gameId);
+        return Optional.of(new JanggiGame(BoardFactory.restore(pieces), currentTeam.get()));
     }
 
     @Override
-    public void deleteGame(long gameId) {
+    public boolean deleteGame(long gameId) {
         String sql = "DELETE FROM game WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
-            int deleteRows = pstmt.executeUpdate();
-            if (deleteRows == 0) {
-                throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임 ID입니다.");
-            }
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DataAccessException("[ERROR] DB 게임 삭제 실패", e);
         }
@@ -149,15 +146,15 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
-    private Team findCurrentTeam(long gameId) {
+    private Optional<Team> findCurrentTeam(long gameId) {
         String sql = "SELECT current_turn FROM game WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
             if (!rs.next()) {
-                throw new IllegalArgumentException("[ERROR] 해당 게임이 존재하지 않습니다.");
+                return Optional.empty();
             }
-            return Team.valueOf(rs.getString("current_turn"));
+            return Optional.of(Team.valueOf(rs.getString("current_turn")));
         } catch (SQLException e) {
             throw new DataAccessException("[ERROR] DB 게임 조회 실패", e);
         }
