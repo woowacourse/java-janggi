@@ -33,10 +33,17 @@ public class PoMoveRule implements MoveRule {
             Piece piece = state.get(current);
 
             if (piece != null) {
-                return piece.isPo() ? null : current;
+                return getPosition(piece, current);
             }
         }
         return null;
+    }
+
+    private static Position getPosition(Piece piece, Position current) {
+        if (piece.isPo()) {
+            return null;
+        }
+        return current;
     }
 
     private List<Position> findDestinationsAfterBridge(Position bridge,
