@@ -1,13 +1,10 @@
-DROP TABLE IF EXISTS pieces;
-DROP TABLE IF EXISTS games;
-
-CREATE TABLE games (
+CREATE TABLE IF NOT EXISTS games (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     turn        VARCHAR(10) NOT NULL,
     is_finished BOOLEAN     NOT NULL
 );
 
-CREATE TABLE pieces (
+CREATE TABLE IF NOT EXISTS pieces (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
     game_id    BIGINT      NOT NULL,
     x          INT         NOT NULL,

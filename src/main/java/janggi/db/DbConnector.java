@@ -1,7 +1,10 @@
 package janggi.db;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
 
@@ -25,6 +28,18 @@ public class DbConnector {
             return DATA_SOURCE.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] DB 연결에 실패했습니다. 서버가 켜져 있는지 확인해 주세요.", e);
+        }
+    }
+
+    public static void initDatabase() {
+        try (Connection conn = getConnection();
+             Statement statement = conn.createStatement()) {
+
+            String sql = Files.readString(Path.of("src/main/resources/schema.sql"));
+            statement.execute(sql);
+            System.out.println("[INFO] 데이터베이스 테이블이 초기화되었습니다.");
+        } catch (Exception e) {
+            throw new RuntimeException("[ERROR] DB 초기화 중 오류가 발생했습니다.", e);
         }
     }
 }
