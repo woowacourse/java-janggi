@@ -26,10 +26,11 @@ class GeneralMoveStrategyTest {
     @DisplayName("장군은 궁성 중앙에서 8방향으로 한 칸 이동할 수 있다")
     void generalMoveTest() {
         // given
-        Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(1, 1), Piece.hanPieceOf(PieceType.GENERAL));
+
+        Position from = Position.of(2, 5);
+        pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
 
         Board board = Board.init(pieces);
 
@@ -53,11 +54,12 @@ class GeneralMoveStrategyTest {
     @DisplayName("궁은 궁성 꼭짓점에서 중앙으로 대각선 이동 가능")
     void generalCanMoveVertexToMiddleOfPalace() {
         // given
-        Position from = Position.of(1, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(10, 1), Piece.hanPieceOf(PieceType.GENERAL));
+        Position from = Position.of(1, 4);
+        pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
+
 
         Board board = Board.init(pieces);
 
@@ -74,11 +76,12 @@ class GeneralMoveStrategyTest {
     @DisplayName("궁은 궁성 외곽 중앙에서 다른 외곽 중앙으로 이동 불가")
     void generalCantMoveSideToAnotherSide() {
         // given
-        Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(10, 1), Piece.choPieceOf(PieceType.GENERAL));
+        Position from = Position.of(2, 4);
+        pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
+
 
         Board board = Board.init(pieces);
 
@@ -96,12 +99,11 @@ class GeneralMoveStrategyTest {
     @DisplayName("궁은 궁성 바깥으로 이동 불가")
     void generalCantMoveOutSidePalace() {
         // given
-        Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(10, 1), Piece.choPieceOf(PieceType.GENERAL));
-
+        Position from = Position.of(2, 4);
+        pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
 
         Board board = Board.init(pieces);
 
@@ -120,9 +122,9 @@ class GeneralMoveStrategyTest {
     @DisplayName("장군은 상대 장군과 마주보게 되는 위치로 이동할 수 없다")
     void generalCannotFaceOpponentGeneral() {
         // given
-        Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
+        Position from = Position.of(2, 5);
         pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(9, 6), Piece.hanPieceOf(PieceType.GENERAL));
 
@@ -145,9 +147,9 @@ class GeneralMoveStrategyTest {
     @DisplayName("장군은 상대 장군 사이에 다른 기물이 있으면 이동할 수 있다")
     void generalCanMoveWhenAnotherPieceExistsBetweenGenerals() {
         // given
-        Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
+        Position from = Position.of(2, 5);
         pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(9, 5), Piece.hanPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(5, 5), Piece.choPieceOf(PieceType.SOLDIER));
@@ -174,8 +176,9 @@ class GeneralMoveStrategyTest {
     @DisplayName("장군은 이동할 위치에 아군이 있으면 이동할 수 없다.")
     void generalCantMoveToAlly() {
         // given
-        Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
+
+        Position from = Position.of(2, 5);
         pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(1, 4), Piece.choPieceOf(PieceType.GUARD));
         pieces.put(Position.of(1, 6), Piece.choPieceOf(PieceType.GUARD));

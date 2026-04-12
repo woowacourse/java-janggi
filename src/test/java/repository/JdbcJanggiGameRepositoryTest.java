@@ -60,8 +60,8 @@ class JdbcJanggiGameRepositoryTest {
     void saveTest() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(2, 2), Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(2, 5), Piece.choPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(9, 2), Piece.hanPieceOf(PieceType.GENERAL));
 
         Board board = Board.init(pieces);
 
@@ -71,7 +71,13 @@ class JdbcJanggiGameRepositoryTest {
         Long savedId = janggiGameRepository.save(janggiGame);
 
         // then
-        assertThat(savedId).isEqualTo(1L);
+        assertThat(savedId).isNotNull();
+
+        Optional<JanggiGame> foundGame = janggiGameRepository.findById(savedId);
+
+        assertThat(foundGame).isPresent();
+        assertThat(foundGame.get().getPieces()).hasSize(2);
+        assertThat(foundGame.get().getCurrentTeam()).isEqualTo(janggiGame.getCurrentTeam());
     }
 
     @Test

@@ -30,7 +30,7 @@ class GuardMoveStrategyTest {
         Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(from, Piece.hanPieceOf(PieceType.GUARD));
 
         Board board = Board.init(pieces);
 
@@ -57,7 +57,7 @@ class GuardMoveStrategyTest {
         Position from = Position.of(1, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(from, Piece.hanPieceOf(PieceType.GUARD));
 
         Board board = Board.init(pieces);
 
@@ -77,7 +77,7 @@ class GuardMoveStrategyTest {
         Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(from, Piece.hanPieceOf(PieceType.GUARD));
 
         Board board = Board.init(pieces);
 
@@ -98,7 +98,7 @@ class GuardMoveStrategyTest {
         Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(from, Piece.hanPieceOf(PieceType.GUARD));
 
         Board board = Board.init(pieces);
 
@@ -117,11 +117,12 @@ class GuardMoveStrategyTest {
     @DisplayName("사는 이동할 위치에 아군이 있으면 이동 불가")
     void guardCantMoveAllyPosition() {
         // given
-        Position from = Position.of(2, 5);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
-        pieces.put(Position.of(1, 4), Piece.choPieceOf(PieceType.GUARD));
-        pieces.put(Position.of(1, 6), Piece.choPieceOf(PieceType.HORSE));
+
+        Position from = Position.of(2, 5);
+        pieces.put(from, Piece.hanPieceOf(PieceType.GUARD));
+        pieces.put(Position.of(1, 4), Piece.hanPieceOf(PieceType.GUARD));
+        pieces.put(Position.of(1, 6), Piece.hanPieceOf(PieceType.HORSE));
 
         Board board = Board.init(pieces);
 

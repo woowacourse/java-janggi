@@ -174,7 +174,7 @@ class SoldierMoveStrategyTest {
     void hanSoldierCantMoveDiagonalInNotExistDigonalEdge() {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(8, 5);
-        pieces.put(from, Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
 
         Board board = Board.init(pieces);
 
