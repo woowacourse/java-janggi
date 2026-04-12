@@ -19,7 +19,7 @@ class SoldierPieceTest {
             "3, 4, 3, 5",
             "3, 5, 3, 6"
     })
-    void testMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
+    void testMoveSoldierWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(
                 soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
@@ -32,20 +32,20 @@ class SoldierPieceTest {
             "3, 4, 3, 3",
             "3, 5, 3, 4"
     })
-    void testNotMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
+    void testNotMoveSoldierWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(
                 soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
-    @DisplayName("진영이 초이면 아래로로 한 칸 이동 가능하다.")
+    @DisplayName("진영이 초이면 아래로 한 칸 이동 가능하다.")
     @CsvSource({
             "3, 3, 3, 2",
             "3, 4, 3, 3",
             "3, 5, 3, 4"
     })
-    void testMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
+    void testMoveSoldierWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
         assertThat(
                 soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
@@ -59,7 +59,7 @@ class SoldierPieceTest {
             "3, 4, 3, 5",
             "3, 5, 3, 6"
     })
-    void testNotMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
+    void testNotMoveSoldierWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
         assertThat(
                 soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
@@ -73,7 +73,7 @@ class SoldierPieceTest {
             "3, 5, 4, 5",
             "3, 5, 2, 5"
     })
-    void testMoveSoliderHorizontally(int preX, int preY, int nextX, int nextY) {
+    void testMoveSoldierHorizontally(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
         SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
         assertThat(
@@ -149,7 +149,7 @@ class SoldierPieceTest {
             "3, 5, 3, 7",
             "3, 5, 3, 3"
     })
-    void testNotMoveSoliderTwoStepMore(int preX, int preY, int nextX, int nextY) {
+    void testNotMoveSoldierTwoStepMore(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
         SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
         assertThat(

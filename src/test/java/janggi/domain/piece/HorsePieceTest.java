@@ -83,7 +83,7 @@ class HorsePieceTest {
 
     @Test
     @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 있다.")
-    void testNotMoveIfOtherTeamPieceInDestination() {
+    void testMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
