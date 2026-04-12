@@ -1,6 +1,6 @@
 package database.exception;
 
-public enum DataAccessError {
+public enum DatabaseError {
 
     CONNECTION_FAILED("데이터베이스 연결에 실패했습니다."),
     COMMIT_FAILED("트랜잭션 커밋에 실패했습니다."),
@@ -18,7 +18,7 @@ public enum DataAccessError {
 
     private final String message;
 
-    DataAccessError(String message) {
+    DatabaseError(String message) {
         this.message = message;
     }
 

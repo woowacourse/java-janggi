@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static database.exception.DataAccessError.CONNECTION_FAILED;
+import static database.exception.DatabaseError.CONNECTION_FAILED;
 
 public class SchemaInitializer {
 

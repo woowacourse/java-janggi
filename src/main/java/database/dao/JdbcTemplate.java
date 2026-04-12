@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static database.exception.DataAccessError.*;
+import static database.exception.DatabaseError.*;
 
 public class JdbcTemplate {
 

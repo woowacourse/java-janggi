@@ -6,7 +6,7 @@ import database.exception.DataAccessException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static database.exception.DataAccessError.*;
+import static database.exception.DatabaseError.*;
 
 public class ConnectionContext {
 

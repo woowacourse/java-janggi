@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static database.exception.DataAccessError.PROPERTIES_FILE_NOT_FOUND;
-import static database.exception.DataAccessError.PROPERTIES_LOAD_FAILED;
+import static database.exception.DatabaseError.PROPERTIES_FILE_NOT_FOUND;
+import static database.exception.DatabaseError.PROPERTIES_LOAD_FAILED;
 
 public class JanggiProperties {
 
