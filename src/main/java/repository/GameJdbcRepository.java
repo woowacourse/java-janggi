@@ -30,7 +30,7 @@ public class GameJdbcRepository implements GameRepository {
                     CREATE TABLE IF NOT EXISTS game (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         is_finished BOOLEAN NOT NULL DEFAULT FALSE,
-                        current_turn TEXT NOT NULL DEFAULT 'CHO'
+                        current_turn VARCHAR(10) NOT NULL DEFAULT 'CHO'
                     )
                     """);
         } catch (SQLException e) {

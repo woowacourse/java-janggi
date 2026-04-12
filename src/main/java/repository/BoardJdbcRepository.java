@@ -36,8 +36,8 @@ public class BoardJdbcRepository implements BoardRepository {
                         game_id INTEGER NOT NULL,
                         column INTEGER NOT NULL,
                         row INTEGER NOT NULL,
-                        piece_type TEXT NOT NULL,
-                        team TEXT NOT NULL,
+                        piece_type VARCHAR(10) NOT NULL,
+                        team VARCHAR(10) NOT NULL,
                         FOREIGN KEY (game_id) REFERENCES game(id)
                     )
                     """);
