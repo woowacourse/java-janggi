@@ -23,26 +23,42 @@ public class Po extends Piece {
         start.addPalaceDirection(directions);
 
         for (Direction direction : directions) {
-            List<Piece> pieces = new ArrayList<>();
-            int i = Position.MAX_ROW;
-            Position now = start;
-            while (i-- > 0) {
-                Optional<Position> position = move(now, direction);
-                if (position.isEmpty()) {
-                    break;
-                }
-                now = position.get();
-                if (Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace())){
-                    break;
-                }
-                Piece endPiece = finder.find(position.get());
-                if (isNotPo(endPiece) && isDifferentCountry(endPiece.getCountry()) && hasNotPoAmongPath(pieces) && hasOnePieceAmongPath(pieces)) {
-                    availableRoute.add(position.get());
-                }
-                pieces.add(endPiece);
-            }
+            availableRoute.addAll(searchOneDirection(start, finder, direction));
         }
         return availableRoute;
+    }
+
+    private List<Position> searchOneDirection(Position start, PieceFinder finder, Direction direction) {
+        List<Position> availableRoute = new ArrayList<>();
+        List<Piece> pieces = new ArrayList<>();
+        Position now = start;
+
+        for (int i = 0; i < Position.MAX_ROW; i++) {
+            Optional<Position> position = move(now, direction);
+            if (position.isEmpty()) break;
+            now = position.get();
+
+            if (cantMoveDiagonalOutOfPalace(direction, now)) break;
+            Piece endPiece = finder.find(now);
+
+            if (checkEndPiece(endPiece) && checkPieceAmongRoute(pieces)) {
+                availableRoute.add(now);
+            }
+            pieces.add(endPiece);
+        }
+        return availableRoute;
+    }
+
+    private boolean cantMoveDiagonalOutOfPalace(Direction direction, Position now) {
+        return Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace());
+    }
+
+    private boolean checkEndPiece(Piece endPiece) {
+        return isNotPo(endPiece) && isDifferentCountry(endPiece.getCountry());
+    }
+
+    private boolean checkPieceAmongRoute(List<Piece> pieces) {
+        return hasNotPoAmongPath(pieces) && hasOnePieceAmongPath(pieces);
     }
 
     private boolean isNotPo(Piece piece) {
@@ -52,18 +68,14 @@ public class Po extends Piece {
     private boolean hasOnePieceAmongPath(List<Piece> pieces) {
         int count = 0;
         for (Piece piece : pieces) {
-            if (piece.getPieceType() != PieceType.NONE) {
-                count++;
-            }
+            if (piece.getPieceType() != PieceType.NONE) count++;
         }
         return count == 1;
     }
 
     private boolean hasNotPoAmongPath(List<Piece> pieces) {
         for (Piece piece : pieces) {
-            if (piece.getPieceType() == PieceType.PO) {
-                return false;
-            }
+            if (piece.getPieceType() == PieceType.PO) return false;
         }
         return true;
     }

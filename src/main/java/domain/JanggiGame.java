@@ -59,10 +59,10 @@ public class JanggiGame {
         if (choScore > hanScore){
             return Country.CHO;
         }
-        if (choScore == hanScore){
-            return Country.NONE;
+        if (choScore < hanScore){
+            return Country.HAN;
         }
-        return Country.HAN;
+        return Country.NONE;
     }
 
     public List<Position> getPiecesNowPosition(PieceType pieceType){

@@ -24,14 +24,20 @@ public class Sa extends Piece {
 
         for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
-            if (position.isEmpty()) {
-                continue;
-            }
+            if (checkPositionInPalace(position)) continue;
+
             Piece endPiece = finder.find(position.get());
-            if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
-                availableRoute.add(position.get());
-            }
+            if (!canMoveToEnd(endPiece)) continue;
+            availableRoute.add(position.get());
         }
         return availableRoute;
+    }
+
+    private boolean checkPositionInPalace(Optional<Position> position) {
+        return (position.isEmpty() || !position.get().isInPalace());
+    }
+
+    private boolean canMoveToEnd(Piece endPiece) {
+        return endPiece == None.INSTANCE || isDifferentCountry(endPiece.getCountry());
     }
 }

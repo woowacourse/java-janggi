@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
 class JangTest {
 

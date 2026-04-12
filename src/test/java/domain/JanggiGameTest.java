@@ -26,21 +26,6 @@ class JanggiGameTest {
         assertThat(country).isEqualTo(Country.HAN);
     }
 
-//    @Test
-//    void 점수계산_정상_테스트() {
-//        List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
-//        Board board = new Board(maSang);
-//        JanggiGame janggiGame = new JanggiGame(board);
-//
-//        board.move(new Position(),new Position())
-//
-//        janggiGame.play(startPosition, endPosition);
-//
-//        Country country = janggiGame.getCountry();
-//
-//        assertThat(country).isEqualTo(Country.HAN);
-//    }
-
     @Test
     void 왕_죽음_게임_종료_정상_테스트() {
         List<PieceType> maSang = BoardTestUtil.createMasangSangMa();

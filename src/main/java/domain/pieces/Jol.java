@@ -24,25 +24,26 @@ public class Jol extends Piece {
 
         for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
-            if (position.isEmpty() || isBackMovement(start, position.get())) {
-                continue;
-            }
+            if (position.isEmpty() || isBackMovement(start, position.get())) continue;
+            if (cantMoveDiagonalOutOfPalace(direction, position.get())) continue;
 
             Piece endPiece = finder.find(position.get());
-            if (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace())){
-                continue;
-            }
+            if (!canMoveToEnd(endPiece)) continue;
 
-            if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
-                availableRoute.add(position.get());
-            }
-
+            availableRoute.add(position.get());
         }
         return availableRoute;
     }
 
+    private boolean canMoveToEnd(Piece endPiece) {
+        return endPiece == None.INSTANCE || isDifferentCountry(endPiece.getCountry());
+    }
+
     private boolean isBackMovement(Position start, Position end) {
         return getCountry().getForward()==start.getX()-end.getX();
+    }
+    private boolean cantMoveDiagonalOutOfPalace(Direction direction, Position now) {
+        return Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace());
     }
 
 }

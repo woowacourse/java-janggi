@@ -18,15 +18,9 @@ public class Board {
     public Board(List<PieceType> choHan) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceType type : PieceType.values()) {
-            if (type == PieceType.MA || type == PieceType.SANG || type == PieceType.NONE) {
-                continue;
-            }
-            for (Position p : type.getChoPosition()) {
-                pieces.put(p, PieceFactory.createPiece(type, Country.CHO));
-            }
-            for (Position p : type.getHanPosition()) {
-                pieces.put(p, PieceFactory.createPiece(type, Country.HAN));
-            }
+            if (isMaSangOrNone(type)) continue;
+            pieces.putAll(putMaSangPosition(type, Country.CHO));
+            pieces.putAll(putMaSangPosition(type, Country.HAN));
         }
         for (MaSangPosition maSangPosition : MaSangPosition.values()) {
             PieceType pieceType = choHan.get(maSangPosition.getIndex());
@@ -47,51 +41,38 @@ public class Board {
                 return board.getOrDefault(position, None.INSTANCE);
             }
         };
-        return startPiece.getAvailableRoute(start,finder);
+        return startPiece.getAvailableRoute(start, finder);
     }
 
     public PieceType move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
-        if (!findAvailablePositions(start).contains(end)){
+        if (!findAvailablePositions(start).contains(end)) {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
         killPiece(start);
-        PieceType pieceType=killPiece(end);
+        PieceType pieceType = killPiece(end);
         board.put(end, startPiece);
         return pieceType;
     }
 
-    private PieceType killPiece(Position endPosition) {
-        PieceType pieceType = board.getOrDefault(endPosition, None.INSTANCE).getPieceType();
-        board.remove(endPosition);
-        return pieceType;
-    }
-
-    public int calculateScore(Country country){
+    public int calculateScore(Country country) {
         return board.values().stream()
-                .filter(piece -> piece.getCountry()==country)
+                .filter(piece -> piece.getCountry() == country)
                 .mapToInt(Piece::getPieceScore)
                 .sum();
     }
 
-    public boolean isKingAlive(Country country){
+    public boolean isKingAlive(Country country) {
         return board.values().stream()
-                .filter(piece -> piece.getCountry()==country )
-                .anyMatch(piece -> piece.getPieceType()==PieceType.JANG);
+                .filter(piece -> piece.getCountry() == country)
+                .anyMatch(piece -> piece.getPieceType() == PieceType.JANG);
     }
 
-    public PieceType getPiece(Position position) {
+    public Piece getPiece(Position position) {
         if (!board.containsKey(position)) {
-            return PieceType.NONE;
+            return None.INSTANCE;
         }
-        return board.get(position).getPieceType();
-    }
-
-    public Country getPieceCountry(Position position) {
-        if (!board.containsKey(position)) {
-            return Country.NONE;
-        }
-        return board.get(position).getCountry();
+        return board.get(position);
     }
 
     public List<Position> getPiecesNowPosition(Country country, PieceType pieceType) {
@@ -101,12 +82,30 @@ public class Board {
                                 entry.getValue().getCountry() == country)
                 .map(Map.Entry::getKey)
                 .toList();
-        Validator.validateDataExist(!positions.isEmpty(),"존재하지 않는 기물입니다. 장기판 위의 기물을 입력해주세요.");
+        Validator.validateDataExist(!positions.isEmpty(), "존재하지 않는 기물입니다. 장기판 위의 기물을 입력해주세요.");
         return positions;
     }
 
-    public Map<Position,Piece> getBoard() {
+    public Map<Position, Piece> getBoard() {
         return board;
+    }
+
+    private PieceType killPiece(Position endPosition) {
+        PieceType pieceType = board.getOrDefault(endPosition, None.INSTANCE).getPieceType();
+        board.remove(endPosition);
+        return pieceType;
+    }
+
+    private boolean isMaSangOrNone(PieceType type) {
+        return (type == PieceType.MA || type == PieceType.SANG || type == PieceType.NONE);
+    }
+
+    private Map<Position, Piece> putMaSangPosition(PieceType type, Country country) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (Position p : type.getMaSangPosition(country)) {
+            pieces.put(p, PieceFactory.createPiece(type, country));
+        }
+        return pieces;
     }
 
 }

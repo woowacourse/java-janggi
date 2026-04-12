@@ -65,11 +65,10 @@ public enum PieceType {
         return score;
     }
 
-    public List<Position> getChoPosition() {
-        return choPosition;
-    }
-
-    public List<Position> getHanPosition() {
+    public List<Position> getMaSangPosition(Country country) {
+        if(country == Country.CHO){
+            return choPosition;
+        }
         return hanPosition;
     }
 }

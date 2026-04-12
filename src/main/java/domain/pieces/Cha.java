@@ -23,29 +23,39 @@ public class Cha extends Piece {
         start.addPalaceDirection(directions);
 
         for (Direction direction : directions) {
-            int i = Position.MAX_ROW;
-            Position now = start;
-            while (i-- > 0) {
-                Optional<Position> position = move(now, direction);
-                if (position.isEmpty() || (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace()))){
-                    break;
-                }
-
-                Piece endPiece = finder.find(position.get());
-                if (endPiece==None.INSTANCE) {
-                    availableRoute.add(position.get());
-                    now = position.get();
-                    continue;
-                }
-
-                if (isDifferentCountry(endPiece.getCountry())) {
-                    availableRoute.add(position.get());
-                    break;
-                }
-            }
-
+            availableRoute.addAll(searchOneDirection(start, finder, direction));
         }
         return availableRoute;
+    }
+
+    private List<Position> searchOneDirection(Position start, PieceFinder finder, Direction direction) {
+        List<Position> availableRoute = new ArrayList<>();
+        Position now = start;
+
+        for (int i = 0; i < Position.MAX_ROW; i++) {
+            Optional<Position> position = move(now, direction);
+            if (position.isEmpty()) break;
+            if (cantMoveDiagonalOutOfPalace(direction, position.get())) break;
+
+            Piece endPiece = finder.find(position.get());
+            if (canMoveToEndButStop(endPiece)) {
+                availableRoute.add(position.get());
+                break;
+            }
+
+            if (endPiece!=None.INSTANCE) continue;
+            availableRoute.add(position.get());
+            now = position.get();
+        }
+        return availableRoute;
+    }
+
+    private boolean cantMoveDiagonalOutOfPalace(Direction direction, Position now) {
+        return Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace());
+    }
+
+    private boolean canMoveToEndButStop(Piece endPiece) {
+        return endPiece != None.INSTANCE && isDifferentCountry(endPiece.getCountry());
     }
 
 }

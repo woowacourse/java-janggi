@@ -110,7 +110,7 @@ public class JanggiController {
     private void requestEndPosition(Position start, int gameId) {
         doRetry(() -> {
                     Optional<List<Integer>> input = inputView.requestMovePosition();
-                    Validator.validateDataExist(!input.isEmpty(),"올바르지 않은 입력입니다.");
+                    Validator.validateDataExist(input.isPresent(),"올바르지 않은 입력입니다.");
 
                     List<Integer> destination = input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
