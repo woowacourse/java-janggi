@@ -6,6 +6,7 @@ import domain.PieceType;
 import domain.Position;
 import domain.Team;
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,9 @@ class InMemoryGameStateRepositoryTest {
         GameState expected = new GameState(List.of(horseState, soldierState, generalState), GameStatus.GREEN_PLAYER_TURN);
 
         repository.save(expected);
-        GameState actual = repository.load();
+        Optional<GameState> actual = repository.load();
 
-        Assertions.assertThat(actual).isEqualTo(expected);
+        Assertions.assertThat(actual.get()).isEqualTo(expected);
     }
 
 }

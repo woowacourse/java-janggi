@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
@@ -61,8 +62,8 @@ public class GamePersistenceIntegrationTest {
         GameState gameState = gameStateMapper.mapFrom(original);
         repository.save(gameState);
 
-        GameState loadedState = repository.load();
-        JanggiGame restored = gameStateMapper.mapToJanggiGame(loadedState);
+        Optional<GameState> loadedState = repository.load();
+        JanggiGame restored = gameStateMapper.mapToJanggiGame(loadedState.get());
 
         assertThat(restored.gameStatus()).isEqualTo(original.gameStatus());
         assertThat(restored.allFactors().board().get(new Position(9, 1)).pieceProperty()).isEqualTo(

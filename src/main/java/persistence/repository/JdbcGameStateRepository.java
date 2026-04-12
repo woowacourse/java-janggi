@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import persistence.entity.GameState;
 import persistence.entity.PieceState;
@@ -96,24 +97,29 @@ public final class JdbcGameStateRepository implements GameStateRepository {
     }
 
     @Override
-    public GameState load() {
+    public Optional<GameState> load() {
         try (Connection connection = dataSource.getConnection()) {
-            GameStatus gameStatus = loadGameStatus(connection);
+            Optional<GameStatus> gameStatus = loadGameStatus(connection);
+            if (gameStatus.isEmpty()) {
+                return Optional.empty();
+            }
+
             List<PieceState> pieceStates = loadPieceStates(connection);
-            return new GameState(pieceStates, gameStatus);
+            GameState gameState = new GameState(pieceStates, gameStatus.get());
+            return Optional.of(gameState);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception);
         }
     }
 
-    private GameStatus loadGameStatus(Connection connection) throws SQLException {
+    private Optional<GameStatus> loadGameStatus(Connection connection) throws SQLException {
         String sql = "select game_status from game";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (!resultSet.next()) {
-                throw new IllegalStateException("저장된 게임이 없습니다.");
+                return Optional.empty();
             }
-            return GameStatus.valueOf(resultSet.getString("game_status"));
+            return Optional.of(GameStatus.valueOf(resultSet.getString("game_status")));
         }
     }
 

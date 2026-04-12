@@ -1,5 +1,6 @@
 package persistence.repository;
 
+import java.util.Optional;
 import persistence.entity.GameState;
 
 public final class InMemoryGameStateRepository implements GameStateRepository {
@@ -12,8 +13,8 @@ public final class InMemoryGameStateRepository implements GameStateRepository {
     }
 
     @Override
-    public GameState load() {
-        return gameState;
+    public Optional<GameState> load() {
+        return Optional.ofNullable(gameState);
     }
 
     @Override

@@ -21,17 +21,14 @@ public final class GamePersistenceService {
     }
 
     public JanggiGame loadOrCreate() {
-        try {
-            GameState gameState = repository.load();
-            return gameStateMapper.mapToJanggiGame(gameState);
-        } catch (IllegalStateException exception) {
-            return JanggiGame.of(boardFactory.initialBoard(), GameStatus.GREEN_PLAYER_TURN);
-        }
+        return repository.load()
+                .map(gameStateMapper::mapToJanggiGame)
+                .orElseGet(this::createNewGame);
     }
 
     public JanggiGame createNewGame() {
         JanggiGame janggiGame = JanggiGame.of(boardFactory.initialBoard(), GameStatus.GREEN_PLAYER_TURN);
-        repository.save(gameStateMapper.mapFrom(janggiGame));
+        save(janggiGame);
         return janggiGame;
     }
 

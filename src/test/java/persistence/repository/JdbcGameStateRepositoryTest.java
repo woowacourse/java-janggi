@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
@@ -47,10 +48,18 @@ class JdbcGameStateRepositoryTest {
         GameState expected = createGameState();
 
         repository.save(expected);
-        GameState actual = repository.load();
+        Optional<GameState> actual = repository.load();
 
-        assertThat(actual.gameStatus()).isEqualTo(expected.gameStatus());
-        assertThat(actual.pieceStates()).containsExactlyInAnyOrderElementsOf(expected.pieceStates());
+        assertThat(actual.get().gameStatus()).isEqualTo(expected.gameStatus());
+        assertThat(actual.get().pieceStates()).containsExactlyInAnyOrderElementsOf(expected.pieceStates());
+    }
+
+    @Test
+    @DisplayName("저장된 게임이 없다면 빈 Optional을 반환한다.")
+    void no_save_and_load_game_state_empty_optional_test() {
+        Optional<GameState> actual = repository.load();
+
+        assertThat(actual).isEmpty();
     }
 
     @Test
