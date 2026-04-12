@@ -1,10 +1,10 @@
 package controller;
 
-import domain.Country;
 import domain.Position;
-import domain.TableSetting;
 import domain.board.Board;
-import java.util.List;
+import domain.board.TableSetting;
+import domain.country.CountryType;
+import service.JanggiService;
 import view.CountryFormatter;
 import view.InputParser;
 import view.InputView;
@@ -13,74 +13,89 @@ import view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        Board board = makeBoard();
-        List<Country> playOrders = List.of(Country.CHO, Country.HAN);
+        int gameInfoId = askLoadOrCreate();
+        Board board = janggiService.readBoard(gameInfoId);
 
-        playTurn(board, playOrders);
+        playTurn(board, gameInfoId);
     }
 
-    private Board makeBoard() {
-        TableSetting choTableSetting = readTableSetting(Country.CHO);
-        TableSetting hanTableSetting = readTableSetting(Country.HAN);
-        return new Board(choTableSetting, hanTableSetting);
-    }
-
-    private void playTurn(Board board, List<Country> playOrders) {
-        int turnIndex = 0;
+    private int askLoadOrCreate() {
         while (true) {
-            Country country = playOrders.get(turnIndex);
-            outputView.printTurn(CountryFormatter.from(country));
-            outputView.printBoard(board.getPieceInfos());
-
-            movePiece(board, country);
-            turnIndex = (turnIndex + 1) % 2;
+            try {
+                String input = inputView.readLoadOrCreateBoard();
+                if (InputParser.parseLoad(input)) {
+                    return readBoardSelect();
+                }
+                return janggiService.makeBoard(readTableSetting(CountryType.CHO), readTableSetting(CountryType.HAN));
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
-    private TableSetting readTableSetting(Country country) {
+    private int readBoardSelect() {
+        outputView.printBoardId(janggiService.readAllGameInfoIds());
+        String input = inputView.readBoardSelect();
+        return janggiService.findBoardId(input);
+    }
+
+    private TableSetting readTableSetting(CountryType countryType) {
         while (true) {
             try {
-                String input = inputView.readTableSetting(CountryFormatter.from(country));
-                String tableNames = InputParser.parseTableSetting(input);
-
-                return TableSetting.from(tableNames);
+                String input = inputView.readTableSetting(CountryFormatter.from(countryType));
+                return janggiService.makeTableSetting(input);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
     }
 
-    private void movePiece(Board board, Country country) {
+    private void playTurn(Board board, int gameInfoId) {
+        boolean isEnd = false;
+        while (!isEnd) {
+            CountryType turn = board.getTurn();
+            outputView.printBoard(board.getPieceInfos(), turn, board.calculateScore(CountryType.CHO),
+                    board.calculateScore(CountryType.HAN));
+            movePiece(board, gameInfoId);
+            isEnd = isEnd(board, turn);
+        }
+        janggiService.deleteAllByGameInfoId(gameInfoId);
+    }
+
+    private boolean isEnd(Board board, CountryType turn) {
+        boolean isEndWithGeneralCaught = board.checkEndWithGeneralCaught();
+        if (board.checkEndWithGeneralCaught()) {
+            outputView.printEndWithCatchGeneral(turn);
+        }
+        boolean isEndWithBoardRepeat = board.checkEndWithBoardRepeat();
+        if (isEndWithBoardRepeat) {
+            outputView.printEndWithBoardRepeat(board.calculateScore(CountryType.CHO),
+                    board.calculateScore(CountryType.HAN));
+        }
+        return isEndWithGeneralCaught || isEndWithBoardRepeat;
+    }
+
+    private void movePiece(Board board, int gameInfoId) {
         while (true) {
             try {
-                Position from = makeFromPosition();
-                board.validateFromPosition(from, country);
-                Position to = makeToPosition();
+                Position from = janggiService.makePosition(inputView.readFromPosition());
+                board.validateFromPosition(from);
+                Position to = janggiService.makePosition(inputView.readToPosition());
 
-                board.move(from, to);
+                janggiService.movePiece(board, from, to, gameInfoId);
                 return;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
-    }
-
-    private Position makeFromPosition() {
-        String input = inputView.readFromPosition();
-        List<Integer> positions = InputParser.parsePosition(input);
-        return new Position(positions.get(0), positions.get(1));
-    }
-
-    private Position makeToPosition() {
-        String input = inputView.readToPosition();
-        List<Integer> positions = InputParser.parsePosition(input);
-        return new Position(positions.get(0), positions.get(1));
     }
 }

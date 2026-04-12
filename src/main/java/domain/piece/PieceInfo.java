@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.Country;
+import domain.country.CountryType;
 
 public record PieceInfo(
         PieceType pieceType,
-        Country country
+        CountryType countryType
 ) {
 }

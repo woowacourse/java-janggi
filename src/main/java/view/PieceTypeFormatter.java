@@ -1,6 +1,6 @@
 package view;
 
-import domain.Country;
+import domain.country.CountryType;
 import domain.piece.PieceType;
 import java.util.Arrays;
 
@@ -30,7 +30,7 @@ public enum PieceTypeFormatter {
         this.pieceName = pieceName;
     }
 
-    public static String from(PieceType pieceType, Country country) {
+    public static String from(PieceType pieceType, CountryType countryType) {
         String pieceName = Arrays.stream(PieceTypeFormatter.values())
                 .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
                 .map(PieceTypeFormatter::getPieceName)
@@ -38,30 +38,30 @@ public enum PieceTypeFormatter {
                 .orElseThrow(() -> new IllegalStateException(NOT_FOUND_PIECE_TYPE));
 
         if (pieceType == PieceType.SOLDIER) {
-            return getSoldierName(country);
+            return getSoldierName(countryType);
         }
         if (pieceType == PieceType.GENERAL) {
-            return getGeneralName(country);
+            return getGeneralName(countryType);
         }
-        return getOtherName(country, pieceName);
+        return getOtherName(countryType, pieceName);
     }
 
-    private static String getSoldierName(Country country) {
-        if (country == Country.CHO) {
+    private static String getSoldierName(CountryType countryType) {
+        if (countryType == CountryType.CHO) {
             return BLUE + CHO_SOLDIER.pieceName + EXIT;
         }
         return RED + HAN_SOLDIER.pieceName + EXIT;
     }
 
-    private static String getGeneralName(Country country) {
-        if (country == Country.CHO) {
+    private static String getGeneralName(CountryType countryType) {
+        if (countryType == CountryType.CHO) {
             return BLUE + CHO_GENERAL.pieceName + EXIT;
         }
         return RED + HAN_GENERAL.pieceName + EXIT;
     }
 
-    private static String getOtherName(Country country, String pieceName) {
-        if (country == Country.CHO) {
+    private static String getOtherName(CountryType countryType, String pieceName) {
+        if (countryType == CountryType.CHO) {
             return BLUE + pieceName + EXIT;
         }
         return RED + pieceName + EXIT;

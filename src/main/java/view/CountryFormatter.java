@@ -1,26 +1,26 @@
 package view;
 
-import domain.Country;
+import domain.country.CountryType;
 import java.util.Arrays;
 
 public enum CountryFormatter {
-    HAN(Country.HAN, "한나라"),
-    CHO(Country.CHO, "초나라"),
+    HAN(CountryType.HAN, "한나라"),
+    CHO(CountryType.CHO, "초나라"),
     ;
 
     private static final String NOT_FOUND_COUNTRY = "[ERROR] 존재하지 않는 진영입니다.";
 
-    private final Country country;
+    private final CountryType countryType;
     private final String name;
 
-    CountryFormatter(Country country, String name) {
-        this.country = country;
+    CountryFormatter(CountryType countryType, String name) {
+        this.countryType = countryType;
         this.name = name;
     }
 
-    public static String from(Country country) {
+    public static String from(CountryType countryType) {
         return Arrays.stream(CountryFormatter.values())
-                .filter(countryFormatter -> countryFormatter.country == country)
+                .filter(countryFormatter -> countryFormatter.countryType == countryType)
                 .map(CountryFormatter::getName)
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException(NOT_FOUND_COUNTRY));

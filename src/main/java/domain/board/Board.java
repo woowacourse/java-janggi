@@ -1,36 +1,36 @@
 package domain.board;
 
-import domain.Country;
 import domain.Path;
 import domain.Position;
-import domain.TableSetting;
-import domain.piece.PieceInfo;
-import java.util.Map;
+import domain.country.CountryType;
+import domain.piece.PieceInfos;
 
 public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
     private static final String CANNOT_MOVE_SAME_POSITION = "[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.";
 
     private final BoardStates boardStates;
+    private final BoardSnapshots boardSnapshots;
+    private CountryType turn;
 
-    public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        this.boardStates = new BoardStates(choTableSetting, hanTableSetting);
+    public Board(BoardStates boardStates, BoardSnapshots boardSnapshots, CountryType turn) {
+        this.boardStates = boardStates;
+        this.boardSnapshots = boardSnapshots;
+        this.turn = turn;
     }
 
-    public void validateFromPosition(Position from, Country country) {
-        if (boardStates.getPieceCountry(from) != country) {
+    public void validateFromPosition(Position from) {
+        if (boardStates.getPieceCountryType(from) != turn) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
 
-    public void move(Position from, Position to) {
+    public void movePiece(Position from, Position to) {
         validateMoveSamePosition(from, to);
         Path path = boardStates.getPiecePath(from, to);
 
-        boolean canMove = boardStates.canMovePiece(from, path);
-        if (canMove) {
-            boardStates.changeState(from, to);
-        }
+        boardStates.validatePieceMove(from, to, path);
+        boardStates.changePiecePosition(from, to);
     }
 
     public void validateMoveSamePosition(Position from, Position to) {
@@ -39,7 +39,35 @@ public class Board {
         }
     }
 
-    public Map<Position, PieceInfo> getPieceInfos() {
-        return boardStates.getPieceInfos();
+    public PieceInfos getPieceInfos() {
+        return boardStates.getBoardStates();
+    }
+
+    public double calculateScore(CountryType countryType) {
+        double score = boardStates.calculateScore(countryType);
+        if (countryType == CountryType.HAN) {
+            score += 1.5;
+        }
+        return score;
+    }
+
+    public boolean checkEndWithGeneralCaught() {
+        return boardStates.isGeneralCaught();
+    }
+
+    public boolean checkEndWithBoardRepeat() {
+        return boardSnapshots.appearSamePositionThreeTurn();
+    }
+
+    public void addBoardSnapshot(BoardSnapshot boardSnapshot) {
+        boardSnapshots.addBoardSnapshot(boardSnapshot);
+    }
+
+    public void changeTurn() {
+        turn = turn.anotherCountryType();
+    }
+
+    public CountryType getTurn() {
+        return turn;
     }
 }
