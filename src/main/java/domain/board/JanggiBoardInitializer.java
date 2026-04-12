@@ -1,8 +1,9 @@
-package domain;
+package domain.board;
 
 import static domain.Index.BOARD_COLUMNS;
 import static domain.Index.BOARD_ROWS;
 
+import domain.Team;
 import domain.piece.Blank;
 import domain.piece.Cannon;
 import domain.piece.Car;
@@ -11,13 +12,12 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Pawn;
-import domain.piece.MoveablePiece;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JanggiBoardInitializer {
+public class JanggiBoardInitializer implements BoardInitializer {
     public Map<Position, Piece> init() {
         Map<Position, Piece> boardSetting = new HashMap<>();
 
