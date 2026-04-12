@@ -21,17 +21,17 @@ import java.util.Map;
 
 public class SavedGameReadMapper {
 
-    public JanggiGame toJanggiGame(SavedGameDto savedGameDto) {
-        Board board = new Board(restoredPieces(savedGameDto.pieces()));
-        GameResult gameResult = toGameResult(savedGameDto);
-        return JanggiGame.restore(savedGameDto.gameId(), board, savedGameDto.currentTurn(), gameResult);
+    public JanggiGame toJanggiGame(GameEntity gameEntity) {
+        Board board = new Board(restoredPieces(gameEntity.pieces()));
+        GameResult gameResult = toGameResult(gameEntity);
+        return JanggiGame.restore(gameEntity.gameId(), board, gameEntity.currentTurn(), gameResult);
     }
 
-    private Map<Position, Piece> restoredPieces(java.util.List<SavedPieceDto> savedPieceDtos) {
+    private Map<Position, Piece> restoredPieces(java.util.List<PieceEntity> pieceEntities) {
         Map<Position, Piece> pieces = emptyBoard();
-        for (SavedPieceDto savedPieceDto : savedPieceDtos) {
-            Position position = new Position(savedPieceDto.row(), savedPieceDto.column());
-            pieces.put(position, toPiece(savedPieceDto));
+        for (PieceEntity pieceEntity : pieceEntities) {
+            Position position = new Position(pieceEntity.row(), pieceEntity.column());
+            pieces.put(position, toPiece(pieceEntity));
         }
         return pieces;
     }
@@ -46,9 +46,9 @@ public class SavedGameReadMapper {
         return pieces;
     }
 
-    private Piece toPiece(SavedPieceDto savedPieceDto) {
-        PieceType pieceType = savedPieceDto.pieceType();
-        Side side = savedPieceDto.side();
+    private Piece toPiece(PieceEntity pieceEntity) {
+        PieceType pieceType = pieceEntity.pieceType();
+        Side side = pieceEntity.side();
 
         return switch (pieceType) {
             case CHA -> new Cha(side);
@@ -62,9 +62,9 @@ public class SavedGameReadMapper {
         };
     }
 
-    private GameResult toGameResult(SavedGameDto savedGameDto) {
-        if (savedGameDto.status() == GameStatus.ENDED) {
-            return GameResult.ended(savedGameDto.winner());
+    private GameResult toGameResult(GameEntity gameEntity) {
+        if (gameEntity.status() == GameStatus.ENDED) {
+            return GameResult.ended(gameEntity.winner());
         }
         return GameResult.running();
     }

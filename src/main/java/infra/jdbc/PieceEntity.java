@@ -1,9 +1,9 @@
 package infra.jdbc;
 
-import domain.pieces.PieceType;
 import domain.pieces.Side;
+import domain.pieces.PieceType;
 
-public record SavedPieceDto(
+public record PieceEntity(
         int row,
         int column,
         Side side,

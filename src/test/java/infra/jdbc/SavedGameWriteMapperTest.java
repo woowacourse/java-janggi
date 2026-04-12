@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 class SavedGameWriteMapperTest {
 
     @Test
-    void 진행중인_게임을_SavedGameDto로_변환한다() {
+    void 진행중인_게임을_GameEntity로_변환한다() {
         // given
         Clock fixedClock = Clock.fixed(Instant.parse("2026-04-07T03:00:00Z"), ZoneId.of("Asia/Seoul"));
         SavedGameWriteMapper mapper = new SavedGameWriteMapper(fixedClock);
@@ -36,23 +36,23 @@ class SavedGameWriteMapperTest {
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
 
         // when
-        SavedGameDto savedGameDto = mapper.toSavedGameDto(janggiGame);
+        GameEntity gameEntity = mapper.toEntity(janggiGame);
 
         // then
-        assertThat(savedGameDto.gameId()).isNull();
-        assertThat(savedGameDto.currentTurn()).isEqualTo(Side.CHO);
-        assertThat(savedGameDto.status()).isEqualTo(GameStatus.RUNNING);
-        assertThat(savedGameDto.winner()).isNull();
-        assertThat(savedGameDto.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
-        assertThat(savedGameDto.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
-        assertThat(savedGameDto.pieces()).containsExactlyInAnyOrder(
-                new SavedPieceDto(0, 0, Side.CHO, PieceType.CHA),
-                new SavedPieceDto(8, 4, Side.HAN, PieceType.GUNG)
+        assertThat(gameEntity.gameId()).isNull();
+        assertThat(gameEntity.currentTurn()).isEqualTo(Side.CHO);
+        assertThat(gameEntity.status()).isEqualTo(GameStatus.RUNNING);
+        assertThat(gameEntity.winner()).isNull();
+        assertThat(gameEntity.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
+        assertThat(gameEntity.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 0));
+        assertThat(gameEntity.pieces()).containsExactlyInAnyOrder(
+                new PieceEntity(0, 0, Side.CHO, PieceType.CHA),
+                new PieceEntity(8, 4, Side.HAN, PieceType.GUNG)
         );
     }
 
     @Test
-    void 종료된_게임을_SavedGameDto로_변환한다() {
+    void 종료된_게임을_GameEntity로_변환한다() {
         // given
         Clock fixedClock = Clock.fixed(Instant.parse("2026-04-07T03:30:00Z"), ZoneId.of("Asia/Seoul"));
         SavedGameWriteMapper mapper = new SavedGameWriteMapper(fixedClock);
@@ -69,17 +69,17 @@ class SavedGameWriteMapperTest {
         janggiGame.assignGameId(1L);
 
         // when
-        SavedGameDto savedGameDto = mapper.toSavedGameDto(janggiGame);
+        GameEntity gameEntity = mapper.toEntity(janggiGame);
 
         // then
-        assertThat(savedGameDto.gameId()).isEqualTo(1L);
-        assertThat(savedGameDto.currentTurn()).isEqualTo(Side.CHO);
-        assertThat(savedGameDto.status()).isEqualTo(GameStatus.ENDED);
-        assertThat(savedGameDto.winner()).isEqualTo(Side.CHO);
-        assertThat(savedGameDto.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
-        assertThat(savedGameDto.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
-        assertThat(savedGameDto.pieces()).containsExactlyInAnyOrder(
-                new SavedPieceDto(8, 4, Side.CHO, PieceType.CHA)
+        assertThat(gameEntity.gameId()).isEqualTo(1L);
+        assertThat(gameEntity.currentTurn()).isEqualTo(Side.CHO);
+        assertThat(gameEntity.status()).isEqualTo(GameStatus.ENDED);
+        assertThat(gameEntity.winner()).isEqualTo(Side.CHO);
+        assertThat(gameEntity.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
+        assertThat(gameEntity.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
+        assertThat(gameEntity.pieces()).containsExactlyInAnyOrder(
+                new PieceEntity(8, 4, Side.CHO, PieceType.CHA)
         );
     }
 }

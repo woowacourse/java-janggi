@@ -17,7 +17,7 @@ class SavedGameReadMapperTest {
     void 저장된_진행중_게임을_JanggiGame으로_복원한다() {
         // given
         SavedGameReadMapper mapper = new SavedGameReadMapper();
-        SavedGameDto savedGameDto = new SavedGameDto(
+        GameEntity gameEntity = new GameEntity(
                 1L,
                 Side.HAN,
                 GameStatus.RUNNING,
@@ -25,13 +25,13 @@ class SavedGameReadMapperTest {
                 LocalDateTime.of(2026, 4, 7, 12, 0),
                 LocalDateTime.of(2026, 4, 7, 12, 5),
                 java.util.List.of(
-                        new SavedPieceDto(0, 0, Side.CHO, PieceType.CHA),
-                        new SavedPieceDto(8, 4, Side.HAN, PieceType.GUNG)
+                        new PieceEntity(0, 0, Side.CHO, PieceType.CHA),
+                        new PieceEntity(8, 4, Side.HAN, PieceType.GUNG)
                 )
         );
 
         // when
-        JanggiGame janggiGame = mapper.toJanggiGame(savedGameDto);
+        JanggiGame janggiGame = mapper.toJanggiGame(gameEntity);
 
         // then
         assertThat(janggiGame.gameId()).isEqualTo(1L);
@@ -47,7 +47,7 @@ class SavedGameReadMapperTest {
     void 저장된_종료_게임을_JanggiGame으로_복원한다() {
         // given
         SavedGameReadMapper mapper = new SavedGameReadMapper();
-        SavedGameDto savedGameDto = new SavedGameDto(
+        GameEntity gameEntity = new GameEntity(
                 2L,
                 Side.CHO,
                 GameStatus.ENDED,
@@ -55,12 +55,12 @@ class SavedGameReadMapperTest {
                 LocalDateTime.of(2026, 4, 7, 12, 0),
                 LocalDateTime.of(2026, 4, 7, 12, 30),
                 java.util.List.of(
-                        new SavedPieceDto(8, 4, Side.CHO, PieceType.CHA)
+                        new PieceEntity(8, 4, Side.CHO, PieceType.CHA)
                 )
         );
 
         // when
-        JanggiGame janggiGame = mapper.toJanggiGame(savedGameDto);
+        JanggiGame janggiGame = mapper.toJanggiGame(gameEntity);
 
         // then
         assertThat(janggiGame.gameId()).isEqualTo(2L);

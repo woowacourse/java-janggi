@@ -16,23 +16,23 @@ public class SavedGameWriteMapper {
         this.clock = clock;
     }
 
-    public SavedGameDto toSavedGameDto(JanggiGame janggiGame) {
+    public GameEntity toEntity(JanggiGame janggiGame) {
         LocalDateTime now = LocalDateTime.now(clock);
-        return new SavedGameDto(
+        return new GameEntity(
                 janggiGame.gameId(),
                 janggiGame.currentTurn(),
                 janggiGame.gameResult().status(),
                 janggiGame.gameResult().winner(),
                 now,
                 now,
-                toSavedPieceDtos(janggiGame)
+                toPieceEntities(janggiGame)
         );
     }
 
-    public List<SavedPieceDto> toSavedPieceDtos(JanggiGame janggiGame) {
+    public List<PieceEntity> toPieceEntities(JanggiGame janggiGame) {
         return janggiGame.board().pieces().entrySet().stream()
                 .filter(entry -> !entry.getValue().isEmpty())
-                .map(this::toSavedPieceDto)
+                .map(this::toPieceEntity)
                 .toList();
     }
 
@@ -40,11 +40,11 @@ public class SavedGameWriteMapper {
         return LocalDateTime.now(clock);
     }
 
-    private SavedPieceDto toSavedPieceDto(Map.Entry<Position, Piece> entry) {
+    private PieceEntity toPieceEntity(Map.Entry<Position, Piece> entry) {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
 
-        return new SavedPieceDto(
+        return new PieceEntity(
                 position.row(),
                 position.column(),
                 piece.getSide(),

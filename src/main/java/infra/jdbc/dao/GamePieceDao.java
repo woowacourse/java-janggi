@@ -2,56 +2,39 @@ package infra.jdbc.dao;
 
 import domain.pieces.PieceType;
 import domain.pieces.Side;
+import infra.jdbc.PieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import infra.jdbc.SavedPieceDto;
 
 public class GamePieceDao {
-    private static final String INSERT_ALL_PIECES_SQL = """
-            INSERT INTO game_piece (
-                game_id,
-                row_index,
-                column_index,
-                side,
-                piece_type
-            ) VALUES (?, ?, ?, ?, ?)
-            """;
 
-    private static final String FIND_ALL_BY_GAME_ID_SQL = """
-            SELECT row_index, column_index, side, piece_type
-            FROM game_piece
-            WHERE game_id = ?
-            ORDER BY row_index, column_index
-            """;
-
-    private static final String DELETE_ALL_BY_GAME_ID_SQL = "DELETE FROM game_piece WHERE game_id = ?";
-
-    public void insertAll(Connection connection, long gameId, List<SavedPieceDto> savedPieceDtos) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_ALL_PIECES_SQL)) {
-            for (SavedPieceDto savedPieceDto : savedPieceDtos) {
+    public void insertAll(Connection connection, long gameId, List<PieceEntity> pieces) throws SQLException {
+        String sql = "INSERT INTO game_piece (game_id, row_index, column_index, side, piece_type) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (PieceEntity piece : pieces) {
                 statement.setLong(1, gameId);
-                statement.setInt(2, savedPieceDto.row());
-                statement.setInt(3, savedPieceDto.column());
-                statement.setString(4, savedPieceDto.side().name());
-                statement.setString(5, savedPieceDto.pieceType().name());
+                statement.setInt(2, piece.row());
+                statement.setInt(3, piece.column());
+                statement.setString(4, piece.side().name());
+                statement.setString(5, piece.pieceType().name());
                 statement.addBatch();
             }
             statement.executeBatch();
         }
     }
 
-    public List<SavedPieceDto> findAllByGameId(Connection connection, long gameId) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_GAME_ID_SQL)) {
+    public List<PieceEntity> findAllByGameId(Connection connection, long gameId) throws SQLException {
+        String sql = "SELECT * FROM game_piece WHERE game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
-
             try (ResultSet resultSet = statement.executeQuery()) {
-                List<SavedPieceDto> pieces = new ArrayList<>();
+                List<PieceEntity> pieces = new ArrayList<>();
                 while (resultSet.next()) {
-                    pieces.add(new SavedPieceDto(
+                    pieces.add(new PieceEntity(
                             resultSet.getInt("row_index"),
                             resultSet.getInt("column_index"),
                             Side.valueOf(resultSet.getString("side")),
@@ -64,7 +47,8 @@ public class GamePieceDao {
     }
 
     public void deleteAllByGameId(Connection connection, long gameId) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_GAME_ID_SQL)) {
+        String sql = "DELETE FROM game_piece WHERE game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
             statement.executeUpdate();
         }

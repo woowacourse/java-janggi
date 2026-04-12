@@ -7,6 +7,7 @@ import infra.jdbc.dao.GamePieceDao;
 import infra.jdbc.exception.JdbcRepositoryException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Clock;
 import java.util.Optional;
 import repository.GameRepository;
 
@@ -17,6 +18,16 @@ public class JdbcGameRepository implements GameRepository {
     private final GamePieceDao gamePieceDao;
     private final SavedGameWriteMapper writeMapper;
     private final SavedGameReadMapper readMapper;
+
+    public JdbcGameRepository(JdbcConnectionManager connectionManager) {
+        this(
+                connectionManager,
+                new GameDao(),
+                new GamePieceDao(),
+                new SavedGameWriteMapper(Clock.systemDefaultZone()),
+                new SavedGameReadMapper()
+        );
+    }
 
     public JdbcGameRepository(
             JdbcConnectionManager connectionManager,
@@ -42,10 +53,10 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public JanggiGame save(JanggiGame janggiGame) {
-        SavedGameDto savedGameDto = writeMapper.toSavedGameDto(janggiGame);
+        GameEntity gameEntity = writeMapper.toEntity(janggiGame);
         long gameId = executeInTransaction(connection -> {
-            long savedGameId = gameDao.insert(connection, savedGameDto);
-            gamePieceDao.insertAll(connection, savedGameId, savedGameDto.pieces());
+            long savedGameId = gameDao.insert(connection, gameEntity);
+            gamePieceDao.insertAll(connection, savedGameId, gameEntity.pieces());
             return savedGameId;
         }, "장기 게임 저장에 실패했습니다.");
 
@@ -62,7 +73,7 @@ public class JdbcGameRepository implements GameRepository {
             }
 
             GameMetadata metadata = latestRunningGame.orElseThrow();
-            SavedGameDto savedGameDto = new SavedGameDto(
+            GameEntity gameEntity = new GameEntity(
                     metadata.gameId(),
                     metadata.currentTurn(),
                     metadata.status(),
@@ -71,7 +82,7 @@ public class JdbcGameRepository implements GameRepository {
                     metadata.updatedAt(),
                     gamePieceDao.findAllByGameId(connection, metadata.gameId())
             );
-            return Optional.of(readMapper.toJanggiGame(savedGameDto));
+            return Optional.of(readMapper.toJanggiGame(gameEntity));
         } catch (SQLException e) {
             throw new JdbcRepositoryException("진행 중인 장기 게임 조회에 실패했습니다.", e);
         }
@@ -94,7 +105,7 @@ public class JdbcGameRepository implements GameRepository {
                     updatedAt
             );
             gamePieceDao.deleteAllByGameId(connection, janggiGame.gameId());
-            gamePieceDao.insertAll(connection, janggiGame.gameId(), writeMapper.toSavedPieceDtos(janggiGame));
+            gamePieceDao.insertAll(connection, janggiGame.gameId(), writeMapper.toPieceEntities(janggiGame));
             return null;
         }, "장기 게임 수정에 실패했습니다.");
     }
