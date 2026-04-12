@@ -1,22 +1,29 @@
 package model.board;
 
+import java.util.List;
+
 import model.move.Move;
 import model.position.Position;
 
-import java.util.List;
-
 public class Palace {
-    private static final int MIN_COLUMN = 4;
-    private static final int MAX_COLUMN = 6;
-    private static final int HAN_MIN_ROW = 1;
-    private static final int HAN_MAX_ROW = 3;
-    private static final int CHO_MIN_ROW = 8;
-    private static final int CHO_MAX_ROW = 10;
+    private static final int LEFT_COLUMN = 4;
+    private static final int CENTER_COLUMN = 5;
+    private static final int RIGHT_COLUMN = 6;
+
+    private static final int HAN_TOP_ROW = 1;
+    private static final int HAN_CENTER_ROW = 2;
+    private static final int HAN_BOTTOM_ROW = 3;
+
+    private static final int CHO_TOP_ROW = 8;
+    private static final int CHO_CENTER_ROW = 9;
+    private static final int CHO_BOTTOM_ROW = 10;
 
     private final Country country;
+    private final List<PalaceRoute> routes;
 
     private Palace(Country country) {
         this.country = country;
+        this.routes = createRoutes();
     }
 
     public static Palace from(Country country) {
@@ -41,15 +48,15 @@ public class Palace {
     }
 
     private boolean matchesRoute(Move move) {
-        for(PalaceRoute route : routes()){
-            if(route.matches(move)){
+        for (PalaceRoute route : routes) {
+            if (route.matches(move)) {
                 return true;
             }
         }
         return false;
     }
 
-    private List<PalaceRoute> routes(){
+    private List<PalaceRoute> createRoutes() {
         return List.of(
                 new PalaceRoute(Move.of(topLeft(), center())),
                 new PalaceRoute(Move.of(center(), bottomRight())),
@@ -60,44 +67,50 @@ public class Palace {
         );
     }
 
-    private Position center(){
-        if(country==Country.CHO){
-            return Position.of(9, 5);
-        }
-        return Position.of(2, 5);
+    private Position center() {
+        return Position.of(centerRow(), CENTER_COLUMN);
     }
 
-    private Position topLeft(){
-        if(country==Country.CHO){
-            return Position.of(8, 4);
-        }
-        return Position.of(1, 4);
+    private Position topLeft() {
+        return Position.of(topRow(), LEFT_COLUMN);
     }
 
-    private Position topRight(){
-        if(country ==Country.CHO){
-            return Position.of(8, 6);
-        }
-        return Position.of(1, 6);
+    private Position topRight() {
+        return Position.of(topRow(), RIGHT_COLUMN);
     }
 
     private Position bottomLeft() {
-        if (country == Country.CHO) {
-            return Position.of(10, 4);
-        }
-        return Position.of(3, 4);
+        return Position.of(bottomRow(), LEFT_COLUMN);
     }
 
     private Position bottomRight() {
+        return Position.of(bottomRow(), RIGHT_COLUMN);
+    }
+
+    private int topRow() {
         if (country == Country.CHO) {
-            return Position.of(10, 6);
+            return CHO_TOP_ROW;
         }
-        return Position.of(3, 6);
+        return HAN_TOP_ROW;
+    }
+
+    private int centerRow() {
+        if (country == Country.CHO) {
+            return CHO_CENTER_ROW;
+        }
+        return HAN_CENTER_ROW;
+    }
+
+    private int bottomRow() {
+        if (country == Country.CHO) {
+            return CHO_BOTTOM_ROW;
+        }
+        return HAN_BOTTOM_ROW;
     }
 
     private boolean isInsideColumn(Position position) {
         int column = position.column().value();
-        return column >= MIN_COLUMN && column <= MAX_COLUMN;
+        return column >= LEFT_COLUMN && column <= RIGHT_COLUMN;
     }
 
     private boolean isInsideRow(Position position) {
@@ -109,11 +122,11 @@ public class Palace {
 
     private boolean isChoRow(Position position) {
         int row = position.row().value();
-        return row >= CHO_MIN_ROW && row <= CHO_MAX_ROW;
+        return row >= CHO_TOP_ROW && row <= CHO_BOTTOM_ROW;
     }
 
     private boolean isHanRow(Position position) {
         int row = position.row().value();
-        return row >= HAN_MIN_ROW && row <= HAN_MAX_ROW;
+        return row >= HAN_TOP_ROW && row <= HAN_BOTTOM_ROW;
     }
 }
