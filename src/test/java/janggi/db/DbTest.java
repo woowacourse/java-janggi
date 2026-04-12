@@ -11,6 +11,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
 import janggi.domain.team.TurnManager;
+import janggi.repository.GameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,11 +26,11 @@ public class DbTest {
 
     private final String TEST_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
     private final H2DBConnector h2DBConnector = new H2DBConnector(TEST_URL);
-    private GameDao gameDao;
+    private GameRepository gameRepository;
 
     @BeforeEach
     void setup() throws SQLException {
-        this.gameDao = new GameDao(h2DBConnector);
+        this.gameRepository = new GameRepository(h2DBConnector);
         try (Connection connection = h2DBConnector.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(
@@ -56,9 +57,9 @@ public class DbTest {
         TurnManager turnManager = new TurnManager();
         turnManager.changeTurn();
         GameContext gameContext = new GameContext(turnManager, board);
-        gameDao.saveGame(gameContext);
+        gameRepository.saveGame(gameContext);
 
-        GameContext gameContextTest = gameDao.loadPreviousGame();
+        GameContext gameContextTest = gameRepository.loadPreviousGame();
         assertThat(gameContextTest.currentTeamType()).isEqualTo(turnManager.currentTeamType());
     }
 
@@ -74,9 +75,9 @@ public class DbTest {
         Map<Position, Piece> expected = Map.copyOf(positionPieces);
         Board board = new Board(positionPieces);
         GameContext gameContext = new GameContext(new TurnManager(), board);
-        gameDao.saveGame(gameContext);
+        gameRepository.saveGame(gameContext);
 
-        GameContext gameContextTest = gameDao.loadPreviousGame();
+        GameContext gameContextTest = gameRepository.loadPreviousGame();
         Map<Position, Piece> actual = gameContextTest.getPositionPieceMap();
         assertThat(actual).containsAllEntriesOf(expected);
     }

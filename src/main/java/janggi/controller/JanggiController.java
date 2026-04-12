@@ -1,7 +1,6 @@
 package janggi.controller;
 
 import janggi.db.DBConnector;
-import janggi.db.GameDao;
 import janggi.db.InitDatabaseTable;
 import janggi.domain.GameContext;
 import janggi.domain.Position;
@@ -13,17 +12,18 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.team.TurnManager;
 import janggi.dto.BoardDto;
+import janggi.repository.GameRepository;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
-    private final GameDao gameDao;
+    private final GameRepository gameRepository;
 
     public JanggiController(DBConnector dbConnector) {
         InitDatabaseTable.initDatabaseTable(dbConnector);
-        this.gameDao = new GameDao(dbConnector);
+        this.gameRepository = new GameRepository(dbConnector);
     }
 
     public void run() {
@@ -53,10 +53,10 @@ public class JanggiController {
     private void startGame(GameContext gameContext) {
         while (gameContext.canContinueGame()) {
             playTurn(gameContext);
-            gameDao.saveGame(gameContext);
+            gameRepository.saveGame(gameContext);
         }
         OutputView.printGameOverMessage(gameContext.currentWinTeamTypeToName());
-        gameDao.deleteGameRecord();
+        gameRepository.deleteGame();
     }
 
     private Team setupTeam(TeamType teamType) {
@@ -136,8 +136,8 @@ public class JanggiController {
     }
 
     private GameContext loadPreviousGameContext() {
-        if (gameDao.hasGameData()) {
-            return gameDao.loadPreviousGame();
+        if (gameRepository.hasGameData()) {
+            return gameRepository.loadPreviousGame();
         }
         OutputView.printNewGameStartNotice();
         return createNewGameContext();
