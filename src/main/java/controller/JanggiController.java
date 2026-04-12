@@ -2,10 +2,10 @@ package controller;
 
 import controller.response.BoardView;
 import controller.response.Turn;
-import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.board.ElephantSetup;
+import domain.game.JanggiGame;
 import domain.piece.Piece;
 import domain.piece.Position;
 import domain.player.Player;
@@ -28,9 +28,7 @@ public class JanggiController {
     public void run() {
         final JanggiGame game = initializeGame();
 
-        // TODO: 승패 조건 추가 후 수정
-//        while (true) {
-        for (int test = 0; test < 10; test++) {
+        while (game.isPlaying()) {
             playTurn(game);
         }
     }

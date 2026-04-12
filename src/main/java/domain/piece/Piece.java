@@ -56,4 +56,8 @@ public class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public int getScore() {
+        return pieceStatus.pieceType().getScore();
+    }
 }

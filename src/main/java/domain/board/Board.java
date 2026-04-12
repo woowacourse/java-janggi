@@ -33,9 +33,17 @@ public class Board {
     }
 
 
-    public void move(final Position from, final Position to) {
+    public MoveResult move(final Position from, final Position to) {
         final Piece piece = pieces.remove(from);
+
+        if (hasPiece(to)) {
+            final Piece capturedPiece = getPiece(to);
+            pieces.put(to, piece);
+            return MoveResult.withCapture(capturedPiece);
+        }
+
         pieces.put(to, piece);
+        return MoveResult.withoutCapture();
     }
 
 
