@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.board.Country;
-import model.board.Palace;
 import model.policy.DefaultDestinationPolicy;
 import model.policy.DefaultPathPolicy;
 
@@ -28,15 +27,6 @@ public class ChariotMoveRule extends PatternMoveRule {
             return true;
         }
         return isPalaceDiagonal(move);
-    }
-
-    private boolean isPalaceDiagonal(Move move){
-        Palace choPalace = Palace.from(Country.CHO);
-        if(choPalace.isDiagonalMove(move)){
-            return true;
-        }
-        Palace hanPalace = Palace.from(Country.HAN);
-        return hanPalace.isDiagonalMove(move);
     }
 
     private List<MovePattern> createPatterns(Move move) {

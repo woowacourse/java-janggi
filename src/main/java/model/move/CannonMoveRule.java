@@ -2,7 +2,6 @@ package model.move;
 
 import model.board.Board;
 import model.board.Country;
-import model.board.Palace;
 import model.pieces.Piece;
 import model.pieces.PieceType;
 import java.util.List;
@@ -30,16 +29,6 @@ public class CannonMoveRule extends MoveRule {
         }
 
         return isPalaceDiagonal(move);
-    }
-
-    private boolean isPalaceDiagonal(Move move) {
-        Palace choPalace = Palace.from(Country.CHO);
-        if (choPalace.isDiagonalMove(move)) {
-            return true;
-        }
-
-        Palace hanPalace = Palace.from(Country.HAN);
-        return hanPalace.isDiagonalMove(move);
     }
 
     private boolean isValidBridge(List<Piece> betweenPieces) {
