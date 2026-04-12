@@ -6,7 +6,6 @@ import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
-import database.mapper.JanggiBoardMapper;
 import domain.board.generator.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
 import service.dto.Moved;
@@ -21,13 +20,11 @@ import static domain.board.exception.BoardError.BOARD_NOT_FOUND;
 public class JanggiService {
 
     private final BoardDao boardDao;
-    private final JanggiBoardMapper mapper;
     private final TransactionExecutor executor;
     private final IntersectionDao intersectionDao;
 
-    public JanggiService(BoardDao boardDao, JanggiBoardMapper mapper, TransactionExecutor executor, IntersectionDao intersectionDao) {
+    public JanggiService(BoardDao boardDao, TransactionExecutor executor, IntersectionDao intersectionDao) {
         this.boardDao = boardDao;
-        this.mapper = mapper;
         this.executor = executor;
         this.intersectionDao = intersectionDao;
     }
@@ -35,7 +32,7 @@ public class JanggiService {
     public Long createBoard(JanggiBoard janggiBoard) {
         return executor.execute(() -> {
             Long saveId = boardDao.save();
-            intersectionDao.saveAll(saveId, mapper.toIntersectionDtoList(janggiBoard.getListIntersection()));
+            intersectionDao.saveAll(saveId, janggiBoard.getListIntersection());
             return saveId;
         });
     }
@@ -57,8 +54,8 @@ public class JanggiService {
         executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
             boardDao.updateTurn(boardId, moved.currentTurn());
-            intersectionDao.update(boardId, mapper.toIntersectionDto(moved.destination()));
-            intersectionDao.update(boardId, mapper.toIntersectionDto(moved.origin()));
+            intersectionDao.update(boardId, moved.destination());
+            intersectionDao.update(boardId, moved.origin());
             return null;
         });
     }

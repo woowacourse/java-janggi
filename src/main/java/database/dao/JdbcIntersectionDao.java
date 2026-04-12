@@ -1,6 +1,5 @@
 package database.dao;
 
-import database.dto.IntersectionDto;
 import database.mapper.JanggiBoardMapper;
 import domain.intersection.Intersection;
 
@@ -31,17 +30,17 @@ public class JdbcIntersectionDao implements IntersectionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(Long boardId, List<IntersectionDto> intersections) {
+    public void saveAll(Long boardId, List<Intersection> intersections) {
         jdbcTemplate.saveAll(
                 INSERT_INTERSECTION_QUERY,
                 intersections,
                 (ps, item) -> {
                     ps.setLong(1, boardId);
-                    ps.setInt(2, item.y());
-                    ps.setInt(3, item.x());
-                    ps.setString(4, item.pieceType());
-                    ps.setString(5, item.teamName());
-                    ps.setString(6, item.intersectionType());
+                    ps.setInt(2, item.getPoint().y());
+                    ps.setInt(3, item.getPoint().x());
+                    ps.setString(4, item.readPiece().pieceType().name());
+                    ps.setString(5, item.readPiece().team().name());
+                    ps.setString(6, item.readIntersectionType().name());
                 }
         );
     }
@@ -60,14 +59,14 @@ public class JdbcIntersectionDao implements IntersectionDao {
         );
     }
 
-    public void update(Long boardId, IntersectionDto intersection) {
+    public void update(Long boardId, Intersection intersection) {
         jdbcTemplate.update(
                 UPDATE_INTERSECTION_QUERY,
-                intersection.pieceType(),
-                intersection.teamName(),
+                intersection.readPiece().pieceType().name(),
+                intersection.readPiece().team().name(),
                 boardId,
-                intersection.y(),
-                intersection.x()
+                intersection.getPoint().y(),
+                intersection.getPoint().x()
         );
     }
 

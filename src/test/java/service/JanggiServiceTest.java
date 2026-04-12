@@ -3,7 +3,6 @@ package service;
 import domain.board.context.BoardIdContext;
 import database.dao.*;
 import database.dto.GameResult;
-import database.mapper.JanggiBoardMapper;
 import domain.board.exception.BoardException;
 import domain.board.JanggiBoard;
 import service.dto.Moved;
@@ -23,10 +22,8 @@ class JanggiServiceTest extends DatabaseTestSupport {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     JdbcBoardDao boardDao = new JdbcBoardDao(jdbcTemplate);
     JdbcIntersectionDao intersectionDao = new JdbcIntersectionDao(jdbcTemplate);
-    JanggiBoardMapper mapper = new JanggiBoardMapper();
     TestTransactionExecutor transactionExecutor = new TestTransactionExecutor();
-    JanggiService janggiService = new JanggiService(boardDao, mapper, transactionExecutor, intersectionDao);
-
+    JanggiService janggiService = new JanggiService(boardDao, transactionExecutor, intersectionDao);
     @AfterEach
     void clearBoardIdContext() {
         BoardIdContext.clear();
