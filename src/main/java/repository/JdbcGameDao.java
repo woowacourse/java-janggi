@@ -1,11 +1,8 @@
 package repository;
 
 import domain.game.JanggiGame;
-import domain.piece.Team;
-import domain.state.ChoPlayingState;
-import domain.state.FinishedState;
 import domain.state.GameState;
-import domain.state.HanPlayingState;
+import domain.state.GameStateFactory;
 import dto.JanggiGameDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -106,18 +103,9 @@ public class JdbcGameDao {
     }
 
     private GameState mapToGameState(final ResultSet resultSet) throws SQLException {
-        String winner = resultSet.getString("winner");
-        if (winner != null) {
-            return new FinishedState(Team.valueOf(winner));
-        }
+        final String winner = resultSet.getString("winner");
+        final String currentTeam = resultSet.getString("current_team");
 
-        String currentTeam = resultSet.getString("current_team");
-        if (Team.CHO.name().equals(currentTeam)) {
-            return new ChoPlayingState();
-        }
-        if (Team.HAN.name().equals(currentTeam)) {
-            return new HanPlayingState();
-        }
-        throw new IllegalArgumentException("잘못된 팀 이름입니다. currentTeam=" + currentTeam);
+        return GameStateFactory.from(winner, currentTeam);
     }
 }
