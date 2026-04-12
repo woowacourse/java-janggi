@@ -6,6 +6,7 @@ import domain.ScoreCalculator;
 import domain.Team;
 import domain.dto.JanggiBoardDto;
 import domain.piece.MoveablePiece;
+import domain.piece.Piece;
 import domain.position.Position;
 
 public class JanggiGame {
@@ -36,16 +37,10 @@ public class JanggiGame {
     }
 
     public void playTurn(Position from, Position to) {
-        if (janggiBoard.isBlank(from)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
-        }
+        validateNotBlank(from);
         MoveablePiece currentPiece = (MoveablePiece) janggiBoard.getPiece(from);
-        if (currentPiece.getTeam() != janggiBoard.getTurn()) {
-            throw new IllegalArgumentException("[ERROR] 상대방의 기물을 이동할 수 없습니다.");
-        }
-        if (!currentPiece.canMove(from, to, janggiBoard)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
-        }
+        validateCurrentPiece(currentPiece);
+        validateMoveable(currentPiece, from, to);
         janggiBoard.move(from, to, currentPiece);
         pieceDao.move(boardId, from.row(), from.col(), to.row(), to.col());
         boardDao.updateTurn(boardId, janggiBoard.getTurn().name());
@@ -65,5 +60,23 @@ public class JanggiGame {
 
     public double calculateScore(Team team) {
         return new ScoreCalculator().calculateScore(JanggiBoardDto.from(janggiBoard), team);
+    }
+
+    private void validateNotBlank(Position from) {
+        if (janggiBoard.isBlank(from)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
+        }
+    }
+
+    private void validateCurrentPiece(Piece currentPiece) {
+        if (currentPiece.getTeam() != janggiBoard.getTurn()) {
+            throw new IllegalArgumentException("[ERROR] 상대방의 기물을 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateMoveable(MoveablePiece currentPiece, Position from, Position to) {
+        if (!currentPiece.canMove(from, to, janggiBoard)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
+        }
     }
 }
