@@ -3,7 +3,6 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.position.ElephantFormation;
 import domain.position.Position;
-import repository.JanggiRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -14,12 +13,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JanggiRepository janggiRepository;
+    private final JanggiService janggiService;
 
-    JanggiController(InputView inputView, OutputView outputView, JanggiRepository janggiRepository) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiRepository = janggiRepository;
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -59,19 +58,11 @@ public class JanggiController {
     }
 
     private Board loadBoard() {
-        Board board = new Board();
-        Map<Position, Piece> boardStatus = janggiRepository.readBoard();
-        for (Position position : boardStatus.keySet()) {
-            board.locatePiece(position, boardStatus.get(position));
-        }
-        return board;
+        return janggiService.loadBoard();
     }
 
     private Camp loadTurn(boolean loadSaveBoard) {
-        if(loadSaveBoard) {
-            return janggiRepository.readTurn();
-        }
-        return Camp.CHO;
+        return janggiService.loadTurn(loadSaveBoard);
     }
 
     private Board generateBoard(boolean loadSaveBoard) {
@@ -87,7 +78,7 @@ public class JanggiController {
     }
 
     private void saveGame(Map<Position, Piece> boardStatus, Camp camp) {
-        janggiRepository.saveGame(boardStatus, camp);
+        janggiService.saveGame(boardStatus, camp);
         outputView.printSavedComplete();
     }
 

@@ -8,8 +8,9 @@ public class Application {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
         JanggiRepository janggiRepository = new JanggiRepository();
+        JanggiService janggiService = new JanggiService(janggiRepository);
 
-        JanggiController janggiController = new JanggiController(inputView, outputView, janggiRepository);
+        JanggiController janggiController = new JanggiController(inputView, outputView, janggiService);
         janggiController.run();
     }
 }
