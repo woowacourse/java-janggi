@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.JanggiGameRepository;
+import support.IntegrationTestSupport;
 import support.TransactionTemplate;
 
 @DisplayName("서비스 계층 테스트")

@@ -1,4 +1,4 @@
-package service;
+package support;
 
 import java.nio.file.Path;
 import javax.sql.DataSource;

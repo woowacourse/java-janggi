@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import service.IntegrationTestSupport;
+import support.IntegrationTestSupport;
 
 @DisplayName("리포지토리 계층 테스트")
 class JanggiGameRepositoryTest extends IntegrationTestSupport {
