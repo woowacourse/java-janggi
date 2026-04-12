@@ -18,10 +18,6 @@ public interface Piece {
         return false;
     }
 
-    default boolean isPalacePiece() {
-        return false;
-    }
-
     TeamType teamType();
 
     PieceType pieceType();
