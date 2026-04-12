@@ -118,7 +118,7 @@ public class JanggiController {
         final List<Position> movablePositions = piece.calculateMovablePositions(from, board);
 
         while (true) {
-            outputView.printMovablePositions(movablePositions);
+            outputView.printMovablePositions(BoardView.from(board), movablePositions, piece.getTeam());
 
             try {
                 final int selectedDestinationNumber = inputView.readNumber(movablePositions.size());

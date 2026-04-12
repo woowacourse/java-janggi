@@ -74,7 +74,9 @@ public class OutputView {
     }
 
 
-    public void printMovablePositions(final List<Position> moves) {
+    public void printMovablePositions(final BoardView board, final List<Position> moves, final Team team) {
+        printBoard(board, moves, team);
+
         System.out.println("이동할 좌표를 선택하세요.");
 
         for (int i = 0; i < moves.size(); i++) {
@@ -88,6 +90,49 @@ public class OutputView {
         }
 
         System.out.println();
+    }
+
+    private void printBoard(final BoardView board, final List<Position> moves, final Team team) {
+        printHorizontal(board);
+
+        for (int row = board.minRow(); row <= board.maxRow(); row++) {
+            System.out.printf("%2d ", row);
+            System.out.print("|");
+
+            for (int col = board.minCol(); col <= board.maxCol(); col++) {
+                final Position pos = Position.of(row, col);
+                System.out.print(renderCell(board, pos, moves, team));
+                System.out.print("|");
+            }
+
+            System.out.println();
+            printHorizontal(board);
+        }
+
+        printColumnNumbers(board);
+    }
+
+    private String renderCell(
+            final BoardView board,
+            final Position position,
+            final List<Position> moves,
+            final Team currentTeam
+    ) {
+        final boolean movable = moves.contains(position);
+
+        return board.findPiece(position)
+                .map(piece -> {
+                    if (movable && !piece.isSameTeam(currentTeam)) {
+                        return colorOf(currentTeam) + "[" + piece.getPieceType().getNameOf(piece.getTeam()) + "]" + RESET;
+                    }
+                    return renderPiece(piece);
+                })
+                .orElseGet(() -> {
+                    if (movable) {
+                        return colorOf(currentTeam) + " ●  " + RESET;
+                    }
+                    return EMPTY;
+                });
     }
 
 
@@ -114,10 +159,14 @@ public class OutputView {
         final String name = piece.getPieceType().getNameOf(piece.getTeam());
         final String centered = " " + name + " ";
 
-        if (piece.getTeam() == Team.HAN) {
-            return RED + centered + RESET;
+        return colorOf(piece.getTeam()) + centered + RESET;
+    }
+
+    private String colorOf(final Team team) {
+        if (team == Team.HAN) {
+            return RED;
         }
-        return BLUE + centered + RESET;
+        return BLUE;
     }
 
     private void printHorizontal(final BoardView board) {
