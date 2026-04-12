@@ -28,8 +28,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void createTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.execute("""
                     CREATE TABLE IF NOT EXISTS board (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,21 +47,21 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public List<BoardRowDetail> findPiecesByGameId(Connection connection, int gameId) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT column, row, piece_type, team FROM board WHERE game_id = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT column, row, piece_type, team FROM board WHERE game_id = ?")) {
             stmt.setInt(1, gameId);
-            ResultSet rs = stmt.executeQuery();
-            List<BoardRowDetail> pieces = new ArrayList<>();
-            while (rs.next()) {
-                pieces.add(new BoardRowDetail(
-                        rs.getInt(COLUMN),
-                        rs.getInt(ROW),
-                        rs.getString(PIECE_TYPE),
-                        rs.getString(TEAM)
-                ));
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<BoardRowDetail> pieces = new ArrayList<>();
+                while (rs.next()) {
+                    pieces.add(new BoardRowDetail(
+                            rs.getInt(COLUMN),
+                            rs.getInt(ROW),
+                            rs.getString(PIECE_TYPE),
+                            rs.getString(TEAM)
+                    ));
+                }
+                return pieces;
             }
-            return pieces;
         } catch (SQLException e) {
             throw new DataAccessException(FIND_PIECES_FAIL_MESSAGE, e);
         }
@@ -70,11 +69,10 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void save(Connection connection, int gameId, BoardRowDetails boardRowDetails) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement("""
-                    INSERT INTO board (game_id, column, row, piece_type, team)
-                    VALUES (?, ?, ?, ?, ?)
-                    """);
+        try (PreparedStatement stmt = connection.prepareStatement("""
+                INSERT INTO board (game_id, column, row, piece_type, team)
+                VALUES (?, ?, ?, ?, ?)
+                """)) {
             for (BoardRowDetail detail : boardRowDetails.boardRowDetails()) {
                 stmt.setInt(1, gameId);
                 stmt.setInt(2, detail.column());
@@ -91,9 +89,8 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void updateFrom(Connection connection, int gameId, List<Integer> from) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE board SET piece_type = 'EMPTY', team = 'NONE' WHERE game_id = ? AND column = ? AND row = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE board SET piece_type = 'EMPTY', team = 'NONE' WHERE game_id = ? AND column = ? AND row = ?")) {
             stmt.setInt(1, gameId);
             stmt.setInt(2, from.get(0));
             stmt.setInt(3, from.get(1));
@@ -105,14 +102,14 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public BoardRowDetail findPieceByPosition(Connection connection, int gameId, List<Integer> from) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT piece_type, team FROM board WHERE game_id = ? AND column = ? AND row = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT piece_type, team FROM board WHERE game_id = ? AND column = ? AND row = ?")) {
             stmt.setInt(1, gameId);
             stmt.setInt(2, from.get(0));
             stmt.setInt(3, from.get(1));
-            ResultSet rs = stmt.executeQuery();
-            return new BoardRowDetail(from.get(0), from.get(1), rs.getString(PIECE_TYPE), rs.getString(TEAM));
+            try (ResultSet rs = stmt.executeQuery()) {
+                return new BoardRowDetail(from.get(0), from.get(1), rs.getString(PIECE_TYPE), rs.getString(TEAM));
+            }
         } catch (SQLException e) {
             throw new DataAccessException(FIND_PIECE_FAIL_MESSAGE, e);
         }
@@ -120,9 +117,8 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void updateTo(Connection connection, int gameId, List<Integer> to, String pieceType, String team) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE board SET piece_type = ?, team = ? WHERE game_id = ? AND column = ? AND row = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE board SET piece_type = ?, team = ? WHERE game_id = ? AND column = ? AND row = ?")) {
             stmt.setString(1, pieceType);
             stmt.setString(2, team);
             stmt.setInt(3, gameId);

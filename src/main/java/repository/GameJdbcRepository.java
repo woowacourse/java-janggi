@@ -24,8 +24,7 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public void createTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.execute("""
                     CREATE TABLE IF NOT EXISTS game (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,10 +39,9 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public boolean existsGame(Connection connection) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM game WHERE is_finished = FALSE");
-            ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT COUNT(*) FROM game WHERE is_finished = FALSE");
+             ResultSet rs = stmt.executeQuery()) {
             return rs.getInt(1) > 0;
         } catch (SQLException e) {
             throw new DataAccessException(EXISTS_GAME_FAIL_MESSAGE, e);
@@ -51,10 +49,9 @@ public class GameJdbcRepository implements GameRepository {
     }
 
     public Optional<GameRowDetail> findOngoingGame(Connection connection) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT id, current_turn FROM game WHERE is_finished = FALSE ORDER BY id DESC LIMIT 1");
-            ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT id, current_turn FROM game WHERE is_finished = FALSE ORDER BY id DESC LIMIT 1");
+             ResultSet rs = stmt.executeQuery()) {
             if (!rs.next()) {
                 return Optional.empty();
             }
@@ -66,14 +63,14 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public int save(Connection connection, String turn) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO game (current_turn) VALUES (?)",
-                    PreparedStatement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "INSERT INTO game (current_turn) VALUES (?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, turn);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            return rs.getInt(1);
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DataAccessException(SAVE_FAIL_MESSAGE, e);
         }
@@ -81,9 +78,8 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public void updateTurn(Connection connection, int gameId, String turn) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE game SET current_turn = ? WHERE id = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE game SET current_turn = ? WHERE id = ?")) {
             stmt.setString(1, turn);
             stmt.setInt(2, gameId);
             stmt.executeUpdate();
@@ -94,9 +90,8 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public void gameEnd(Connection connection, int gameId) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE game SET is_finished = ? WHERE id = ?");
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE game SET is_finished = ? WHERE id = ?")) {
             stmt.setBoolean(1, true);
             stmt.setInt(2, gameId);
             stmt.executeUpdate();
