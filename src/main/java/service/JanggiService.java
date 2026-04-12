@@ -38,7 +38,7 @@ public class JanggiService {
     }
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
-        return executor.execute(boardDao::readAllNotFinished);
+        return executor.execute(boardDao::selectNotFinishedBoards);
     }
 
     public JanggiBoard getExistBoard(Long boardId) {
@@ -70,7 +70,7 @@ public class JanggiService {
     }
 
     private BoardSummaryDto readBoardSummaryDto(Long boardId) {
-        return boardDao.readPlayingById(boardId)
+        return boardDao.selectBoardSummary(boardId)
                 .orElseThrow(() -> new BoardException(BOARD_NOT_FOUND.getMessage()));
     }
 

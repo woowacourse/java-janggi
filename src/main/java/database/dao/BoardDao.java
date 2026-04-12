@@ -11,9 +11,9 @@ public interface BoardDao {
 
     Long save();
 
-    List<BoardSummaryDto> readAllNotFinished();
+    List<BoardSummaryDto> selectNotFinishedBoards();
 
-    Optional<BoardSummaryDto> readPlayingById(Long boardId);
+    Optional<BoardSummaryDto> selectBoardSummary(Long boardId);
 
     void updateTurn(Long boardId, Team nextTurn);
 

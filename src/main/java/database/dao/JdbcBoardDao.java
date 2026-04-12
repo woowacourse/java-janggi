@@ -58,7 +58,7 @@ public class JdbcBoardDao implements BoardDao {
 
 
     @Override
-    public List<BoardSummaryDto> readAllNotFinished() {
+    public List<BoardSummaryDto> selectNotFinishedBoards() {
         return jdbcTemplate.selectList(
                 READ_PLAYING_BOARD_LIST_QUERY,
                 resultSet -> new BoardSummaryDto(
@@ -70,7 +70,7 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public Optional<BoardSummaryDto> readPlayingById(Long boardId) {
+    public Optional<BoardSummaryDto> selectBoardSummary(Long boardId) {
         BoardSummaryDto result = jdbcTemplate.selectOne(
                 READ_BOARD_QUERY,
                 resultSet -> new BoardSummaryDto(
