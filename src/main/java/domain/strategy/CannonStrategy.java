@@ -60,7 +60,7 @@ public class CannonStrategy implements Strategy {
                 continue;
             }
 
-            if (board.getPiece(target).getTeam() != team && !board.getPiece(target).isCannon()) {
+            if (board.getPiece(target).isOtherTeam(team) && !board.getPiece(target).isCannon()) {
                 candidates.add(target);
             }
 

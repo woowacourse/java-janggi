@@ -6,6 +6,7 @@ import domain.board.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PalaceStrategy implements Strategy {
 
@@ -16,18 +17,9 @@ public class PalaceStrategy implements Strategy {
 
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
-        List<Position> candidates = new ArrayList<>();
-
-        for (Direction direction : getDirections()) {
-            int targetRow = from.row() + direction.getRowOffset(team);
-            int targetColumns = from.col() + direction.getColOffset(team);
-
-            Position targetPosition = new Position(targetRow, targetColumns);
-
-            if (targetPosition.isInPalace()) {
-                candidates.add(targetPosition);
-            }
-        }
-        return candidates;
+        return getDirections().stream()
+                .map(direction -> from.next(direction.getRowOffset(team), direction.getColOffset(team)))
+                .filter(Position::isInPalace)
+                .collect(Collectors.toList());
     }
 }

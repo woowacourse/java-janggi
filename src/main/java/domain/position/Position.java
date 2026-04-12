@@ -22,6 +22,10 @@ public record Position(int row, int col) {
         }
     }
 
+    public Position next(int rowOffset, int colOffset) {
+        return new Position(row + rowOffset, col + colOffset);
+    }
+
     public boolean isInvalid() {
         return row < 0 || row >= BOARD_ROWS.getIndex() ||
                 col < 0 || col >= BOARD_COLUMNS.getIndex();

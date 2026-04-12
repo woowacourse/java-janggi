@@ -24,23 +24,16 @@ public class HorseStrategy implements Strategy {
 
     private void addCandidatesForStraight(Position from, Team team, PieceProvider board,
                                           Direction straight, List<Position> candidates) {
-        Position myeok = move(from, straight, team);
+        Position myeok = from.next(straight.getRowOffset(team), straight.getColOffset(team));
         if (!board.isBlank(myeok)) return;
-        addDiagonalTargets(myeok, team, straight, candidates);
+        addCandidatesForDiagonals(myeok, team, straight, candidates);
     }
 
-    private void addDiagonalTargets(Position myeok, Team team,
-                                    Direction straight, List<Position> candidates) {
+    private void addCandidatesForDiagonals(Position myeok, Team team,
+                                           Direction straight, List<Position> candidates) {
         for (Direction diag : getDiagonalsFor(straight)) {
-            candidates.add(move(myeok, diag, team));
+            candidates.add(myeok.next(diag.getRowOffset(team),diag.getColOffset(team)));
         }
-    }
-
-    private Position move(Position pos, Direction dir, Team team) {
-        return new Position(
-                pos.row() + dir.getRowOffset(team),
-                pos.col() + dir.getColOffset(team)
-        );
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {
