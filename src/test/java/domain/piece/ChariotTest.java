@@ -59,4 +59,28 @@ public class ChariotTest {
 
         Assertions.assertFalse(chariot.canMove(fromPosition, toPosition, board));
     }
+
+    @Test
+    void 궁성_중심에서_궁성모서리로_이동가능_초나라궁성() {
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.CHO);
+        Position fromPosition = new Position(4,8);
+
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(3,7), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(5,7), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(3,9), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(5,9), board));
+    }
+
+    @Test
+    void 궁성_중심에서_궁성모서리로_이동가능_한나라궁성() {
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.CHO);
+        Position fromPosition = new Position(4,1);
+
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(3,0), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(3,2), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(5,0), board));
+        Assertions.assertTrue(chariot.canMove(fromPosition, new Position(5,2), board));
+    }
 }
