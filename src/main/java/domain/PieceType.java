@@ -7,8 +7,7 @@ public enum PieceType {
     CANNON(7),
     ELEPHANT(3),
     SOLDIER(2),
-    CHARIOT(13),
-    NONE(0);
+    CHARIOT(13);
 
     private final int score;
 

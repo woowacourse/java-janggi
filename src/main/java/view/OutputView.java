@@ -58,7 +58,7 @@ public class OutputView {
     }
 
     private String formatPiece(Piece piece) {
-        if (piece == null || piece.getPieceType() == PieceType.NONE) {
+        if (piece == null) {
             return EMPTY_SPACE;
         }
 
