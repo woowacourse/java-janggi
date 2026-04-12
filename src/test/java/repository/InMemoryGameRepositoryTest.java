@@ -14,7 +14,7 @@ public class InMemoryGameRepositoryTest {
     @Test
     void 게임을_저장하고_다시_조회할_수_있다(){
         GameRepository repository = new InMemoryGameRepository();
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 false,
                 null,

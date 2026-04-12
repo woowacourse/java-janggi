@@ -16,7 +16,7 @@ public class GameRestorerTest {
 
     @Test
     void savedGame으로부터_board를_복원할_수_있다() {
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 false,
                 null,
@@ -36,7 +36,7 @@ public class GameRestorerTest {
 
     @Test
     void savedGame으로부터_gameSession을_복원할_수_있다() {
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 true,
                 Country.CHO,

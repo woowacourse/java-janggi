@@ -13,6 +13,7 @@ public class GameSnapshot {
 
     public static SavedGame from(JanggiGame game, Board board) {
         return new SavedGame(
+                null,
                 game.turn(),
                 game.isFinished(),
                 game.winner(),

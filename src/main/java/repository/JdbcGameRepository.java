@@ -3,14 +3,18 @@ package repository;
 import config.DatabaseConfig;
 import model.board.Country;
 import model.pieces.PieceType;
+import org.h2.command.Prepared;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
-    private static final String DELETE_PIECE = "DELETE FROM piece";
-    private static final String DELETE_GAME = "DELETE FROM game";
+
+    private static final String SELECT_GAME_ID = "SELECT id FROM game LIMIT 1";
+    private static final String DELETE_PIECE_BY_GAME_ID = "DELETE FROM piece WHERE game_id =?";
+    private static final String DELETE_GAME_BY_ID = "DELETE FROM game WHERE id = ?";
 
     private static final String INSERT_GAME = """
             INSERT INTO game(turn,finished,winner)
@@ -36,21 +40,27 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public void save(SavedGame savedGame) {
-        Connection connection = null;
-        try {
-            connection = DatabaseConfig.getConnection();
+        try (Connection connection = DatabaseConfig.getConnection()) {
             connection.setAutoCommit(false);
 
-            deleteAll(connection);
-            long gameId = insertGame(connection, savedGame);
-            insertPieces(connection, gameId, savedGame);
+            try {
+                Optional<Long> savedGameId = findSavedGameId(connection);
+                if (savedGameId.isPresent()) {
+                    deletePiecesByGameId(connection, savedGameId.get());
+                    deleteGameById(connection, savedGameId.get());
+                }
 
-            connection.commit();
-        } catch (SQLException exception) {
-            rollback(connection);
-            throw new IllegalStateException("[ERROR] 게임 저장에 실패했습니다.", exception);
-        } finally {
-            close(connection);
+                long gameId = insertGame(connection, savedGame);
+                insertPieces(connection, gameId, savedGame);
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new IllegalStateException("[ERROR] 게임 저장에 실패했습니다.", e);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] DB 연결 실패", e);
         }
     }
 
@@ -75,20 +85,40 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public void clear() {
         try (Connection connection = DatabaseConfig.getConnection()) {
-            deleteAll(connection);
+            Optional<Long> gameId = findSavedGameId(connection);
+            if(gameId.isEmpty()){
+                return;
+            }
+            deleteGameById(connection, gameId.get());
         } catch (SQLException exception) {
             throw new IllegalStateException("[ERROR] 저장 데이터 삭제에 실패했습니다.", exception);
         }
     }
 
-    private void deleteAll(Connection connection) throws SQLException {
-        try (PreparedStatement pieceStatement = connection.prepareStatement(DELETE_PIECE);
-             PreparedStatement gameStatement = connection.prepareStatement(DELETE_GAME);
-        ) {
-            pieceStatement.executeUpdate();
-            gameStatement.executeUpdate();
+    private Optional<Long> findSavedGameId(Connection connection) throws SQLException{
+        try(PreparedStatement statement = connection.prepareStatement(SELECT_GAME_ID);
+            ResultSet resultSet = statement.executeQuery()){
+            if(resultSet.next()){
+                return Optional.of(resultSet.getLong("id"));
+            }
+            return Optional.empty();
         }
     }
+
+    private void deletePiecesByGameId(Connection connection, long gameId) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_PIECE_BY_GAME_ID)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        }
+    }
+
+    private void deleteGameById(Connection connection, long gameId) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_GAME_BY_ID)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        }
+    }
+
 
     private long insertGame(Connection connection, SavedGame savedGame) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME, Statement.RETURN_GENERATED_KEYS)) {
@@ -131,26 +161,6 @@ public class JdbcGameRepository implements GameRepository {
         return savedGame.winner().name();
     }
 
-    private void rollback(Connection connection) {
-        if (connection == null) {
-            return;
-        }
-        try {
-            connection.rollback();
-        } catch (SQLException ignored) {
-        }
-    }
-
-    private void close(Connection connection) {
-        if (connection == null) {
-            return;
-        }
-        try {
-            connection.close();
-        } catch (SQLException ignored) {
-        }
-    }
-
     private static Optional<SavedGame> findSavedGame(ResultSet gameResultSet, Connection connection) throws SQLException {
         long gameId = gameResultSet.getLong("id");
         Country turn = Country.valueOf(gameResultSet.getString("turn"));
@@ -163,7 +173,7 @@ public class JdbcGameRepository implements GameRepository {
         }
 
         List<SavedPiece> savedPieces = findSavedPieces(connection, gameId);
-        SavedGame savedGame = new SavedGame(turn, finished, winner, List.copyOf(savedPieces));
+        SavedGame savedGame = new SavedGame(gameId, turn, finished, winner, List.copyOf(savedPieces));
 
         return Optional.of(savedGame);
     }
