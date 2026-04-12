@@ -1,6 +1,6 @@
 package boardSetting;
 
-import domain.PieceProvider;
+import domain.board.PieceProvider;
 import domain.piece.Blank;
 import domain.piece.Piece;
 import domain.position.Position;

@@ -1,7 +1,7 @@
 package boardSetting;
 
-import domain.JanggiBoard;
-import domain.JanggiBoardInitializer;
+import domain.board.JanggiBoard;
+import domain.board.JanggiBoardInitializer;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;

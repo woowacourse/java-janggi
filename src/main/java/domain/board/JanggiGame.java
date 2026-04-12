@@ -1,7 +1,9 @@
-package domain;
+package domain.board;
 
 import db.BoardDao;
 import db.PieceDao;
+import domain.ScoreCalculator;
+import domain.Team;
 import domain.dto.JanggiBoardDto;
 import domain.piece.MoveablePiece;
 import domain.position.Position;
@@ -13,14 +15,22 @@ public class JanggiGame {
     private final long boardId;
 
     public JanggiGame() {
-        this.janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
         this.boardDao = new BoardDao();
         this.pieceDao = new PieceDao();
+        this.janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
         this.boardId = initGame();
     }
 
+    public JanggiGame(long boardId) {
+        this.boardDao = new BoardDao();
+        this.pieceDao = new PieceDao();
+        this.boardId = boardId;
+        JanggiBoardDto boardDto = pieceDao.findAll(boardId);
+        Team turn = Team.valueOf(boardDao.findTurn(boardId));
+        this.janggiBoard = new JanggiBoard(new JanggiBoardLoader(boardDto), turn);
+    }
     private long initGame() {
-        long id = boardDao.create(Team.CHO.name());
+        long id = boardDao.create();
         pieceDao.saveAll(id, JanggiBoardDto.from(janggiBoard));
         return id;
     }

@@ -1,6 +1,6 @@
 package domain.dto;
 
-import domain.JanggiBoard;
+import domain.board.JanggiBoard;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class JanggiBoardDto {
     private final List<PieceDto> pieces;
 
-    private JanggiBoardDto(List<PieceDto> pieces) {
+    public JanggiBoardDto(List<PieceDto> pieces) {
         this.pieces = pieces;
     }
 

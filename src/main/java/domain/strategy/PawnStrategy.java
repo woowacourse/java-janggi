@@ -2,7 +2,7 @@ package domain.strategy;
 
 import domain.Team;
 import domain.position.Position;
-import domain.PieceProvider;
+import domain.board.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;

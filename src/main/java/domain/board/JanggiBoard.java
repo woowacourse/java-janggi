@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.Team;
 import domain.piece.*;
 
 import domain.position.Position;
@@ -11,9 +12,14 @@ public class JanggiBoard implements PieceProvider {
     private final Map<Position, Piece> janggiBoard;
     private Team turn;
 
-    public JanggiBoard(JanggiBoardInitializer initializer) {
+    public JanggiBoard(BoardInitializer initializer) {
         this.janggiBoard = initializer.init();
         turn = Team.CHO;
+    }
+
+    public JanggiBoard(JanggiBoardLoader loader, Team turn) {
+        this.janggiBoard = loader.init();
+        this.turn = turn;
     }
 
     public void move(Position from, Position to, Piece currentPiece) {

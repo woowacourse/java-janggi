@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.PieceProvider;
+import domain.board.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 import domain.strategy.Strategy;

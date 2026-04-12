@@ -1,6 +1,7 @@
 package controller;
 
-import domain.JanggiGame;
+import db.BoardDao;
+import domain.board.JanggiGame;
 import domain.Team;
 import domain.position.Position;
 import view.InputView;
@@ -16,14 +17,14 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiGame janggiGame = new JanggiGame();
+        JanggiGame janggiGame = createGame();
         boolean isRunning = true;
         while (isRunning) {
             try {
                 outputView.printBoard(janggiGame.getBoardDto());
                 Position from = inputMovePosition();
                 Position to = inputTargetPosition();
-                janggiGame.playTurn(from, to);  // 턴 전체를 JanggiGame에 위임
+                janggiGame.playTurn(from, to);
                 if (janggiGame.isGameOver()) {
                     isRunning = false;
                 }
@@ -35,6 +36,16 @@ public class JanggiController {
                 janggiGame.calculateScore(Team.CHO),
                 janggiGame.calculateScore(Team.HAN)
         );
+    }
+
+    private JanggiGame createGame() {
+        long latestId = new BoardDao().findLatestPlaying();
+        if (latestId != -1) {
+            System.out.println("이전 게임을 불러옵니다.");
+            return new JanggiGame(latestId);
+        }
+        System.out.println("새 게임을 시작합니다.");
+        return new JanggiGame();
     }
 
     private Position inputMovePosition() {
