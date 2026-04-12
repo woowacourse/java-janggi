@@ -9,7 +9,7 @@ import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
 import domain.board.generator.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
-import database.dto.Moved;
+import service.dto.Moved;
 import domain.board.exception.BoardException;
 import domain.intersection.Intersection;
 import domain.piece.Team;
@@ -53,10 +53,10 @@ public class JanggiService {
         });
     }
 
-    public void updateTurn(Moved moved, Team currentTurn) {
+    public void updateTurn(Moved moved) {
         executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
-            boardDao.updateTurn(boardId, currentTurn);
+            boardDao.updateTurn(boardId, moved.currentTurn());
             intersectionDao.update(boardId, mapper.toIntersectionDto(moved.destination()));
             intersectionDao.update(boardId, mapper.toIntersectionDto(moved.origin()));
             return null;

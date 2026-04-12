@@ -6,7 +6,7 @@ import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
 import domain.board.exception.BoardException;
 import domain.board.JanggiBoard;
-import database.dto.Moved;
+import service.dto.Moved;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
@@ -65,10 +65,10 @@ class JanggiServiceTest extends DatabaseTestSupport {
 
         Long savedId = janggiService.createBoard(expected);
         BoardIdContext.setBoardId(savedId);
-        Moved moved = expected.processTurn(start, end);
+        Moved moved = Moved.of(expected, start, end);
 
         // when
-        janggiService.updateTurn(moved, Team.HAN);
+        janggiService.updateTurn(moved);
 
         // then
         Assertions.assertThat(janggiService.getExistBoard(savedId))

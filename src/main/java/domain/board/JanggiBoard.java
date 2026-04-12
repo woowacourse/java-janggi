@@ -1,6 +1,5 @@
 package domain.board;
 
-import database.dto.Moved;
 import domain.board.generator.IntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.intersection.palace.NormalIntersection;
@@ -34,18 +33,16 @@ public class JanggiBoard {
         this.currentTurn = currentTurn;
     }
 
-    public Moved processTurn(Point start, Point end) {
-        Moved moved = tryToMove(start, end);
+    public void processTurn(Point start, Point end) {
+        tryToMove(start, end);
         changeTurn();
-        return moved;
     }
 
-    private Moved tryToMove(Point start, Point end) {
+    private void tryToMove(Point start, Point end) {
         Intersection origin = findOriginIntersection(start, currentTurn);
         Intersection destination = findIntersection(end);
         inspectPath(origin, destination);
         origin.move(destination);
-        return new Moved(origin, destination);
     }
 
     public void changeTurn() {

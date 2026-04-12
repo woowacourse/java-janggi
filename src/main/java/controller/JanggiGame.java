@@ -9,7 +9,7 @@ import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.generator.JanggiIntersectionGenerator;
 import view.dto.JanggiBoardDto;
-import database.dto.Moved;
+import service.dto.Moved;
 import domain.piece.Team;
 import domain.command.MoveCommand;
 import view.InputReader;
@@ -85,16 +85,16 @@ public class JanggiGame {
     private void progressGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isGameOver()) {
             Moved moved = progressTurn(janggiBoard);
-            janggiService.updateTurn(moved, janggiBoard.getCurrentTurn());
+            janggiService.updateTurn(moved);
         }
     }
 
     public Moved progressTurn(JanggiBoard janggiBoard) {
         return retry(() -> {
             MoveCommand command = requestCommand(janggiBoard.getCurrentTurn());
-            Moved moved = janggiBoard.processTurn(command.start(), command.end());
+            janggiBoard.processTurn(command.start(), command.end());
             printJanggiBoard(JanggiBoardDto.from(janggiBoard));
-            return moved;
+            return Moved.of(janggiBoard, command.start(), command.end());
         });
     }
 
