@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.Camp;
+import domain.piece.Camp;
 
 import java.util.List;
 

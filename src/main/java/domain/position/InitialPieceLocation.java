@@ -1,6 +1,6 @@
-package domain;
+package domain.position;
 
-import domain.position.Position;
+import domain.piece.Camp;
 
 import java.util.HashMap;
 import java.util.List;

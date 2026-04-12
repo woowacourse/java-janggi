@@ -1,6 +1,6 @@
-import domain.Camp;
-import domain.ElephantFormation;
-import domain.PieceGenerator;
+import domain.piece.Camp;
+import domain.position.ElephantFormation;
+import domain.piece.PieceGenerator;
 import domain.position.Position;
 import domain.piece.Elephant;
 import domain.piece.Horse;

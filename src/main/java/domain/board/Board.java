@@ -1,9 +1,9 @@
 package domain.board;
 
-import domain.Camp;
-import domain.ElephantFormation;
-import domain.PieceGenerator;
-import domain.PieceType;
+import domain.piece.Camp;
+import domain.position.ElephantFormation;
+import domain.piece.PieceGenerator;
+import domain.piece.PieceType;
 import domain.piece.Piece;
 import domain.position.Position;
 

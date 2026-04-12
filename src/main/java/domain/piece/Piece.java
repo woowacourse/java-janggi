@@ -1,8 +1,6 @@
 package domain.piece;
 
 import domain.board.BoardReader;
-import domain.Camp;
-import domain.PieceType;
 import domain.position.Position;
 
 public abstract class Piece {

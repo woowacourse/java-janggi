@@ -1,7 +1,9 @@
 package repository;
 
-import domain.*;
+import domain.piece.Camp;
 import domain.piece.Piece;
+import domain.piece.PieceGenerator;
+import domain.piece.PieceType;
 import domain.position.Position;
 
 import java.sql.*;

@@ -1,7 +1,7 @@
 package view;
 
-import domain.Camp;
-import domain.ElephantFormation;
+import domain.piece.Camp;
+import domain.position.ElephantFormation;
 import domain.position.Position;
 
 import java.util.Arrays;

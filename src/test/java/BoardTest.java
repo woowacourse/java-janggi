@@ -1,7 +1,7 @@
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
-import domain.Camp;
+import domain.piece.Camp;
 import domain.position.Position;
 import domain.piece.Soldier;
 import org.junit.jupiter.api.Assertions;

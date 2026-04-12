@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.*;
 import domain.board.BoardReader;
 import domain.board.Palace;
 import domain.position.Direction;

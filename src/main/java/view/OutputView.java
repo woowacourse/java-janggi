@@ -1,7 +1,7 @@
 package view;
 
-import domain.Camp;
-import domain.PieceType;
+import domain.piece.Camp;
+import domain.piece.PieceType;
 import domain.position.Position;
 import domain.piece.Piece;
 
