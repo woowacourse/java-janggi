@@ -28,11 +28,6 @@ public class Elephant extends AbstractPiece {
     }
 
     @Override
-    public int score() {
-        return pieceType().score();
-    }
-
-    @Override
     protected PieceType getPieceType() {
         return PIECE_TYPE;
     }

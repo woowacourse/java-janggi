@@ -28,11 +28,6 @@ public class General extends AbstractPiece {
     }
 
     @Override
-    public int score() {
-        return pieceType().score();
-    }
-
-    @Override
     public boolean isGeneral() {
         return true;
     }

@@ -38,6 +38,11 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
+    public final int score() {
+        return pieceType().score();
+    }
+
+    @Override
     public boolean equals(final Object object) {
         if (object == null || getClass() != object.getClass()) {
             return false;
