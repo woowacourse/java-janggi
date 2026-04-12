@@ -1,6 +1,7 @@
 package janggi;
 
 import javax.sql.DataSource;
+import janggi.config.DataInitializer;
 import janggi.config.DataSourceConfig;
 import janggi.repository.GameRoomRepository;
 import janggi.repository.PieceRepository;
@@ -18,7 +19,7 @@ public class JanggiApplication {
 
     private static DataSource initDatabase() {
         DataSource dataSource = DataSourceConfig.getDataSource();
-        DataSourceConfig.DatabaseInitializer.initialize(dataSource);
+        DataInitializer.initialize(dataSource);
         return dataSource;
     }
 
