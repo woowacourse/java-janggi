@@ -79,10 +79,11 @@ public class Board {
     }
 
     public Team findWinner() {
-        for (Piece piece : board.values()) {
-            if (piece.isKing() && piece.isCho()) {
-                return Team.CHO;
-            }
+        boolean isChoKingAlive = board.values()
+                .stream()
+                .anyMatch(piece -> piece.isKing() && piece.isCho());
+        if (isChoKingAlive) {
+            return Team.CHO;
         }
         return Team.HAN;
     }
