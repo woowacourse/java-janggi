@@ -64,4 +64,11 @@ public class Board {
         return board.values().stream()
                 .noneMatch(piece -> piece.isSameTeam(team) && piece.isKing());
     }
+
+    public double calculateScore(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getPieceScore)
+                .sum();
+    }
 }

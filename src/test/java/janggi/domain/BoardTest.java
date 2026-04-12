@@ -507,4 +507,23 @@ public class BoardTest {
         //then
         assertThat(isKingDead).isTrue();
     }
+
+    @Test
+    @DisplayName("보드에 초나라 차 1개와 상2개 있으면 19.0점을 반환한다")
+    void 보드에_차1개와_상2개_점수_반환() {
+        //given
+        Map<Position, Piece> state = new HashMap<>();
+        Team choTeam = Team.CHO;
+        state.put(new Position(1, 10), new Piece(choTeam, PieceType.CHA));
+        state.put(new Position(2, 10), new Piece(choTeam, PieceType.SANG));
+        state.put(new Position(3, 10), new Piece(choTeam, PieceType.SANG));
+        state.put(new Position(1, 1), new Piece(Team.HAN, PieceType.CHA));
+        Board customBoard = new Board(state);
+
+        //when
+        double totalScore = customBoard.calculateScore(choTeam);
+
+        //then
+        assertThat(totalScore).isEqualTo(19.0);
+    }
 }

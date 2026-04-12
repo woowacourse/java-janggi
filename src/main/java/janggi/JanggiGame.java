@@ -1,8 +1,10 @@
 package janggi;
 
 import janggi.domain.Position;
+import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.turn.ChoTurn;
+import janggi.domain.turn.GameOverTurn;
 import janggi.domain.turn.Turn;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -22,6 +24,7 @@ public class JanggiGame {
     public void start() {
         Turn currentTurn = new ChoTurn();
         outputView.printBoard(board.getBoard());
+        outputView.printInitialNotice();
         while (!currentTurn.isFinished()) {
             currentTurn = playTurn(currentTurn);
         }
@@ -32,6 +35,11 @@ public class JanggiGame {
         outputView.printTurnMessage(currentTurn.getTeam());
 
         Position sourcePosition = choosePieceToMove(currentTurn);
+
+        if (sourcePosition == null) {
+            return decideWinnerByScore();
+        }
+
         List<Position> availablePositions = board.findAvailablePositions(sourcePosition);
         outputView.printAvailablePositions(board.getBoard(), availablePositions);
 
@@ -42,10 +50,23 @@ public class JanggiGame {
         return nextTurn;
     }
 
+    private Turn decideWinnerByScore() {
+        double choScore = board.calculateScore(Team.CHO);
+        double hanScore = board.calculateScore(Team.HAN) + 1.5;
+
+        if (choScore > hanScore) {
+            return new GameOverTurn(Team.CHO);
+        }
+        return new GameOverTurn(Team.HAN);
+    }
+
+
     private Position chooseTargetPosition(Position movePiecePosition) {
         return retry(() -> {
             outputView.printMoveChoiceInfo();
-            Position position = inputView.readPosition();
+            String input = inputView.readString();
+            Position position = inputView.parsePosition(input);
+
             board.validateDestination(movePiecePosition, position);
             return position;
         });
@@ -54,7 +75,14 @@ public class JanggiGame {
     private Position choosePieceToMove(Turn turn) {
         return retry(() -> {
             outputView.printMoveInfo();
-            Position position = inputView.readPosition();
+            String input = inputView.readString();
+
+            if (input.equals("점수계산")) {
+                return null;
+            }
+
+            Position position = inputView.parsePosition(input);
+
             turn.validateIsNull(board.getPiece(position));
             turn.validateTurn(board.getPiece(position));
             board.findAvailablePositions(position);

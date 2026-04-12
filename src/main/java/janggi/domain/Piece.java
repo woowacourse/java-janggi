@@ -45,6 +45,10 @@ public class Piece {
         return team;
     }
 
+    public double getPieceScore() {
+        return pieceType.getScore();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Piece piece)) {

@@ -6,11 +6,16 @@ import java.util.Scanner;
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public Position readPosition() {
-        System.out.println("예시: 1 7 ");
-        String input = scanner.nextLine();
+    public String readString() {
+        return scanner.nextLine().trim();
+    }
 
-        String[] position = input.split(" ");
-        return new Position(Integer.parseInt(position[0]), Integer.parseInt(position[1]));
+    public Position parsePosition(String input) {
+        String[] splitInput = input.split(" ");
+        try {
+            return new Position(Integer.parseInt(splitInput[0]), Integer.parseInt(splitInput[1]));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 좌표는 숫자 조합이어야 합니다. (예: 1 7)");
+        }
     }
 }
