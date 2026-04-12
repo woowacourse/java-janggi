@@ -2,46 +2,43 @@ package domain.board;
 
 import domain.vo.Position;
 
-public class Palace {
+public enum Palace {
 
-    private final Position leftTop;
-    private final Position rightTop;
-    private final Position leftBottom;
-    private final Position rightBottom;
+    CHU(0, 2, 3, 5),
+    HAN(7, 9, 3, 5);
 
-    private Palace(final Team team) {
-        if (team == Team.CHU) {
-            this.leftTop = Position.of(2, 3);
-            this.rightTop = Position.of(2, 5);
-            this.leftBottom = Position.of(0, 3);
-            this.rightBottom = Position.of(0, 5);
-            return;
-        }
+    private final int minRow;
+    private final int maxRow;
+    private final int minCol;
+    private final int maxCol;
 
-        this.leftTop = Position.of(9, 3);
-        this.rightTop = Position.of(9, 5);
-        this.leftBottom = Position.of(7, 3);
-        this.rightBottom = Position.of(7, 5);
+    Palace(int minRow, int maxRow, int minCol, int maxCol) {
+        this.minRow = minRow;
+        this.maxRow = maxRow;
+        this.minCol = minCol;
+        this.maxCol = maxCol;
     }
 
-    public static Palace of(final Team team) {
-        return new Palace(team);
-    }
-
-    public boolean isInPalace(final Position position) {
-        return position.getCol() >= leftBottom.getCol() && position.getCol() <= rightTop.getCol()
-                && position.getRow() <= rightTop.getRow() && position.getRow() >= leftBottom.getRow();
+    public boolean isInPalace(Position position) {
+        return position.getRow() >= minRow && position.getRow() <= maxRow
+                && position.getCol() >= minCol && position.getCol() <= maxCol;
     }
 
     public boolean isDiagonalPoint(final Position position) {
-        return leftBottom.equals(position) || leftTop.equals(position)
-                || rightTop.equals(position) || rightBottom.equals(position)
+        int row = position.getRow();
+        int col = position.getCol();
+
+        return (row == minRow && col == minCol)
+                || (row == minRow && col == maxCol)
+                || (row == maxRow && col == minCol)
+                || (row == maxRow && col == maxCol)
                 || isCenter(position);
     }
 
     private boolean isCenter(final Position position) {
-        int centerRow = (leftTop.getRow() + leftBottom.getRow()) / 2;
-        int centerCol = (leftTop.getCol() + rightTop.getCol()) / 2;
+        int centerRow = (minRow + maxRow) / 2;
+        int centerCol = (minCol + maxCol) / 2;
+
         return position.getRow() == centerRow && position.getCol() == centerCol;
     }
 }

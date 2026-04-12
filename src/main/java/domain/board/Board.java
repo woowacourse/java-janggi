@@ -8,13 +8,9 @@ import java.util.Optional;
 
 public class Board {
 
-    private final Palace chuPalace;
-    private final Palace hanPalace;
     private final Map<Position, Piece> board;
 
     private Board(final Map<Position, Piece> board) {
-        this.chuPalace = Palace.of(Team.CHU);
-        this.hanPalace = Palace.of(Team.HAN);
         this.board = board;
     }
 
@@ -65,11 +61,6 @@ public class Board {
             }
         }
         return totalScore;
-    }
-
-    public Palace getPalace(Team team) {
-        if (team == Team.CHU) return chuPalace;
-        return hanPalace;
     }
 
     public Map<Position, Piece> getBoard() {

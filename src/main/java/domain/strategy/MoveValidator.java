@@ -19,7 +19,7 @@ public class MoveValidator {
         Piece piece = board.findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동할 기물이 존재하지 않습니다."));
 
-        Palace palace = board.getPalace(piece.getTeam());
+        Palace palace = Palace.valueOf(piece.getTeam().name());
         return palace.isDiagonalPoint(from) && palace.isDiagonalPoint(to);
     }
 

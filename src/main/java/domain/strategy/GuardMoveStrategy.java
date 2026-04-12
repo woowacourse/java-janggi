@@ -24,7 +24,7 @@ public class GuardMoveStrategy implements MoveStrategy {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
                 .getTeam();
 
-        Palace palace = board.getPalace(team);
+        Palace palace = Palace.valueOf(team.name());
         return palace.isInPalace(from) && palace.isInPalace(to);
     }
 }

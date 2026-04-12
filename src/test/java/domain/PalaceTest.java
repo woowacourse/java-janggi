@@ -1,7 +1,6 @@
 package domain;
 
 import domain.board.Palace;
-import domain.board.Team;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +12,7 @@ class PalaceTest {
     @DisplayName("초나라 궁성 내부 위치는 true를 반환한다")
     void shouldReturnTrueWhenPositionIsInsideChoPalace() {
         // given
-        Palace palace = Palace.of(Team.CHU);
+        Palace palace = Palace.CHU;
 
         // when
         Position position = Position.of(2, 4);
@@ -26,7 +25,7 @@ class PalaceTest {
     @DisplayName("초나라 궁성 행 초과하면 false를 반환한다")
     void shouldReturnFalseWhenChoPalaceRowIsExceeded() {
         // given
-        Palace palace = Palace.of(Team.CHU);
+        Palace palace = Palace.CHU;
 
         // when
         Position position = Position.of(3, 1);
@@ -39,7 +38,7 @@ class PalaceTest {
     @DisplayName("초나라 궁성 열 미만이면 false를 반환한다")
     void shouldReturnFalseWhenChoPalaceColumnIsInsufficient() {
         // given
-        Palace palace = Palace.of(Team.CHU);
+        Palace palace = Palace.CHU;
 
         // when
         Position position = Position.of(0, 1);
@@ -52,7 +51,7 @@ class PalaceTest {
     @DisplayName("한나라 궁성 내부 위치는 true를 반환한다")
     void shouldReturnTrueWhenPositionIsInsideHanPalace() {
         // given
-        Palace palace = Palace.of(Team.HAN);
+        Palace palace = Palace.HAN;
 
         // when
         Position position = Position.of(8, 4);
@@ -65,7 +64,7 @@ class PalaceTest {
     @DisplayName("한나라 궁성 행 미만이면 false를 반환한다")
     void shouldReturnFalseWhenHanPalaceRowIsInsufficient() {
         // given
-        Palace palace = Palace.of(Team.HAN);
+        Palace palace = Palace.HAN;
 
         // when
         Position position = Position.of(6, 4);
@@ -78,7 +77,7 @@ class PalaceTest {
     @DisplayName("한나라 궁성 열 초과하면 false를 반환한다")
     void shouldReturnFalseWhenHanPalaceColumnIsExceeded() {
         // given
-        Palace palace = Palace.of(Team.HAN);
+        Palace palace = Palace.HAN;
 
         // when
         Position position = Position.of(9, 6);
@@ -91,7 +90,7 @@ class PalaceTest {
     @DisplayName("궁성 꼭지점은 대각선 포인트이다.")
     void shouldReturnTrueWhenPositionIsPalaceCorner() {
         // given
-        Palace palace = Palace.of(Team.HAN);
+        Palace palace = Palace.HAN;
 
         // when
         Position position = Position.of(7, 3);
@@ -104,7 +103,7 @@ class PalaceTest {
     @DisplayName("궁성 중앙은 대각선 포인트이다.")
     void shouldReturnTrueWhenPositionIsChuPalaceCenter() {
         // given
-        Palace palace = Palace.of(Team.CHU);
+        Palace palace = Palace.CHU;
 
         // when
         Position position = Position.of(1, 4);
@@ -117,7 +116,7 @@ class PalaceTest {
     @DisplayName("궁성 밖의 위치는 대각선 포인트가 아니다")
     void shouldReturnFalseWhenPositionIsOutsidePalace() {
         // given
-        Palace palace = Palace.of(Team.HAN);
+        Palace palace = Palace.HAN;
 
         // when
         Position position = Position.of(7, 2);
