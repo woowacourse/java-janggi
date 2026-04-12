@@ -7,7 +7,6 @@ import infra.jdbc.dao.GamePieceDao;
 import infra.jdbc.exception.JdbcRepositoryException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.Clock;
 import java.util.Optional;
 import repository.GameRepository;
 
@@ -18,16 +17,6 @@ public class JdbcGameRepository implements GameRepository {
     private final GamePieceDao gamePieceDao;
     private final SavedGameWriteMapper writeMapper;
     private final SavedGameReadMapper readMapper;
-
-    public JdbcGameRepository(JdbcConnectionManager connectionManager) {
-        this(
-                connectionManager,
-                new GameDao(),
-                new GamePieceDao(),
-                new SavedGameWriteMapper(Clock.systemDefaultZone()),
-                new SavedGameReadMapper()
-        );
-    }
 
     public JdbcGameRepository(
             JdbcConnectionManager connectionManager,

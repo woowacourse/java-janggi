@@ -100,7 +100,7 @@ public class JanggiGame {
         return gameResult;
     }
 
-    public GameScore calculateScore() {
+    private GameScore calculateScore() {
         return gameScoreCalculator.calculate(board);
     }
 
