@@ -123,6 +123,10 @@ public class Movement {
         return from.calculateNext(direction, distance);
     }
 
+    public boolean isAllowedInPalace(final Position position) {
+        return Palace.isAllowedDirection(position, direction);
+    }
+
     private boolean hasPieceAt(final Position position, final BoardMediator boardMediator) {
         return boardMediator.hasPieceAt(position);
     }
