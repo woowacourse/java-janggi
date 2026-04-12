@@ -6,34 +6,10 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.List;
 
-public class TestPiece implements Piece {
-
-    private final PieceType pieceType;
-    private final Side side;
+public class TestPiece extends Piece {
 
     public TestPiece(PieceType pieceType, Side side) {
-        this.pieceType = pieceType;
-        this.side = side;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean isPo() {
-        return this.pieceType.equals(PieceType.PO);
-    }
-
-    @Override
-    public boolean isSameSide(Side side) {
-        return this.side.equals(side);
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
+        super(pieceType, side);
     }
 
     @Override

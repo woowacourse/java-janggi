@@ -6,15 +6,12 @@ import janggi.domain.rule.Movement;
 import java.util.List;
 import java.util.Optional;
 
-public class ActivePiece implements Piece {
+public class ActivePiece extends Piece {
 
-    private final PieceType pieceType;
-    private final Side side;
     private final Movement movement;
 
     public ActivePiece(PieceType pieceType, Side side, Movement movement) {
-        this.pieceType = pieceType;
-        this.side = side;
+        super(pieceType, side);
         this.movement = movement;
     }
 
@@ -34,30 +31,5 @@ public class ActivePiece implements Piece {
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
         movement.detectCollision(side, piecesOnPath);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean isPo() {
-        return this.pieceType == PieceType.PO;
-    }
-
-    @Override
-    public boolean isSameSide(Side side) {
-        return this.side.equals(side);
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public Side getSide() {
-        return side;
     }
 }

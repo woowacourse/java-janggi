@@ -4,19 +4,37 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import java.util.List;
 
-public interface Piece {
+public abstract class Piece {
 
-    List<Location> calculateRoute(Location from, Location to);
+    protected final PieceType pieceType;
+    protected final Side side;
 
-    void detectCollision(List<Piece> piecesOnPath);
+    protected Piece(PieceType pieceType, Side side) {
+        this.pieceType = pieceType;
+        this.side = side;
+    }
 
-    boolean isEmpty();
+    public abstract List<Location> calculateRoute(Location from, Location to);
 
-    boolean isPo();
+    public abstract void detectCollision(List<Piece> piecesOnPath);
 
-    boolean isSameSide(Side side);
+    public boolean isEmpty() {
+        return pieceType.equals(PieceType.EMPTY);
+    }
 
-    PieceType getPieceType();
+    public boolean isPo() {
+        return pieceType.equals(PieceType.PO);
+    }
 
-    Side getSide();
+    public boolean isSameSide(Side side) {
+        return this.side.equals(side);
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Side getSide() {
+        return side;
+    }
 }
