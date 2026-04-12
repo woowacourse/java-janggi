@@ -15,12 +15,12 @@ public class FinishedState implements GameState {
 
     @Override
     public List<Position> getPiecePositions(Board board) {
-        throw new IllegalStateException("게임이 종료되었습니다.");
+        throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 
     @Override
     public GameState nextTurn() {
-        throw new IllegalStateException("게임이 종료되어 다음 턴이 존재하지 않습니다.");
+        throw new UnsupportedOperationException("게임이 종료되어 다음 턴이 존재하지 않습니다.");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class FinishedState implements GameState {
 
     @Override
     public Team getTeam() {
-        throw new IllegalStateException("게임이 종료되었습니다.");
+        throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 
     @Override

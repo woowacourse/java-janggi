@@ -11,6 +11,6 @@ public abstract class PlayingState implements GameState {
 
     @Override
     public Team getWinner() {
-        throw new IllegalStateException("게임이 아직 종료되지 않았습니다.");
+        throw new UnsupportedOperationException("게임이 아직 종료되지 않았습니다.");
     }
 }
