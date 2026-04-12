@@ -77,5 +77,5 @@ version : 1.3 (궁성 시작)
 - [x] H2 DB연동
 - [x] build.gradle 의존성 추가
 - [x] DBConnection 생성
-- [ ] DAO 게임 저장/불러오기 기능
+- [x] DAO 게임 저장/불러오기 기능
 - [ ] Application에 새로/이어서 기능 추가
