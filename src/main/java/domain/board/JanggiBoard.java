@@ -52,13 +52,12 @@ public class JanggiBoard implements PieceProvider {
 
     @Override
     public boolean isBlank(Position position) {
-        Piece piece = janggiBoard.get(position);
-        return piece instanceof Blank;
+        return getPiece(position) instanceof Blank;
     }
 
     @Override
     public boolean isCannon(Position position) {
-        return janggiBoard.get(position) instanceof Cannon;
+        return getPiece(position) instanceof Cannon;
     }
 
     @Override
