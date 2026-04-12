@@ -8,22 +8,17 @@ import java.util.Optional;
 
 public class TurnDao {
 
-    public long save(TurnDto turnDto) {
-        String sql = "INSERT INTO turn (game_id, current_turn_team, turn_status) VALUES (?, ?, ?)";
+    public void save(TurnDto turnDto) {
+        String sql = "INSERT INTO turn (id, game_id, current_turn_team, turn_status) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setLong(1, turnDto.gameId());
-            pstmt.setString(2, turnDto.currentTurnTeamName());
-            pstmt.setString(3, turnDto.turnStatusFormat());
+            pstmt.setLong(1, turnDto.id());
+            pstmt.setLong(2, turnDto.gameId());
+            pstmt.setString(3, turnDto.currentTurnTeamName());
+            pstmt.setString(4, turnDto.turnStatusFormat());
             pstmt.executeUpdate();
-
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
-            throw new SQLException("턴 데이터 저장 중 오류가 발생했습니다.");
         } catch (SQLException e) {
             throw new RuntimeException("턴 데이터 저장 중 오류가 발생했습니다.", e);
         }

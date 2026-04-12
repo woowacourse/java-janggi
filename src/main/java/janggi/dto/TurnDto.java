@@ -11,7 +11,7 @@ public record TurnDto(Long id, Long gameId, TeamType currentTurnTeam, TurnStatus
     }
 
     public static TurnDto from(Turn turn, long gameId) {
-        return new TurnDto(null, gameId, turn.getCurrentTeam(), turn.getTurnStatus());
+        return new TurnDto(turn.getId(), gameId, turn.getCurrentTeam(), turn.getTurnStatus());
     }
 
     public String currentTurnTeamName() {

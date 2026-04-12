@@ -14,8 +14,8 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public Long save() {
-        return gameDao.save(GameDto.init());
+    public void save(JanggiGame janggiGame) {
+        gameDao.save(GameDto.from(janggiGame));
     }
 
     public List<GameDto> findInProgressGames() {

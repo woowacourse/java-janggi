@@ -1,11 +1,13 @@
 package janggi.domain.turn;
 
 import janggi.domain.Board;
+import janggi.domain.IdGenerator;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Turn {
 
@@ -22,15 +24,11 @@ public class Turn {
     }
 
     public static Turn createInitialTurn() {
-        return new Turn(null, TeamType.HAN, Board.createInitialBoard(), TurnStatus.DRAW);
+        return new Turn(IdGenerator.createId(), TeamType.HAN, Board.createInitialBoard(), TurnStatus.DRAW);
     }
 
     public static Turn loadPreviousTurn(long turnId, TeamType teamType, Board board, TurnStatus turnStatus) {
         return new Turn(turnId, teamType, board, turnStatus);
-    }
-
-    public static Turn savedTurn(long turnId, Turn turn) {
-        return new Turn(turnId, turn.currentTeam, turn.board, turn.turnStatus);
     }
 
     public long getId() {
@@ -74,12 +72,12 @@ public class Turn {
         TeamType currentTeamType = opponentTeamType();
         Board movedBoard = board.move(start, end, currentTeamType);
         if (board.isSurviveAllGung()) {
-            return new Turn(null, currentTeamType, movedBoard, TurnStatus.DRAW);
+            return new Turn(IdGenerator.createId(), currentTeamType, movedBoard, TurnStatus.DRAW);
         }
         if (board.isChuWin()) {
-            return new Turn(null, currentTeamType, movedBoard, TurnStatus.CHU_WIN);
+            return new Turn(IdGenerator.createId(), currentTeamType, movedBoard, TurnStatus.CHU_WIN);
         }
-        return new Turn(null, currentTeamType, movedBoard, TurnStatus.HAN_WIN);
+        return new Turn(IdGenerator.createId(), currentTeamType, movedBoard, TurnStatus.HAN_WIN);
     }
 
     public Map<Position, Piece> allPieces() {
@@ -88,6 +86,18 @@ public class Turn {
 
     public String winTeamName() {
         return board.winTeamName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Turn turn = (Turn) o;
+        return Objects.equals(id, turn.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     private TeamType opponentTeamType() {

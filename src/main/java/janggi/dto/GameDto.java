@@ -1,5 +1,6 @@
 package janggi.dto;
 
+import janggi.domain.JanggiGame;
 import janggi.domain.game.GameStatus;
 
 public record GameDto(Long id, GameStatus gameStatus) {
@@ -12,8 +13,8 @@ public record GameDto(Long id, GameStatus gameStatus) {
         }
     }
 
-    public static GameDto init() {
-        return new GameDto(null, GameStatus.IN_PROGRESS);
+    public static GameDto from(JanggiGame janggiGame) {
+        return new GameDto(janggiGame.getId(), GameStatus.IN_PROGRESS);
     }
 
     public static GameDto of(long id, String gameStatus) {

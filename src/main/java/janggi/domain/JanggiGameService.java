@@ -42,16 +42,16 @@ public class JanggiGameService {
                 return loadPreviousJanggiGame(GameDto.convertToIntId(inputGameId));
             }
         }
-        long gameId = gameService.save();
-        return JanggiGame.createInitialJanggiGame(gameId);
+        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
+        gameService.save(janggiGame);
+        return janggiGame;
     }
 
     public void move(JanggiGame janggiGame, Position start, Position end) {
         Turn movedTurn = janggiGame.move(start, end);
-        long turnId = turnService.save(movedTurn, janggiGame.getId());
-        Turn savedTurn = Turn.savedTurn(turnId, movedTurn);
-        janggiGame.addNewTurn(savedTurn);
-        List<PieceDto> pieceDtos = getPieceDtos(savedTurn);
+        turnService.save(movedTurn, janggiGame.getId());
+        janggiGame.addNewTurn(movedTurn);
+        List<PieceDto> pieceDtos = getPieceDtos(movedTurn);
         pieceService.saveAll(pieceDtos);
     }
 
@@ -78,13 +78,13 @@ public class JanggiGameService {
         return JanggiGame.loadPreviousJanggiGame(gameDto.id(), turn);
     }
 
-    private List<PieceDto> getPieceDtos(Turn savedTurn) {
-        Map<Position, Piece> allPieces = savedTurn.allPieces();
+    private List<PieceDto> getPieceDtos(Turn movedTurn) {
+        Map<Position, Piece> allPieces = movedTurn.allPieces();
         List<PieceDto> pieceDtos = new ArrayList<>();
         for (Map.Entry<Position, Piece> pieceEntry : allPieces.entrySet()) {
             Position position = pieceEntry.getKey();
             Piece piece = pieceEntry.getValue();
-            pieceDtos.add(PieceDto.from(savedTurn.getId(), position, piece));
+            pieceDtos.add(PieceDto.from(movedTurn.getId(), position, piece));
         }
         return pieceDtos;
     }

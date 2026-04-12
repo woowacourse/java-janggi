@@ -6,6 +6,7 @@ import janggi.domain.turn.Turn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class JanggiGame {
 
@@ -17,8 +18,8 @@ public class JanggiGame {
         this.turns = new ArrayList<>(turns);
     }
 
-    public static JanggiGame createInitialJanggiGame(long gameId) {
-        return new JanggiGame(gameId, List.of(Turn.createInitialTurn()));
+    public static JanggiGame createInitialJanggiGame() {
+        return new JanggiGame(IdGenerator.createId(), List.of(Turn.createInitialTurn()));
     }
 
     public static JanggiGame loadPreviousJanggiGame(long gameId, Turn previousTurn) {
@@ -70,6 +71,18 @@ public class JanggiGame {
 
     public String winTeamName() {
         return getLastTurn().winTeamName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        JanggiGame that = (JanggiGame) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     private Turn getLastTurn() {

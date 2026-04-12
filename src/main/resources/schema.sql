@@ -1,12 +1,12 @@
 USE janggi;
 
 CREATE TABLE IF NOT EXISTS game (
-    `id` 			BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `id` 			BIGINT PRIMARY KEY,
     `game_status` VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS turn (
-    `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `id`                BIGINT PRIMARY KEY,
     `game_id`           BIGINT NOT NULL,
     `current_turn_team` VARCHAR(10) NOT NULL,
     `turn_status` VARCHAR(10) NOT NULL,
