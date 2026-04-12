@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.PathContext;
+import domain.Board;
 import domain.PieceExceptionMessage;
 import domain.piece.policy.MovementPolicy;
 import domain.piece.strategy.MoveStrategy;
@@ -10,19 +10,24 @@ import java.util.Objects;
 
 public abstract class Piece {
     protected final MoveStrategy moveStrategy;
-    protected final MovementPolicy movementPolicy;
+    protected final List<MovementPolicy> movementPolicies;
     private final Team team;
     private final PieceType pieceType;
+    private final double score;
 
-    public Piece(MoveStrategy moveStrategy, MovementPolicy movementPolicy, PieceType pieceType, Team team) {
+    public Piece(MoveStrategy moveStrategy, List<MovementPolicy> movementPolicies, Team team, PieceType pieceType,
+                 double score) {
         this.moveStrategy = moveStrategy;
-        this.movementPolicy = movementPolicy;
-        this.pieceType = pieceType;
+        this.movementPolicies = movementPolicies;
         this.team = team;
+        this.pieceType = pieceType;
+        this.score = score;
     }
 
-    public void movePolicy(PathContext pathContext) {
-        movementPolicy.validate(pathContext);
+    public void movePolicy(Board pathContext, List<Position> movablePath, Position start, Position destination) {
+        for (MovementPolicy movementPolicy : movementPolicies) {
+            movementPolicy.validate(pathContext, movablePath, start, destination);
+        }
     }
 
     public List<Position> findMovablePath(Position start, Position destination) {
@@ -70,5 +75,9 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    public double getScore() {
+        return score;
     }
 }

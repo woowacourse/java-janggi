@@ -61,19 +61,4 @@ class PositionTest {
                         List.of(Position.of(7, 2), Position.of(8, 2)))
         );
     }
-
-    @ParameterizedTest
-    @MethodSource("getHorizontalPathExcludeDestination")
-    void 같은_Row의_Column_위치를_구할_수_있다(Position source, Position destination, List<Position> result) {
-        Assertions.assertThat(source.getHorizontalPathExcludeDestination(destination)).isEqualTo(result);
-    }
-
-    private static Stream<Arguments> getHorizontalPathExcludeDestination() {
-        return Stream.of(
-                Arguments.of(Position.of(1, 1), Position.of(1, 5),
-                        List.of(Position.of(1, 2), Position.of(1, 3), Position.of(1, 4))),
-                Arguments.of(Position.of(2, 9), Position.of(2, 6),
-                        List.of(Position.of(2, 7), Position.of(2, 8)))
-        );
-    }
 }

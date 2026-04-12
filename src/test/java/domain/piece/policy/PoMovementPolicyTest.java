@@ -1,61 +1,78 @@
 package domain.piece.policy;
 
 
-import domain.PathContext;
-import domain.piece.Cha;
-import domain.piece.Po;
+import domain.Board;
 import domain.piece.Team;
-import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
-import java.util.Map;
+import domain.settingType.SettingType;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class PoMovementPolicyTest {
-    private static final Po TEST_PO = new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO);
-    private static final Po TARGET_PO = new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.HAN);
-    private static final Cha ANOTHER_PIECE = new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.HAN);
-
     @Test
     void 경로에_포가_있는_경우_예외가_발생해야_한다() {
-        Position obstacle = Position.of(2, 4);
-        PathContext pathContext = PathContext.from(Map.of(obstacle, TARGET_PO));
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(4, 1), Position.of(4, 2));
+        List<Position> path = List.of(
+                Position.of(4, 2),
+                Position.of(5, 2),
+                Position.of(6, 2),
+                Position.of(7, 2),
+                Position.of(8, 2),
+                Position.of(9, 2));
 
         //when & then
-        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(pathContext))
+        PoMovementPolicy poMovementPolicy = new PoMovementPolicy();
+        Assertions.assertThatThrownBy(() -> poMovementPolicy.validate(board, path, Position.of(3, 2), null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void 경로에__기물이_1개만_있는_경우_갈_수_있어야_한다() {
-        //given
-        Position obstacle = Position.of(2, 3);
-
-        PathContext pathContext = PathContext.from(Map.of(obstacle, ANOTHER_PIECE));
+    void 경로에_기물이_1개만_있는_경우_갈_수_있어야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(4, 1), Position.of(4, 2));
+        List<Position> path = List.of(
+                Position.of(4, 2),
+                Position.of(5, 2),
+                Position.of(6, 2));
 
         //when & then
-        Assertions.assertThatNoException().isThrownBy(() -> TEST_PO.movePolicy(pathContext));
+        PoMovementPolicy poMovementPolicy = new PoMovementPolicy();
+        Assertions.assertThatNoException()
+                .isThrownBy(() -> poMovementPolicy.validate(board, path, Position.of(3, 2), null));
     }
 
     @Test
     void 경로에_기물이_2개_이상인_경우_예외가_발생해야_한다() {
-        //given
-        Position firstObstacle = Position.of(2, 3);
-        Position secondObstacle = Position.of(2, 4);
-
-        PathContext pathContext = PathContext.from(Map.of(firstObstacle, ANOTHER_PIECE, secondObstacle, ANOTHER_PIECE));
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(4, 1), Position.of(4, 2));
+        board.move(Team.HAN, Position.of(7, 1), Position.of(7, 2));
+        board.move(Team.HAN, Position.of(7, 2), Position.of(6, 2));
+        List<Position> path = List.of(
+                Position.of(4, 2),
+                Position.of(5, 2),
+                Position.of(6, 2),
+                Position.of(7, 2));
 
         //when & then
-        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(pathContext))
+        PoMovementPolicy poMovementPolicy = new PoMovementPolicy();
+        Assertions.assertThatThrownBy(() -> poMovementPolicy.validate(board, path, Position.of(3, 2), null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 경로에_기물이_없으면_예외가_발생해야_한다() {
-        PathContext pathContext = PathContext.from(Map.of());
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        List<Position> path = List.of(
+                Position.of(4, 2),
+                Position.of(5, 2),
+                Position.of(6, 2),
+                Position.of(7, 2));
 
         //when, then
-        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(pathContext))
+        PoMovementPolicy poMovementPolicy = new PoMovementPolicy();
+        Assertions.assertThatThrownBy(() -> poMovementPolicy.validate(board, path, Position.of(3, 2), null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

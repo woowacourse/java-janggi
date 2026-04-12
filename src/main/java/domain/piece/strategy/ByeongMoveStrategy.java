@@ -1,31 +1,18 @@
 package domain.piece.strategy;
 
-import domain.PieceExceptionMessage;
-import domain.position.Position;
+import static domain.piece.strategy.Direction.LEFT;
+import static domain.piece.strategy.Direction.LEFT_UP;
+import static domain.piece.strategy.Direction.RIGHT;
+import static domain.piece.strategy.Direction.RIGHT_UP;
+import static domain.piece.strategy.Direction.UP;
+
 import java.util.List;
 
-public class ByeongMoveStrategy implements MoveStrategy {
-    private final int[] dRow = {-1, 0, 0};
-    private final int[] dColumn = {0, -1, 1};
+public class ByeongMoveStrategy extends SingleStepMoveStrategy {
+    private static final List<Direction> DIRECTIONS = List.of(UP, LEFT, RIGHT, LEFT_UP, RIGHT_UP);
 
     @Override
-    public List<Position> findMovablePath(Position start, Position destination) {
-        for (int direction = 0; direction < dColumn.length; direction++) {
-            Position changedPosition;
-            try {
-                changedPosition = start.go(dRow[direction], dColumn[direction]);
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
-
-            if (changedPosition.equals(destination)) {
-                return getIntermediatePositions();
-            }
-        }
-        throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
-    }
-
-    private static List<Position> getIntermediatePositions() {
-        return List.of();
+    protected List<Direction> getDirections() {
+        return DIRECTIONS;
     }
 }

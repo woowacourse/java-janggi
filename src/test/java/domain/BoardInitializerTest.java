@@ -1,23 +1,9 @@
 package domain;
 
-import domain.piece.Byeong;
-import domain.piece.Cha;
-import domain.piece.Jang;
-import domain.piece.Jol;
-import domain.piece.Ma;
 import domain.piece.Piece;
-import domain.piece.Po;
-import domain.piece.Sa;
-import domain.piece.Sang;
+import domain.piece.PieceFactory;
+import domain.piece.PieceType;
 import domain.piece.Team;
-import domain.piece.policy.NormalMovementPolicy;
-import domain.piece.policy.PoMovementPolicy;
-import domain.piece.strategy.ByeongMoveStrategy;
-import domain.piece.strategy.JolMoveStrategy;
-import domain.piece.strategy.MaMoveStrategy;
-import domain.piece.strategy.SangMoveStrategy;
-import domain.piece.strategy.SingleStepMoveStrategy;
-import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import domain.settingType.SettingInfo;
 import domain.settingType.SettingType;
@@ -28,20 +14,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BoardInitializerTest {
-    Sang sangOfCho;
-    Sang sangOfHan;
-    Ma maOfCho;
-    Ma maOfHan;
+    Piece sangOfCho;
+    Piece sangOfHan;
+    Piece maOfCho;
+    Piece maOfHan;
     BoardInitializer initializer;
 
 
     @BeforeEach
     void setUp() {
         initializer = new BoardInitializer();
-        sangOfCho = new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
-        sangOfHan = new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), Team.HAN);
-        maOfCho = new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
-        maOfHan = new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), Team.HAN);
+        sangOfCho = PieceFactory.create(PieceType.SANG, Team.CHO);
+        sangOfHan = PieceFactory.create(PieceType.SANG, Team.HAN);
+        maOfCho = PieceFactory.create(PieceType.MA, Team.CHO);
+        maOfHan = PieceFactory.create(PieceType.MA, Team.HAN);
     }
 
     @Test
@@ -124,40 +110,40 @@ public class BoardInitializerTest {
         Map<Position, Piece> setting = new HashMap<>();
 
         // 초나라
-        setting.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(1, 1), PieceFactory.create(PieceType.CHA, Team.CHO));
+        setting.put(Position.of(1, 9), PieceFactory.create(PieceType.CHA, Team.CHO));
 
-        setting.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(1, 4), PieceFactory.create(PieceType.SA, Team.CHO));
+        setting.put(Position.of(1, 6), PieceFactory.create(PieceType.SA, Team.CHO));
 
-        setting.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(2, 5), PieceFactory.create(PieceType.JANG, Team.CHO));
 
-        setting.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
-        setting.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
+        setting.put(Position.of(3, 2), PieceFactory.create(PieceType.PO, Team.CHO));
+        setting.put(Position.of(3, 8), PieceFactory.create(PieceType.PO, Team.CHO));
 
-        setting.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
-        setting.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(4, 1), PieceFactory.create(PieceType.JOL, Team.CHO));
+        setting.put(Position.of(4, 3), PieceFactory.create(PieceType.JOL, Team.CHO));
+        setting.put(Position.of(4, 5), PieceFactory.create(PieceType.JOL, Team.CHO));
+        setting.put(Position.of(4, 7), PieceFactory.create(PieceType.JOL, Team.CHO));
+        setting.put(Position.of(4, 9), PieceFactory.create(PieceType.JOL, Team.CHO));
 
         // 한나라
-        setting.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(10, 1), PieceFactory.create(PieceType.CHA, Team.HAN));
+        setting.put(Position.of(10, 9), PieceFactory.create(PieceType.CHA, Team.HAN));
 
-        setting.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(10, 4), PieceFactory.create(PieceType.SA, Team.HAN));
+        setting.put(Position.of(10, 6), PieceFactory.create(PieceType.SA, Team.HAN));
 
-        setting.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(9, 5), PieceFactory.create(PieceType.JANG, Team.HAN));
 
-        setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.HAN));
-        setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.HAN));
+        setting.put(Position.of(8, 2), PieceFactory.create(PieceType.PO, Team.HAN));
+        setting.put(Position.of(8, 8), PieceFactory.create(PieceType.PO, Team.HAN));
 
-        setting.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
-        setting.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(7, 1), PieceFactory.create(PieceType.BYEONG, Team.HAN));
+        setting.put(Position.of(7, 3), PieceFactory.create(PieceType.BYEONG, Team.HAN));
+        setting.put(Position.of(7, 5), PieceFactory.create(PieceType.BYEONG, Team.HAN));
+        setting.put(Position.of(7, 7), PieceFactory.create(PieceType.BYEONG, Team.HAN));
+        setting.put(Position.of(7, 9), PieceFactory.create(PieceType.BYEONG, Team.HAN));
 
         return setting;
     }

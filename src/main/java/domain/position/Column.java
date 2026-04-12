@@ -13,7 +13,7 @@ public class Column {
         this.value = value;
     }
 
-    public void validate(int value) {
+    private void validate(int value) {
         if (value < MIN_RANGE || value > MAX_RANGE) {
             throw new IllegalArgumentException(OUT_OF_RANGE);
         }
@@ -22,6 +22,12 @@ public class Column {
     public Column add(int value) {
         return new Column(this.value + value);
     }
+
+
+    public Column add(Column value) {
+        return new Column(this.value + value.getValue());
+    }
+
 
     public Column getUpper(Column target) {
         if (value > target.value) {

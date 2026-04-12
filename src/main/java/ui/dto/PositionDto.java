@@ -1,5 +1,7 @@
 package ui.dto;
 
+import domain.position.Position;
+
 public class PositionDto {
     private static final String COLUMN_SHOULD_BE_ALPHABETIC = "Coumn은 a~i 사이의 값을 입력해야 합니다.";
     private final int row;
@@ -33,5 +35,9 @@ public class PositionDto {
 
     public int getColumn() {
         return column;
+    }
+
+    public Position toDomain() {
+        return Position.of(row, column);
     }
 }

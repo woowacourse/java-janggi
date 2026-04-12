@@ -1,57 +1,25 @@
 package domain.piece.strategy;
 
-import domain.PieceExceptionMessage;
-import domain.position.Position;
+import static domain.piece.strategy.Direction.DOWN;
+import static domain.piece.strategy.Direction.LEFT;
+import static domain.piece.strategy.Direction.LEFT_DOWN;
+import static domain.piece.strategy.Direction.LEFT_UP;
+import static domain.piece.strategy.Direction.RIGHT;
+import static domain.piece.strategy.Direction.RIGHT_DOWN;
+import static domain.piece.strategy.Direction.RIGHT_UP;
+import static domain.piece.strategy.Direction.UP;
+
 import java.util.List;
-import java.util.stream.IntStream;
 
-public class SangMoveStrategy implements MoveStrategy {
-    private static final int DESTINATION_INDEX = 2;
-    private final int[][] dRow = {
-            {-1, -2, -3}, // 1. 위 -> 오른쪽
-            {0, -1, -2}, // 2. 오른쪽 -> 위
-            {0, 1, 2}, // 3. 오른쪽 -> 아래
-            {1, 2, 3}, // 4. 아래 -> 오른쪽
-            {1, 2, 3}, // 5. 아래 -> 왼쪽
-            {0, 1, 2}, // 6. 왼쪽 -> 아래
-            {0, -1, -2}, // 7. 왼쪽 -> 위
-            {-1, -2, -3}  // 8. 위 -> 왼쪽
-    };
-
-    private final int[][] dColumn = {
-            {0, 1, 2}, // 1. 위 -> 오른쪽
-            {1, 2, 3}, // 2. 오른쪽 -> 위
-            {1, 2, 3}, // 3. 오른쪽 -> 아래
-            {0, 1, 2}, // 4. 아래 -> 오른쪽
-            {0, -1, -2}, // 5. 아래 -> 왼쪽
-            {-1, -2, -3}, // 6. 왼쪽 -> 아래
-            {-1, -2, -3}, // 7. 왼쪽 -> 위
-            {0, -1, -2}  // 8. 위 -> 왼쪽
-    };
+public class SangMoveStrategy extends MultipleStepMoveStrategy {
+    private final List<List<Direction>> DIRECTIONS = List.of(
+            List.of(UP, LEFT_UP, LEFT_UP), List.of(UP, RIGHT_UP, RIGHT_UP),
+            List.of(LEFT, LEFT_UP, LEFT_UP), List.of(LEFT, LEFT_DOWN, LEFT_DOWN),
+            List.of(RIGHT, RIGHT_UP, RIGHT_UP), List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
+            List.of(DOWN, LEFT_DOWN, LEFT_DOWN), List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN));
 
     @Override
-    public List<Position> findMovablePath(Position start, Position destination) {
-        for (int direction = 0; direction < dColumn.length; direction++) {
-            int[] rowSteps = dRow[direction];
-            int[] columnSteps = dColumn[direction];
-
-            Position destinationCandidate;
-            try {
-                destinationCandidate = start.go(columnSteps[DESTINATION_INDEX], rowSteps[DESTINATION_INDEX]);
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
-
-            if (destination.equals(destinationCandidate)) {
-                return getIntermediatePositions(start, rowSteps, columnSteps);
-            }
-        }
-        throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
-    }
-
-    private static List<Position> getIntermediatePositions(Position start, int[] rowSteps, int[] columnSteps) {
-        return IntStream.range(0, DESTINATION_INDEX)
-                .mapToObj(step -> start.go(columnSteps[step], rowSteps[step]))
-                .toList();
+    List<List<Direction>> getDirections() {
+        return DIRECTIONS;
     }
 }

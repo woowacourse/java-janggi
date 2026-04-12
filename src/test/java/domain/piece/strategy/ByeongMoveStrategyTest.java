@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ByeongMoveStrategyTest {
-    private static final int EXPECT_SIZE = 0;
+    private static final int EXPECT_SIZE = 1;
 
     @Test
     void 움직일_수_있다면_경로를_반환한다_전진() {
@@ -41,6 +41,34 @@ public class ByeongMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(2, 8);
+        MoveStrategy strategy = new ByeongMoveStrategy();
+
+        // when
+        List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
+    }
+
+    @Test
+    void 움직일_수_있다면_경로를_반환한다_좌상단() {
+        // given
+        Position start = Position.of(3, 6);
+        Position destination = Position.of(2, 5);
+        MoveStrategy strategy = new ByeongMoveStrategy();
+
+        // when
+        List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
+    }
+
+    @Test
+    void 움직일_수_있다면_경로를_반환한다_우상단() {
+        // given
+        Position start = Position.of(3, 4);
+        Position destination = Position.of(2, 5);
         MoveStrategy strategy = new ByeongMoveStrategy();
 
         // when

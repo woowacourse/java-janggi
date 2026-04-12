@@ -1,81 +1,87 @@
 package ui;
 
-import domain.JanggiGame;
 import domain.piece.Piece;
+import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
+import repository.GameRoomInfo;
+import service.JanggiService;
 import ui.dto.ActionType;
 import ui.dto.BoardStatusDto;
 import ui.dto.MovePositionDto;
 import ui.dto.PositionDto;
 import ui.view.InputView;
+import ui.view.InputView.LobbyMenu;
 import ui.view.ResultView;
 
 public class Controller {
     private final InputView inputView;
     private final ResultView resultView;
+    private final JanggiService janggiService;
 
-    public Controller(InputView inputView, ResultView resultView) {
+    public Controller(InputView inputView, ResultView resultView, JanggiService janggiService) {
         this.inputView = inputView;
         this.resultView = resultView;
+        this.janggiService = janggiService;
     }
 
     public void play() {
-        JanggiGame game = retry(this::initializeGame);
-        playTurn(game);
-    }
+        long gameId = selectLobbyMenu();
 
-    private JanggiGame initializeGame() {
-        List<SettingType> settingTypes = inputView.readSettings();
-        SettingType choSettingType = settingTypes.getFirst();
-        SettingType hanSettingType = settingTypes.getLast();
+        while (!janggiService.isFinished(gameId)) {
+            printBoardStatus(gameId);
+            Team currentTeam = janggiService.getCurrentTeam(gameId);
+            ActionType actionType = retry(() -> inputView.readAction(currentTeam));
 
-        JanggiGame game = JanggiGame.init(choSettingType, hanSettingType);
-        printBoardStatus(game.getJanggiGameStatus());
-        return game;
-    }
+            if (actionType == ActionType.MOVE) {
+                // TODO 연속 입력 구현 필요
+                retry(() -> tryToMove(gameId, currentTeam));
+            }
 
-    private void playTurn(JanggiGame game) {
-        while (true) {
-            ActionType actionType = retry(() -> inputView.readAction(game.getTurn()));
-            executeMoveIfActionIsMove(game, actionType);
-            executePassTurnIfActionIsPass(game, actionType);
-            printBoardStatus(game.getJanggiGameStatus());
+            if (actionType == ActionType.PASS) {
+                janggiService.pass(gameId);
+            }
         }
+        Team team = janggiService.getWinner(gameId);
+        resultView.printResult(team);
     }
 
-    private void executeMoveIfActionIsMove(JanggiGame game, ActionType actionType) {
-        if (actionType == ActionType.MOVE) {
-            retry(this::executeMove, game);
-        }
-    }
-
-    private void executeMove(JanggiGame game) {
-        MovePositionDto movePositionDto = inputView.readMovePositions(game.getTurn());
-
+    private void tryToMove(long gameId, Team currentTeam) {
+        MovePositionDto movePositionDto = inputView.readMovePositions(currentTeam);
         PositionDto start = movePositionDto.getStart();
         PositionDto destination = movePositionDto.getDestination();
-
-        Position startPosition = Position.of(start.getRow(), start.getColumn());
-        Position destinationPosition = Position.of(destination.getRow(), destination.getColumn());
-        game.executeMove(startPosition, destinationPosition);
+        janggiService.move(gameId, start.toDomain(), destination.toDomain());
     }
 
-    private void executePassTurnIfActionIsPass(JanggiGame game, ActionType actionType) {
-        if (actionType == ActionType.PASS) {
-            game.passTurn();
+    private long selectLobbyMenu() {
+        LobbyMenu lobbyMenu = retry(inputView::readGameRoomOption);
+
+        if (lobbyMenu == LobbyMenu.CREATE_ROOM) {
+            return createGame();
         }
+        return joinGame();
     }
 
-    private void printBoardStatus(Map<Position, Piece> boardStatus) {
-        BoardStatusDto statusDto = BoardStatusDto.from(boardStatus);
-
-        resultView.printBoard(statusDto);
+    private long createGame() {
+        String title = inputView.readGameTitle();
+        List<SettingType> settingTypes = retry(inputView::readSettings);
+        return janggiService.createGame(title, settingTypes.get(0), settingTypes.get(1));
     }
+
+    private long joinGame() {
+        printGameRoomList();
+        return retry(this::selectRoom);
+    }
+
+    private long selectRoom() {
+        long gameId = inputView.readRoomId();
+        janggiService.validateIsRoomAvailable(gameId);
+        return gameId;
+    }
+
 
     private <T> T retry(Supplier<T> supplier) {
         while (true) {
@@ -87,14 +93,39 @@ public class Controller {
         }
     }
 
-    private void retry(Consumer<JanggiGame> consumer, JanggiGame janggiGame) {
+    private void retry(Runnable runnable) {
         while (true) {
             try {
-                consumer.accept(janggiGame);
+                runnable.run();
                 return;
             } catch (IllegalArgumentException e) {
                 resultView.printErrorMessage(e.getMessage());
             }
         }
     }
+
+    private void printGameRoomList() {
+        List<GameRoomInfo> roomList = janggiService.getRoomList();
+        resultView.printGameRoom(roomList);
+    }
+
+    private void printBoardStatus(long gameId) {
+        Map<Position, Piece> gameStatus = janggiService.getGameStatus(gameId);
+        BoardStatusDto statusDto = BoardStatusDto.from(gameStatus);
+
+        resultView.printBoard(statusDto);
+        double choScore = janggiService.getTeamScore(gameId, Team.CHO);
+        double hanScore = janggiService.getTeamScore(gameId, Team.HAN);
+        resultView.printScore(choScore, hanScore);
+    }
+
+//    private JanggiGame retry(Function<JanggiGame, JanggiGame> gameFunc, JanggiGame janggiGame) {
+//        while (true) {
+//            try {
+//                return gameFunc.apply(janggiGame);
+//            } catch (IllegalArgumentException e) {
+//                resultView.printErrorMessage(e.getMessage());
+//            }
+//        }
+//    }
 }
