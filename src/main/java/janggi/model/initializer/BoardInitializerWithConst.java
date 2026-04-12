@@ -1,13 +1,14 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
-import janggi.model.Board;
+import janggi.model.board.Board;
+import janggi.model.board.PlayingBoard;
 import janggi.model.piece.Byeong;
-import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.Piece;
 import janggi.model.piece.palace.Jang;
-import janggi.model.piece.straightMove.Pho;
 import janggi.model.piece.palace.Sa;
+import janggi.model.piece.straightMove.Cha;
+import janggi.model.piece.straightMove.Pho;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
@@ -78,10 +79,11 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
         board.putAll(initByeong());
         board.putAll(initPho());
 
-        return new Board(board);
+        return PlayingBoard.of(board);
     }
 
     protected abstract Map<Position, Piece> initMa();
+
     protected abstract Map<Position, Piece> initSang();
 
 

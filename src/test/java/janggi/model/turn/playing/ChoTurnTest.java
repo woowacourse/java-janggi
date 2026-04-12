@@ -1,9 +1,10 @@
-package janggi.model.turn;
+package janggi.model.turn.playing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.model.Board;
 import janggi.model.Team;
+import janggi.model.board.Board;
+import janggi.model.board.PlayingBoard;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.position.absolute.Column;
@@ -44,7 +45,7 @@ class ChoTurnTest {
                 new Ma(Team.HAN)
         );
 
-        this.board = new Board(board);
+        this.board = PlayingBoard.of(board);
     }
 
     @DisplayName("한나라 턴을 반환한다.")
@@ -62,7 +63,7 @@ class ChoTurnTest {
     @DisplayName("게임이 아직 끝나지 않았다.")
     @Test
     void isGameOver() {
-        assertThat(new ChoTurn(new Board(new HashMap<>())).isGameOver())
+        assertThat(new ChoTurn(PlayingBoard.of(new HashMap<>())).isGameOver())
                 .isFalse();
     }
 }

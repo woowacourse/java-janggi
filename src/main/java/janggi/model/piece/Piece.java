@@ -7,9 +7,12 @@ import java.util.List;
 
 public abstract class Piece {
     protected final Team team;
-    protected final  PieceType pieceType;
+    private final PieceType pieceType;
 
-    protected Piece(Team team, PieceType pieceType) {
+    protected Piece(
+            Team team,
+            PieceType pieceType
+    ) {
         this.team = team;
         this.pieceType = pieceType;
     }

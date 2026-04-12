@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.view.mapping.BoardType;
+import janggi.view.util.Parser;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +19,7 @@ public class InputView {
     }
 
     public BoardType readBoardInitializeType() {
-        int boardType = Parser.parse(scanner.nextLine());
-        return BoardType.of(boardType);
+        return BoardType.of(Parser.parseInt(scanner.nextLine()));
     }
 
     public List<Integer> readPosition() {
@@ -30,8 +31,26 @@ public class InputView {
         }
 
         return List.of(
-                Parser.parse(parts[ROW_INDEX].trim()),
-                Parser.parse(parts[COLUMN_INDEX].trim())
+                Parser.parseInt(parts[ROW_INDEX].trim()),
+                Parser.parseInt(parts[COLUMN_INDEX].trim())
         );
+    }
+
+    public boolean readYesOrNo() {
+        String input = scanner.nextLine();
+
+        if ("y".equals(input)) {
+            return true;
+        }
+
+        if ("n".equals(input)) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("유효하지 않은 값이 입력됐스니다.");
+    }
+
+    public Long readGameOption() {
+        return Parser.parseLong(scanner.nextLine());
     }
 }

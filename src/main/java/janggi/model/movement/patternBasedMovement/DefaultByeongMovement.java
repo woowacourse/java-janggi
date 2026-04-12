@@ -5,7 +5,7 @@ import janggi.model.movement.pattern.MovementPatterns;
 import janggi.model.position.relative.RelativePosition;
 import java.util.List;
 
-public class OneStepMovement extends PatternBasedMovement {
+public class DefaultByeongMovement extends PatternBasedMovement {
 
     private static final MovementPatterns PATTERNS = MovementPatterns.of(List.of(
             MovementPattern.of(List.of(new RelativePosition(1, 0))),
@@ -14,11 +14,11 @@ public class OneStepMovement extends PatternBasedMovement {
             MovementPattern.of(List.of(new RelativePosition(0, -1)))
     ));
 
-    private OneStepMovement(MovementPatterns patterns) {
+    private DefaultByeongMovement(MovementPatterns patterns) {
         super(patterns);
     }
 
-    public OneStepMovement() {
+    public DefaultByeongMovement() {
         this(PATTERNS);
     }
 }

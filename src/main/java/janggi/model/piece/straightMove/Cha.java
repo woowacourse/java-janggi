@@ -7,15 +7,15 @@ import java.util.List;
 
 public class Cha extends StraightMovePiece {
 
-    private Cha(Team team, PieceType pieceType) {
+    private Cha(
+            Team team,
+            PieceType pieceType
+    ) {
         super(team, pieceType);
     }
 
     public Cha(Team team) {
-        this(
-                team,
-                PieceType.CHA
-        );
+        this(team, PieceType.CHA);
     }
 
     @Override

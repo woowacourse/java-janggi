@@ -15,6 +15,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ByeongTest {
+
+    Map<Position, Piece> emptyBoard = Map.of();
+
     @DisplayName("초나라일때, 북쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveNorth() {
@@ -23,17 +26,11 @@ class ByeongTest {
         Position to = new Position(Row.SIX, Column.FIVE);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -45,17 +42,11 @@ class ByeongTest {
         Position to = new Position(Row.EIGHT, Column.FIVE);
         Byeong byeong = new Byeong(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -67,17 +58,11 @@ class ByeongTest {
         Position to = new Position(Row.SEVEN, Column.SIX);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -89,17 +74,11 @@ class ByeongTest {
         Position to = new Position(Row.SEVEN, Column.FOUR);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -160,5 +139,21 @@ class ByeongTest {
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("궁성 안에서는 간선을 따라 이동한다.")
+    @Test
+    void getLegalPath_diagonal() {
+        //given
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.FOUR);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        //when & then
+        assertThat(byeong.getLegalPath(
+                        from,
+                        to
+                ).findPiecesOn(emptyBoard)
+        ).isEmpty();
     }
 }

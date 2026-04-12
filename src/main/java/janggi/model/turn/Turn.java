@@ -1,8 +1,9 @@
 package janggi.model.turn;
 
-import janggi.model.piece.Piece;
+import janggi.model.ScorePolicy;
+import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
-import java.util.Map;
 
 public interface Turn {
 
@@ -10,7 +11,9 @@ public interface Turn {
 
     boolean isGameOver();
 
-    Map<Position, Piece> getBoard();
+    Board board();
 
     boolean isChoTurn();
+
+    Team getWinner(ScorePolicy scorePolicy);
 }

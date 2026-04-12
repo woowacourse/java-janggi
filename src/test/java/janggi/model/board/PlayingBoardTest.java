@@ -1,11 +1,13 @@
-package janggi.model;
+package janggi.model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
+import janggi.model.piece.palace.Jang;
 import janggi.model.piece.palace.Sa;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -16,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BoardTest {
+class PlayingBoardTest {
 
     Board board;
 
@@ -30,7 +32,7 @@ class BoardTest {
         );
         board.put(
                 new Position(Row.EIGHT, Column.SEVEN),
-                new Ma(Team.HAN)
+                new Jang(Team.HAN)
         );
         board.put(
                 new Position(Row.SIX, Column.SEVEN),
@@ -38,7 +40,7 @@ class BoardTest {
         );
         board.put(
                 new Position(Row.SIX, Column.FIVE),
-                new Ma(Team.CHO)
+                new Ma(Team.HAN)
         );
         board.put(
                 new Position(Row.SEVEN, Column.ONE),
@@ -46,7 +48,7 @@ class BoardTest {
         );
         board.put(
                 new Position(Row.SIX, Column.ONE),
-                new Ma(Team.CHO)
+                new Ma(Team.HAN)
         );
 
         board.put(
@@ -58,7 +60,7 @@ class BoardTest {
                 new Sa(Team.CHO)
         );
 
-        this.board = new Board(board);
+        this.board = PlayingBoard.of(board);
     }
 
     @DisplayName("from에 기물이 없으면 예외가 발생한다.")
@@ -131,8 +133,6 @@ class BoardTest {
                 .hasMessage("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
-
-
     @DisplayName("to에 있는 기물을 제거하고 to로 이동한다.")
     @Test
     void move_success() {
@@ -146,28 +146,21 @@ class BoardTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("기물패하면 게임 종료한다.")
+    @DisplayName("상대편 장을 잡으면 승리한다.")
     @Test
-    void isGameOver() {
+    void move_capture_jang() {
         //given
-        Map<Position, Piece> gameOverBoard = new HashMap<>();
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.SEVEN);
+        Team cho = Team.CHO;
 
-        gameOverBoard.put(
-                new Position(Row.SEVEN, Column.FIVE),
-                new Ma(Team.CHO)
-        );
-        gameOverBoard.put(
-                new Position(Row.SIX, Column.SEVEN),
-                new Ma(Team.CHO)
-        );
-        gameOverBoard.put(
-                new Position(Row.SIX, Column.FIVE),
-                new Ma(Team.CHO)
-        );
+        //when
+        Board moved = board.move(cho, from, to);
 
-        Board board = new Board(gameOverBoard);
-
-        //when & then
-        assertThat(board.isGameOver()).isTrue();
+        //then
+        assertThat(moved.isWinnerDetermined())
+                .isTrue();
+        assertThat(moved.winner())
+                .isEqualTo(Team.CHO);
     }
 }

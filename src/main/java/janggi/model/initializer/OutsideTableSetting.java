@@ -32,6 +32,7 @@ public class OutsideTableSetting extends BoardInitializerWithConst {
             new Position(Row.ONE, Column.EIGHT)
     );
 
+
     @Override
     protected Map<Position, Piece> initMa() {
         Map<Position, Piece> board = new HashMap<>();

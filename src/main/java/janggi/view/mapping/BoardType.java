@@ -1,6 +1,6 @@
-package janggi.view;
+package janggi.view.mapping;
 
-import janggi.model.Board;
+import janggi.model.board.Board;
 import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;
@@ -15,15 +15,15 @@ public enum BoardType {
     FOURTH(4, () -> new OutsideTableSetting().init());
 
     private final int value;
-    private final Supplier<Board> boardSupplier;
+    private final Supplier<Board> mapper;
 
-    BoardType(int value, Supplier<Board> boardSupplier) {
+    BoardType(int value, Supplier<Board> supplier) {
         if (value < 1 || value > 4) {
             throw new IllegalArgumentException("1에서 4 사이의 자연수가 아닙니다.");
         }
 
         this.value = value;
-        this.boardSupplier = boardSupplier;
+        this.mapper = supplier;
     }
 
     public static BoardType of(int value) {
@@ -34,6 +34,6 @@ public enum BoardType {
     }
 
     public Board getBoard() {
-        return boardSupplier.get();
+        return mapper.get();
     }
 }

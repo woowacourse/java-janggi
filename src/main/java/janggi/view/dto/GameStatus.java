@@ -1,11 +1,12 @@
 package janggi.view.dto;
 
 import janggi.model.Janggi;
+import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
-import janggi.view.PieceSymbol;
+import janggi.view.mapping.PieceSymbol;
 import java.util.Map;
 
 public record GameStatus(
@@ -19,8 +20,8 @@ public record GameStatus(
 
     public static GameStatus from(Janggi janggi) {
         return new GameStatus(
-                renderBoard(janggi.getBoard()),
-                renderTeam(janggi.isChoTurn())
+                renderBoard(janggi.getBoard().getBoardInfo()),
+                renderTeam(janggi.getCurrentTeam())
         );
     }
 
@@ -76,8 +77,8 @@ public record GameStatus(
                 .append(String.format("%-2s", symbol));
     }
 
-    private static String renderTeam(boolean isChoTurn) {
-        if (isChoTurn) {
+    private static String renderTeam(Team team) {
+        if (team == Team.CHO) {
             return "초";
         }
 

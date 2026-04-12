@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SangTest {
+
     @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 두칸 이동한다.")
     @Test
     void getLegalPath() {
@@ -82,6 +83,4 @@ class SangTest {
         assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
-
-
 }

@@ -1,41 +1,46 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.movement.Movement;
-import janggi.model.movement.patternBasedMovement.OneStepMovement;
+import janggi.model.movement.MovementSelector;
+import janggi.model.movement.palace.PalaceAdjacentMovement;
+import janggi.model.movement.patternBasedMovement.DefaultByeongMovement;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public class Byeong extends Piece {
 
-    private final Movement movement;
+    private final MovementSelector movementSelector;
 
     private Byeong(
             Team team,
             PieceType pieceType,
-            Movement movement
+            MovementSelector movementSelector
     ) {
         super(team, pieceType);
-        this.movement = movement;
+        this.movementSelector = movementSelector;
     }
 
     public Byeong(Team team) {
-        this(
-                team,
-                PieceType.BYEONG,
-                new OneStepMovement()
+        this(team, PieceType.BYEONG,
+                new MovementSelector(
+                        new DefaultByeongMovement(),
+                        new PalaceAdjacentMovement(
+                                new PalaceFactory().create()
+                        )
+                )
         );
     }
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        if ((team == Team.CHO && isMovingSouth(from, to))
-                || (team == Team.HAN && isMovingNorth(from, to))) {
+        if (team.isMovingBackward(from, to)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        return movement.move(from, to);
+        return movementSelector.select(from, to)
+                .move(from, to);
     }
 
     @Override
@@ -44,14 +49,6 @@ public class Byeong extends Piece {
             Piece pieceAtTo
     ) {
         return piecesOnPath.isEmpty() && !this.isSameTeam(pieceAtTo);
-    }
-
-    private boolean isMovingSouth(Position from, Position to) {
-        return from.row().getValue() < to.row().getValue();
-    }
-
-    private boolean isMovingNorth(Position from, Position to) {
-        return from.row().getValue() > to.row().getValue();
     }
 
     @Override

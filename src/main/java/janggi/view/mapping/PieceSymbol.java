@@ -1,4 +1,4 @@
-package janggi.view;
+package janggi.view.mapping;
 
 import janggi.model.piece.PieceType;
 import java.util.Arrays;

@@ -17,7 +17,9 @@ import org.junit.jupiter.api.Test;
 
 class SaTest {
 
-    @DisplayName("이동 거리가 1칸 초과이면 예외가 발생한다.")
+    Map<Position, Piece> emptyBoard = Map.of();
+
+    @DisplayName("from과 to가 같은 궁성 안에 없으면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
         //given
@@ -28,28 +30,52 @@ class SaTest {
         //when & then
         assertThatThrownBy(() -> sa.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("from과 to는 같은 궁성 안에 있어야 합니다.");
+    }
+
+    @DisplayName("궁성 안의 선을 따라 이동하지 않으면 예외가 발생한다.")
+    @Test
+    void getLegalPath_not_on_line() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.FIVE);
+        Position to = new Position(Row.NINE, Column.FOUR);
+        Sa sa = new Sa(Team.HAN);
+
+        //when & then
+        assertThatThrownBy(() -> sa.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 경로로 이동할 수 없습니다.");
+    }
+
+    @DisplayName("궁성 안에서는 간선을 따라 이동한다.")
+    @Test
+    void getLegalPath_diagonal() {
+        //given
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.FOUR);
+        Sa sa = new Sa(Team.HAN);
+
+        //when & then
+        assertThat(sa.getLegalPath(
+                        from,
+                        to
+                ).findPiecesOn(emptyBoard)
+        ).isEmpty();
     }
 
     @DisplayName("남쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveSouth() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SIX, Column.FIVE);
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FIVE);
         Sa sa = new Sa(Team.HAN);
-
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -57,43 +83,31 @@ class SaTest {
     @Test
     void getLegalPath_moveNorth() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
         Sa sa = new Sa(Team.HAN);
-
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
-
 
     @DisplayName("동쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveEast() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.SIX);
-        Sa sa = new Sa(Team.CHO);
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.NINE, Column.SIX);
+        Sa sa = new Sa(Team.HAN);
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -101,24 +115,17 @@ class SaTest {
     @Test
     void getLegalPath_moveWest() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.FOUR);
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FOUR);
         Sa sa = new Sa(Team.HAN);
-
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
-
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test
@@ -143,7 +150,7 @@ class SaTest {
                 new Cha(Team.CHO)
         );
         Sa gimulAtTo = new Sa(Team.CHO);
-        Sa sa = new Sa(Team.CHO);
+        Sa sa = new Sa(Team.HAN);
 
         //when & then
         assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
