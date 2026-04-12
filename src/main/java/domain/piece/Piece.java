@@ -19,6 +19,10 @@ public abstract class Piece {
         return pieceType;
     }
 
+    public boolean isOtherTeam(Team compareTeam) {
+        return this.team != compareTeam;
+    }
+
     public boolean isCannon() {
         return false;
     }
