@@ -15,6 +15,7 @@ dependencies {
     testImplementation('org.assertj:assertj-core')
 
     implementation 'com.mysql:mysql-connector-j:9.3.0'
+    testImplementation 'com.h2database:h2:2.2.224'
 }
 
 java {

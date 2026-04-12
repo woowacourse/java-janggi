@@ -24,7 +24,8 @@ public class JdbcGameDao implements GameDao {
         this.pool = pool;
     }
 
-    private static final int SQL_DUPLICATE_CODE = 1062;
+    private static final String MYSQL_DUPLICATE_STATE = "23000";
+    private static final String H2_DUPLICATE_STATE = "23505";
 
     @Override
     public void create(Connection conn, GameEntity gameEntity) {
@@ -41,13 +42,17 @@ public class JdbcGameDao implements GameDao {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("Message: " + e.getMessage());
             validateDuplicate(e);
             throw new RuntimeException("게임을 생성하는 중 데이터베이스 오류가 발생했습니다.", e);
         }
     }
 
     private void validateDuplicate(SQLException e) {
-        if (e.getErrorCode() == SQL_DUPLICATE_CODE) {
+        String state = e.getSQLState();
+        if (MYSQL_DUPLICATE_STATE.equals(state) || H2_DUPLICATE_STATE.equals(state)) {
             throw new DuplicateGameException("이미 존재하는 게임입니다.", e);
         }
     }
