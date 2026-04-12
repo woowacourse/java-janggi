@@ -40,18 +40,25 @@ public class JanggiController {
     public void run() {
         OutputView.printRemainScore(janggiGame.showTeamPieceScores());
         while (!janggiGame.isGameFinished()) {
+            printBoard();
+            printPlayerTurn();
             playGame();
             janggiGame.checkGameFinished();
             gamePersistenceService.save(janggiGame);
         }
 
-        OutputView.printRemainScore(janggiGame.showTeamPieceScores());
-        OutputView.printGameResult(janggiGame.gameStatus().description());
+        printGameResult();
+    }
+
+    private void printBoard() {
+        OutputView.printBoard(janggiGame.allFactors());
+    }
+
+    private void printPlayerTurn() {
+        OutputView.printCurrentPlayerTurn(janggiGame.gameStatus().description());
     }
 
     private void playGame() {
-        OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printCurrentPlayerTurn(janggiGame.gameStatus().description());
         execute(this::playerPhase);
     }
 
@@ -78,6 +85,12 @@ public class JanggiController {
     }
 
 
+    private void printGameResult() {
+        printBoard();
+        OutputView.printRemainScore(janggiGame.showTeamPieceScores());
+        OutputView.printGameResult(janggiGame.gameStatus().description());
+    }
+
     private <T> T retryUntilValid(Supplier<T> supplier) {
         do {
             try {
@@ -89,13 +102,13 @@ public class JanggiController {
     }
 
     private void execute(ExecutableTask task) {
-        while (true) {
+        do {
             try {
                 task.execute();
                 return;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-        }
+        } while (true);
     }
 }
