@@ -16,31 +16,31 @@ public class GameRepository {
         this.dbConnector = dbConnector;
     }
 
-    public void saveGame(GameContext gameContext) {
+    public void saveGame(GameContext gameContext, final int gameId) {
         try (Connection connection = dbConnector.getConnection()) {
-            PieceDao.deletePiecesTable(connection);
-            GameDao.deleteGameTable(connection);
-            GameDao.insertCurrentTurn(connection, gameContext);
-            PieceDao.insertPiece(connection, gameContext);
+            PieceDao.deletePiecesTable(connection, gameId);
+            GameDao.deleteGameTable(connection, gameId);
+            GameDao.insertCurrentTurn(connection, gameContext, gameId);
+            PieceDao.insertPiece(connection, gameContext, gameId);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
         }
     }
 
-    public GameContext loadPreviousGame() {
+    public GameContext loadPreviousGame(final int gameId) {
         try (Connection connection = dbConnector.getConnection()) {
-            TurnManager turnManager = new TurnManager(GameDao.selectCurrentTurn(connection));
-            Board board = new Board(PieceDao.selectPieceMap(connection));
+            TurnManager turnManager = new TurnManager(GameDao.selectCurrentTurn(connection, gameId));
+            Board board = new Board(PieceDao.selectPieceMap(connection, gameId));
             return new GameContext(turnManager, board);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
         }
     }
 
-    public void deleteGame() {
+    public void deleteGame(final int gameId) {
         try (Connection connection = dbConnector.getConnection()) {
-            PieceDao.deletePiecesTable(connection);
-            GameDao.deleteGameTable(connection);
+            PieceDao.deletePiecesTable(connection, gameId);
+            GameDao.deleteGameTable(connection, gameId);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
         }

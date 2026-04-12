@@ -26,6 +26,7 @@ public class DbTest {
 
     private final String TEST_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
     private final H2DBConnector h2DBConnector = new H2DBConnector(TEST_URL);
+    private final int FIX_GAME_ID = 1;
     private GameRepository gameRepository;
 
     @BeforeEach
@@ -57,9 +58,9 @@ public class DbTest {
         TurnManager turnManager = new TurnManager();
         turnManager.changeTurn();
         GameContext gameContext = new GameContext(turnManager, board);
-        gameRepository.saveGame(gameContext);
+        gameRepository.saveGame(gameContext, FIX_GAME_ID);
 
-        GameContext gameContextTest = gameRepository.loadPreviousGame();
+        GameContext gameContextTest = gameRepository.loadPreviousGame(FIX_GAME_ID);
         assertThat(gameContextTest.currentTeamType()).isEqualTo(turnManager.currentTeamType());
     }
 
@@ -75,9 +76,9 @@ public class DbTest {
         Map<Position, Piece> expected = Map.copyOf(positionPieces);
         Board board = new Board(positionPieces);
         GameContext gameContext = new GameContext(new TurnManager(), board);
-        gameRepository.saveGame(gameContext);
+        gameRepository.saveGame(gameContext, FIX_GAME_ID);
 
-        GameContext gameContextTest = gameRepository.loadPreviousGame();
+        GameContext gameContextTest = gameRepository.loadPreviousGame(FIX_GAME_ID);
         Map<Position, Piece> actual = gameContextTest.getPositionPieceMap();
         assertThat(actual).containsAllEntriesOf(expected);
     }

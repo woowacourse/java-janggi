@@ -13,27 +13,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PieceDao {
-
-    private static final int FIX_GAME_ID = 1;
-
     private PieceDao() {
     }
 
-    public static void deletePiecesTable(Connection connection) {
+    public static void deletePiecesTable(Connection connection, final int gameId) {
         final String sql = "DELETE FROM PIECE WHERE game_id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
+            statement.setInt(1, gameId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
         }
     }
 
-    public static void insertPiece(Connection connection, GameContext gameContext) {
+    public static void insertPiece(Connection connection, GameContext gameContext, final int gameId) {
         final String sql = "INSERT INTO piece (game_id, position_row, position_column, piece_type, team_type) VALUES (?, ?, ?, ?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             for (Map.Entry<Position, Piece> entry : gameContext.getPositionPieceMap().entrySet()) {
-                statement.setInt(1, FIX_GAME_ID);
+                statement.setInt(1, gameId);
                 statement.setInt(2, entry.getKey().getRow());
                 statement.setInt(3, entry.getKey().getColumn());
                 statement.setString(4, entry.getValue().pieceType().toString());
@@ -45,10 +42,10 @@ public class PieceDao {
         }
     }
 
-    public static Map<Position, Piece> selectPieceMap(Connection connection) {
+    public static Map<Position, Piece> selectPieceMap(Connection connection, final int gameId) {
         final String sql = "SELECT position_row, position_column, piece_type, team_type FROM piece WHERE game_id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
+            statement.setInt(1, gameId);
             return extractPieceMap(statement);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);

@@ -7,26 +7,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GameDao {
-
-    private static final int FIX_GAME_ID = 1;
-
     private GameDao() {
     }
 
-    public static void deleteGameTable(Connection connection) {
+    public static void deleteGameTable(Connection connection, final int gameId) {
         final String sql = "DELETE FROM GAME WHERE id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
+            statement.setInt(1, gameId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
         }
     }
 
-    public static void insertCurrentTurn(Connection connection, GameContext gameContext) {
+    public static void insertCurrentTurn(Connection connection, GameContext gameContext, final int gameId) {
         final String sql = "INSERT INTO game (id, current_turn) VALUES (?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
+            statement.setInt(1, gameId);
             statement.setString(2, gameContext.currentTeamType().toString());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -34,10 +31,10 @@ public class GameDao {
         }
     }
 
-    public static String selectCurrentTurn(Connection connection) {
+    public static String selectCurrentTurn(Connection connection, final int gameId) {
         final String sql = "SELECT current_turn FROM game WHERE id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
+            statement.setInt(1, gameId);
             return extractCurrentTurn(statement);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);
@@ -54,9 +51,8 @@ public class GameDao {
     }
 
     public static boolean hasGameData(Connection connection) {
-        final String sql = "SELECT COUNT(*) FROM game WHERE id = ?;";
+        final String sql = "SELECT COUNT(*) FROM game;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, FIX_GAME_ID);
             return isGamePresent(statement);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류", e);

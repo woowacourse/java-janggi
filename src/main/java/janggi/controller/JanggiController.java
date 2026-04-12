@@ -19,6 +19,7 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
+    private static final int FIX_GAME_ID = 1;
     private final GameRepository gameRepository;
 
     public JanggiController(DBConnector dbConnector) {
@@ -53,10 +54,10 @@ public class JanggiController {
     private void startGame(GameContext gameContext) {
         while (gameContext.canContinueGame()) {
             playTurn(gameContext);
-            gameRepository.saveGame(gameContext);
+            gameRepository.saveGame(gameContext, FIX_GAME_ID);
         }
         OutputView.printGameOverMessage(gameContext.currentWinTeamTypeToName());
-        gameRepository.deleteGame();
+        gameRepository.deleteGame(FIX_GAME_ID);
     }
 
     private Team setupTeam(TeamType teamType) {
@@ -137,7 +138,7 @@ public class JanggiController {
 
     private GameContext loadPreviousGameContext() {
         if (gameRepository.hasGameData()) {
-            return gameRepository.loadPreviousGame();
+            return gameRepository.loadPreviousGame(FIX_GAME_ID);
         }
         OutputView.printNewGameStartNotice();
         return createNewGameContext();
