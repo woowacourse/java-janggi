@@ -1,22 +1,23 @@
 package domain.board;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import domain.movepolicy.MoveContext;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.PathRule;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public record Board(Map<Position, Piece> pieces) {
+public class Board {
+    private final Map<Position, Piece> pieces;
 
-    public Board {
-        pieces = Map.copyOf(pieces);
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces = Map.copyOf(pieces);
     }
 
-    @Override
     public Map<Position, Piece> pieces() {
         return pieces;
     }
@@ -60,5 +61,21 @@ public record Board(Map<Position, Piece> pieces) {
         temp.put(departure, new EmptyPiece());
         temp.put(destination, departurePiece);
         return temp;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Board other)) {
+            return false;
+        }
+        return Objects.equals(pieces, other.pieces);
     }
 }
