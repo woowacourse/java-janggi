@@ -9,12 +9,12 @@ public class FinishedState implements GameState {
 
     private final Team winner;
 
-    public FinishedState(Team winner) {
+    public FinishedState(final Team winner) {
         this.winner = winner;
     }
 
     @Override
-    public List<Position> getPiecePositions(Board board) {
+    public List<Position> getPiecePositions(final Board board) {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 

@@ -5,16 +5,13 @@ import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
 import dto.JanggiGameDto;
-import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
 import dto.ScoreDto;
 import dto.TeamNameDto;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import repository.JanggiGameRepository;
 import view.InputView;
 import view.OutputView;
@@ -69,7 +66,7 @@ public class JanggiController {
         play(janggiGame, gameId);
     }
 
-    private void play(JanggiGame janggiGame, Long gameId) {
+    private void play(final JanggiGame janggiGame, final Long gameId) {
         printJanggiBoard(janggiGame);
         while (!janggiGame.isFinished()) {
             processTurn(janggiGame);
@@ -86,7 +83,7 @@ public class JanggiController {
         return JanggiGame.init(choElephantSetup, hanElephantSetup);
     }
 
-    private ElephantSetup initElephantSetupFor(Team team) {
+    private ElephantSetup initElephantSetupFor(final Team team) {
         List<ElephantSetup> elephantSetups = ElephantSetup.all();
         List<String> elephantSetupNames = elephantSetups.stream()
                 .map(Enum::toString)
@@ -109,7 +106,7 @@ public class JanggiController {
         return inputView.readGameId();
     }
 
-    private JanggiGame loadPreviousGame(Long gameId) {
+    private JanggiGame loadPreviousGame(final Long gameId) {
         return janggiGameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
     }
@@ -142,7 +139,7 @@ public class JanggiController {
         janggiGame.move(from, to);
     }
 
-    private void checkMovablePositionsIsEmpty(List<Position> movablePositions) {
+    private void checkMovablePositionsIsEmpty(final List<Position> movablePositions) {
         if (movablePositions.isEmpty()) {
             throw new IllegalArgumentException("해당 기물은 이동할 수 있는 위치가 없습니다. 다른 기물을 선택해주세요.");
         }
@@ -184,7 +181,7 @@ public class JanggiController {
         }
     }
 
-    private void printScores(JanggiGame janggiGame) {
+    private void printScores(final JanggiGame janggiGame) {
         double choScore = janggiGame.getScoreBy(Team.CHO);
         double hanScore = janggiGame.getScoreBy(Team.HAN);
 

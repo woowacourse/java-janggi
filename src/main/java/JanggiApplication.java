@@ -16,7 +16,11 @@ public class JanggiApplication {
 
         JdbcPieceDao jdbcPieceDao = new JdbcPieceDao();
         JdbcGameDao jdbcGameDao = new JdbcGameDao();
-        JdbcJanggiGameRepository janggiGameRepository = new JdbcJanggiGameRepository(dataSource, jdbcGameDao, jdbcPieceDao);
+        JdbcJanggiGameRepository janggiGameRepository = new JdbcJanggiGameRepository(
+                dataSource,
+                jdbcGameDao,
+                jdbcPieceDao
+        );
 
         new JanggiController(
                 new InputView(),

@@ -77,7 +77,7 @@ public class Board {
         return Collections.unmodifiableMap(pieces);
     }
 
-    private void validateExistPiece(Position position) {
+    private void validateExistPiece(final Position position) {
         if (isEmpty(position)) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
@@ -91,7 +91,7 @@ public class Board {
         return generalCount == 1;
     }
 
-    public double getScoreBy(Team team) {
+    public double getScoreBy(final Team team) {
         double score = pieces.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToDouble(Piece::getScore)

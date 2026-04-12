@@ -39,7 +39,7 @@ public record Position(
         return Collections.unmodifiableMap(edges);
     }
 
-    private static void connect(Map<Position, List<Position>> map, Position from, Position to) {
+    private static void connect(final Map<Position, List<Position>> map, final Position from, final Position to) {
         map.computeIfAbsent(from, k -> new ArrayList<>()).add(to);
         map.computeIfAbsent(to, k -> new ArrayList<>()).add(from);
     }
@@ -68,7 +68,7 @@ public record Position(
         return DIAGONAL_EDGES.getOrDefault(this, List.of());
     }
 
-    public boolean isDiagonalConnected(Position other) {
+    public boolean isDiagonalConnected(final Position other) {
         return DIAGONAL_EDGES.containsKey(this) && DIAGONAL_EDGES.get(this).contains(other);
     }
 

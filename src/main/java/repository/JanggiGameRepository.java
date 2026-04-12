@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface JanggiGameRepository {
 
-    Long save(JanggiGame janggiGame);
+    Long save(final JanggiGame janggiGame);
 
     List<JanggiGameDto> findAll();
 
-    Optional<JanggiGame> findById(Long gamedId);
+    Optional<JanggiGame> findById(final Long gamedId);
 
-    void update(Long gameId, JanggiGame janggiGame);
+    void update(final Long gameId, final JanggiGame janggiGame);
 }

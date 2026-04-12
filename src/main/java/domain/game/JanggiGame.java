@@ -99,7 +99,7 @@ public class JanggiGame {
         return gameState.getWinner();
     }
 
-    public double getScoreBy(Team team) {
+    public double getScoreBy(final Team team) {
         return board.getScoreBy(team);
     }
 

@@ -10,7 +10,7 @@ public class HanPlayingState extends PlayingState {
     private static final Team CURRENT_PLAYING_TEAM = Team.HAN;
 
     @Override
-    public List<Position> getPiecePositions(Board board) {
+    public List<Position> getPiecePositions(final Board board) {
         return board.getPositionsByTeam(CURRENT_PLAYING_TEAM);
     }
 

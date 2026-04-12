@@ -7,7 +7,7 @@ public enum Team {
 
     private final double bonusScore;
 
-    Team(double bonusScore) {
+    Team(final double bonusScore) {
         this.bonusScore = bonusScore;
     }
 

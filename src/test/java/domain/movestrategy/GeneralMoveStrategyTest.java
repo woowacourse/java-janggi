@@ -60,7 +60,6 @@ class GeneralMoveStrategyTest {
         pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
 
-
         Board board = Board.init(pieces);
 
         // when
@@ -81,7 +80,6 @@ class GeneralMoveStrategyTest {
         Position from = Position.of(2, 4);
         pieces.put(from, Piece.hanPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(1, 1), Piece.choPieceOf(PieceType.GENERAL));
-
 
         Board board = Board.init(pieces);
 

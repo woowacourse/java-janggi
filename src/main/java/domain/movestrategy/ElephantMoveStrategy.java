@@ -1,8 +1,8 @@
 package domain.movestrategy;
 
 import domain.board.Board;
-import domain.board.Position;
 import domain.board.Direction;
+import domain.board.Position;
 import java.util.List;
 import java.util.Map;
 

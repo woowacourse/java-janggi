@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GameState {
 
-    List<Position> getPiecePositions(Board board);
+    List<Position> getPiecePositions(final Board board);
 
     GameState nextTurn();
 
