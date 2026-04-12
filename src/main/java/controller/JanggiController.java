@@ -101,10 +101,10 @@ public class JanggiController {
         } while (true);
     }
 
-    private void execute(ExecutableTask task) {
+    private void execute(Runnable task) {
         do {
             try {
-                task.execute();
+                task.run();
                 return;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
