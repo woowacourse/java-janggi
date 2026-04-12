@@ -3,7 +3,6 @@ package janggi.domain.game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.Turn;
-import janggi.domain.piece.Name;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 
@@ -69,7 +68,7 @@ public class JanggiGame {
     }
 
     private boolean isCurrentTeamPiece(Piece piece) {
-        return turn.isCurrentTeam(piece.getTeam());
+        return piece.belongsTo(currentTurnTeam());
     }
 
     private void validatePieceExistsAt(Position from) {
@@ -88,7 +87,7 @@ public class JanggiGame {
         if (piece == null) {
             return false;
         }
-        return piece.getName() == Name.GENERAL;
+        return piece.isGeneral();
     }
 
     private void finishGame() {

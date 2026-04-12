@@ -22,6 +22,14 @@ public abstract class Piece {
         return team;
     }
 
+    public boolean belongsTo(Team team) {
+        return this.team == team;
+    }
+
+    public boolean isGeneral() {
+        return this.name == Name.GENERAL;
+    }
+
     public boolean isSameTeam(Piece piece) {
         return piece.team.equals(this.team);
     }
