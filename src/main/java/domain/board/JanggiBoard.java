@@ -45,7 +45,7 @@ public class JanggiBoard {
         origin.move(destination);
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
         this.currentTurn = this.currentTurn.nextTurn();
     }
 
