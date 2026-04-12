@@ -11,10 +11,12 @@ import java.sql.Statement;
 import org.h2.tools.Server;
 
 public class ConnectionManager {
-    private static final String DB_URL = "jdbc:h2:~/janggiGame";
-    private static final String USER_NAME = "sa";
-    private static final String PASSWORD = "";
+    private static final String DB_URL = System.getProperty("db.url", "jdbc:h2:~/janggiGame");
+    private static final String USER_NAME = System.getProperty("db.username", "sa");
+    private static final String PASSWORD = System.getProperty("db.password", "");
     private static Server server;
+
+
 
     public static Connection getConnection() {
         try {

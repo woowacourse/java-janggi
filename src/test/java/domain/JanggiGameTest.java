@@ -27,6 +27,25 @@ class JanggiGameTest {
     }
 
     @Test
+    void 점수계산_정상_테스트() {
+        List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
+        Board board = new Board(maSang);
+        JanggiGame janggiGame = new JanggiGame(board);
+
+        assertThat(janggiGame.calculateScore(Country.HAN)).isEqualTo(73.5);
+        assertThat(janggiGame.calculateScore(Country.CHO)).isEqualTo(72);
+    }
+
+    @Test
+    void 승자_계산_정상_테스트() {
+        List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
+        Board board = new Board(maSang);
+        JanggiGame janggiGame = new JanggiGame(board);
+
+        assertThat(janggiGame.calculateWinner()).isEqualTo(Country.HAN);
+    }
+
+    @Test
     void 왕_죽음_게임_종료_정상_테스트() {
         List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
         JanggiGame janggiGame = new JanggiGame(new Board(maSang));
