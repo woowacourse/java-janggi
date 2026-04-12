@@ -12,10 +12,7 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
-    private static final String EXIT_COMMAND = "exit";
     private static final String QUIT_COMMAND = "quit";
-    private static final String CREATE_COMMAND = "new";
-    private static final String DELETE_COMMAND = "delete";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
 
@@ -31,53 +28,42 @@ public class JanggiController {
 
     public void run() {
         while (true) {
-            outputView.printGameList(service.findAllGames());
-            if (processCommand()) {
-                outputView.printGameEnd();
-                break;
-            }
-        }
-    }
-
-    private boolean processCommand() {
-        while (true) {
             try {
-                String command = inputView.readCommand();
-                if (isExitCommand(command)) {
-                    return true;
+                outputView.printGameList(service.findAllGames());
+                Command command = inputView.readCommand();
+                if (command == Command.EXIT) {
+                    return;
                 }
-                handleCommand(command);
-                return false;
-            } catch (NumberFormatException e) {
-                outputView.printError("[ERROR] 올바른 명령어를 입력해주세요.");
-            } catch (DataAccessException e) {
+
+                if (command == Command.LOAD) {
+                    loadGame();
+                    continue;
+                }
+
+                if (command == Command.NEW) {
+                    long gameId = createGame();
+                    playGame(gameId);
+                    continue;
+                }
+
+                if (command == Command.DELETE) {
+                    deleteGame();
+                    continue;
+                }
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
     }
 
-    private void handleCommand(String command) {
-        if (isCreateCommand(command)) {
-            long gameId = createGame();
-            playGame(gameId);
-            return;
-        }
-        if (isDeleteCommand(command)) {
-            deleteGame();
-            return;
-        }
-        long gameId = Long.parseLong(command);
-        playGame(gameId);
-    }
-
-    private void deleteGame() {
+    private void loadGame() {
         while (true) {
             try {
-                long gameId = inputView.readGameId();
+                long gameId = inputView.readLoadGameId();
                 if (gameId == 0) {
                     return;
                 }
-                service.deleteGame(gameId);
+                playGame(gameId);
                 return;
             } catch (IllegalArgumentException | DataAccessException e) {
                 outputView.printError(e.getMessage());
@@ -92,6 +78,21 @@ public class JanggiController {
                 String choSetup = inputView.readChoSetup();
                 return service.createGame(PieceSetup.from(hanSetup), PieceSetup.from(choSetup));
             } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void deleteGame() {
+        while (true) {
+            try {
+                long gameId = inputView.readDeleteGameId();
+                if (gameId == 0) {
+                    return;
+                }
+                service.deleteGame(gameId);
+                return;
+            } catch (IllegalArgumentException | DataAccessException e) {
                 outputView.printError(e.getMessage());
             }
         }
@@ -129,17 +130,5 @@ public class JanggiController {
 
     private boolean isQuitCommand(List<String> positions) {
         return positions.getFirst().equalsIgnoreCase(QUIT_COMMAND);
-    }
-
-    private boolean isExitCommand(String command) {
-        return command.equalsIgnoreCase(EXIT_COMMAND);
-    }
-
-    private boolean isCreateCommand(String command) {
-        return command.equalsIgnoreCase(CREATE_COMMAND);
-    }
-
-    private boolean isDeleteCommand(String command) {
-        return command.equalsIgnoreCase(DELETE_COMMAND);
     }
 }

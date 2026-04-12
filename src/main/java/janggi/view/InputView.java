@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.controller.Command;
 import janggi.domain.Team;
 
 import java.util.List;
@@ -13,11 +14,33 @@ public class InputView {
         this.scanner = new Scanner(System.in);
     }
 
-    public String readCommand() {
-        System.out.println("플레이 할 게임을 선택해주세요.");
-        System.out.println("(게임 ID 입력: 이어하기 | new: 새 게임 시작 | delete: 게임 삭제 | exit: 게임 종료)");
+    public Command readCommand() {
+        System.out.println("명령어를 입력해주세요.");
+        System.out.println("(load: 이어하기 | new: 새 게임 시작 | delete: 게임 삭제 | exit: 게임 종료)");
         System.out.print("> ");
-        return scanner.nextLine().trim();
+        return Command.from(scanner.nextLine().trim());
+    }
+
+    public long readLoadGameId() {
+        System.out.println("이어할 게임 ID를 입력해주세요. (뒤로 가기: 0)");
+        System.out.print("> ");
+        String input = scanner.nextLine().trim();
+        try {
+            return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 게임 ID는 숫자 형식이어야 합니다.");
+        }
+    }
+
+    public long readDeleteGameId() {
+        System.out.println("삭제하려는 게임 ID를 입력해주세요. (뒤로 가기: 0)");
+        System.out.print("> ");
+        String input = scanner.nextLine().trim();
+        try {
+            return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 게임 ID는 숫자 형식이어야 합니다.");
+        }
     }
 
     public String readHanSetup() {
@@ -47,17 +70,6 @@ public class InputView {
 
     public void waitForEnter() {
         scanner.nextLine();
-    }
-
-    public long readGameId() {
-        System.out.println("삭제하려는 게임 ID를 입력해주세요. (뒤로 가기: 0)");
-        System.out.print("> ");
-        String input = scanner.nextLine().trim();
-        try {
-            return Long.parseLong(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 게임 ID는 숫자 형식이어야 합니다.");
-        }
     }
 
     private String toDisplayName(Team team) {
