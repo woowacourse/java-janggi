@@ -26,6 +26,10 @@ public abstract class Piece {
         return pieceType.equals(PieceType.PO);
     }
 
+    public boolean isGung() {
+        return pieceType.equals(PieceType.GUNG);
+    }
+
     public boolean isSameSide(Side side) {
         return this.side.equals(side);
     }

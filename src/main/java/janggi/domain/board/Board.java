@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.strategy.BoardAssembler;
+import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import java.util.ArrayList;
@@ -122,9 +123,8 @@ public class Board {
         return List.copyOf(line);
     }
 
-    public List<Piece> getAlivePieces() {
-        return boardState.values().stream()
-                .filter(piece -> !piece.isEmpty())
-                .toList();
+    public AlivePieces getAlivePieces() {
+        List<Piece> alivePieces = boardState.values().stream().toList();
+        return AlivePieces.from(alivePieces);
     }
 }

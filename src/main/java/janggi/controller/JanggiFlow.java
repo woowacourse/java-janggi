@@ -7,6 +7,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
 import janggi.domain.board.strategy.BoardAssembler;
+import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.Piece;
 import janggi.domain.result.ScoreResult;
 import janggi.dto.PieceDto;
@@ -31,7 +32,7 @@ public class JanggiFlow {
         Board board = Board.create(BoardAssembler.from(List.of(hanStrategy, choStrategy)));
 
         Side current = Side.CHO;
-        while (board.isNotEmpty()) {
+        do {
             view.showBoardArray(convertBoardStatus(board));
             view.showScoreResults(convertScoreResult(board));
             view.showCurrentSide(current.getNameFormat());
@@ -44,7 +45,8 @@ public class JanggiFlow {
             });
 
             current = current.switchSide();
-        }
+
+        } while (canContinueJanggi(board));
     }
 
     private <T> T retry(Supplier<T> supplier) {
@@ -55,6 +57,11 @@ public class JanggiFlow {
                 view.showErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private boolean canContinueJanggi(Board board) {
+        AlivePieces alivePieces = board.getAlivePieces();
+        return alivePieces.isEveryGungAlive();
     }
 
     private List<List<PieceDto>> convertBoardStatus(Board board) {
@@ -68,7 +75,7 @@ public class JanggiFlow {
     }
 
     private ScoreResultDto convertScoreResult(Board board) {
-        List<Piece> alivePieces = board.getAlivePieces();
+        AlivePieces alivePieces = board.getAlivePieces();
         ScoreResult scoreResult = ScoreResult.calculate(alivePieces);
         return ScoreResultDto.from(scoreResult);
     }

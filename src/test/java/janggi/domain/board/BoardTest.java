@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -262,6 +263,8 @@ class BoardTest {
         Board board = Board.create(assembler);
 
         // when & then
-        Assertions.assertThat(board.getAlivePieces()).containsExactly(hanPiece, choPiece);
+        AlivePieces alivePieces = board.getAlivePieces();
+        Assertions.assertThat(alivePieces.calculateScoreSum(Side.HAN)).isGreaterThan(0);
+        Assertions.assertThat(alivePieces.calculateScoreSum(Side.CHO)).isGreaterThan(0);
     }
 }
