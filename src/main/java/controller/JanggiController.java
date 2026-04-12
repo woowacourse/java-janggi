@@ -14,6 +14,7 @@ import view.OutputView;
 public class JanggiController {
 
     private static final String RESUME_GAME_NUMBER = "2";
+    private static final String SURRENDER = "항복";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -122,7 +123,7 @@ public class JanggiController {
                 outputView.printCurrentTurn(janggiGame.currentTurn());
 
                 String input = inputView.readPosition();
-                if (input.equals("항복")) {
+                if (input.equals(SURRENDER)) {
                     outputView.printGameFinishMessage();
                     return;
                 }
