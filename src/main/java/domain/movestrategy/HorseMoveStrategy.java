@@ -25,6 +25,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         return PATH_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !board.hasPiece(from.move(entry.getValue())))
                 .map(entry -> from.move(entry.getKey()))
+                .filter(board::inBoard)
                 .filter(destination -> !isAlly(from, destination, board))
                 .toList();
     }
