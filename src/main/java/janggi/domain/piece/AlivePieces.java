@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AlivePieces {
 
-    private static final int DEFAULT_NUMBER_OF_GUNG= 2;
+    private static final int DEFAULT_NUMBER_OF_GUNG = 2;
 
     private final List<Piece> pieces;
 
@@ -38,5 +38,20 @@ public class AlivePieces {
                 .filter(Piece::isGung)
                 .count();
         return gungCount == DEFAULT_NUMBER_OF_GUNG;
+    }
+
+    public Side findSideWithOutGung() {
+        if (isEveryGungAlive()) {
+            return Side.NONE;
+        }
+
+        boolean isHanGungAlive = pieces.stream()
+                .anyMatch(piece -> piece.isGung() && piece.isSameSide(Side.HAN));
+
+        if (!isHanGungAlive) {
+            return Side.HAN;
+        }
+
+        return Side.CHO;
     }
 }

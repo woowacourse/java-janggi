@@ -10,6 +10,7 @@ import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.Piece;
 import janggi.domain.result.ScoreResult;
+import janggi.dto.FinalResultDto;
 import janggi.dto.PieceDto;
 import janggi.dto.ScoreResultDto;
 import janggi.view.ApplicationView;
@@ -47,6 +48,14 @@ public class JanggiFlow {
             current = current.switchSide();
 
         } while (canContinueJanggi(board));
+
+        view.showBoardArray(convertBoardStatus(board));
+        view.showFinalResult(convertFinalResult(board));
+    }
+
+    private FinalResultDto convertFinalResult(Board board) {
+        AlivePieces alivePieces = board.getAlivePieces();
+        return FinalResultDto.of(alivePieces.findSideWithOutGung(), ScoreResult.calculate(alivePieces));
     }
 
     private <T> T retry(Supplier<T> supplier) {
