@@ -36,7 +36,7 @@ public class MoveRuleManager {
     }
 
     public MoveRule findMoveRule(Intersection origin) {
-        Piece piece = origin.readPiece();
+        Piece piece = origin.getPiece();
         return moveRules.get(piece.pieceType());
     }
 

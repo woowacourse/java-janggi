@@ -34,13 +34,13 @@ public class JdbcIntersectionDao implements IntersectionDao {
         jdbcTemplate.saveAll(
                 INSERT_INTERSECTION_QUERY,
                 intersections,
-                (ps, item) -> {
+                (ps, intersection) -> {
                     ps.setLong(1, boardId);
-                    ps.setInt(2, item.getPoint().y());
-                    ps.setInt(3, item.getPoint().x());
-                    ps.setString(4, item.readPiece().pieceType().name());
-                    ps.setString(5, item.readPiece().team().name());
-                    ps.setString(6, item.readIntersectionType().name());
+                    ps.setInt(2, intersection.getPoint().y());
+                    ps.setInt(3, intersection.getPoint().x());
+                    ps.setString(4, intersection.getPiece().pieceType().name());
+                    ps.setString(5, intersection.getPiece().team().name());
+                    ps.setString(6, intersection.getType().name());
                 }
         );
     }
@@ -62,8 +62,8 @@ public class JdbcIntersectionDao implements IntersectionDao {
     public void update(Long boardId, Intersection intersection) {
         jdbcTemplate.update(
                 UPDATE_INTERSECTION_QUERY,
-                intersection.readPiece().pieceType().name(),
-                intersection.readPiece().team().name(),
+                intersection.getPiece().pieceType().name(),
+                intersection.getPiece().team().name(),
                 boardId,
                 intersection.getPoint().y(),
                 intersection.getPoint().x()

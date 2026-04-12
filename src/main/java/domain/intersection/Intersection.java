@@ -61,11 +61,11 @@ public abstract class Intersection {
         return piece.hasPiece();
     }
 
-    public Piece readPiece() {
+    public Piece getPiece() {
         return this.piece;
     }
 
-    public IntersectionType readIntersectionType() {
+    public IntersectionType getType() {
         return this.intersectionType;
     }
 

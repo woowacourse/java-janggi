@@ -16,7 +16,7 @@ public record JanggiBoardDto(
         Map<Point, PieceViewDto> boardViews = new HashMap<>();
         for (Point point : board.keySet()) {
             Intersection intersection = board.get(point);
-            boardViews.put(point, PieceViewDto.from(intersection.readPiece()));
+            boardViews.put(point, PieceViewDto.from(intersection.getPiece()));
         }
         return new JanggiBoardDto(boardViews);
     }
