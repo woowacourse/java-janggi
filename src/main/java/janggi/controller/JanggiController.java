@@ -115,36 +115,44 @@ public class JanggiController {
     }
 
     private Position askMovePiecePositionUntilValid(Board board) {
-        boolean isInvalid = true;
         Position position = null;
-        while (isInvalid) {
-            try {
-                outputView.printMoveInfo();
-                position = inputView.readPosition();
-                board.validateMovePiecePosition(position);
-                List<Position> positions = board.findAvailablePositions(position);
-                board.validateAvailablePositions(positions);
-                isInvalid = false;
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+        while (position == null) {
+            position = getValidMovePiecePositionOrNull(board);
         }
         return position;
     }
 
+    private Position getValidMovePiecePositionOrNull(Board board) {
+        try {
+            outputView.printMoveInfo();
+            Position position = inputView.readPosition();
+            board.validateMovePiecePosition(position);
+            List<Position> positions = board.findAvailablePositions(position);
+            board.validateAvailablePositions(positions);
+            return position;
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return null;
+        }
+    }
+
     private Position askMovePositionUntilValid(Board board, Position movePiecePosition) {
-        boolean isInvalid = true;
         Position position = null;
-        while (isInvalid) {
-            try {
-                outputView.printMoveChoiceInfo();
-                position = inputView.readPosition();
-                board.validateDestination(movePiecePosition, position);
-                isInvalid = false;
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+        while (position == null) {
+            position = getValidMovePositionOrNull(board, movePiecePosition);
         }
         return position;
+    }
+
+    private Position getValidMovePositionOrNull(Board board, Position movePiecePosition) {
+        try {
+            outputView.printMoveChoiceInfo();
+            Position position = inputView.readPosition();
+            board.validateDestination(movePiecePosition, position);
+            return position;
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return null;
+        }
     }
 }
