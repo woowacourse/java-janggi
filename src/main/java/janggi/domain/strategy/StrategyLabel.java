@@ -1,4 +1,4 @@
-package janggi.strategy;
+package janggi.domain.strategy;
 
 import java.util.Arrays;
 
@@ -15,14 +15,14 @@ public enum StrategyLabel {
         this.decisionNumber = decisionNumber;
     }
 
-    public int getDecisionNumber() {
-        return decisionNumber;
-    }
-
     public static StrategyLabel from(int decisionNumber) {
         return Arrays.stream(values())
                 .filter(label -> label.decisionNumber == decisionNumber)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전략 번호입니다: " + decisionNumber));
+    }
+
+    public int getDecisionNumber() {
+        return decisionNumber;
     }
 }

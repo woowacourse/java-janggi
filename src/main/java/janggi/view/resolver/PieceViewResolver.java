@@ -2,6 +2,7 @@ package janggi.view.resolver;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import java.util.List;
 
 public class PieceViewResolver {
 
@@ -10,6 +11,12 @@ public class PieceViewResolver {
     private static final String ANSI_BLUE = "\u001B[34m";
 
     private PieceViewResolver() {
+    }
+
+    public static List<String> toDisplayName(List<Piece> pieces) {
+        return pieces.stream()
+                .map(PieceViewResolver::toDisplayName)
+                .toList();
     }
 
     public static String toDisplayName(Piece piece) {

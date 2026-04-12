@@ -1,4 +1,4 @@
-package janggi.strategy;
+package janggi.domain.strategy.arrangement;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
@@ -6,8 +6,6 @@ import janggi.domain.piece.Piece;
 public interface ArrangementStrategy {
 
     void place(Piece[][] arrangement);
-
-    ArrangementStrategy create(Side side);
 
     default int calculateRow(int boardMaxLength, Side side) {
         if (side.equals(Side.CHO)) {

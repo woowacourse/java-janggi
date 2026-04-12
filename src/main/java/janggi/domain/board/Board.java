@@ -1,12 +1,10 @@
 package janggi.domain.board;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.domain.strategy.BoardAssembler;
 import janggi.exception.ErrorCode;
 import janggi.exception.JanggiException;
-import janggi.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,47 +12,52 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Location, Piece> boardState;
+    private final Map<Location, Intersection> boardState;
     private final int height;
     private final int width;
 
-    private Board(Map<Location, Piece> boardState, int height, int width) {
+    private Board(Map<Location, Intersection> boardState, int height, int width) {
         this.boardState = boardState;
         this.height = height;
         this.width = width;
     }
 
     public static Board create(BoardAssembler assembler) {
-        Piece[][] pieces = assembler.assemble();
-        Map<Location, Piece> boardState = new HashMap<>();
+        Intersection[][] intersections = assembler.assemble();
+        Map<Location, Intersection> boardState = new HashMap<>();
 
-        int height = pieces.length;
-        int width = pieces[0].length;
+        int height = intersections.length;
+        int width = intersections[0].length;
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                boardState.put(new Location(row, col), pieces[row][col]);
+                boardState.put(Location.of(row, col), intersections[row][col]);
             }
         }
 
         return new Board(boardState, height, width);
     }
 
-    public void move(Location from, Location to) {
+    /**
+     * @return 기물이 이동한 자리에 존재하여 제거된 상대편 기물을 반환한다.
+     */
+    public Piece move(Location from, Location to) {
         validateMove(from, to);
 
-        Piece piece = boardState.get(from);
-        List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
+        Intersection base = boardState.get(from);
+        Intersection destination = boardState.get(to);
+        List<Piece> piecesOnPath = getPiecesOnRoute(base, destination);
 
+        Piece piece = base.getPiece();
         piece.detectCollision(piecesOnPath);
 
-        executeMove(from, to, piece);
+        return executeMove(from, to, piece);
     }
 
     public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
         validateLocation(locationOfPiece);
         validatePieceExist(locationOfPiece);
-        Piece piece = boardState.get(locationOfPiece);
+        Piece piece = boardState.get(locationOfPiece).getPiece();
         if (isNotSameSide(piece, currentSide)) {
             throw new IllegalArgumentException("본인 팀의 기물만 선택할 수 있습니다.");
         }
@@ -62,7 +65,7 @@ public class Board {
 
     public void validateLocationToMove(Side currentSide, Location locationToMove) {
         validateLocation(locationToMove);
-        Piece target = boardState.get(locationToMove);
+        Piece target = boardState.get(locationToMove).getPiece();
         if (target.isSameSide(currentSide)) {
             throw new JanggiException(ErrorCode.DESTINATION_OCCUPIED_SAME_TEAM_ERROR);
         }
@@ -70,7 +73,7 @@ public class Board {
 
     public boolean isNotEmpty() {
         return !boardState.values().stream()
-                .allMatch(Piece::isEmpty);
+                .allMatch(Intersection::isEmpty);
     }
 
     public List<List<Piece>> to2DArray() {
@@ -78,7 +81,7 @@ public class Board {
         for (int row = 0; row < height; row++) {
             List<Piece> line = new ArrayList<>();
             for (int col = 0; col < width; col++) {
-                Piece piece = boardState.get(new Location(row, col));
+                Piece piece = boardState.get(Location.of(row, col)).getPiece();
                 line.add(piece);
             }
             pieces.add(List.copyOf(line));
@@ -86,18 +89,21 @@ public class Board {
         return List.copyOf(pieces);
     }
 
-    private void executeMove(Location from, Location to, Piece piece) {
-        boardState.put(to, piece);
-        boardState.put(from, EmptyPiece.getInstance());
+    private Piece executeMove(Location from, Location to, Piece piece) {
+        Piece removedPiece = boardState.get(to).getPiece();
+        boardState.get(to).place(piece);
+        boardState.get(from).leave();
+
+        return removedPiece;
     }
 
     private boolean isNotSameSide(Piece piece, Side side) {
         return !piece.isSameSide(side);
     }
 
-    private List<Piece> getPiecesOnRoute(Piece piece, Location from, Location to) {
-        return piece.calculateRoute(from, to).stream()
-                .map(boardState::get)
+    private List<Piece> getPiecesOnRoute(Intersection base, Intersection destination) {
+        return base.calculateRoute(destination).stream()
+                .map(location -> boardState.get(location).getPiece())
                 .toList();
     }
 
@@ -117,5 +123,12 @@ public class Board {
         if (boardState.get(location).isEmpty()) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
+    }
+
+    public List<Piece> getAlivePieces() {
+        return boardState.values().stream()
+                .filter(Intersection::isNotEmpty)
+                .map(Intersection::getPiece)
+                .toList();
     }
 }

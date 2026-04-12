@@ -1,7 +1,9 @@
 package janggi.view;
 
+import janggi.domain.Side;
 import janggi.view.input.Input;
 import janggi.view.output.Output;
+import janggi.view.resolver.SideViewResolver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -89,7 +91,6 @@ public class ApplicationView {
 
         int row = (rowInput == 0) ? 9 : rowInput - 1;
         int col = colInput - 1;
-        System.out.println("row: " + row + "  col: " + col);
         return List.of(row, col);
     }
 
@@ -101,5 +102,16 @@ public class ApplicationView {
                 respondErrorMessage(e);
             }
         }
+    }
+
+    public Decision requestGameContinueDecision() {
+        outputWriter.printPromptMessage("진행중이던 게임이 존재합니다. 이어서 하시겠습니까? (y,n)");
+        String input = inputReader.readString();
+
+        return Decision.from(input);
+    }
+
+    public void respondWinner(Side winner) {
+        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(winner) + "팀이 승리하였습니다.");
     }
 }

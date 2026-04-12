@@ -1,6 +1,6 @@
 package janggi.view.resolver;
 
-import janggi.strategy.StrategyLabel;
+import janggi.domain.strategy.StrategyLabel;
 
 public class StrategyViewResolver {
 

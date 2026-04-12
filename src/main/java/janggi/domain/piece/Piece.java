@@ -1,14 +1,17 @@
 package janggi.domain.piece;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import java.util.List;
 
 public interface Piece {
 
     boolean isEmpty();
 
-    List<Location> calculateRoute(Location from, Location to);
+    boolean isNotEmpty();
+
+    List<Location> calculateRoute(Intersection from, Intersection to);
 
     void detectCollision(List<Piece> piecesOnPath);
 
@@ -17,4 +20,10 @@ public interface Piece {
     boolean isSameSide(Side side);
 
     PieceType getType();
+
+    boolean isSame(PieceType pieceType);
+
+    double getScore();
+
+    Side getSide();
 }

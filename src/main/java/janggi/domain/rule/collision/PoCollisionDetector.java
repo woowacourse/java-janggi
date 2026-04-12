@@ -32,7 +32,7 @@ public class PoCollisionDetector implements CollisionDetector {
         List<Piece> middlePath = piecesOnPath.subList(0, piecesOnPath.size() - 1);
 
         long obstacleCount = middlePath.stream()
-                .filter(piece -> !piece.isEmpty())
+                .filter(Piece::isNotEmpty)
                 .count();
 
         if (obstacleCount != REQUIRED_SCREEN_COUNT) {
@@ -42,7 +42,7 @@ public class PoCollisionDetector implements CollisionDetector {
 
     private void validatePoExistence(List<Piece> piecesOnPath) {
         boolean hasPo = piecesOnPath.stream()
-                .anyMatch(piece -> piece.getType() == PieceType.PO);
+                .anyMatch(piece -> piece.isSame(PieceType.PO));
 
         if (hasPo) {
             throw new PieceOnPathException(PO_EXISTENCE_IN_PATH_ERROR);

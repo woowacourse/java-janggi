@@ -9,11 +9,13 @@ import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Route;
+import janggi.exception.ErrorCode;
 import janggi.exception.RouteResolveException;
 import java.util.List;
 
@@ -37,20 +39,18 @@ public class Ma extends ActivePiece {
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
-
-        for (Route route : moveRoutes) {
-            List<Location> locations = route.apply(from);
-            if (locations.getLast().equals(to)) {
-                return locations;
-            }
-        }
-
-        throw new RouteResolveException(pieceType, from, to);
+    public void detectCollision(List<Piece> piecesOnPath) {
+        COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 
     @Override
-    public void detectCollision(List<Piece> piecesOnPath) {
-        COLLISION_DETECTOR.check(this, piecesOnPath);
+    protected List<Location> resolveRoute(Intersection from, Intersection to) {
+        for (Route route : moveRoutes) {
+            List<Location> locations = route.apply(from.getLocation());
+            if (locations.getLast().equals(to.getLocation())) {
+                return locations;
+            }
+        }
+        throw new RouteResolveException(ErrorCode.ROUTE_RESOLVE_ERROR);
     }
 }

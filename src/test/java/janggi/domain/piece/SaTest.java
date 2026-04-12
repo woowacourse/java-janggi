@@ -1,8 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import janggi.exception.RouteResolveException;
+import janggi.support.TestIntersectionUtil;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,43 +17,82 @@ public class SaTest {
 
     @Nested
     class CalculateRouteTest {
-
-        static List<List<Integer>> provideUnreachableCoordination() {
+        static List<Location> provideReachableCoordination() {
             return List.of(
-                    List.of(1, 1),
-                    List.of(4, 5),
-                    List.of(2, 7)
+                    Location.of(1, 4), //좌상
+                    Location.of(1, 5), //상
+                    Location.of(1, 6), //우상
+                    Location.of(2, 4), //좌
+                    Location.of(2, 6), //우
+                    Location.of(3, 4), //좌하
+                    Location.of(3, 5), //하
+                    Location.of(3, 6) //우하
             );
         }
 
-        @Test
-        @DisplayName("사가 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
-        void shouldReturnRouteForReachableLocation() {
-            // given
-            Location from = Location.from(List.of(2, 5));
-            Location to = Location.from(List.of(1, 6));
-            Piece piece = new Sa(Side.HAN);
-
-            List<Location> expected = List.of(
-                    Location.from(List.of(1, 6))
+        static List<Location> provideUnreachableCoordination() {
+            return List.of(
+                    Location.of(1, 1),
+                    Location.of(4, 5),
+                    Location.of(2, 7)
             );
+        }
+
+        @ParameterizedTest
+        @DisplayName("사가 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
+        @MethodSource("provideReachableCoordination")
+        void returnRoute_WhenReachableLocation(Location to) {
+            // given
+            Piece piece = new Sa(Side.HAN);
+            Intersection base = TestIntersectionUtil.getPalaceCenterIntersection(Location.of(2, 5), piece);
+            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(to);
+
+            List<Location> expected = List.of(to);
 
             // when & then
-            Assertions.assertThat(piece.calculateRoute(from, to))
+            Assertions.assertThat(piece.calculateRoute(base, destination))
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("사는 궁성 안에서 대각선 길이 있는 경우 대각선으로 이동할 수 있다.")
+        void returnRoute_WhenMovingDiagonallyInPalace() {
+            // given
+            Piece piece = new Sa(Side.HAN);
+            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1, 4), piece);
+            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(Location.of(2, 5));
+
+            List<Location> expected = List.of(Location.of(2, 5));
+
+            // when & then
+            Assertions.assertThat(piece.calculateRoute(base, destination))
                     .isEqualTo(expected);
         }
 
         @ParameterizedTest
         @DisplayName("사가 이동할 수 없는 위치를 파라미터로 받으면 예외가 발생한다.")
         @MethodSource("provideUnreachableCoordination")
-        void shouldThrowExceptionForUnReachableLocation(List<Integer> destination) {
+        void throwException_WhenUnreachableLocation(Location to) {
             // given
-            Location from = Location.from(List.of(2, 5));
-            Location to = Location.from(destination);
             Piece piece = new Sa(Side.CHO);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(2, 5), piece);
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> piece.calculateRoute(from, to))
+            Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))
+                    .isInstanceOf(RouteResolveException.class);
+        }
+
+        @Test
+        @DisplayName("사가 궁성을 벗어나는 위치를 파라미터로 받으면 예외가 발생한다.")
+        void throwException_WhenMovingOutOfPalace() {
+            // given
+            Piece piece = new Sa(Side.CHO);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1, 4), piece);
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1, 3));
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))
                     .isInstanceOf(RouteResolveException.class);
         }
     }

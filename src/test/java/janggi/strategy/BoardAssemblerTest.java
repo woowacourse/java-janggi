@@ -1,12 +1,14 @@
 package janggi.strategy;
 
 import janggi.domain.Side;
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.EmptyPiece;
-import janggi.domain.piece.Jolbyeong;
-import janggi.domain.piece.Ma;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Sang;
+import janggi.domain.board.Intersection;
+import janggi.domain.piece.PieceType;
+import janggi.domain.strategy.BoardAssembler;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
+import janggi.domain.strategy.arrangement.MaSangMaSang;
+import janggi.domain.strategy.arrangement.SangMaMaSang;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,24 +20,30 @@ class BoardAssemblerTest {
     @DisplayName("공통 기물과 각 팀의 전략이 합쳐져 전체 보드를 생성한다.")
     void shouldAssembleFullBoard() {
         // given
-        List<ArrangementStrategy> arrangementStrategies = List.of(new SangMaMaSang(Side.HAN),
-                new MaSangMaSang(Side.CHO));
-        BoardAssembler assembler = BoardAssembler.from(arrangementStrategies);
+        List<ArrangementStrategy> arrangementStrategies = List.of(
+                new SangMaMaSang(Side.HAN),
+                new MaSangMaSang(Side.CHO)
+        );
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        BoardAssembler assembler = BoardAssembler.of(arrangementStrategies, intersectionInitializer);
 
         // when
-        Piece[][] board = assembler.assemble();
+        Intersection[][] board = assembler.assemble();
 
         // then
-        // 1. 공통 기물 검증
-        Assertions.assertThat(board[0][0]).isInstanceOf(Cha.class);
-        Assertions.assertThat(board[9][8]).isInstanceOf(Cha.class);
-        Assertions.assertThat(board[3][0]).isInstanceOf(Jolbyeong.class);
+        Assertions.assertThat(board[0][0].hasPiece(PieceType.CHA)).isTrue();
+        Assertions.assertThat(board[9][8].hasPiece(PieceType.CHA)).isTrue();
+        Assertions.assertThat(board[3][0].hasPiece(PieceType.JOLBYEOUNG)).isTrue();
+        Assertions.assertThat(board[9][1].hasPiece(PieceType.MA)).isTrue();
+        Assertions.assertThat(board[9][2].hasPiece(PieceType.SANG)).isTrue();
+        Assertions.assertThat(board[4][0].hasPiece(PieceType.EMPTY)).isTrue();
 
-        // 2. 전략 기물 검증 (전략이 실제로 동작했는지 확인)
-        Assertions.assertThat(board[9][1]).isInstanceOf(Ma.class);   // MaSangMaSang의 첫 번째 마
-        Assertions.assertThat(board[9][2]).isInstanceOf(Sang.class); // MaSangMaSang의 첫 번째 상
-
-        Assertions.assertThat(board[4][0]).isInstanceOf(EmptyPiece.class);
+        Assertions.assertThat(board[1][4].isPalace()).isTrue();
+        Assertions.assertThat(board[0][3].isPalace()).isTrue();
+        Assertions.assertThat(board[2][5].isPalace()).isTrue();
+        Assertions.assertThat(board[8][4].isPalace()).isTrue();
+        Assertions.assertThat(board[7][3].isPalace()).isTrue();
+        Assertions.assertThat(board[9][5].isPalace()).isTrue();
     }
 
 }

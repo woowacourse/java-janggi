@@ -30,3 +30,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### h2 ###
+*.trace.db
+*.mv.db
+*.lock.db

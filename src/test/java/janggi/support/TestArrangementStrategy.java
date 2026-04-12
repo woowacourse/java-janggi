@@ -1,10 +1,9 @@
 package janggi.support;
 
-import janggi.domain.Location;
-import janggi.domain.Side;
+import janggi.domain.board.Location;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import java.util.Map;
 
 public class TestArrangementStrategy implements ArrangementStrategy {
@@ -26,10 +25,5 @@ public class TestArrangementStrategy implements ArrangementStrategy {
         customPieces.forEach((loc, piece) -> {
             arrangement[loc.col()][loc.row()] = piece;
         });
-    }
-
-    @Override
-    public ArrangementStrategy create(Side side) {
-        throw new UnsupportedOperationException();
     }
 }

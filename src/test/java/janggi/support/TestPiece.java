@@ -1,7 +1,8 @@
 package janggi.support;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.List;
@@ -9,13 +10,19 @@ import java.util.List;
 public class TestPiece implements Piece {
 
     private final Side side;
+    private final double score;
+
+    public TestPiece(Side side, double score) {
+        this.side = side;
+        this.score = score;
+    }
 
     public TestPiece(Side side) {
-        this.side = side;
+        this(side, 0);
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
+    public List<Location> calculateRoute(Intersection from, Intersection to) {
         return List.of();
     }
 
@@ -40,7 +47,27 @@ public class TestPiece implements Piece {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return true;
+    }
+
+    @Override
     public PieceType getType() {
         return null;
+    }
+
+    @Override
+    public boolean isSame(PieceType pieceType) {
+        return false;
+    }
+
+    @Override
+    public double getScore() {
+        return score;
+    }
+
+    @Override
+    public Side getSide() {
+        return side;
     }
 }
