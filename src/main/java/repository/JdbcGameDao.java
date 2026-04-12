@@ -15,9 +15,9 @@ import java.util.Optional;
 
 public class JdbcGameDao {
 
-    private static final String ID_COLUMN = "id";
-    private static final String CURRENT_TEAM_COLUMN = "current_team";
-    private static final String WINNER_COLUMN = "winner";
+    private static final String ID = "id";
+    private static final String CURRENT_TEAM = "current_team";
+    private static final String WINNER = "winner";
 
     public Long save(final Connection connection, final JanggiGame janggiGame) throws SQLException {
         String sql = "INSERT INTO game (current_team, winner) VALUES (?, ?)";
@@ -94,17 +94,17 @@ public class JdbcGameDao {
         while (resultSet.next()) {
 
             games.add(new JanggiGameDto(
-                    resultSet.getLong(ID_COLUMN),
-                    resultSet.getString(CURRENT_TEAM_COLUMN),
-                    resultSet.getString(WINNER_COLUMN)
+                    resultSet.getLong(ID),
+                    resultSet.getString(CURRENT_TEAM),
+                    resultSet.getString(WINNER)
             ));
         }
         return games;
     }
 
     private GameState mapToGameState(final ResultSet resultSet) throws SQLException {
-        final String winner = resultSet.getString("winner");
-        final String currentTeam = resultSet.getString("current_team");
+        final String winner = resultSet.getString(WINNER);
+        final String currentTeam = resultSet.getString(CURRENT_TEAM);
 
         return GameStateFactory.from(winner, currentTeam);
     }

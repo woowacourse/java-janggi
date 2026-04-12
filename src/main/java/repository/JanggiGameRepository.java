@@ -11,7 +11,7 @@ public interface JanggiGameRepository {
 
     List<JanggiGameDto> findAll();
 
-    Optional<JanggiGame> findById(final Long gamedId);
+    Optional<JanggiGame> findById(final Long gameId);
 
     void update(final Long gameId, final JanggiGame janggiGame);
 }
