@@ -2,12 +2,13 @@ package janggi.domain.repository;
 
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
+import janggi.domain.game.PlayersSaveDTO;
 import janggi.domain.game.Turn;
 import java.util.Optional;
 
 public interface JanggiRepository {
     // 게임 생성
-    Long save(Players players);
+    Long save(PlayersSaveDTO dto);
 
     // 턴 끝날 때마다 게임 상태 저장
     void updateGameStatus(Long gameId, Board board, Turn turn);

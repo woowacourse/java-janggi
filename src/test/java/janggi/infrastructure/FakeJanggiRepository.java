@@ -2,6 +2,8 @@ package janggi.infrastructure;
 
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
+import janggi.domain.game.PlayersSaveDTO;
+import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.domain.repository.JanggiRepository;
 import java.util.Comparator;import java.util.List;
@@ -21,11 +23,19 @@ public class FakeJanggiRepository implements JanggiRepository {
     private final AtomicLong idGenerator = new AtomicLong(0);
 
     @Override
-    public Long save(Players players) {
+    public Long save(PlayersSaveDTO dto) {
         long id = idGenerator.incrementAndGet();
+
+        Players players = Players.fromSavedStatus(
+                dto.choPlayerName(),
+                dto.hanPlayerName(),
+                Side.valueOf(dto.turn())
+        );
+
         playersMap.put(id, players);
         turns.put(id, players.getTurn());
         finishedStatus.put(id, false); // 진행 중
+
         return id;
     }
 

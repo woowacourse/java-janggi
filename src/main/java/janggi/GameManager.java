@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
+import janggi.domain.game.PlayersSaveDTO;
 import janggi.domain.game.Side;
 import janggi.domain.repository.JanggiRepository;
 import janggi.view.InputView;
@@ -34,7 +35,7 @@ public class GameManager {
 
     private void startNewGame() {
         Players players = initialPlayers();
-        Long gameId = repository.save(players);
+        Long gameId = repository.save(PlayersSaveDTO.from(players));
         Board board = Board.initialize();
 
         new JanggiGame(outputView, inputView, repository, board, gameId).play(players);

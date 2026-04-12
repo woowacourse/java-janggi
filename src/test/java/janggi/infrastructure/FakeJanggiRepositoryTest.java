@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
+import janggi.domain.game.PlayersSaveDTO;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.domain.repository.JanggiRepository;
@@ -21,9 +22,10 @@ public class FakeJanggiRepositoryTest {
     void 새_게임_시작_게임_아이디_생성_테스트() {
         // given
         Players players = Players.createInitial("pobi", "jason");
+        PlayersSaveDTO dto = PlayersSaveDTO.from(players);
 
         // when
-        Long gameId = repository.save(players);
+        Long gameId = repository.save(dto);
 
         // then
         assertThat(gameId).isNotNull();
@@ -34,7 +36,7 @@ public class FakeJanggiRepositoryTest {
     void 턴_종료_시마다_게임_상태_저장_테스트() {
         // given
         Players players = Players.createInitial("pobi", "jason");
-        Long gameId = repository.save(players);
+        Long gameId = repository.save(PlayersSaveDTO.from(players));
         Board board = Board.initialize();
         Turn turn = Turn.from(Side.CHO);
 
@@ -51,8 +53,8 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 진행_중인_가장_최근_게임_조회_테스트() {
         // given
-        repository.save(Players.createInitial("pobi", "jason"));
-        Long secondGameId = repository.save(Players.createInitial("gugu", "lisa"));
+        repository.save(PlayersSaveDTO.from(Players.createInitial("pobi", "jason")));
+        Long secondGameId = repository.save(PlayersSaveDTO.from(Players.createInitial("gugu", "lisa")));
 
         // when
         Optional<Long> lastGameId = repository.findInProgressGameId();
@@ -66,7 +68,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_아이디로_보드_조회_테스트() {
         // given
-        Long gameId = repository.save(Players.createInitial("pobi", "jason"));
+        Long gameId = repository.save(PlayersSaveDTO.from(Players.createInitial("pobi", "jason")));
         Board board = Board.initialize();
         repository.updateGameStatus(gameId, board, Turn.from(Side.CHO));
 
@@ -89,7 +91,8 @@ public class FakeJanggiRepositoryTest {
     void 게임_아이디로_플레이어_조회_테스트() {
         // given
         Players players = Players.createInitial("pobi", "jason");
-        Long gameId = repository.save(players);
+        PlayersSaveDTO dto = PlayersSaveDTO.from(players);
+        Long gameId = repository.save(dto);
 
         // when
         Players foundPlayers = repository.findPlayersById(gameId);
@@ -109,7 +112,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_아이디로_턴_조회_테스트() {
         // given
-        Long gameId = repository.save(Players.createInitial("pobi", "jason"));
+        Long gameId = repository.save(PlayersSaveDTO.from(Players.createInitial("pobi", "jason")));
         Turn turn = Turn.from(Side.CHO);
         repository.updateGameStatus(gameId, Board.initialize(), turn);
 
@@ -124,8 +127,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_종료_테스트() {
         // given
-        Players players = Players.createInitial("pobi", "jason");
-        Long gameId = repository.save(players);
+        Long gameId = repository.save(PlayersSaveDTO.from(Players.createInitial("pobi", "jason")));
 
         // when
         repository.finishGame(gameId);
@@ -139,7 +141,7 @@ public class FakeJanggiRepositoryTest {
     void 게임_재시작_시_턴_교체_테스트() {
         // given
         Players initialPlayers = Players.createInitial("pobi", "jason");
-        Long gameId = repository.save(initialPlayers); // CHO 턴으로 저장
+        Long gameId = repository.save(PlayersSaveDTO.from(initialPlayers)); // CHO 턴으로 저장
 
         // when
         Board board = Board.initialize();

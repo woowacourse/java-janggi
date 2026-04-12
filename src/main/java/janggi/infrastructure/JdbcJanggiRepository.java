@@ -3,6 +3,7 @@ package janggi.infrastructure;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.game.Players;
+import janggi.domain.game.PlayersSaveDTO;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.domain.piece.Piece;
@@ -60,15 +61,15 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public Long save(Players players) {
+    public Long save(PlayersSaveDTO dto) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_GAME_SQL,
                      Statement.RETURN_GENERATED_KEYS)) { // 자동으로 생성된 키 반환
 
             // 데이터 바인딩
-            pstmt.setString(1, players.getChoPlayerName());
-            pstmt.setString(2, players.getHanPlayerName());
-            pstmt.setString(3, players.getTurn().getSide().name());
+            pstmt.setString(1, dto.choPlayerName());
+            pstmt.setString(2, dto.hanPlayerName());
+            pstmt.setString(3, dto.turn());
 
             // SQL 명령 -> DB 서버
             pstmt.executeUpdate();
