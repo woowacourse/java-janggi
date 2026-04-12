@@ -1,6 +1,7 @@
 package domain.move.rule;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.move.Path;
 import domain.piece.AlivePieces;
@@ -18,7 +19,7 @@ public final class PalaceRule implements MoveRule {
     ) {
         return baseRule.movableDestinations(side, candidatePaths, alivePieces)
                 .stream()
-                .filter(intersection -> intersection.isInPalace(side))
+                .filter(intersection -> Palace.contains(intersection, side))
                 .toList();
     }
 }

@@ -1,9 +1,5 @@
 package domain.board;
 
-import domain.direction.MoveAmount;
-import domain.game.Side;
-import java.util.List;
-
 public record Intersection(int row, int file) {
 
     private static final String ERROR_WRONG_INPUT = "잘못된 입력입니다. (7,2)처럼 좌표를 구분자(쉼표)로 구분해주세요.";
@@ -48,31 +44,5 @@ public record Intersection(int row, int file) {
 
     private boolean isOutOfFile() {
         return file < LOWER_BOUND_FILE || file > UPPER_BOUND_FILE;
-    }
-
-    public boolean isInPalace(Side side) {
-        List<Integer> rowsInPalace = List.of(
-                side.getRowAt(new MoveAmount(0)),
-                side.getRowAt(new MoveAmount(1)),
-                side.getRowAt(new MoveAmount(2))
-        );
-
-        List<Integer> filesInPalace = List.of(
-                side.getFileAt(new MoveAmount(3)),
-                side.getFileAt(new MoveAmount(4)),
-                side.getFileAt(new MoveAmount(5))
-        );
-
-        return rowsInPalace.contains(row) && filesInPalace.contains(file);
-    }
-
-    public boolean isPalaceCenter() {
-        return (row == 2 || row == 9)
-                && file == 5;
-    }
-
-    public boolean isPalaceCorner() {
-        return (row == 1 || row == 3 || row == 8 || row == 10)
-                && (file == 4 || file == 6);
     }
 }
