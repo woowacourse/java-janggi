@@ -15,6 +15,7 @@ import repository.GameRepository;
 public class GameService {
     private static final String NOT_EXIST_GAME = "[ERROR] 존재하지 않는 게임입니다.";
     private static final String FAILED_TRANSACTION_PROCESS = "[ERROR] 트랜잭션 처리 도중 오류가 발생했습니다. 모든 변경 사항을 롤백합니다.";
+    private static final String FAILED_ROLLBACK = "[ERROR] 롤백에 실패했습니다.";
     private static final String FAILED_CONNECT_DB = "[ERROR] DB 연결에 실패했습니다.";
 
     private final DataSource dataSource;
@@ -91,8 +92,13 @@ public class GameService {
                 T result = task.execute(connection);
                 connection.commit();
                 return result;
-            } catch (Exception exception) {
-                connection.rollback();
+            } catch (RuntimeException | SQLException exception) {
+                try {
+                    connection.rollback();
+                } catch (SQLException sqlException) {
+                    sqlException.addSuppressed(exception);
+                    throw new IllegalStateException(FAILED_ROLLBACK, sqlException);
+                }
                 throw new IllegalStateException(FAILED_TRANSACTION_PROCESS, exception);
             }
         } catch (SQLException exception) {
