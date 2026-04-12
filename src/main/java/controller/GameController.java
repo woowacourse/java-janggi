@@ -15,6 +15,7 @@ import repository.SavedGame;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
+import view.StartOption;
 
 public class GameController {
     private final BoardInitializer boardInitializer;
@@ -45,11 +46,27 @@ public class GameController {
 
     private GameSession loadGameSession() {
         Optional<SavedGame> savedGame = gameRepository.find();
-        if (savedGame.isPresent()) {
-            OutputView.printLoadedGameMessage();
-            OutputView.printLine();
-            return GameRestorer.restore(savedGame.get());
+
+        if(savedGame.isEmpty()){
+            OutputView.printNewGameMessage();
+            return newGameSession();
         }
+
+        return chooseGameSession(savedGame.get());
+    }
+
+    private GameSession chooseGameSession(SavedGame savedGame) {
+        OutputView.printSavedGameOptionMessage();
+
+        StartOption startOption = InputHandler.retry(() ->
+                StartOption.from(InputView.readStartOption()));
+
+        if (startOption == StartOption.LOAD) {
+            OutputView.printLoadedGameMessage();
+            return GameRestorer.restore(savedGame);
+        }
+
+        gameRepository.clear();
         OutputView.printNewGameMessage();
         return newGameSession();
     }

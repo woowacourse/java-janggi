@@ -34,4 +34,8 @@ public class InputView {
                 .map(s -> Integer.parseInt(s.trim()))
                 .collect(Collectors.toList());
     }
+
+    public static String readStartOption(){
+        return sc.nextLine();
+    }
 }

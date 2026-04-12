@@ -62,6 +62,12 @@ public class OutputView {
         System.out.println("게임을 시작합니다.");
     }
 
+    public static void printSavedGameOptionMessage(){
+        System.out.println("저장된 게임이 있습니다.");
+        System.out.println("1. 저장된 게임 이어서 시작");
+        System.out.println("2. 새 게임 시작");
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = 1; col <= 9; col++) {
             Position position = Position.of(row, col);
