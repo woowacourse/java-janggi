@@ -10,12 +10,12 @@ import janggi.view.OutputView;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class GameManager {
+public class GameRunner {
     private final OutputView outputView;
     private final InputView inputView;
     private final JanggiRepository repository;
 
-    public GameManager(OutputView outputView, InputView inputView, JanggiRepository repository) {
+    public GameRunner(OutputView outputView, InputView inputView, JanggiRepository repository) {
         this.outputView = outputView;
         this.inputView = inputView;
         this.repository = repository;

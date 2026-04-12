@@ -1,7 +1,7 @@
 package janggi.config;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import janggi.GameManager;
+import janggi.GameRunner;
 import janggi.domain.repository.JanggiRepository;
 import janggi.infrastructure.JdbcJanggiRepository;
 import janggi.view.InputView;
@@ -18,8 +18,8 @@ public class AppConfig {
     private static final String DB_USER = "DB_USER";
     private static final String DB_PASSWORD = "DB_PASSWORD";
 
-    public GameManager gameManager() {
-        return new GameManager(outputView(), inputView(), janggiRepository());
+    public GameRunner gameManager() {
+        return new GameRunner(outputView(), inputView(), janggiRepository());
     }
 
     private InputView inputView() {
