@@ -1,61 +1,41 @@
 package janggi.view.format;
 
+import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import java.util.Arrays;
 
 public enum PieceFormat {
 
-    GENERAL_CHO("楚"),
-    GENERAL_HAN("漢"),
-    SOLDIER_CHO("卒"),
-    SOLDIER_HAN("兵"),
-    CHARIOT_CHO("車"),
-    CHARIOT_HAN("車"),
-    HORSE_CHO("馬"),
-    HORSE_HAN("馬"),
-    CANNON_CHO("包"),
-    CANNON_HAN("包"),
-    GUARD_CHO("士"),
-    GUARD_HAN("士"),
-    ELEPHANT_CHO("象"),
-    ELEPHANT_HAN("象"),
+    GENERAL_CHO("楚", PieceType.GENERAL, Camp.CHO),
+    GENERAL_HAN("漢", PieceType.GENERAL, Camp.HAN),
+    SOLDIER_CHO("卒", PieceType.SOLDIER, Camp.CHO),
+    SOLDIER_HAN("兵", PieceType.SOLDIER, Camp.HAN),
+    CHARIOT_CHO("車", PieceType.CHARIOT, Camp.CHO),
+    CHARIOT_HAN("車", PieceType.CHARIOT, Camp.HAN),
+    HORSE_CHO("馬", PieceType.HORSE, Camp.CHO),
+    HORSE_HAN("馬", PieceType.HORSE, Camp.HAN),
+    CANNON_CHO("包", PieceType.CANNON, Camp.CHO),
+    CANNON_HAN("包", PieceType.CANNON, Camp.HAN),
+    GUARD_CHO("士", PieceType.GUARD, Camp.CHO),
+    GUARD_HAN("士", PieceType.GUARD, Camp.HAN),
+    ELEPHANT_CHO("象", PieceType.ELEPHANT, Camp.CHO),
+    ELEPHANT_HAN("象", PieceType.ELEPHANT, Camp.HAN),
     ;
 
     private final String symbol;
+    private final Piece piece;
 
-    PieceFormat(String symbol) {
+    PieceFormat(String symbol, PieceType pieceType, Camp camp) {
         this.symbol = symbol;
+        this.piece = new Piece(camp, pieceType);
     }
 
     public static PieceFormat from(Piece piece) {
-        return switch (piece.camp()) {
-            case CHO -> choOf(piece.pieceType());
-            case HAN -> hanOf(piece.pieceType());
-        };
-    }
-
-    private static PieceFormat choOf(PieceType pieceType) {
-        return switch (pieceType) {
-            case GENERAL -> GENERAL_CHO;
-            case CHARIOT -> CHARIOT_CHO;
-            case HORSE -> HORSE_CHO;
-            case CANNON -> CANNON_CHO;
-            case GUARD -> GUARD_CHO;
-            case ELEPHANT -> ELEPHANT_CHO;
-            case SOLDIER -> SOLDIER_CHO;
-        };
-    }
-
-    private static PieceFormat hanOf(PieceType pieceType) {
-        return switch (pieceType) {
-            case GENERAL -> GENERAL_HAN;
-            case CHARIOT -> CHARIOT_HAN;
-            case HORSE -> HORSE_HAN;
-            case CANNON -> CANNON_HAN;
-            case GUARD -> GUARD_HAN;
-            case ELEPHANT -> ELEPHANT_HAN;
-            case SOLDIER -> SOLDIER_HAN;
-        };
+        return Arrays.stream(values())
+                .filter(pieceFormat -> pieceFormat.piece.equals(piece))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 기물입니다."));
     }
 
     public String symbol() {

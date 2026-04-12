@@ -1,6 +1,6 @@
 package janggi.view.dto;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.view.format.PieceFormat;
 
@@ -16,7 +16,7 @@ public record PiecePositionDto(
                 position.row(),
                 position.column(),
                 pieceFormat.symbol(),
-                CampDto.from(piece.camp())
+                CampDto.from(piece.getCamp())
         );
     }
 }

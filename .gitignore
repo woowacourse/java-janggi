@@ -1,6 +1,10 @@
 HELP.md
 .gradle
+.gradle-local/
 build/
+data/
+*.mv.db
+*.trace.db
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**

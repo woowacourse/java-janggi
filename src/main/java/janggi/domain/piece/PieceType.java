@@ -1,41 +1,26 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.condition.EmptyCondition;
-import janggi.domain.piece.condition.MoveCondition;
-import janggi.domain.piece.condition.OnePieceExistsCondition;
-import janggi.domain.piece.strategy.ElephantStrategy;
-import janggi.domain.piece.strategy.HorseStrategy;
-import janggi.domain.piece.strategy.MoveStrategy;
-import janggi.domain.piece.strategy.MultiStepStraightStrategy;
-import janggi.domain.piece.strategy.SingleStepStraightStrategy;
-import janggi.domain.piece.strategy.SoldierStrategy;
-import java.util.List;
-
 public enum PieceType {
 
-    GENERAL(new SingleStepStraightStrategy(), new EmptyCondition()),
-    CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition()),
-    HORSE(new HorseStrategy(), new EmptyCondition()),
-    CANNON(new MultiStepStraightStrategy(), new OnePieceExistsCondition()),
-    GUARD(new SingleStepStraightStrategy(), new EmptyCondition()),
-    ELEPHANT(new ElephantStrategy(), new EmptyCondition()),
-    SOLDIER(new SoldierStrategy(), new EmptyCondition());
+    GENERAL(0.0),
+    CHARIOT(13.0),
+    CANNON(7.0),
+    HORSE(5.0),
+    ELEPHANT(3.0),
+    GUARD(3.0),
+    SOLDIER(2.0);
 
-    private final MoveStrategy moveStrategy;
-    private final MoveCondition moveCondition;
+    private final double score;
 
-    PieceType(MoveStrategy moveStrategy, MoveCondition moveCondition) {
-        this.moveStrategy = moveStrategy;
-        this.moveCondition = moveCondition;
+    PieceType(double score) {
+        this.score = score;
     }
 
-    public List<Position> findPath(Position source, Position destination, Camp camp) {
-        return moveStrategy.findPath(source, destination, camp);
+    public double score() {
+        return score;
     }
 
-    public void checkPath(List<Position> path, Camp camp, BoardChecker board) {
-        moveCondition.checkPath(path, camp, board, this);
+    public boolean isGeneral() {
+        return this == GENERAL;
     }
 }

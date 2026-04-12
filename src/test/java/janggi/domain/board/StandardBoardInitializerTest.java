@@ -2,11 +2,9 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
-import janggi.domain.board.initializer.dto.ElephantSetUpDto;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -18,10 +16,9 @@ import org.junit.jupiter.api.Test;
 public class StandardBoardInitializerTest {
 
     @Test
-    void 같은_진영의_상차림을_두_번_전달하면_예외가_발생한다() {
+    void 두_진영의_상차림이_모두_존재하지_않으면_예외가_발생한다() {
         assertThatThrownBy(() -> new StandardBoardInitializer(
-                new ElephantSetUpDto(Camp.HAN, ElephantSetUp.LEFT_ELEPHANT),
-                new ElephantSetUpDto(Camp.HAN, ElephantSetUp.RIGHT_ELEPHANT)))
+                Map.of(Camp.HAN, ElephantSetUp.LEFT_ELEPHANT)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 진영별 상차림은 각각 하나씩만 존재해야 합니다.");
     }
@@ -29,9 +26,10 @@ public class StandardBoardInitializerTest {
     @Test
     void 한_상마상마_초_마상마상_으로_보드를_초기화한다() {
         // given
-        BoardInitializer initializer = new StandardBoardInitializer(
-                new ElephantSetUpDto(Camp.HAN, ElephantSetUp.LEFT_ELEPHANT),
-                new ElephantSetUpDto(Camp.CHO, ElephantSetUp.RIGHT_ELEPHANT));
+        BoardInitializer initializer = new StandardBoardInitializer(Map.of(
+                Camp.HAN, ElephantSetUp.LEFT_ELEPHANT,
+                Camp.CHO, ElephantSetUp.RIGHT_ELEPHANT
+        ));
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoLeftHanRightBoard());
         // when
@@ -46,9 +44,10 @@ public class StandardBoardInitializerTest {
     @Test
     void 한_상마마상_초_마상상마_으로_보드를_초기화한다() {
         // given
-        BoardInitializer initializer = new StandardBoardInitializer(
-                new ElephantSetUpDto(Camp.HAN, ElephantSetUp.OUTER_ELEPHANT),
-                new ElephantSetUpDto(Camp.CHO, ElephantSetUp.INNER_ELEPHANT));
+        BoardInitializer initializer = new StandardBoardInitializer(Map.of(
+                Camp.HAN, ElephantSetUp.OUTER_ELEPHANT,
+                Camp.CHO, ElephantSetUp.INNER_ELEPHANT
+        ));
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoInnerHanOuterBoard());
         // when
@@ -111,7 +110,7 @@ public class StandardBoardInitializerTest {
     private void putPieces(Map<Position, Piece> board, PieceType pieceType, Camp camp,
                            Position... positions) {
         for (Position position : positions) {
-            board.put(position, new Piece(pieceType, camp));
+            board.put(position, new Piece(camp, pieceType));
         }
     }
 

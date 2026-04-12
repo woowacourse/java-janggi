@@ -1,26 +1,17 @@
 package janggi.domain.piece;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum Camp {
 
     HAN(-1, 9) {
         @Override
-        public List<Integer> convertElephantColumns(List<Integer> columns) {
-            return columns;
-        }
-
-        @Override
         public Camp next() {
             return CHO;
         }
     },
     CHO(1, 0) {
-        @Override
-        public List<Integer> convertElephantColumns(List<Integer> columns) {
-            return columns.reversed();
-        }
-
         @Override
         public Camp next() {
             return HAN;
@@ -36,8 +27,6 @@ public enum Camp {
         this.startRowPosition = startRowPosition;
     }
 
-    public abstract List<Integer> convertElephantColumns(List<Integer> columns);
-
     public abstract Camp next();
 
     public void validateForwardDirection(int rowDirection) {
@@ -48,5 +37,10 @@ public enum Camp {
 
     public int getStartRowPosition() {
         return startRowPosition;
+    }
+
+    public static List<Camp> getAllCamp() {
+        return Arrays.stream(values())
+                .toList();
     }
 }

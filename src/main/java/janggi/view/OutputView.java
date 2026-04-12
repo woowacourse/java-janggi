@@ -2,7 +2,8 @@ package janggi.view;
 
 import static java.util.stream.Collectors.joining;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.view.dto.CampDto;
 import janggi.view.dto.PiecePositionDto;
@@ -26,12 +27,22 @@ public final class OutputView {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
 
+    private static final String SCORE = "%s나라 점수: %.1f";
+    private static final String WINNER = "%s나라가 승리하였습니다!! 축하드립니다!!";
+    private static final String GAME_ROOM = "현재 게임방: ";
+    private static final String EMPTY_GAME = "현재 게임방이 존재하지 않습니다.";
+
     public void printError(String errorMessage) {
         System.out.println(errorMessage);
     }
 
     public void printBoard(Map<Position, Piece> boardState) {
-        System.out.println(renderBoard(toPiecePositions(boardState)));
+        System.out.println(renderBoard(toPiecePositions(boardState)) + LINE_SEPARATOR);
+    }
+
+    public void printWinner(Camp camp) {
+        String winnerName = toCampName(camp);
+        System.out.printf((WINNER) + "%n", winnerName);
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
@@ -83,5 +94,25 @@ public final class OutputView {
 
     private String fullWidthNumber(int number) {
         return FULL_WIDTH_NUMBERS[number];
+    }
+
+    public void printScore(Map<Camp, Double> eachCampScore) {
+        for (Camp camp : eachCampScore.keySet()) {
+            String campName = toCampName(camp);
+            System.out.printf(SCORE + "%n", campName, eachCampScore.get(camp));
+        }
+    }
+
+    private String toCampName(Camp camp) {
+        CampDto campDto = CampDto.from(camp);
+        return campDto.color() + campDto.name() + RESET;
+    }
+
+    public void printExistGameRoom(List<Long> gameIds) {
+        if (gameIds.isEmpty()) {
+            System.out.println(LINE_SEPARATOR + EMPTY_GAME);
+            return;
+        }
+        System.out.println(LINE_SEPARATOR + GAME_ROOM + gameIds);
     }
 }

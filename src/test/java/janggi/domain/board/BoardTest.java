@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
-import janggi.domain.Position;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -18,14 +19,14 @@ class BoardTest {
         Position destination = new Position(0, 1);
 
         Board board = new Board(() -> Map.of(
-                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
-                destination, new Piece(PieceType.HORSE, Camp.CHO),
-                source, new Piece(PieceType.CANNON, Camp.HAN)
+                new Position(4, 1), new Piece(Camp.HAN, PieceType.SOLDIER),
+                destination, new Piece(Camp.CHO, PieceType.HORSE),
+                source, new Piece(Camp.HAN, PieceType.CANNON)
         ));
         // when
         board.movePiece(source, destination, Camp.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceType.CANNON);
+        boolean destinationExists = board.hasSamePieceTypeAt(destination, PieceType.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -42,8 +43,8 @@ class BoardTest {
 
         // when
         Board board = new Board(() -> Map.of(
-                destination, new Piece(PieceType.HORSE, Camp.CHO),
-                source, new Piece(PieceType.CANNON, Camp.CHO)
+                destination, new Piece(Camp.CHO, PieceType.HORSE),
+                source, new Piece(Camp.CHO, PieceType.CANNON)
         ));
         // then
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
@@ -62,5 +63,27 @@ class BoardTest {
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 출발지에 기물이 존재하지 않습니다.");
+    }
+
+    @Test
+    void 각_진영의_남아있는_기물로_점수를_계산한다() {
+        // given
+        Board board = new Board(() -> Map.of(
+                new Position(1, 4), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(0, 0), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(0, 8), new Piece(Camp.CHO, PieceType.CHARIOT),
+
+                new Position(4, 1), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(7, 1), new Piece(Camp.HAN, PieceType.CANNON),
+                new Position(7, 7), new Piece(Camp.HAN, PieceType.CANNON)
+        ));
+
+        // when
+        double choScore = board.calculatePieceScore(Camp.CHO);
+        double hanScore = board.calculatePieceScore(Camp.HAN);
+
+        // then
+        assertThat(choScore).isEqualTo(26);
+        assertThat(hanScore).isEqualTo(16);
     }
 }

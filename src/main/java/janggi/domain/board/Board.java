@@ -1,12 +1,12 @@
 package janggi.domain.board;
 
-import janggi.domain.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board implements BoardChecker {
 
@@ -32,20 +32,27 @@ public class Board implements BoardChecker {
     }
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceType pieceType) {
-        if (board.containsKey(position)) {
-            Piece foundPiece = board.get(position);
-            return foundPiece.isSamePieceRule(pieceType);
+    public boolean hasSamePieceTypeAt(Position position, PieceType pieceType) {
+        if (!board.containsKey(position)) {
+            return false;
         }
-        return false;
+        Piece foundPiece = board.get(position);
+        return foundPiece.isSamePieceType(pieceType);
     }
 
-    public void movePiece(Position source, Position destination, Camp turn) {
+    public Optional<Piece> movePiece(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
-        Piece piece = board.get(source);
-        piece.validateMove(source, destination, this);
-        board.put(destination, piece);
+        Piece movingPiece = board.get(source);
+        Piece destinationPiece = board.get(destination);
+        movingPiece.validateMove(source, destination, this);
+
         board.remove(source);
+        board.put(destination, movingPiece);
+
+        if (destinationPiece == null) {
+            return Optional.empty();
+        }
+        return Optional.of(destinationPiece);
     }
 
     public void validateCampTurn(Position source, Camp turn) {
@@ -56,13 +63,21 @@ public class Board implements BoardChecker {
         }
     }
 
-    private void validateSource(Position source) {
-        if (!board.containsKey(source)) {
-            throw new IllegalArgumentException(SOURCE_NOT_EXISTS);
-        }
+
+    public double calculatePieceScore(Camp camp) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameCamp(camp))
+                .mapToDouble(Piece::score)
+                .sum();
     }
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    private void validateSource(Position source) {
+        if (!board.containsKey(source)) {
+            throw new IllegalArgumentException(SOURCE_NOT_EXISTS);
+        }
     }
 }

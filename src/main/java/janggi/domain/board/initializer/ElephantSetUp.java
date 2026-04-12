@@ -1,6 +1,6 @@
 package janggi.domain.board.initializer;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -24,16 +24,23 @@ public enum ElephantSetUp {
     }
 
     public Map<Position, Piece> settingUp(Camp camp) {
-        List<Integer> settingColumns = camp.convertElephantColumns(SETTING_COLUMNS);
+        List<Integer> settingColumns = settingColumnsOf(camp);
 
         Map<Position, Piece> map = new HashMap<>();
         for (int i = 0; i < settingColumns.size(); i++) {
             map.put(
                     new Position(camp.getStartRowPosition(), settingColumns.get(i)),
-                    new Piece(elephantOrder.get(i), camp)
+                    new Piece(camp, elephantOrder.get(i))
             );
         }
 
         return map;
+    }
+
+    private List<Integer> settingColumnsOf(Camp camp) {
+        if (camp == Camp.CHO) {
+            return SETTING_COLUMNS.reversed();
+        }
+        return SETTING_COLUMNS;
     }
 }

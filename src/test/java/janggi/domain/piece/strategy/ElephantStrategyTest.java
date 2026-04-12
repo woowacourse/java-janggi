@@ -2,8 +2,9 @@ package janggi.domain.piece.strategy;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Position;
-import janggi.domain.piece.Camp;
+import janggi.domain.board.Position;
+import janggi.domain.piece.movement.strategy.ElephantStrategy;
+import janggi.domain.piece.movement.strategy.MoveStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -72,7 +73,7 @@ public class ElephantStrategyTest {
     @MethodSource("createPositionsAndPath")
     void 상은_직선_1칸_이동_후_대각선_2칸_이동한다(Position source, Position destination, List<Position> expectedPath) {
         // when
-        List<Position> path = strategy.findPath(source, destination, Camp.HAN);
+        List<Position> path = strategy.findPath(source, destination);
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
             assertSoftly.assertThat(path).hasSize(expectedPath.size());
@@ -90,7 +91,7 @@ public class ElephantStrategyTest {
     @ParameterizedTest
     @MethodSource("createExceptionPosition")
     void 상은_행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
-        assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.CHO))
+        assertThatThrownBy(() -> strategy.findPath(source, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물은 직선 1칸 이동 후 대각선 2칸 이동만 가능합니다.");
     }
