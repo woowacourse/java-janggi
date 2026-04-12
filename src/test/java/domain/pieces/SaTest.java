@@ -1,7 +1,6 @@
 package domain.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -10,21 +9,16 @@ import org.junit.jupiter.api.Test;
 import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
-class JangTest {
+class SaTest {
 
-    @DisplayName("장 이동 초나라- 상하좌우 이동 가능")
+    @DisplayName("사 이동 초나라 - 궁성안에서 상화좌우 대각 이동 가능")
     @Test
-    void 장_이동_초나라_이동_정상_테스트(){
-        Jang jang = new Jang(Country.CHO);
-        Position start = Position.create(2,5);
-        PieceFinder finder = new PieceFinder() {
-            @Override
-            public Piece find(Position position) {
-                return None.INSTANCE;
-            }
-        };
+    void 사_이동_중앙_초나라_정상_테스트() {
+        Sa sa = new Sa(Country.CHO);
+        Position start = Position.create(2, 5);
+
+        PieceFinder finder = position -> None.INSTANCE;
 
         List<Position> expected = List.of(
                 Position.create(3,5),
@@ -37,15 +31,15 @@ class JangTest {
                 Position.create(3,4)
         );
 
-        List<Position> result = jang.getAvailableRoute(start, finder);
+        List<Position> result = sa.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @DisplayName("장 이동 한나라 - 상하좌우 이동 가능")
+    @DisplayName("사 이동 한나라 - 궁성안에서 상화좌우 대각 이동 가능")
     @Test
-    void 장_이동_한나라_이동_정상_테스트(){
-        Jang jang = new Jang(Country.HAN);
-        Position start = Position.create(9,5);
+    void 사_이동_한나라_정상_테스트() {
+        Sa sa = new Sa(Country.HAN);
+        Position start = Position.create(9, 5);
 
         PieceFinder finder = position -> None.INSTANCE;
 
@@ -60,15 +54,14 @@ class JangTest {
                 Position.create(8,4)
         );
 
-        List<Position> result = jang.getAvailableRoute(start, finder);
+        List<Position> result = sa.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-
-    @DisplayName("장 이동 - 궁성 밖으로 이동 불가")
+    @DisplayName("사 이동 - 궁성 밖으로 이동 불가")
     @Test
-    void 장_궁성_밖으로_이동_불가() {
-        Jang jang = new Jang(Country.CHO);
+    void 사_궁성_밖_이동불가() {
+        Sa sa = new Sa(Country.CHO);
         Position start = Position.create(1, 4); // 궁 모서리
 
         PieceFinder finder = position -> None.INSTANCE;
@@ -79,15 +72,15 @@ class JangTest {
                 Position.create(2,5)
         );
 
-        List<Position> result = jang.getAvailableRoute(start, finder);
+        List<Position> result = sa.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @DisplayName("장 이동 - 아군 위치로 이동 불가")
+    @DisplayName("사 이동 - 아군 위치로 이동 불가")
     @Test
-    void 장_아군_위치로_이동_불가() {
-        Jang jang = new Jang(Country.CHO);
-        Position start = Position.create(2,5);
+    void 사_아군_위치_이동불가() {
+        Sa sa = new Sa(Country.CHO);
+        Position start = Position.create(2, 5);
 
         PieceFinder finder = position -> {
             if (position.equals(Position.create(3,5))) {
@@ -106,15 +99,15 @@ class JangTest {
                 Position.create(3,4)
         );
 
-        List<Position> result = jang.getAvailableRoute(start, finder);
+        List<Position> result = sa.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @DisplayName("장 이동 - 적을 만나면 잡고 멈춤")
+    @DisplayName("사 이동 - 적을 만나면 잡을 수 있음")
     @Test
-    void 장_적군_잡기() {
-        Jang jang = new Jang(Country.CHO);
-        Position start = Position.create(2,5);
+    void 사_적군_잡기() {
+        Sa sa = new Sa(Country.CHO);
+        Position start = Position.create(2, 5);
 
         PieceFinder finder = position -> {
             if (position.equals(Position.create(3,5))) {
@@ -134,7 +127,7 @@ class JangTest {
                 Position.create(3,4)
         );
 
-        List<Position> result = jang.getAvailableRoute(start, finder);
+        List<Position> result = sa.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 

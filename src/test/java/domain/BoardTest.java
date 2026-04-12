@@ -22,14 +22,14 @@ class BoardTest {
         PieceType sang= PieceType.SANG;
 
 
-        assertThat(board.getPiece(Position.create(1,2))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(1,3))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,8))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,2))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,3))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,8))).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(1,2)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(1,3)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(1,7)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(1,8)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(10,2)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(10,3)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(10,7)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(10,8)).getPieceType()).isEqualTo(ma);
     }
 
     @Test
@@ -41,14 +41,14 @@ class BoardTest {
         PieceType sang= PieceType.SANG;
 
 
-        assertThat(board.getPiece(Position.create(1,2))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,3))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(1,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,8))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,2))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,3))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,8))).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(1,2)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(1,3)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(1,7)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(1,8)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(10,2)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(10,3)).getPieceType()).isEqualTo(ma);
+        assertThat(board.getPiece(Position.create(10,7)).getPieceType()).isEqualTo(sang);
+        assertThat(board.getPiece(Position.create(10,8)).getPieceType()).isEqualTo(ma);
     }
 
     @DisplayName("도착좌표에 아무것도 없을때 말의 이동 정상 테스트")
@@ -59,7 +59,7 @@ class BoardTest {
 
         board.move(Position.create(1,3), Position.create(3,4));
 
-        assertThat(board.getPiece(Position.create(3,4))).isEqualTo(PieceType.MA);
+        assertThat(board.getPiece(Position.create(3,4)).getPieceType()).isEqualTo(PieceType.MA);
     }
 
     @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 이동 규칙 위반")
@@ -150,34 +150,4 @@ class BoardTest {
                 .containsExactlyInAnyOrderElementsOf(List.of(Position.create(2,1),Position.create(3,1)));
 
     }
-
-//    @Test
-//    void 마_이동가능한_좌표_반환(){
-//        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-//        Board board = new Board(pieces);
-//
-//        assertThat(board.findAvailablePositions(Position.create(4,3))
-//                .containsAll(List.of(Position.create(4,2),Position.create(4,4),Position.create(5,3))));
-//
-//    }
-
-//    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 마 이동 시 중간에 장애물 있음 (초나라)")
-//    @Test
-//    void 마_이동_중간_장애물_초나라_예외_테스트(){
-//        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-//        Board board = new Board(pieces);
-//
-//        assertThatThrownBy(() -> board.move(Position.create(1,2), Position.create(2,4)))
-//                .isInstanceOf(IllegalArgumentException.class);
-//    }
-//
-//    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 상 이동 시 중간에 장애물 있음 (초나라)")
-//    @Test
-//    void 상_이동_중간_장애물_초나라_예외_테스트(){
-//        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-//        Board board = new Board(pieces);
-//
-//        assertThatThrownBy(() -> board.move(Position.create(1,3), Position.create(3,6)))
-//                .isInstanceOf(IllegalArgumentException.class);
-//    }
 }
