@@ -7,6 +7,7 @@ import domain.board.Type;
 import domain.vo.Position;
 
 import java.sql.*;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,11 @@ public class BoardJdbcDao implements BoardDao {
 
     @Override
     public void saveBoard(Connection con, Long gameId, Board board) {
-        String sql = "insert into boards(game_id, position_col, position_row, team, piece_type) values(?, ?, ?, ?, ?)";
+        String sql = "insert into boards(game_id, position_col, position_row, team, piece_type, created_at, updated_at) values(?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            OffsetDateTime now = OffsetDateTime.now();
 
             Map<Position, Piece> boardMapper = board.getBoard();
             for (Position position : boardMapper.keySet()) {
@@ -25,6 +28,8 @@ public class BoardJdbcDao implements BoardDao {
                 pstmt.setInt(3, position.getRow());
                 pstmt.setString(4, boardMapper.get(position).getTeam().name());
                 pstmt.setString(5, boardMapper.get(position).getType().name());
+                pstmt.setObject(6, now);
+                pstmt.setObject(7, now);
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {

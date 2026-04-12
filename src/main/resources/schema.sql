@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS boards (
     position_row INT NOT NULL,
     position_col INT NOT NULL,
     team VARCHAR(10) NOT NULL,
-    piece_type VARCHAR(20) NOT NULL
+    piece_type VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS board_game_idx ON boards (game_id);
