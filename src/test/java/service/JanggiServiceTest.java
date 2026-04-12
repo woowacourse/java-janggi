@@ -3,8 +3,6 @@ package service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.BoardFixture;
-import domain.board.Intersection;
-import domain.game.Side;
 import dto.GameSummary;
 import dto.GameWrapper;
 import java.io.IOException;
@@ -39,21 +37,6 @@ class JanggiServiceTest {
     @Test
     void 새로운_게임_생성() {
         GameWrapper gameWrapper = janggiService.createGame(BoardFixture.create());
-
-        GameWrapper loaded = janggiService.loadGame(gameWrapper.gameId());
-
-        assertThat(loaded)
-                .usingRecursiveComparison()
-                .isEqualTo(gameWrapper);
-    }
-
-    @DisplayName("진행중인 게임을 저장한다")
-    @Test
-    void 게임_저장() {
-        GameWrapper gameWrapper = janggiService.createGame(BoardFixture.create());
-        gameWrapper.game().movePiece(new Intersection(10,1), new Intersection(9, 1), Side.CHO);
-
-        janggiService.saveGame(gameWrapper);
 
         GameWrapper loaded = janggiService.loadGame(gameWrapper.gameId());
 

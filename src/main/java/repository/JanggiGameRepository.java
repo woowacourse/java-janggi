@@ -76,9 +76,44 @@ public final class JanggiGameRepository {
         }
     }
 
-    public void updateGameStatus(Connection conn, JanggiGame janggiGame, long gameId) {
+    public void updateGameStatus(Connection conn, JanggiGame janggiGame,
+                                 Intersection from, Intersection to, long gameId) {
         updateCurrentTurn(conn, janggiGame, gameId);
-        syncPieces(conn, janggiGame, gameId);
+        deleteCapturedPiece(conn, to, gameId);
+        movePiece(conn, from, to, gameId);
+    }
+
+    private void deleteCapturedPiece(Connection conn, Intersection to, long gameId) {
+        String sql = ""
+                + "DELETE FROM piece "
+                + "WHERE game_id = ? AND position_row = ? AND position_file = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, gameId);
+            pstmt.setInt(2, to.row());
+            pstmt.setInt(3, to.file());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+    }
+
+    private void movePiece(Connection conn, Intersection from, Intersection to, long gameId) {
+        String sql = ""
+                + "UPDATE piece "
+                + "SET position_row = ?, position_file = ? "
+                + "WHERE game_id = ? AND position_row = ? AND position_file = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, to.row());
+            pstmt.setInt(2, to.file());
+            pstmt.setLong(3, gameId);
+            pstmt.setInt(4, from.row());
+            pstmt.setInt(5, from.file());
+            pstmt.execute();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     private void updateCurrentTurn(Connection conn, JanggiGame janggiGame, long gameId) {
@@ -169,21 +204,6 @@ public final class JanggiGameRepository {
         } catch (SQLException e) {
             throw new DataAccessException(e);
         }
-    }
-
-    private void syncPieces(Connection conn, JanggiGame janggiGame, long gameId) {
-        String sqlForDelete = ""
-                + "DELETE FROM piece "
-                + "WHERE game_id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sqlForDelete)) {
-            pstmt.setLong(1, gameId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-
-        insertPieces(conn, janggiGame, gameId);
     }
 
     private Map<Intersection, Piece> findPieces(Connection conn, long gameId) {

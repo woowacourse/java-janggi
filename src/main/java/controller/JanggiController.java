@@ -131,18 +131,19 @@ public final class JanggiController {
             }
 
             if (moveCommand.isExit()) {
-                exitGame(gameWrapper);
+                outputView.printGameFinishedByCommand();
                 return;
             }
 
             try {
-                processTurn(moveCommand, janggiGame);
+                gameWrapper = processTurn(moveCommand, gameWrapper);
+                janggiGame = gameWrapper.game();
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
 
-        finishGame(gameWrapper, janggiGame);
+        outputView.printWinner(janggiGame.determineResult());
     }
 
     private JanggiGame setUpGame(GameWrapper gameWrapper) {
@@ -152,12 +153,8 @@ public final class JanggiController {
         return janggiGame;
     }
 
-    private void exitGame(GameWrapper gameWrapper) {
-        outputView.printGameFinishedByCommand();
-        janggiService.saveGame(gameWrapper);
-    }
-
-    private void processTurn(MoveCommand moveCommand, JanggiGame janggiGame) {
+    private GameWrapper processTurn(MoveCommand moveCommand, GameWrapper gameWrapper) {
+        JanggiGame janggiGame = gameWrapper.game();
         Intersection startPosition = moveCommand.selectedToMove()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 좌표(x,y) 또는 종료(exit)를 입력해주세요."));
         Side currentTurn = janggiGame.currentTurn();
@@ -166,12 +163,7 @@ public final class JanggiController {
                 janggiGame.getBoard(),
                 janggiGame.getMovableIntersections(startPosition, currentTurn)
         );
-        readValidDestinationAndPrintBoard(janggiGame, startPosition, currentTurn);
-    }
-
-    private void finishGame(GameWrapper gameWrapper, JanggiGame janggiGame) {
-        outputView.printWinner(janggiGame.determineResult());
-        janggiService.saveGame(gameWrapper);
+        return readValidDestinationAndPrintBoard(gameWrapper, startPosition, currentTurn);
     }
 
     private void continueGame(long gameId) {
@@ -196,18 +188,23 @@ public final class JanggiController {
         }
     }
 
-    private Intersection readValidDestinationAndPrintBoard(
-            JanggiGame janggiGame,
+    private GameWrapper readValidDestinationAndPrintBoard(
+            GameWrapper gameWrapper,
             Intersection startPosition,
             Side currentTurn
     ) {
         while (true) {
             try {
                 Intersection destination = inputView.readDestination();
-                janggiGame.movePiece(startPosition, destination, currentTurn);
-                outputView.printBoard(janggiGame.getBoard());
+                GameWrapper movedGameWrapper = janggiService.move(
+                        gameWrapper.gameId(),
+                        startPosition,
+                        destination,
+                        currentTurn
+                );
+                outputView.printBoard(movedGameWrapper.game().getBoard());
 
-                return destination;
+                return movedGameWrapper;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

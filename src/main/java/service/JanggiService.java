@@ -1,7 +1,9 @@
 package service;
 
 import domain.board.Board;
+import domain.board.Intersection;
 import domain.game.JanggiGame;
+import domain.game.Side;
 import dto.GameSummary;
 import dto.GameWrapper;
 import java.util.List;
@@ -26,10 +28,14 @@ public final class JanggiService {
         });
     }
 
-    public void saveGame(GameWrapper gameWrapper) {
-        transactionTemplate.execute(conn -> {
-            repository.updateGameStatus(conn, gameWrapper.game(), gameWrapper.gameId());
-            return null;
+    public GameWrapper move(long gameId, Intersection from, Intersection to, Side requestingSide) {
+        return transactionTemplate.execute(conn -> {
+            JanggiGame janggiGame = repository.findById(conn, gameId);
+
+            janggiGame.movePiece(from, to, requestingSide);
+
+            repository.updateGameStatus(conn, janggiGame, from, to, gameId);
+            return new GameWrapper(gameId, janggiGame);
         });
     }
 
