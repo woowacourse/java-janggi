@@ -3,7 +3,7 @@ package janggi.controller;
 import java.util.Arrays;
 
 public enum Command {
-    LOAD("load"),
+    CONTINUE("continue"),
     NEW("new"),
     DELETE("delete"),
     EXIT("exit");

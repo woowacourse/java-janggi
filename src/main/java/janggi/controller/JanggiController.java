@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public class JanggiController {
     private static final Map<Command, Consumer<JanggiController>> COMMAND_ACTIONS = Map.of(
-            Command.LOAD, JanggiController::loadGame,
+            Command.CONTINUE, JanggiController::continueGame,
             Command.NEW, controller -> {
                 long gameId = controller.createGame();
                 controller.playGame(gameId);
@@ -55,10 +55,10 @@ public class JanggiController {
         COMMAND_ACTIONS.get(command).accept(this);
     }
 
-    private void loadGame() {
+    private void continueGame() {
         while (true) {
             try {
-                long gameId = inputView.readLoadGameId();
+                long gameId = inputView.readContinueGameId();
                 if (gameId == 0) {
                     return;
                 }
