@@ -7,6 +7,9 @@ import javax.sql.DataSource;
 
 public final class DatabaseInitializer {
 
+    private DatabaseInitializer() {
+    }
+
     private static final String CREATE_GAME_TABLE = """
             CREATE TABLE IF NOT EXISTS game (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +32,7 @@ public final class DatabaseInitializer {
             )
             """;
 
-    public static void initialize(DataSource dataSource) {
+    public static void initialize(final DataSource dataSource) {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
