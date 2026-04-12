@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.domain.JanggiGame;
+import janggi.domain.Team;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
@@ -98,27 +99,44 @@ public class JanggiController {
     }
 
     private void playGame(long gameId) {
-        JanggiGame game = service.loadGame(gameId);
-        printBoardAndScore(game);
-        while (!game.isFinished()) {
+        while (true) {
+            JanggiGame game = service.loadGame(gameId);
+            if (game.isFinished()) {
+                printFinishedGame(game);
+                return;
+            }
             try {
-                List<String> positions = inputView.readPosition(game.getCurrentTeam());
+                printBoardAndScore(game);
+                List<String> positions = readPosition(game.getCurrentTeam());
                 if (isQuitCommand(positions)) {
                     outputView.printGameQuit();
                     return;
                 }
-                game = playTurn(gameId, positions);
-                printBoardAndScore(game);
+                playTurn(gameId, positions);
             } catch (IllegalArgumentException | DataAccessException e) {
                 outputView.printError(e.getMessage());
             }
         }
+    }
+
+    private List<String> readPosition(Team currentTeam) {
+        while (true) {
+            try {
+                return inputView.readPosition(currentTeam);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void printFinishedGame(JanggiGame game) {
+        printBoardAndScore(game);
         outputView.printWinner(game.getWinner());
         inputView.waitForEnter();
     }
 
-    private JanggiGame playTurn(long gameId, List<String> positions) {
-        return service.playTurn(gameId, new Movement(
+    private void playTurn(long gameId, List<String> positions) {
+        service.playTurn(gameId, new Movement(
                 Position.from(positions.get(FROM_INDEX)),
                 Position.from(positions.get(TO_INDEX))));
     }

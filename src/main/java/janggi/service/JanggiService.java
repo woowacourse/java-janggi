@@ -27,13 +27,11 @@ public class JanggiService {
         return repository.getById(gameId);
     }
 
-    public JanggiGame playTurn(long gameId, Movement movement) {
+    public void playTurn(long gameId, Movement movement) {
         JanggiGame game = loadGame(gameId);
         game.play(movement);
 
         repository.saveGameState(gameId, game);
-
-        return game;
     }
 
     public List<GameInfo> findAllGames() {

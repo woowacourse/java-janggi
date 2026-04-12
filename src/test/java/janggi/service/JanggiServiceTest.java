@@ -61,9 +61,10 @@ class JanggiServiceTest {
         Movement movement = new Movement(Position.from("71"), Position.from("61"));
 
         // when
-        JanggiGame game = service.playTurn(gameId, movement);
+        service.playTurn(gameId, movement);
 
         // then
+        JanggiGame game = service.loadGame(gameId);
         assertThat(game.getCurrentTeam()).isEqualTo(Team.HAN);
     }
 
