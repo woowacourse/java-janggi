@@ -6,8 +6,9 @@ public final class GameRule {
 
     private static final Side FIRST_TURN = Side.CHO;
     private static final int MINIMUM_POINT_FOR_CONTINUE = 30;
+    private static final double DEFAULT_BONUS_POINT = 0.0;
     private static final Map<Side, Double> BONUS_POINT_BY_SIDE = Map.of(
-            Side.CHO, 0.0,
+            Side.CHO, DEFAULT_BONUS_POINT,
             Side.HAN, 1.5
     );
 
@@ -25,6 +26,6 @@ public final class GameRule {
     }
 
     public double bonusPointOf(Side side) {
-        return BONUS_POINT_BY_SIDE.getOrDefault(side, 0.0);
+        return BONUS_POINT_BY_SIDE.getOrDefault(side, DEFAULT_BONUS_POINT);
     }
 }
