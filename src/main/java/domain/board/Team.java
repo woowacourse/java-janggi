@@ -20,4 +20,11 @@ public enum Team {
         }
         return Team.HAN;
     }
+
+    public Team opposite() {
+        if (this == Team.HAN) {
+            return Team.CHU;
+        }
+        return Team.HAN;
+    }
 }

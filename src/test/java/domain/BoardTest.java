@@ -42,7 +42,8 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.tryToMove(from, to);
+        board.validateMove(from, to);
+        board.movePiece(from, to);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();

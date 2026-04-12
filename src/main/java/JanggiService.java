@@ -1,5 +1,9 @@
 import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
+import domain.board.Team;
 import domain.game.Game;
+import domain.game.MoveResult;
 import domain.game.Status;
 import domain.vo.Position;
 import repository.BoardDao;
@@ -30,54 +34,86 @@ public class JanggiService {
         return gameDao.findById(gameId, board);
     }
 
-    public void moveAndSave(Game game, Position from, Position to) {
+    public Game createAndSaveGame(Formation hanFormation, Formation chuFormation) {
         try (Connection con = DBConnectionUtil.getConnection()) {
             con.setAutoCommit(false);
 
             try {
-                boolean hasTargetPiece = game.getBoard().findPieceByPosition(to).isPresent();
-                game.tryToMove(from, to);
-                if (game.getStatus() == Status.PLAYING) {
-                    game.changeTurn();
-                }
+                Board board = BoardFactory.setUp(hanFormation, chuFormation);
+                Game game = Game.of(board);
 
-                updateGameState(game, from, to, hasTargetPiece, con);
-
-                con.commit();
-            } catch (Exception e) {
-                con.rollback();
-                throw new RuntimeException("게임 저장 실패", e);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public Game saveGame(Game game) {
-        try (Connection con = DBConnectionUtil.getConnection()) {
-            con.setAutoCommit(false);
-
-            try {
                 Game savedGame = gameDao.save(con, game);
-                boardDao.saveBoard(con, savedGame.getId(),game.getBoard());
+                boardDao.saveBoard(con, savedGame.getId(), game.getBoard());
 
                 con.commit();
                 return savedGame;
             } catch (Exception e) {
                 con.rollback();
-                throw new RuntimeException("게임 저장 실패", e);
+                throw new RuntimeException("게임 생성 실패", e);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    private void updateGameState(Game game, Position from, Position to, boolean hasTargetPiece, Connection con) {
-        if (hasTargetPiece) {
-            boardDao.deleteByPosition(con, game.getId(), to.getRow(), to.getCol());
-        }
-        boardDao.updatePosition(con, game.getId(), from.getRow(), from.getCol(), to.getRow(), to.getCol());
+    public void move(Game game, Position from, Position to) {
+        try (Connection con = DBConnectionUtil.getConnection()) {
+            con.setAutoCommit(false);
 
-        gameDao.update(con, game.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
+            try {
+                MoveResult moveResult = game.validateMove(from, to);
+
+                persistMoveResult(con, game.getId(), moveResult);
+                con.commit();
+
+                game.applyMoveResult(moveResult);
+            } catch (IllegalArgumentException e) {
+                throw e;
+            } catch (Exception e) {
+                con.rollback();
+                throw new RuntimeException("이동 처리 실패", e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void forfeit(Game game, String turnName) {
+        try (Connection con = DBConnectionUtil.getConnection()) {
+            con.setAutoCommit(false);
+
+            try {
+                Status newStatus = Status.CHU_WIN;
+                if (turnName.equals(Team.CHU.getName())) {
+                    newStatus = Status.HAN_WIN;
+                }
+
+                gameDao.update(con, game.getId(), game.getCurrentTeam().name(), newStatus.toString());
+                con.commit();
+
+                game.lose(turnName);
+            } catch (Exception e) {
+                con.rollback();
+                throw new RuntimeException("기권 처리 실패", e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private void persistMoveResult(Connection con, Long gameId, MoveResult moveResult) {
+        if (moveResult.captured()) {
+            boardDao.deleteByPosition(con, gameId,
+                    moveResult.to().getRow(),
+                    moveResult.to().getCol());
+        }
+
+        boardDao.updatePosition(con, gameId,
+                moveResult.from().getRow(), moveResult.from().getCol(),
+                moveResult.to().getRow(), moveResult.to().getCol());
+
+        gameDao.update(con, gameId,
+                moveResult.nextTurn().name(),
+                moveResult.status().toString());
     }
 }

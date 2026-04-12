@@ -4,7 +4,6 @@ import domain.board.Team;
 import domain.game.Game;
 import domain.game.GameType;
 import domain.game.Status;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -106,32 +105,6 @@ class JanggiControllerTest {
         // then
         verify(outputView, times(1)).printBoard(game.getBoard().getBoard());
         verify(outputView, times(1)).printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
-        verify(outputView, times(1)).printGameResult(game.getStatus());
-    }
-
-    @Test
-    @DisplayName("기권 명령을 입력하면 게임을 종료한다")
-    void shouldEndGameWhenQuitCommandIsEntered() {
-        // given
-        Long id = 1L;
-        Game game = Game.loadGame(
-                id,
-                BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT),
-                Team.HAN,
-                Status.PLAYING
-        );
-        when(inputView.readGameType()).thenReturn(GameType.LOAD, GameType.EXIT);
-        when(janggiService.findAllGames()).thenReturn(List.of(new GameDto(id, OffsetDateTime.now())));
-        when(inputView.readGameNumber(anyList())).thenReturn(id);
-        when(janggiService.loadGame(id)).thenReturn(game);
-
-        when(inputView.readPosition(anyString())).thenReturn("r");
-
-        // when
-        janggiController.run();
-
-        // then
-        Assertions.assertEquals(Status.CHU_WIN, game.getStatus());
         verify(outputView, times(1)).printGameResult(game.getStatus());
     }
 

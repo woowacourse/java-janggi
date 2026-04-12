@@ -1,9 +1,6 @@
 package domain.game;
 
-import domain.board.Board;
-import domain.board.Piece;
-import domain.board.Team;
-import domain.board.Type;
+import domain.board.*;
 import domain.vo.Position;
 
 import java.util.Optional;
@@ -30,23 +27,27 @@ public class Game {
         return new Game(id, board, team, status);
     }
 
-    public void tryToMove(Position from, Position to) {
-        if (status != Status.PLAYING) {
-            throw new IllegalArgumentException("종료된 게임입니다.");
-        }
-
-        Optional<Piece> capturedPiece = board.tryToMove(from, to);
-
-        if (capturedPiece.isPresent() && capturedPiece.get().getType() == Type.GENERAL) {
-            Team winner = turn.getTeam();
-            status = (winner == Team.CHU) ? Status.CHU_WIN : Status.HAN_WIN;
-        }
+    public void validateFromPosition(Position from) {
+        Piece piece = board.findPieceByPosition(from)
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
+        checkTurn(piece.getTeam());
     }
 
-    public void changeTurn() {
-        if (status == Status.PLAYING) {
-            turn.change();
-        }
+    public MoveResult validateMove(Position from, Position to) {
+        validateFromPosition(from);
+        board.validateMove(from, to);
+
+        Optional<Piece> capturedPiece = board.findPieceByPosition(to);
+        Status nextStatus = getNextStatus(capturedPiece);
+        Team nextTeam = getNextTeam(nextStatus);
+
+        return new MoveResult(from, to, capturedPiece.isPresent(), nextStatus, nextTeam);
+    }
+
+    public void applyMoveResult(MoveResult moveResult) {
+        board.movePiece(moveResult.from(), moveResult.to());
+        this.status = moveResult.status();
+        this.turn.change();
     }
 
     public void checkTurn(Team team) {
@@ -86,5 +87,24 @@ public class Game {
 
     public Long getId() {
         return id;
+    }
+
+    private Team getNextTeam(Status nextStatus) {
+        Team nextTeam = turn.getTeam();
+        if (nextStatus == Status.PLAYING) {
+            nextTeam = turn.getTeam().opposite();
+        }
+        return nextTeam;
+    }
+
+    private Status getNextStatus(Optional<Piece> capturedPiece) {
+        Status nextStatus = status;
+        if (capturedPiece.isPresent() && capturedPiece.get().getType() == Type.GENERAL) {
+            if (turn.getTeam() == Team.CHU)
+                nextStatus = Status.CHU_WIN;
+            if (turn.getTeam() == Team.HAN)
+                nextStatus = Status.HAN_WIN;
+        }
+        return nextStatus;
     }
 }

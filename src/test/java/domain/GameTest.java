@@ -2,6 +2,7 @@ package domain;
 
 import domain.board.*;
 import domain.game.Game;
+import domain.game.MoveResult;
 import domain.game.Status;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
@@ -40,7 +41,8 @@ class GameTest {
         Game game = Game.loadGame(1L, board, Team.HAN, Status.PLAYING);
 
         // when
-        game.tryToMove(Position.of(2, 4), Position.of(1, 4));
+        MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
+        game.applyMoveResult(moveResult);
 
         // then
         Assertions.assertEquals(Status.HAN_WIN, game.getStatus());
@@ -57,7 +59,8 @@ class GameTest {
         Game game = Game.of(board);
 
         // when
-        game.tryToMove(Position.of(7, 4), Position.of(8, 4));
+        MoveResult moveResult = game.validateMove(Position.of(7, 4), Position.of(8, 4));
+        game.applyMoveResult(moveResult);
 
         // then
         Assertions.assertEquals(Status.CHU_WIN, game.getStatus());
@@ -68,13 +71,14 @@ class GameTest {
     void shouldContinueGameWhenNormalPieceIsCaptured() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(1, 4), Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
-        pieces.put(Position.of(2, 4), Piece.of(Team.HAN, Type.CHARIOT, new ChariotMoveStrategy()));
+        pieces.put(Position.of(1, 4), Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
+        pieces.put(Position.of(2, 4), Piece.of(Team.CHU, Type.CHARIOT, new ChariotMoveStrategy()));
         Board board = Board.of(pieces);
         Game game = Game.of(board);
 
         // when
-        game.tryToMove(Position.of(2, 4), Position.of(1, 4));
+        MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
+        game.applyMoveResult(moveResult);
 
         // then
         Assertions.assertEquals(Status.PLAYING, game.getStatus());
@@ -92,11 +96,10 @@ class GameTest {
         Game game = Game.of(board);
 
         // when
-        game.tryToMove(Position.of(2, 4), Position.of(1, 4));
-
         // then
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            game.tryToMove(Position.of(3, 0), Position.of(4, 0));
+            MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
+            game.applyMoveResult(moveResult);
         });
     }
 }

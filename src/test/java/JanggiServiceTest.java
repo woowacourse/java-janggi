@@ -1,4 +1,3 @@
-import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.board.Team;
 import domain.game.Game;
@@ -39,13 +38,10 @@ class JanggiServiceTest {
     @DisplayName("게임 저장 시 게임 정보를 저장한다")
     void shouldSaveGame() {
         // given
-        Game game = Game.of(BoardFactory.setUp(
-                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT,
-                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT
-        ));
-
         // when
-        Game savedGame = janggiService.saveGame(game);
+        Game savedGame = janggiService.createAndSaveGame(
+                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT,
+                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
 
         // then
         Assertions.assertNotNull(savedGame.getId());
@@ -55,11 +51,11 @@ class JanggiServiceTest {
     @DisplayName("저장된 게임을 다시 불러온다")
     void shouldLoadGame() {
         // given
-        Game game = Game.of(BoardFactory.setUp(
+        // when
+        Game savedGame = janggiService.createAndSaveGame(
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT,
-                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT
-        ));
-        Game savedGame = janggiService.saveGame(game);
+                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
+
 
         // when
         Game loadedGame = janggiService.loadGame(savedGame.getId());
@@ -73,15 +69,13 @@ class JanggiServiceTest {
     @DisplayName("기물을 이동하면 말 위치와 다음 턴이 저장된다")
     void shouldMoveAndSave() {
         // given
-        Game game = Game.of(BoardFactory.setUp(
+        // when
+        Game savedGame = janggiService.createAndSaveGame(
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT,
-                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT
-        ));
-
-        Game savedGame = janggiService.saveGame(game);
+                Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
 
         // when
-        janggiService.moveAndSave(savedGame, Position.of(3, 0), Position.of(4, 0));
+        janggiService.move(savedGame, Position.of(3, 0), Position.of(4, 0));
 
         Game loadedGame = janggiService.loadGame(1L);
 

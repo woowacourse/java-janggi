@@ -29,7 +29,7 @@ public class JanggiController {
             GameType gameType = inputView.readGameType();
 
             if (gameType == GameType.NEW)
-                startNewGame();
+                initializeGame();
 
             if (gameType == GameType.LOAD) {
                 if (loadAndPlayGame()) {
@@ -42,18 +42,12 @@ public class JanggiController {
         }
     }
 
-    private void startNewGame() {
-        Game game = initializeGame();
-        Game savedGame = janggiService.saveGame(game);
-        playGame(savedGame);
-    }
-
-    private Game initializeGame() {
+    private void initializeGame() {
         Formation hanFormation = inputView.readHorseElephantFormation(Team.HAN.getName());
         Formation chuFormation = inputView.readHorseElephantFormation(Team.CHU.getName());
 
-        Board board = BoardFactory.setUp(hanFormation, chuFormation);
-        return Game.of(board);
+        Game savedGame = janggiService.createAndSaveGame(hanFormation, chuFormation);
+        playGame(savedGame);
     }
 
     private boolean loadAndPlayGame() {
@@ -79,7 +73,6 @@ public class JanggiController {
         while (true) {
             outputView.printBoard(game.getBoard().getBoard());
             boolean isContinue = handleMove(game);
-            janggiService.saveGame(game);
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
@@ -109,21 +102,22 @@ public class JanggiController {
         }
         Position from = parsePosition(currentInput);
 
-        validatePieceAndTurn(game, from);
+        game.validateFromPosition(from);
 
         String targetInput = inputView.readTargetPosition();
         if (handleQuitOrStopCommand(game, turnName, targetInput)) {
             return false;
         }
-        Position to = parsePosition(targetInput);
 
-        janggiService.moveAndSave(game, from, to);
+        Position to = parsePosition(targetInput);
+        janggiService.move(game, from, to);
+
         return game.getStatus() == Status.PLAYING;
     }
 
     private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
-            game.lose(turn);
+            janggiService.forfeit(game, turn);
             return true;
         }
         if (input.equals(STOP_COMMAND)) {
@@ -135,11 +129,5 @@ public class JanggiController {
     private Position parsePosition(String input) {
         String[] tokens = input.split(" ");
         return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
-    }
-
-    private void validatePieceAndTurn(Game game, Position position) {
-        Piece piece = game.getBoard().findPieceByPosition(position)
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
-        game.checkTurn(piece.getTeam());
     }
 }
