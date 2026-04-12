@@ -14,6 +14,11 @@ import java.util.Map.Entry;
 
 public class JdbcPieceDao {
 
+    private static final String POSITION_COLUMN = "position_column";
+    private static final String POSITION_ROW = "position_row";
+    private static final String TEAM = "team";
+    private static final String PIECE_TYPE = "piece_type";
+
     public void saveAll(
             final Connection connection,
             final Long gameId,
@@ -69,11 +74,11 @@ public class JdbcPieceDao {
 
         while (resultSet.next()) {
             Position position = Position.of(
-                    resultSet.getInt("position_column"),
-                    resultSet.getInt("position_row")
+                    resultSet.getInt(POSITION_COLUMN),
+                    resultSet.getInt(POSITION_ROW)
             );
-            Team team = Team.valueOf(resultSet.getString("team"));
-            PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+            Team team = Team.valueOf(resultSet.getString(TEAM));
+            PieceType pieceType = PieceType.valueOf(resultSet.getString(PIECE_TYPE));
 
             pieces.put(position, new Piece(team, pieceType));
         }

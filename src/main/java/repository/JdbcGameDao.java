@@ -18,8 +18,9 @@ import java.util.Optional;
 
 public class JdbcGameDao {
 
-    private static final String CHO_TEAM_NAME = "CHO";
-    private static final String HAN_TEAM_NAME = "HAN";
+    private static final String ID_COLUMN = "id";
+    private static final String CURRENT_TEAM_COLUMN = "current_team";
+    private static final String WINNER_COLUMN = "winner";
 
     public Long save(final Connection connection, final JanggiGame janggiGame) throws SQLException {
         String sql = "INSERT INTO game (current_team, winner) VALUES (?, ?)";
@@ -94,10 +95,11 @@ public class JdbcGameDao {
     private List<JanggiGameDto> mapToDtos(final ResultSet resultSet) throws SQLException {
         List<JanggiGameDto> games = new ArrayList<>();
         while (resultSet.next()) {
+
             games.add(new JanggiGameDto(
-                    resultSet.getLong("id"),
-                    resultSet.getString("current_team"),
-                    resultSet.getString("winner")
+                    resultSet.getLong(ID_COLUMN),
+                    resultSet.getString(CURRENT_TEAM_COLUMN),
+                    resultSet.getString(WINNER_COLUMN)
             ));
         }
         return games;
@@ -110,10 +112,10 @@ public class JdbcGameDao {
         }
 
         String currentTeam = resultSet.getString("current_team");
-        if (CHO_TEAM_NAME.equals(currentTeam)) {
+        if (Team.CHO.name().equals(currentTeam)) {
             return new ChoPlayingState();
         }
-        if (HAN_TEAM_NAME.equals(currentTeam)) {
+        if (Team.HAN.name().equals(currentTeam)) {
             return new HanPlayingState();
         }
         throw new IllegalArgumentException("잘못된 팀 이름입니다. currentTeam=" + currentTeam);
