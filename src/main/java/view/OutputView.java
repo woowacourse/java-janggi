@@ -39,12 +39,13 @@ public class OutputView {
         System.out.println("플레이 할 게임 id를 입력하세요");
         System.out.println("id\t현재 턴\t승자");
         for (JanggiGameDto janggiGame : previousGames) {
-            System.out.printf("#%d\t%s나라", janggiGame.id(), TeamNameFormatter.format(janggiGame.currentTurn()));
             if (janggiGame.winnerTeam() == null || janggiGame.winnerTeam().isBlank()) {
-                System.out.println();
+                String currentTurn = TeamNameFormatter.format(janggiGame.currentTurn());
+                System.out.printf("#%d\t%s나라\n", janggiGame.id(), currentTurn);
                 continue;
             }
-            System.out.printf("\t%s\n", janggiGame.winnerTeam());
+            String winner = TeamNameFormatter.format(janggiGame.winnerTeam());
+            System.out.printf("#%d\t  -  \t%s나라 승리\n", janggiGame.id(), winner);
         }
     }
 
