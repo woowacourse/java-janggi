@@ -171,8 +171,7 @@ public final class JanggiGameRepository {
         }
     }
 
-    // TODO: 트랜잭션 테스트에서의 stubbing을 위해 일단 접근 제어자를 default로 변경함. 캡슐화 지키면서도 stbbing할 방법 찾기.
-    void syncPieces(Connection conn, JanggiGame janggiGame, long gameId) {
+    private void syncPieces(Connection conn, JanggiGame janggiGame, long gameId) {
         String sqlForDelete = ""
                 + "DELETE FROM piece "
                 + "WHERE game_id = ?";

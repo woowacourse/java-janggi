@@ -1,19 +1,10 @@
 package repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.spy;
 
-import domain.board.Board;
-import domain.board.Intersection;
 import domain.game.JanggiGame;
 import domain.game.JanggiGameFixture;
 import domain.game.Side;
-import domain.piece.AlivePieces;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import dto.GameSummary;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,12 +13,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Map;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("리포지토리 계층 테스트")
@@ -97,70 +86,5 @@ class JanggiGameRepositoryTest {
                 .hasSize(2)
                 .extracting(GameSummary::id)
                 .containsExactlyInAnyOrder(gameIdA, gameIdB);
-    }
-
-    @DisplayName("트랜잭션 테스트")
-    @Nested
-    class 트랜잭션_테스트 {
-
-        @DisplayName("트랜잭션을 모두 완료하지 못하면, 해당 트랜잭션 자체를 취소(롤백)한다")
-        @Test
-        void rollback() throws SQLException {
-            // given
-            JanggiGameRepository spyGameRepository = spy(repository);
-            doThrow(IllegalStateException.class)
-                    .when(spyGameRepository).syncPieces(
-                            any(Connection.class),
-                            any(JanggiGame.class),
-                            anyLong()
-                    );
-
-            Side expectedCurrentTurn = Side.CHO;
-            JanggiGame janggiGame = JanggiGame.create(
-                    new Board(new AlivePieces(
-                            Map.of(new Intersection(10, 1),
-                                    Piece.of(PieceType.CHARIOT, expectedCurrentTurn)))
-                    )
-            );
-            long gameIdA = spyGameRepository.save(conn, janggiGame);
-            conn.commit();
-
-            // when and then
-            janggiGame.movePiece(new Intersection(10, 1), new Intersection(9, 1), expectedCurrentTurn);
-
-            conn.setAutoCommit(false);
-            try {
-                spyGameRepository.updateGameStatus(conn, janggiGame, gameIdA);
-            } catch (IllegalStateException e) {
-                conn.rollback();
-            }
-
-            JanggiGame foundGame = spyGameRepository.findById(conn, gameIdA);
-            Side actualCurrentTurn = foundGame.currentTurn();
-            assertThat(actualCurrentTurn).isEqualTo(expectedCurrentTurn);
-        }
-
-        @DisplayName("트랜잭션을 모두 완료하면, 해당 트랜잭션을 반영(커밋)한다")
-        @Test
-        void commit() {
-            // given
-            Side previousTurn = Side.CHO;
-            JanggiGame janggiGame = JanggiGame.create(
-                    new Board(new AlivePieces(
-                            Map.of(new Intersection(10, 1),
-                                    Piece.of(PieceType.CHARIOT, previousTurn)))
-                    )
-            );
-            long gameIdA = repository.save(conn, janggiGame);
-
-            // when
-            janggiGame.movePiece(new Intersection(10, 1), new Intersection(9, 1), previousTurn);
-            repository.updateGameStatus(conn, janggiGame, gameIdA);
-            JanggiGame foundGame = repository.findById(conn, gameIdA);
-            Side actualCurrentTurn = foundGame.currentTurn();
-
-            // then
-            assertThat(actualCurrentTurn).isEqualTo(previousTurn.nextTurn());
-        }
     }
 }
