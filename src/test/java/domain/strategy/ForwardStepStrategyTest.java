@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.board.Side;
+import domain.state.Side;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +17,10 @@ class ForwardStepStrategyTest {
     void moveStrategy_HANSide_Test() {
         // given
         MoveStrategy strategy = new ForwardStepStrategy(List.of(
-                Direction.getForward(Side.HAN),
                 Direction.LEFT,
-                Direction.RIGHT)
+                Direction.RIGHT,
+                Direction.getForward(Side.HAN)),
+                Direction.getForward(Side.HAN)
         );
         Position start = new Position(3, 4);
 
@@ -39,9 +40,10 @@ class ForwardStepStrategyTest {
     void moveStrategy_CHUSide_Test() {
         // given
         MoveStrategy strategy = new ForwardStepStrategy(List.of(
-                Direction.getForward(Side.CHU),
                 Direction.LEFT,
-                Direction.RIGHT)
+                Direction.RIGHT,
+                Direction.getForward(Side.CHU)),
+                Direction.getForward(Side.CHU)
         );
         Position start = new Position(3, 4);
 

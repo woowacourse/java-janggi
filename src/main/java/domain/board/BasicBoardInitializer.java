@@ -3,6 +3,7 @@ package domain.board;
 import domain.board.formation.InitialFormation;
 import domain.coordinate.Position;
 import domain.piece.*;
+import domain.state.Side;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +52,11 @@ public class BasicBoardInitializer implements BoardInitializer {
         placements.put(new Position(getRow(2, side), 1), new Cannon(side));
         placements.put(new Position(getRow(2, side), 7), new Cannon(side));
 
-        int pawnRow = getRow(3, side);
-        for (int col = 0; col <= 8; col += 2) {
-            placements.put(new Position(pawnRow, col), new Pawn(side));
-        }
+        placements.put(new Position(getRow(3, side), 0), new Pawn(side));
+        placements.put(new Position(getRow(3, side), 2), new Pawn(side));
+        placements.put(new Position(getRow(3, side), 4), new Pawn(side));
+        placements.put(new Position(getRow(3, side), 6), new Pawn(side));
+        placements.put(new Position(getRow(3, side), 8), new Pawn(side));
     }
 
     private int getRow(int row, Side side) {
@@ -62,10 +64,6 @@ public class BasicBoardInitializer implements BoardInitializer {
             return row;
         }
 
-        return 9 - row;
-    }
-
-    public Side getFirstTurnSide() {
-        return Side.CHU;
+        return ROW_SIZE - row;
     }
 }

@@ -1,7 +1,7 @@
 package domain;
 
 import domain.board.BasicBoardInitializer;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.formation.OutsideMaFormation;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ class GameTest {
         Position position = new Position(8, 1);
 
         // when - then
-        assertThatThrownBy(() -> game.getValidatedStartPosition(position))
+        assertThatThrownBy(() -> game.validateMoveable(position))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -35,7 +35,7 @@ class GameTest {
         Position position = new Position(0, 0);
 
         // when - then
-        assertThatThrownBy(() -> game.getValidatedStartPosition(position))
+        assertThatThrownBy(() -> game.validateMoveable(position))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -47,21 +47,38 @@ class GameTest {
         Position position = new Position(9, 0);
 
         // when - then
-        assertDoesNotThrow(() -> game.getValidatedStartPosition(position));
+        assertDoesNotThrow(() -> game.validateMoveable(position));
     }
 
     @Test
-    @DisplayName("이동을 마치면 턴이 변경된다.")
-    void changeTurnTest() {
+    @DisplayName("기물을 시작 좌표에서 도착 좌표로 이동시킨다.")
+    void movePieceTest() {
         // given
         Game game = new Game(basicBoardInitializer);
-        Position start = new Position(6, 0);
-        Position destination = new Position(6, 1);
+        Position start = new Position(9, 0);
+        Position destination = new Position(8, 0);
 
-        // when
-        game.movePiece(start, destination);
+        // when - then
+        assertDoesNotThrow(() -> game.movePiece(start, destination));
+    }
 
-        // then
-        assertThat(game.getTurn()).isEqualTo(Side.HAN);
+    @Test
+    @DisplayName("초나라의 시작 기물 점수는 72 점이다.")
+    void calculateScoreChuSideTest() {
+        // given
+        Game game = new Game(basicBoardInitializer);
+
+        // when - then
+        assertThat(game.calculateScore(Side.CHU)).isEqualTo(72);
+    }
+
+    @Test
+    @DisplayName("한나라의 시작 기물 점수는 73.5 점이다. (후공 보너스 1.5)")
+    void calculateScoreHanSideTest() {
+        // given
+        Game game = new Game(basicBoardInitializer);
+
+        // when - then
+        assertThat(game.calculateScore(Side.HAN)).isEqualTo(73.5);
     }
 }

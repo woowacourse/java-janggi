@@ -1,6 +1,6 @@
 package domain.coordinate;
 
-import domain.board.Side;
+import domain.state.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

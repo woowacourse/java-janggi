@@ -11,7 +11,9 @@ public class MovePolicyRegistry {
 
     public MovePolicyRegistry() {
         this.moveRules = Map.of(
-                PieceType.PAWN, List.of(new BasicCapturePolicy()),
+                PieceType.PAWN, List.of(
+                        new BasicCapturePolicy()
+                ),
                 PieceType.HORSE, List.of(
                         new BasicCapturePolicy(),
                         new MiddlePathBlockPolicy()
@@ -29,8 +31,14 @@ public class MovePolicyRegistry {
                         new CannonCapturePolicy(),
                         new CannonJumpPolicy()
                 ),
-                PieceType.GUARD, List.of(new BasicCapturePolicy()),
-                PieceType.KING, List.of(new BasicCapturePolicy())
+                PieceType.GUARD, List.of(
+                        new BasicCapturePolicy(),
+                        new PalaceBoundaryPolicy()
+                ),
+                PieceType.KING, List.of(
+                        new BasicCapturePolicy(),
+                        new PalaceBoundaryPolicy()
+                )
         );
     }
 

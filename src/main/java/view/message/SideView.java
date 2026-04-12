@@ -1,6 +1,6 @@
 package view.message;
 
-import domain.board.Side;
+import domain.state.Side;
 
 public enum SideView {
 

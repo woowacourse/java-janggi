@@ -11,6 +11,8 @@ import java.util.List;
 
 public class CannonJumpPolicy implements MovePolicy {
 
+    private static final int JUMP_THRESHOLD = 1;
+
     @Override
     public List<Position> apply(Board board, Position start, List<Direction> directions) {
         List<Position> possibleMoves = new ArrayList<>();
@@ -25,7 +27,7 @@ public class CannonJumpPolicy implements MovePolicy {
                 break;
             }
 
-            if (jumpCount == 1) {
+            if (jumpCount == JUMP_THRESHOLD) {
                 possibleMoves.add(current);
             }
 

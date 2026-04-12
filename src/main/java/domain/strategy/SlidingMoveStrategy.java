@@ -6,7 +6,7 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingMoveStrategy implements MoveStrategy {
+public class SlidingMoveStrategy extends MoveStrategy {
 
     private final List<Direction> directions;
 
@@ -15,9 +15,7 @@ public class SlidingMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<List<Direction>> calculatePotentialPaths(Position start) {
-        List<List<Direction>> paths = new ArrayList<>();
-
+    protected void addBasicPaths(Position start, List<List<Direction>> paths) {
         for (Direction direction : directions) {
             List<Direction> directionPath = new ArrayList<>();
 
@@ -28,13 +26,20 @@ public class SlidingMoveStrategy implements MoveStrategy {
                 if (!current.isValidRange()) {
                     break;
                 }
-
                 directionPath.add(direction);
             }
 
             paths.add(directionPath);
         }
+    }
 
-        return List.copyOf(paths);
+    @Override
+    protected boolean isAllowedDirection(Direction direction) {
+        return true;
+    }
+
+    @Override
+    protected List<Direction> getPalaceEdgeMovePath(Direction direction) {
+        return List.of(direction, direction);
     }
 }

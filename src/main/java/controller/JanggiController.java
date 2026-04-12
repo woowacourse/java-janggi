@@ -1,56 +1,74 @@
 package controller;
 
 import domain.Game;
-import domain.board.BasicBoardInitializer;
-import domain.board.formation.InitialFormation;
-import domain.board.Side;
-import domain.coordinate.Position;
-import dto.PossibleMovesDto;
+import domain.entity.GameRoomEntity;
+import domain.state.Side;
 import mapper.BoardMapper;
-import mapper.PossibleMovesMapper;
+import mapper.ScoreMapper;
+import service.JanggiService;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        Game game = initializeGame();
-        play(game);
+        do {
+            Game game = readyGame();
+            play(game);
+            outputView.printVictoryMessage(game.getSide());
+        } while (inputView.requestRetry());
     }
 
-    private Game initializeGame() {
-        InitialFormation hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
-        InitialFormation chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
-        return new Game(
-                new BasicBoardInitializer(
-                        hanInitialFormation,
-                        chuInitialFormation
-                )
+    private Game readyGame() {
+        List<GameRoomEntity> rooms = janggiService.findAllRooms();
+        outputView.printGameRooms(rooms);
+        int choice = InputHandler.readUntilValid(() -> validateRoomNumber(rooms, inputView.selectRoom()));
+
+        return janggiService.prepareGame(
+                choice,
+                rooms,
+                () -> InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN)),
+                () -> InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU))
         );
     }
 
     private void play(Game game) {
-        while (true) {
-            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
-            Position startPosition = InputHandler.readUntilValid(() ->
-                    game.getValidatedStartPosition(inputView.requestStartPiecePosition(game.getTurn()))
-            );
-
-            PossibleMovesDto possibleMovesDto = PossibleMovesMapper.toDto(game.getPossibleMoves(startPosition));
-            Position endPosition = InputHandler.readUntilValid(() ->
-                    game.getEndPosition(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto)
-            );
-
-            game.movePiece(startPosition, endPosition);
+        while (!game.isFinished()) {
+            displayCurrentState(game);
+            janggiService.execute(getGameCommand(game.getSide()), game);
         }
+    }
+
+    private void displayCurrentState(Game game) {
+        outputView.printBoard(BoardMapper.toDto(game.getBoard()));
+        outputView.printScore(ScoreMapper.toDto(
+                game.calculateScore(Side.CHU),
+                game.calculateScore(Side.HAN))
+        );
+    }
+
+    private GameCommand getGameCommand(Side currentSide) {
+        CommandType type = InputHandler.readUntilValid(() -> inputView.requestGameCommand(currentSide));
+        return type.createController(inputView, outputView);
+    }
+
+    private int validateRoomNumber(List<GameRoomEntity> rooms, int choice) {
+        if (choice < 0 || choice > rooms.size()) {
+            throw new IllegalArgumentException("\n올바른 번호를 입력해주세요.\n");
+        }
+        return choice;
     }
 }

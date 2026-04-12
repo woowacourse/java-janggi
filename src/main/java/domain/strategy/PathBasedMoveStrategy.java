@@ -6,7 +6,7 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathBasedMoveStrategy implements MoveStrategy {
+public class PathBasedMoveStrategy extends MoveStrategy {
 
     private final List<List<Direction>> movePaths;
 
@@ -15,14 +15,13 @@ public class PathBasedMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<List<Direction>> calculatePotentialPaths(Position start) {
-        List<List<Direction>> paths = new ArrayList<>();
-
+    protected void addBasicPaths(Position start, List<List<Direction>> paths) {
         for (List<Direction> movePath : movePaths) {
             List<Direction> directionPath = new ArrayList<>();
 
             Position current = start;
-            for (Direction direction : movePath) {
+            for (Direction direction
+                    : movePath) {
                 current = current.nextPosition(direction);
 
                 directionPath.add(direction);
@@ -34,7 +33,5 @@ public class PathBasedMoveStrategy implements MoveStrategy {
 
             paths.add(directionPath);
         }
-
-        return List.copyOf(paths);
     }
 }

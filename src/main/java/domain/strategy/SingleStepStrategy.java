@@ -6,7 +6,7 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleStepStrategy implements MoveStrategy {
+public class SingleStepStrategy extends MoveStrategy {
 
     private final List<Direction> directions;
 
@@ -15,9 +15,7 @@ public class SingleStepStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<List<Direction>> calculatePotentialPaths(Position start) {
-        List<List<Direction>> paths = new ArrayList<>();
-
+    protected void addBasicPaths(Position start, List<List<Direction>> paths) {
         for (Direction direction : directions) {
             List<Direction> directionPath = new ArrayList<>();
             Position dest = start.nextPosition(direction);
@@ -29,7 +27,10 @@ public class SingleStepStrategy implements MoveStrategy {
             directionPath.add(direction);
             paths.add(directionPath);
         }
+    }
 
-        return List.copyOf(paths);
+    @Override
+    protected boolean isAllowedDirection(Direction direction) {
+        return true;
     }
 }

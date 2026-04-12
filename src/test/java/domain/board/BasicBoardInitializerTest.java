@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import domain.board.formation.OutsideMaFormation;
 import domain.coordinate.Position;
 import domain.piece.Piece;
+import domain.state.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

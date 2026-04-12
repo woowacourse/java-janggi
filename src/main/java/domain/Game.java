@@ -2,69 +2,101 @@ package domain;
 
 import domain.board.Board;
 import domain.board.BoardInitializer;
-import domain.board.Side;
 import domain.coordinate.Position;
 import domain.piece.Piece;
-import dto.PossibleMovesDto;
+import domain.state.Side;
+import domain.state.GameState;
 
 import java.util.List;
 import java.util.Map;
 
 public class Game {
 
-    private static final int INDEX_OFFSET = 1;
-
+    private Long id;
     private final Board board;
-    private Side turn;
+    private GameState gameState;
 
     public Game(BoardInitializer boardInitializer) {
         this.board = new Board(boardInitializer.initialize());
-        this.turn = boardInitializer.getFirstTurnSide();
+        this.gameState = Side.firstMoveSide();
     }
 
-    public void movePiece(Position start, Position destination) {
-        board.movePiece(start, destination);
-        changeTurn();
+    public Game(Board board, GameState gameState) {
+        this.board = board;
+        this.gameState = gameState;
     }
 
-    public Position getValidatedStartPosition(Position position) {
-        position.validateRange();
+    public void end() {
+        gameState = gameState.endGame();
+    }
+
+    public void pass() {
+        gameState = gameState.nextTurn();
+    }
+
+    public Position validateMoveable(Position position) {
         validateEnsureSameSidePiece(position);
-        validateMovable(position);
+        validateHasPossibleMoves(position);
         return position;
     }
 
     public List<Position> getPossibleMoves(Position start) {
-        return board.calculatePossibleMoves(start);
+        return board.calculateLegalMoves(start);
     }
 
-    public Position getEndPosition(int index, PossibleMovesDto possibleMovesDto) {
-        return possibleMovesDto.possibleMoves().get(index - INDEX_OFFSET);
+    public void movePiece(Position start, Position dest) {
+        board.movePiece(start, dest);
     }
 
-    private void validateEnsureSameSidePiece(Position start) {
-        if (board.isOpponentSide(start, turn)) {
-            throw new IllegalArgumentException("\n아군 기물만 이동 가능합니다. 다시 입력해주세요.");
-        }
+    public boolean isKingDead() {
+        return !board.hasKing(gameState.getSide().opposite());
     }
 
-    private void validateMovable(Position position) {
-        List<Position> possibleMoves = getPossibleMoves(position);
-
-        if (possibleMoves.isEmpty()) {
-            throw new IllegalArgumentException("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
-        }
+    public double calculateScore(Side side) {
+        return board.calculateScore(side) + side.getBonusScore();
     }
 
-    private void changeTurn() {
-        turn = turn.change();
+    public boolean isSafe() {
+        return board.isSafe(gameState.getSide().opposite());
     }
 
-    public Side getTurn() {
-        return turn;
+    public boolean isCheckmate() {
+        return board.isCheckmate(gameState.getSide().opposite());
+    }
+
+    public boolean isFinished() {
+        return gameState.isFinished();
+    }
+
+    public Position getEndPosition(int index, List<Position> possibleMoves) {
+        return possibleMoves.get(index);
+    }
+
+    public Side getSide() {
+        return gameState.getSide();
     }
 
     public Map<Position, Piece> getBoard() {
         return board.getBoard();
+    }
+
+    private void validateEnsureSameSidePiece(Position start) {
+        if (board.isOpponentSide(start, gameState.getSide())) {
+            throw new IllegalArgumentException("\n아군 기물만 이동 가능합니다. 다시 입력해주세요.");
+        }
+    }
+
+    private void validateHasPossibleMoves(Position position) {
+        if (getPossibleMoves(position).isEmpty()) {
+            throw new IllegalArgumentException("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
+        }
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
