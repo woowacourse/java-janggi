@@ -6,7 +6,6 @@ import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import dto.GameSummary;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -190,13 +189,12 @@ public final class JanggiGameRepository {
 
             pstmt.setLong(1, gameId);
             for (Entry<Intersection, Piece> entry : map.entrySet()) {
-                Intersection intersection = entry.getKey();
-                Piece piece = entry.getValue();
+                PieceEntity entity = PieceMapper.toEntity(gameId, entry.getKey(), entry.getValue());
 
-                pstmt.setInt(2, intersection.row());
-                pstmt.setInt(3, intersection.file());
-                pstmt.setString(4, piece.getType().name());
-                pstmt.setString(5, piece.getSide().name());
+                pstmt.setInt(2, entity.row());
+                pstmt.setInt(3, entity.file());
+                pstmt.setString(4, entity.type());
+                pstmt.setString(5, entity.side());
                 pstmt.addBatch();
             }
 
@@ -218,10 +216,11 @@ public final class JanggiGameRepository {
             pstmt.setLong(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    Intersection intersection = new Intersection(rs.getInt("position_row"), rs.getInt("position_file"));
-                    Piece piece = Piece.of(
-                            PieceType.from(rs.getString("piece_type")),
-                            Side.valueOf(rs.getString("side"))
+                    Intersection intersection =
+                            new Intersection(rs.getInt("position_row"), rs.getInt("position_file"));
+                    Piece piece = PieceMapper.toPiece(
+                            rs.getString("piece_type"),
+                            rs.getString("side")
                     );
                     pieces.put(intersection, piece);
                 }
