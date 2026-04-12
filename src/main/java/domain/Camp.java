@@ -13,5 +13,12 @@ public enum Camp {
     public String getCampName() {
         return campName;
     }
+
+    public Camp turnCamp() {
+        if (this.equals(Camp.CHO)) {
+            return Camp.HAN;
+        }
+        return Camp.CHO;
+    }
 }
 

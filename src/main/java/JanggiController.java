@@ -91,10 +91,7 @@ public class JanggiController {
     }
 
     private Camp turnCamp(Camp camp) {
-        if (camp.equals(Camp.CHO)) {
-            return Camp.HAN;
-        }
-        return Camp.CHO;
+        return camp.turnCamp();
     }
 
     private Position askFromPosition(Camp camp, Board board) {
