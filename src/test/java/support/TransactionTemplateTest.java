@@ -67,6 +67,26 @@ class TransactionTemplateTest {
         assertThat(countRows()).isZero();
     }
 
+    @DisplayName("도메인 로직으로 인한 예외 발생 때도 롤백된다")
+    @Test
+    void rollback_on_runtime_exception() {
+        assertThatThrownBy(() ->
+                transactionTemplate.execute(conn -> {
+                    try (Statement stmt = conn.createStatement()) {
+                        stmt.execute("INSERT INTO tx_test VALUES (1)");
+                    } catch (SQLException e) {
+                        throw new DataAccessException(e);
+                    }
+
+                    throw new IllegalArgumentException("잘못된 이동입니다.");
+                })
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("잘못된 이동입니다.");
+
+        assertThat(countRows()).isZero();
+    }
+
     @DisplayName("execute()의 반환값이 콜백의 반환값과 같다")
     @Test
     void return_value() {
