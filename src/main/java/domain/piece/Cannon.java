@@ -23,7 +23,6 @@ public class Cannon extends Piece {
             }
         }
 
-        //궁성 로직
         if (Palace.isPalacePosition(from) && Palace.isPalacePosition(to)) {
             for (Direction diagonalDirection : MoveDirection.ofDiagonal()) {
                 if (canJumpToTarget(from, to, boardReader, diagonalDirection)) {

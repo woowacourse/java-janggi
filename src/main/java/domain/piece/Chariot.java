@@ -52,13 +52,13 @@ public class Chariot extends Piece {
                                                          BoardReader boardReader,
                                                          Direction direction) {
         Position current = from;
-        boolean PassGeneralPosition = false;
+        boolean passGeneralPosition = false;
         while (current.canMove(direction)) {
             current = current.move(direction);
             if(Palace.isGeneralPosition(current)) {
-                PassGeneralPosition = true;
+                passGeneralPosition = true;
             }
-            if (current.equals(to) && PassGeneralPosition) {
+            if (current.equals(to) && passGeneralPosition) {
                 return true;
             }
 
