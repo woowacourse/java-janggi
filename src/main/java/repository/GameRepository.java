@@ -1,12 +1,14 @@
 package repository;
 
+import application.GameSession;
+import domain.game.JanggiGame;
 import java.util.Optional;
 
 public interface GameRepository {
 
-    long save(SavedGameDto savedGameDto);
+    GameSession save(JanggiGame janggiGame);
 
-    Optional<SavedGameDto> findLatestRunningGame();
+    Optional<GameSession> findLatestRunningGame();
 
-    void update(SavedGameDto savedGameDto);
+    void update(GameSession session);
 }

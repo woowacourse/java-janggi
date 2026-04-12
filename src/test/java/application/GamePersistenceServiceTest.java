@@ -2,51 +2,44 @@ package application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.board.LeftSangSetup;
 import domain.board.RightSangSetup;
 import domain.board.SangSetup;
+import domain.game.GameResult;
 import domain.game.GameScore;
 import domain.game.GameStatus;
 import domain.game.JanggiGame;
+import domain.pieces.Cha;
+import domain.pieces.Gung;
+import domain.pieces.Piece;
 import domain.pieces.PieceType;
 import domain.pieces.Side;
 import domain.position.Position;
-import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import repository.GameRepository;
-import repository.SavedGameDto;
-import repository.SavedGameReadMapper;
-import repository.SavedGameWriteMapper;
-import repository.SavedPieceDto;
 
 class GamePersistenceServiceTest {
-    private final Clock fixedClock = Clock.fixed(Instant.parse("2026-04-08T12:00:00Z"), ZoneId.of("Asia/Seoul"));
-    private final SavedGameWriteMapper writeMapper = new SavedGameWriteMapper(fixedClock);
-    private final SavedGameReadMapper readMapper = new SavedGameReadMapper();
+    private static final LocalDateTime SAVED_AT = LocalDateTime.of(2026, 4, 8, 21, 0);
 
     @Test
     void 진행중인_게임이_있으면_복원한_세션을_반환한다() {
         // given
         InMemoryGameRepository repository = new InMemoryGameRepository();
-        GamePersistenceService service = new GamePersistenceService(repository, writeMapper, readMapper);
-        SavedGameDto savedGameDto = new SavedGameDto(
+        GamePersistenceService service = new GamePersistenceService(repository);
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(0, 0), new Cha(Side.CHO));
+        pieces.put(new Position(8, 4), new Gung(Side.HAN));
+        repository.latestRunningGame = new GameSession(
                 1L,
-                Side.HAN,
-                GameStatus.RUNNING,
-                null,
                 LocalDateTime.of(2026, 4, 7, 10, 0),
-                LocalDateTime.of(2026, 4, 7, 10, 5),
-                List.of(
-                        new SavedPieceDto(0, 0, Side.CHO, PieceType.CHA),
-                        new SavedPieceDto(8, 4, Side.HAN, PieceType.GUNG)
-                )
+                JanggiGame.restore(new Board(pieces), Side.HAN, GameResult.running())
         );
-        repository.latestRunningGame = savedGameDto;
 
         // when
         Optional<GameSession> result = service.loadLatestRunningGame();
@@ -65,7 +58,7 @@ class GamePersistenceServiceTest {
     void 진행중인_게임이_없으면_새_게임을_생성하고_저장한다() {
         // given
         InMemoryGameRepository repository = new InMemoryGameRepository();
-        GamePersistenceService service = new GamePersistenceService(repository, writeMapper, readMapper);
+        GamePersistenceService service = new GamePersistenceService(repository);
         SangSetup choSangSetup = new LeftSangSetup();
         SangSetup hanSangSetup = new RightSangSetup();
 
@@ -74,18 +67,18 @@ class GamePersistenceServiceTest {
 
         // then
         assertThat(session.gameId()).isEqualTo(1L);
-        assertThat(session.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 8, 21, 0));
+        assertThat(session.createdAt()).isEqualTo(SAVED_AT);
         assertThat(repository.savedGames).hasSize(1);
-        assertThat(repository.savedGames.getFirst().gameId()).isNull();
-        assertThat(repository.savedGames.getFirst().status()).isEqualTo(GameStatus.RUNNING);
-        assertThat(repository.savedGames.getFirst().pieces()).isNotEmpty();
+        assertThat(repository.savedGames.getFirst().gameId()).isEqualTo(1L);
+        assertThat(repository.savedGames.getFirst().game().gameResult()).isEqualTo(GameResult.running());
+        assertThat(repository.savedGames.getFirst().game().board().pieces()).isNotEmpty();
     }
 
     @Test
     void 진행_상태를_저장하면_기존_게임을_업데이트한다() {
         // given
         InMemoryGameRepository repository = new InMemoryGameRepository();
-        GamePersistenceService service = new GamePersistenceService(repository, writeMapper, readMapper);
+        GamePersistenceService service = new GamePersistenceService(repository);
         JanggiGame game = JanggiGame.of(new LeftSangSetup(), new RightSangSetup());
         GameSession session = new GameSession(
                 10L,
@@ -97,26 +90,23 @@ class GamePersistenceServiceTest {
         service.saveProgress(session);
 
         // then
-        assertThat(repository.updatedGame).isNotNull();
-        assertThat(repository.updatedGame.gameId()).isEqualTo(10L);
-        assertThat(repository.updatedGame.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 9, 0));
-        assertThat(repository.updatedGame.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 8, 21, 0));
+        assertThat(repository.updatedSession).isNotNull();
+        assertThat(repository.updatedSession.gameId()).isEqualTo(10L);
+        assertThat(repository.updatedSession.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 9, 0));
     }
 
     @Test
     void 시작시_진행중인_게임이_있으면_이어하기_결과를_반환한다() {
         // given
         InMemoryGameRepository repository = new InMemoryGameRepository();
-        repository.latestRunningGame = new SavedGameDto(
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(0, 0), new Cha(Side.CHO));
+        repository.latestRunningGame = new GameSession(
                 3L,
-                Side.CHO,
-                GameStatus.RUNNING,
-                null,
                 LocalDateTime.of(2026, 4, 7, 10, 0),
-                LocalDateTime.of(2026, 4, 7, 10, 5),
-                List.of(new SavedPieceDto(0, 0, Side.CHO, PieceType.CHA))
+                JanggiGame.restore(new Board(pieces), Side.CHO, GameResult.running())
         );
-        GameService service = new GameService(new GamePersistenceService(repository, writeMapper, readMapper));
+        GameService service = new GameService(new GamePersistenceService(repository));
 
         // when
         GameStartResult result = service.startOrResume(() -> new GameSession(99L, LocalDateTime.now(),
@@ -131,7 +121,7 @@ class GamePersistenceServiceTest {
     void 점수로_종료하면_게임을_종료상태로_저장한다() {
         // given
         InMemoryGameRepository repository = new InMemoryGameRepository();
-        GameService service = new GameService(new GamePersistenceService(repository, writeMapper, readMapper));
+        GameService service = new GameService(new GamePersistenceService(repository));
         JanggiGame game = JanggiGame.of(new LeftSangSetup(), new RightSangSetup());
         GameSession session = new GameSession(
                 10L,
@@ -144,31 +134,32 @@ class GamePersistenceServiceTest {
 
         // then
         assertThat(gameScore.winner()).isEqualTo(session.game().gameResult().winner());
-        assertThat(repository.updatedGame).isNotNull();
-        assertThat(repository.updatedGame.status()).isEqualTo(GameStatus.ENDED);
-        assertThat(repository.updatedGame.winner()).isEqualTo(session.game().gameResult().winner());
+        assertThat(repository.updatedSession).isNotNull();
+        assertThat(repository.updatedSession.game().gameResult().status()).isEqualTo(GameStatus.ENDED);
+        assertThat(repository.updatedSession.game().gameResult().winner()).isEqualTo(session.game().gameResult().winner());
     }
 
     private static class InMemoryGameRepository implements GameRepository {
         private long sequence = 1L;
-        private final java.util.List<SavedGameDto> savedGames = new java.util.ArrayList<>();
-        private SavedGameDto latestRunningGame;
-        private SavedGameDto updatedGame;
+        private final java.util.List<GameSession> savedGames = new ArrayList<>();
+        private GameSession latestRunningGame;
+        private GameSession updatedSession;
 
         @Override
-        public long save(SavedGameDto savedGameDto) {
-            savedGames.add(savedGameDto);
-            return sequence++;
+        public GameSession save(JanggiGame janggiGame) {
+            GameSession session = new GameSession(sequence++, SAVED_AT, janggiGame);
+            savedGames.add(session);
+            return session;
         }
 
         @Override
-        public Optional<SavedGameDto> findLatestRunningGame() {
+        public Optional<GameSession> findLatestRunningGame() {
             return Optional.ofNullable(latestRunningGame);
         }
 
         @Override
-        public void update(SavedGameDto savedGameDto) {
-            updatedGame = savedGameDto;
+        public void update(GameSession session) {
+            updatedSession = session;
         }
     }
 }

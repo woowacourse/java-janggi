@@ -15,10 +15,10 @@ public class Application {
     public static void main(String[] args) {
         JdbcConnectionManager connectionManager = JdbcConnectionManager.defaultConnectionManager();
         new SchemaInitializer(connectionManager).initialize();
-        JdbcGameRepository gameRepository = new JdbcGameRepository(connectionManager);
         SavedGameWriteMapper writeMapper = new SavedGameWriteMapper(Clock.systemDefaultZone());
         SavedGameReadMapper readMapper = new SavedGameReadMapper();
-        GamePersistenceService persistenceService = new GamePersistenceService(gameRepository, writeMapper, readMapper);
+        JdbcGameRepository gameRepository = new JdbcGameRepository(connectionManager, writeMapper, readMapper);
+        GamePersistenceService persistenceService = new GamePersistenceService(gameRepository);
         GameService gameService = new GameService(persistenceService);
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
