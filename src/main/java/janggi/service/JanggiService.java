@@ -34,6 +34,11 @@ public class JanggiService {
         janggiGameRepository.update(GameStatus.FINISHED, currentGameId);
     }
 
+    public void play(JanggiGame janggiGame, Position startPosition, Position endPosition) {
+        janggiGame.doGame(startPosition, endPosition);
+        saveMove(janggiGame, startPosition, endPosition);
+    }
+
     private JanggiGame rebuildJanggiGame(JanggiGameHistory recentGame) {
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         for (MoveHistory moveHistory : recentGame.getMoveHistories()) {

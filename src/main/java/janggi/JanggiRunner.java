@@ -37,14 +37,9 @@ public class JanggiRunner {
                 outputView.printMessage("말 선택을 취소했습니다. 다시 선택해주세요.");
                 continue;
             }
-            play(janggiGame, startPosition, endPosition);
+            janggiService.play(janggiGame, startPosition, endPosition.get());
         }
         finish(janggiGame);
-    }
-
-    private void play(JanggiGame janggiGame, Position startPosition, Optional<Position> endPosition) {
-        janggiGame.doGame(startPosition, endPosition.get());
-        janggiService.saveMove(janggiGame, startPosition, endPosition.get());
     }
 
     private void finish(JanggiGame janggiGame) {
