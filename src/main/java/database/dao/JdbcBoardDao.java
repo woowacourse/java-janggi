@@ -2,6 +2,7 @@ package database.dao;
 
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
+import database.jdbc.JdbcTemplate;
 import domain.piece.Team;
 
 import java.util.List;

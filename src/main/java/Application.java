@@ -5,7 +5,7 @@ import database.transaction.JanggiTransactionExecutor;
 import database.transaction.TransactionExecutor;
 import database.dao.JdbcBoardDao;
 import database.dao.JdbcIntersectionDao;
-import database.dao.JdbcTemplate;
+import database.jdbc.JdbcTemplate;
 import view.InputReader;
 import view.OutputWriter;
 

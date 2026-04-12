@@ -1,5 +1,6 @@
 package database.dao;
 
+import database.jdbc.JdbcTemplate;
 import database.mapper.JanggiBoardMapper;
 import domain.intersection.Intersection;
 

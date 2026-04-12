@@ -1,5 +1,6 @@
 package service;
 
+import database.jdbc.JdbcTemplate;
 import domain.board.context.BoardIdContext;
 import database.dao.*;
 import database.dto.GameResult;

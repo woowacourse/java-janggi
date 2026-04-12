@@ -1,4 +1,4 @@
-package database.dao;
+package database.jdbc;
 
 import database.context.ConnectionContext;
 import database.exception.DataAccessException;
