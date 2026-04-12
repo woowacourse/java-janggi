@@ -10,12 +10,13 @@ CREATE TABLE IF NOT EXISTS game
 CREATE TABLE IF NOT EXISTS board
 (
     board_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
-    x          INTEGER UNIQUE,
-    y          INTEGER UNIQUE,
+    x          INTEGER,
+    y          INTEGER,
     piece_type VARCHAR(20),
     country    VARCHAR(10),
     game_id    BIGINT,
-    FOREIGN KEY (game_id) REFERENCES game (game_id)
+    FOREIGN KEY (game_id) REFERENCES game (game_id),
+    UNIQUE (game_id, x, y)
 );
 
 CREATE INDEX IF NOT EXISTS board_idx_game_id ON board (game_id);
