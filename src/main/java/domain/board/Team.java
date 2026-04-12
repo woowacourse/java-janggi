@@ -13,4 +13,11 @@ public enum Team {
     public String getName() {
         return name;
     }
+
+    public Team change() {
+        if (this == Team.HAN) {
+            return Team.CHU;
+        }
+        return Team.HAN;
+    }
 }
