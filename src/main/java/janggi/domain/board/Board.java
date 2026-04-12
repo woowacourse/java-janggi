@@ -46,7 +46,7 @@ public class Board {
         }
     }
 
-    private static void validateCantMovePiece(List<Position> availablePositions) {
+    private void validateCantMovePiece(List<Position> availablePositions) {
         if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
         }

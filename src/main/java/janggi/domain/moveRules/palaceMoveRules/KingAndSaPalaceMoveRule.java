@@ -13,7 +13,6 @@ import java.util.Map;
 public class KingAndSaPalaceMoveRule extends OnceMoveRule {
     @Override
     public List<Position> calculateAvailablePositions(Position startPosition, Team team, Map<Position, Piece> state) {
-        Piece piece = state.get(startPosition);
         List<Direction> directions = Direction.getAllDirections();
         List<Position> availablePositions = calculatePalacePositions(startPosition, directions);
         return filteredPositions(startPosition, availablePositions, state);
