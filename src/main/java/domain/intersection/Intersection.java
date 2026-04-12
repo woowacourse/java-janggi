@@ -37,38 +37,6 @@ public abstract class Intersection {
         piece = Piece.none();
     }
 
-    public Point getPoint() {
-        return point;
-    }
-
-    public boolean hasGeneral() {
-        return this.piece.isGeneral();
-    }
-
-    public boolean hasCannon() {
-        return this.piece.isCannon();
-    }
-
-    public boolean isSameTeam(Team team) {
-        return piece.isSameTeam(team);
-    }
-
-    public boolean isSameTeam(Intersection destination) {
-        return piece.isSameTeam(destination.piece);
-    }
-
-    public boolean hasPiece() {
-        return piece.hasPiece();
-    }
-
-    public Piece getPiece() {
-        return this.piece;
-    }
-
-    public IntersectionType getType() {
-        return this.intersectionType;
-    }
-
     public void validateMovable(Team currentTeam) {
         validateHasPiece();
         validateSameTeam(currentTeam);
@@ -86,12 +54,28 @@ public abstract class Intersection {
         }
     }
 
-    public Team getTeam() {
-        return piece.team();
+    public boolean hasGeneral() {
+        return this.piece.isGeneral();
+    }
+
+    public boolean hasCannon() {
+        return this.piece.isCannon();
+    }
+
+    public boolean hasPiece() {
+        return piece.hasPiece();
     }
 
     public boolean hasLinearPiece() {
         return piece.isLinearPiece();
+    }
+
+    public boolean isSameTeam(Team team) {
+        return piece.isSameTeam(team);
+    }
+
+    public boolean isSameTeam(Intersection destination) {
+        return piece.isSameTeam(destination.piece);
     }
 
     public abstract boolean isPalace();
@@ -100,6 +84,22 @@ public abstract class Intersection {
 
     public int getScore() {
         return PieceScore.getScore(piece);
+    }
+
+    public Team getTeam() {
+        return piece.team();
+    }
+
+    public IntersectionType getType() {
+        return this.intersectionType;
+    }
+
+    public Piece getPiece() {
+        return this.piece;
+    }
+
+    public Point getPoint() {
+        return point;
     }
 
     @Override
