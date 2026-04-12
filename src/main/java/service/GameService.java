@@ -1,5 +1,7 @@
 package service;
 
+import dao.BoardDao;
+import dao.GameDao;
 import domain.Game;
 import domain.board.Board;
 import domain.board.Position;
@@ -9,8 +11,6 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
-import repository.BoardRepository;
-import repository.GameRepository;
 
 public class GameService {
     private static final String NOT_EXIST_GAME = "[ERROR] 존재하지 않는 게임입니다.";
@@ -19,28 +19,28 @@ public class GameService {
     private static final String FAILED_CONNECT_DB = "[ERROR] DB 연결에 실패했습니다.";
 
     private final DataSource dataSource;
-    private final GameRepository gameRepository;
-    private final BoardRepository boardRepository;
+    private final GameDao gameDao;
+    private final BoardDao boardDao;
 
-    public GameService(DataSource dataSource, GameRepository gameRepository, BoardRepository boardRepository) {
+    public GameService(DataSource dataSource, GameDao gameDao, BoardDao boardDao) {
         this.dataSource = dataSource;
-        this.gameRepository = gameRepository;
-        this.boardRepository = boardRepository;
+        this.gameDao = gameDao;
+        this.boardDao = boardDao;
     }
 
     public Optional<Game> loadLatestGame() {
-        return executeWithConnection(gameRepository::findLatest);
+        return executeWithConnection(gameDao::findLatest);
     }
 
     public Map<Position, PieceInfo> loadBoard(Long gameId) {
-        return executeWithConnection(connection -> boardRepository.findAllByGameId(connection, gameId));
+        return executeWithConnection(connection -> boardDao.findAllByGameId(connection, gameId));
     }
 
     public Long saveGame(Game game, Board board) {
         return executeWithTransaction(connection -> {
-            Long gameId = gameRepository.save(connection, game)
+            Long gameId = gameDao.save(connection, game)
                     .orElseThrow(() -> new IllegalStateException(NOT_EXIST_GAME));
-            boardRepository.saveAll(connection, gameId, board.toPieceSaveInfo());
+            boardDao.saveAll(connection, gameId, board.toPieceSaveInfo());
             return gameId;
         });
     }
@@ -55,7 +55,7 @@ public class GameService {
         try (
                 Connection connection = dataSource.getConnection()
         ) {
-            gameRepository.finishedGame(connection, gameId);
+            gameDao.finishedGame(connection, gameId);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
         }
@@ -65,9 +65,9 @@ public class GameService {
         try (
                 Connection connection = dataSource.getConnection()
         ) {
-            boardRepository.delete(connection, gameId, from);
-            boardRepository.delete(connection, gameId, to);
-            boardRepository.save(connection, gameId, to, pieceInfo);
+            boardDao.delete(connection, gameId, from);
+            boardDao.delete(connection, gameId, to);
+            boardDao.save(connection, gameId, to, pieceInfo);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
         }

@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import domain.board.Country;
 import domain.board.Position;
@@ -13,13 +13,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BoardRepositoryImpl implements BoardRepository {
+public class BoardDao {
     private static final String FAILED_SAVE_ALL_BOARD_DATA = "[ERROR] DB에 모든 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
     private static final String FAILED_SAVE_BOARD_DATA = "[ERROR] DB에 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
     private static final String FAILED_DELETE_BOARD_DATA = "[ERROR] DB에서 보드 데이터를 삭제하는 도중, 오류가 발생했습니다.";
     private static final String FAILED_FIND_ALL_BOARD_DATA = "[ERROR] DB에서 모든 보드 데이터를 조회하는 도중, 오류가 발생했습니다.";
 
-    @Override
     public void saveAll(Connection connection, Long gameId, List<PieceSaveInfo> pieceSaveInfos) {
         String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -41,7 +40,6 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    @Override
     public void save(Connection connection, Long gameId, Position to, PieceInfo pieceInfo) {
         String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -59,7 +57,6 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    @Override
     public void delete(Connection connection, Long gameId, Position from) {
         String sql = "DELETE FROM board WHERE game_id = ? AND x = ? AND y = ?";
 
@@ -75,7 +72,6 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    @Override
     public Map<Position, PieceInfo> findAllByGameId(Connection connection, Long gameId) {
         String sql = "SELECT  * FROM board WHERE game_id = ?";
         Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();

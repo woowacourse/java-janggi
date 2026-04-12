@@ -1,7 +1,7 @@
 import config.DataSourceConfig;
 import controller.JanggiController;
-import repository.BoardRepositoryImpl;
-import repository.GameRepositoryImpl;
+import dao.BoardDao;
+import dao.GameDao;
 import service.GameService;
 import view.InputView;
 import view.OutputView;
@@ -13,8 +13,8 @@ public class Main {
                 new OutputView(),
                 new GameService(
                         new DataSourceConfig().getDataSource(),
-                        new GameRepositoryImpl(),
-                        new BoardRepositoryImpl()
+                        new GameDao(),
+                        new BoardDao()
                 )
         );
         janggiController.run();
