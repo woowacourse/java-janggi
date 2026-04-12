@@ -53,8 +53,8 @@ public class Delta {
         return new Delta(dx, dy);
     }
 
-    public static Delta scaleDown(Delta delta) {
-        return new Delta(Integer.signum(delta.dx), Integer.signum(delta.dy));
+    public Delta scaleDown() {
+        return new Delta(Integer.signum(this.dx), Integer.signum(this.dy));
     }
 
     public static List<Delta> diagonalPaths() {

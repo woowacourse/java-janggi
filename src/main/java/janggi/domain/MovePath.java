@@ -19,7 +19,7 @@ public class MovePath {
         if (path.size() != 1) {
             return false;
         }
-        Delta inputDelta = Delta.scaleDown(dxDelta);
+        Delta inputDelta = dxDelta.scaleDown();
         Delta delta = path.getFirst();
 
         return inputDelta.equals(delta);
