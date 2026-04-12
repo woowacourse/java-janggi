@@ -12,7 +12,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
             values (?, ?, ?, ?, ?, ?)
             """;
 
-    private static final String READ_ALL_INTERSECTION_QUERY = """
+    private static final String SELECT_ALL_INTERSECTION_QUERY = """
             select y, x, piece_type, team, intersection_type 
             from intersection 
             where board_id = ?
@@ -45,9 +45,9 @@ public class JdbcIntersectionDao implements IntersectionDao {
         );
     }
 
-    public List<Intersection> readByBoardId(Long boardId) {
+    public List<Intersection> selectIntersections(Long boardId) {
         return jdbcTemplate.selectList(
-                READ_ALL_INTERSECTION_QUERY,
+                SELECT_ALL_INTERSECTION_QUERY,
                 resultSet -> JanggiBoardMapper.toIntersection(
                         resultSet.getInt("y"),
                         resultSet.getInt("x"),

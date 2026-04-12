@@ -8,7 +8,7 @@ public interface IntersectionDao {
 
     void saveAll(Long boardId, List<Intersection> intersections);
 
-    List<Intersection> readByBoardId(Long boardId);
+    List<Intersection> selectIntersections(Long boardId);
 
     void update(Long boardId, Intersection intersection);
 
