@@ -2,9 +2,9 @@ package janggi.domain.board;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.board.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +65,21 @@ public class Board {
         }
     }
 
+    private boolean isNotSameSide(Piece piece, Side side) {
+        return !piece.isSameSide(side);
+    }
+
+    public void validateLocationToMove(Location startingLocation, Location locationToMove) {
+        validateLocation(locationToMove);
+        validateMovementOccurrence(startingLocation, locationToMove);
+    }
+
+    private void validateMovementOccurrence(Location from, Location to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("기물의 도착 위치는 출발 위치와 일치할 수 없습니다.");
+        }
+    }
+
     public void move(Location from, Location to) {
         Piece piece = boardState.get(from);
         List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
@@ -83,17 +98,6 @@ public class Board {
     private void executeMove(Location from, Location to, Piece piece) {
         boardState.put(to, piece);
         boardState.put(from, EmptyPiece.getInstance());
-    }
-
-    public void validateLocationToMove(Location startingLocation, Location locationToMove) {
-        validateLocation(locationToMove);
-        validateMovementOccurrence(startingLocation, locationToMove);
-    }
-
-    private void validateMovementOccurrence(Location from, Location to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("기물의 도착 위치는 출발 위치와 일치할 수 없습니다.");
-        }
     }
 
     public boolean isNotEmpty() {
@@ -118,7 +122,9 @@ public class Board {
         return List.copyOf(line);
     }
 
-    private boolean isNotSameSide(Piece piece, Side side) {
-        return !piece.isSameSide(side);
+    public List<Piece> getAlivePieces() {
+        return boardState.values().stream()
+                .filter(piece -> !piece.isEmpty())
+                .toList();
     }
 }
