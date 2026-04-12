@@ -18,6 +18,7 @@ public class GameStatus {
     }
 
     public static GameStatus restore(boolean finished, Country winner) {
+        validate(finished, winner);
         return new GameStatus(finished, winner);
     }
 
@@ -43,5 +44,14 @@ public class GameStatus {
 
     public boolean isFinished() {
         return finished;
+    }
+
+    private static void validate(boolean finished, Country winner){
+        if (!finished && winner != null) {
+            throw new IllegalArgumentException("[ERROR] 진행 중인 게임에는 승자가 있을 수 없습니다.");
+        }
+        if (finished && winner == null) {
+            throw new IllegalArgumentException("[ERROR] 종료된 게임에는 승자가 있어야 합니다.");
+        }
     }
 }
