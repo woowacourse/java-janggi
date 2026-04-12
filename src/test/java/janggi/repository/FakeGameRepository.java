@@ -20,7 +20,7 @@ public class FakeGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateGame(long gameId, JanggiGame game) {
+    public void saveGameState(long gameId, JanggiGame game) {
         if (!games.containsKey(gameId)) {
             throw new IllegalArgumentException("[ERROR] 해당 게임이 존재하지 않습니다.");
         }

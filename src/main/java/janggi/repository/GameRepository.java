@@ -11,7 +11,7 @@ public interface GameRepository {
 
     long createGame(JanggiGame game);
 
-    void updateGame(long gameId, JanggiGame game);
+    void saveGameState(long gameId, JanggiGame game);
 
     JanggiGame getById(long gameId);
 

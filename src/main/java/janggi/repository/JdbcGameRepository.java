@@ -42,7 +42,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateGame(long gameId, JanggiGame game) {
+    public void saveGameState(long gameId, JanggiGame game) {
         updateGameInfo(gameId, game);
         deletePieces(gameId);
         savePieces(gameId, game.getBoard());

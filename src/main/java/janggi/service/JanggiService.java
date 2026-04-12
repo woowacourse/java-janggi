@@ -31,7 +31,7 @@ public class JanggiService {
         JanggiGame game = loadGame(gameId);
         game.play(movement);
 
-        repository.updateGame(gameId, game);
+        repository.saveGameState(gameId, game);
 
         return game;
     }

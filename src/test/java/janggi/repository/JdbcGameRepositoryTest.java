@@ -81,7 +81,7 @@ class JdbcGameRepositoryTest {
                 janggi.domain.position.Position.from("61")));
 
         // when
-        repository.updateGame(gameId, loaded);
+        repository.saveGameState(gameId, loaded);
 
         // then
         JanggiGame updated = repository.getById(gameId);
@@ -114,7 +114,7 @@ class JdbcGameRepositoryTest {
         long id2 = repository.createGame(game2);
 
         // when
-        repository.updateGame(id1, game1);
+        repository.saveGameState(id1, game1);
         List<GameInfo> games = repository.findAllGames();
 
         // then
