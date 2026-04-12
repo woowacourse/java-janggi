@@ -7,10 +7,7 @@ import domain.PieceType;
 import domain.piece.Piece;
 import domain.position.Position;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Board implements BoardReader {
 
@@ -93,16 +90,16 @@ public class Board implements BoardReader {
         return scoreByCamp;
     }
 
-    public Camp checkWinner() {
+    public Optional<Camp> checkWinner() {
         if(isGeneralDead(Camp.CHO)) {
-            return Camp.HAN;
+            return Optional.of(Camp.HAN);
         }
 
         if(isGeneralDead(Camp.HAN)) {
-            return Camp.CHO;
+            return Optional.of(Camp.CHO);
         }
 
-        return Camp.NONE;
+        return Optional.empty();
     }
 
     private boolean isGeneralDead(Camp camp) {

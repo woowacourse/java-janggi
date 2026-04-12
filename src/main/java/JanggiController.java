@@ -7,6 +7,7 @@ import view.InputView;
 import view.OutputView;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiController {
 
@@ -48,9 +49,9 @@ public class JanggiController {
 
             saveGame(board.getBoardStatus(), camp);
 
-            Camp winner = board.checkWinner();
-            if(winner != Camp.NONE) {
-                outputView.printWinner(winner);
+            Optional<Camp> winner = board.checkWinner();
+            if(winner.isPresent()) {
+                outputView.printWinner(winner.get());
                 return;
             }
         }
