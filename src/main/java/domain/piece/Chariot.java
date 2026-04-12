@@ -23,7 +23,7 @@ public class Chariot extends Piece {
 
         if(Palace.isPalacePosition(from) && Palace.isPalacePosition(to)) {
             for (Direction diagonalDirection : MoveDirection.ofDiagonal()) {
-                if(canReachTargetAndPassGeneralPosition(from, to, boardReader, diagonalDirection)) {
+                if(canReachTargetViaGeneral(from, to, boardReader, diagonalDirection)) {
                     return true;
                 }
             }
@@ -33,32 +33,25 @@ public class Chariot extends Piece {
     }
 
     private boolean canReachTarget(Position from, Position to, BoardReader boardReader, Direction direction) {
-        Position current = from;
-        while (current.canMove(direction)) {
-            current = current.move(direction);
-            if (current.equals(to)) {
-                return true;
-            }
-
-            if (boardReader.isExist(current)) {
-                break;
-            }
-        }
-        return false;
+        return slideToTarget(from, to, boardReader, direction, true);
     }
 
-    private boolean canReachTargetAndPassGeneralPosition(Position from,
-                                                         Position to,
-                                                         BoardReader boardReader,
-                                                         Direction direction) {
+    private boolean canReachTargetViaGeneral(Position from, Position to, BoardReader boardReader, Direction direction) {
+        return slideToTarget(from, to, boardReader, direction, Palace.isGeneralPosition(from));
+    }
+
+    private boolean slideToTarget(Position from, Position to,
+                                  BoardReader boardReader,
+                                  Direction direction,
+                                  boolean reachable) {
+
         Position current = from;
-        boolean passGeneralPosition = false;
         while (current.canMove(direction)) {
             current = current.move(direction);
             if(Palace.isGeneralPosition(current)) {
-                passGeneralPosition = true;
+                reachable = true;
             }
-            if (current.equals(to) && passGeneralPosition) {
+            if (current.equals(to) && reachable) {
                 return true;
             }
 
