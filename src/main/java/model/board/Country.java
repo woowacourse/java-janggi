@@ -31,7 +31,7 @@ public enum Country {
         return color;
     }
 
-    public Double bonusScore() {
+    public double bonusScore() {
         return bonusScore;
     }
 }
