@@ -141,4 +141,24 @@ class DirectionTest {
                 .isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("주어진 이동 방향의 최대 칸수보다 길면 제외할 수 있다.")
+    void directionsCanLimitMaxDistance() {
+        Directions expected = new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(DOWN))
+        ));
+
+        // when
+        Directions actual = new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(UP, UP)),
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(DOWN, DOWN))
+        )).limitDistance(1);
+
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
+    }
+
 }

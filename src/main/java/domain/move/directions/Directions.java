@@ -54,4 +54,11 @@ public record Directions(
         return new Directions(forwardDirections);
     }
 
+    public Directions limitDistance(int maxDistance) {
+        List<Direction> limited = directions.stream()
+                .filter(direction -> direction.vectors().size() <= maxDistance)
+                .toList();
+        return new Directions(limited);
+    }
+
 }
