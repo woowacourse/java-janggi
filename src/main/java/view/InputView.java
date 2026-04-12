@@ -118,7 +118,7 @@ public class InputView {
 
         String input = scanner.nextLine();
         try {
-            if (input.equals("n")) {
+            if (input.equals("n") || input.equals("r")) {
                 return input;
             }
             validatePositionFormat(input);
