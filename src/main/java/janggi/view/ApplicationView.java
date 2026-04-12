@@ -1,6 +1,8 @@
 package janggi.view;
 
 import janggi.dto.PieceDto;
+import janggi.dto.ScoreResultDto;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,8 +32,19 @@ public class ApplicationView {
         outputWriter.printPieceMatrix(pieceMatrix);
     }
 
+    public void showScoreResults(ScoreResultDto scoreResultDto) {
+        List<String> results = new ArrayList<>();
+        for (Entry<String, Double> scoreResult : scoreResultDto.scoreResults().entrySet()) {
+            String team = scoreResult.getKey();
+            double score = scoreResult.getValue();
+            String result = String.format("%s팀: %.1f점", team, score);
+            results.add(result);
+        }
+        outputWriter.printPromptMessage(String.join(" | ", results));
+    }
+
     public void showCurrentSide(String currentSide) {
-        outputWriter.printPromptMessage(currentSide + "팀의 차례입니다.");
+        outputWriter.printPromptMessage("\n" + currentSide + "팀의 차례입니다.");
     }
 
     public List<Integer> promptForLocationOfPiece() {

@@ -8,7 +8,9 @@ import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
 import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.piece.Piece;
+import janggi.domain.result.ScoreResult;
 import janggi.dto.PieceDto;
+import janggi.dto.ScoreResultDto;
 import janggi.view.ApplicationView;
 import janggi.view.label.ArrangementStrategyLabel;
 import java.util.List;
@@ -31,6 +33,7 @@ public class JanggiFlow {
         Side current = Side.CHO;
         while (board.isNotEmpty()) {
             view.showBoardArray(convertBoardStatus(board));
+            view.showScoreResults(convertScoreResult(board));
             view.showCurrentSide(current.getNameFormat());
 
             final Side turnSide = current;
@@ -39,6 +42,7 @@ public class JanggiFlow {
                 Location to = repeatAskLocationToMoveUntilSuccess(from, board);
                 board.move(from, to);
             });
+
             current = current.switchSide();
         }
     }
@@ -61,6 +65,12 @@ public class JanggiFlow {
                                 .map(PieceDto::from)
                                 .toList()
                 ).toList();
+    }
+
+    private ScoreResultDto convertScoreResult(Board board) {
+        List<Piece> alivePieces = board.getAlivePieces();
+        ScoreResult scoreResult = ScoreResult.calculate(alivePieces);
+        return ScoreResultDto.from(scoreResult);
     }
 
     private ArrangementStrategy repeatAskStrategyUntilSuccess(Side side) {
