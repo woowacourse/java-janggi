@@ -7,23 +7,17 @@ import java.util.stream.Stream;
 
 public class PalaceMoveStrategy extends MoveStrategy {
 
-    private static final String ERROR_GENERAL_CAN_MOVE_ONLY_WITHIN_PALACE = "[ERROR] 해당 기물은 궁성 내부에서만 움직일 수 있다.";
-
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
-        validatePalaceArea(destination);
+        if (!isPalaceArea(destination)) {
+            return false;
+        }
         return createDestinations(currentPosition).contains(destination);
     }
 
     @Override
     public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
         return true;
-    }
-
-    private void validatePalaceArea(Position destination) {
-        if (!isPalaceArea(destination)) {
-            throw new IllegalArgumentException(ERROR_GENERAL_CAN_MOVE_ONLY_WITHIN_PALACE);
-        }
     }
 
     private boolean isPalaceArea(Position destination) {

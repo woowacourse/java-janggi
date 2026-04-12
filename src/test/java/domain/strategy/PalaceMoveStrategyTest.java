@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,9 +20,7 @@ class PalaceMoveStrategyTest {
         Position generalPosition = new Position(8, 3);
         Position palaceOutsideGeneralDestination = new Position(8, 2);
 
-        Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveStrategy.canMoveTo(generalPosition, palaceOutsideGeneralDestination))
-                .withMessage("[ERROR] 해당 기물은 궁성 내부에서만 움직일 수 있다.");
+        assertThat(moveStrategy.canMoveTo(generalPosition, palaceOutsideGeneralDestination)).isFalse();
     }
 
     @ParameterizedTest
