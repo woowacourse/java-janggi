@@ -4,6 +4,8 @@ import domain.board.Board;
 import domain.board.SangSetup;
 import domain.game.exception.GameEndedException;
 import domain.game.exception.GameErrorMessage;
+import domain.game.exception.GameIdAlreadyExistsException;
+import domain.game.exception.InvalidGameIdException;
 import domain.game.exception.InvalidTurnException;
 import domain.pieces.Piece;
 import domain.pieces.PieceType;
@@ -11,7 +13,6 @@ import domain.pieces.Side;
 import domain.pieces.exception.NoPieceException;
 import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
-import java.util.Objects;
 
 public class JanggiGame {
 
@@ -87,9 +88,12 @@ public class JanggiGame {
 
     public void assignGameId(Long gameId) {
         if (this.gameId != null) {
-            throw new IllegalStateException("이미 장기 게임 식별자가 존재합니다.");
+            throw new GameIdAlreadyExistsException(GameErrorMessage.GAME_ID_ALREADY_EXISTS);
         }
-        this.gameId = Objects.requireNonNull(gameId);
+        if (gameId == null) {
+            throw new InvalidGameIdException(GameErrorMessage.GAME_ID_REQUIRED);
+        }
+        this.gameId = gameId;
     }
 
     public GameResult gameResult() {
