@@ -2,9 +2,13 @@ package janggi.db.dao;
 
 import janggi.db.DbConnector;
 import janggi.db.entity.PieceEntity;
+import janggi.domain.common.Team;
+import janggi.domain.piece.PieceType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PieceDao {
@@ -40,5 +44,30 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 기물 삭제 중 오류가 발생했습니다", e);
         }
+    }
+
+    public List<PieceEntity> findAllByGameId(Long gameId) {
+        String sql = "SELECT * FROM pieces WHERE game_id = ?";
+        List<PieceEntity> pieces = new ArrayList<>();
+
+        try (Connection conn = DbConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, gameId);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                while (resultSet.next()) {
+                    pieces.add(new PieceEntity(
+                            resultSet.getLong("game_id"),
+                            resultSet.getInt("x"),
+                            resultSet.getInt("y"),
+                            PieceType.valueOf(resultSet.getString("piece_type")),
+                            Team.valueOf(resultSet.getString("team"))
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생했습니다", e);
+        }
+        return pieces;
     }
 }

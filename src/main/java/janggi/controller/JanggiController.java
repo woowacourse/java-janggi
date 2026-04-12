@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.db.entity.GameEntity;
 import janggi.db.repository.JanggiRepository;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFormation;
@@ -7,6 +8,7 @@ import janggi.domain.board.BoardInitiator;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.dto.BoardResponse;
+import janggi.dto.GameResponse;
 import janggi.dto.ScoreResponse;
 import janggi.dto.TeamResponse;
 import janggi.view.InputView;
@@ -23,20 +25,16 @@ public class JanggiController {
     private Long gameId;
     private Team turn;
     private Board board;
+    private boolean isGameOver;
 
     public JanggiController(JanggiRepository janggiRepository) {
         this.janggiRepository = janggiRepository;
     }
 
     public void run() {
-        board = new Board();
-        gameId = null;
-        turn = Team.CHO;
-        boolean isGameOver = false;
+        outputView.printStartOption();
 
-        choiceBoardFormation(board);
-
-        gameId = janggiRepository.save(gameId, board, turn, isGameOver);
+        initializeGame(inputView.readOption());
 
         outputView.printBoard(BoardResponse.from(board));
 
@@ -48,6 +46,44 @@ public class JanggiController {
             outputView.printTeamScore(ScoreResponse.from(board.calculateScore()));
         }
         outputView.printWinner(TeamResponse.from(board.findWinner()));
+    }
+
+    private void initializeGame(int option) {
+        if (option == 1) {
+            startNewGame();
+            return;
+        }
+        if (option == 2) {
+            loadExistingGame();
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 옵션 중에서 선택하세요.");
+    }
+
+    private void loadExistingGame() {
+        List<GameEntity> ongoingGames = janggiRepository.findOngoingGames();
+        List<GameResponse> gameResponses = ongoingGames.stream()
+                .map(GameResponse::from)
+                .toList();
+        outputView.printOngoingGames(gameResponses);
+
+        gameId = inputView.readSelectGameId();
+        GameEntity selectedGame = janggiRepository.findGameById(gameId);
+
+        turn = selectedGame.getTurn();
+        isGameOver = selectedGame.isFinished();
+
+        board = janggiRepository.loadBoard(gameId);
+    }
+
+    private void startNewGame() {
+        board = new Board();
+        gameId = null;
+        turn = Team.CHO;
+        isGameOver = false;
+
+        choiceBoardFormation(board);
+        gameId = janggiRepository.save(gameId, board, turn, isGameOver);
     }
 
     private void choiceBoardFormation(Board board) {

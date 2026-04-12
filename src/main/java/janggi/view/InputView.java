@@ -18,4 +18,13 @@ public class InputView {
         System.out.println("상차림 번호를 입력하세요");
         return Integer.parseInt(scanner.nextLine());
     }
+
+    public int readOption() {
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public Long readSelectGameId() {
+        System.out.println("플레이를 원하는 게임 ID를 입력하세요.");
+        return Long.parseLong(scanner.nextLine());
+    }
 }

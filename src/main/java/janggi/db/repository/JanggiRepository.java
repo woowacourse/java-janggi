@@ -43,4 +43,27 @@ public class JanggiRepository {
         gameDao.update(new GameEntity(gameId, turn, isFinished));
         return gameId;
     }
+
+    public List<GameEntity> findOngoingGames() {
+        return gameDao.findOngoingGames();
+    }
+
+    public GameEntity findGameById(Long gameId) {
+        return gameDao.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 ID의 게임이 없습니다."));
+    }
+
+    public Board loadBoard(Long gameId) {
+        List<PieceEntity> pieceEntities = pieceDao.findAllByGameId(gameId);
+
+        Board loadedBoard = new Board();
+
+        for (PieceEntity pieceEntity : pieceEntities) {
+            Position position = new Position(pieceEntity.getX(), pieceEntity.getY());
+            Piece piece = new Piece(pieceEntity.getTeam(), pieceEntity.getPieceType());
+            loadedBoard.place(position, piece);
+        }
+
+        return loadedBoard;
+    }
 }
