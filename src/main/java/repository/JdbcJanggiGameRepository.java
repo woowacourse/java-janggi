@@ -43,7 +43,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                 throw exception;
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("게임을 저장하는 중 오류가 발생했습니다.");
+            throw new IllegalStateException("게임을 저장하는 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -52,7 +52,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         try (Connection connection = dataSource.getConnection()) {
             return gameDao.findAll(connection);
         } catch (SQLException exception) {
-            throw new IllegalStateException("게임 목록을 불러오는 중 오류가 발생했습니다.");
+            throw new IllegalStateException("게임 목록을 불러오는 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -68,7 +68,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             Board board = Board.init(pieces);
             return Optional.of(JanggiGame.of(board, gameState.get()));
         } catch (SQLException exception) {
-            throw new IllegalStateException("게임을 불러오는 중 오류가 발생했습니다. gameId=" + gameId);
+            throw new IllegalStateException("게임을 불러오는 중 오류가 발생했습니다. gameId=" + gameId, exception);
         }
     }
 
@@ -86,7 +86,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
                 throw exception;
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("게임을 업데이트하는 중 오류가 발생했습니다. gameId=" + gameId);
+            throw new IllegalStateException("게임을 업데이트하는 중 오류가 발생했습니다. gameId=" + gameId, exception);
         }
     }
 }
