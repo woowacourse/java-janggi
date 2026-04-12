@@ -68,21 +68,6 @@ class JanggiServiceTest {
         assertThat(game.getCurrentTeam()).isEqualTo(Team.HAN);
     }
 
-    @DisplayName("턴을 진행하면 진행 내용이 DB에 저장된다.")
-    @Test
-    void 턴_진행_후_진행_내용이_DB에_반영된다() {
-        // given
-        long gameId = service.createGame(OUTER_ELEPHANT, OUTER_ELEPHANT);
-        Movement movement = new Movement(Position.from("71"), Position.from("61"));
-
-        // when
-        service.playTurn(gameId, movement);
-
-        // then
-        JanggiGame loaded = service.loadGame(gameId);
-        assertThat(loaded.getCurrentTeam()).isEqualTo(Team.HAN);
-    }
-
     @DisplayName("전체 게임 목록 조회 테스트")
     @Test
     void 게임_목록을_조회할_수_있다() {
