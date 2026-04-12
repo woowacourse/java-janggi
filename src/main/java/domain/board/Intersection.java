@@ -7,10 +7,11 @@ public record Intersection(int row, int file) {
     private static final int ROW_INDEX = 0;
     private static final int FILE_INDEX = 1;
 
-    private static final int LOWER_BOUND_ROW = 1;
-    private static final int UPPER_BOUND_ROW = 10;
-    private static final int LOWER_BOUND_FILE = 1;
-    private static final int UPPER_BOUND_FILE = 9;
+    public static final int IGNORED = 0;
+    public static final int LOWER_BOUND_ROW = 1;
+    public static final int UPPER_BOUND_ROW = 10;
+    public static final int LOWER_BOUND_FILE = 1;
+    public static final int UPPER_BOUND_FILE = 9;
 
     public static Intersection parse(String rowAndFile) {
         final String delimiter = ",";
