@@ -1,5 +1,7 @@
 package janggi.persistence.dao;
 
+import janggi.config.ConnectionPool;
+import janggi.config.PooledConnection;
 import janggi.exception.DuplicateGameException;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
@@ -16,16 +18,21 @@ import java.util.Optional;
 import static janggi.config.DatabaseConfig.getConnection;
 
 public class JdbcGameDao implements GameDao {
+    private final ConnectionPool pool;
+
+    public JdbcGameDao(ConnectionPool pool) {
+        this.pool = pool;
+    }
+
     private static final int SQL_DUPLICATE_CODE = 1062;
 
     @Override
-    public void create(GameEntity gameEntity) {
+    public void create(Connection conn, GameEntity gameEntity) {
         String sql = """
                 INSERT INTO game (id, name, status, current_turn)
                 VALUES (?, ?, ?, ?)
                 """;
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, gameEntity.id());
             pstmt.setString(2, gameEntity.name());
@@ -54,9 +61,9 @@ public class JdbcGameDao implements GameDao {
 
         List<String> names = new ArrayList<>();
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) { // 파라미터가 없으므로 바로 실행
+        try (PooledConnection pooled = pool.getPooledConnection();
+             PreparedStatement pstmt = pooled.getConnection().prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 names.add(rs.getString("name"));
             }
@@ -75,8 +82,8 @@ public class JdbcGameDao implements GameDao {
                 WHERE name = ?
                 """;
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PooledConnection pooled = pool.getPooledConnection();
+             PreparedStatement pstmt =pooled.getConnection().prepareStatement(sql)) {
             pstmt.setString(1, gameName);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -91,14 +98,13 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Connection conn, String id) {
         String sql = """
             DELETE FROM game
             WHERE id = ?
             """;
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -113,8 +119,8 @@ public class JdbcGameDao implements GameDao {
                 WHERE id = ?
                 """;
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PooledConnection pooled = pool.getPooledConnection();
+             PreparedStatement pstmt = pool.getConnection().prepareStatement(sql)) {
             pstmt.setString(1, id);
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -135,14 +141,13 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateStatus(String gameId, Turn turn, Status status) {
+    public void updateStatus(Connection conn, String gameId, Turn turn, Status status) {
         String sql = """
                 UPDATE game
                 SET status = ?, current_turn = ?
                 WHERE id = ?
                 """;
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status.name());
             pstmt.setString(2, turn.name());

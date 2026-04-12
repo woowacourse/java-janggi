@@ -14,6 +14,8 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class AppConfig {
+    private final ConnectionPool connectionPool = DatabaseConfig.getPool();
+
     public JanggiController janggiController() {
         return new JanggiController(inputView(), outputView(), janggiService());
     }
@@ -27,7 +29,11 @@ public class AppConfig {
     }
 
     public JanggiService janggiService() {
-        return new JanggiService(gameRepository());
+        return new JanggiService(gameRepository(), transactionManager());
+    }
+
+    public TransactionManager transactionManager() {
+        return new TransactionManager(connectionPool);
     }
 
     public GameRepository gameRepository() {
@@ -35,11 +41,11 @@ public class AppConfig {
     }
 
     public GameDao gameDao() {
-        return new JdbcGameDao();
+        return new JdbcGameDao(connectionPool);
     }
 
     public PieceDao pieceDao() {
-        return new JdbcPieceDao();
+        return new JdbcPieceDao(connectionPool);
     }
 
     public GameMapper gameMapper() {

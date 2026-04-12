@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class DatabaseConfig {
     private static final Properties properties = new Properties();
+    private static final ConnectionPool connectionPool;
 
     static {
         try (InputStream input = DatabaseConfig.class.getResourceAsStream("/application.properties")) {
@@ -18,17 +19,24 @@ public class DatabaseConfig {
         } catch (Exception e) {
             throw new RuntimeException("JDBC 초기화 실패", e);
         }
+
+        connectionPool = new ConnectionPool(
+                properties.getProperty("db.url"),
+                properties.getProperty("db.id"),
+                properties.getProperty("db.password"),
+                5
+        );
     }
 
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(
-                    properties.getProperty("db.url"),
-                    properties.getProperty("db.id"),
-                    properties.getProperty("db.password")
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 실패", e);
-        }
+    public static void shutdown() {
+        connectionPool.shutdown();
+    }
+
+    public static PooledConnection getConnection() {
+        return connectionPool.getPooledConnection();
+    }
+
+    public static ConnectionPool getPool() {
+        return connectionPool;
     }
 }

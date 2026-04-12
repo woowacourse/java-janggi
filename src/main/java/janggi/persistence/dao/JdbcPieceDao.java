@@ -1,5 +1,7 @@
 package janggi.persistence.dao;
 
+import janggi.config.ConnectionPool;
+import janggi.config.PooledConnection;
 import janggi.persistence.entity.PieceEntity;
 
 import java.sql.Connection;
@@ -12,16 +14,20 @@ import java.util.List;
 import static janggi.config.DatabaseConfig.getConnection;
 
 public class JdbcPieceDao implements PieceDao {
+    private final ConnectionPool pool;
+
+    public JdbcPieceDao(ConnectionPool pool) {
+        this.pool = pool;
+    }
 
     @Override
-    public void createAll(List<PieceEntity> entities) {
+    public void createAll(Connection conn, List<PieceEntity> entities) {
         String sql = """
                 INSERT INTO piece (game_id, piece_name, camp, row_index, column_index)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             for (PieceEntity piece : entities) {
                 pstmt.setString(1, piece.gameId());
@@ -48,8 +54,8 @@ public class JdbcPieceDao implements PieceDao {
 
         List<PieceEntity> pieces = new ArrayList<>();
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PooledConnection pooled = pool.getPooledConnection();
+             PreparedStatement pstmt = pooled.getConnection().prepareStatement(sql)) {
 
             pstmt.setString(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -71,11 +77,10 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void deleteByGameId(String gameId) {
+    public void deleteByGameId(Connection conn, String gameId) {
         String sql = "DELETE FROM piece WHERE game_id = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, gameId);
 
@@ -87,15 +92,14 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void updateAll(String gameId, List<PieceEntity> entities) {
+    public void updateAll(Connection conn, String gameId, List<PieceEntity> entities) {
         String sql = """
                 UPDATE piece
                 SET piece_name = ?, camp = ?, row_index = ?, column = ?
                 WHERE id = ? AND game_id = ?
                 """;
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             for (PieceEntity piece : entities) {
                 pstmt.setString(1, piece.pieceName());

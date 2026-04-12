@@ -14,6 +14,7 @@ import janggi.persistence.mapper.GameMapper;
 import janggi.persistence.mapper.PieceMapper;
 import janggi.service.GameRepository;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,16 +37,16 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public String save(String name, Janggi janggi) {
+    public String save(Connection conn, String name, Janggi janggi) {
         String newGameId = UUID.randomUUID().toString();
 
-        activeGames.put(newGameId, janggi.clone());
-
         GameEntity gameEntity = gameMapper.toGameEntity(newGameId, name, janggi);
-        gameDao.create(gameEntity);
+        gameDao.create(conn, gameEntity);
 
         List<PieceEntity> pieceEntities = pieceMapper.toPieceEntity(newGameId, janggi);
-        pieceDao.createAll(pieceEntities);
+        pieceDao.createAll(conn, pieceEntities);
+
+        activeGames.put(newGameId, janggi.clone());
 
         return newGameId;
     }
@@ -73,19 +74,20 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void update(String gameId, Janggi janggi) {
-        gameDao.updateStatus(gameId, Turn.of(janggi.currentCamp()), Status.of(janggi));
-        pieceDao.deleteByGameId(gameId);
-        pieceDao.createAll(pieceMapper.toPieceEntity(gameId, janggi));
+    public void update(Connection conn, String gameId, Janggi janggi) {
+        gameDao.updateStatus(conn, gameId, Turn.of(janggi.currentCamp()), Status.of(janggi));
+        pieceDao.deleteByGameId(conn, gameId);
+        pieceDao.createAll(conn, pieceMapper.toPieceEntity(gameId, janggi));
+
         activeGames.put(gameId, janggi.clone());
     }
 
     @Override
-    public void updateGameResult(String gameId, Janggi janggi) {
+    public void updateGameResult(Connection conn,String gameId, Janggi janggi) {
         Status status = Status.of(janggi);
         Turn turn = Turn.of(janggi.currentCamp());
 
-        gameDao.updateStatus(gameId, turn, status);
+        gameDao.updateStatus(conn, gameId, turn, status);
 
         activeGames.remove(gameId);
     }
@@ -101,9 +103,10 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void deleteById(String gameId) {
-        pieceDao.deleteByGameId(gameId);
-        gameDao.deleteById(gameId);
+    public void deleteById(Connection conn,String gameId) {
+        pieceDao.deleteByGameId(conn, gameId);
+        gameDao.deleteById(conn, gameId);
+
         activeGames.remove(gameId);
     }
 }

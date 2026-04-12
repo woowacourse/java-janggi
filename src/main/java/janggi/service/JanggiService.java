@@ -1,5 +1,6 @@
 package janggi.service;
 
+import janggi.config.TransactionManager;
 import janggi.domain.Camp;
 import janggi.domain.Janggi;
 import janggi.domain.board.BoardFactory;
@@ -12,9 +13,11 @@ import java.util.Map;
 
 public class JanggiService {
     private final GameRepository gameRepository;
+    private final TransactionManager transactionManager;
 
-    public JanggiService(GameRepository gameRepository) {
+    public JanggiService(GameRepository gameRepository, TransactionManager transactionManager) {
         this.gameRepository = gameRepository;
+        this.transactionManager = transactionManager;
     }
 
     public String createGame(String name, int choFormation, int hanFormation) {
@@ -23,7 +26,8 @@ public class JanggiService {
                         FormationStrategyFactory.from(choFormation),
                         FormationStrategyFactory.from(hanFormation))
         );
-        return gameRepository.save(name, janggi);
+        return transactionManager.execute(conn ->
+                gameRepository.save(conn, name, janggi));
     }
 
     public List<String> findAllNames() {
@@ -33,13 +37,19 @@ public class JanggiService {
     public void surrender(String gameId) {
         Janggi janggi = findGameById(gameId);
         janggi.surrender();
-        gameRepository.updateGameResult(gameId, janggi);
+        transactionManager.execute(conn -> {
+            gameRepository.updateGameResult(conn, gameId, janggi);
+            return null;
+        });
     }
 
     public void draw(String gameId) {
         Janggi janggi = findGameById(gameId);
         janggi.draw();
-        gameRepository.updateGameResult(gameId, janggi);
+        transactionManager.execute(conn -> {
+            gameRepository.updateGameResult(conn, gameId, janggi);
+            return null;
+        });
     }
 
     public void validateTurn(String gameId, Position from) {
@@ -59,10 +69,12 @@ public class JanggiService {
             throw new IllegalStateException("이미 종료된 게임입니다.");
         }
 
-        janggi.validateTurn(from);
         janggi.play(from, to);
 
-        gameRepository.update(gameId, janggi);
+        transactionManager.execute(conn -> {
+            gameRepository.update(conn, gameId, janggi);
+            return null;
+        });
     }
 
     public Map<Position, Piece> getBoardStatus(String gameId) {
@@ -73,11 +85,6 @@ public class JanggiService {
         return findGameById(gameId).isRunning();
     }
 
-    private Janggi findGameById(String gameId) {
-        return gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
-    }
-
     public String findGameByName(String gameName) {
         return gameRepository.findByName(gameName)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
@@ -85,7 +92,10 @@ public class JanggiService {
 
     public void deleteByName(String gameName) {
         String gameId = findGameByName(gameName);
-        gameRepository.deleteById(gameId);
+        transactionManager.execute(conn -> {
+            gameRepository.deleteById(conn, gameId);
+            return null;
+        });
     }
 
     public Camp getCurrentCamp(String gameId) {
@@ -94,5 +104,10 @@ public class JanggiService {
 
     public Camp getWinner(String gameId) {
         return findGameById(gameId).winner();
+    }
+
+    private Janggi findGameById(String gameId) {
+        return gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
     }
 }
