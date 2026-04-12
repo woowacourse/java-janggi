@@ -36,31 +36,33 @@ public class BoardInitiator {
     private Map<PieceType, List<Integer>> initXPositionsByFormation(BoardFormation formation) {
         Map<PieceType, List<Integer>> result = new HashMap<>();
         for (PieceType pieceType : PieceType.values()) {
-            if (pieceType == PieceType.MA) {
-                result.put(pieceType, formation.getMaXPositions());
-                continue;
-            }
-            if (pieceType == PieceType.SANG) {
-                result.put(pieceType, formation.getSangXPositions());
-                continue;
-            }
-            result.put(pieceType, defaultXPositions.get(pieceType));
+            result.put(pieceType, getXPositions(formation, pieceType));
         }
         return result;
     }
 
-    private void placeByPieceType(Board board, Map<PieceType, List<Integer>> hanXPositions, Team team) {
+    private void placeByPieceType(Board board, Map<PieceType, List<Integer>> xPositions, Team team) {
         for (PieceType pieceType : PieceType.values()) {
-            placeByPieceType(board, hanXPositions, team, pieceType);
+            placeByPieceType(board, xPositions, team, pieceType);
         }
     }
 
-    private void placeByPieceType(Board board, Map<PieceType, List<Integer>> hanXPositions, Team team,
+    private void placeByPieceType(Board board, Map<PieceType, List<Integer>> xPositions, Team team,
                                   PieceType pieceType) {
-        for (Integer x : hanXPositions.get(pieceType)) {
+        for (Integer x : xPositions.get(pieceType)) {
             int y = team.calculateYPosition(defaultYPosition.get(pieceType));
             Position position = new Position(x, y);
             board.place(position, new Piece(team, pieceType));
         }
+    }
+
+    private List<Integer> getXPositions(BoardFormation formation, PieceType pieceType) {
+        if (pieceType == PieceType.MA) {
+            return formation.getMaXPositions();
+        }
+        if (pieceType == PieceType.SANG) {
+            return formation.getSangXPositions();
+        }
+        return defaultXPositions.get(pieceType);
     }
 }
