@@ -11,15 +11,22 @@ import domain.pieces.Side;
 import domain.pieces.exception.NoPieceException;
 import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
+import java.util.Objects;
 
 public class JanggiGame {
 
+    private Long gameId;
     private Board board;
     private Turn currentTurn = Turn.start();
     private GameResult gameResult = GameResult.running();
     private final GameScoreCalculator gameScoreCalculator = new GameScoreCalculator();
 
     public JanggiGame(Board board) {
+        this(null, board);
+    }
+
+    private JanggiGame(Long gameId, Board board) {
+        this.gameId = gameId;
         this.board = board;
     }
 
@@ -29,8 +36,8 @@ public class JanggiGame {
         return new JanggiGame(choBoard.merge(hanBoard));
     }
 
-    public static JanggiGame restore(Board board, Side currentTurn, GameResult gameResult) {
-        JanggiGame janggiGame = new JanggiGame(board);
+    public static JanggiGame restore(Long gameId, Board board, Side currentTurn, GameResult gameResult) {
+        JanggiGame janggiGame = new JanggiGame(gameId, board);
         janggiGame.currentTurn = Turn.from(currentTurn);
         janggiGame.gameResult = gameResult;
         return janggiGame;
@@ -72,6 +79,17 @@ public class JanggiGame {
 
     public Board board() {
         return board;
+    }
+
+    public Long gameId() {
+        return gameId;
+    }
+
+    public void assignGameId(Long gameId) {
+        if (this.gameId != null) {
+            throw new IllegalStateException("이미 장기 게임 식별자가 존재합니다.");
+        }
+        this.gameId = Objects.requireNonNull(gameId);
     }
 
     public GameResult gameResult() {

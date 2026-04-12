@@ -2,7 +2,6 @@ package infra.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import application.GameSession;
 import domain.board.Board;
 import domain.game.GameResult;
 import domain.game.GameStatus;
@@ -48,13 +47,13 @@ class JdbcGameRepositoryTest {
         JanggiGame janggiGame = runningGame(Side.CHO, new Position(0, 0), new Position(1, 4));
 
         // when
-        GameSession session = repository.save(janggiGame);
+        JanggiGame savedGame = repository.save(janggiGame);
 
         // then
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "SELECT current_turn, status, winner FROM janggi_game WHERE game_id = ?")) {
-            statement.setLong(1, session.gameId());
+            statement.setLong(1, savedGame.gameId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
@@ -71,7 +70,7 @@ class JdbcGameRepositoryTest {
         JanggiGame janggiGame = runningGame(Side.CHO, new Position(0, 0), new Position(1, 4));
 
         // when
-        GameSession session = repository.save(janggiGame);
+        JanggiGame savedGame = repository.save(janggiGame);
 
         // then
         try (Connection connection = connectionManager.getConnection();
@@ -79,14 +78,14 @@ class JdbcGameRepositoryTest {
                      "SELECT COUNT(*) FROM game_piece WHERE game_id = ?");
              PreparedStatement pieceStatement = connection.prepareStatement(
                      "SELECT side, piece_type FROM game_piece WHERE game_id = ? AND row_index = ? AND column_index = ?")) {
-            countStatement.setLong(1, session.gameId());
+            countStatement.setLong(1, savedGame.gameId());
 
             try (ResultSet resultSet = countStatement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
                 assertThat(resultSet.getInt(1)).isEqualTo(2);
             }
 
-            pieceStatement.setLong(1, session.gameId());
+            pieceStatement.setLong(1, savedGame.gameId());
             pieceStatement.setInt(2, 0);
             pieceStatement.setInt(3, 0);
 
@@ -113,7 +112,7 @@ class JdbcGameRepositoryTest {
                 .save(runningGame(Side.CHO, new Position(0, 0), new Position(1, 4)));
         repositoryAt(Instant.parse("2026-04-07T03:30:00Z"))
                 .save(endedGame(Side.HAN));
-        GameSession expectedSession = repositoryAt(Instant.parse("2026-04-07T03:40:00Z"))
+        JanggiGame expectedGame = repositoryAt(Instant.parse("2026-04-07T03:40:00Z"))
                 .save(runningGame(Side.HAN, new Position(0, 0), new Position(8, 4)));
 
         // when
@@ -122,34 +121,30 @@ class JdbcGameRepositoryTest {
         // then
         assertThat(result).isPresent();
 
-        GameSession session = result.orElseThrow();
-        assertThat(session.gameId()).isEqualTo(expectedSession.gameId());
-        assertThat(session.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 40));
-        assertThat(session.game().currentTurn()).isEqualTo(Side.HAN);
-        assertThat(session.game().gameResult()).isEqualTo(GameResult.running());
-        assertThat(session.game().board().pieces().get(new Position(0, 0)).getType()).isEqualTo(PieceType.CHA);
-        assertThat(session.game().board().pieces().get(new Position(8, 4)).getType()).isEqualTo(PieceType.GUNG);
+        JanggiGame janggiGame = result.orElseThrow();
+        assertThat(janggiGame.gameId()).isEqualTo(expectedGame.gameId());
+        assertThat(janggiGame.currentTurn()).isEqualTo(Side.HAN);
+        assertThat(janggiGame.gameResult()).isEqualTo(GameResult.running());
+        assertThat(janggiGame.board().pieces().get(new Position(0, 0)).getType()).isEqualTo(PieceType.CHA);
+        assertThat(janggiGame.board().pieces().get(new Position(8, 4)).getType()).isEqualTo(PieceType.GUNG);
     }
 
     @Test
     void 수정하면_janggi_game_메타정보를_갱신한다() throws Exception {
         // given
-        GameSession savedSession = repositoryAt(Instant.parse("2026-04-07T03:01:00Z"))
+        JanggiGame savedGame = repositoryAt(Instant.parse("2026-04-07T03:01:00Z"))
                 .save(runningGame(Side.CHO, new Position(0, 0), new Position(1, 4)));
-        GameSession updatedSession = new GameSession(
-                savedSession.gameId(),
-                savedSession.createdAt(),
-                endedGame(Side.HAN)
-        );
+        JanggiGame updatedGame = endedGame(Side.HAN);
+        updatedGame.assignGameId(savedGame.gameId());
 
         // when
-        repositoryAt(Instant.parse("2026-04-07T03:30:00Z")).update(updatedSession);
+        repositoryAt(Instant.parse("2026-04-07T03:30:00Z")).update(updatedGame);
 
         // then
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "SELECT current_turn, status, winner, updated_at FROM janggi_game WHERE game_id = ?")) {
-            statement.setLong(1, savedSession.gameId());
+            statement.setLong(1, savedGame.gameId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
@@ -165,16 +160,13 @@ class JdbcGameRepositoryTest {
     @Test
     void 수정하면_game_piece_기물_정보를_현재_상태로_교체한다() throws Exception {
         // given
-        GameSession savedSession = repositoryAt(Instant.parse("2026-04-07T03:01:00Z"))
+        JanggiGame savedGame = repositoryAt(Instant.parse("2026-04-07T03:01:00Z"))
                 .save(runningGame(Side.CHO, new Position(0, 0), new Position(1, 4)));
-        GameSession updatedSession = new GameSession(
-                savedSession.gameId(),
-                savedSession.createdAt(),
-                runningGame(Side.HAN, new Position(0, 1), null)
-        );
+        JanggiGame updatedGame = runningGame(Side.HAN, new Position(0, 1), null);
+        updatedGame.assignGameId(savedGame.gameId());
 
         // when
-        repositoryAt(Instant.parse("2026-04-07T03:10:00Z")).update(updatedSession);
+        repositoryAt(Instant.parse("2026-04-07T03:10:00Z")).update(updatedGame);
 
         // then
         try (Connection connection = connectionManager.getConnection();
@@ -184,14 +176,14 @@ class JdbcGameRepositoryTest {
                      "SELECT COUNT(*) FROM game_piece WHERE game_id = ? AND row_index = ? AND column_index = ?");
              PreparedStatement movedPieceStatement = connection.prepareStatement(
                      "SELECT side, piece_type FROM game_piece WHERE game_id = ? AND row_index = ? AND column_index = ?")) {
-            countStatement.setLong(1, savedSession.gameId());
+            countStatement.setLong(1, savedGame.gameId());
 
             try (ResultSet resultSet = countStatement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
                 assertThat(resultSet.getInt(1)).isEqualTo(1);
             }
 
-            oldPieceStatement.setLong(1, savedSession.gameId());
+            oldPieceStatement.setLong(1, savedGame.gameId());
             oldPieceStatement.setInt(2, 0);
             oldPieceStatement.setInt(3, 0);
 
@@ -200,7 +192,7 @@ class JdbcGameRepositoryTest {
                 assertThat(resultSet.getInt(1)).isZero();
             }
 
-            movedPieceStatement.setLong(1, savedSession.gameId());
+            movedPieceStatement.setLong(1, savedGame.gameId());
             movedPieceStatement.setInt(2, 0);
             movedPieceStatement.setInt(3, 1);
 
@@ -227,12 +219,12 @@ class JdbcGameRepositoryTest {
         if (gungPosition != null) {
             pieces.put(gungPosition, new Gung(Side.HAN));
         }
-        return JanggiGame.restore(new Board(pieces), currentTurn, GameResult.running());
+        return JanggiGame.restore(null, new Board(pieces), currentTurn, GameResult.running());
     }
 
     private JanggiGame endedGame(Side winner) {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(new Position(8, 4), new Gung(winner));
-        return JanggiGame.restore(new Board(pieces), Side.HAN, GameResult.ended(winner));
+        return JanggiGame.restore(null, new Board(pieces), Side.HAN, GameResult.ended(winner));
     }
 }

@@ -24,7 +24,7 @@ public class SavedGameReadMapper {
     public JanggiGame toJanggiGame(SavedGameDto savedGameDto) {
         Board board = new Board(restoredPieces(savedGameDto.pieces()));
         GameResult gameResult = toGameResult(savedGameDto);
-        return JanggiGame.restore(board, savedGameDto.currentTurn(), gameResult);
+        return JanggiGame.restore(savedGameDto.gameId(), board, savedGameDto.currentTurn(), gameResult);
     }
 
     private Map<Position, Piece> restoredPieces(java.util.List<SavedPieceDto> savedPieceDtos) {

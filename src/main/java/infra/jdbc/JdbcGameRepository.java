@@ -1,6 +1,5 @@
 package infra.jdbc;
 
-import application.GameSession;
 import domain.game.JanggiGame;
 import infra.jdbc.dao.GameDao;
 import infra.jdbc.dao.GameDao.GameMetadata;
@@ -53,7 +52,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public GameSession save(JanggiGame janggiGame) {
+    public JanggiGame save(JanggiGame janggiGame) {
         SavedGameDto savedGameDto = writeMapper.toSavedGameDto(janggiGame);
         long gameId = executeInTransaction(connection -> {
             long savedGameId = gameDao.insert(connection, savedGameDto);
@@ -61,11 +60,12 @@ public class JdbcGameRepository implements GameRepository {
             return savedGameId;
         }, "장기 게임 저장에 실패했습니다.");
 
-        return new GameSession(gameId, savedGameDto.createdAt(), janggiGame);
+        janggiGame.assignGameId(gameId);
+        return janggiGame;
     }
 
     @Override
-    public Optional<GameSession> findLatestRunningGame() {
+    public Optional<JanggiGame> findLatestRunningGame() {
         try (Connection connection = connectionManager.getConnection()) {
             Optional<GameMetadata> latestRunningGame = gameDao.findLatestRunningGame(connection);
             if (latestRunningGame.isEmpty()) {
@@ -82,31 +82,30 @@ public class JdbcGameRepository implements GameRepository {
                     metadata.updatedAt(),
                     gamePieceDao.findAllByGameId(connection, metadata.gameId())
             );
-            return Optional.of(new GameSession(
-                    savedGameDto.gameId(),
-                    savedGameDto.createdAt(),
-                    readMapper.toJanggiGame(savedGameDto)
-            ));
+            return Optional.of(readMapper.toJanggiGame(savedGameDto));
         } catch (SQLException e) {
             throw new JdbcRepositoryException("진행 중인 장기 게임 조회에 실패했습니다.", e);
         }
     }
 
     @Override
-    public void update(GameSession session) {
-        if (session.gameId() == null) {
+    public void update(JanggiGame janggiGame) {
+        if (janggiGame.gameId() == null) {
             throw new JdbcRepositoryException("수정할 장기 게임의 식별자가 없습니다.");
         }
 
-        SavedGameDto savedGameDto = writeMapper.toSavedGameDto(
-                session.gameId(),
-                session.createdAt(),
-                session.game()
-        );
+        java.time.LocalDateTime updatedAt = writeMapper.updatedAt();
         executeInTransaction(connection -> {
-            gameDao.update(connection, savedGameDto);
-            gamePieceDao.deleteAllByGameId(connection, savedGameDto.gameId());
-            gamePieceDao.insertAll(connection, savedGameDto.gameId(), savedGameDto.pieces());
+            gameDao.update(
+                    connection,
+                    janggiGame.gameId(),
+                    janggiGame.currentTurn(),
+                    janggiGame.gameResult().status(),
+                    janggiGame.gameResult().winner(),
+                    updatedAt
+            );
+            gamePieceDao.deleteAllByGameId(connection, janggiGame.gameId());
+            gamePieceDao.insertAll(connection, janggiGame.gameId(), writeMapper.toSavedPieceDtos(janggiGame));
             return null;
         }, "장기 게임 수정에 실패했습니다.");
     }

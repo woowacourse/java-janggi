@@ -13,16 +13,16 @@ public class GamePersistenceService {
         this.gameRepository = gameRepository;
     }
 
-    public Optional<GameSession> loadLatestRunningGame() {
+    public Optional<JanggiGame> loadLatestRunningGame() {
         return gameRepository.findLatestRunningGame();
     }
 
-    public GameSession createNewGame(SangSetup choSangSetup, SangSetup hanSangSetup) {
+    public JanggiGame createNewGame(SangSetup choSangSetup, SangSetup hanSangSetup) {
         JanggiGame game = JanggiGame.of(choSangSetup, hanSangSetup);
         return gameRepository.save(game);
     }
 
-    public void saveProgress(GameSession session) {
-        gameRepository.update(session);
+    public void saveProgress(JanggiGame janggiGame) {
+        gameRepository.update(janggiGame);
     }
 }

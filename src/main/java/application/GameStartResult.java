@@ -1,15 +1,17 @@
 package application;
 
+import domain.game.JanggiGame;
+
 public record GameStartResult(
-        GameSession session,
+        JanggiGame game,
         boolean resumed
 ) {
 
-    public static GameStartResult resumed(GameSession session) {
-        return new GameStartResult(session, true);
+    public static GameStartResult resumed(JanggiGame game) {
+        return new GameStartResult(game, true);
     }
 
-    public static GameStartResult started(GameSession session) {
-        return new GameStartResult(session, false);
+    public static GameStartResult started(JanggiGame game) {
+        return new GameStartResult(game, false);
     }
 }

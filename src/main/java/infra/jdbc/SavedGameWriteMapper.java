@@ -5,6 +5,7 @@ import domain.pieces.Piece;
 import domain.position.Position;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public class SavedGameWriteMapper {
@@ -17,22 +18,26 @@ public class SavedGameWriteMapper {
 
     public SavedGameDto toSavedGameDto(JanggiGame janggiGame) {
         LocalDateTime now = LocalDateTime.now(clock);
-        return toSavedGameDto(null, now, janggiGame);
-    }
-
-    public SavedGameDto toSavedGameDto(Long gameId, LocalDateTime createdAt, JanggiGame janggiGame) {
         return new SavedGameDto(
-                gameId,
+                janggiGame.gameId(),
                 janggiGame.currentTurn(),
                 janggiGame.gameResult().status(),
                 janggiGame.gameResult().winner(),
-                createdAt,
-                LocalDateTime.now(clock),
-                janggiGame.board().pieces().entrySet().stream()
-                        .filter(entry -> !entry.getValue().isEmpty())
-                        .map(this::toSavedPieceDto)
-                        .toList()
+                now,
+                now,
+                toSavedPieceDtos(janggiGame)
         );
+    }
+
+    public List<SavedPieceDto> toSavedPieceDtos(JanggiGame janggiGame) {
+        return janggiGame.board().pieces().entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .map(this::toSavedPieceDto)
+                .toList();
+    }
+
+    public LocalDateTime updatedAt() {
+        return LocalDateTime.now(clock);
     }
 
     private SavedPieceDto toSavedPieceDto(Map.Entry<Position, Piece> entry) {

@@ -34,6 +34,7 @@ class SavedGameReadMapperTest {
         JanggiGame janggiGame = mapper.toJanggiGame(savedGameDto);
 
         // then
+        assertThat(janggiGame.gameId()).isEqualTo(1L);
         assertThat(janggiGame.currentTurn()).isEqualTo(Side.HAN);
         assertThat(janggiGame.gameResult().status()).isEqualTo(GameStatus.RUNNING);
         assertThat(janggiGame.gameResult().winner()).isNull();
@@ -62,6 +63,7 @@ class SavedGameReadMapperTest {
         JanggiGame janggiGame = mapper.toJanggiGame(savedGameDto);
 
         // then
+        assertThat(janggiGame.gameId()).isEqualTo(2L);
         assertThat(janggiGame.currentTurn()).isEqualTo(Side.CHO);
         assertThat(janggiGame.gameResult().status()).isEqualTo(GameStatus.ENDED);
         assertThat(janggiGame.gameResult().winner()).isEqualTo(Side.CHO);

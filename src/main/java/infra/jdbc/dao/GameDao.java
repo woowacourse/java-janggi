@@ -83,17 +83,24 @@ public class GameDao {
         }
     }
 
-    public void update(Connection connection, SavedGameDto savedGameDto) throws SQLException {
+    public void update(
+            Connection connection,
+            long gameId,
+            Side currentTurn,
+            GameStatus status,
+            Side winner,
+            LocalDateTime updatedAt
+    ) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_SQL)) {
-            statement.setString(1, savedGameDto.currentTurn().name());
-            statement.setString(2, savedGameDto.status().name());
-            if (savedGameDto.winner() == null) {
+            statement.setString(1, currentTurn.name());
+            statement.setString(2, status.name());
+            if (winner == null) {
                 statement.setNull(3, java.sql.Types.VARCHAR);
             } else {
-                statement.setString(3, savedGameDto.winner().name());
+                statement.setString(3, winner.name());
             }
-            statement.setTimestamp(4, Timestamp.valueOf(savedGameDto.updatedAt()));
-            statement.setLong(5, savedGameDto.gameId());
+            statement.setTimestamp(4, Timestamp.valueOf(updatedAt));
+            statement.setLong(5, gameId);
             statement.executeUpdate();
         }
     }

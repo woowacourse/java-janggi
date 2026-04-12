@@ -170,9 +170,10 @@ class JanggiGameTest {
         GameResult gameResult = GameResult.running();
 
         // when
-        JanggiGame restoredGame = JanggiGame.restore(board, currentTurn, gameResult);
+        JanggiGame restoredGame = JanggiGame.restore(1L, board, currentTurn, gameResult);
 
         // then
+        assertThat(restoredGame.gameId()).isEqualTo(1L);
         assertThat(restoredGame.currentTurn()).isEqualTo(currentTurn);
         assertThat(restoredGame.gameResult()).isEqualTo(gameResult);
         assertThat(restoredGame.board()).isEqualTo(board);
@@ -194,6 +195,7 @@ class JanggiGameTest {
         JanggiGame janggiGame = JanggiGame.of(choSetup, hanSetup);
 
         // then
+        assertThat(janggiGame.gameId()).isNull();
         assertThat(janggiGame.currentTurn()).isEqualTo(Side.CHO);
         assertThat(janggiGame.gameResult()).isEqualTo(GameResult.running());
         assertThat(janggiGame.board()).isEqualTo(choBoard.merge(hanBoard));

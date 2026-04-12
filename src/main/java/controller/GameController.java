@@ -1,7 +1,6 @@
 package controller;
 
 import application.GameService;
-import application.GameSession;
 import application.GameStartResult;
 import domain.board.SangSetup;
 import domain.board.SangSetupType;
@@ -31,23 +30,22 @@ public class GameController {
     }
 
     public void run() {
-        GameStartResult startResult = createOrRestoreSession();
+        GameStartResult startResult = createOrRestoreGame();
         presenter.printStartMessage(startResult);
-        GameSession session = startResult.session();
-        presenter.printBoard(session.game().board());
+        JanggiGame janggiGame = startResult.game();
+        presenter.printBoard(janggiGame.board());
 
-        while (processTurn(session)) {
+        while (processTurn(janggiGame)) {
         }
     }
 
-    private GameStartResult createOrRestoreSession() {
-        return gameService.startOrResume(this::createNewSession);
+    private GameStartResult createOrRestoreGame() {
+        return gameService.startOrResume(this::createNewGame);
     }
 
-    private boolean processTurn(GameSession session) {
+    private boolean processTurn(JanggiGame janggiGame) {
         try {
-            JanggiGame game = session.game();
-            presenter.printTurn(game.currentTurn());
+            presenter.printTurn(janggiGame.currentTurn());
             presenter.printMoveGuide();
 
             PositionInput departureInput = inputView.readDeparturePosition();
@@ -56,7 +54,7 @@ public class GameController {
                 return false;
             }
             if (departureInput.finish()) {
-                finishByScore(session);
+                finishByScore(janggiGame);
                 return false;
             }
 
@@ -66,15 +64,15 @@ public class GameController {
                 return false;
             }
             if (destinationInput.finish()) {
-                finishByScore(session);
+                finishByScore(janggiGame);
                 return false;
             }
 
-            move(session, departureInput.position(), destinationInput.position());
-            presenter.printBoard(game.board());
+            move(janggiGame, departureInput.position(), destinationInput.position());
+            presenter.printBoard(janggiGame.board());
 
-            if (game.gameResult().isEnded()) {
-                presenter.printGameResult(game.gameResult());
+            if (janggiGame.gameResult().isEnded()) {
+                presenter.printGameResult(janggiGame.gameResult());
                 return false;
             }
             return true;
@@ -95,19 +93,19 @@ public class GameController {
         }
     }
 
-    private GameSession createNewSession() {
+    private JanggiGame createNewGame() {
         SangSetup choSangSetup = readSangSetup(Side.CHO);
         SangSetup hanSangSetup = readSangSetup(Side.HAN);
         return gameService.createNewGame(choSangSetup, hanSangSetup);
     }
 
-    private void move(GameSession session, Position departure, Position destination) {
-        gameService.move(session, departure, destination);
+    private void move(JanggiGame janggiGame, Position departure, Position destination) {
+        gameService.move(janggiGame, departure, destination);
     }
 
-    private void finishByScore(GameSession session) {
-        GameScore gameScore = gameService.finishByScore(session);
-        GameResult gameResult = session.game().gameResult();
+    private void finishByScore(JanggiGame janggiGame) {
+        GameScore gameScore = gameService.finishByScore(janggiGame);
+        GameResult gameResult = janggiGame.gameResult();
         presenter.printGameScoreResult(gameResult, gameScore);
     }
 }

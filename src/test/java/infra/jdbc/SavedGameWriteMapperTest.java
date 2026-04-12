@@ -56,7 +56,6 @@ class SavedGameWriteMapperTest {
         // given
         Clock fixedClock = Clock.fixed(Instant.parse("2026-04-07T03:30:00Z"), ZoneId.of("Asia/Seoul"));
         SavedGameWriteMapper mapper = new SavedGameWriteMapper(fixedClock);
-        LocalDateTime createdAt = LocalDateTime.of(2026, 4, 7, 12, 0);
 
         Position departure = new Position(7, 4);
         Position destination = new Position(8, 4);
@@ -67,16 +66,17 @@ class SavedGameWriteMapperTest {
 
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         janggiGame.move(departure, destination);
+        janggiGame.assignGameId(1L);
 
         // when
-        SavedGameDto savedGameDto = mapper.toSavedGameDto(1L, createdAt, janggiGame);
+        SavedGameDto savedGameDto = mapper.toSavedGameDto(janggiGame);
 
         // then
         assertThat(savedGameDto.gameId()).isEqualTo(1L);
         assertThat(savedGameDto.currentTurn()).isEqualTo(Side.CHO);
         assertThat(savedGameDto.status()).isEqualTo(GameStatus.ENDED);
         assertThat(savedGameDto.winner()).isEqualTo(Side.CHO);
-        assertThat(savedGameDto.createdAt()).isEqualTo(createdAt);
+        assertThat(savedGameDto.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
         assertThat(savedGameDto.updatedAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 12, 30));
         assertThat(savedGameDto.pieces()).containsExactlyInAnyOrder(
                 new SavedPieceDto(8, 4, Side.CHO, PieceType.CHA)

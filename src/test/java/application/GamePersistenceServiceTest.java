@@ -16,7 +16,6 @@ import domain.pieces.Piece;
 import domain.pieces.PieceType;
 import domain.pieces.Side;
 import domain.position.Position;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +24,6 @@ import org.junit.jupiter.api.Test;
 import repository.GameRepository;
 
 class GamePersistenceServiceTest {
-    private static final LocalDateTime SAVED_AT = LocalDateTime.of(2026, 4, 8, 21, 0);
-
     @Test
     void 진행중인_게임이_있으면_복원한_세션을_반환한다() {
         // given
@@ -35,23 +32,18 @@ class GamePersistenceServiceTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(new Position(0, 0), new Cha(Side.CHO));
         pieces.put(new Position(8, 4), new Gung(Side.HAN));
-        repository.latestRunningGame = new GameSession(
-                1L,
-                LocalDateTime.of(2026, 4, 7, 10, 0),
-                JanggiGame.restore(new Board(pieces), Side.HAN, GameResult.running())
-        );
+        repository.latestRunningGame = JanggiGame.restore(1L, new Board(pieces), Side.HAN, GameResult.running());
 
         // when
-        Optional<GameSession> result = service.loadLatestRunningGame();
+        Optional<JanggiGame> result = service.loadLatestRunningGame();
 
         // then
         assertThat(result).isPresent();
-        GameSession session = result.orElseThrow();
-        assertThat(session.gameId()).isEqualTo(1L);
-        assertThat(session.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 10, 0));
-        assertThat(session.game().currentTurn()).isEqualTo(Side.HAN);
-        assertThat(session.game().board().pieces().get(new Position(0, 0)).getType()).isEqualTo(PieceType.CHA);
-        assertThat(session.game().board().pieces().get(new Position(8, 4)).getType()).isEqualTo(PieceType.GUNG);
+        JanggiGame janggiGame = result.orElseThrow();
+        assertThat(janggiGame.gameId()).isEqualTo(1L);
+        assertThat(janggiGame.currentTurn()).isEqualTo(Side.HAN);
+        assertThat(janggiGame.board().pieces().get(new Position(0, 0)).getType()).isEqualTo(PieceType.CHA);
+        assertThat(janggiGame.board().pieces().get(new Position(8, 4)).getType()).isEqualTo(PieceType.GUNG);
     }
 
     @Test
@@ -63,15 +55,14 @@ class GamePersistenceServiceTest {
         SangSetup hanSangSetup = new RightSangSetup();
 
         // when
-        GameSession session = service.createNewGame(choSangSetup, hanSangSetup);
+        JanggiGame janggiGame = service.createNewGame(choSangSetup, hanSangSetup);
 
         // then
-        assertThat(session.gameId()).isEqualTo(1L);
-        assertThat(session.createdAt()).isEqualTo(SAVED_AT);
+        assertThat(janggiGame.gameId()).isEqualTo(1L);
         assertThat(repository.savedGames).hasSize(1);
         assertThat(repository.savedGames.getFirst().gameId()).isEqualTo(1L);
-        assertThat(repository.savedGames.getFirst().game().gameResult()).isEqualTo(GameResult.running());
-        assertThat(repository.savedGames.getFirst().game().board().pieces()).isNotEmpty();
+        assertThat(repository.savedGames.getFirst().gameResult()).isEqualTo(GameResult.running());
+        assertThat(repository.savedGames.getFirst().board().pieces()).isNotEmpty();
     }
 
     @Test
@@ -80,19 +71,14 @@ class GamePersistenceServiceTest {
         InMemoryGameRepository repository = new InMemoryGameRepository();
         GamePersistenceService service = new GamePersistenceService(repository);
         JanggiGame game = JanggiGame.of(new LeftSangSetup(), new RightSangSetup());
-        GameSession session = new GameSession(
-                10L,
-                LocalDateTime.of(2026, 4, 7, 9, 0),
-                game
-        );
+        game.assignGameId(10L);
 
         // when
-        service.saveProgress(session);
+        service.saveProgress(game);
 
         // then
-        assertThat(repository.updatedSession).isNotNull();
-        assertThat(repository.updatedSession.gameId()).isEqualTo(10L);
-        assertThat(repository.updatedSession.createdAt()).isEqualTo(LocalDateTime.of(2026, 4, 7, 9, 0));
+        assertThat(repository.updatedGame).isNotNull();
+        assertThat(repository.updatedGame.gameId()).isEqualTo(10L);
     }
 
     @Test
@@ -101,20 +87,19 @@ class GamePersistenceServiceTest {
         InMemoryGameRepository repository = new InMemoryGameRepository();
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(new Position(0, 0), new Cha(Side.CHO));
-        repository.latestRunningGame = new GameSession(
-                3L,
-                LocalDateTime.of(2026, 4, 7, 10, 0),
-                JanggiGame.restore(new Board(pieces), Side.CHO, GameResult.running())
-        );
+        repository.latestRunningGame = JanggiGame.restore(3L, new Board(pieces), Side.CHO, GameResult.running());
         GameService service = new GameService(new GamePersistenceService(repository));
 
         // when
-        GameStartResult result = service.startOrResume(() -> new GameSession(99L, LocalDateTime.now(),
-                JanggiGame.of(new LeftSangSetup(), new RightSangSetup())));
+        GameStartResult result = service.startOrResume(() -> {
+            JanggiGame game = JanggiGame.of(new LeftSangSetup(), new RightSangSetup());
+            game.assignGameId(99L);
+            return game;
+        });
 
         // then
         assertThat(result.resumed()).isTrue();
-        assertThat(result.session().gameId()).isEqualTo(3L);
+        assertThat(result.game().gameId()).isEqualTo(3L);
     }
 
     @Test
@@ -123,43 +108,39 @@ class GamePersistenceServiceTest {
         InMemoryGameRepository repository = new InMemoryGameRepository();
         GameService service = new GameService(new GamePersistenceService(repository));
         JanggiGame game = JanggiGame.of(new LeftSangSetup(), new RightSangSetup());
-        GameSession session = new GameSession(
-                10L,
-                LocalDateTime.of(2026, 4, 7, 9, 0),
-                game
-        );
+        game.assignGameId(10L);
 
         // when
-        GameScore gameScore = service.finishByScore(session);
+        GameScore gameScore = service.finishByScore(game);
 
         // then
-        assertThat(gameScore.winner()).isEqualTo(session.game().gameResult().winner());
-        assertThat(repository.updatedSession).isNotNull();
-        assertThat(repository.updatedSession.game().gameResult().status()).isEqualTo(GameStatus.ENDED);
-        assertThat(repository.updatedSession.game().gameResult().winner()).isEqualTo(session.game().gameResult().winner());
+        assertThat(gameScore.winner()).isEqualTo(game.gameResult().winner());
+        assertThat(repository.updatedGame).isNotNull();
+        assertThat(repository.updatedGame.gameResult().status()).isEqualTo(GameStatus.ENDED);
+        assertThat(repository.updatedGame.gameResult().winner()).isEqualTo(game.gameResult().winner());
     }
 
     private static class InMemoryGameRepository implements GameRepository {
         private long sequence = 1L;
-        private final java.util.List<GameSession> savedGames = new ArrayList<>();
-        private GameSession latestRunningGame;
-        private GameSession updatedSession;
+        private final java.util.List<JanggiGame> savedGames = new ArrayList<>();
+        private JanggiGame latestRunningGame;
+        private JanggiGame updatedGame;
 
         @Override
-        public GameSession save(JanggiGame janggiGame) {
-            GameSession session = new GameSession(sequence++, SAVED_AT, janggiGame);
-            savedGames.add(session);
-            return session;
+        public JanggiGame save(JanggiGame janggiGame) {
+            janggiGame.assignGameId(sequence++);
+            savedGames.add(janggiGame);
+            return janggiGame;
         }
 
         @Override
-        public Optional<GameSession> findLatestRunningGame() {
+        public Optional<JanggiGame> findLatestRunningGame() {
             return Optional.ofNullable(latestRunningGame);
         }
 
         @Override
-        public void update(GameSession session) {
-            updatedSession = session;
+        public void update(JanggiGame janggiGame) {
+            updatedGame = janggiGame;
         }
     }
 }
