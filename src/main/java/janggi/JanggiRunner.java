@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public class JanggiRunner {
 
-    private static final String CANCEL = "cancel";
-
     private final InputView inputView;
     private final OutputView outputView;
     private final JanggiService janggiService;
@@ -76,17 +74,13 @@ public class JanggiRunner {
 
     private Optional<Position> readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
         outputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
-        String rawMovePosition = inputView.readLine();
-        if (isCancelCommand(rawMovePosition)) {
+        Optional<String> rawMovePosition = inputView.readCancelableLine();
+        if (rawMovePosition.isEmpty()) {
             return Optional.empty();
         }
-        List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
+        List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition.get());
         Position endPosition = Position.makePosition(parsedMovePosition);
         janggiGame.validateValidEndPosition(startPosition, endPosition);
         return Optional.of(endPosition);
-    }
-
-    private boolean isCancelCommand(String input) {
-        return CANCEL.equalsIgnoreCase(input.trim());
     }
 }
