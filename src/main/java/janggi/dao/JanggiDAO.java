@@ -106,8 +106,8 @@ public class JanggiDAO {
     public boolean hasSavedGame() {
         String query = "SELECT COUNT(*) FROM game WHERE game_id = 1";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet rs = preparedStatement.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
