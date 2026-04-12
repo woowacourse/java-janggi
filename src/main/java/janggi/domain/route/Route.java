@@ -18,14 +18,10 @@ public class Route {
 
     public List<Position> applyDirections(Position position) {
         List<Position> routePositions = new ArrayList<>();
-        Position startPosition = position;
+        Optional<Position> currentPosition = Optional.of(position);
         for (Direction direction : routes) {
-            Optional<Position> nextPosition = direction.nextPosition(startPosition);
-            if (nextPosition.isEmpty()) {
-                return new ArrayList<>();
-            }
-            startPosition = nextPosition.get();
-            routePositions.add(startPosition);
+            currentPosition = currentPosition.flatMap(direction::nextPosition);
+            currentPosition.ifPresent(routePositions::add);
         }
         return routePositions;
     }

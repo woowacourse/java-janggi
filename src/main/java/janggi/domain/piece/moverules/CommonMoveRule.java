@@ -26,22 +26,16 @@ public abstract class CommonMoveRule implements MoveRule {
         List<Route> routes = new ArrayList<>(findRoutes(team));
         routes.addAll(addPalaceRoutes(position, team));
 
-        return calculateAvailablePositions(board, piece,
-                convertToPositions(position, routes));
+        return calculateAvailablePositions(board, piece, convertToPositions(position, routes));
     }
 
     private List<Position> calculateAvailablePositions(Board board, Piece piece,
                                                        Map<Position, List<Position>> routePositions) {
-        List<Position> result = new ArrayList<>();
-        for (Map.Entry<Position, List<Position>> entry : routePositions.entrySet()) {
-            Position destination = entry.getKey();
-            List<Position> route = entry.getValue();
-
-            if (canMove(board, piece, route, destination)) {
-                result.add(destination);
-            }
-        }
-        return result;
+        return routePositions.entrySet()
+                .stream()
+                .filter(entry -> canMove(board, piece, entry.getValue(), entry.getKey()))
+                .map(Map.Entry::getKey)
+                .toList();
     }
 
     protected List<Route> addPalaceRoutes(Position position, Team team) {
