@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class GuardMoveStrategy extends MoveStrategy {
+public class PalaceMoveStrategy extends MoveStrategy {
 
-    private static final String ERROR_GUARD_CAN_MOVE_ONLY_WITHIN_PALACE = "[ERROR] 사는 궁성 내부에서만 움직일 수 있다.";
+    private static final String ERROR_GENERAL_CAN_MOVE_ONLY_WITHIN_PALACE = "[ERROR] 해당 기물은 궁성 내부에서만 움직일 수 있다.";
 
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
@@ -22,7 +22,7 @@ public class GuardMoveStrategy extends MoveStrategy {
 
     private void validatePalaceArea(Position destination) {
         if (!isPalaceArea(destination)) {
-            throw new IllegalArgumentException(ERROR_GUARD_CAN_MOVE_ONLY_WITHIN_PALACE);
+            throw new IllegalArgumentException(ERROR_GENERAL_CAN_MOVE_ONLY_WITHIN_PALACE);
         }
     }
 

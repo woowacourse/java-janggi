@@ -6,12 +6,11 @@ import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
-import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.GreenSoldierMoveStrategy;
-import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
 import domain.strategy.NonMoveableStrategy;
+import domain.strategy.PalaceMoveStrategy;
 import domain.strategy.RedSoldierMoveStrategy;
 
 public class MoveStrategyFactory {
@@ -35,10 +34,10 @@ public class MoveStrategyFactory {
 
     private MoveStrategy createDefaultMoveStrategy(PieceType pieceType) {
         if (pieceType == PieceType.GUARD) {
-            return new GuardMoveStrategy();
+            return new PalaceMoveStrategy();
         }
         if (pieceType == PieceType.GENERAL) {
-            return new GeneralMoveStrategy();
+            return new PalaceMoveStrategy();
         }
         if (pieceType == PieceType.HORSE) {
             return new HorseMoveStrategy();

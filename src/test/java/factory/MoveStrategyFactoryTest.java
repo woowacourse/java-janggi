@@ -6,11 +6,10 @@ import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
-import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.GreenSoldierMoveStrategy;
-import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
+import domain.strategy.PalaceMoveStrategy;
 import domain.strategy.RedSoldierMoveStrategy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -41,23 +40,23 @@ class MoveStrategyFactoryTest {
     }
 
     @Test
-    @DisplayName("기물 속성이 사 기물이라면 이동 전략은 GuardMoveStrategy를 반환해야 한다.")
-    void pieceType_guard_return_GuardMoveStrategy() {
+    @DisplayName("기물 속성이 사 기물이라면 이동 전략은 PalaceMoveStrategy를 반환해야 한다.")
+    void pieceType_guard_return_PalaceMoveStrategy() {
         PieceProperty guard = new PieceProperty(PieceType.GUARD, Team.RED);
 
         MoveStrategy guardMoveStrategy = moveStrategyFactory.createMoveStrategy(guard);
 
-        Assertions.assertThat(guardMoveStrategy).isInstanceOf(GuardMoveStrategy.class);
+        Assertions.assertThat(guardMoveStrategy).isInstanceOf(PalaceMoveStrategy.class);
     }
 
     @Test
-    @DisplayName("기물 속성이 궁 기물이라면 이동 전략은 GeneralMoveStrategy를 반환해야 한다.")
-    void pieceType_general_return_GeneralMoveStrategy() {
+    @DisplayName("기물 속성이 궁 기물이라면 이동 전략은 PalaceMoveStrategy를 반환해야 한다.")
+    void pieceType_general_return_PalaceMoveStrategy() {
         PieceProperty general = new PieceProperty(PieceType.GENERAL, Team.RED);
 
         MoveStrategy generalMoveStrategy = moveStrategyFactory.createMoveStrategy(general);
 
-        Assertions.assertThat(generalMoveStrategy).isInstanceOf(GeneralMoveStrategy.class);
+        Assertions.assertThat(generalMoveStrategy).isInstanceOf(PalaceMoveStrategy.class);
     }
 
     @Test
