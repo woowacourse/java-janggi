@@ -46,10 +46,10 @@ public class JanggiService {
                 con.commit();
             } catch (Exception e) {
                 con.rollback();
-                throw new RuntimeException("[ERROR] 게임 저장 실패", e);
+                throw new RuntimeException("게임 저장 실패", e);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -65,10 +65,10 @@ public class JanggiService {
                 return savedGame;
             } catch (Exception e) {
                 con.rollback();
-                throw new RuntimeException("[ERROR] 게임 저장 실패", e);
+                throw new RuntimeException("게임 저장 실패", e);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

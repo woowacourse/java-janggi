@@ -93,9 +93,12 @@ public class JanggiController {
         try {
             String turnName = game.getTurnDisplayName();
             return proceedMove(game, turnName);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             outputView.printMessage("[ERROR] " + e.getMessage());
             return handleMove(game);
+        } catch (RuntimeException e) {
+            outputView.printMessage("[ERROR] 시스템 오류: " + e.getMessage());
+            throw e;
         }
     }
 

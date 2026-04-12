@@ -70,13 +70,13 @@ public class Position {
 
     private void validateRowInRange(final int row) {
         if (0 > row || row > 9) {
-            throw new IllegalArgumentException("[ERROR] 행이 0~9 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("행이 0~9 범위를 벗어났습니다.");
         }
     }
 
     private void validateColInRange(final int col) {
         if (0 > col || col > 8) {
-            throw new IllegalArgumentException("[ERROR] 열이 0~8 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("열이 0~8 범위를 벗어났습니다.");
         }
     }
 }

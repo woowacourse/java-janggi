@@ -20,7 +20,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     private boolean isWithdraw(final Position from, final Position to, final Board board) {
         Team team = board.findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동할 기물이 존재하지 않습니다."))
+                .orElseThrow(() -> new IllegalArgumentException("이동할 기물이 존재하지 않습니다."))
                 .getTeam();
 
         if (team == Team.CHU && from.getRow() - to.getRow() == 1) {

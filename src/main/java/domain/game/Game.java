@@ -32,7 +32,7 @@ public class Game {
 
     public void tryToMove(Position from, Position to) {
         if (status != Status.PLAYING) {
-            throw new IllegalArgumentException("[ERROR] 종료된 게임입니다.");
+            throw new IllegalArgumentException("종료된 게임입니다.");
         }
 
         Optional<Piece> capturedPiece = board.tryToMove(from, to);
@@ -51,7 +51,7 @@ public class Game {
 
     public void checkTurn(Team team) {
         if (team != turn.getTeam()) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 상대편 기물이기 떄문에 움직일 수 없습니다.");
+            throw new IllegalArgumentException("해당 기물은 상대편 기물이기 떄문에 움직일 수 없습니다.");
         }
     }
 

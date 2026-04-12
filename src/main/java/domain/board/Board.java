@@ -20,10 +20,10 @@ public class Board {
 
     public Optional<Piece> tryToMove(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
 
         if (!fromPiece.canMovePiece(from, to, Board.of(new HashMap<>(this.board)))) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
+            throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
 
         return movePiece(from, to, fromPiece);
@@ -39,7 +39,7 @@ public class Board {
 
     public boolean canOccupy(Position from, Position to) {
         Piece currentPiece = findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("움직일 기물이 존재하지 않습니다."));
 
         Optional<Piece> target = findPieceByPosition(to);
         if (target.isEmpty()) {

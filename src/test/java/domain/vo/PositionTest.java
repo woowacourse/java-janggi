@@ -31,7 +31,7 @@ class PositionTest {
         // then
         assertThatThrownBy(() ->Position.of(-1, 0))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 행이 0~9 범위를 벗어났습니다.");
+                .hasMessage("행이 0~9 범위를 벗어났습니다.");
     }
 
     @Test
@@ -42,6 +42,6 @@ class PositionTest {
         // then
         assertThatThrownBy(() ->Position.of(0, -1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 열이 0~8 범위를 벗어났습니다.");
+                .hasMessage("열이 0~8 범위를 벗어났습니다.");
     }
 }

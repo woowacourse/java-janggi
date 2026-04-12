@@ -34,9 +34,9 @@ public class GameJdbcDao implements GameDao {
                     return Game.loadGame(generatedId, game.getBoard(), game.getCurrentTeam(), game.getStatus());
                 }
             }
-            throw new RuntimeException("[ERROR] ID 생성 실패");
+            throw new RuntimeException("ID 생성 실패");
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class GameJdbcDao implements GameDao {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ public class GameJdbcDao implements GameDao {
                 return gameDtos;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -103,9 +103,9 @@ public class GameJdbcDao implements GameDao {
                             ));
                 }
             }
-            throw new RuntimeException("[ERROR] Game이 존재하지 않습니다.");
+            throw new RuntimeException("Game이 존재하지 않습니다.");
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

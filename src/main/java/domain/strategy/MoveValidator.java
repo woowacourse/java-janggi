@@ -17,7 +17,7 @@ public class MoveValidator {
 
     private static boolean isValidDiagonalPoint(Position from, Position to, Board board) {
         Piece piece = board.findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동할 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("이동할 기물이 존재하지 않습니다."));
 
         Palace palace = Palace.valueOf(piece.getTeam().name());
         return palace.isDiagonalPoint(from) && palace.isDiagonalPoint(to);

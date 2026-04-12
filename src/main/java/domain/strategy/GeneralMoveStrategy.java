@@ -21,7 +21,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
     private boolean arePositionsInSamePalace(Position from, Position to, Board board) {
         Team team = board.findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
+                .orElseThrow(() -> new IllegalArgumentException("움직일 기물이 존재하지 않습니다."))
                 .getTeam();
 
         Palace palace = Palace.valueOf(team.name());

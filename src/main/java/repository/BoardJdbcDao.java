@@ -33,7 +33,7 @@ public class BoardJdbcDao implements BoardDao {
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -47,8 +47,8 @@ public class BoardJdbcDao implements BoardDao {
             pstmt.setInt(2, row);
             pstmt.setInt(3, col);
             pstmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -65,8 +65,8 @@ public class BoardJdbcDao implements BoardDao {
             pstmt.setInt(4, fromRow);
             pstmt.setInt(5, fromCol);
             pstmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -97,7 +97,7 @@ public class BoardJdbcDao implements BoardDao {
                 return Board.of(boardMapper);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

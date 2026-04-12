@@ -21,7 +21,7 @@ public class DBConnectionUtil {
              InputStream inputStream = DBConnectionUtil.class.getClassLoader().getResourceAsStream("schema.sql")) {
 
             if (inputStream == null) {
-                throw new IllegalStateException("[ERROR] schema.sql 파일을 찾을 수 없습니다.");
+                throw new IllegalStateException("schema.sql 파일을 찾을 수 없습니다.");
             }
 
             String sql = new BufferedReader(new InputStreamReader(inputStream))
@@ -35,7 +35,7 @@ public class DBConnectionUtil {
                 }
             }
         } catch (Exception e) {
-            throw new IllegalStateException("[ERROR] 스키마 초기화 실패: " + e.getMessage());
+            throw new IllegalStateException("스키마 초기화 실패: " + e.getMessage());
         }
     }
 
