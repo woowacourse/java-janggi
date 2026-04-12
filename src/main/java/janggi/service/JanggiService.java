@@ -7,6 +7,7 @@ import janggi.domain.board.BoardFactory;
 import janggi.domain.board.FormationStrategyFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
+import janggi.exception.DuplicateGameException;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,16 @@ public class JanggiService {
     }
 
     public String createGame(String name, int choFormation, int hanFormation) {
+        if (gameRepository.findByName(name).isPresent()) {
+            throw new DuplicateGameException("이미 존재하는 게임입니다.");
+        }
+
         Janggi janggi = Janggi.start(
                 BoardFactory.create(
                         FormationStrategyFactory.from(choFormation),
                         FormationStrategyFactory.from(hanFormation))
         );
+
         return transactionManager.execute(conn ->
                 gameRepository.save(conn, name, janggi));
     }
