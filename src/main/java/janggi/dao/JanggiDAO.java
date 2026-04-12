@@ -17,20 +17,6 @@ import java.util.Map;
 
 public class JanggiDAO {
 
-    public void saveTurn(Team currentTeam) {
-        String query = "INSERT INTO game(current_turn) VALUES (?)";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setString(1, currentTeam.name());
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 턴 저장 실패: " + e.getMessage());
-        }
-    }
-
     public void savePieces(int gameID, Board board) {
         String query = "INSERT INTO piece (game_id, team, piece_type, position_column, position_row) VALUES (?,?,?,?,?)";
 
