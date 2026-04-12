@@ -98,8 +98,23 @@ public class JanggiDAO {
                 return new ChoTurn();
             }
         } catch (SQLException e) {
-            return new ChoTurn();
+            throw new RuntimeException("저장된 턴 불러오기 실패: " + e.getMessage());
         }
-        return new ChoTurn();
+        throw new IllegalStateException("[ERROR] 저장된 게임이 존재하지 않습니다.");
     }
+
+    public boolean hasSavedGame() {
+        String query = "SELECT COUNT(*) FROM game WHERE game_id = 1";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("저장된 게임 확인 실패: " + e.getMessage());
+        }
+        return false;
+    }
+
 }

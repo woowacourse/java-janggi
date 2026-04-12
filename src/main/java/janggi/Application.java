@@ -38,20 +38,20 @@ public class Application {
     }
 
     private static Board createBoard(String choice, JanggiDAO janggiDAO) {
-        if (choice.equals("2")) {
+        if (choice.equals("2") && janggiDAO.hasSavedGame()) {
             return new Board(janggiDAO.loadBoard());
         }
         return new Board(BoardFactory.settingUpBoard());
     }
 
     private static Turn createTurn(String choice, JanggiDAO janggiDAO) {
-        if (choice.equals("2")) {
+        if (choice.equals("2") && janggiDAO.hasSavedGame()) {
             return janggiDAO.loadCurrentTurn();
         }
         return new ChoTurn();
     }
 
-    private static <T> T retry(Supplier<T> inputFunction) {
+    public static <T> T retry(Supplier<T> inputFunction) {
         while (true) {
             try {
                 return inputFunction.get();

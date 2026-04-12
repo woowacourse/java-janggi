@@ -1,5 +1,7 @@
 package janggi;
 
+import static janggi.Application.retry;
+
 import janggi.dao.JanggiDAO;
 import janggi.domain.Position;
 import janggi.domain.Team;
@@ -9,7 +11,6 @@ import janggi.domain.turn.Turn;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class JanggiGame {
 
@@ -89,15 +90,5 @@ public class JanggiGame {
             board.findAvailablePositions(position);
             return position;
         });
-    }
-
-    private <T> T retry(Supplier<T> inputFunction) {
-        while (true) {
-            try {
-                return inputFunction.get();
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
     }
 }
