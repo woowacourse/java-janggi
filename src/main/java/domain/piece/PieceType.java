@@ -9,7 +9,7 @@ public enum PieceType {
     ELEPHANT, // 상
     GUARD,    // 사
     SOLDIER,  // 졸
-    NONE,    // null 포장
+    NONE,
     ;
 
     public boolean isGeneral() {
@@ -22,10 +22,6 @@ public enum PieceType {
 
     public boolean isLinearPiece() {
         return this == CANNON || this == CHARIOT;
-    }
-
-    public boolean isDiagonalPiece() {
-        return this == HORSE || this == ELEPHANT;
     }
 
 }
