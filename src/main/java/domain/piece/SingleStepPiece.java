@@ -10,7 +10,7 @@ import domain.position.Route;
 
 import java.util.List;
 
-public class SingleStepPiece extends Piece {
+public abstract class SingleStepPiece extends Piece {
 
     public SingleStepPiece(Camp camp, PieceType pieceType) {
         super(camp, pieceType);
