@@ -19,12 +19,13 @@ public class JanggiGame {
         this.board = board;
     }
 
-    public void run() {
+    public void start() {
         Turn currentTurn = new ChoTurn();
         outputView.printBoard(board.getBoard());
-        while (true) {
+        while (!currentTurn.isFinished()) {
             currentTurn = playTurn(currentTurn);
         }
+        outputView.printWinner(currentTurn.getTeam());
     }
 
     private Turn playTurn(Turn currentTurn) {

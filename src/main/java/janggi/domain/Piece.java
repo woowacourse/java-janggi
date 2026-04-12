@@ -29,6 +29,14 @@ public class Piece {
         return pieceType == PieceType.PO;
     }
 
+    public boolean isKing() {
+        return pieceType == PieceType.KING;
+    }
+
+    public boolean isSameTeam(Team targetTeam) {
+        return this.team.isSameTeam(targetTeam);
+    }
+
     public PieceType getPieceType() {
         return pieceType;
     }

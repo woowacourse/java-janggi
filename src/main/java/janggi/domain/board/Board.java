@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Piece;
 import janggi.domain.Position;
+import janggi.domain.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,5 +58,10 @@ public class Board {
 
     public Piece getPiece(Position position) {
         return board.get(position);
+    }
+
+    public boolean isKingDead(Team team) {
+        return board.values().stream()
+                .noneMatch(piece -> piece.isSameTeam(team) && piece.isKing());
     }
 }

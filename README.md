@@ -46,8 +46,8 @@ version : 1.3 (궁성 시작)
 
 - **궁성**
     - [x] 궁성(Palace) 도메인 생성 및 구역 판별 로직 추가
-    - [x] 수학적 점대칭 원리를 활용한 대각선 좌표 이동 계산 (`calculateOppositePalaceDiagonalPosition`)
-    - [x] 포(Po)의 궁성 내 대각선 이동 규칙 구현 완료 (`PoPalaceMoveRule`) 및 TDD 검증 통과
+    - [x] 수학적 점대칭 원리를 활용한 대각선 좌표 이동 계산
+    - [x] 포(Po)의 궁성 내 대각선 이동 규칙 구현 완료 Test 검증 통과
 
 - **PoPalaceMoveRule**
     - [x] 포는 궁성영역 모서리에서 중앙에 포가 아닌 기물이 있으면 대각선으로 이동할 수 있다
@@ -64,3 +64,9 @@ version : 1.3 (궁성 시작)
 
 - **ZolPalaceMoveRule**
     - [x] 졸은 궁성 모서리와 중앙에서 대각선으로 한 칸 이동할 수 있다.
+
+- **게임종료**
+- **Turn**
+    - [x] HanTurn과 ChoTurn에 자신의 왕이 죽었을 시 GameOverTurn을 반환
+
+- **점수계산**

@@ -9,6 +9,10 @@ public abstract class Turn {
 
     public abstract Turn move(Position source, Position target, Board board);
 
+    public boolean isFinished() {
+        return false;
+    }
+
     public abstract Team getTeam();
 
     public void validateIsNull(Piece piece) {

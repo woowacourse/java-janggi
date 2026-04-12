@@ -492,4 +492,19 @@ public class BoardTest {
         assertThat(chaRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
+
+    @Test
+    @DisplayName("보드에 왕이 없으면 IsKingDead가 true를 반환한다")
+    void 보드에_왕이_없을_때() {
+        //given
+        Map<Position, Piece> state = new HashMap<>();
+        state.put(new Position(1, 1), new Piece(Team.CHO, PieceType.ZOL));
+        Board customBoard = new Board(state);
+
+        //when
+        boolean isKingDead = customBoard.isKingDead(Team.CHO);
+
+        //then
+        assertThat(isKingDead).isTrue();
+    }
 }

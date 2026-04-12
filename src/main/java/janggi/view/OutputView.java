@@ -34,6 +34,13 @@ public class OutputView {
         System.out.println(color + "\n" + name + "나라 차례입니다" + RESET);
     }
 
+    public void printWinner(Team team) {
+        String color = TEAM_COLORS.get(team);
+        String name = TEAM_NAMES.get(team);
+        System.out.println();
+        System.out.println(color + name + "나라 승리! 게임이 종료되었습니다!" + RESET);
+    }
+
     public void printMoveInfo() {
         System.out.println("이동하고 싶은 기물의 좌표를 입력하세요.");
     }
