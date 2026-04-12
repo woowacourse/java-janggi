@@ -26,7 +26,7 @@ public class CannonStrategy implements Strategy {
 
     private List<Position> addCannonCandidates(Position from, Team team, Direction direction, PieceProvider board) {
         Position bridge = findFirstPiece(from,team, direction, board);
-        boolean isCannon = board.isCannon(bridge);
+        boolean isCannon = board.getPiece(bridge).isCannon(); // 디미터 법칙 위반?
 
         if (bridge.isInvalid() || isCannon) {
             return Collections.emptyList();
@@ -60,7 +60,7 @@ public class CannonStrategy implements Strategy {
                 continue;
             }
 
-            if (board.getPiece(target).getTeam() != team && !board.isCannon(target)) {
+            if (board.getPiece(target).getTeam() != team && !board.getPiece(target).isCannon()) {
                 candidates.add(target);
             }
 

@@ -8,4 +8,9 @@ public class Cannon extends MoveablePiece {
     public Cannon(Team team) {
         super(team, PieceType.CANNON, new CannonStrategy());
     }
+
+    @Override
+    public boolean isCannon() {
+        return true;
+    }
 }
