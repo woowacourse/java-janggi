@@ -1,5 +1,6 @@
 package db;
 
+import domain.Team;
 import domain.dto.JanggiBoardDto;
 import domain.dto.PieceDto;
 import domain.piece.PieceType;
@@ -8,6 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PieceDao {
+
+    // 기물 저장
+    public void save(long boardId, int row, int col, String pieceType, String team) {
+        String sql = "INSERT INTO piece (board_id, `row`, `col`, piece_type, team) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, boardId);
+            stmt.setInt(2, row);
+            stmt.setInt(3, col);
+            stmt.setString(4, pieceType);
+            stmt.setString(5, team);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("기물 저장 실패", e);
+        }
+    }
+
+
     // 기물 전체 저장 (게임 시작 시)
     public void saveAll(long boardId, JanggiBoardDto boardDto) {
         String sql = "INSERT INTO piece (board_id, `row`, `col`, piece_type, team) VALUES (?, ?, ?, ?, ?)";
@@ -42,7 +64,7 @@ public class PieceDao {
             conn = DbConnection.getConnection();
             conn.setAutoCommit(false); // 트랜잭션 시작
 
-            // 1. 도착지 기물 삭제
+            // 1. 도착지 기물 삭제 (잡기)
             try (PreparedStatement stmt = conn.prepareStatement(deleteSql)) {
                 stmt.setLong(1, boardId);
                 stmt.setInt(2, toRow);
@@ -79,28 +101,26 @@ public class PieceDao {
     }
 
     // 특정 게임의 모든 기물 조회
-    public List<String> findAll(long boardId) {
+    public JanggiBoardDto findAll(long boardId) {
         String sql = "SELECT `row`, `col`, piece_type, team FROM piece WHERE board_id = ?";
-        List<String> pieces = new ArrayList<>();
+        List<PieceDto> pieces = new ArrayList<>();
 
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            stmt.setLong(1, boardId);
-            ResultSet rs = stmt.executeQuery();
+            pstmt.setLong(1, boardId);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                pieces.add(String.format("(%d,%d) %s %s",
-                        rs.getInt("row"),
-                        rs.getInt("col"),
-                        rs.getString("piece_type"),
-                        rs.getString("team")));
+                PieceType pieceType = PieceType.valueOf(rs.getString("piece_type"));
+                Team team = Team.valueOf(rs.getString("team"));
+                pieces.add(new PieceDto(rs.getInt("row"), rs.getInt("col"), team, pieceType));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("기물 조회 실패", e);
         }
 
-        return pieces;
+        return new JanggiBoardDto(pieces);
     }
 }
