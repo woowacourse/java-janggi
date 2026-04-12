@@ -50,60 +50,56 @@ public class Palace {
 
     private Map<Position, Set<Position>> initializeDoubleConnections() {
         Map<Position, Set<Position>> palaceConnections = new HashMap<>();
-        connectBidirectional(palaceConnections, 9, 3, 7, 5);
-        connectBidirectional(palaceConnections, 9, 5, 7, 3);
-        connectBidirectional(palaceConnections, 0, 3, 2, 5);
-        connectBidirectional(palaceConnections, 0, 5, 2, 3);
+        connectBidirectional(palaceConnections, new Position(9, 3), new Position(7, 5));
+        connectBidirectional(palaceConnections, new Position(9, 5), new Position(7, 3));
+        connectBidirectional(palaceConnections, new Position(0, 3), new Position(2, 5));
+        connectBidirectional(palaceConnections, new Position(0, 5), new Position(2, 3));
         return palaceConnections;
     }
 
     private Map<Position, Set<Position>> initializeConnections() {
         Map<Position, Set<Position>> palaceConnections = new HashMap<>();
 
-        connectBidirectional(palaceConnections, 9, 3, 9, 4);
-        connectBidirectional(palaceConnections, 9, 4, 9, 5);
-        connectBidirectional(palaceConnections, 8, 3, 8, 4);
-        connectBidirectional(palaceConnections, 8, 4, 8, 5);
-        connectBidirectional(palaceConnections, 7, 3, 7, 4);
-        connectBidirectional(palaceConnections, 7, 4, 7, 5);
-        connectBidirectional(palaceConnections, 9, 3, 8, 3);
-        connectBidirectional(palaceConnections, 8, 3, 7, 3);
-        connectBidirectional(palaceConnections, 9, 4, 8, 4);
-        connectBidirectional(palaceConnections, 8, 4, 7, 4);
-        connectBidirectional(palaceConnections, 9, 5, 8, 5);
-        connectBidirectional(palaceConnections, 8, 5, 7, 5);
-        connectBidirectional(palaceConnections, 9, 3, 8, 4);
-        connectBidirectional(palaceConnections, 8, 4, 7, 5);
-        connectBidirectional(palaceConnections, 9, 5, 8, 4);
-        connectBidirectional(palaceConnections, 8, 4, 7, 3);
+        connectBidirectional(palaceConnections, new Position(9, 3), new Position(9, 4));
+        connectBidirectional(palaceConnections, new Position(9, 4), new Position(9, 5));
+        connectBidirectional(palaceConnections, new Position(8, 3), new Position(8, 4));
+        connectBidirectional(palaceConnections, new Position(8, 4), new Position(8, 5));
+        connectBidirectional(palaceConnections, new Position(7, 3), new Position(7, 4));
+        connectBidirectional(palaceConnections, new Position(7, 4), new Position(7, 5));
+        connectBidirectional(palaceConnections, new Position(9, 3), new Position(8, 3));
+        connectBidirectional(palaceConnections, new Position(8, 3), new Position(7, 3));
+        connectBidirectional(palaceConnections, new Position(9, 4), new Position(8, 4));
+        connectBidirectional(palaceConnections, new Position(8, 4), new Position(7, 4));
+        connectBidirectional(palaceConnections, new Position(9, 5), new Position(8, 5));
+        connectBidirectional(palaceConnections, new Position(8, 5), new Position(7, 5));
+        connectBidirectional(palaceConnections, new Position(9, 3), new Position(8, 4));
+        connectBidirectional(palaceConnections, new Position(8, 4), new Position(7, 5));
+        connectBidirectional(palaceConnections, new Position(9, 5), new Position(8, 4));
+        connectBidirectional(palaceConnections, new Position(8, 4), new Position(7, 3));
 
-        connectBidirectional(palaceConnections, 2, 3, 2, 4);
-        connectBidirectional(palaceConnections, 2, 4, 2, 5);
-        connectBidirectional(palaceConnections, 1, 3, 1, 4);
-        connectBidirectional(palaceConnections, 1, 4, 1, 5);
-        connectBidirectional(palaceConnections, 0, 3, 0, 4);
-        connectBidirectional(palaceConnections, 0, 4, 0, 5);
-        connectBidirectional(palaceConnections, 2, 3, 1, 3);
-        connectBidirectional(palaceConnections, 1, 3, 0, 3);
-        connectBidirectional(palaceConnections, 2, 4, 1, 4);
-        connectBidirectional(palaceConnections, 1, 4, 0, 4);
-        connectBidirectional(palaceConnections, 2, 5, 1, 5);
-        connectBidirectional(palaceConnections, 1, 5, 0, 5);
-        connectBidirectional(palaceConnections, 2, 3, 1, 4);
-        connectBidirectional(palaceConnections, 1, 4, 0, 5);
-        connectBidirectional(palaceConnections, 2, 5, 1, 4);
-        connectBidirectional(palaceConnections, 1, 4, 0, 3);
+        connectBidirectional(palaceConnections, new Position(2, 3), new Position(2, 4));
+        connectBidirectional(palaceConnections, new Position(2, 4), new Position(2, 5));
+        connectBidirectional(palaceConnections, new Position(1, 3), new Position(1, 4));
+        connectBidirectional(palaceConnections, new Position(1, 4), new Position(1, 5));
+        connectBidirectional(palaceConnections, new Position(0, 3), new Position(0, 4));
+        connectBidirectional(palaceConnections, new Position(0, 4), new Position(0, 5));
+        connectBidirectional(palaceConnections, new Position(2, 3), new Position(1, 3));
+        connectBidirectional(palaceConnections, new Position(1, 3), new Position(0, 3));
+        connectBidirectional(palaceConnections, new Position(2, 4), new Position(1, 4));
+        connectBidirectional(palaceConnections, new Position(1, 4), new Position(0, 4));
+        connectBidirectional(palaceConnections, new Position(2, 5), new Position(1, 5));
+        connectBidirectional(palaceConnections, new Position(1, 5), new Position(0, 5));
+        connectBidirectional(palaceConnections, new Position(2, 3), new Position(1, 4));
+        connectBidirectional(palaceConnections, new Position(1, 4), new Position(0, 5));
+        connectBidirectional(palaceConnections, new Position(2, 5), new Position(1, 4));
+        connectBidirectional(palaceConnections, new Position(1, 4), new Position(0, 3));
 
         return palaceConnections;
     }
 
     private void connectBidirectional(Map<Position, Set<Position>> palaceConnections,
-                                      int departureRow,
-                                      int departureColumn,
-                                      int destinationRow,
-                                      int destinationColumn) {
-        Position departure = new Position(departureRow, departureColumn);
-        Position destination = new Position(destinationRow, destinationColumn);
+                                      Position departure,
+                                      Position destination) {
         palaceConnections.merge(departure, Set.of(destination), this::merge);
         palaceConnections.merge(destination, Set.of(departure), this::merge);
     }
