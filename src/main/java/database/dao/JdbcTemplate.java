@@ -121,4 +121,14 @@ public class JdbcTemplate {
         }
     }
 
+    @FunctionalInterface
+    public interface BatchPreparedStatementSetter<T> {
+        void setValues(PreparedStatement ps, T item) throws SQLException;
+    }
+
+    @FunctionalInterface
+    public interface PreparedStatementCallback<T> {
+        T execute(PreparedStatement preparedStatement) throws SQLException;
+    }
+
 }
