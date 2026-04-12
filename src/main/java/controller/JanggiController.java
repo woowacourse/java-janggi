@@ -1,7 +1,7 @@
 package controller;
 
-import controller.response.BoardView;
-import controller.response.Turn;
+import controller.response.BoardViewResponse;
+import controller.response.TurnResponse;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.board.ElephantSetup;
@@ -81,8 +81,8 @@ public class JanggiController {
     private void playTurn(final JanggiGame game) {
         final Player player = game.getCurrentPlayer();
 
-        outputView.printBoard(BoardView.from(game.getBoard()));
-        outputView.printCurrentTurn(Turn.from(player));
+        outputView.printBoard(BoardViewResponse.from(game.getBoard()));
+        outputView.printCurrentTurn(TurnResponse.from(player));
 
         final Position from = selectPiecePosition(game.getBoard(), player);
         final Position to = selectDestination(game.getBoard(), from);
@@ -95,7 +95,7 @@ public class JanggiController {
 
         while (true) {
             try {
-                outputView.printSelectablePieces(positions, BoardView.from(board));
+                outputView.printSelectablePieces(positions, BoardViewResponse.from(board));
 
                 final int selectedPieceNumber = inputView.readNumber(positions.size());
 
@@ -120,7 +120,7 @@ public class JanggiController {
         final List<Position> movablePositions = piece.calculateMovablePositions(from, board);
 
         while (true) {
-            outputView.printMovablePositions(BoardView.from(board), movablePositions, piece.getTeam());
+            outputView.printMovablePositions(BoardViewResponse.from(board), movablePositions, piece.getTeam());
 
             try {
                 final int selectedDestinationNumber = inputView.readNumber(movablePositions.size());

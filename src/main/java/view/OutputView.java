@@ -1,7 +1,7 @@
 package view;
 
-import controller.response.BoardView;
-import controller.response.Turn;
+import controller.response.BoardViewResponse;
+import controller.response.TurnResponse;
 import domain.board.ElephantSetup;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -34,7 +34,7 @@ public class OutputView {
     }
 
 
-    public void printBoard(final BoardView board) {
+    public void printBoard(final BoardViewResponse board) {
         printHorizontal(board);
 
         for (int row = board.minRow(); row <= board.maxRow(); row++) {
@@ -46,12 +46,12 @@ public class OutputView {
     }
 
 
-    public void printCurrentTurn(final Turn turn) {
-        System.out.println(colorOf(turn.team()) + "[" + getTeamName(turn.team()) + " 턴] " + turn.name() + RESET);
+    public void printCurrentTurn(final TurnResponse turnResponse) {
+        System.out.println(colorOf(turnResponse.team()) + "[" + getTeamName(turnResponse.team()) + " 턴] " + turnResponse.name() + RESET);
     }
 
 
-    public void printSelectablePieces(final List<Position> positions, final BoardView board) {
+    public void printSelectablePieces(final List<Position> positions, final BoardViewResponse board) {
         System.out.println("이동할 기물을 선택하세요.");
 
         for (int i = 0; i < positions.size(); i++) {
@@ -70,7 +70,7 @@ public class OutputView {
     }
 
 
-    public void printMovablePositions(final BoardView board, final List<Position> moves, final Team team) {
+    public void printMovablePositions(final BoardViewResponse board, final List<Position> moves, final Team team) {
         printBoard(board, moves, team);
 
         System.out.println("이동할 좌표를 선택하세요.");
@@ -93,7 +93,7 @@ public class OutputView {
     }
 
 
-    private void printBoard(final BoardView board, final List<Position> moves, final Team team) {
+    private void printBoard(final BoardViewResponse board, final List<Position> moves, final Team team) {
         printHorizontal(board);
 
         for (int row = board.minRow(); row <= board.maxRow(); row++) {
@@ -114,7 +114,7 @@ public class OutputView {
     }
 
     private String renderCell(
-            final BoardView board,
+            final BoardViewResponse board,
             final Position position,
             final List<Position> moves,
             final Team currentTeam
@@ -137,7 +137,7 @@ public class OutputView {
     }
 
 
-    private void printRow(final BoardView board, final int row) {
+    private void printRow(final BoardViewResponse board, final int row) {
         System.out.printf("%2d ", row);
         System.out.print("|");
 
@@ -150,7 +150,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private String renderCell(final BoardView board, final Position pos) {
+    private String renderCell(final BoardViewResponse board, final Position pos) {
         return board.findPiece(pos)
                 .map(this::renderPiece)
                 .orElse(EMPTY);
@@ -170,7 +170,7 @@ public class OutputView {
         return BLUE;
     }
 
-    private void printHorizontal(final BoardView board) {
+    private void printHorizontal(final BoardViewResponse board) {
         final int cols = board.maxCol() - board.minCol() + 1;
 
         final String line = BOARD_OUTER_SPACES
@@ -180,7 +180,7 @@ public class OutputView {
         System.out.println(line);
     }
 
-    private void printColumnNumbers(final BoardView board) {
+    private void printColumnNumbers(final BoardViewResponse board) {
         System.out.print(BOARD_OUTER_SPACES);
 
         for (int col = board.minCol(); col <= board.maxCol(); col++) {
