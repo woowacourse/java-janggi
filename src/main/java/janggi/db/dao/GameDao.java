@@ -23,9 +23,9 @@ public class GameDao {
             preparedStatement.setBoolean(2, game.isFinished());
             preparedStatement.executeUpdate();
 
-            try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getLong(1);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong(1);
                 }
             }
         } catch (SQLException e) {
@@ -77,12 +77,12 @@ public class GameDao {
         try (Connection connection = DbConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                if (rs.next()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
                     return Optional.of(new GameEntity(
-                            rs.getLong("id"),
-                            Team.valueOf(rs.getString("turn")),
-                            rs.getBoolean("is_finished")
+                            resultSet.getLong("id"),
+                            Team.valueOf(resultSet.getString("turn")),
+                            resultSet.getBoolean("is_finished")
                     ));
                 }
             }

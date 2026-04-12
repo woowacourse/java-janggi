@@ -36,8 +36,8 @@ public class PieceDao {
     public void deleteAllByGameId(Long gameId) {
         String sql = "DELETE FROM pieces WHERE game_id = ?";
 
-        try (Connection conn = DbConnector.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        try (Connection connection = DbConnector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setLong(1, gameId);
             preparedStatement.executeUpdate();
@@ -50,11 +50,11 @@ public class PieceDao {
         String sql = "SELECT * FROM pieces WHERE game_id = ?";
         List<PieceEntity> pieces = new ArrayList<>();
 
-        try (Connection conn = DbConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection connection = DbConnector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            pstmt.setLong(1, gameId);
-            try (ResultSet resultSet = pstmt.executeQuery()) {
+            preparedStatement.setLong(1, gameId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     pieces.add(new PieceEntity(
                             resultSet.getLong("game_id"),
