@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JdbcGameRepositoryTest {
     @BeforeEach
     void setUp() throws SQLException {
+        System.setProperty("db.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
         DatabaseInitializer.initialize();
         clearTables();
     }
@@ -27,7 +28,7 @@ public class JdbcGameRepositoryTest {
     void 게임_메타_정보를_game_테이블에_저장할_수_있다() throws SQLException {
         GameRepository repository = new JdbcGameRepository();
 
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 false,
                 null,
@@ -54,7 +55,7 @@ public class JdbcGameRepositoryTest {
     void 기물_목록을_piece_테이블에_저장할_수_있다() throws SQLException {
         GameRepository repository = new JdbcGameRepository();
 
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 false,
                 null,
@@ -99,7 +100,7 @@ public class JdbcGameRepositoryTest {
     @Test
     void 저장한_게임을_다시_조회할_수_있다(){
         GameRepository repository = new JdbcGameRepository();
-        SavedGame savedGame = new SavedGame(
+        SavedGame savedGame = new SavedGame(null,
                 Country.CHO,
                 true,
                 Country.CHO,
