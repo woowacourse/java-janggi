@@ -25,8 +25,6 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import repository.SavedGameReadMapper;
-import repository.SavedGameWriteMapper;
 
 class JdbcGameRepositoryTest {
     private JdbcConnectionManager connectionManager;

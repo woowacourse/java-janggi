@@ -1,4 +1,4 @@
-package repository;
+package infra.jdbc;
 
 import domain.board.Board;
 import domain.game.GameResult;

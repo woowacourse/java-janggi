@@ -1,4 +1,4 @@
-package repository;
+package infra.jdbc;
 
 import domain.pieces.PieceType;
 import domain.pieces.Side;

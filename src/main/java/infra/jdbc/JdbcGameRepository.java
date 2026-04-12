@@ -11,9 +11,6 @@ import java.sql.SQLException;
 import java.time.Clock;
 import java.util.Optional;
 import repository.GameRepository;
-import repository.SavedGameReadMapper;
-import repository.SavedGameDto;
-import repository.SavedGameWriteMapper;
 
 public class JdbcGameRepository implements GameRepository {
 

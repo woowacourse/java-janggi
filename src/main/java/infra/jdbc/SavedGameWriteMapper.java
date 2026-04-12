@@ -1,4 +1,4 @@
-package repository;
+package infra.jdbc;
 
 import domain.game.JanggiGame;
 import domain.pieces.Piece;

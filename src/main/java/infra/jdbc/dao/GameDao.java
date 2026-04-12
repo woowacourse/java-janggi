@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import repository.SavedGameDto;
+import infra.jdbc.SavedGameDto;
 
 public class GameDao {
     private static final String INSERT_GAME_SQL = """

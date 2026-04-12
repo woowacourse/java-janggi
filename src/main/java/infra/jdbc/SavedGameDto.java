@@ -1,4 +1,4 @@
-package repository;
+package infra.jdbc;
 
 import domain.game.GameStatus;
 import domain.pieces.Side;

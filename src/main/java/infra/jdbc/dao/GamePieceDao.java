@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import repository.SavedPieceDto;
+import infra.jdbc.SavedPieceDto;
 
 public class GamePieceDao {
     private static final String INSERT_ALL_PIECES_SQL = """
