@@ -57,6 +57,10 @@ public final class Position {
         return false;
     }
 
+    public boolean isSamePosition(Position other){
+        return other.row == row && other.column == column;
+    }
+
     public boolean isPossiblePosition(int maxRow, int minRow, int maxColumn, int minColumn) {
         if (this.row > maxRow || this.row < minRow) {
             return false;

@@ -3,18 +3,17 @@ package controller.dto;
 public record MovedPieceRequest(int currentRow,
                                 int currentColumn,
                                 int nextRow,
-                                int nextColumn,
-                                String pieceType) {
+                                int nextColumn) {
 
-    public static MovedPieceRequest of(String sourcePositionAndPieceType, String targetPosition) {
-        String[] sourceAndPieceType = sourcePositionAndPieceType.split(" ");
+    public static MovedPieceRequest of(String sourcePosition, String targetPosition) {
+        String[] sourceRowAndColumn = sourcePosition.split(",");
+        String[] targetRowAndColumn = targetPosition.split(",");
 
         return new MovedPieceRequest(
-                Integer.parseInt(String.valueOf(sourceAndPieceType[0].charAt(1))),
-                Integer.parseInt(String.valueOf(sourceAndPieceType[0].charAt(3))),
-                Integer.parseInt(String.valueOf(targetPosition.charAt(1))),
-                Integer.parseInt(String.valueOf(targetPosition.charAt(3))),
-                sourceAndPieceType[1]
+                Integer.parseInt(String.valueOf(sourceRowAndColumn[0])),
+                Integer.parseInt(String.valueOf(sourceRowAndColumn[1])),
+                Integer.parseInt(String.valueOf(targetRowAndColumn[0])),
+                Integer.parseInt(String.valueOf(targetRowAndColumn[1]))
         );
     }
 }

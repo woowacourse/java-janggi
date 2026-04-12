@@ -16,15 +16,40 @@ public class Board {
     private static final int MAX_COLUMN = 9;
     private static final int MIN_COLUMN = 1;
 
+    private static final int CHO_PALACE_MAX_ROW = 10;
+    private static final int CHO_PALACE_MIN_ROW = 8;
+    private static final int HAN_PALACE_MAX_ROW = 3;
+    private static final int HAN_PALACE_MIN_ROW = 1;
+    private static final int PALACE_MAX_COLUMN = 6;
+    private static final int PALACE_MIN_COLUMN = 4;
+
+    private static final Position CHO_PALACE_CENTER = Position.from(9, 5);
+    private static final Position HAN_PALACE_CENTER = Position.from(2, 5);
+
     protected final Map<Position, Piece> pieces = new HashMap<>();
 
-    public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
-        initTeamBoard(choInitializeStrategy, Team.CHO);
-        initTeamBoard(hanInitializeStrategy, Team.HAN);
+    /**
+     * 초기화 전용 생성자
+     */
+    public Board(Map<Team, InitializeStrategy> initializeStrategies) {
+        initializeStrategies.forEach(((team, initializeStrategy) ->
+                initTeamBoard(initializeStrategy, team)));
     }
 
-    public void move(Position from, Position to, PieceType pieceType, Team team) {
-        Piece piece = validateMovablePiece(from, to, pieceType, team);
+    /**
+     * 재구성용 생성자
+     */
+    public Board(List<CurrentBoardStatus> statuses) {
+        statuses.forEach(status -> {
+            Position position = Position.from(status.row(), status.column());
+            PieceType pieceType = PieceType.getPieceType(status.pieceType());
+            Team team = Team.getTeam(status.team());
+            pieces.put(position, pieceType.createPiece(team));
+        });
+    }
+
+    public void move(Position from, Position to, Team team) {
+        Piece piece = validateMovablePiece(from, to, team);
         validateCanMove(from, to, piece);
         movePiece(from, to, piece);
     }
@@ -72,10 +97,45 @@ public class Board {
         return currentBoardStatuses;
     }
 
+    public boolean isInPalace(Team team, Position target) {
+        if (Team.CHO == team) {
+            return target.isPossiblePosition(CHO_PALACE_MAX_ROW, CHO_PALACE_MIN_ROW, PALACE_MAX_COLUMN,
+                    PALACE_MIN_COLUMN);
+        }
+        return target.isPossiblePosition(HAN_PALACE_MAX_ROW, HAN_PALACE_MIN_ROW, PALACE_MAX_COLUMN, PALACE_MIN_COLUMN);
+    }
+
+    public boolean isCenterPositionInPalace(Team team, Position target) {
+        if (Team.CHO == team) {
+            return CHO_PALACE_CENTER.isSamePosition(target);
+        }
+        return HAN_PALACE_CENTER.isSamePosition(target);
+    }
+
+    public boolean isExistPiece(PieceType target, Team team) {
+        return pieces.values().stream()
+                .anyMatch(piece -> piece.getType() == target && piece.getTeam() == team);
+    }
+
+    public int getCurrentScoreOfTeam(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
+
+    public String getPieceTypeOnPosition(Position target) {
+        return pieces.get(target).getPieceTypeName();
+    }
+
+    public String getPieceTeamOnPosition(Position target) {
+        return pieces.get(target).getTeamName();
+    }
+
     /**
      * 헬퍼 메서드
      */
-    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType, Team team) {
+    private Piece validateMovablePiece(Position from, Position to, Team team) {
         Piece piece = pieces.get(from);
 
         if (piece == null) {
@@ -85,12 +145,6 @@ public class Board {
         if (piece.getTeam() != team) {
             throw new InvalidGameInputException(
                     String.format(GameErrorMessage.INVALID_TEAM_TURN.getMessage(), team.getKoreanName())
-            );
-        }
-
-        if (piece.getType() != pieceType) {
-            throw new InvalidGameInputException(
-                    String.format(GameErrorMessage.INVALID_PIECE_TYPE.getMessage(), pieceType.getKoreanName())
             );
         }
 

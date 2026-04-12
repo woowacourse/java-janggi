@@ -25,8 +25,8 @@ class GuardTest {
         Piece guard = new Guard(Team.CHO);
 
         // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(10, 5);
 
         // then
         assertThat(guard.canMove(from, to, board)).isEqualTo(true);
@@ -42,8 +42,8 @@ class GuardTest {
         Piece guard = new Guard(Team.CHO);
 
         // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(9, 4);
 
         // then
         assertThat(guard.canMove(from, to, board)).isEqualTo(true);
@@ -59,12 +59,133 @@ class GuardTest {
         StubBoard board = new StubBoard(strategy);
         Piece guard = new Guard(Team.CHO);
 
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(9, 4);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
-        testPiece.put(to, new Pawn(Team.CHO));
+        testPiece.put(to, new King(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(false);
+    }
+
+
+    /**
+     * 이동 경로가 1칸 초과인 경우 이동할 수 없다.
+     */
+    @Test
+    void 이동_경로가_1칸_초과인_경우_이동할_수_없다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(10, 4);
+        Position to = Position.from(8, 4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    /**
+     * 도착지가 궁성을 벗어나면 이동할 수 없다.
+     */
+    @Test
+    void 도착지가_궁성을_벗어나면_이동할_수_없다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(10, 4);
+        Position to = Position.from(10, 3);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    /**
+     * 궁성의 중앙에서 출발하는 경우, 궁성 내부 어디로든 이동할 수 있다.
+     */
+    @Test
+    void 궁성의_중앙에서_출발하는_경우_궁성_내부_어디로든_이동할_수_있다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(9, 5);
+        Position to = Position.from(8, 6);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    /**
+     * 출발지가 궁성의 중앙이 아닌 경우, 궁성의 중앙으로 반드시 이동할 수 있다
+     */
+    @Test
+    void 출발지가_궁성의_중앙이_아닌_경우_궁성의_중앙으로_반드시_이동할_수_있다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(9, 4);
+        Position to = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    /**
+     * 궁성의 중앙이 아닌 경우, 궁성의 중앙으로 반드시 이동할 수 있다
+     */
+    @Test
+    void 출발지가_궁성의_중앙이_아닌_경우_상하좌우로_이동가능하다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(9, 4);
+        Position to = Position.from(8, 4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+        board.putPieces(testPiece);
+
+        // when & then
+        assertThat(guard.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    /**
+     * 궁성의 중앙이 아닌 경우, 궁성의 중앙으로 반드시 이동할 수 있다
+     */
+    @Test
+    void 출발지가_궁성의_중앙이_아닌_경우_중앙으로_가는_경로를_제외한_대각선으로_이동이_불가능하다() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece guard = new Guard(Team.CHO);
+
+        Position from = Position.from(8, 5);
+        Position to = Position.from(9, 4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
         board.putPieces(testPiece);
 
         // when & then

@@ -10,6 +10,10 @@ import domain.piece.Piece;
 import domain.piece.Rook;
 import domain.strategy.NoInitializeStrategy;
 import domain.stub.StubBoard;
+
+import exception.GameErrorMessage;
+import exception.custom.InvalidGameInputException;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +41,17 @@ class BoardTest {
         }
     }
 
+    public Map<Team, InitializeStrategy> createStrategies(InitializeStrategy choInitializeStrategy,
+                                                          InitializeStrategy hanInitializeStrategy) {
+        return Map.of(Team.CHO, choInitializeStrategy, Team.HAN, hanInitializeStrategy);
+    }
+
     /**
      * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
      */
     @Test
     void 한나라_기본_기물들이_올바르게_배치된다() {
-        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+        Board board = new Board(createStrategies(noElephantHorseStrategy, noElephantHorseStrategy));
 
         assertThat(board.isExistSameType(Position.from(1, 1), new Rook(Team.HAN))).isEqualTo(true);
         assertThat(board.isExistSameType(Position.from(1, 9), new Rook(Team.HAN))).isEqualTo(true);
@@ -65,7 +74,7 @@ class BoardTest {
      */
     @Test
     void 초나라_기본_기물들이_올바르게_배치된다() {
-        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+        Board board = new Board(createStrategies(noElephantHorseStrategy, noElephantHorseStrategy));
 
         assertThat(board.isExistSameType(Position.from(10, 1), new Rook(Team.CHO))).isEqualTo(true);
         assertThat(board.isExistSameType(Position.from(10, 4), new Guard(Team.CHO))).isEqualTo(true);
@@ -95,7 +104,7 @@ class BoardTest {
         InitializeStrategy strategy = new LeftElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 2);
@@ -118,7 +127,7 @@ class BoardTest {
         InitializeStrategy strategy = new OuterElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 2);
@@ -141,7 +150,7 @@ class BoardTest {
         InitializeStrategy strategy = new RightElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 3);
@@ -164,7 +173,7 @@ class BoardTest {
         InitializeStrategy strategy = new InnerElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 3);
@@ -187,7 +196,7 @@ class BoardTest {
         InitializeStrategy strategy = new LeftElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 3);
@@ -210,7 +219,7 @@ class BoardTest {
         InitializeStrategy strategy = new OuterElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 2);
@@ -233,7 +242,7 @@ class BoardTest {
         InitializeStrategy strategy = new RightElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 2);
@@ -256,7 +265,7 @@ class BoardTest {
         InitializeStrategy strategy = new InnerElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 3);
@@ -271,51 +280,29 @@ class BoardTest {
     }
 
     /**
-     * 보드 이동 예외 테스트 1. 출발 지점에, 원하는 피스가 아에 없는 경우 이동할 수 없다. 2. 출발 지점에, 원하는 피스 타입이 아닌 다른 피스가 있는 경우 이동 할 수 없다. 3. 도착 지점이
-     * 보드판의 범위를 넘어서는 경우 이동할 수 없다.
+     * 보드 이동 예외 테스트
+     * 1. 출발 지점에, 원하는 피스가 아에 없는 경우 이동할 수 없다.
+     * 2. 도착 지점이 보드판의 범위를 넘어서는 경우 이동할 수 없다.
      */
     @Test
-    void 출발_지점에_원하는_피스가_없는_경우_이동할_수_없다() {
+    void 출발_지점에_피스가_없는_경우_이동할_수_없다() {
         // given
         StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
 
         // when
         Position from = Position.from(5, 1);
         Position to = Position.from(5, 2);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치에 피스가 없습니다.");
-    }
-
-    @Test
-    void 출발_지점에_원하는_피스_타입이_아닌_다른_피스가_있는_경우_이동_할_수_없다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
-
-        // when
-        Position from = Position.from(5, 1);
-        Position to = Position.from(5, 2);
-
-        Map<Position, Piece> testPiece = new HashMap<>();
-        testPiece.put(from, new Cannon(Team.CHO));
-
-        board.putPieces(testPiece);
-
-        // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치에 해당 타입이 없습니다.");
+        assertThatThrownBy(() -> board.move(from, to, Team.CHO))
+                .isInstanceOf(InvalidGameInputException.class)
+                .hasMessage(GameErrorMessage.PIECE_NOT_FOUND.getMessage());
     }
 
     @Test
     void 도착_지점이_보드판의_범위를_넘어서는_경우_이동할_수_없다() {
         // given
         StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
 
         // when
         Position from = Position.from(10, 1);
@@ -327,9 +314,9 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("기물의 도착지점이 판 범위를 넘어섰습니다.");
+        assertThatThrownBy(() -> board.move(from, to, Team.CHO))
+                .isInstanceOf(InvalidGameInputException.class)
+                .hasMessage(GameErrorMessage.INVALID_POSITION_RANGE.getMessage());
     }
 
     /**
@@ -352,7 +339,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.CANNON))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -371,7 +358,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ROOK))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -381,8 +368,8 @@ class BoardTest {
         StubBoard board = new StubBoard(noInitializeStrategy);
 
         // when
-        Position from = Position.from(7, 4);
-        Position to = Position.from(6, 4);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(9, 4);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
@@ -390,7 +377,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.GUARD))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -400,8 +387,8 @@ class BoardTest {
         StubBoard board = new StubBoard(noInitializeStrategy);
 
         // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(9, 5);
+        Position to = Position.from(8, 5);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
@@ -409,7 +396,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.KING))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -428,7 +415,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PAWN))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -447,7 +434,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.HORSE))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -465,7 +452,98 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
+    }
+
+    /**
+     * 보드에 궁 존재 여부 확인 테스트(게임 종료 조건에서 활용)
+     */
+    @Test
+    void 초나라의_궁이_보드판에_존재하는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position position = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.CHO));
+        board.putPieces(testPiece);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.CHO)).isEqualTo(true);
+    }
+
+    @Test
+    void 한나라의_궁이_보드판에_존재하는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position position = Position.from(2, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.HAN));
+        board.putPieces(testPiece);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.HAN)).isEqualTo(true);
+    }
+
+    @Test
+    void 초나라의_궁이_보드판에_존재하지_않는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.CHO)).isEqualTo(false);
+    }
+
+    @Test
+    void 한나라의_궁이_보드판에_존재하지_않는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        assertThat(board.isExistPiece(PieceType.KING, Team.HAN)).isEqualTo(false);
+    }
+
+    /**
+     * 점수 계산 테스트
+     */
+    @Test
+    void 초나라의_모든_기물이_있는_경우_72점이_계산된다() {
+        //given
+        Board board = new Board(createStrategies(new LeftElephantFormationStrategy(),
+                new LeftElephantFormationStrategy()));
+
+        //when
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(72);
+    }
+
+    @Test
+    void 한나라의_모든_기물이_있는_경우_72점이_계산된다() {
+        //given
+        Board board = new Board(createStrategies(new LeftElephantFormationStrategy(),
+                new LeftElephantFormationStrategy()));
+
+        //when
+        assertThat(board.getCurrentScoreOfTeam(Team.HAN)).isEqualTo(72);
+    }
+
+    @Test
+    void 궁만_남아있는_경우_0점이_계산된다() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        Position position = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.CHO));
+        board.putPieces(testPiece);
+
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(0);
+    }
+
+    @Test
+    void 기물이_남아있지_않은_경우_0점이_계산된다() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(0);
     }
 }

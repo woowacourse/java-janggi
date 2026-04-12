@@ -22,6 +22,18 @@ public abstract class Piece {
         return this.type;
     }
 
+    public String getPieceTypeName(){
+        return this.type.getKoreanName();
+    }
+
+    public String getTeamName(){
+        return this.team.getKoreanName();
+    }
+
+    public Integer getScore() {
+        return this.type.getScore();
+    }
+
     public boolean isSameTeam(Piece other) {
         return this.team == other.team;
     }
