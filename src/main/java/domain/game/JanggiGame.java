@@ -16,6 +16,8 @@ public class JanggiGame {
     private Player currentPlayer;
     private GameStatus gameStatus;
 
+    private static final String GAME_NOT_FINISHED = "게임이 아직 종료되지 않았습니다.";
+
     public JanggiGame(final Board board, final Player choPlayer, final Player hanPlayer) {
         this.board = board;
         this.players = new Players(List.of(choPlayer, hanPlayer));
@@ -47,6 +49,14 @@ public class JanggiGame {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Player getWinner() {
+        if (gameStatus != GameStatus.FINISHED) {
+            throw new IllegalStateException(GAME_NOT_FINISHED);
+        }
+
+        return currentPlayer;
     }
 
 

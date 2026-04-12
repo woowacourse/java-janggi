@@ -5,6 +5,7 @@ import controller.response.Turn;
 import domain.board.ElephantSetup;
 import domain.piece.Piece;
 import domain.piece.Position;
+import domain.player.Player;
 import domain.player.Team;
 
 import java.util.List;
@@ -46,12 +47,7 @@ public class OutputView {
 
 
     public void printCurrentTurn(final Turn turn) {
-        if (turn.team() == Team.HAN) {
-            System.out.println(RED + "[한나라 턴] " + turn.name() + RESET);
-            return;
-        }
-
-        System.out.println(BLUE + "[초나라 턴] " + turn.name() + RESET);
+        System.out.println(colorOf(turn.team()) + "[" + getTeamName(turn.team()) + " 턴] " + turn.name() + RESET);
     }
 
 
@@ -91,6 +87,11 @@ public class OutputView {
 
         System.out.println();
     }
+
+    public void printWinner(final Player winner) {
+        System.out.println("승자는  " + winner.getName() + "입니다!");
+    }
+
 
     private void printBoard(final BoardView board, final List<Position> moves, final Team team) {
         printHorizontal(board);

@@ -31,6 +31,8 @@ public class JanggiController {
         while (game.isPlaying()) {
             playTurn(game);
         }
+
+        printGameResult(game);
     }
 
     private JanggiGame initializeGame() {
@@ -128,5 +130,10 @@ public class JanggiController {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private void printGameResult(final JanggiGame game) {
+        outputView.printWinner(game.getWinner());
+
     }
 }
