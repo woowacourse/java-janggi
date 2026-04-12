@@ -29,6 +29,10 @@ public abstract class Intersection {
         leave();
     }
 
+    public abstract boolean isPalace();
+
+    public abstract Directions getDiagonalDirections();
+
     private void arrive(Intersection origin) {
         this.piece = origin.piece;
     }
@@ -77,10 +81,6 @@ public abstract class Intersection {
     public boolean isSameTeam(Intersection destination) {
         return piece.isSameTeam(destination.piece);
     }
-
-    public abstract boolean isPalace();
-
-    public abstract Directions getDiagonalDirections();
 
     public int getScore() {
         return PieceScore.getScore(piece);

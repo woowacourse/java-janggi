@@ -51,7 +51,7 @@ public class JanggiGame {
         });
     }
 
-    public JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
+    private JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
         if (selectCommand.isExitCommand()) {
             return null;
         }
@@ -89,7 +89,7 @@ public class JanggiGame {
         }
     }
 
-    public Moved progressTurn(JanggiBoard janggiBoard) {
+    private Moved progressTurn(JanggiBoard janggiBoard) {
         return retry(() -> {
             MoveCommand command = requestCommand(janggiBoard.getCurrentTurn());
             janggiBoard.processTurn(command.start(), command.end());
@@ -106,13 +106,13 @@ public class JanggiGame {
         return reader.requestCommand(team);
     }
 
-    public void applyGameResult(JanggiBoard janggiBoard) {
+    private void applyGameResult(JanggiBoard janggiBoard) {
         GameResult gameResult = GameResult.from(janggiBoard);
         janggiService.updateBoardResult(gameResult);
         BoardIdContext.clear();
     }
 
-    public void announceWinner(Team team) {
+    private void announceWinner(Team team) {
         writer.printWinner(team);
     }
 

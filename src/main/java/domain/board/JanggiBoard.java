@@ -62,7 +62,7 @@ public class JanggiBoard {
         return new Path(intersectionOfPath);
     }
 
-    public Intersection findOriginIntersection(Point point, Team team) {
+    private Intersection findOriginIntersection(Point point, Team team) {
         Intersection origin = findIntersection(point);
         origin.validateMovable(team);
         return origin;
@@ -76,13 +76,13 @@ public class JanggiBoard {
         return isGeneralDead() || hasNotEnoughPieceScore();
     }
 
-    public boolean isGeneralDead() {
+    private boolean isGeneralDead() {
         return Arrays.stream(Team.values())
                 .filter(team -> team != Team.NONE)
                 .anyMatch(this::isGeneralDead);
     }
 
-    public boolean isGeneralDead(Team team) {
+    private boolean isGeneralDead(Team team) {
         return intersections.values().stream()
                 .filter(Intersection::hasPiece)
                 .filter(intersection -> intersection.isSameTeam(team))
@@ -109,14 +109,14 @@ public class JanggiBoard {
         return getWinnerByScore();
     }
 
-    public Team getWinnerOnGeneralDead() {
+    private Team getWinnerOnGeneralDead() {
         if (isGeneralDead(Team.HAN)) {
             return Team.CHO;
         }
         return Team.HAN;
     }
 
-    public Team getWinnerByScore() {
+    private Team getWinnerByScore() {
         double hanScore = calculateTeamScore(Team.HAN) + 1.5;
         double choScore = calculateTeamScore(Team.CHO);
         return hanScore > choScore ? Team.HAN : Team.CHO;
@@ -126,7 +126,7 @@ public class JanggiBoard {
         return Collections.unmodifiableMap(intersections);
     }
 
-    private static Map<Point, Intersection> createIntersections(IntersectionGenerator intersectionGenerator) {
+    private Map<Point, Intersection> createIntersections(IntersectionGenerator intersectionGenerator) {
         Map<Point, Intersection> intersections = fillEmptyIntersections();
         for (Intersection intersection : intersectionGenerator.makeIntersection()) {
             intersections.put(intersection.getPoint(), intersection);
@@ -134,17 +134,17 @@ public class JanggiBoard {
         return intersections;
     }
 
-    private static Map<Point, Intersection> fillEmptyIntersections() {
+    private Map<Point, Intersection> fillEmptyIntersections() {
         return getAllPoints()
                 .collect(Collectors.toMap(point -> point, NormalIntersection::empty));
     }
 
-    private static Stream<Point> getAllPoints() {
+    private Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
                 .flatMap(row -> range(MAX_FILE).mapToObj(file -> new Point(row, file)));
     }
 
-    private static IntStream range(int maxRange) {
+    private IntStream range(int maxRange) {
         return IntStream.range(BASE_POINT, maxRange);
     }
 
