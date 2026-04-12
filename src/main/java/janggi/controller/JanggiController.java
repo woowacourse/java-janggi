@@ -10,8 +10,18 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class JanggiController {
+    private static final Map<Command, Consumer<JanggiController>> COMMAND_ACTIONS = Map.of(
+            Command.LOAD, JanggiController::loadGame,
+            Command.NEW, controller -> {
+                long gameId = controller.createGame();
+                controller.playGame(gameId);
+            },
+            Command.DELETE, JanggiController::deleteGame
+    );
     private static final String QUIT_COMMAND = "quit";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
@@ -34,26 +44,15 @@ public class JanggiController {
                 if (command == Command.EXIT) {
                     return;
                 }
-
-                if (command == Command.LOAD) {
-                    loadGame();
-                    continue;
-                }
-
-                if (command == Command.NEW) {
-                    long gameId = createGame();
-                    playGame(gameId);
-                    continue;
-                }
-
-                if (command == Command.DELETE) {
-                    deleteGame();
-                    continue;
-                }
+                handle(command);
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
+    }
+
+    private void handle(Command command) {
+        COMMAND_ACTIONS.get(command).accept(this);
     }
 
     private void loadGame() {
