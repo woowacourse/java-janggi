@@ -8,9 +8,9 @@ import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
 import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.piece.Piece;
+import janggi.dto.PieceDto;
 import janggi.view.ApplicationView;
 import janggi.view.label.ArrangementStrategyLabel;
-import janggi.view.label.PieceLabel;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -31,7 +31,7 @@ public class JanggiFlow {
         Side current = Side.CHO;
         while (board.isNotEmpty()) {
             view.showBoardArray(convertBoardStatus(board));
-            view.showCurrentSide(current.getName());
+            view.showCurrentSide(current.getNameFormat());
 
             final Side turnSide = current;
             retryUntilPieceIsSuccessfullyMoved(() -> {
@@ -53,12 +53,12 @@ public class JanggiFlow {
         }
     }
 
-    private List<List<String>> convertBoardStatus(Board board) {
+    private List<List<PieceDto>> convertBoardStatus(Board board) {
         List<List<Piece>> boardIn2D = board.to2DArray();
         return boardIn2D.stream()
                 .map(
                         row -> row.stream()
-                                .map(PieceLabel::getPieceFormatWithSideInfo)
+                                .map(PieceDto::from)
                                 .toList()
                 ).toList();
     }
@@ -69,7 +69,7 @@ public class JanggiFlow {
 
     private ArrangementStrategy askStrategy(Side side) {
         Map<Integer, String> strategyInfos = ArrangementStrategyLabel.getStrategyOptions();
-        int decisionNumber = view.promptForArrangementStrategyDecision(side.getName(), strategyInfos);
+        int decisionNumber = view.promptForArrangementStrategyDecision(side.getNameFormat(), strategyInfos);
         ArrangementMapper mapper = ArrangementMapper.getInstance();
         ArrangementStrategyLabel label = ArrangementStrategyLabel.createArrangementOption(decisionNumber);
         ArrangementOption option = mapper.findArrangementOption(label);

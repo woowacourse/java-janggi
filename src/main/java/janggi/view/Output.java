@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.dto.PieceDto;
 import java.util.List;
 
 public interface Output {
@@ -8,5 +9,5 @@ public interface Output {
 
     void printErrorMessage(String errorMessage);
 
-    void printStringMatrix(List<List<String>> matrix);
+    void printPieceMatrix(List<List<PieceDto>> matrix);
 }

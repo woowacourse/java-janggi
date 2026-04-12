@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.domain.Side;
+import janggi.dto.PieceDto;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,9 @@ public class ConsoleWriter implements Output {
     private static final String BLANK = "   ";
     private static final List<String> FULL_WIDTH_NUMBERS =
             List.of("", "１", "２", "３", "４", "５", "６", "７", "８", "９");
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_BLUE = "\u001B[34m";
 
     @Override
     public void printPromptMessage(String promptMessage) {
@@ -21,7 +26,7 @@ public class ConsoleWriter implements Output {
     }
 
     @Override
-    public void printStringMatrix(List<List<String>> matrix) {
+    public void printPieceMatrix(List<List<PieceDto>> matrix) {
         StringBuilder matrixSnapshot = new StringBuilder();
 
         List<String> colIndexInfo = createCoordinationIndexInfo(matrix.getFirst().size());
@@ -30,8 +35,9 @@ public class ConsoleWriter implements Output {
         for (int row = 0; row < matrix.size(); row++) {
             matrixSnapshot.append(String.format("%2d ", row + 1));
 
-            for (String cell : matrix.get(row)) {
-                matrixSnapshot.append(cell).append(" ");
+            for (PieceDto pieceDto : matrix.get(row)) {
+                String piece = convertPieceInfo(pieceDto);
+                matrixSnapshot.append(piece).append(" ");
             }
             matrixSnapshot.append("\n");
         }
@@ -47,5 +53,20 @@ public class ConsoleWriter implements Output {
             coordinationInfo.add(FULL_WIDTH_NUMBERS.get(index) + " ");
         }
         return coordinationInfo;
+    }
+
+    private String convertPieceInfo(PieceDto pieceDto) {
+        String pieceType = pieceDto.type();
+        Side side = pieceDto.side();
+
+        if (side.equals(Side.HAN)) {
+            return ANSI_RED + pieceType + ANSI_RESET;
+        }
+
+        if (side.equals(Side.CHO)) {
+            return ANSI_BLUE + pieceType + ANSI_RESET;
+        }
+
+        return pieceType;
     }
 }

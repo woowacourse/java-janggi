@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.dto.PieceDto;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,8 +26,8 @@ public class ApplicationView {
         return inputReader.readInt();
     }
 
-    public void showBoardArray(List<List<String>> stringMatrix) {
-        outputWriter.printStringMatrix(stringMatrix);
+    public void showBoardArray(List<List<PieceDto>> pieceMatrix) {
+        outputWriter.printPieceMatrix(pieceMatrix);
     }
 
     public void showCurrentSide(String currentSide) {

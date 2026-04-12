@@ -24,7 +24,7 @@ public class ActivePiece implements Piece {
         if (calculatedRoute.isEmpty()) {
             throw new IllegalArgumentException(
                     String.format("%s 기물 이동 규칙 위반: 해당 위치%s에 도달할 수 없습니다.",
-                            pieceType.name(), to.getFormattedLocation())
+                            pieceType.getNameFormat(), to.getFormattedLocation())
             );
         }
 
@@ -54,5 +54,10 @@ public class ActivePiece implements Piece {
     @Override
     public PieceType getPieceType() {
         return pieceType;
+    }
+
+    @Override
+    public Side getSide() {
+        return side;
     }
 }

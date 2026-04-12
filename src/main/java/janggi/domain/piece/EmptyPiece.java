@@ -42,4 +42,9 @@ public class EmptyPiece implements Piece {
     public PieceType getPieceType() {
         return PieceType.EMPTY;
     }
+
+    @Override
+    public Side getSide() {
+        return Side.NONE;
+    }
 }
