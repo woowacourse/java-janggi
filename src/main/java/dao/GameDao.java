@@ -23,8 +23,8 @@ public class GameDao {
         ) {
             GameInfo gameInfo = game.toSaveValues();
             statement.setObject(1, gameInfo.createdAt());
-            statement.setString(2, gameInfo.choTableSetting().name());
-            statement.setString(3, gameInfo.hanTableSetting().name());
+            statement.setString(2, gameInfo.choTableSetting().getFormationName());
+            statement.setString(3, gameInfo.hanTableSetting().getFormationName());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -46,8 +46,8 @@ public class GameDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Long gameId = resultSet.getLong("game_id");
-                TableSetting choTableSetting = TableSetting.valueOf(resultSet.getString("cho_table_setting"));
-                TableSetting hanTableSetting = TableSetting.valueOf(resultSet.getString("han_table_setting"));
+                TableSetting choTableSetting = TableSetting.from(resultSet.getString("cho_table_setting"));
+                TableSetting hanTableSetting = TableSetting.from(resultSet.getString("han_table_setting"));
                 return Optional.of(new Game(gameId, choTableSetting, hanTableSetting));
             }
         } catch (SQLException exception) {

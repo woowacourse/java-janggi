@@ -41,4 +41,8 @@ public enum TableSetting {
         }
         return pieceTypes;
     }
+
+    public String getFormationName() {
+        return formationName;
+    }
 }
