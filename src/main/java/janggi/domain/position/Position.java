@@ -1,23 +1,9 @@
 package janggi.domain.position;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Position {
-    private static final Map<String, Position> ALL_POSITION;
-
-    static {
-        ALL_POSITION = Row.all().stream()
-                .flatMap(row -> Column.all().stream()
-                        .map(column -> new Position(row, column)))
-                .collect(Collectors.toMap(
-                        p -> createKey(p.row.value(), p.column.value()),
-                        p -> p
-                ));
-    }
-
     private final Row row;
     private final Column column;
 
@@ -27,20 +13,26 @@ public class Position {
     }
 
     public static Position of(int row, int column) {
-        Position position = ALL_POSITION.get(createKey(row, column));
-        if (position == null) {
-            throw new IllegalArgumentException("잘못된 좌표입니다.");
-        }
-        return position;
+        return new Position(Row.from(row), Column.from(column));
     }
 
     public Optional<Position> move(Direction direction) {
-        return Optional.ofNullable(
-                ALL_POSITION.get(createKey(row.value() + direction.dr(), column.value() + direction.dc()))
-        );
+        Optional<Row> nextRow = row.move(direction.dr());
+        Optional<Column> nextColumn = column.move(direction.dc());
+
+        if (nextRow.isPresent() && nextColumn.isPresent()) {
+            return Optional.of(new Position(nextRow.get(), nextColumn.get()));
+        }
+
+        return Optional.empty();
     }
-    private static String createKey(int row, int column) {
-        return row + "," + column;
+
+    public int row() {
+        return row.value();
+    }
+
+    public int column() {
+        return column.value();
     }
 
     @Override

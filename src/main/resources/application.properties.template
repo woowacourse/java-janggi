@@ -1,0 +1,5 @@
+# JDBC 설정
+
+db.url=jdbc:mysql://127.0.0.1:3306/
+db.id=your_db_id
+db.password=your_db_password

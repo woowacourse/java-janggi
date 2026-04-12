@@ -58,4 +58,12 @@ public class ChariotTest {
         Piece destinationPiece = new Elephant(Camp.HAN);
         assertThat(piece.canCatch(destinationPiece)).isTrue();
     }
+
+    @Test
+    void 필수적인_기물이_아니면_false를_출력한다() {
+        Piece piece = new Chariot(Camp.CHO);
+        boolean essential = piece.isEssential();
+
+        assertThat(essential).isFalse();
+    }
 }

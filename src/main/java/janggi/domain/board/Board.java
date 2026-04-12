@@ -1,11 +1,14 @@
 package janggi.domain.board;
 
+import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Paths;
+import janggi.domain.Score;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +66,37 @@ public class Board {
         janggiBoard.put(to, piece);
     }
 
+    public boolean isAliveEssentialPiece(Camp camp) {
+        return janggiBoard.values().stream()
+                .filter(piece -> piece.isSameCamp(camp))
+                .anyMatch(Piece::isEssential);
+    }
+
+    public Board clone() {
+        Map<Position, Piece> copiedMap = new HashMap<>(this.janggiBoard);
+        return new Board(copiedMap);
+    }
+
     public Map<Position, Piece> janggiBoard() {
         return Collections.unmodifiableMap(janggiBoard);
+    }
+
+    public Camp calculateScoreResult() {
+        Score choScore = janggiBoard.values().stream()
+                .filter(piece -> piece.isSameCamp(Camp.CHO))
+                .map(Piece::score)
+                .reduce(new Score(0), Score::plus);
+
+        Score hanScore = janggiBoard.values().stream()
+                .filter(piece -> piece.isSameCamp(Camp.HAN))
+                .map(Piece::score)
+                .reduce(new Score(0), Score::plus)
+                .multiply(1.5);
+
+        if (choScore.isGreaterThan(hanScore)) {
+            return Camp.CHO;
+        }
+
+        return Camp.HAN;
     }
 }

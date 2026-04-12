@@ -25,8 +25,8 @@ public class OutputView {
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
-        int rowStart = currentCamp.initRowPosition();
-        int rowStep = -currentCamp.direction();
+        int rowStart = currentCamp.isCho() ? 9 : 0;
+        int rowStep = currentCamp.isCho() ? -1 : 1;
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)
@@ -52,7 +52,7 @@ public class OutputView {
 
     private String renderCell(int row, int col, Map<Position, Piece> board) {
         return Optional.ofNullable(board.get(Position.of(row, col)))
-                .map(piece -> COLOR_MAP.get(piece.isSameCamp(Camp.CHO)) + piece.displayName() + RESET)
+                .map(piece -> COLOR_MAP.get(piece.isSameCamp(Camp.CHO)) + piece.pieceName() + RESET)
                 .orElse("＋");
     }
 
@@ -62,7 +62,17 @@ public class OutputView {
                 .collect(Collectors.joining("　"));
     }
 
+    public void printGameResult(Camp camp) {
+        if (camp.isCho()) {
+            System.out.println("초나라가 승리하였습니다.");
+            return;
+        }
+        System.out.println("한나라가 승리하였습니다.");
+    }
+
     public void printErrorMessage(String message) {
         System.out.println(message);
     }
+
+
 }

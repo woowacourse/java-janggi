@@ -1,24 +1,15 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Path;
-import janggi.domain.Paths;
 import janggi.domain.position.Direction;
-import janggi.domain.position.Position;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+public class HanSoldierStrategy extends SoldierStrategy {
+    private static final HanSoldierStrategy INSTANCE = new HanSoldierStrategy();
 
-public class HanSoldierStrategy implements MoveStrategy {
-    @Override
-    public Paths findMovablePaths(Position current) {
-        return new Paths(Stream.of(
-                        current.move(Direction.DOWN),
-                        current.move(Direction.LEFT),
-                        current.move(Direction.RIGHT)
-                )
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Path::of)
-                .toList());
+    private HanSoldierStrategy() {
+        super(Direction.DOWN);
+    }
+
+    public static HanSoldierStrategy getInstance() {
+        return INSTANCE;
     }
 }

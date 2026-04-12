@@ -66,4 +66,12 @@ public class HorseTest {
 
         assertThat(canCatch).isEqualTo(true);
     }
+
+    @Test
+    void 필수적인_기물이_아니면_false를_출력한다() {
+        Piece piece = new Horse(Camp.CHO);
+        boolean essential = piece.isEssential();
+
+        assertThat(essential).isFalse();
+    }
 }

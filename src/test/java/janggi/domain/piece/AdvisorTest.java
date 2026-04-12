@@ -3,8 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.Camp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.HashMap;
 
@@ -46,5 +44,13 @@ public class AdvisorTest {
         Piece piece = new Advisor(Camp.CHO);
         Piece desinationPiece = new Chariot(Camp.HAN);
         assertThat(piece.canCatch(desinationPiece)).isTrue();
+    }
+
+    @Test
+    void 필수적인_기물이_아니면_false를_출력한다() {
+        Piece piece = new Advisor(Camp.CHO);
+        boolean essential = piece.isEssential();
+
+        assertThat(essential).isFalse();
     }
 }

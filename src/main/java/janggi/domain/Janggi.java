@@ -1,56 +1,49 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardFactory;
-import janggi.domain.board.strategy.ElephantHorseElephantHorse;
-import janggi.domain.board.strategy.ElephantHorseHorseElephant;
-import janggi.domain.board.strategy.FormationStrategy;
-import janggi.domain.board.strategy.HorseElephantElephantHorse;
-import janggi.domain.board.strategy.HorseElephantHorseElephant;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
-import java.util.List;
 import java.util.Map;
 
 public class Janggi {
-    private static final List<FormationStrategy> FORMATIONS = List.of(
-            new HorseElephantElephantHorse(),
-            new HorseElephantHorseElephant(),
-            new ElephantHorseHorseElephant(),
-            new ElephantHorseElephantHorse()
-    );
-
     private final Board board;
     private Camp currentCamp;
     private boolean running;
 
-    private Janggi(Board board) {
+    private Janggi(Board board, Camp currentCamp, boolean running) {
         this.board = board;
-        this.currentCamp = Camp.CHO;
-        this.running = true;
+        this.currentCamp = currentCamp;
+        this.running = running;
     }
 
-    public static Janggi start(int choFormationNumber, int hanFormationNumber) {
-        return new Janggi(BoardFactory.create(
-                readFormation(choFormationNumber),
-                readFormation(hanFormationNumber)));
+    public Janggi(Janggi original) {
+        this(original.board.clone(), original.currentCamp, original.running);
     }
 
-    private static FormationStrategy readFormation(int choice) {
-        if (choice < 1 || choice > FORMATIONS.size()) {
-            throw new IllegalArgumentException("1~4 중 선택해주세요.");
-        }
-        return FORMATIONS.get(choice - 1);
+    private Janggi(Board board) {
+        this(board, Camp.CHO, true);
+    }
+
+    public static Janggi start(Board board) {
+        return new Janggi(board);
+    }
+
+    public static Janggi load(Board board, Camp currentCamp, boolean running) {
+        return new Janggi(board, currentCamp, running);
     }
 
     public void play(Position from, Position to) {
         validateTurn(from);
         board.movePiece(from, to);
+        if (!board.isAliveEssentialPiece(currentCamp.next())) {
+            finish();
+            return;
+        }
         currentCamp = currentCamp.next();
     }
 
-    private void validateTurn(Position from) {
+    public void validateTurn(Position from) {
         Piece piece = board.selectPiece(from);
         if (!piece.isSameCamp(currentCamp)) {
             throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
@@ -66,6 +59,24 @@ public class Janggi {
     }
 
     public Camp currentCamp() {
+        return currentCamp;
+    }
+
+    public void surrender() {
+        currentCamp = currentCamp.next();
+        finish();
+    }
+
+    public void draw() {
+        currentCamp = board.calculateScoreResult();
+        finish();
+    }
+
+    public Janggi clone() {
+        return new Janggi(this);
+    }
+
+    public Camp winner() {
         return currentCamp;
     }
 

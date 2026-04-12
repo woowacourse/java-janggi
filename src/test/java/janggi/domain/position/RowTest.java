@@ -10,14 +10,14 @@ class RowTest {
     @ParameterizedTest
     @CsvSource({"0", "9"})
     void 행은_0과_9_사이_값이다(int input) {
-        Row row = new Row(input);
+        Row row = Row.from(input);
         Assertions.assertThat(row.value()).isEqualTo(input);
     }
 
     @ParameterizedTest
     @CsvSource({"-1", "10"})
     void 행에_0과_9_범위_밖의_값이_들어오면_예외처리한다(int input) {
-        assertThatThrownBy(() -> new Row(input))
+        assertThatThrownBy(() -> Row.from(input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("행은 0 ~ 9 입니다.");
     }

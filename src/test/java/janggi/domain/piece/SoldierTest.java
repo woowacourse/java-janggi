@@ -45,4 +45,12 @@ public class SoldierTest {
         Soldier destinationSoldier = new Soldier(destinationPieceCamp);
         assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
     }
+
+    @Test
+    void 필수적인_기물이_아니면_false를_출력한다() {
+        Piece piece = new Soldier(Camp.CHO);
+        boolean essential = piece.isEssential();
+
+        assertThat(essential).isFalse();
+    }
 }

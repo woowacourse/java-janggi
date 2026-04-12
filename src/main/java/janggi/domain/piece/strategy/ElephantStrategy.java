@@ -10,6 +10,13 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class ElephantStrategy implements MoveStrategy {
+    private ElephantStrategy() {
+    }
+
+    public static ElephantStrategy getInstance() {
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(
@@ -32,5 +39,9 @@ public class ElephantStrategy implements MoveStrategy {
                 .flatMap(wp1 -> wp1.move(diagonal)
                         .flatMap(wp2 -> wp2.move(diagonal)
                                 .map(dest -> Path.of(List.of(wp1, wp2), dest))));
+    }
+
+    private static class SingleInstanceHolder {
+        private static final ElephantStrategy INSTANCE = new ElephantStrategy();
     }
 }

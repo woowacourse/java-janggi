@@ -1,16 +1,18 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.Score;
 import janggi.domain.piece.strategy.HorseStrategy;
 import janggi.domain.position.Position;
 
 import java.util.Map;
 
 public class Horse extends Piece {
-    private static final HorseStrategy HORSE_STRATEGY = new HorseStrategy();
+    private static final PieceName HORSE_NAME = new PieceName("馬", "馬");
+    private static final Score HORSE_SCORE = new Score(5);
 
     public Horse(Camp camp) {
-        super(camp, HORSE_STRATEGY);
+        super(camp, HorseStrategy.getInstance(), HORSE_NAME, HORSE_SCORE);
     }
 
     @Override
@@ -34,12 +36,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public String choDisplayName() {
-        return "馬";
-    }
-
-    @Override
-    public String hanDisplayName() {
-        return "馬";
+    public boolean isEssential() {
+        return false;
     }
 }
