@@ -5,32 +5,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.BoardFixture;
 import dto.GameSummary;
 import dto.GameWrapper;
-import java.io.IOException;
 import java.util.List;
-import javax.sql.DataSource;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.JanggiGameRepository;
-import repository.MemoryDBConnectionUtil;
 import support.TransactionTemplate;
 
 @DisplayName("서비스 계층 테스트")
-class JanggiServiceTest {
+class JanggiServiceTest extends IntegrationTestSupport {
 
     private JanggiService janggiService;
 
     @BeforeEach
-    void setUp() throws IOException {
-        DataSource dataSource = MemoryDBConnectionUtil.getDataSource();
-        janggiService = new JanggiService(new TransactionTemplate(dataSource), new JanggiGameRepository(dataSource));
-        janggiService.clear();
-    }
-
-    @AfterEach
-    void tearDown() {
-        janggiService.clear();
+    void setUp() {
+        JanggiGameRepository repository = new JanggiGameRepository();
+        janggiService = new JanggiService(new TransactionTemplate(dataSource), repository);
     }
 
     @DisplayName("새로운 게임을 생성한다")

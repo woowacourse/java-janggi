@@ -7,9 +7,6 @@ import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import dto.GameSummary;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,38 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.sql.DataSource;
 import support.DataAccessException;
 
 public final class JanggiGameRepository {
-
-    private static final Path SCHEMA_PATH = Path.of("sql/ddl.sql");
-    private static final String QUERY_DELIMITER = ";";
-
-    private final DataSource dataSource;
-
-    public JanggiGameRepository(DataSource dataSource) throws IOException {
-        this.dataSource = dataSource;
-        executeDDL(dataSource);
-    }
-
-    private void executeDDL(DataSource dataSource) throws IOException {
-        String[] queries = Files.readString(SCHEMA_PATH)
-                .trim()
-                .split(QUERY_DELIMITER);
-
-        try (
-                Connection conn = dataSource.getConnection();
-                Statement statement = conn.createStatement()
-        ) {
-            for (String query : queries) {
-                statement.addBatch(query);
-            }
-            statement.executeBatch();
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-    }
 
     public long save(Connection conn, JanggiGame janggiGame) {
         String sql = "INSERT INTO game (current_turn) VALUES (?)";
@@ -227,23 +195,6 @@ public final class JanggiGameRepository {
             }
 
             return pieces;
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-    }
-
-    public void clear() {
-        final String DELETE_FORMAT = "DELETE FROM %s";
-        final List<String> tables = List.of("piece", "game");
-
-        try (
-                Connection connection = dataSource.getConnection();
-                Statement stmt = connection.createStatement()
-        ) {
-            for (String table : tables) {
-                stmt.addBatch(DELETE_FORMAT.formatted(table));
-            }
-            stmt.executeBatch();
         } catch (SQLException e) {
             throw new DataAccessException(e);
         }

@@ -49,8 +49,4 @@ public final class JanggiService {
     public List<GameSummary> loadAllGameSummaries() {
         return transactionTemplate.execute(repository::findAll);
     }
-
-    void clear() {
-        repository.clear();
-    }
 }

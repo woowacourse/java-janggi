@@ -6,55 +6,24 @@ import domain.game.JanggiGame;
 import domain.game.JanggiGameFixture;
 import domain.game.Side;
 import dto.GameSummary;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-import javax.sql.DataSource;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.IntegrationTestSupport;
 
 @DisplayName("리포지토리 계층 테스트")
-class JanggiGameRepositoryTest {
-
-    private static final Path TEST_SCHEMA_PATH = Path.of("src/test/resources/test_schema.sql");
-    private static final String QUERY_DELIMITER = ";";
+class JanggiGameRepositoryTest extends IntegrationTestSupport {
 
     private JanggiGameRepository repository;
     private Connection conn;
 
     @BeforeEach
-    void setUp() throws IOException, SQLException {
-        conn = MemoryDBConnectionUtil.getDataSource().getConnection();
-        conn.setAutoCommit(false);
-
-        DataSource dataSource = MemoryDBConnectionUtil.getDataSource();
-        repository = new JanggiGameRepository(dataSource);
-
-        String[] queries = Files.readString(TEST_SCHEMA_PATH)
-                .trim()
-                .split(QUERY_DELIMITER);
-
-        try (
-                Connection conn2 = dataSource.getConnection();
-                Statement statement = conn2.createStatement()
-        ) {
-            for (String query : queries) {
-                statement.execute(query);
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    @AfterEach
-    void tearDown() throws SQLException {
-        conn.rollback();
+    void setUp() throws SQLException {
+        conn = dataSource.getConnection();
+        repository = new JanggiGameRepository();
     }
 
     @DisplayName("게임을 저장한 후 ID로 조회한다")
