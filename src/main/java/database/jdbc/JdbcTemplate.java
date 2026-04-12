@@ -53,8 +53,7 @@ public class JdbcTemplate {
 
     public void update(String sql, Object... parameters) {
         connectPrepareStatement(ConnectionContext.getConnection(), sql, preparedStatement -> {
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows == 0) throw new DataAccessException(UPDATE_NOT_FOUND.getMessage());
+            preparedStatement.executeUpdate();
             return null;
         }, parameters);
     }
