@@ -1,9 +1,9 @@
 package janggi;
 
+import janggi.dao.JanggiDAO;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
-import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.GameOverTurn;
 import janggi.domain.turn.Turn;
 import janggi.view.InputView;
@@ -16,13 +16,13 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final Board board;
+    private final JanggiDAO janggiDAO = new JanggiDAO();
 
     public JanggiGame(Board board) {
         this.board = board;
     }
 
-    public void start() {
-        Turn currentTurn = new ChoTurn();
+    public void start(Turn currentTurn) {
         outputView.printBoard(board.getBoard());
         outputView.printInitialNotice();
         while (!currentTurn.isFinished()) {
@@ -46,6 +46,7 @@ public class JanggiGame {
         Position targetPosition = chooseTargetPosition(sourcePosition);
         Turn nextTurn = currentTurn.move(sourcePosition, targetPosition, board);
         outputView.printBoard(board.getBoard());
+        janggiDAO.saveGame(nextTurn, board);
 
         return nextTurn;
     }
