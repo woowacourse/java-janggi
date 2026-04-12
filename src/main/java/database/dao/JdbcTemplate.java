@@ -111,7 +111,7 @@ public class JdbcTemplate {
         }
     }
 
-    public void setParameters(PreparedStatement preparedStatement, Object... parameters) {
+    private void setParameters(PreparedStatement preparedStatement, Object... parameters) {
         try {
             for (int i = 0; i < parameters.length; i++) {
                 preparedStatement.setObject(i + 1, parameters[i]);
