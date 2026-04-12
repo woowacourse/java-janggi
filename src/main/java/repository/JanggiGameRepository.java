@@ -67,57 +67,6 @@ public class JanggiGameRepository {
         }
     }
 
-    public void saveMoveReuslt(JanggiGame game, int gameId) {
-        updateStateByGameId(gameId, game);
-        updateBoardByGameId(gameId, game);
-    }
-
-    private void updateBoardByGameId(int gameId, JanggiGame janggiGame) {
-        String sql = "DELETE FROM piece_position WHERE game_id = ?";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, gameId);
-            ps.executeUpdate();
-            saveBoard(janggiGame.getBoard(),gameId);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void updateStateByGameId(int gameId, JanggiGame janggiGame) {
-        String sql = "UPDATE game SET state=? where id = ?";
-        String stateStr = janggiGame.getStateValue();
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, stateStr);
-            ps.setInt(2, gameId);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private int findByPieceId(Piece piece) {
-        String sql = "Select id from piece where piece_type = ? AND Country = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, piece.getPieceType().getName());
-            ps.setString(2, piece.getCountry().name());
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt("id");
-            }
-            throw new SQLException("piece_id 없음");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     public JanggiGame findByGameId(int gameId) {
         State state = findStateByGameId(gameId);
         Board board = findBoardByGameId(gameId);
@@ -178,17 +127,9 @@ public class JanggiGameRepository {
         }
     }
 
-
-    private void validateDataExist(boolean isDataExist, String message) throws SQLException {
-        if (!isDataExist) {
-            throw new IllegalStateException("DB 정보 없음 - " + message);
-        }
-    }
-
-    private void validateGameIsContinue(String stateStr) {
-        if ("Exit".equals(stateStr)) {
-            throw new IllegalStateException("종료된 게임");
-        }
+    public void saveMoveReuslt(JanggiGame game, int gameId) {
+        updateStateByGameId(gameId, game);
+        updateBoardByGameId(gameId, game);
     }
 
     public void validateGame(int gameId) {
@@ -202,6 +143,63 @@ public class JanggiGameRepository {
             validateDataExist(rs.next(), "진행중인 game이 없습니다.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void updateBoardByGameId(int gameId, JanggiGame janggiGame) {
+        String sql = "DELETE FROM piece_position WHERE game_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, gameId);
+            ps.executeUpdate();
+            saveBoard(janggiGame.getBoard(),gameId);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateStateByGameId(int gameId, JanggiGame janggiGame) {
+        String sql = "UPDATE game SET state=? where id = ?";
+        String stateStr = janggiGame.getStateValue();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, stateStr);
+            ps.setInt(2, gameId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int findByPieceId(Piece piece) {
+        String sql = "Select id from piece where piece_type = ? AND Country = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, piece.getPieceType().getName());
+            ps.setString(2, piece.getCountry().name());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+            throw new SQLException("piece_id 없음");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void validateDataExist(boolean isDataExist, String message) throws SQLException {
+        if (!isDataExist) {
+            throw new IllegalStateException("DB 정보 없음 - " + message);
+        }
+    }
+
+    private void validateGameIsContinue(String stateStr) {
+        if ("Exit".equals(stateStr)) {
+            throw new IllegalStateException("종료된 게임");
         }
     }
 

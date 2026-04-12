@@ -22,7 +22,7 @@ import service.dto.ScoreDto;
 
 public class JanggiService {
 
-    private final TransactionManager txManager = new TransactionManager();
+    private final TransactionManager txManager= new TransactionManager();
 
     public void applyMove(Position start, Position end, int gameId) {
         txManager.executeWrite(conn -> {
@@ -74,24 +74,6 @@ public class JanggiService {
         return new ResultDto(buildBoardDto(board), buildColorDto(board));
     }
 
-    private BoardDto buildBoardDto(Board board) {
-        List<BoardDto.Row> boardAll = new ArrayList<>();
-        for (int x = 1; x <= Position.MAX_ROW; x++) {
-            List<String> values = mapPieceTypeRow(board,x);
-            boardAll.add(new BoardDto.Row(values));
-        }
-        return new BoardDto(boardAll);
-    }
-
-    private ColorDto buildColorDto(Board board)  {
-        List<ColorDto.Row> boardAll = new ArrayList<>();
-        for (int x = 1; x <= Position.MAX_ROW; x++) {
-            List<String> values = mapPieceCountryRow(board,x);
-            boardAll.add(new ColorDto.Row(values));
-        }
-        return new ColorDto(boardAll);
-    }
-
     public ScoreDto buildScoreDto(int gameId) {
         JanggiGame janggiGame = findGameById(gameId);
         double choScore = janggiGame.calculateScore(Country.CHO);
@@ -106,24 +88,6 @@ public class JanggiService {
             positionDtos.add(new PositionDto(position.getX(), position.getY()));
         }
         return positionDtos;
-    }
-
-    private List<String> mapPieceTypeRow(Board board, int x) {
-        List<String> values = new ArrayList<>();
-        for (int y = 1; y <= Position.MAX_COL; y++) {
-            Piece piece = board.getPiece(Position.create(x, y));
-            values.add(piece.getPieceType().getName());
-        }
-        return values;
-    }
-
-    private List<String> mapPieceCountryRow(Board board, int x) {
-        List<String> values = new ArrayList<>();
-        for (int y = 1; y <= Position.MAX_COL; y++) {
-            Piece piece = board.getPiece(Position.create(x, y));
-            values.add(piece.getCountry().getName());
-        }
-        return values;
     }
 
     public List<PositionDto> getPiecePositions(int gameId, PieceType pieceType) {
@@ -143,6 +107,42 @@ public class JanggiService {
     public Country getNowTurnCountry(int gameId)  {
         State state = findStateByGameId(gameId);
         return state.getCountry();
+    }
+
+    private BoardDto buildBoardDto(Board board) {
+        List<BoardDto.Row> boardAll = new ArrayList<>();
+        for (int x = 1; x <= Position.MAX_ROW; x++) {
+            List<String> values = mapPieceTypeRow(board,x);
+            boardAll.add(new BoardDto.Row(values));
+        }
+        return new BoardDto(boardAll);
+    }
+
+    private ColorDto buildColorDto(Board board)  {
+        List<ColorDto.Row> boardAll = new ArrayList<>();
+        for (int x = 1; x <= Position.MAX_ROW; x++) {
+            List<String> values = mapPieceCountryRow(board,x);
+            boardAll.add(new ColorDto.Row(values));
+        }
+        return new ColorDto(boardAll);
+    }
+
+    private List<String> mapPieceTypeRow(Board board, int x) {
+        List<String> values = new ArrayList<>();
+        for (int y = 1; y <= Position.MAX_COL; y++) {
+            Piece piece = board.getPiece(Position.create(x, y));
+            values.add(piece.getPieceType().getName());
+        }
+        return values;
+    }
+
+    private List<String> mapPieceCountryRow(Board board, int x) {
+        List<String> values = new ArrayList<>();
+        for (int y = 1; y <= Position.MAX_COL; y++) {
+            Piece piece = board.getPiece(Position.create(x, y));
+            values.add(piece.getCountry().getName());
+        }
+        return values;
     }
 
     private JanggiGame findGameById(int gameId) {

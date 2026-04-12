@@ -53,18 +53,6 @@ public class JanggiGame {
         return board.calculateScore(country);
     }
 
-    private Country compareScore() {
-        double choScore = calculateScore(Country.CHO);
-        double hanScore = calculateScore(Country.HAN);
-        if (choScore > hanScore){
-            return Country.CHO;
-        }
-        if (choScore < hanScore){
-            return Country.HAN;
-        }
-        return Country.NONE;
-    }
-
     public List<Position> getPiecesNowPosition(PieceType pieceType){
         return board.getPiecesNowPosition(state.getCountry(), pieceType);
     }
@@ -79,5 +67,17 @@ public class JanggiGame {
 
     public Board getBoard() {
         return board;
+    }
+
+    private Country compareScore() {
+        double choScore = calculateScore(Country.CHO);
+        double hanScore = calculateScore(Country.HAN);
+        if (choScore > hanScore){
+            return Country.CHO;
+        }
+        if (choScore < hanScore){
+            return Country.HAN;
+        }
+        return Country.NONE;
     }
 }
