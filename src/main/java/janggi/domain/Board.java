@@ -29,10 +29,6 @@ public class Board {
         return new Board(chu, han);
     }
 
-    public boolean isRunning() {
-        return chu.isRunning() && han.isRunning();
-    }
-
     public Map<Position, Piece> makeSnapShot() {
         Map<Position, Piece> allPieces = new HashMap<>(chu.getPieces());
         allPieces.putAll(han.getPieces());
@@ -67,10 +63,10 @@ public class Board {
         validateCanMove(start, end, currentTeamType);
         Team updatedCurrentTeam = currentTeam(currentTeamType).move(start, end);
         Team updatedOpponentTeam = removeOpponentPiece(currentTeamType, end);
-        if (updatedOpponentTeam.isLose()) {
-            updatedCurrentTeam = updatedCurrentTeam.updateWin();
-            return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
-        }
+//        if (updatedOpponentTeam.isLose()) {
+//            updatedCurrentTeam = updatedCurrentTeam.updateWin();
+//            return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
+//        }
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
     }
 
@@ -80,7 +76,18 @@ public class Board {
         return allPieces;
     }
 
+    public boolean isSurviveAllGung() {
+        return chu.isGungSurvive() && han.isGungSurvive();
+    }
+
+    public boolean isChuWin() {
+        return !chu.isLose();
+    }
+
     public String winTeamName() {
+        if (chu.isGungSurvive() && han.isGungSurvive()) {
+            throw new IllegalArgumentException("아직 승리 팀이 가려지지 않았습니다.");
+        }
         if (chu.isWin()) {
             return TeamType.CHU.getName();
         }

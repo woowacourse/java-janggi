@@ -60,7 +60,8 @@ public class JanggiGameService {
     }
 
     private JanggiGame loadPreviousJanggiGame(Long gameId) {
-        TurnDto turnDto = turnService.findLastTurnByGameId(gameId);
+        GameDto gameDto = gameService.findById(gameId);
+        TurnDto turnDto = turnService.findLastTurnByGameId(gameDto.id());
 
         List<PieceDto> pieceDtos = pieceService.findPiecesByTurnId(turnDto.id());
 
@@ -72,9 +73,9 @@ public class JanggiGameService {
 
         Board board = Board.loadPreviousBoard(chu, han);
 
-        Turn turn = Turn.loadPreviousTurn(turnDto.id(), turnDto.currentTurnTeam(), board);
+        Turn turn = Turn.loadPreviousTurn(turnDto.id(), turnDto.currentTurnTeam(), board, turnDto.turnStatus());
 
-        return JanggiGame.loadPreviousJanggiGame(gameId, turn);
+        return JanggiGame.loadPreviousJanggiGame(gameDto.id(), turn);
     }
 
     private List<PieceDto> getPieceDtos(Turn savedTurn) {

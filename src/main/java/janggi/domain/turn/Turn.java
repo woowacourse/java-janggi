@@ -12,23 +12,25 @@ public class Turn {
     private final Long id;
     private final TeamType currentTeam;
     private final Board board;
+    private final TurnStatus turnStatus;
 
-    private Turn(Long id, TeamType currentTeam, Board board) {
+    private Turn(Long id, TeamType currentTeam, Board board, TurnStatus turnStatus) {
         this.id = id;
         this.currentTeam = currentTeam;
         this.board = board;
+        this.turnStatus = turnStatus;
     }
 
     public static Turn createInitialTurn() {
-        return new Turn(null, TeamType.HAN, Board.createInitialBoard());
+        return new Turn(null, TeamType.HAN, Board.createInitialBoard(), TurnStatus.DRAW);
     }
 
-    public static Turn loadPreviousTurn(long turnId, TeamType teamType, Board board) {
-        return new Turn(turnId, teamType, board);
+    public static Turn loadPreviousTurn(long turnId, TeamType teamType, Board board, TurnStatus turnStatus) {
+        return new Turn(turnId, teamType, board, turnStatus);
     }
 
     public static Turn savedTurn(long turnId, Turn turn) {
-        return new Turn(turnId, turn.currentTeam, turn.board);
+        return new Turn(turnId, turn.currentTeam, turn.board, turn.turnStatus);
     }
 
     public long getId() {
@@ -39,8 +41,12 @@ public class Turn {
         return currentTeam;
     }
 
+    public TurnStatus getTurnStatus() {
+        return turnStatus;
+    }
+
     public boolean isRunning() {
-        return board.isRunning();
+        return turnStatus == TurnStatus.DRAW;
     }
 
     public Map<Position, Piece> makeBoardSnapShot() {
@@ -67,7 +73,13 @@ public class Turn {
     public Turn move(Position start, Position end) {
         TeamType currentTeamType = opponentTeamType();
         Board movedBoard = board.move(start, end, currentTeamType);
-        return new Turn(null, currentTeamType, movedBoard);
+        if (board.isSurviveAllGung()) {
+            return new Turn(null, currentTeamType, movedBoard, TurnStatus.DRAW);
+        }
+        if (board.isChuWin()) {
+            return new Turn(null, currentTeamType, movedBoard, TurnStatus.CHU_WIN);
+        }
+        return new Turn(null, currentTeamType, movedBoard, TurnStatus.HAN_WIN);
     }
 
     public Map<Position, Piece> allPieces() {

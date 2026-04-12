@@ -6,6 +6,7 @@ import janggi.dto.GameDto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static janggi.domain.game.GameStatus.IN_PROGRESS;
 
@@ -49,7 +50,29 @@ public class GameDao {
             }
             return games;
         } catch (SQLException e) {
-            throw new RuntimeException("진행 중인 게임 목록 추출 중 오류 발생", e);
+            throw new RuntimeException("진행 중인 게임 목록 조회 중 오류 발생", e);
+        }
+    }
+
+    public Optional<GameDto> findById(Long id) {
+        String sql = "SELECT id, game_status FROM game WHERE id = (?)";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setLong(1, id);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return Optional.of(GameDto.of(
+                            rs.getLong("id"),
+                            rs.getString("game_status")
+                    ));
+                }
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 데이터 조회 중 오류 발생", e);
         }
     }
 

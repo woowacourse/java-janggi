@@ -10,27 +10,33 @@ import java.util.*;
 public abstract class Team {
 
     private final Map<Position, Piece> pieces;
-    private final GameResult gameResult;
+    private final boolean gungSurvive;
+//    private final GameResult gameResult;
 
-    public Team(Map<Position, Piece> pieces, GameResult gameResult) {
+    public Team(Map<Position, Piece> pieces, boolean gungSurvive) {
         this.pieces = pieces;
-        this.gameResult = gameResult;
+        this.gungSurvive = gungSurvive;
+//        this.gameResult = gameResult;
     }
 
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
     }
 
-    public boolean isRunning() {
-        return gameResult == GameResult.RUNNING;
+    public boolean isGungSurvive() {
+        return gungSurvive;
     }
 
+    //    public boolean isRunning() {
+//        return gameResult == GameResult.RUNNING;
+//    }
+
     public boolean isLose() {
-        return gameResult == GameResult.LOSE;
+        return !gungSurvive;
     }
 
     public boolean isWin() {
-        return gameResult == GameResult.WIN;
+        return gungSurvive;
     }
 
     public Map<Position, BoardSpot> makeSnapShot() {
@@ -89,8 +95,6 @@ public abstract class Team {
     public abstract Team move(Position start, Position end);
 
     public abstract Team remove(Position position);
-
-    public abstract Team updateWin();
 
     public abstract double calculateTotalScore();
 }

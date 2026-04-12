@@ -3,7 +3,8 @@ package janggi.domain.game;
 public enum GameStatus {
 
     IN_PROGRESS("IN_PROGRESS"),
-    FINISHED("FINISHED"),
+    CHU_WIN("CHU_WIN"),
+    HAN_WIN("HAN_WIN"),
     ;
 
     private final String format;
@@ -23,5 +24,9 @@ public enum GameStatus {
 
     public String getFormat() {
         return format;
+    }
+
+    public boolean isInProgress() {
+        return this.equals(IN_PROGRESS);
     }
 }

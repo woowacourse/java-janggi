@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS turn (
     `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
     `game_id`           BIGINT NOT NULL,
     `current_turn_team` VARCHAR(10) NOT NULL,
+    `turn_status` VARCHAR(10) NOT NULL,
     CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
 );
 

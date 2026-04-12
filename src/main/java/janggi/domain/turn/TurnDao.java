@@ -9,13 +9,14 @@ import java.util.Optional;
 public class TurnDao {
 
     public long save(TurnDto turnDto) {
-        String sql = "INSERT INTO turn (game_id, current_turn_team) VALUES (?, ?)";
+        String sql = "INSERT INTO turn (game_id, current_turn_team, turn_status) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setLong(1, turnDto.gameId());
             pstmt.setString(2, turnDto.currentTurnTeamName());
+            pstmt.setString(3, turnDto.turnStatusFormat());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -29,7 +30,7 @@ public class TurnDao {
     }
 
     public Optional<TurnDto> findLastTurnByGameId(long gameId) {
-        String sql = "SELECT id, game_id, current_turn_team FROM turn " +
+        String sql = "SELECT id, game_id, current_turn_team, turn_status FROM turn " +
                 "WHERE game_id = ? ORDER BY id DESC LIMIT 1";
 
         try (Connection conn = DatabaseConnector.getConnection();
@@ -42,7 +43,8 @@ public class TurnDao {
                     return Optional.of(TurnDto.of(
                             rs.getLong("id"),
                             rs.getLong("game_id"),
-                            rs.getString("current_turn_team")
+                            rs.getString("current_turn_team"),
+                            rs.getString("turn_status")
                     ));
                 }
                 return Optional.empty();

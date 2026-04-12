@@ -1,6 +1,5 @@
 package janggi.domain.team;
 
-import janggi.domain.game.GameResult;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -10,16 +9,16 @@ import java.util.Map;
 
 public class Chu extends Team {
 
-    public Chu(Map<Position, Piece> pieces, GameResult gameResult) {
-        super(pieces, gameResult);
+    public Chu(Map<Position, Piece> pieces, boolean gungSurvive) {
+        super(pieces, gungSurvive);
     }
 
     public static Chu createInitialChu() {
-        return new Chu(initializePieces(), GameResult.RUNNING);
+        return new Chu(initializePieces(), true);
     }
 
     public static Chu loadLastChu(Map<Position, Piece> pieces) {
-        return new Chu(pieces, GameResult.RUNNING);
+        return new Chu(pieces, true);
     }
 
     @Override
@@ -29,7 +28,7 @@ public class Chu extends Team {
         Map<Position, Piece> updatedPieces = new HashMap<>(pieces);
         updatedPieces.remove(start);
         updatedPieces.put(end, piece);
-        return new Chu(updatedPieces, GameResult.RUNNING);
+        return new Chu(updatedPieces, true);
     }
 
     @Override
@@ -37,14 +36,9 @@ public class Chu extends Team {
         Map<Position, Piece> updatedPieces = new HashMap<>(getPieces());
         Piece removedPiece = updatedPieces.remove(position);
         if (removedPiece.getPieceType() == PieceType.GUNG) {
-            return new Chu(updatedPieces, GameResult.LOSE);
+            return new Chu(updatedPieces, false);
         }
-        return new Chu(updatedPieces, GameResult.RUNNING);
-    }
-
-    @Override
-    public Team updateWin() {
-        return new Chu(getPieces(), GameResult.WIN);
+        return new Chu(updatedPieces, true);
     }
 
     @Override
