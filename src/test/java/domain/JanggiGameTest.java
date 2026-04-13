@@ -20,7 +20,7 @@ class JanggiGameTest {
         Position target = new Position(5, 2);
 
         Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece soldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
                 new GreenSoldierMoveStrategy());
         Map<Position, Piece> testBoard = new HashMap<>();
@@ -39,7 +39,7 @@ class JanggiGameTest {
         Map<Position, Piece> testBoard = new HashMap<>();
         Position current = new Position(10, 3);
         Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         testBoard.put(current, horsePiece);
         Board board = Board.of(testBoard);
 
@@ -71,7 +71,7 @@ class JanggiGameTest {
         Map<Position, Piece> testBoard = new HashMap<>();
         Position current = new Position(3, 3);
         Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         testBoard.put(current, horsePiece);
         Board board = Board.of(testBoard);
 
@@ -90,9 +90,9 @@ class JanggiGameTest {
 
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece soldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         testBoard.put(current, horsePiece);
         testBoard.put(target, soldierPiece);
         Board board = Board.of(testBoard);

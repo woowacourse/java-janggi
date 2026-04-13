@@ -21,7 +21,7 @@ class CannonMoveStrategyTest {
     void cannon_can_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(9, 4);
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -31,7 +31,7 @@ class CannonMoveStrategyTest {
     void cannon_cannot_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(4, 5);
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
@@ -40,7 +40,7 @@ class CannonMoveStrategyTest {
     @MethodSource("moveableWithInRedPalaceDiagonalPositions")
     @DisplayName("포 기물이 레드팀 궁성 영역의 모서리인 경우, 반대편 대각선 모서리로 이동할 수 있다. ex) 0,3 -> 2,5 이동 가능")
     void cannon_within_red_palace_corner_can_move_opposite_diagonal_corner_test(Position current, Position destination) {
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -49,7 +49,7 @@ class CannonMoveStrategyTest {
     @MethodSource("moveableWithInGreenPalaceDiagonalPositions")
     @DisplayName("포 기물이 그린팀 궁성 영역의 모서리인 경우, 반대편 대각선 모서리로 이동할 수 있다. ex) 7,3 -> 9,5 이동 가능")
     void cannon_within_green_palace_corner_can_move_opposite_diagonal_corner_test(Position current, Position destination) {
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -58,7 +58,7 @@ class CannonMoveStrategyTest {
     @MethodSource("validPath")
     @DisplayName("포 기물은 목적지로 이동하는 경로에 기물이 단 하나만 포함되어야 이동할 수 있다.")
     void cannon_can_move_hasValidPathTo_valid_path_test(Position current, Position destination, List<Position> obstacles) {
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isTrue();
     }
@@ -67,7 +67,7 @@ class CannonMoveStrategyTest {
     @MethodSource("nonValidPath")
     @DisplayName("포 기물은 목적지로 이동하는 경로에 기물이 2개 이상이거나 없다면 이동할 수 없다.")
     void cannon_cannot_move_hasValidPathTo_invalid_path_test(Position current, Position destination, List<Position> obstacles) {
-        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
+        CannonMoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isFalse();
     }

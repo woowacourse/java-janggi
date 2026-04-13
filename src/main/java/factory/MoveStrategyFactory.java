@@ -34,23 +34,23 @@ public class MoveStrategyFactory {
 
     private MoveStrategy createDefaultMoveStrategy(PieceType pieceType) {
         if (pieceType == PieceType.GUARD) {
-            return new PalaceMoveStrategy();
+            return PalaceMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.GENERAL) {
-            return new PalaceMoveStrategy();
+            return PalaceMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.HORSE) {
-            return new HorseMoveStrategy();
+            return HorseMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.ELEPHANT) {
-            return new ElephantMoveStrategy();
+            return ElephantMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.CHARIOT) {
-            return new ChariotMoveStrategy();
+            return ChariotMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.CANNON) {
-            return new CannonMoveStrategy();
+            return CannonMoveStrategy.getInstance();
         }
-        return new NonMoveableStrategy();
+        return NonMoveableStrategy.getInstance();
     }
 }

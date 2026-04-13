@@ -18,9 +18,9 @@ class BoardTest {
     @DisplayName("플레이어가 선택한 기물과 플레이어가 가고자 하는 위치에 같은 팀 기물이 존재한다면 이동할 수 없다.")
     void cannot_move_sameTeam_test() {
         Piece currentHorsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece targetSoldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Position current = new Position(3, 3);
         Position target = new Position(5, 2);
 
@@ -37,9 +37,9 @@ class BoardTest {
         Position current = new Position(3, 3);
         Position target = new Position(5, 2);
         Piece currentHorsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece targetSoldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.RED),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Map<Position, Piece> testBoard = new HashMap<>();
 
         putPiecesOnBoard(testBoard, List.of(current, target), List.of(currentHorsePiece, targetSoldierPiece));
@@ -59,9 +59,9 @@ class BoardTest {
         Position current = new Position(3, 3);
         Position target = new Position(5, 2);
         Piece currentHorsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece targetSoldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.RED),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Map<Position, Piece> testBoard = new HashMap<>();
 
         putPiecesOnBoard(testBoard, List.of(current, target), List.of(currentHorsePiece, targetSoldierPiece));
@@ -74,11 +74,11 @@ class BoardTest {
     @DisplayName("포는 포를 넘을 수 없다.")
     void cannot_jump_cannon_test() {
         Piece selected = Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
         Piece fixed = Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
         Piece destination = Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE),
-                new NonMoveableStrategy());
+                NonMoveableStrategy.getInstance());
         Position current = new Position(3, 3);
         Position intermediatePiecePosition = new Position(5, 3);
         Position target = new Position(7, 3);
@@ -96,10 +96,10 @@ class BoardTest {
     void cannot_catch_cannon_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece selected = Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN),
-                new CannonMoveStrategy());
-        Piece fixed = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN), new HorseMoveStrategy());
+                CannonMoveStrategy.getInstance());
+        Piece fixed = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.getInstance());
         Piece destination = Piece.of(new PieceProperty(PieceType.CANNON, Team.RED),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
 
         Position current = new Position(3, 3);
         Position intermediatePiecePosition = new Position(5, 3);
@@ -116,13 +116,13 @@ class BoardTest {
     @DisplayName("포는 이동 경로에 기물이 2개 이상 있다면 이동할 수 없다.")
     void cannot_move_when_two_or_more_pieces_block_the_path_test() {
         Piece selected = Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
         Piece fixedHorse = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece fixedChariot = Piece.of(new PieceProperty(PieceType.CHARIOT, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece destination = Piece.of(new PieceProperty(PieceType.CANNON, Team.RED),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
 
         Position current = new Position(3, 3);
         Position firstIntermediatePiecePosition = new Position(5, 3);
@@ -142,11 +142,11 @@ class BoardTest {
     @DisplayName("포는 이동 경로에 포가 아닌 기물이 1개 있다면 이동할 수 있다.")
     void can_move_when_one_pieces_block_the_path_test() {
         Piece selected = Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN),
-                new CannonMoveStrategy());
+                CannonMoveStrategy.getInstance());
         Piece fixedHorse = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
-                new HorseMoveStrategy());
+                HorseMoveStrategy.getInstance());
         Piece destination = Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE),
-                new NonMoveableStrategy());
+                NonMoveableStrategy.getInstance());
 
         Position current = new Position(3, 3);
         Position intermediatePiecePosition = new Position(5, 3);

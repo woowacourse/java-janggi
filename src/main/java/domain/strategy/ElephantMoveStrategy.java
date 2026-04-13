@@ -8,6 +8,15 @@ import java.util.Map;
 
 public class ElephantMoveStrategy extends MoveStrategy {
 
+    private static final ElephantMoveStrategy INSTANCE = new ElephantMoveStrategy();
+
+    private ElephantMoveStrategy() {
+    }
+
+    public static ElephantMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     private Map<Position, List<Position>> createRoutesByDestination(Position currentPosition) {
         Map<Position, List<Position>> routesByDestination = new HashMap<>();
 

@@ -50,7 +50,7 @@ public class Board {
     }
 
     private static Piece emptyPieceAt() {
-        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), new NonMoveableStrategy());
+        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.getInstance());
     }
 
     private boolean hasSameTeamPieceAt(Piece piece, Position destination) {

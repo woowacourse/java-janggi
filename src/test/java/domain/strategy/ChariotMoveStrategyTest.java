@@ -21,7 +21,7 @@ class ChariotMoveStrategyTest {
     void chariot_can_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(9, 4);
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -30,7 +30,7 @@ class ChariotMoveStrategyTest {
     @MethodSource("moveableWithInRedPalaceDiagonalPositions")
     @DisplayName("차 기물이 궁성 영역의 모서리인 경우, 반대편 대각선 모서리에도 이동할 수 있다. ex) 0,3 -> 1,4 -> 2,5 이동 가능")
     void chariot_within_red_palace_corner_can_move_opposite_diagonal_corner_test(Position current, Position destination) {
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -39,7 +39,7 @@ class ChariotMoveStrategyTest {
     @MethodSource("moveableWithInGreenPalaceDiagonalPositions")
     @DisplayName("차 기물이 궁성 영역의 모서리인 경우, 반대편 대각선 모서리에도 이동할 수 있다. ex) 7,3 -> 8,4 -> 9,5 이동 가능")
     void chariot_within_green_palace_corner_can_move_opposite_diagonal_corner_test(Position current, Position destination) {
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -49,7 +49,7 @@ class ChariotMoveStrategyTest {
     void chariot_same_position_cannot_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(4, 4);
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
@@ -59,7 +59,7 @@ class ChariotMoveStrategyTest {
     void chariot_cannot_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(9, 5);
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
@@ -68,7 +68,7 @@ class ChariotMoveStrategyTest {
     @MethodSource("blockedRoute")
     @DisplayName("차 기물은 목적지로 이동하는 경로에 기물이 있다면 이동할 수 없다.")
     void chariot_hasValidPathTo_blocked_route_cannot_move_test(Position current, Position destination, List<Position> obstacles) {
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isFalse();
     }
@@ -77,7 +77,7 @@ class ChariotMoveStrategyTest {
     @MethodSource("nonBlockedRoute")
     @DisplayName("차 기물은 목적지로 이동하는 경로에 기물이 없다면 이동할 수 있다.")
     void chariot_chasValidPathTo_non_blocked_route_an_move_test(Position current, Position destination, List<Position> obstacles) {
-        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isTrue();
     }

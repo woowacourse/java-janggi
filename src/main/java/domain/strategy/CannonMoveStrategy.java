@@ -7,6 +7,15 @@ import java.util.stream.Stream;
 
 public class CannonMoveStrategy extends MoveStrategy {
 
+    private static final CannonMoveStrategy INSTANCE = new CannonMoveStrategy();
+
+    private CannonMoveStrategy() {
+    }
+
+    public static CannonMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
         if (isPalaceDiagonalMove(currentPosition, destination)) {

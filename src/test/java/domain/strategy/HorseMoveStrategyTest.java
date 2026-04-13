@@ -17,7 +17,7 @@ class HorseMoveStrategyTest {
     @MethodSource("moveablePositions")
     @DisplayName("마는 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 대각선으로 이동할 수 있어야 한다.")
     void horse_can_move_test(Position current, Position destination) {
-        HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
+        HorseMoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -26,7 +26,7 @@ class HorseMoveStrategyTest {
     @MethodSource("nonMovablePositions")
     @DisplayName("마는 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 대각선 외에는 이동할 수 없어야 한다.")
     void horse_cannot_move_test(Position current, Position destination) {
-        HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
+        HorseMoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
@@ -37,7 +37,7 @@ class HorseMoveStrategyTest {
         Position current = new Position(4, 4);
         Position destination = current.up().upCrossLeft();
         List<Position> blockedObstacles = List.of(current.up());
-        HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
+        HorseMoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, blockedObstacles)).isFalse();
     }
@@ -48,7 +48,7 @@ class HorseMoveStrategyTest {
         Position current = new Position(4, 4);
         Position destination = current.up().upCrossLeft();
         List<Position> clearObstacles = List.of();
-        HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
+        HorseMoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, clearObstacles)).isTrue();
     }

@@ -7,6 +7,15 @@ import java.util.stream.Stream;
 
 public class ChariotMoveStrategy extends MoveStrategy {
 
+    private static final ChariotMoveStrategy INSTANCE = new ChariotMoveStrategy();
+
+    private ChariotMoveStrategy() {
+    }
+
+    public static ChariotMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
         if (isPalaceDiagonalMove(currentPosition, destination)) {

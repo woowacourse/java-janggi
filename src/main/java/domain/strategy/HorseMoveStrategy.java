@@ -8,6 +8,15 @@ import java.util.Map;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
+    private static final HorseMoveStrategy INSTANCE = new HorseMoveStrategy();
+
+    private HorseMoveStrategy() {
+    }
+
+    public static HorseMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     private Map<Position, List<Position>> createRoutesByDestination(Position currentPosition) {
         Map<Position, List<Position>> routesByDestination = new HashMap<>();
 

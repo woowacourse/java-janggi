@@ -7,6 +7,15 @@ import java.util.stream.Stream;
 
 public class PalaceMoveStrategy extends MoveStrategy {
 
+    private static final PalaceMoveStrategy INSTANCE = new PalaceMoveStrategy();
+
+    private PalaceMoveStrategy() {
+    }
+
+    public static PalaceMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
         if (!isPalaceArea(destination)) {
