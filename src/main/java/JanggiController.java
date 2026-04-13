@@ -4,7 +4,8 @@ import domain.InvalidMoveException;
 import domain.Position;
 import dto.BoardStatusDto;
 import java.sql.SQLException;
-import repository.JdbcRepository;
+import repository.BoardRepository;
+import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -12,17 +13,19 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JdbcRepository jdbcRepository;
+    private final BoardRepository boardRepository;
+    private final GameRepository gameRepository;
 
-    JanggiController(InputView inputView, OutputView outputView, JdbcRepository jdbcRepository) {
+    JanggiController(InputView inputView, OutputView outputView, BoardRepository boardRepository, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.jdbcRepository = jdbcRepository;
+        this.boardRepository = boardRepository;
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
         try {
-            Long gameId = jdbcRepository.findPlayingGame();
+            Long gameId = gameRepository.findPlayingGame();
             GameContext gameContext = loadOrGenerateBoard(gameId);
             gameContext = playJanggi(gameContext);
             printResult(gameContext);
@@ -34,12 +37,12 @@ public class JanggiController {
     private GameContext loadOrGenerateBoard(Long gameId) {
         if (gameId == null) {
             Board board = generateBoard();
-            long newGameId = jdbcRepository.createGame(board, Camp.CHO);
-            jdbcRepository.updateBoard(newGameId, board);
+            long newGameId = gameRepository.createGame(board, Camp.CHO);
+            boardRepository.updateBoard(newGameId, board);
             return new GameContext(newGameId, board, Camp.CHO);
         }
-        Board board = jdbcRepository.findBoard(gameId);
-        Camp camp = jdbcRepository.findCurrentCamp(gameId);
+        Board board = boardRepository.findBoard(gameId);
+        Camp camp = gameRepository.findCurrentCamp(gameId);
         return new GameContext(gameId, board, camp);
     }
 
@@ -53,7 +56,7 @@ public class JanggiController {
     }
 
     private GameContext playJanggi(GameContext gameContext) throws SQLException {
-        Camp camp = jdbcRepository.findCurrentCamp(gameContext.gameId());
+        Camp camp = gameRepository.findCurrentCamp(gameContext.gameId());
         printBoard(gameContext.board());
         while (!gameContext.board().isGameOver()) {
             try {
@@ -64,9 +67,9 @@ public class JanggiController {
                 if (!gameContext.board().isGameOver()) {
                     camp = camp.turnCamp();
                 }
-                jdbcRepository.updateGame(gameContext.gameId(), gameContext.board(), camp,
+                gameRepository.updateGame(gameContext.gameId(), gameContext.board(), camp,
                         gameContext.board().isGameOver());
-                jdbcRepository.updateBoard(gameContext.gameId(), gameContext.board());
+                boardRepository.updateBoard(gameContext.gameId(), gameContext.board());
             } catch (InvalidMoveException e) {
                 outputView.printErrorMessage(e);
             }
