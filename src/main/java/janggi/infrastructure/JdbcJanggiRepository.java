@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.sql.DataSource;
 
@@ -158,7 +159,12 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
             pstmt.setLong(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.isBeforeFirst()) {
+                    throw new NoSuchElementException(ERROR_NOT_FOUND_GAME);
+                }
+
                 while (rs.next()) {
+
                     Position position = new Position(rs.getInt(COLUMN_ROW_INDEX), rs.getInt(COLUMN_COL_INDEX));
 
                     // DB 문자열 -> Enum 변환
