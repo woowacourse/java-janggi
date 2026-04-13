@@ -3,10 +3,10 @@ package domain.player;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Side;
+import domain.common.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
-import domain.state.ActiveTurn;
+import domain.turn.ActiveTurn;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {

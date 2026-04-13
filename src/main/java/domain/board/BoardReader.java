@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Position;
+import domain.common.Position;
 import domain.piece.Piece;
 
 public interface BoardReader {

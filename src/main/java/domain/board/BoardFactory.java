@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.Position;
-import domain.Side;
+import domain.common.Position;
+import domain.common.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.piece.PieceType;

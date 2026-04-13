@@ -1,15 +1,15 @@
 package domain.player;
 
-import domain.Side;
-import domain.state.ActiveTurn;
-import domain.state.InactiveTurn;
+import domain.common.Side;
+import domain.turn.ActiveTurn;
+import domain.turn.InactiveTurn;
 import java.util.List;
 
 public class Players {
     private final List<Player> players;
 
     private Players(Player cho, Player han) {
-        this.players = java.util.List.of(cho, han);
+        this.players = List.of(cho, han);
     }
 
     public static Players createInitial(Name choName, Name hanName) {

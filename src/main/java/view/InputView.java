@@ -1,6 +1,6 @@
 package view;
 
-import domain.Side;
+import domain.common.Side;
 import java.util.Scanner;
 
 public class InputView {
@@ -12,6 +12,19 @@ public class InputView {
 
     public String readPlayerName(Side side) {
         System.out.printf("%s나라 플레이어 이름 입력: ", side.getName());
+        return scanner.nextLine();
+    }
+
+    public String readGameStartCommand() {
+        System.out.println("""
+                게임 시작 메뉴를 선택하세요.
+                1. 새로 시작
+                2. 게임 불러오기""");
+        return scanner.nextLine();
+    }
+
+    public String readSavedGameNumber() {
+        System.out.println("불러올 게임 번호를 입력하세요.");
         return scanner.nextLine();
     }
 

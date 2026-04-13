@@ -1,10 +1,10 @@
 package domain.piece;
 
-import domain.Position;
-import domain.Side;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.BoardReader;
-import domain.strategy.MovementStrategy;
-import domain.strategy.Path;
+import domain.movement.strategy.MovementStrategy;
+import domain.movement.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
+    protected List<Position> filterValidPositions(List<Path> paths, BoardReader board) {
         return paths.stream()
                 .flatMap(path -> collectPathPositions(path, board).stream())
                 .toList();
@@ -49,6 +49,11 @@ public class Chariot extends Piece {
             return Optional.of(position);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     @Override

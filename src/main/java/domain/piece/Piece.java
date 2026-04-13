@@ -1,11 +1,11 @@
 package domain.piece;
 
-import domain.Destinations;
-import domain.Position;
-import domain.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.BoardReader;
-import domain.strategy.MovementStrategy;
-import domain.strategy.Path;
+import domain.movement.strategy.MovementStrategy;
+import domain.movement.Path;
 import java.util.List;
 
 public abstract class Piece {
@@ -19,11 +19,11 @@ public abstract class Piece {
 
     public Destinations findDestinations(Position current, BoardReader board) {
         List<Path> paths = movementStrategy.generatePaths(current);
-        List<Position> validDestinations = filterValidPositions(current, paths, board);
+        List<Position> validDestinations = filterValidPositions(paths, board);
         return new Destinations(validDestinations);
     }
 
-    protected abstract List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board);
+    protected abstract List<Position> filterValidPositions(List<Path> paths, BoardReader board);
 
     protected List<Position> filterStandardPaths(List<Path> paths, BoardReader board) {
         return paths.stream()
@@ -61,5 +61,6 @@ public abstract class Piece {
         return false;
     }
 
+    public abstract PieceType getPieceType();
     public abstract String getName();
 }

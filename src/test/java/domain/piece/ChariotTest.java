@@ -2,9 +2,9 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Destinations;
-import domain.Position;
-import domain.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.Board;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -66,5 +66,31 @@ class ChariotTest {
         // Then: 적군이 있는 (5, 0)까지는 이동 가능하지만, 그 너머(6, 0)는 불가능해야 함
         assertThat(movable.getPositions()).contains(Position.of(1, 0), Position.of(4, 0), Position.of(5, 0));
         assertThat(movable.getPositions()).doesNotContain(Position.of(6, 0));
+    }
+
+    @Test
+    @DisplayName("차는 궁성 대각선으로 연속 이동할 수 있다")
+    void moveDiagonalInPalace() {
+        Position current = Position.of(3, 0);
+        Board board = new Board(Map.of(current, PieceFactory.createChariot(Side.CHO)));
+
+        Destinations movable = board.findDestinations(current);
+
+        assertThat(movable.getPositions()).contains(Position.of(4, 1), Position.of(5, 2));
+    }
+
+    @Test
+    @DisplayName("차는 궁성 대각선 경로에서 아군을 만나면 더 이동할 수 없다")
+    void allyObstacleInPalaceDiagonal() {
+        Position current = Position.of(3, 0);
+        Position ally = Position.of(4, 1);
+        Board board = new Board(Map.of(
+                current, PieceFactory.createChariot(Side.CHO),
+                ally, PieceFactory.createSoldier(Side.CHO)
+        ));
+
+        Destinations movable = board.findDestinations(current);
+
+        assertThat(movable.getPositions()).doesNotContain(Position.of(4, 1), Position.of(5, 2));
     }
 }

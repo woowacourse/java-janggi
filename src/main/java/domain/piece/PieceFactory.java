@@ -1,26 +1,41 @@
 package domain.piece;
 
-import domain.Side;
-import domain.strategy.ContinuousStrategy;
-import domain.strategy.Direction;
-import domain.strategy.MovementStrategy;
-import domain.strategy.OneStepStrategy;
-import domain.strategy.SequenceStrategy;
+import domain.common.Side;
+import domain.movement.strategy.CompositeMovementStrategy;
+import domain.movement.strategy.ContinuousStrategy;
+import domain.common.Direction;
+import domain.movement.strategy.MovementStrategy;
+import domain.movement.strategy.OneStepStrategy;
+import domain.movement.strategy.PalaceDiagonalContinuousStrategy;
+import domain.movement.strategy.PalaceGeneralGuardStrategy;
+import domain.movement.strategy.PalaceSoldierDiagonalStrategy;
+import domain.movement.strategy.SequenceStrategy;
+import java.util.List;
 import java.util.Map;
 
 public class PieceFactory {
-    private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(Direction.linear());
     private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(Direction.horseSequences());
     private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(Direction.elephantSequences());
-    private static final MovementStrategy CONTINUOUS_STRATEGY = new ContinuousStrategy(Direction.linear());
+    private static final MovementStrategy LINEAR_CONTINUOUS_STRATEGY = new ContinuousStrategy(Direction.linear());
+    private static final MovementStrategy PALACE_DIAGONAL_CONTINUOUS_STRATEGY = new PalaceDiagonalContinuousStrategy();
+    private static final Map<Side, MovementStrategy> GENERAL_GUARD_STRATEGIES = Map.of(
+            Side.CHO, new PalaceGeneralGuardStrategy(Side.CHO),
+            Side.HAN, new PalaceGeneralGuardStrategy(Side.HAN)
+    );
+    private static final MovementStrategy CHARIOT_STRATEGY = new CompositeMovementStrategy(
+            List.of(LINEAR_CONTINUOUS_STRATEGY, PALACE_DIAGONAL_CONTINUOUS_STRATEGY)
+    );
+    private static final MovementStrategy CANNON_STRATEGY = new CompositeMovementStrategy(
+            List.of(LINEAR_CONTINUOUS_STRATEGY, PALACE_DIAGONAL_CONTINUOUS_STRATEGY)
+    );
 
     private static final Map<Side, General> GENERALS = Map.of(
-            Side.CHO, new General(Side.CHO, LINEAR_ONE_STEP),
-            Side.HAN, new General(Side.HAN, LINEAR_ONE_STEP)
+            Side.CHO, new General(Side.CHO, GENERAL_GUARD_STRATEGIES.get(Side.CHO)),
+            Side.HAN, new General(Side.HAN, GENERAL_GUARD_STRATEGIES.get(Side.HAN))
     );
     private static final Map<Side, Guard> GUARDS = Map.of(
-            Side.CHO, new Guard(Side.CHO, LINEAR_ONE_STEP),
-            Side.HAN, new Guard(Side.HAN, LINEAR_ONE_STEP)
+            Side.CHO, new Guard(Side.CHO, GENERAL_GUARD_STRATEGIES.get(Side.CHO)),
+            Side.HAN, new Guard(Side.HAN, GENERAL_GUARD_STRATEGIES.get(Side.HAN))
     );
     private static final Map<Side, Soldier> SOLDIERS = Map.of(
             Side.CHO, new Soldier(Side.CHO, soldierStrategy(Side.CHO)),
@@ -35,12 +50,12 @@ public class PieceFactory {
             Side.HAN, new Elephant(Side.HAN, ELEPHANT_STRATEGY)
     );
     private static final Map<Side, Chariot> CHARIOTS = Map.of(
-            Side.CHO, new Chariot(Side.CHO, CONTINUOUS_STRATEGY),
-            Side.HAN, new Chariot(Side.HAN, CONTINUOUS_STRATEGY)
+            Side.CHO, new Chariot(Side.CHO, CHARIOT_STRATEGY),
+            Side.HAN, new Chariot(Side.HAN, CHARIOT_STRATEGY)
     );
     private static final Map<Side, Cannon> CANNONS = Map.of(
-            Side.CHO, new Cannon(Side.CHO, CONTINUOUS_STRATEGY),
-            Side.HAN, new Cannon(Side.HAN, CONTINUOUS_STRATEGY)
+            Side.CHO, new Cannon(Side.CHO, CANNON_STRATEGY),
+            Side.HAN, new Cannon(Side.HAN, CANNON_STRATEGY)
     );
 
     private PieceFactory() {}
@@ -54,6 +69,11 @@ public class PieceFactory {
     public static Soldier createSoldier(Side side) { return SOLDIERS.get(side); }
 
     private static MovementStrategy soldierStrategy(Side side) {
-        return new OneStepStrategy(Direction.soldier(side));
+        return new CompositeMovementStrategy(
+                List.of(
+                        new OneStepStrategy(Direction.soldier(side)),
+                        new PalaceSoldierDiagonalStrategy(side)
+                )
+        );
     }
 }

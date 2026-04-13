@@ -2,9 +2,9 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Destinations;
-import domain.Position;
-import domain.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.Board;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

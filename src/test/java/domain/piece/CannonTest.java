@@ -3,9 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Destinations;
-import domain.Position;
-import domain.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.Board;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -93,5 +93,30 @@ class CannonTest {
         // Then: 적군 포(1, 5) 직전인 (1, 4)까지만 갈 수 있고 (1, 5)는 포함되지 않음
         assertThat(movable.getPositions()).contains(Position.of(1, 4));
         assertThat(movable.getPositions()).doesNotContain(Position.of(1, 5));
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 다리를 뛰어넘어 이동할 수 있다")
+    void jumpOverBridgeInPalaceDiagonal() {
+        Position current = Position.of(3, 0);
+        Position bridge = Position.of(4, 1);
+        Board board = new Board(Map.of(
+                current, PieceFactory.createCannon(Side.CHO),
+                bridge, PieceFactory.createSoldier(Side.CHO)
+        ));
+
+        Destinations movable = board.findDestinations(current);
+
+        assertThat(movable.getPositions()).contains(Position.of(5, 2));
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 다리가 없으면 이동할 수 없다")
+    void cannotMoveWithoutBridgeInPalaceDiagonal() {
+        Position current = Position.of(3, 0);
+        Board board = new Board(Map.of(current, PieceFactory.createCannon(Side.CHO)));
+
+        assertThatThrownBy(() -> board.findDestinations(current))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

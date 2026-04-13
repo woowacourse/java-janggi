@@ -3,9 +3,9 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Destinations;
-import domain.Position;
-import domain.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.piece.Chariot;
 import domain.piece.Elephant;
 import domain.piece.General;
