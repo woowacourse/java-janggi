@@ -23,7 +23,7 @@ public class Piece {
 
 
     public List<Position> calculateMovablePositions(final Position from, final Board board) {
-        final List<Position> movablePositions = pieceStatus.moveStrategy().calculateMovablePositions(from, board);
+        final List<Position> movablePositions = pieceStatus.moveStrategyType().getMoveStrategy().calculateMovablePositions(from, board);
 
         if (movablePositions.isEmpty()) {
             throw new IllegalArgumentException(CANNOT_MOVE);

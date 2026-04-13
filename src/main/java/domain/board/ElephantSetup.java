@@ -1,45 +1,45 @@
 package domain.board;
 
-import static domain.piece.PieceType.ELEPHANT;
-import static domain.piece.PieceType.HORSE;
-
-import domain.movestrategy.ElephantMoveStrategy;
-import domain.movestrategy.HorseMoveStrategy;
+import domain.movestrategy.MoveStrategyType;
 import domain.piece.PieceStatus;
 import domain.piece.Position;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static domain.piece.PieceType.ELEPHANT;
+import static domain.piece.PieceType.HORSE;
 
 public enum ElephantSetup {
 
     INNER_ELEPHANT_SETUP("마상상마(馬象象馬)",
             Map.of(
-                    Position.of(1, 2), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 3), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 7), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 8), new PieceStatus(HORSE, new HorseMoveStrategy())
+                    Position.of(1, 2), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 3), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 7), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 8), new PieceStatus(HORSE, MoveStrategyType.HORSE)
             )),
     OUTER_ELEPHANT_SETUP("상마마상(象馬馬象)",
             Map.of(
-                    Position.of(1, 2), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 3), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 7), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 8), new PieceStatus(ELEPHANT, new ElephantMoveStrategy())
+                    Position.of(1, 2), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 3), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 7), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 8), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT)
             )),
     RIGHT_ELEPHANT_SETUP("마상마상(馬象馬象)",
             Map.of(
-                    Position.of(1, 2), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 3), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 7), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 8), new PieceStatus(ELEPHANT, new ElephantMoveStrategy())
+                    Position.of(1, 2), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 3), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 7), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 8), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT)
             )),
     LEFT_ELEPHANT_SETUP("상마상마(象馬象馬)",
             Map.of(
-                    Position.of(1, 2), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 3), new PieceStatus(HORSE, new HorseMoveStrategy()),
-                    Position.of(1, 7), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
-                    Position.of(1, 8), new PieceStatus(HORSE, new HorseMoveStrategy())
+                    Position.of(1, 2), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 3), new PieceStatus(HORSE, MoveStrategyType.HORSE),
+                    Position.of(1, 7), new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT),
+                    Position.of(1, 8), new PieceStatus(HORSE, MoveStrategyType.HORSE)
             ));
 
     private static final String OUT_OF_RANGE_INPUT =
