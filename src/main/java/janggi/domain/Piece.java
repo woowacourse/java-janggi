@@ -30,8 +30,16 @@ public class Piece {
         }
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     public boolean isSameTeam(Piece pieceTo) {
-        return team == pieceTo.getTeam();
+        if (pieceTo == null) {
+            return false;
+        }
+
+        return isSameTeam(pieceTo.getTeam());
     }
 
     public String getName() {
@@ -42,11 +50,18 @@ public class Piece {
         return team;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Piece piece = (Piece) o;
-        return score == piece.score && Objects.equals(moveStorage, piece.moveStorage) && team == piece.team && Objects.equals(name, piece.name);
+        return score == piece.score && Objects.equals(moveStorage, piece.moveStorage) && team == piece.team
+                && Objects.equals(name, piece.name);
     }
 
     @Override

@@ -61,4 +61,17 @@ public class Board implements BoardView {
     public Map<Position, Piece> getBoard() {
         return Collections.unmodifiableMap(board);
     }
+
+    public double calculateScore(Team team) {
+        double score = board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getScore)
+                .sum();
+
+        if (team == Team.HAN) {
+            score += 1.5;
+        }
+
+        return score;
+    }
 }

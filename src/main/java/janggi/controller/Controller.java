@@ -47,6 +47,11 @@ public class Controller {
 
         while (!isGameOver(board)) {
             outputView.printBoard(BoardDto.from(board));
+
+            double choscore = board.calculateScore(Team.CHO);
+            double hanscore = board.calculateScore(Team.HAN);
+            outputView.printScore(choscore, hanscore);
+
             playTurn(board, currentTeam);
             currentTeam = currentTeam.switchTeam();
         }
