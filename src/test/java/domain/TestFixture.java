@@ -1,4 +1,4 @@
-package boardSetting;
+package domain;
 
 import domain.board.PieceProvider;
 import domain.piece.Blank;
@@ -27,12 +27,6 @@ public class TestFixture implements PieceProvider {
     @Override
     public boolean isBlank(Position position) {
         return !pieces.containsKey(position);
-    }
-
-    @Override
-    public boolean isCannon(Position position) {
-        Piece piece = getPiece(position);
-        return piece instanceof domain.piece.Cannon;
     }
 
     @Override
