@@ -9,15 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface BoardView {
-    Piece findByPosition(Position position);
+    Piece findPieceByPosition(Position position);
 
     boolean isEmptyPosition(Position position);
-
-    PieceType findTypeByPosition(Position position);
-
-    Team findTeamByPosition(Position position);
-
-    Palace palace();
 
     List<Piece> kingsOnBoard();
 
@@ -26,4 +20,6 @@ public interface BoardView {
     Map<Position, Piece> getBoard();
 
     boolean canInnerGo(Position from, Position to);
+
+    boolean isOnDiagonalPath(Position from, Position to);
 }

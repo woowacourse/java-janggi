@@ -29,29 +29,22 @@ public class Board implements BoardView {
                 ));
     }
 
+    public static Board createBoardWith(Object... args) {
+        Board board = new Board();
+        for (int i = 0; i < args.length; i += 2) {
+            board.place((Position) args[i], (Piece) args[i + 1]);
+        }
+        return board;
+    }
+
     @Override
-    public Piece findByPosition(Position position) {
+    public Piece findPieceByPosition(Position position) {
         return board.getOrDefault(position, EmptyPiece.getInstance());
     }
 
     @Override
-    public Team findTeamByPosition(Position position) {
-        return board.getOrDefault(position, EmptyPiece.getInstance()).findTeam();
-    }
-
-    @Override
     public boolean isEmptyPosition(Position position) {
-        return findByPosition(position).isEmpty();
-    }
-
-    @Override
-    public PieceType findTypeByPosition(Position position) {
-        return findByPosition(position).pieceType();
-    }
-
-    @Override
-    public Palace palace() {
-        return Palace.creatAllPalace();
+        return findPieceByPosition(position).isEmpty();
     }
 
     @Override
@@ -64,13 +57,40 @@ public class Board implements BoardView {
     @Override
     public List<Piece> piecesOf(Team team) {
         return board.values().stream()
-                .filter(piece -> piece.findTeam() == team)
+                .filter(piece -> piece.getTeam() == team)
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
+    }
+
+    @Override
+    public boolean canInnerGo(Position from, Position to) {
+        if (findPieceByPosition(from).isSameTeam(Team.CHO)) {
+            return Palace.createChoPalace().canInnerGo(from, to);
+        }
+
+        return Palace.createHanPalace().canInnerGo(from, to);
+    }
+
+    @Override
+    public boolean isOnDiagonalPath(Position from, Position to) {
+        return palace().isOnDiagonalPath(from, to);
+    }
+
+    public void place(Position position, Piece piece) {
+        if (piece.isEmpty()) {
+            return;
+        }
+
+        board.put(position, piece);
+    }
+
     public void move(Position from, Position to, Team currentTeam) {
-        Piece fromPiece = findByPosition(from);
-        Piece toPiece = findByPosition(to);
+        Piece fromPiece = findPieceByPosition(from);
+        Piece toPiece = findPieceByPosition(to);
 
         validateCommonMove(currentTeam, fromPiece, toPiece);
 
@@ -82,16 +102,12 @@ public class Board implements BoardView {
         place(to, fromPiece);
     }
 
-    public void remove(Position position) {
+    private void remove(Position position) {
         board.remove(position);
     }
 
-    public void place(Position position, Piece piece) {
-        if (piece.isEmpty()) {
-            return;
-        }
-
-        board.put(position, piece);
+    private Palace palace() {
+        return Palace.creatAllPalace();
     }
 
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
@@ -106,27 +122,5 @@ public class Board implements BoardView {
         if (toPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("이미 도착지점에 플레이어님의 진영 기물이 있습니다.");
         }
-    }
-
-    public static Board createBoardWith(Object... args) {
-        Board board = new Board();
-        for (int i = 0; i < args.length; i += 2) {
-            board.place((Position) args[i], (Piece) args[i + 1]);
-        }
-        return board;
-    }
-
-    @Override
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board);
-    }
-
-    @Override
-    public boolean canInnerGo(Position from, Position to) {
-        if (findTeamByPosition(from) == Team.CHO) {
-            return Palace.createChoPalace().canInnerGo(from, to);
-        }
-
-        return Palace.createHanPalace().canInnerGo(from, to);
     }
 }
