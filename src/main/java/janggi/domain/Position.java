@@ -74,6 +74,32 @@ public class Position {
         return Position.of(Row.of(middleRow), Column.of(middleCol));
     }
 
+    public boolean isInOwnPalace(Team team) {
+        int row = getRowValue();
+        int col = getColumnValue();
+
+        if (row < 3 || row > 5) {
+            return false;
+        }
+
+        if (team == Team.HAN) {
+            return col >= 0 && col <= 2;
+        }
+
+        if (team == Team.CHO) {
+            return col >= 7 && col <= 9;
+        }
+
+        return false;
+    }
+
+    public boolean isPalaceCenter() {
+        int row = getRowValue();
+        int col = getColumnValue();
+
+        return row == 4 && (col == 1 || col == 8);
+    }
+
     public int getRowValue() {
         return row.getValue();
     }

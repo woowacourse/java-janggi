@@ -17,32 +17,24 @@ public class GungAndSaMoveStorage implements MoveStorage {
     }
 
     private boolean isOutsidePalace(Position from, Position to, Team team) {
-        return !isInPalace(from, team) || !isInPalace(to, team);
-    }
-
-    private boolean isInPalace(Position position, Team team) {
-        int row = position.getRowValue();
-        int column = position.getColumnValue();
-
-        if (team == Team.HAN) {
-            return (3 <= row && row <= 5) && (0 <= column && column <= 2);
-        }
-
-        if (team == Team.CHO) {
-            return (3 <= row && row <= 5) && (7 <= column && column <= 9);
-        }
-
-        return false;
+        return !from.isInOwnPalace(team) || !to.isInOwnPalace(team);
     }
 
     private boolean isLegalMove(Position from, Position to) {
-        int rowDiff = Math.abs(from.getRowValue() - to.getRowValue());
-        int columnDiff = Math.abs(from.getColumnValue() - to.getColumnValue());
-
-        if (rowDiff + columnDiff == 1) {
+        if (isStraightMove(from, to)) {
             return true;
         }
 
-        return false;
+        return isDiagonalMove(from, to);
+    }
+
+    private boolean isStraightMove(Position from, Position to) {
+        int rowDiff = Math.abs(from.getRowValue() - to.getRowValue());
+        int colDiff = Math.abs(from.getColumnValue() - to.getColumnValue());
+        return rowDiff + colDiff == 1;
+    }
+
+    private boolean isDiagonalMove(Position from, Position to) {
+        return from.isOnSameDiagonal(to) && (from.isPalaceCenter() || to.isPalaceCenter());
     }
 }
