@@ -13,8 +13,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotMoveStrategyTest {
 
-    private static final Position palaceRedCenter = new Position(1, 4);
-    private static final Position palaceGreenCenter = new Position(8, 4);
+    private static final Position PALACE_RED_CENTER = new Position(1, 4);
+    private static final Position PALACE_GREEN_CENTER = new Position(8, 4);
 
     @Test
     @DisplayName("차 기물은 현재 위치 기준 모든 상하좌우 범위 내에 위치로 이동할 수 있어야 한다.")
@@ -83,31 +83,31 @@ class ChariotMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveableWithInRedPalaceDiagonalPositions() {
-        Position redPalaceUpLeftCorner = palaceRedCenter.upCrossLeft();
-        Position redPalaceUpRightCorner = palaceRedCenter.upCrossRight();
-        Position redPalaceDownLeftCorner = palaceRedCenter.downCrossLeft();
-        Position redPalaceDownRightCorner = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCorner = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceUpRightCorner = PALACE_RED_CENTER.upCrossRight();
+        Position redPalaceDownLeftCorner = PALACE_RED_CENTER.downCrossLeft();
+        Position redPalaceDownRightCorner = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(redPalaceUpLeftCorner, redPalaceUpLeftCorner.downCrossRight().downCrossRight()),
                 Arguments.arguments(redPalaceUpRightCorner, redPalaceUpRightCorner.downCrossLeft().downCrossLeft()),
                 Arguments.arguments(redPalaceDownLeftCorner, redPalaceDownLeftCorner.upCrossRight().upCrossRight()),
                 Arguments.arguments(redPalaceDownRightCorner, redPalaceDownRightCorner.upCrossLeft().upCrossLeft()),
-                Arguments.arguments(redPalaceDownRightCorner, palaceRedCenter),
-                Arguments.arguments(palaceRedCenter, palaceRedCenter.left()));
+                Arguments.arguments(redPalaceDownRightCorner, PALACE_RED_CENTER),
+                Arguments.arguments(PALACE_RED_CENTER, PALACE_RED_CENTER.left()));
     }
 
     private static Stream<Arguments> moveableWithInGreenPalaceDiagonalPositions() {
-        Position greenPalaceUpLeftCorner = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceUpRightCorner = palaceGreenCenter.upCrossRight();
-        Position greenPalaceDownLeftCorner = palaceGreenCenter.downCrossLeft();
-        Position greenPalaceDownRightCorner = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCorner = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceUpRightCorner = PALACE_GREEN_CENTER.upCrossRight();
+        Position greenPalaceDownLeftCorner = PALACE_GREEN_CENTER.downCrossLeft();
+        Position greenPalaceDownRightCorner = PALACE_GREEN_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(greenPalaceUpLeftCorner, greenPalaceUpLeftCorner.downCrossRight().downCrossRight()),
                 Arguments.arguments(greenPalaceUpRightCorner, greenPalaceUpRightCorner.downCrossLeft().downCrossLeft()),
                 Arguments.arguments(greenPalaceDownLeftCorner, greenPalaceDownLeftCorner.upCrossRight().upCrossRight()),
                 Arguments.arguments(greenPalaceDownRightCorner, greenPalaceDownRightCorner.upCrossLeft().upCrossLeft()),
-                Arguments.arguments(greenPalaceDownRightCorner, palaceGreenCenter),
-                Arguments.arguments(palaceGreenCenter, palaceGreenCenter.left()));
+                Arguments.arguments(greenPalaceDownRightCorner, PALACE_GREEN_CENTER),
+                Arguments.arguments(PALACE_GREEN_CENTER, PALACE_GREEN_CENTER.left()));
     }
 
     private static Stream<Arguments> blockedRoute() {
@@ -115,35 +115,35 @@ class ChariotMoveStrategyTest {
         Position basicDestination = basicCurrent.right().right().right().right().right();
         Position obstacle = basicCurrent.right().right().right();
 
-        Position greenPalaceUpLeftCornerCurrentPosition = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceDownRightCornerDestination = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCornerCurrentPosition = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceDownRightCornerDestination = PALACE_GREEN_CENTER.downCrossRight();
 
-        Position redPalaceUpLeftCornerCurrentPosition = palaceRedCenter.upCrossLeft();
-        Position redPalaceDownRightCornerDestination = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCornerCurrentPosition = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceDownRightCornerDestination = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(basicCurrent, basicDestination, List.of(obstacle)),
                 Arguments.arguments(greenPalaceUpLeftCornerCurrentPosition, greenPalaceDownRightCornerDestination,
-                        List.of(palaceGreenCenter)),
+                        List.of(PALACE_GREEN_CENTER)),
                 Arguments.arguments(redPalaceUpLeftCornerCurrentPosition, redPalaceDownRightCornerDestination,
-                        List.of(palaceRedCenter)));
+                        List.of(PALACE_RED_CENTER)));
     }
 
     private static Stream<Arguments> nonBlockedRoute() {
         Position basicCurrent = new Position(4, 4);
         Position basicDestination = new Position(4, 9);
 
-        Position greenPalaceUpLeftCornerCurrentPosition = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceDownRightCornerDestination = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCornerCurrentPosition = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceDownRightCornerDestination = PALACE_GREEN_CENTER.downCrossRight();
 
-        Position redPalaceUpLeftCornerCurrentPosition = palaceRedCenter.upCrossLeft();
-        Position redPalaceDownRightCornerDestination = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCornerCurrentPosition = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceDownRightCornerDestination = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(basicCurrent, basicDestination, List.of()),
                 Arguments.arguments(greenPalaceUpLeftCornerCurrentPosition, greenPalaceDownRightCornerDestination,
                         List.of()),
                 Arguments.arguments(redPalaceUpLeftCornerCurrentPosition, redPalaceDownRightCornerDestination,
                         List.of()),
-                Arguments.arguments(redPalaceUpLeftCornerCurrentPosition, palaceRedCenter,
+                Arguments.arguments(redPalaceUpLeftCornerCurrentPosition, PALACE_RED_CENTER,
                         List.of()));
     }
 

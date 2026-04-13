@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GreenSoldierMoveStrategyTest {
 
-    private static final Position greenSoliderPosition = new Position(6, 2);
+    private static final Position GREEN_SOLIDER_POSITION = new Position(6, 2);
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
@@ -75,9 +75,9 @@ class GreenSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.left()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.right()));
+        return Stream.of(Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.up()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.left()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.right()));
     }
 
     private static Stream<Arguments> moveableWithinPalaceCornerPositions() {
@@ -98,11 +98,11 @@ class GreenSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(Arguments.arguments(greenSoliderPosition, greenSoliderPosition.down()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().up()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.left().left()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().left()),
-                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().right()));
+        return Stream.of(Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.down()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.up().up()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.left().left()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.up().left()),
+                Arguments.arguments(GREEN_SOLIDER_POSITION, GREEN_SOLIDER_POSITION.up().right()));
     }
 
 }

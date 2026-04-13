@@ -13,8 +13,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class CannonMoveStrategyTest {
 
-    private static final Position palaceRedCenter = new Position(1, 4);
-    private static final Position palaceGreenCenter = new Position(8, 4);
+    private static final Position PALACE_RED_CENTER = new Position(1, 4);
+    private static final Position PALACE_GREEN_CENTER = new Position(8, 4);
 
     @Test
     @DisplayName("포 기물은 현재 위치 기준 상하좌우 방향으로 바로 1칸을 제외한 나머지 위치로 이동할 수 있어야 한다.")
@@ -73,10 +73,10 @@ class CannonMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveableWithInRedPalaceDiagonalPositions() {
-        Position redPalaceUpLeftCorner = palaceRedCenter.upCrossLeft();
-        Position redPalaceUpRightCorner = palaceRedCenter.upCrossRight();
-        Position redPalaceDownLeftCorner = palaceRedCenter.downCrossLeft();
-        Position redPalaceDownRightCorner = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCorner = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceUpRightCorner = PALACE_RED_CENTER.upCrossRight();
+        Position redPalaceDownLeftCorner = PALACE_RED_CENTER.downCrossLeft();
+        Position redPalaceDownRightCorner = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(redPalaceUpLeftCorner, redPalaceUpLeftCorner.downCrossRight().downCrossRight()),
                 Arguments.arguments(redPalaceUpRightCorner, redPalaceUpRightCorner.downCrossLeft().downCrossLeft()),
@@ -85,10 +85,10 @@ class CannonMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveableWithInGreenPalaceDiagonalPositions() {
-        Position greenPalaceUpLeftCorner = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceUpRightCorner = palaceGreenCenter.upCrossRight();
-        Position greenPalaceDownLeftCorner = palaceGreenCenter.downCrossLeft();
-        Position greenPalaceDownRightCorner = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCorner = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceUpRightCorner = PALACE_GREEN_CENTER.upCrossRight();
+        Position greenPalaceDownLeftCorner = PALACE_GREEN_CENTER.downCrossLeft();
+        Position greenPalaceDownRightCorner = PALACE_GREEN_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(greenPalaceUpLeftCorner, greenPalaceUpLeftCorner.downCrossRight().downCrossRight()),
                 Arguments.arguments(greenPalaceUpRightCorner, greenPalaceUpRightCorner.downCrossLeft().downCrossLeft()),
@@ -105,18 +105,18 @@ class CannonMoveStrategyTest {
         Position basicRowMoveDestination = basicCurrent.up().up().up().up().up();
         Position obstacleRowMove = basicCurrent.up().up().up();
 
-        Position greenPalaceUpLeftCornerCurrentPosition = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceDownRightCornerDestination = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCornerCurrentPosition = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceDownRightCornerDestination = PALACE_GREEN_CENTER.downCrossRight();
 
-        Position redPalaceUpLeftCornerCurrentPosition = palaceRedCenter.upCrossLeft();
-        Position redPalaceDownRightCornerDestination = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCornerCurrentPosition = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceDownRightCornerDestination = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(basicCurrent, basicColMoveDestination, List.of(obstacleColMove)),
                 Arguments.arguments(basicCurrent, basicRowMoveDestination, List.of(obstacleRowMove)),
                 Arguments.arguments(greenPalaceUpLeftCornerCurrentPosition, greenPalaceDownRightCornerDestination,
-                        List.of(palaceGreenCenter)),
+                        List.of(PALACE_GREEN_CENTER)),
                 Arguments.arguments(redPalaceUpLeftCornerCurrentPosition, redPalaceDownRightCornerDestination,
-                        List.of(palaceRedCenter)));
+                        List.of(PALACE_RED_CENTER)));
     }
 
     private static Stream<Arguments> nonValidPath() {
@@ -130,11 +130,11 @@ class CannonMoveStrategyTest {
         Position obstacleRowMoveOne = basicCurrent.up().up().up();
         Position obstacleRowMoveTwo = basicCurrent.up().up();
 
-        Position greenPalaceUpLeftCornerCurrentPosition = palaceGreenCenter.upCrossLeft();
-        Position greenPalaceDownRightCornerDestination = palaceGreenCenter.downCrossRight();
+        Position greenPalaceUpLeftCornerCurrentPosition = PALACE_GREEN_CENTER.upCrossLeft();
+        Position greenPalaceDownRightCornerDestination = PALACE_GREEN_CENTER.downCrossRight();
 
-        Position redPalaceUpLeftCornerCurrentPosition = palaceRedCenter.upCrossLeft();
-        Position redPalaceDownRightCornerDestination = palaceRedCenter.downCrossRight();
+        Position redPalaceUpLeftCornerCurrentPosition = PALACE_RED_CENTER.upCrossLeft();
+        Position redPalaceDownRightCornerDestination = PALACE_RED_CENTER.downCrossRight();
 
         return Stream.of(Arguments.arguments(basicCurrent, basicColDestination, List.of(obstacleColMoveOne, obstacleColMoveTwo)),
                 Arguments.arguments(basicCurrent, basicRowDestination, List.of(obstacleRowMoveOne, obstacleRowMoveTwo)),

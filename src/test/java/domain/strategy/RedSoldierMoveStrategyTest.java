@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class RedSoldierMoveStrategyTest {
 
-    private static final Position redSoliderPosition = new Position(3, 2);
+    private static final Position RED_SOLIDER_POSITION = new Position(3, 2);
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
@@ -75,9 +75,9 @@ class RedSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(Arguments.arguments(redSoliderPosition, redSoliderPosition.down()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.left()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.right()));
+        return Stream.of(Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.down()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.left()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.right()));
     }
 
     private static Stream<Arguments> moveableWithinPalaceCornerPositions() {
@@ -98,11 +98,11 @@ class RedSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(Arguments.arguments(redSoliderPosition, redSoliderPosition.up()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().up()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.left().left()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().left()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().right()));
+        return Stream.of(Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().up()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.left().left()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().left()),
+                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().right()));
     }
 
 }
