@@ -3,7 +3,8 @@ package model.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import model.movement.Displacement;
+import model.coordinate.Displacement;
+import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -43,7 +44,7 @@ class PositionTest {
         Position end = new Position(3, 7);
 
         // when
-        Displacement result = end.minus(start);
+        Displacement result = end.toDisplacement(start);
 
         // then
         assertThat(result.rowDiff()).isEqualTo(-2);

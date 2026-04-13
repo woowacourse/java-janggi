@@ -5,6 +5,7 @@ import static model.Team.HAN;
 
 import java.util.HashMap;
 import java.util.Map;
+import model.coordinate.Position;
 import model.piece.Cannon;
 import model.piece.Chariot;
 import model.piece.General;

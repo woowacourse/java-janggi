@@ -1,8 +1,10 @@
 package model.piece;
 
+import java.util.List;
 import model.Team;
-import model.board.Position;
-import model.movement.Displacement;
+import model.coordinate.Direction;
+import model.coordinate.Displacement;
+import model.coordinate.Position;
 
 public class Horse extends Piece {
 
@@ -15,9 +17,18 @@ public class Horse extends Piece {
 
     @Override
     protected void validateMove(Position current, Position next) {
-        Displacement displacement = next.minus(current);
+        Displacement displacement = next.toDisplacement(current);
         if (displacement.isNotStepCombination(HORSE_LONG_STEP, HORSE_SHORT_STEP)) {
-            throw new IllegalArgumentException("마가 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException("현재 기물이 이동할 수 없는 위치입니다.");
         }
+    }
+
+    @Override
+    protected List<Position> extractPath(Position start, Position end) {
+        Displacement displacement = end.toDisplacement(start);
+        Direction cardinal = displacement.extractCardinal();
+
+        Position step = cardinal.move(start);
+        return List.of(step);
     }
 }

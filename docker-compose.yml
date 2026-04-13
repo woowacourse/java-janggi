@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: janggi-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: janggi_db
+      MYSQL_USER: janggi
+      MYSQL_PASSWORD: janggi1234
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d

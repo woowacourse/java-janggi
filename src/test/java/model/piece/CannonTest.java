@@ -6,23 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class CannonTest {
-
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceMovePositionFixture#사방위_이동_방향_케이스")
-    void 포는_직선으로_이동할_수_있다(Position current, Position next) {
-        // given
-        Piece cannon = new Cannon(Team.HAN);
-
-        // when & then
-        assertThatCode(() -> cannon.validateMove(current, next))
-                .doesNotThrowAnyException();
-    }
 
     @ParameterizedTest
     @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")
@@ -31,7 +20,7 @@ public class CannonTest {
         Piece cannon = new Cannon(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannon.validateMove(current, next))
+        assertThatThrownBy(() -> cannon.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -42,7 +31,7 @@ public class CannonTest {
         Piece chariot = new Cannon(Team.HAN);
 
         // when
-        List<Position> path = chariot.extractPath(current, next);
+        List<Position> path = chariot.pathTo(current, next);
 
         // then
         assertThat(path).isEqualTo(expectedPath);
@@ -86,6 +75,18 @@ public class CannonTest {
     }
 
     @Test
+    void 포가_정상적으로_하나의_기물을_넘어가는_경우_예외가_발생하지_않는다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece hurdle = new Soldier(Team.CHO);
+        List<Piece> piecesOnPath = List.of(hurdle);
+
+        // when & then
+        assertThatCode(() -> cannon.validatePathCondition(piecesOnPath))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
     void 포가_상대_포를_잡으려_하면_예외가_발생한다() {
         // given
         Piece cannon = new Cannon(Team.HAN);
@@ -93,6 +94,41 @@ public class CannonTest {
 
         // when & then
         assertThatThrownBy(() -> cannon.validateTarget(targetCannon))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_상대_포가_아닌_기물을_잡으려_하면_예외가_발생하지_않는다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece target = new Soldier(Team.CHO);
+
+        // when & then
+        assertThatCode(() -> cannon.validateTarget(target))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PalaceMovePositionFixture#차_포_궁성_대각선_이동_경로")
+    void 포는_궁성_교차점에서_대각선으로_이동_경로를_구할_수_있다(Team team, Position current, Position next, List<Position> expectedPath) {
+        // given
+        Piece cannon = new Cannon(team);
+
+        // when & then
+        List<Position> path = cannon.pathTo(current, next);
+
+        // then
+        assertThat(path).isEqualTo(expectedPath);
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PalaceMovePositionFixture#차_포_궁성_대각선_이동_불가능한_위치")
+    void 포는_궁성_교차점이_아닌_곳에서_대각선으로_이동할_수_없다(Team team, Position current, Position next) {
+        // given
+        Piece cannon = new Cannon(team);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

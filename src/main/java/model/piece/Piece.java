@@ -2,10 +2,9 @@ package model.piece;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 
 public abstract class Piece {
-
     private final Team team;
     private final PieceType type;
 
@@ -14,13 +13,20 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public List<Position> extractPath(Position current, Position next) {
-        validateMove(current, next);
-        return type.extractPath(current, next);
+    private static void validatePosition(Position current, Position next) {
+        if (current.equals(next)) {
+            throw new IllegalArgumentException("기물은 제자리로 이동할 수 없습니다.");
+        }
     }
 
-    public boolean isOtherTeam(Team team) {
-        return this.team != team;
+    public List<Position> pathTo(Position current, Position next) {
+        validatePosition(current, next);
+        validateMove(current, next);
+        return extractPath(current, next);
+    }
+
+    public boolean isSameTeam(Team team) {
+        return team() == team;
     }
 
     public void validatePathCondition(List<Piece> pieces) {
@@ -30,26 +36,34 @@ public abstract class Piece {
     }
 
     public void validateTarget(Piece otherPiece) {
-        if (getTeam() == otherPiece.team) {
+        if (team() == otherPiece.team()) {
             throw new IllegalArgumentException("아군이 있는 위치로 이동할 수 없습니다.");
         }
     }
 
+    public boolean isSameType(PieceType type) {
+        return type() == type;
+    }
+
+    public double score() {
+        return type().getScore();
+    }
+
     protected abstract void validateMove(Position current, Position next);
 
-    protected boolean isCho() {
-        return !team.isHan();
+    protected boolean isSameType(Piece piece) {
+        return isSameType(piece.type());
     }
 
-    protected boolean isCannon() {
-        return getType() == PieceType.CANNON;
+    protected List<Position> extractPath(Position current, Position next) {
+        return List.of();
     }
 
-    public Team getTeam() {
+    public Team team() {
         return team;
     }
 
-    public PieceType getType() {
+    public PieceType type() {
         return type;
     }
 }

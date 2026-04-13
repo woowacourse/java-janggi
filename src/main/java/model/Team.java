@@ -1,9 +1,9 @@
 package model;
 
-import model.piece.Piece;
-
 public enum Team {
-    HAN("한나라"), CHO("초나라");
+
+    HAN("한나라"),
+    CHO("초나라");
 
     private final String name;
 
@@ -11,17 +11,19 @@ public enum Team {
         this.name = name;
     }
 
-    public void validateAlly(Piece piece) {
-        if (piece.isOtherTeam(this)) {
-            throw new IllegalArgumentException(this.name + "의 기물이 아닙니다.");
-        }
+    public static Team startTurn() {
+        return CHO;
+    }
+
+    public static Team afterTurn() {
+        return startTurn().opposite();
     }
 
     public boolean isHan() {
         return this == HAN;
     }
 
-    public Team next() {
+    public Team opposite() {
         if (isHan()) {
             return CHO;
         }

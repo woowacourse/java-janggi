@@ -1,12 +1,11 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,24 +14,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class HorseTest {
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceMovePositionFixture#마_이동_가능한_위치")
-    void 마는_한칸_직진_후_대각선으로_이동할_수_있다(Position current, Position next) {
-        // given
-        Piece horse = new Horse(Team.HAN);
-
-        // when & then
-        assertThatCode(() -> horse.validateMove(current, next))
-                .doesNotThrowAnyException();
-    }
-
-    @ParameterizedTest
     @MethodSource("model.fixture.PieceMovePositionFixture#마_이동_불가능한_위치")
     void 마는_이동_규칙에_맞지_않으면_이동할_수_없다(Position current, Position next) {
         // given
         Piece horse = new Horse(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> horse.validateMove(current, next))
+        assertThatThrownBy(() -> horse.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -43,7 +31,7 @@ public class HorseTest {
         Piece chariot = new Horse(Team.HAN);
 
         // when
-        List<Position> path = chariot.extractPath(current, next);
+        List<Position> path = chariot.pathTo(current, next);
 
         // then
         assertThat(path).isEqualTo(expectedPath);
