@@ -10,6 +10,7 @@ import domain.piece.Piece;
 import domain.piece.Position;
 import domain.player.Player;
 import domain.player.Team;
+import service.JanggiGameService;
 import view.InputView;
 import view.OutputView;
 
@@ -19,10 +20,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiGameService janggiGameService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final JanggiGameService janggiGameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiGameService = janggiGameService;
     }
 
     public void run() {
