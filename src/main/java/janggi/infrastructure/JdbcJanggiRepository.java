@@ -205,7 +205,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     Side side = Side.valueOf(rs.getString(COLUMN_CURRENT_TURN));
-                    return Turn.from(Side.CHO);
+                    return Turn.from(side);
                 }
             }
         } catch (SQLException e) {
