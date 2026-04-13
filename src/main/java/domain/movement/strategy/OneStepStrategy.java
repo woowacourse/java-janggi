@@ -1,6 +1,8 @@
-package domain.strategy;
+package domain.movement.strategy;
 
-import domain.game.Position;
+import domain.common.Direction;
+import domain.common.Position;
+import domain.movement.Path;
 import java.util.List;
 
 public class OneStepStrategy implements MovementStrategy {

@@ -1,6 +1,6 @@
-package domain.game;
+package domain.common;
 
-import domain.strategy.Direction;
+import domain.common.Direction;
 
 public enum Side {
     CHO("초") {

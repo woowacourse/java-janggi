@@ -1,5 +1,6 @@
-package domain.game;
+package domain.movement;
 
+import domain.common.Position;
 import java.util.List;
 
 public class Destinations {

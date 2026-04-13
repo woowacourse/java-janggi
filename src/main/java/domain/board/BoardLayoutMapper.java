@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.game.Side;
+import domain.common.Side;
 import java.util.List;
 import java.util.Map;
 

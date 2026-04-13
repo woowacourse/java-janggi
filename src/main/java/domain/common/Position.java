@@ -1,6 +1,6 @@
-package domain.game;
+package domain.common;
 
-import domain.strategy.Direction;
+import domain.common.Direction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

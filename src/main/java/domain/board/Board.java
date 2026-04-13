@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.game.Destinations;
-import domain.game.Position;
+import domain.movement.Destinations;
+import domain.common.Position;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;

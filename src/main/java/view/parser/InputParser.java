@@ -1,6 +1,6 @@
 package view.parser;
 
-import domain.game.Position;
+import domain.common.Position;
 import domain.board.Formation;
 import domain.player.Name;
 import java.util.Arrays;

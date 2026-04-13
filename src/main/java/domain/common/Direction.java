@@ -1,6 +1,6 @@
-package domain.strategy;
+package domain.common;
 
-import domain.game.Side;
+import domain.common.Side;
 import java.util.List;
 
 public enum Direction {

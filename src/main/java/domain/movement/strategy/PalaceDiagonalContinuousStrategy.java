@@ -1,7 +1,9 @@
-package domain.strategy;
+package domain.movement.strategy;
 
-import domain.game.Position;
-import domain.game.Palace;
+import domain.common.Direction;
+import domain.common.Position;
+import domain.board.Palace;
+import domain.movement.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

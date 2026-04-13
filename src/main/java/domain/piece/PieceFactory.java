@@ -1,15 +1,15 @@
 package domain.piece;
 
-import domain.game.Side;
-import domain.strategy.CompositeMovementStrategy;
-import domain.strategy.ContinuousStrategy;
-import domain.strategy.Direction;
-import domain.strategy.MovementStrategy;
-import domain.strategy.OneStepStrategy;
-import domain.strategy.PalaceDiagonalContinuousStrategy;
-import domain.strategy.PalaceGeneralGuardStrategy;
-import domain.strategy.PalaceSoldierDiagonalStrategy;
-import domain.strategy.SequenceStrategy;
+import domain.common.Side;
+import domain.movement.strategy.CompositeMovementStrategy;
+import domain.movement.strategy.ContinuousStrategy;
+import domain.common.Direction;
+import domain.movement.strategy.MovementStrategy;
+import domain.movement.strategy.OneStepStrategy;
+import domain.movement.strategy.PalaceDiagonalContinuousStrategy;
+import domain.movement.strategy.PalaceGeneralGuardStrategy;
+import domain.movement.strategy.PalaceSoldierDiagonalStrategy;
+import domain.movement.strategy.SequenceStrategy;
 import java.util.List;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package domain.state;
+package domain.turn;
 
 public interface TurnState {
     boolean isCurrent();

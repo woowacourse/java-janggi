@@ -1,6 +1,6 @@
 package view;
 
-import domain.game.Side;
+import domain.common.Side;
 import java.util.Scanner;
 
 public class InputView {

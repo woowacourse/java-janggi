@@ -1,8 +1,8 @@
 package domain.player;
 
-import domain.game.Side;
-import domain.state.ActiveTurn;
-import domain.state.InactiveTurn;
+import domain.common.Side;
+import domain.turn.ActiveTurn;
+import domain.turn.InactiveTurn;
 import java.util.List;
 
 public class Players {

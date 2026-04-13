@@ -1,6 +1,8 @@
-package domain.game;
+package domain.board;
 
-import domain.strategy.Direction;
+import domain.common.Direction;
+import domain.common.Position;
+import domain.common.Side;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

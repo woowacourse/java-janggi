@@ -1,11 +1,11 @@
 package domain.piece;
 
-import domain.game.Destinations;
-import domain.game.Position;
-import domain.game.Side;
+import domain.movement.Destinations;
+import domain.common.Position;
+import domain.common.Side;
 import domain.board.BoardReader;
-import domain.strategy.MovementStrategy;
-import domain.strategy.Path;
+import domain.movement.strategy.MovementStrategy;
+import domain.movement.Path;
 import java.util.List;
 
 public abstract class Piece {

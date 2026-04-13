@@ -1,7 +1,8 @@
-package domain.game;
+package domain.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.common.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

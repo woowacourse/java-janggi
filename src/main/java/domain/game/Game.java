@@ -1,6 +1,9 @@
 package domain.game;
 
 import domain.board.Board;
+import domain.common.Position;
+import domain.common.Side;
+import domain.movement.Destinations;
 import domain.piece.Piece;
 import domain.player.Players;
 import domain.score.ScorePolicy;

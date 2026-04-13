@@ -1,6 +1,6 @@
-package domain.strategy;
+package domain.movement;
 
-import domain.game.Position;
+import domain.common.Position;
 import java.util.List;
 
 public class Path {

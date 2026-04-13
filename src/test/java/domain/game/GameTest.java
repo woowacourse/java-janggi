@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
+import domain.common.Position;
+import domain.common.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.player.Name;

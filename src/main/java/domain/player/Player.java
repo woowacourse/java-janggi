@@ -1,8 +1,8 @@
 package domain.player;
 
-import domain.game.Side;
+import domain.common.Side;
 import domain.piece.Piece;
-import domain.state.TurnState;
+import domain.turn.TurnState;
 
 public class Player {
     private final Name name;
