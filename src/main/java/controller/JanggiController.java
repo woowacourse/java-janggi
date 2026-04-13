@@ -83,7 +83,7 @@ public class JanggiController {
         while (true) {
             try {
                 String chuArrangement = inputView.readArrangement(Team.CHU);
-                board = applyArrangement(chuArrangement, board, Team.CHU);
+                board = Formation.from(chuArrangement, board, Team.CHU);
                 return board;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -96,7 +96,7 @@ public class JanggiController {
         while (true) {
             try {
                 String hanArrangement = inputView.readArrangement(Team.HAN);
-                board = applyArrangement(hanArrangement, board, Team.HAN);
+                board = Formation.from(hanArrangement, board, Team.HAN);
 
                 return board;
             } catch (Exception e) {
@@ -104,23 +104,6 @@ public class JanggiController {
                 System.out.println();
             }
         }
-    }
-
-    private static Board applyArrangement(String arrangement, Board board, Team team) {
-        if (Formation.from(arrangement) == Formation.SANG_MA_SANG_MA) {
-            return BoardFactory.setUpLeftElephantFormation(board.getBoard(), team);
-        }
-        if (Formation.from(arrangement) == Formation.MA_SANG_MA_SANG) {
-            return BoardFactory.setUpRightElephantFormation(board.getBoard(), team);
-        }
-        if (Formation.from(arrangement) == Formation.MA_SANG_SANG_MA) {
-            return BoardFactory.setUpInnerElephantFormation(board.getBoard(), team);
-        }
-        if (Formation.from(arrangement) == Formation.SANG_MA_MA_SANG) {
-            return BoardFactory.setUpOuterElephantFormation(board.getBoard(), team);
-        }
-
-        return board;
     }
 
     private void movePosition(JanggiGame janggiGame) {
