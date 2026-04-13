@@ -2,6 +2,7 @@ import domain.Board;
 import domain.Camp;
 import domain.InvalidMoveException;
 import domain.Position;
+import domain.pieces.Piece;
 import dto.BoardStatusDto;
 import java.sql.SQLException;
 import repository.BoardRepository;
@@ -16,7 +17,8 @@ public class JanggiController {
     private final BoardRepository boardRepository;
     private final GameRepository gameRepository;
 
-    JanggiController(InputView inputView, OutputView outputView, BoardRepository boardRepository, GameRepository gameRepository) {
+    JanggiController(InputView inputView, OutputView outputView, BoardRepository boardRepository,
+            GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.boardRepository = boardRepository;
@@ -38,7 +40,7 @@ public class JanggiController {
         if (gameId == null) {
             Board board = generateBoard();
             long newGameId = gameRepository.createGame(board, Camp.CHO);
-            boardRepository.updateBoard(newGameId, board);
+            boardRepository.createBoard(newGameId, board);
             return new GameContext(newGameId, board, Camp.CHO);
         }
         Board board = boardRepository.findBoard(gameId);
@@ -62,14 +64,16 @@ public class JanggiController {
             try {
                 Position fromPosition = askFromPosition(camp, gameContext.board());
                 Position toPosition = askToPosition(camp);
+                Piece movingPiece = gameContext.board().getPieceFrom(fromPosition);
                 gameContext.board().move(fromPosition, toPosition);
+                boardRepository.updateBoard(gameContext.gameId(), movingPiece, fromPosition,
+                        toPosition);
                 printBoard(gameContext.board());
                 if (!gameContext.board().isGameOver()) {
                     camp = camp.turnCamp();
                 }
                 gameRepository.updateGame(gameContext.gameId(), gameContext.board(), camp,
                         gameContext.board().isGameOver());
-                boardRepository.updateBoard(gameContext.gameId(), gameContext.board());
             } catch (InvalidMoveException e) {
                 outputView.printErrorMessage(e);
             }
