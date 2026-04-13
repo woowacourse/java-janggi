@@ -22,7 +22,6 @@ public class JanggiGameTest {
         this.janggiGame = new JanggiGame(janggiBoard);
     }
 
-
     @Test
     void 게임의_처음_턴이_초인지_확인한다() {
         assertThat(janggiGame.getCurrentTeam()).isEqualTo(Team.CHO);
@@ -45,5 +44,37 @@ public class JanggiGameTest {
         );
 
         assertThat(janggiGame.getCurrentTeam()).isEqualTo(Team.CHO);
+    }
+
+    @Test
+    void 궁이_아닌_기물을_잡으면_게임이_유지되고_다음턴으로_넘어간다() {
+        janggiGame.progress(new Position(6, 4), new Position(5, 4));
+        janggiGame.progress(new Position(0, 0), new Position(1, 0));
+
+        janggiGame.progress(new Position(5, 4), new Position(4, 4));
+        janggiGame.progress(new Position(1, 0), new Position(0, 0));
+
+        janggiGame.progress(new Position(4, 4), new Position(3, 4));
+        assertThat(janggiGame.isFinished()).isFalse();
+        assertThat(janggiGame.getCurrentTeam()).isEqualTo(Team.HAN);
+    }
+
+    @Test
+    void 상대방의_궁이_잡히면_게임이_종료된다() {
+        janggiGame.progress(new Position(6, 4), new Position(5, 4));
+        janggiGame.progress(new Position(0, 0), new Position(1, 0));
+        janggiGame.progress(new Position(5, 4), new Position(4, 4));
+        janggiGame.progress(new Position(1, 0), new Position(0, 0));
+        janggiGame.progress(new Position(4, 4), new Position(3, 4));
+        janggiGame.progress(new Position(0, 8), new Position(1, 8));
+
+        // 한나라 궁성 들어옴
+        janggiGame.progress(new Position(3, 4), new Position(2, 4));
+        janggiGame.progress(new Position(1, 8), new Position(0, 8));
+
+        // 한나라 궁 잡음
+        janggiGame.progress(new Position(2, 4), new Position(1, 4));
+
+        assertThat(janggiGame.isFinished()).isTrue();
     }
 }

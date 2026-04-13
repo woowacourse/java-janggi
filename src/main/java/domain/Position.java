@@ -24,6 +24,35 @@ public class Position {
         return columns;
     }
 
+    public Position toRelative() {
+        if (isInsideHanPalace()) {
+            return new Position(rows, columns - 3);
+        } else if (isInsideChoPalace()) {
+            return new Position(rows - 7, columns - 3);
+        }
+        throw new IllegalArgumentException("[ERROR] 좌표가 궁성 내에 위치해 있지 않습니다.");
+    }
+
+    public boolean isSamePosition(Position otherPosition) {
+        return this.equals(otherPosition);
+    }
+
+    public boolean isInsidePalace() {
+        return isInsideHanPalace() || isInsideChoPalace();
+    }
+
+    public boolean isInsideHanPalace() {
+        return rows >= 0 && rows <= 2 && isInsidePalaceColumns();
+    }
+
+    public boolean isInsideChoPalace() {
+        return rows >= 7 && rows <= 9 && isInsidePalaceColumns();
+    }
+
+    private boolean isInsidePalaceColumns() {
+        return columns >= 3 && columns <= 5;
+    }
+
     private static void validatePosition(int rows, int columns) {
         if (rows < 0 || rows >= MAX_ROWS || columns < 0 || columns >= MAX_COLUMNS) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않은 위치입니다." + rows + ", " + columns);

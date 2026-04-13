@@ -10,6 +10,11 @@ public class King extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.KING;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

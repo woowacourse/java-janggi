@@ -3,7 +3,14 @@ package janggiBoard;
 import domain.board.JanggiBoard;
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

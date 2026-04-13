@@ -5,7 +5,6 @@ import domain.Team;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
-import domain.strategy.PalaceStrategy;
 import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ public class PawnTest {
 
     @BeforeEach
     public void setUp() {
-        pawn = new Pawn(Team.CHO, new PalaceStrategy());
+        pawn = new Pawn(Team.CHO, new PawnStrategy());
         testBoard = new TestPieceProvider();
     }
 

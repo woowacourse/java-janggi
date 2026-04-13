@@ -1,5 +1,6 @@
 package domain.strategy;
 
+import domain.PalacePosition;
 import domain.Position;
 import domain.Team;
 import domain.piece.PieceProvider;
@@ -10,22 +11,43 @@ import java.util.List;
 
 public class PalaceStrategy implements MoveStrategy {
 
-    private static final List<Direction> directions = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST,
-            Direction.NORTH_EAST, Direction.NORTH_WEST, Direction.SOUTH_EAST, Direction.SOUTH_WEST);
-
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
-        List<Position> candidates = new ArrayList<>();
-        Team team = board.getPiece(currentPosition).getTeam();
-        for (Direction direction : directions) {
-            int targetRow = currentPosition.getRows() + direction.getRowOffset();
-            int targetColumns = currentPosition.getColumns() + direction.getColOffset();
-
-            Position targetPosition = new Position(targetRow, targetColumns);
-            if (CollisionValidator.canMoveToTarget(targetPosition, board, team)) {
-                candidates.add(targetPosition);
-            }
+        if (!currentPosition.isInsidePalace()) {
+            return new ArrayList<>();
         }
-        return candidates;
+
+        Team team = board.getPiece(currentPosition).getTeam();
+        return findDirections(currentPosition).stream()
+                .map(direction -> calculateTarget(currentPosition, direction))
+                .filter(targetPosition -> isCorrectMove(targetPosition, board, team))
+                .toList();
+    }
+
+    private List<Direction> findDirections(Position currentPosition) {
+        Position relative = currentPosition.toRelative();
+        PalacePosition palacePosition = PalacePosition.findByPosition(relative);
+        return palacePosition.getDirections();
+    }
+
+    private Position calculateTarget(Position currentPosition, Direction direction) {
+        int targetRow = currentPosition.getRows() + direction.getRowOffset();
+        int targetColumn = currentPosition.getColumns() + direction.getColOffset();
+        return new Position(targetRow, targetColumn);
+    }
+
+    private boolean isCorrectMove(Position targetPosition, PieceProvider board, Team team) {
+        return CollisionValidator.canMoveToTarget(targetPosition, board, team)
+                && isStayInPalace(targetPosition, team);
+    }
+
+    private boolean isStayInPalace(Position targetPosition, Team team) {
+        if (team == Team.HAN) {
+            return targetPosition.isInsideHanPalace();
+        }
+        if (team == Team.CHO) {
+            return targetPosition.isInsideChoPalace();
+        }
+        return false;
     }
 }

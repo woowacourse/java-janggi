@@ -11,6 +11,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
     public boolean isBridge() {
         return false;
     }

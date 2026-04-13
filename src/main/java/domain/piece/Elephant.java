@@ -10,6 +10,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

@@ -11,6 +11,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

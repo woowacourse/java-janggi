@@ -12,7 +12,13 @@ import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
-import domain.strategy.*;
+import domain.piece.PieceType;
+import domain.strategy.CannonStrategy;
+import domain.strategy.ChariotStrategy;
+import domain.strategy.ElephantStrategy;
+import domain.strategy.HorseStrategy;
+import domain.strategy.PalaceStrategy;
+import domain.strategy.PawnStrategy;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,9 +31,13 @@ public class JanggiBoard implements PieceProvider {
     private final Map<Position, Piece> janggiBoard;
 
     public JanggiBoard(Map<Position, Piece> janggiBoard) {
-        this.janggiBoard = new HashMap<>(janggiBoard);
+        this.janggiBoard = new HashMap<>();
         initializeBoard();
-        setupInitialPieces();
+        if (janggiBoard.isEmpty()) {
+            setupInitialPieces();
+            return;
+        }
+        this.janggiBoard.putAll(janggiBoard);
     }
 
     public Map<Position, Piece> getJanggiBoard() {
@@ -61,24 +71,43 @@ public class JanggiBoard implements PieceProvider {
         janggiBoard.put(new Position(baseRow, 3), new Guard(team, new PalaceStrategy()));
         janggiBoard.put(new Position(baseRow, 5), new Guard(team, new PalaceStrategy()));
         // 궁
-        janggiBoard.put(new Position(kingRow, 4), new King(team, new PawnStrategy()));
+        janggiBoard.put(new Position(kingRow, 4), new King(team, new PalaceStrategy()));
         // 포
         janggiBoard.put(new Position(cannonRow, 1), new Cannon(team, new CannonStrategy()));
         janggiBoard.put(new Position(cannonRow, 7), new Cannon(team, new CannonStrategy()));
 
         // 졸/병
         for (int col = 0; col < 9; col += 2) {
-            janggiBoard.put(new Position(pawnRow, col), new Pawn(team, new  PawnStrategy()));
+            janggiBoard.put(new Position(pawnRow, col), new Pawn(team, new PawnStrategy()));
         }
     }
 
-    public void movePiece(Position currentPosition, Position targetPosition) {
+    public Piece movePiece(Position currentPosition, Position targetPosition) {
         Piece currentPiece = getPiece(currentPosition);
 
+        Piece caughtPiece = getPiece(targetPosition);
         validateMovePiece(currentPosition, targetPosition, currentPiece);
 
         janggiBoard.put(targetPosition, currentPiece);
         janggiBoard.put(currentPosition, new Blank());
+
+        return caughtPiece;
+    }
+
+    public double calculateScore(Team team) {
+        double totalScore = janggiBoard.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .map(Piece::getPieceType).mapToDouble(PieceType::getScore)
+                .sum();
+        if (team == Team.HAN) {
+            totalScore += 1.5;
+        }
+        return totalScore;
+    }
+
+    public boolean isKingAlive(Team team) {
+        return janggiBoard.values().stream().anyMatch(piece -> piece.getTeam() == team
+                && piece.getPieceType() == PieceType.KING);
     }
 
     private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
