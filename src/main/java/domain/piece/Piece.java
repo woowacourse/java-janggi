@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.board.Board;
+import domain.movestrategy.MoveStrategyType;
 import domain.player.Team;
 
 import java.util.List;
@@ -51,6 +52,10 @@ public class Piece {
 
     public PieceType getPieceType() {
         return pieceStatus.pieceType();
+    }
+
+    public MoveStrategyType getMoveStrategyType() {
+        return pieceStatus.moveStrategyType();
     }
 
     public Team getTeam() {

@@ -19,8 +19,9 @@ CREATE TABLE IF NOT EXISTS piece (
     game_id BIGINT NOT NULL,
     team VARCHAR(10) NOT NULL,
     piece_type VARCHAR(10) NOT NULL,
+    move_strategy_type VARCHAR(20) NOT NULL,
     board_row INT NOT NULL,
     board_column INT NOT NULL,
     CONSTRAINT uq_piece_game_position UNIQUE (game_id, board_row, board_column),
     CONSTRAINT fk_piece_game FOREIGN KEY (game_id) REFERENCES game(game_id)
-    );
+);
