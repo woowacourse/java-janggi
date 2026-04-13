@@ -33,7 +33,7 @@ public class AlivePieces {
     }
 
     public Piece placedAt(Intersection intersection) {
-        return alivePieces.getOrDefault(intersection, new Piece(PieceType.EMPTY, Side.NONE));
+        return alivePieces.getOrDefault(intersection, Piece.EMPTY);
     }
 
     public boolean placedSameSide(Intersection intersection, Side side) {
@@ -66,9 +66,21 @@ public class AlivePieces {
         return screens.size() == 1 && screens.getFirst().isNotSameType(excludedType);
     }
 
+    public int calculatePiecePointOf(Side side) {
+        return alivePieces.values()
+                .stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToInt(Piece::toPoint)
+                .sum();
+    }
+
     public List<Piece> toList() {
         return alivePieces.values()
                 .stream()
                 .toList();
+    }
+
+    public Map<Intersection, Piece> toMap() {
+        return Map.copyOf(alivePieces);
     }
 }

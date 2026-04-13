@@ -8,6 +8,6 @@ public final class GeneralFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.GENERAL, side);
+        return Piece.of(PieceType.GENERAL, side);
     }
 }

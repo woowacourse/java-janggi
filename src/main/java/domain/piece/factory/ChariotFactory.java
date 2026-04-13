@@ -8,6 +8,6 @@ public final class ChariotFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.CHARIOT, side);
+        return Piece.of(PieceType.CHARIOT, side);
     }
 }

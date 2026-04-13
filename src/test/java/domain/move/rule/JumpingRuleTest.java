@@ -249,10 +249,10 @@ class JumpingRuleTest {
     }
 
     private static Piece createCannon(Side side) {
-        return new Piece(PieceType.CANNON, side);
+        return Piece.of(PieceType.CANNON, side);
     }
 
     private static Piece createDefaultPiece(Side side) {
-        return new Piece(PieceType.SOLDIER, side);
+        return Piece.of(PieceType.SOLDIER, side);
     }
 }

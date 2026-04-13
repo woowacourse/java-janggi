@@ -6,6 +6,7 @@ import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.MoveCommand;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,8 +28,27 @@ public final class InputView {
             '상', PieceType.ELEPHANT
     );
     private static final int WING_SIZE = 2;
+    private static final String ERROR_ONLY_NUMBER = "숫자만 입력할 수 있습니다.";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public int readMenuCommand() {
+        System.out.println("메뉴 중 하나를 선택해 주세요(예. 1): ");
+        try {
+            return Integer.parseInt(readLine().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ERROR_ONLY_NUMBER, e);
+        }
+    }
+
+    public long readGameNumber() {
+        System.out.println("이어서 시작할 게임의 번호를 선택해 주세요(새 게임을 시작하려면 0번): ");
+        try {
+            return Long.parseLong(readLine().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ERROR_ONLY_NUMBER, e);
+        }
+    }
 
     public Wings readWings(Side side) {
         System.out.println(SIDE_NAMES.get(side) + "의 상차림을 번호로 선택해주세요 (예: 1)");
@@ -53,40 +73,27 @@ public final class InputView {
         List<Piece> pieces = wingInput.chars()
                 .mapToObj(c -> (char) c)
                 .filter(WING_TYPES::containsKey)
-                .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
+                .map(symbol -> Piece.of(WING_TYPES.get(symbol), side))
                 .toList();
 
         return WingPieces.of(pieces);
     }
 
-    public Intersection readStartPosition(Side currentTurn) {
+    public MoveCommand readMoveCommand(Side currentTurn) {
         String sideName = SIDE_NAMES.get(currentTurn);
-        System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 (예: 7,2):%n", sideName);
+        System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 ('exit'를 입력하면 종료):%n", sideName);
 
-        return parseIntersection(readLine());
+        return MoveCommand.from(readLine());
     }
 
     public Intersection readDestination() {
         System.out.printf("이동 가능한 경로를 표시합니다. 도착할 좌표를 입력하세요 (예: 7,2):%n");
 
-        return parseIntersection(readLine());
+        return Intersection.parse(readLine());
     }
 
     private String readLine() {
         return scanner.nextLine()
                 .trim();
-    }
-
-    private Intersection parseIntersection(String input) {
-        final String delimiter = ",";
-        if (!input.contains(delimiter)) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
-        }
-
-        String[] split = input.split(delimiter);
-        int row = Integer.parseInt(split[0]);
-        int file = Integer.parseInt(split[1]);
-
-        return new Intersection(row, file);
     }
 }

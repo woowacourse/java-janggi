@@ -8,6 +8,6 @@ public final class ElephantFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.ELEPHANT, side);
+        return Piece.of(PieceType.ELEPHANT, side);
     }
 }

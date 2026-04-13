@@ -18,13 +18,13 @@ import org.junit.jupiter.params.provider.EnumSource;
 class BoardTest {
 
     private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
-    private static final Intersection DEFAULT_START_POINT = new Intersection(6, 6);
+    private static final Intersection DEFAULT_START_Position = new Intersection(6, 6);
     private static final Intersection DEFAULT_DESTINATION = new Intersection(7, 7);
     private static final Side DEFAULT_SIDE = Side.HAN;
     private static final Side SAME_SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
-    private static final Piece SAME_SIDE_PIECE = new Piece(PieceType.SOLDIER, SAME_SIDE);
-    private static final Piece OPPOSITE_SIDE_PIECE = new Piece(PieceType.SOLDIER, OPPOSITE_SIDE);
+    private static final Piece SAME_SIDE_PIECE = Piece.of(PieceType.SOLDIER, SAME_SIDE);
+    private static final Piece OPPOSITE_SIDE_PIECE = Piece.of(PieceType.SOLDIER, OPPOSITE_SIDE);
 
     @Nested
     class 기물이_이동_가능한_지점들을_반환한다 {
@@ -77,7 +77,7 @@ class BoardTest {
             // when and then
             assertThatThrownBy(() -> {
                 emptyBoard.movePiece(
-                        DEFAULT_START_POINT,
+                        DEFAULT_START_Position,
                         DEFAULT_DESTINATION,
                         DEFAULT_SIDE
                 );
@@ -144,8 +144,7 @@ class BoardTest {
             );
 
             // then
-            AlivePieces resultAlivePieces = board.getAlivePieces();
-            Piece destinationPiece = resultAlivePieces.placedAt(reachableDestination);
+            Piece destinationPiece = board.placedAt(reachableDestination);
 
             assertThat(destinationPiece).isEqualTo(SAME_SIDE_PIECE);
         }
@@ -173,7 +172,7 @@ class BoardTest {
             Side capturedSide = Side.HAN;
             Side noCapturedSide = Side.CHO;
             AlivePieces alivePieces = new AlivePieces(Map.of(
-                    new Intersection(5, 5), new Piece(PieceType.GENERAL, noCapturedSide)
+                    new Intersection(5, 5), Piece.of(PieceType.GENERAL, noCapturedSide)
             ));
             Board board = new Board(alivePieces);
 
@@ -186,8 +185,8 @@ class BoardTest {
         void 두_진영_모두_왕이_있는_경우() {
             Side cho = Side.CHO;
             Side han = Side.HAN;
-            Piece choGeneral = new Piece(PieceType.GENERAL, cho);
-            Piece hanGeneral = new Piece(PieceType.GENERAL, han);
+            Piece choGeneral = Piece.of(PieceType.GENERAL, cho);
+            Piece hanGeneral = Piece.of(PieceType.GENERAL, han);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     new Intersection(3, 3), choGeneral,
                     new Intersection(5, 5), hanGeneral
@@ -197,5 +196,23 @@ class BoardTest {
             assertThat(board.isGeneralCaptured(cho)).isFalse();
             assertThat(board.isGeneralCaptured(han)).isFalse();
         }
+    }
+
+    @DisplayName("진영별 기물 점수 합계를 계산한다")
+    @Test
+    void 진영별_기물_점수_합계를_계산한다() {
+        // given
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                new Intersection(5, 5), Piece.of(PieceType.CHARIOT, Side.HAN)
+        ));
+        Board board = new Board(alivePieces);
+
+        // when
+        int totalPointOfHan = board.calculatePiecePointOf(Side.HAN);
+        int totalPointOfCho = board.calculatePiecePointOf(Side.CHO);
+
+        // then
+        assertThat(totalPointOfHan).isEqualTo(13);
+        assertThat(totalPointOfCho).isEqualTo(0);
     }
 }

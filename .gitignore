@@ -33,3 +33,9 @@ out/
 
 ### Mac ###
 **/.DS_Store
+
+### DB - SQLite ###
+/src/main/resources/db/*
+!src/main/resources/db/.gitkeep
+/src/test/resources/db/
+:memory:?cache=shared

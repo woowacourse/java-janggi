@@ -20,13 +20,13 @@ class RightWingTest {
             // given
             Side side = Side.HAN;
             RightWing rightWing = new RightWing(new WingPieces(
-                    new Piece(PieceType.HORSE, side),
-                    new Piece(PieceType.ELEPHANT, side)
+                    Piece.of(PieceType.HORSE, side),
+                    Piece.of(PieceType.ELEPHANT, side)
             ));
 
             Map<Intersection, Piece> expected = Map.of(
-                    new Intersection(1, 3), new Piece(PieceType.HORSE, side),
-                    new Intersection(1, 2), new Piece(PieceType.ELEPHANT, side)
+                    new Intersection(1, 3), Piece.of(PieceType.HORSE, side),
+                    new Intersection(1, 2), Piece.of(PieceType.ELEPHANT, side)
             );
 
             // when
@@ -43,13 +43,13 @@ class RightWingTest {
             // given
             Side side = Side.CHO;
             RightWing rightWing = new RightWing(new WingPieces(
-                    new Piece(PieceType.HORSE, side),
-                    new Piece(PieceType.ELEPHANT, side)
+                    Piece.of(PieceType.HORSE, side),
+                    Piece.of(PieceType.ELEPHANT, side)
             ));
 
             Map<Intersection, Piece> expected = Map.of(
-                    new Intersection(10, 7), new Piece(PieceType.HORSE, side),
-                    new Intersection(10, 8), new Piece(PieceType.ELEPHANT, side)
+                    new Intersection(10, 7), Piece.of(PieceType.HORSE, side),
+                    new Intersection(10, 8), Piece.of(PieceType.ELEPHANT, side)
             );
 
             // when

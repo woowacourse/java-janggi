@@ -7,39 +7,168 @@ import domain.board.wing.Wings;
 import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import dto.GameMenu;
+import dto.GameSummary;
+import dto.GameWrapper;
+import dto.LoadCommand;
+import dto.MoveCommand;
+import java.util.ArrayList;
+import java.util.List;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
 public final class JanggiController {
 
+    private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(JanggiService janggiService, InputView inputView, OutputView outputView) {
+        this.janggiService = janggiService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
+        outputView.printWelcomeMessage();
+
+        GameMenu selectedMenu;
+        while ((selectedMenu = receiveValidGameMenu()).isDispatchable()) {
+            dispatchMenu(selectedMenu);
+        }
+
+        outputView.printExitMessage();
+    }
+
+    private GameMenu receiveValidGameMenu() {
+        outputView.printGameMenu();
+
+        while (true) {
+            try {
+                int menuCommand = inputView.readMenuCommand();
+                return GameMenu.from(menuCommand);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void dispatchMenu(GameMenu selectedMenu) {
+        if (selectedMenu == GameMenu.NEW_GAME) {
+            newGameFlow();
+            return;
+        }
+
+        if (selectedMenu == GameMenu.SHOW_PREVIOUS_GAMES) {
+            loadGameFlow();
+            return;
+        }
+
+        throw new IllegalArgumentException(selectedMenu + "를 처리할 수 없습니다.");
+    }
+
+    private void loadGameFlow() {
+        List<GameSummary> gameSummaries = janggiService.loadAllGameSummaries();
+        outputView.printGames(gameSummaries);
+
+        List<Long> gameNumbers = gameSummaries.stream()
+                .map(GameSummary::id)
+                .toList();
+        List<Long> selectableNumbers = new ArrayList<>(gameNumbers);
+        selectableNumbers.add(0L);
+
+        while (true) {
+            try {
+                LoadCommand loadCommand = LoadCommand.from(inputView.readGameNumber());
+                dispatchLoadCommand(loadCommand, selectableNumbers);
+                return;
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void dispatchLoadCommand(LoadCommand loadCommand, List<Long> selectableNumbers) {
+        long gameNumberToLoad = loadCommand.gameNumberToLoad();
+        if (!selectableNumbers.contains(gameNumberToLoad)) {
+            throw new IllegalArgumentException(gameNumberToLoad + "는 유효하지 않는 번호입니다.");
+        }
+
+        if (loadCommand.isNewGame()) {
+            newGameFlow();
+            return;
+        }
+
+        if (loadCommand.isLoadGame()) {
+            continueGame(gameNumberToLoad);
+            return;
+        }
+
+        throw new IllegalArgumentException("핸들러에 등록되지 않은 커맨드입니다.");
+    }
+
+    private void newGameFlow() {
         outputView.printGameStart();
 
         InitialPieces initialPieces = setUpInitialPieces();
         AlivePieces alivePieces = initialPieces.toAlivePieces();
         Board board = new Board(alivePieces);
-        JanggiGame janggiGame = new JanggiGame(board);
+        GameWrapper gameWrapper = janggiService.createGame(board);
 
-        outputView.printBoard(board);
+        startGame(gameWrapper);
+    }
 
+    private void startGame(GameWrapper gameWrapper) {
+        JanggiGame janggiGame = setUpGame(gameWrapper);
         while (!janggiGame.isFinished()) {
-            Side currentTurn = janggiGame.currentTurn();
+            MoveCommand moveCommand;
+            try {
+                moveCommand = inputView.readMoveCommand(janggiGame.currentTurn());
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+                continue;
+            }
 
-            Intersection startPosition = readValidStartPositionAndPrintBoard(currentTurn, board);
+            if (moveCommand.isExit()) {
+                outputView.printGameFinishedByCommand();
+                return;
+            }
 
-            readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
+            try {
+                gameWrapper = processTurn(moveCommand, gameWrapper);
+                janggiGame = gameWrapper.game();
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
 
-        Side winnerSide = janggiGame.previousTurn();
-        outputView.printWinner(winnerSide);
+        outputView.printWinner(janggiGame.determineResult());
+    }
+
+    private JanggiGame setUpGame(GameWrapper gameWrapper) {
+        outputView.printGameStart();
+        JanggiGame janggiGame = gameWrapper.game();
+        outputView.printBoard(janggiGame.getBoard());
+        return janggiGame;
+    }
+
+    private GameWrapper processTurn(MoveCommand moveCommand, GameWrapper gameWrapper) {
+        JanggiGame janggiGame = gameWrapper.game();
+        Intersection startPosition = moveCommand.selectedToMove()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 좌표(x,y) 또는 종료(exit)를 입력해주세요."));
+        Side currentTurn = janggiGame.currentTurn();
+
+        outputView.printBoardWithMovable(
+                janggiGame.getBoard(),
+                janggiGame.getMovableIntersections(startPosition, currentTurn)
+        );
+        return readValidDestinationAndPrintBoard(gameWrapper, startPosition, currentTurn);
+    }
+
+    private void continueGame(long gameId) {
+        GameWrapper gameWrapper = janggiService.loadGame(gameId);
+        startGame(gameWrapper);
     }
 
     private InitialPieces setUpInitialPieces() {
@@ -59,32 +188,23 @@ public final class JanggiController {
         }
     }
 
-    private Intersection readValidStartPositionAndPrintBoard(Side currentTurn, Board board) {
-        while (true) {
-            try {
-                Intersection startPosition = inputView.readStartPosition(currentTurn);
-                outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
-
-                return startPosition;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private Intersection readValidDestinationAndPrintBoard(
-            JanggiGame janggiGame,
-            Board board,
+    private GameWrapper readValidDestinationAndPrintBoard(
+            GameWrapper gameWrapper,
             Intersection startPosition,
             Side currentTurn
     ) {
         while (true) {
             try {
                 Intersection destination = inputView.readDestination();
-                janggiGame.movePiece(startPosition, destination, currentTurn);
-                outputView.printBoard(board);
+                GameWrapper movedGameWrapper = janggiService.move(
+                        gameWrapper.gameId(),
+                        startPosition,
+                        destination,
+                        currentTurn
+                );
+                outputView.printBoard(movedGameWrapper.game().getBoard());
 
-                return destination;
+                return movedGameWrapper;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

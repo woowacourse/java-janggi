@@ -5,10 +5,9 @@ import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.move.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public final class SingleStepMovement extends Movement {
+public final class SingleStepMovement extends Movement implements PalaceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
@@ -24,8 +23,11 @@ public final class SingleStepMovement extends Movement {
         );
 
         for (Intersection destination : destinations) {
-            paths.add(new Path(destination, Collections.emptyList()));
+            paths.add(Path.of(destination));
         }
+
+        List<Path> palaceDiagonalPaths = PalaceMovement.super.palaceDiagonalPaths(from);
+        paths.addAll(palaceDiagonalPaths);
 
         return List.copyOf(paths);
     }

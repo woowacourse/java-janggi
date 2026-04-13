@@ -8,4 +8,8 @@ public record Path(Intersection destination, List<Intersection> passingIntersect
     public boolean isInBoundsDestination() {
         return destination.isInBounds();
     }
+
+    public static Path of(Intersection destination) {
+        return new Path(destination, List.of());
+    }
 }

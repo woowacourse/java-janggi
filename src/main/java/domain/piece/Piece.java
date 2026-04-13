@@ -2,23 +2,30 @@ package domain.piece;
 
 import domain.board.Intersection;
 import domain.game.Side;
-import domain.move.Path;
 import java.util.List;
 
 public final class Piece {
 
+    public static final Piece EMPTY = new Piece(PieceType.EMPTY, Side.NONE);
+
     private final PieceType type;
     private final Side side;
 
-    public Piece(PieceType type, Side side) {
+    private Piece(PieceType type, Side side) {
         this.type = type;
         this.side = side;
     }
 
-    public List<Intersection> movablePaths(Intersection from, AlivePieces alivePieces) {
-        List<Path> movablePaths = type.movablePaths(from, side);
+    public static Piece of(PieceType type, Side side) {
+        if (type == PieceType.EMPTY) {
+            return EMPTY;
+        }
 
-        return type.movableDestinations(side, movablePaths, alivePieces);
+        return new Piece(type, side);
+    }
+
+    public List<Intersection> movableDestinations(Intersection from, AlivePieces alivePieces) {
+        return type.movableDestinations(side, from, alivePieces);
     }
 
     public boolean isSameSide(Side side) {
@@ -39,6 +46,18 @@ public final class Piece {
 
     public boolean isNotSameType(PieceType pieceType) {
         return !isSameType(pieceType);
+    }
+
+    public int toPoint() {
+        return type.point();
+    }
+
+    public PieceType getType() {
+        return type;
+    }
+
+    public Side getSide() {
+        return side;
     }
 
     @Override

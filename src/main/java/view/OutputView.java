@@ -2,9 +2,16 @@ package view;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.game.GameResult;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.GameMenu;
+import dto.GameSummary;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +39,47 @@ public final class OutputView {
         System.out.println();
     }
 
+    public void printWelcomeMessage() {
+        System.out.println("안녕하세요. 루드비코의 장기 마을입니다!" + System.lineSeparator());
+    }
+
+    public void printExitMessage() {
+        System.out.println("--- 프로그램을 종료합니다. ---" + System.lineSeparator());
+    }
+
+    public void printGameMenu() {
+        System.out.println("선택 가능한 메뉴는 다음과 같습니다.");
+        Arrays.stream(GameMenu.values())
+                .map(GameMenu::toDisplayString)
+                .forEach(System.out::println);
+        System.out.println();
+    }
+
+    public void printGames(List<GameSummary> gameSummaries) {
+        System.out.println("이전 게임을 조회합니다.");
+        if (gameSummaries.isEmpty()) {
+            System.out.println("--- 이전 게임이 존재하지 않습니다. ---");
+            return;
+        }
+
+        System.out.println("------------- 저장된 게임 목록 -------------");
+        System.out.printf("%-5s %-20s %-5s %n", "[ID]", "[STARTED_AT]", "[CURRENT_TURN]");
+        gameSummaries.forEach(summary ->
+                System.out.printf(" %-5d %-20s %-5s %n",
+                        summary.id(), formatTime(summary.startedAt()), summary.currentTurn()
+                )
+        );
+        System.out.println("----------------------------------------");
+    }
+
+    // TODO: 일단 해결은 완료. 좀 더 명확하게 바꿀 필요 있음. 지금 문제는 DB에서 받아 온 DATE의 ZONEID가 뭔지 자바 코드에서 결정하고 있다는 것임.
+    private String formatTime(LocalDateTime ldt) {
+        ZonedDateTime utcZdt = ldt.atZone(ZoneId.of("UTC"));
+        ZonedDateTime asiaSeoulZdt = utcZdt.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+
+        return asiaSeoulZdt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
+
     public void printGameStart() {
         System.out.println("장기 게임을 시작합니다." + System.lineSeparator());
     }
@@ -49,9 +97,29 @@ public final class OutputView {
         System.out.println();
     }
 
-    public void printWinner(Side side) {
-        System.out.println("--- 게임이 종료되었습니다 ---");
-        System.out.printf("%s의 승리!", side.name());
+    public void printGameFinishedByCommand() {
+        System.out.println("--- 게임을 종료합니다 ---" + System.lineSeparator());
+    }
+
+    public void printWinner(GameResult gameResult) {
+        System.out.printf("--- 게임이 종료되었습니다 ---%n%s의 승리!%n", gameResult.winnerName());
+        printWinningReason(gameResult);
+        System.out.println();
+    }
+
+    private void printWinningReason(GameResult gameResult) {
+        String winnerName = gameResult.winnerName();
+
+        if (gameResult.generalCaptured()) {
+            System.out.printf("%s가 상대방의 왕을 잡았습니다.%n", winnerName);
+            return;
+        }
+
+        Map<Side, Double> totalPointBySide = gameResult.totalPointBySide();
+        System.out.printf("%s의 점수가 상대방보다 높습니다.%n", winnerName);
+        totalPointBySide.forEach((side, point) ->
+                System.out.printf("%s의 점수: %.1f%n", side.name(), point)
+        );
     }
 
     private void printRow(Board board, int row, List<Intersection> movableIntersections) {
@@ -72,7 +140,7 @@ public final class OutputView {
     }
 
     private void printCell(Board board, Intersection current, boolean isMovable) {
-        if (board.getAlivePieces().isEmpty(current)) {
+        if (board.isEmpty(current)) {
             printEmptyCell(isMovable);
             return;
         }
@@ -88,7 +156,7 @@ public final class OutputView {
     }
 
     private void printPieceCell(Board board, Intersection current, boolean isMovable) {
-        Piece piece = board.getAlivePieces().placedAt(current);
+        Piece piece = board.placedAt(current);
         String coloredSymbol = getColoredPieceSymbol(piece);
         if (isMovable) {
             System.out.print("［" + coloredSymbol + "］");

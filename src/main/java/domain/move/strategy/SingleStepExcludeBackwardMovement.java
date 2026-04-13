@@ -4,23 +4,31 @@ import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.move.Path;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-public final class SingleStepExcludeBackwardMovement extends Movement {
+public final class SingleStepExcludeBackwardMovement extends Movement implements PalaceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
+    private final Movement baseMovement = new SingleStepMovement();
+
     @Override
     protected List<Path> candidatePaths(Intersection from, Side side) {
-        Intersection forward = side.moveForward(from, MOVE_AMOUNT);
-        Intersection left = side.moveLeft(from, MOVE_AMOUNT);
-        Intersection right = side.moveRight(from, MOVE_AMOUNT);
+        List<Path> allDirectionPaths = new ArrayList<>(baseMovement.candidatePaths(from, side));
 
-        return List.of(
-                new Path(forward, Collections.emptyList()),
-                new Path(left, Collections.emptyList()),
-                new Path(right, Collections.emptyList())
-        );
+        List<Path> palaceDiagonalPaths = PalaceMovement.super.palaceDiagonalPaths(from);
+        allDirectionPaths.addAll(palaceDiagonalPaths);
+
+        return allDirectionPaths.stream()
+                .distinct()
+                .filter(path -> isNotBackward(from, path.destination(), side))
+                .toList();
+    }
+
+    private boolean isNotBackward(Intersection from, Intersection to, Side side) {
+        Intersection backward = side.moveBackward(from, MOVE_AMOUNT);
+
+        return backward.row() != to.row();
     }
 }

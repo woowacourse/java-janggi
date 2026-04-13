@@ -8,19 +8,19 @@ import domain.direction.Up;
 import java.util.List;
 
 public enum Side {
-    HAN(1, 9, new Down()) {
+    HAN(Intersection.LOWER_BOUND_ROW, Intersection.UPPER_BOUND_FILE, new Down()) {
         @Override
         public Side nextTurn() {
             return CHO;
         }
     },
-    CHO(10, 1, new Up()) {
+    CHO(Intersection.UPPER_BOUND_ROW, Intersection.LOWER_BOUND_FILE, new Up()) {
         @Override
         public Side nextTurn() {
             return HAN;
         }
     },
-    NONE(0, 0, new NoDirection()) {
+    NONE(Intersection.IGNORED, Intersection.IGNORED, new NoDirection()) {
         @Override
         public Side nextTurn() {
             return NONE;
@@ -43,7 +43,7 @@ public enum Side {
     }
 
     public int getRowAt(MoveAmount distanceFromBaseRow) {
-        final int defaultFile = 5;
+        final int defaultFile = Intersection.IGNORED;
         Intersection targetIntersection =
                 forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distanceFromBaseRow);
 
@@ -51,7 +51,7 @@ public enum Side {
     }
 
     public int getFileAt(MoveAmount distanceFromBaseFile) {
-        final int defaultRow = 5;
+        final int defaultRow = Intersection.IGNORED;
         Intersection targetIntersection =
                 forwardDirection.moveRight(new Intersection(defaultRow, baseFile), distanceFromBaseFile);
 

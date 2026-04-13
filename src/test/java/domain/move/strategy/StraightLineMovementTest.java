@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -29,7 +30,7 @@ class StraightLineMovementTest {
 
     @DisplayName("앞, 뒤, 양 옆으로 칸 수 제약없이 이동이 가능하다")
     @Nested
-    class 모든_빙향으로_칸_수_제약없이_이동이_가능하다 {
+    class 모든_방향으로_칸_수_제약없이_이동이_가능하다 {
 
         @DisplayName("진영에 상관없이 동일하게 적용된다")
         @ParameterizedTest
@@ -39,12 +40,31 @@ class StraightLineMovementTest {
             List<Intersection> expected = allDirectionIntersectionsExcludeCurrentIntersection(currentIntersection);
 
             List<Path> movablePaths = movement.movablePaths(currentIntersection, side);
-            List<Intersection> movableDestinations = movablePaths.stream()
-                    .map(Path::destination)
-                    .toList();
 
-            assertThat(movableDestinations)
+            assertThat(movablePaths)
+                    .extracting(Path::destination)
                     .containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @DisplayName("궁성에서는 대각선으로도 이동이 가능하다")
+        @Test
+        void 궁성에서는_대각선으로도_이동이_가능하다() {
+            Intersection currentIntersection = new Intersection(3, 4);
+            List<Intersection> orthogonalDestinations =
+                    allDirectionIntersectionsExcludeCurrentIntersection(currentIntersection);
+            List<Intersection> diagonalDestinations = List.of(
+                    new Intersection(2, 5), new Intersection(1, 6)
+            );
+
+            List<Path> movablePaths = movement.movablePaths(currentIntersection, Side.CHO);
+
+            assertThat(movablePaths)
+                    .extracting(Path::destination)
+                    .hasSize(orthogonalDestinations.size() + diagonalDestinations.size())
+                    .as("직선 방향 포함")
+                    .containsAll(orthogonalDestinations)
+                    .as("궁성 대각선 포함")
+                    .containsAll(diagonalDestinations);
         }
     }
 

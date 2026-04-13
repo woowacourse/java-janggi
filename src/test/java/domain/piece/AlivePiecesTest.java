@@ -7,16 +7,20 @@ import domain.game.Side;
 import domain.move.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class AlivePiecesTest {
 
     private static final Intersection NON_EMPTY_INTERSECTION = new Intersection(5, 5);
     private static final Intersection EMPTY_INTERSECTION = new Intersection(3, 3);
-    private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
-    private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+    private static final Piece DEFAULT_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
+    private static final Piece CHO_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
 
     @DisplayName("기물이 없는 위치를 조회하면 EMPTY 타입과 NONE 진영을 가진 기물을 리턴한다")
     @Test
@@ -96,7 +100,7 @@ class AlivePiecesTest {
         @DisplayName("같은 진영 검증")
         @Test
         void 같은_진영_검증() {
-            Piece choPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+            Piece choPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
             Intersection targetIntersection = new Intersection(5, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     targetIntersection, choPiece
@@ -112,7 +116,7 @@ class AlivePiecesTest {
         @DisplayName("상대 진영 검증")
         @Test
         void 상대_진영_검증() {
-            Piece choPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+            Piece choPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
             Intersection targetIntersection = new Intersection(5, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     targetIntersection, choPiece
@@ -129,7 +133,7 @@ class AlivePiecesTest {
     @DisplayName("기물의 위치 이동 검증")
     @Test
     void 기물의_위치_이동_검증() {
-        Piece targetPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+        Piece targetPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
         Intersection startIntersection = NON_EMPTY_INTERSECTION;
         Intersection destination = EMPTY_INTERSECTION;
         AlivePieces alivePieces = new AlivePieces(Map.of(
@@ -152,7 +156,7 @@ class AlivePiecesTest {
             Intersection passingIntersection = new Intersection(5, 5);
             Intersection destination = new Intersection(6, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
-                    passingIntersection, new Piece(PieceType.SOLDIER, Side.CHO)
+                    passingIntersection, Piece.of(PieceType.SOLDIER, Side.CHO)
             ));
             Path path = new Path(destination, List.of(passingIntersection));
 
@@ -173,5 +177,54 @@ class AlivePiecesTest {
 
             assertThat(emptyAlivePieces.isPassable(path)).isTrue();
         }
+    }
+
+    @DisplayName("진영별로 살아있는 기물들의 점수를 계산한다")
+    @ParameterizedTest(name = "초(CHO): {1}점, 한(HAN): {2}점")
+    @MethodSource("piecesAndPoint")
+    void 진영별로_기물_점수의_합을_계산한다(Map<Intersection, Piece> pieces, int expectedPointCho, int expectedPointHan) {
+        // given
+        AlivePieces alivePieces = new AlivePieces(Map.copyOf(pieces));
+
+        // when
+        int totalPointOfCho = alivePieces.calculatePiecePointOf(Side.CHO);
+        int totalPointOfHan = alivePieces.calculatePiecePointOf(Side.HAN);
+
+        // then
+        assertThat(totalPointOfCho).isEqualTo(expectedPointCho);
+        assertThat(totalPointOfHan).isEqualTo(expectedPointHan);
+    }
+
+    private static Stream<Arguments> piecesAndPoint() {
+        return Stream.of(
+                Arguments.of(
+                        Map.of(),
+                        0, 0),
+                Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.SOLDIER, Side.CHO)
+                        ),
+                        2, 0
+                ),
+                Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.SOLDIER, Side.HAN)
+                        ),
+                        0, 2
+                ), Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.CHARIOT, Side.CHO),
+                                pos(1, 2), Piece.of(PieceType.CANNON, Side.CHO),
+                                pos(1, 3), Piece.of(PieceType.HORSE, Side.HAN),
+                                pos(1, 4), Piece.of(PieceType.ELEPHANT, Side.HAN),
+                                pos(1, 5), Piece.of(PieceType.GUARD, Side.HAN)
+                        ),
+                        20, 11
+                )
+        );
+    }
+
+    private static Intersection pos(int row, int file) {
+        return new Intersection(row, file);
     }
 }
