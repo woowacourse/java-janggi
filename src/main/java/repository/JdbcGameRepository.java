@@ -2,6 +2,7 @@ package repository;
 
 import domain.Team;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,10 +10,10 @@ import java.sql.SQLException;
 
 public class JdbcGameRepository implements GameRepository {
 
-    private final Connection connection;
+    private final DataSource dataSource;
 
-    public JdbcGameRepository(Connection connection) {
-        this.connection = connection;
+    public JdbcGameRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -21,7 +22,8 @@ public class JdbcGameRepository implements GameRepository {
 
         String sql = "INSERT INTO game_state (current_turn, is_finished, cho_score, han_score) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, currentTurn.name());
             preparedStatement.setBoolean(2, isFinished);
             preparedStatement.setDouble(3, choScore);
@@ -37,7 +39,8 @@ public class JdbcGameRepository implements GameRepository {
     public Team findCurrentTurn() {
         String sql = "SELECT current_turn FROM game_state";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 return Team.valueOf(resultSet.getString("current_turn"));
@@ -51,7 +54,8 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public void deleteAll() {
         String sql = "DELETE FROM game_state";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("게임의 상태를 초기화하는 과정에서 문제가 발생하였습니다. " + e);
@@ -62,7 +66,8 @@ public class JdbcGameRepository implements GameRepository {
     public boolean isNotFinished() {
         String sql = "SELECT COUNT(*) FROM game_state WHERE is_finished = false";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 return resultSet.getInt(1) > 0;

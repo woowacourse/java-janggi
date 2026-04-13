@@ -18,16 +18,17 @@ import domain.strategy.HorseStrategy;
 import domain.strategy.PalaceStrategy;
 import domain.strategy.PawnStrategy;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JdbcBoardRepository implements BoardRepository {
 
-    private final Connection connection;
+    private final DataSource dataSource;
 
-    public JdbcBoardRepository(Connection connection) {
-        this.connection = connection;
+    public JdbcBoardRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -36,7 +37,8 @@ public class JdbcBoardRepository implements BoardRepository {
 
         String sql = "INSERT INTO board (row_index, col_index, team, piece_type) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (Map.Entry<Position, Piece> entry : board.entrySet()) {
                 Piece piece = entry.getValue();
                 if (piece.getPieceType() == PieceType.BLANK) {
@@ -59,7 +61,8 @@ public class JdbcBoardRepository implements BoardRepository {
         String sql = "SELECT row_index, col_index, team, piece_type FROM board";
         Map<Position, Piece> board = new HashMap<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -81,7 +84,8 @@ public class JdbcBoardRepository implements BoardRepository {
     public void deleteAll() {
         String sql = "DELETE FROM board";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("보드의 데이터를 초기화하는 과정에서 문제가 발생하였습니다.", e);

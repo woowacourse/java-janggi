@@ -1,5 +1,6 @@
 package janggiBoard.repositoryTest;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -15,8 +16,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import repository.JdbcGameRepository;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,25 +32,26 @@ public class JdbcRepositoryTest {
 
     private JdbcBoardRepository jdbcBoardRepository;
     private JdbcGameRepository jdbcGameRepository;
-    private Connection connection;
+    private DataSource dataSource;
 
     @BeforeEach
     void setUp() throws Exception {
-        connection = DriverManager.getConnection(
-                MYSQL.getJdbcUrl(),
-                MYSQL.getUsername(),
-                MYSQL.getPassword()
-        );
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+        mysqlDataSource.setUrl(MYSQL.getJdbcUrl());
+        mysqlDataSource.setUser(MYSQL.getUsername());
+        mysqlDataSource.setPassword(MYSQL.getPassword());
+        this.dataSource = mysqlDataSource;
 
-        try (Statement statement = connection.createStatement()) {
+        try (Connection conn = dataSource.getConnection();
+             Statement statement = conn.createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS board (" +
                     "row_index INT, col_index INT, team VARCHAR(10), piece_type VARCHAR(20))");
             statement.execute("CREATE TABLE IF NOT EXISTS game_state (" +
                     "current_turn VARCHAR(10), is_finished BOOLEAN, cho_score DOUBLE, han_score DOUBLE)");
         }
 
-        jdbcBoardRepository = new JdbcBoardRepository(connection);
-        jdbcGameRepository = new JdbcGameRepository(connection);
+        jdbcBoardRepository = new JdbcBoardRepository(dataSource);
+        jdbcGameRepository = new JdbcGameRepository(dataSource);
     }
 
     @Test
