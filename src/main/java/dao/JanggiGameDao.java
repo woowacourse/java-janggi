@@ -20,6 +20,7 @@ public class JanggiGameDao {
     }
 
     public long updateGame(long gameId, List<PieceSnapshot> pieces) throws SQLException {
+        deletePieces(gameId);
         insertPieces(gameId, pieces);
         return gameId;
     }
@@ -35,6 +36,14 @@ public class JanggiGameDao {
                 return keys.getLong(1);
             }
             throw new SQLException("game INSERT 후 id 획득 실패");
+        }
+    }
+
+    private void deletePieces(long gameId) throws SQLException {
+        String sql = "DELETE FROM piece WHERE game_id = ?";
+        try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
+            ps.setLong(1, gameId);
+            ps.executeUpdate();
         }
     }
 
