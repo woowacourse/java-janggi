@@ -1,7 +1,9 @@
 package janggi.domain;
 
+import janggi.domain.game.GameStatus;
 import janggi.domain.piece.Piece;
 import janggi.domain.turn.Turn;
+import janggi.dto.GameDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,26 +14,37 @@ public class JanggiGame {
 
     private final Long id;
     private final List<Turn> turns;
+    private final GameStatus gameStatus;
 
-    private JanggiGame(Long id, List<Turn> turns) {
+    private JanggiGame(Long id, List<Turn> turns, GameStatus gameStatus) {
         this.id = id;
         this.turns = new ArrayList<>(turns);
+        this.gameStatus = gameStatus;
     }
 
     public static JanggiGame createInitialJanggiGame() {
-        return new JanggiGame(IdGenerator.createId(), List.of(Turn.createInitialTurn()));
+        return new JanggiGame(IdGenerator.createId(), List.of(Turn.createInitialTurn()), GameStatus.IN_PROGRESS);
     }
 
-    public static JanggiGame loadPreviousJanggiGame(long gameId, Turn previousTurn) {
-        return new JanggiGame(gameId, List.of(previousTurn));
+    public static JanggiGame loadPreviousJanggiGame(JanggiGame janggiGame, Turn previousTurn) {
+        return new JanggiGame(janggiGame.getId(), List.of(previousTurn), janggiGame.getGameStatus());
+    }
+
+    public static JanggiGame from(GameDto gameDto) {
+        // 빈 리스트 수정 필요
+        return new JanggiGame(gameDto.id(), List.of(), gameDto.gameStatus());
     }
 
     public long getId() {
         return id;
     }
 
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
     public boolean isRunning() {
-        return getLastTurn().isRunning();
+        return gameStatus == GameStatus.IN_PROGRESS;
     }
 
     public Map<Position, Piece> makeCurrentTurnBoardSnapShot() {

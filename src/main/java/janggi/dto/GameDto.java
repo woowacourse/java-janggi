@@ -14,7 +14,7 @@ public record GameDto(Long id, GameStatus gameStatus) {
     }
 
     public static GameDto from(JanggiGame janggiGame) {
-        return new GameDto(janggiGame.getId(), GameStatus.IN_PROGRESS);
+        return new GameDto(janggiGame.getId(), janggiGame.getGameStatus());
     }
 
     public static GameDto of(long id, String gameStatus) {

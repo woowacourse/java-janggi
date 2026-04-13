@@ -19,6 +19,14 @@ public record PieceDto(Long id, Long turnId, PieceType pieceType, TeamType teamT
         return new PieceDto(null, turnId, piece.getPieceType(), piece.getTeamType(), position.getX(), position.getY());
     }
 
+    public static Map<Position, Piece> getAllPieces(List<PieceDto> pieceDtos) {
+        return pieceDtos.stream()
+                .collect(Collectors.toMap(
+                        pieceDto -> Position.of(pieceDto.x, pieceDto.y),
+                        pieceDto -> Piece.of(pieceDto.pieceType, pieceDto.teamType)
+                ));
+    }
+
     public static Map<Position, Piece> getPiecesByTeamType(List<PieceDto> pieceDtos, TeamType teamType) {
         return pieceDtos.stream()
                 .filter(pieceDto -> pieceDto.teamType == teamType)

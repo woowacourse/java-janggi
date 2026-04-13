@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.JanggiGame;
 import janggi.domain.Position;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;

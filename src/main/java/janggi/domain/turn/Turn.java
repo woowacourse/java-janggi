@@ -5,6 +5,7 @@ import janggi.domain.IdGenerator;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
+import janggi.dto.TurnDto;
 
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +30,11 @@ public class Turn {
 
     public static Turn loadPreviousTurn(long turnId, TeamType teamType, Board board, TurnStatus turnStatus) {
         return new Turn(turnId, teamType, board, turnStatus);
+    }
+
+    public static Turn from(TurnDto turnDto) {
+        //null 반환..
+        return new Turn(turnDto.id(), turnDto.currentTurnTeam(), null, turnDto.turnStatus());
     }
 
     public long getId() {

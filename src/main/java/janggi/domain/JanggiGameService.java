@@ -1,13 +1,13 @@
 package janggi.domain;
 
-import janggi.domain.game.GameService;
+import janggi.domain.game.GameRepository;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceService;
+import janggi.domain.piece.PieceRepository;
 import janggi.domain.team.Chu;
 import janggi.domain.team.Han;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.Turn;
-import janggi.domain.turn.TurnService;
+import janggi.domain.turn.TurnRepository;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;
@@ -17,23 +17,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class JanggiGameService {
 
-    private final GameService gameService;
-    private final TurnService turnService;
-    private final PieceService pieceService;
+    private final GameRepository gameRepository;
+    private final TurnRepository turnRepository;
+    private final PieceRepository pieceRepository;
 
-    public JanggiGameService(GameService gameService, TurnService turnService, PieceService pieceService) {
-        this.gameService = gameService;
-        this.turnService = turnService;
-        this.pieceService = pieceService;
+    public JanggiGameService(GameRepository gameRepository, TurnRepository turnRepository, PieceRepository pieceRepository) {
+        this.gameRepository = gameRepository;
+        this.turnRepository = turnRepository;
+        this.pieceRepository = pieceRepository;
     }
 
     public JanggiGame initializeJanggiGame(Consumer<List<GameDto>> printResumeNotice, Runnable printResumeGameNotice, Supplier<String> readLine) {
-        List<GameDto> inProgressGames = gameService.findInProgressGames();
+        List<JanggiGame> inProgressGames = gameRepository.findInProgressGames();
         if (!inProgressGames.isEmpty()) {
-            printResumeNotice.accept(inProgressGames);
+            List<GameDto> inProgressGameDtos = inProgressGames.stream()
+                    .map(GameDto::from)
+                    .toList();
+            printResumeNotice.accept(inProgressGameDtos);
             String inputResumeCommand = readLine.get();
             ResumeCommand resumeCommand = new ResumeCommand(inputResumeCommand);
             if (resumeCommand.isResume()) {
@@ -43,30 +47,30 @@ public class JanggiGameService {
             }
         }
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
-        gameService.save(janggiGame);
+        gameRepository.save(janggiGame);
         return janggiGame;
     }
 
     public void move(JanggiGame janggiGame, Position start, Position end) {
         Turn movedTurn = janggiGame.move(start, end);
-        turnService.save(movedTurn, janggiGame.getId());
+        turnRepository.save(movedTurn, janggiGame.getId());
         janggiGame.addNewTurn(movedTurn);
         List<PieceDto> pieceDtos = getPieceDtos(movedTurn);
-        pieceService.saveAll(pieceDtos);
+        pieceRepository.saveAll(pieceDtos);
     }
 
     public void updateGameStatusFinished(JanggiGame janggiGame) {
-        gameService.updateGameStatusFinished(janggiGame);
+        gameRepository.updateGameStatusFinished(janggiGame);
     }
 
     private JanggiGame loadPreviousJanggiGame(Long gameId) {
-        GameDto gameDto = gameService.findById(gameId);
-        TurnDto turnDto = turnService.findLastTurnByGameId(gameDto.id());
+        JanggiGame janggiGame = gameRepository.findById(gameId);
+        TurnDto turnDto = turnRepository.findLastTurnByGameId(janggiGame.getId());
 
-        List<PieceDto> pieceDtos = pieceService.findPiecesByTurnId(turnDto.id());
+        Map<Position, Piece> allPieces = pieceRepository.findAllPiecesByTurnId(turnDto.id());
 
-        Map<Position, Piece> chuPieces = pieceService.getPiecesByTeamType(pieceDtos, TeamType.CHU);
-        Map<Position, Piece> hanPieces = pieceService.getPiecesByTeamType(pieceDtos, TeamType.HAN);
+        Map<Position, Piece> chuPieces = getPiecesByTeamType(allPieces, TeamType.CHU);
+        Map<Position, Piece> hanPieces = getPiecesByTeamType(allPieces, TeamType.HAN);
 
         Chu chu = Chu.loadLastChu(chuPieces);
         Han han = Han.loadLastHan(hanPieces);
@@ -75,7 +79,16 @@ public class JanggiGameService {
 
         Turn turn = Turn.loadPreviousTurn(turnDto.id(), turnDto.currentTurnTeam(), board, turnDto.turnStatus());
 
-        return JanggiGame.loadPreviousJanggiGame(gameDto.id(), turn);
+        return JanggiGame.loadPreviousJanggiGame(janggiGame, turn);
+    }
+
+    private Map<Position, Piece> getPiecesByTeamType(Map<Position, Piece> allPieces, TeamType teamType) {
+        return allPieces.entrySet().stream()
+                .filter(entry -> entry.getValue().getTeamType() == teamType)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
     }
 
     private List<PieceDto> getPieceDtos(Turn movedTurn) {
