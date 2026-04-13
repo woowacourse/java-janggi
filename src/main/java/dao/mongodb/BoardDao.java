@@ -2,15 +2,9 @@ package dao.mongodb;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import domain.Board;
-import domain.Piece;
-import domain.Team;
-import domain.Type;
-import domain.vo.Position;
+import dto.PieceDto;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -22,99 +16,96 @@ public class BoardDao {
         this.collection = connection.getCollection("board");
     }
 
-    public String save(Board board, int turnCount) {
-        ArrayList<Document> pieces = new ArrayList<>();
+    public String save(List<PieceDto> pieces, int turnCount) {
+        ArrayList<Document> pieceDocuments = new ArrayList<>();
 
-        for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-
-            Document document = toDocument(position, piece);
-            pieces.add(document);
+        for (PieceDto pieceDto : pieces) {
+            pieceDocuments.add(toDocument(pieceDto));
         }
 
-        Document gameDocument = new Document()
-                .append("pieces", pieces)
-                .append("turnCount", turnCount);
+        Document gameDocument = getDocument(turnCount, pieceDocuments);
 
         collection.insertOne(gameDocument);
         return gameDocument.getObjectId("_id").toString();
     }
 
-    public Board findBoardByGameId(String gameId) {
-        Document gameDocument = collection.find(Filters.eq("_id", new ObjectId(gameId))).first();
-        if (gameDocument == null) {
-            throw new IllegalArgumentException("[ERROR] 해당 게임을 찾을 수 없습니다: " + gameId);
+    public List<PieceDto> findPiecesByGameId(String gameId) {
+        Document gameDocument = findGameDocument(gameId);
+
+        if (gameDocument.getBoolean("isFinished")) {
+            throw new IllegalArgumentException("[ERROR] 이미 종료된 게임입니다: " + gameId);
         }
 
         List<Document> pieces = gameDocument.getList("pieces", Document.class);
-        HashMap<Position, Piece> boardMap = new HashMap<>();
+        List<PieceDto> pieceDtos = new ArrayList<>();
 
         for (Document doc : pieces) {
-            Position position = Position.of(doc.getInteger("row"), doc.getInteger("col"));
-            Team team = findTeamByName(doc.getString("team"));
-            Type type = findTypeByName(doc.getString("type"));
-            boardMap.put(position, Piece.of(team, type));
+            pieceDtos.add(toPieceDto(doc));
         }
 
-        return Board.of(boardMap);
-    }
-
-    public void update(String gameId, Map<Position, Piece> boardStatus, int turnCount) {
-        ArrayList<Document> pieces = new ArrayList<>();
-        for (Map.Entry<Position, Piece> entry : boardStatus.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-
-            Document document = toDocument(position, piece);
-
-            pieces.add(document);
-        }
-
-        Document updateDoc = new Document()
-                .append("pieces", pieces)
-                .append("turnCount", turnCount);
-
-        collection.replaceOne(
-                Filters.eq("_id", new ObjectId(gameId)),
-                updateDoc
-        );
+        return pieceDtos;
     }
 
     public int findTurnCountByGameId(String gameId) {
+        Document gameDocument = findGameDocument(gameId);
+        return gameDocument.getInteger("turnCount");
+    }
+
+    public void update(String gameId, List<PieceDto> pieces, int turnCount) {
+        ArrayList<Document> pieceDocuments = new ArrayList<>();
+
+        for (PieceDto pieceDto : pieces) {
+            pieceDocuments.add(toDocument(pieceDto));
+        }
+
+        Document updateFields = new Document("$set", new Document()
+                .append("pieces", pieceDocuments)
+                .append("turnCount", turnCount));
+
+        collection.updateOne(
+                Filters.eq("_id", new ObjectId(gameId)),
+                updateFields
+        );
+    }
+
+    public void finish(String gameId) {
+        Document updateFields = new Document("$set", new Document("isFinished", true));
+
+        collection.updateOne(
+                Filters.eq("_id", new ObjectId(gameId)),
+                updateFields
+        );
+    }
+
+    private Document findGameDocument(String gameId) {
         Document gameDocument = collection.find(Filters.eq("_id", new ObjectId(gameId))).first();
         if (gameDocument == null) {
             throw new IllegalArgumentException("[ERROR] 해당 게임을 찾을 수 없습니다: " + gameId);
         }
-
-        return gameDocument.getInteger("turnCount");
+        return gameDocument;
     }
 
-    private Document toDocument(Position position, Piece piece) {
+    private Document getDocument(int turnCount, ArrayList<Document> pieceDocuments) {
         return new Document()
-                .append("row", position.getRow())
-                .append("col", position.getCol())
-                .append("team", piece.getTeamName())
-                .append("type", piece.getTypeName());
+                .append("pieces", pieceDocuments)
+                .append("turnCount", turnCount)
+                .append("isFinished", false);
     }
 
-    private Team findTeamByName(String name) {
-        for (Team team : Team.values()) {
-            if (team.getName().equals(name)) {
-                return team;
-            }
-        }
-
-        throw new IllegalArgumentException("[ERROR] 알 수 없는 팀입니다: " + name);
+    private Document toDocument(PieceDto pieceDto) {
+        return new Document()
+                .append("row", pieceDto.row())
+                .append("col", pieceDto.col())
+                .append("team", pieceDto.team())
+                .append("type", pieceDto.type());
     }
 
-    private Type findTypeByName(String name) {
-        for (Type type : Type.values()) {
-            if (type.getName().equals(name)) {
-                return type;
-            }
-        }
-
-        throw new IllegalArgumentException("[ERROR] 알 수 없는 기물입니다: " + name);
+    private PieceDto toPieceDto(Document doc) {
+        return new PieceDto(
+                doc.getInteger("row"),
+                doc.getInteger("col"),
+                doc.getString("team"),
+                doc.getString("type")
+        );
     }
 }

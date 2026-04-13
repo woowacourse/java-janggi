@@ -28,6 +28,15 @@ public enum Type {
         this.score = score;
     }
 
+    public static Type fromName(final String name) {
+        for (Type type : values()) {
+            if (type.name.equals(name)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 알 수 없는 기물입니다: " + name);
+    }
+
     public MoveStrategy getStrategy() {
         return strategy;
     }

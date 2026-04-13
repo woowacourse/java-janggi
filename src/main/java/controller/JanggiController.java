@@ -7,6 +7,8 @@ import domain.Formation;
 import domain.JanggiGame;
 import domain.Team;
 import domain.vo.Position;
+import dto.PieceDto;
+import java.util.List;
 import presentation.PositionCommand;
 import view.InputView;
 import view.OutputView;
@@ -43,18 +45,28 @@ public class JanggiController {
         board = readChuFormation(board);
 
         JanggiGame janggiGame = JanggiGame.of(board);
-        String gameId = boardDao.save(board, janggiGame.getTurnCount());
+        String gameId = boardDao.save(PieceDto.fromBoard(board.getBoard()), janggiGame.getTurnCount());
 
         playGame(gameId, janggiGame);
     }
 
     private void resumeGame() {
-        String gameId = inputView.readGameId();
-        Board board = boardDao.findBoardByGameId(gameId);
-        int turnCount = boardDao.findTurnCountByGameId(gameId);
-        JanggiGame janggiGame = JanggiGame.of(board, turnCount);
+        while (true) {
+            try {
+                String gameId = inputView.readGameId();
+                List<PieceDto> pieceDtos = boardDao.findPiecesByGameId(gameId);
 
-        playGame(gameId, janggiGame);
+                int turnCount = boardDao.findTurnCountByGameId(gameId);
+                Board board = PieceDto.toBoard(pieceDtos);
+                JanggiGame janggiGame = JanggiGame.of(board, turnCount);
+
+                playGame(gameId, janggiGame);
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                System.out.println();
+            }
+        }
     }
 
     private void playGame(String gameId, JanggiGame janggiGame) {
@@ -63,15 +75,17 @@ public class JanggiController {
 
         while (true) {
             movePosition(janggiGame);
-            boardDao.update(gameId, janggiGame.getBoardStatus(), janggiGame.getTurnCount());
+            boardDao.update(gameId, PieceDto.fromBoard(janggiGame.getBoardStatus()), janggiGame.getTurnCount());
 
             if (janggiGame.isFinished()) {
+                boardDao.finish(gameId);
                 outputView.printGameFinishMessage();
                 outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
                 break;
             }
 
             if (janggiGame.isSurrendered()) {
+                boardDao.finish(gameId);
                 outputView.printGameSurrenderMessage();
                 outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
                 break;
