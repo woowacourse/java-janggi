@@ -22,22 +22,9 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public void updateALL(BoardSnapshot boardSnapshot) {
-        try (Connection conn = getConnection()) {
-            conn.setAutoCommit(false);
-
-            try {
-                deleteALL(conn, boardSnapshot.gameId());
-                saveAll(conn, boardSnapshot.gameId(), boardSnapshot.pieces());
-                conn.commit();
-            } catch (SQLException e) {
-                conn.rollback();
-                throw new RuntimeException("업데이트 중 오류 발생, 롤백합니다.");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void updateALL(Connection conn, BoardSnapshot boardSnapshot) throws SQLException {
+        deleteALL(conn, boardSnapshot.gameId());
+        saveAll(conn, boardSnapshot.gameId(), boardSnapshot.pieces());
     }
 
     private void deleteALL(Connection conn, Long gameId) throws SQLException {
@@ -72,11 +59,10 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public Map<Position, Piece> findAll(Long gameId) {
+    public Map<Position, Piece> findAll(Connection conn, Long gameId) {
         String sql = "select * from piece where game_id = ?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
 
@@ -93,14 +79,6 @@ public class JdbcPieceRepository implements PieceRepository {
 
             return pieces;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Connection getConnection() {
-        try {
-            return dataSource.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

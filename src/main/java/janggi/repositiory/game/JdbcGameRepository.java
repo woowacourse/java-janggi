@@ -16,37 +16,26 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Long save(FinishStatus finishStatus, Team currentTurn) {
+    public Long save(Connection conn, FinishStatus status, Team turn) throws SQLException {
+        String sql = "INSERT INTO game(is_finished, current_turn) VALUES(?, ?)";
 
-        String sql = "INSERT INTO game (is_finished, current_turn) VALUES (?, ?)";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pstmt.setBoolean(1,finishStatus.isFinished());
-            pstmt.setString(2, currentTurn.getCode());
-
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setBoolean(1, status.isFinished());
+            pstmt.setString(2, turn.getCode());
             pstmt.executeUpdate();
 
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    long generatedId = rs.getLong(1);
-
-                    return generatedId;
-                }
-                throw new SQLException("게임 저장 후 ID를 가져오지 못했습니다.");
+                if (rs.next()) return rs.getLong(1);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 저장 중 오류 발생", e);
         }
+        throw new SQLException("게임 저장 실패");
     }
 
     @Override
-    public Optional<GameData> findLatestGame() {
+    public Optional<GameData> findLatestGame(Connection conn) {
         String sql = "SELECT id, current_turn, is_finished FROM game ORDER BY id DESC LIMIT 1";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             if (rs.next()) {
@@ -65,11 +54,10 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateStatus(Long id, JanggiGame game) {
+    public void updateStatus(Connection conn, Long id, JanggiGame game) {
         String sql = "UPDATE game SET is_finished = ?, current_turn = ? WHERE id = ?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setBoolean(1, game.getFinishStatus().isFinished());
             pstmt.setString(2, game.getCurrentTeam().getCode());
@@ -83,14 +71,6 @@ public class JdbcGameRepository implements GameRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("게임 상태 업데이트 중 오류 발생", e);
-        }
-    }
-
-    private Connection getConnection() {
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }

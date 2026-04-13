@@ -4,10 +4,12 @@ import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.FinishStatus;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public interface GameRepository {
-    Long save(FinishStatus finishStatus, Team currentTurn);
-    Optional<GameData> findLatestGame();
-    void updateStatus(Long id, JanggiGame game);
+    Long save(Connection conn, FinishStatus status, Team turn) throws SQLException;
+    Optional<GameData> findLatestGame(Connection conn);
+    void updateStatus(Connection conn, Long id, JanggiGame game);
 }
