@@ -1,19 +1,24 @@
-package janggi.domain.side;
+package janggi.domain.team;
 
 import janggi.domain.Position;
-import janggi.domain.piece.*;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Han extends Team {
 
-    public Han(Map<Position, Piece> pieces) {
-        super(pieces);
+    public Han(Map<Position, Piece> pieces, boolean gungSurvive) {
+        super(pieces, gungSurvive);
     }
 
     public static Han createInitialHan() {
-        return new Han(initializePieces());
+        return new Han(initializePieces(), true);
+    }
+
+    public static Han loadLastHan(Map<Position, Piece> pieces) {
+        return new Han(pieces, true);
     }
 
     @Override
@@ -23,14 +28,26 @@ public class Han extends Team {
         Map<Position, Piece> updatedPieces = new HashMap<>(pieces);
         updatedPieces.remove(start);
         updatedPieces.put(end, piece);
-        return new Han(updatedPieces);
+        return new Han(updatedPieces, true);
     }
 
     @Override
     public Team remove(Position position) {
         Map<Position, Piece> updatedPieces = new HashMap<>(getPieces());
-        updatedPieces.remove(position);
-        return new Han(updatedPieces);
+        Piece removedPiece = updatedPieces.remove(position);
+        if (removedPiece.getPieceType() == PieceType.GUNG) {
+            return new Han(updatedPieces, false);
+        }
+        return new Han(updatedPieces, true);
+    }
+
+    @Override
+    public double calculateTotalScore() {
+        double totalScore = 0;
+        for (Piece piece : getPieces().values()) {
+            totalScore += piece.score();
+        }
+        return totalScore;
     }
 
     private static Map<Position, Piece> initializePieces() {

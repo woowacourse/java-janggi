@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,5 +79,79 @@ class JolTest {
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다.")
         );
+    }
+
+    @ParameterizedTest
+    @DisplayName("초나라 졸은 궁성 내부에서 대각선 위로 이동할 수 있다.")
+    @CsvSource({
+            "4, 8, 5, 9",
+            "6, 8, 5, 9",
+            "5, 9, 4, 10",
+            "5, 9, 6, 10",
+    })
+    void validateCanMove_ChuJol_In_Palace_Diagonal_Success_Move_Forward(int startX, int startY, int endX, int endY) {
+        // given
+        Position chuJolStart = new Position(startX, startY);
+        Position chuJolEnd = new Position(endX, endY);
+
+        // when & then
+        assertThatCode(() -> chuJol.getPiecePositionsInPath(chuJolStart, chuJolEnd))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @DisplayName("한나라 졸은 궁성 내부에서 대각선 위로 이동할 수 있다.")
+    @CsvSource({
+            "4, 3, 5, 2",
+            "6, 3, 5, 2",
+            "5, 2, 4, 1",
+            "5, 2, 6, 1",
+    })
+    void validateCanMove_HanJol_In_Palace_Diagonal_Success_Move_Forward(int startX, int startY, int endX, int endY) {
+        // given
+        Position hanJolStart = new Position(startX, startY);
+        Position hanJolEnd = new Position(endX, endY);
+
+        // when & then
+        assertThatCode(() -> hanJol.getPiecePositionsInPath(hanJolStart, hanJolEnd))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @DisplayName("초나라 졸이 궁성 내부에서 대각선 아래로 이동할 경우 예외 발생")
+    @CsvSource({
+            "4, 10, 5, 9",
+            "6, 10, 5, 9",
+            "5, 9, 4, 8",
+            "5, 9, 6, 8",
+    })
+    void validateCanMove_ChuJol_In_Palace_Diagonal_Fail_Move_Back(int startX, int startY, int endX, int endY) {
+        // given
+        Position chuJolStart = new Position(startX, startY);
+        Position chuJolEnd = new Position(endX, endY);
+
+        // when & then
+        assertThatThrownBy(() -> chuJol.getPiecePositionsInPath(chuJolStart, chuJolEnd))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("한나라 졸이 궁성 내부에서 대각선 위로 이동할 경우 예외 발생")
+    @CsvSource({
+            "4, 1, 5, 2",
+            "6, 1, 5, 2",
+            "5, 2, 4, 3",
+            "5, 2, 6, 3",
+    })
+    void validateCanMove_HanJol_In_Palace_Diagonal_Fail_Move_Back(int startX, int startY, int endX, int endY) {
+        // given
+        Position hanJolStart = new Position(startX, startY);
+        Position hanJolEnd = new Position(endX, endY);
+
+        // when & then
+        assertThatThrownBy(() -> hanJol.getPiecePositionsInPath(hanJolStart, hanJolEnd))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
     }
 }

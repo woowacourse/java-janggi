@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.List;
 
@@ -30,5 +30,19 @@ public class Jol extends SteppingPiece {
             return CHU_PATHS;
         }
         return HAN_PATHS;
+    }
+
+    @Override
+    protected void validateDiagonalDirection(Delta dxDelta) {
+        if (getTeamType() == TeamType.CHU) {
+            if (dxDelta.isGoDown()) {
+                throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+            }
+            return;
+        }
+
+        if (dxDelta.isGoUp()) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 }

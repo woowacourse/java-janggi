@@ -1,10 +1,10 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.Chu;
-import janggi.domain.side.Han;
-import janggi.domain.side.Team;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.Chu;
+import janggi.domain.team.Han;
+import janggi.domain.team.Team;
+import janggi.domain.team.TeamType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +23,10 @@ public class Board {
 
     public static Board createInitialBoard() {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
+    }
+
+    public static Board loadPreviousBoard(Team chu, Team han) {
+        return new Board(chu, han);
     }
 
     public Map<Position, Piece> makeSnapShot() {
@@ -59,7 +63,35 @@ public class Board {
         validateCanMove(start, end, currentTeamType);
         Team updatedCurrentTeam = currentTeam(currentTeamType).move(start, end);
         Team updatedOpponentTeam = removeOpponentPiece(currentTeamType, end);
+//        if (updatedOpponentTeam.isLose()) {
+//            updatedCurrentTeam = updatedCurrentTeam.updateWin();
+//            return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
+//        }
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
+    }
+
+    public Map<Position, Piece> allPieces() {
+        Map<Position, Piece> allPieces = new HashMap<>(chu.getPieces());
+        allPieces.putAll(han.getPieces());
+        return allPieces;
+    }
+
+    public boolean isSurviveAllGung() {
+        return chu.isGungSurvive() && han.isGungSurvive();
+    }
+
+    public boolean isChuWin() {
+        return !chu.isLose();
+    }
+
+    public String winTeamName() {
+        if (chu.isGungSurvive() && han.isGungSurvive()) {
+            throw new IllegalArgumentException("아직 승리 팀이 가려지지 않았습니다.");
+        }
+        if (chu.isWin()) {
+            return TeamType.CHU.getName();
+        }
+        return TeamType.HAN.getName();
     }
 
     private void checkSamePosition(Position start, Position end) {

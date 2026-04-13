@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

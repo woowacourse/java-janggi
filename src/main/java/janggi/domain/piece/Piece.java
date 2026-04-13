@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.MovePath;
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.List;
 
@@ -16,6 +16,10 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    public static Piece of(PieceType pieceType, TeamType teamType) {
+        return pieceType.createPiece(teamType);
+    }
+
     public String name() {
         return pieceType.getName();
     }
@@ -26,6 +30,10 @@ public abstract class Piece {
 
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    public int score() {
+        return pieceType.getScore();
     }
 
     public abstract void validateCanMove(List<Piece> piecesInPath);

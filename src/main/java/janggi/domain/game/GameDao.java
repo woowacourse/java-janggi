@@ -1,0 +1,89 @@
+package janggi.domain.game;
+
+import janggi.domain.DatabaseConnector;
+import janggi.dto.GameDto;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static janggi.domain.game.GameStatus.IN_PROGRESS;
+
+public class GameDao {
+
+    public void save(GameDto gameDto) {
+        String sql = "INSERT INTO game (id, game_status) VALUES (?, ?)";
+
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setLong(1, gameDto.id());
+            preparedStatement.setString(2, gameDto.gameStatusFormat());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 데이터 저장 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    public List<GameDto> findInProgressGames() {
+        String sql = "SELECT id, game_status FROM game WHERE game_status = (?)";
+        List<GameDto> games = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, IN_PROGRESS.getFormat());
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    games.add(GameDto.of(
+                            rs.getLong("id"),
+                            rs.getString("game_status")
+                    ));
+                }
+            }
+            return games;
+        } catch (SQLException e) {
+            throw new RuntimeException("진행 중인 게임 목록 조회 중 오류 발생", e);
+        }
+    }
+
+    public Optional<GameDto> findById(Long id) {
+        String sql = "SELECT id, game_status FROM game WHERE id = (?)";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setLong(1, id);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return Optional.of(GameDto.of(
+                            rs.getLong("id"),
+                            rs.getString("game_status")
+                    ));
+                }
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 데이터 조회 중 오류 발생", e);
+        }
+    }
+
+    public void updateGameStatus(Long gameId, GameStatus gameStatus) {
+        String sql = "UPDATE game SET game_status = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, gameStatus.name());
+            pstmt.setLong(2, gameId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 업데이트 중 오류 발생", e);
+        }
+    }
+}

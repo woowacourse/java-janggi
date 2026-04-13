@@ -1,21 +1,50 @@
 package janggi.domain;
 
+import janggi.domain.game.GameStatus;
 import janggi.domain.piece.Piece;
+import janggi.domain.turn.Turn;
+import janggi.dto.GameDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class JanggiGame {
 
+    private final Long id;
     private final List<Turn> turns;
+    private final GameStatus gameStatus;
 
-    private JanggiGame(List<Turn> turns) {
+    private JanggiGame(Long id, List<Turn> turns, GameStatus gameStatus) {
+        this.id = id;
         this.turns = new ArrayList<>(turns);
+        this.gameStatus = gameStatus;
     }
 
     public static JanggiGame createInitialJanggiGame() {
-        return new JanggiGame(List.of(Turn.createInitialTurn()));
+        return new JanggiGame(IdGenerator.createId(), List.of(Turn.createInitialTurn()), GameStatus.IN_PROGRESS);
+    }
+
+    public static JanggiGame loadPreviousJanggiGame(JanggiGame janggiGame, Turn previousTurn) {
+        return new JanggiGame(janggiGame.getId(), List.of(previousTurn), janggiGame.getGameStatus());
+    }
+
+    public static JanggiGame from(GameDto gameDto) {
+        // 빈 리스트 수정 필요
+        return new JanggiGame(gameDto.id(), List.of(), gameDto.gameStatus());
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public boolean isRunning() {
+        return gameStatus == GameStatus.IN_PROGRESS;
     }
 
     public Map<Position, Piece> makeCurrentTurnBoardSnapShot() {
@@ -25,7 +54,7 @@ public class JanggiGame {
 
     public String getCurrentTurnTeamName() {
         Turn lastTurn = getLastTurn();
-        return lastTurn.nextTurnTeam();
+        return lastTurn.nextTurnTeamName();
     }
 
     public void validatePieceExists(Position position) {
@@ -44,13 +73,33 @@ public class JanggiGame {
         lastTurn.validateCanMove(start, end);
     }
 
-    public void doGame(Position start, Position end) {
+    public JanggiGame move(Position start, Position end) {
         Turn lastTurn = getLastTurn();
-        Turn newTurn = lastTurn.move(start, end);
-        turns.add(newTurn);
+        Turn movedTurn = lastTurn.move(start, end);
+        turns.add(movedTurn);
+        if (!movedTurn.isRunning()) {
+            new JanggiGame(id, turns, GameStatus.from(movedTurn.getTurnStatus().getFormat()));
+        }
+        return this;
     }
 
-    private Turn getLastTurn() {
+    public String winTeamName() {
+        return getLastTurn().winTeamName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        JanggiGame that = (JanggiGame) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    public Turn getLastTurn() {
         return turns.getLast();
     }
 }

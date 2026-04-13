@@ -11,15 +11,15 @@ public class MovePath {
         this.path = path;
     }
 
-    public boolean matches(int dx, int dy) {
-        return totalDelta().equals(Delta.of(dx, dy));
+    public boolean matches(Delta delta) {
+        return totalDelta().equals(delta);
     }
 
-    public boolean matchesDirection(int dx, int dy) {
+    public boolean matchesDirection(Delta dxDelta) {
         if (path.size() != 1) {
             return false;
         }
-        Delta inputDelta = Delta.scaleDown(dx, dy);
+        Delta inputDelta = dxDelta.scaleDown();
         Delta delta = path.getFirst();
 
         return inputDelta.equals(delta);
@@ -45,6 +45,12 @@ public class MovePath {
             route.add(current);
         }
         return route;
+    }
+
+    public boolean isDiagonal() {
+        Delta delta = path.getFirst();
+        List<Delta> paths = Delta.diagonalPaths();
+        return paths.contains(delta);
     }
 
     private Delta totalDelta() {

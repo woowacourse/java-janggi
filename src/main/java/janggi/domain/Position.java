@@ -18,6 +18,10 @@ public class Position {
         this.y = y;
     }
 
+    public static Position of(int x, int y) {
+        return new Position(x, y);
+    }
+
     public static Position makePosition(List<String> parsedPiecePosition) {
         if (parsedPiecePosition.size() != POSITION_SIZE) {
             throw new IllegalArgumentException("기물의 좌표는 두 개로 입력해야 합니다.");
@@ -48,12 +52,8 @@ public class Position {
         return x == position.getX() && y == position.getY();
     }
 
-    public int deltaX(Position position) {
-        return position.getX() - x;
-    }
-
-    public int deltaY(Position position) {
-        return position.getY() - y;
+    public Delta calculateDelta(Position position) {
+        return Delta.of(position.getX() - x, position.getY() - y);
     }
 
     @Override
