@@ -27,28 +27,33 @@ class GuardMovementTest {
     }
 
     @Test
-    @DisplayName("사는 상하좌우 한 칸으로 이동할 수 있다")
-    void guardMovesOneStepOrthogonally() {
+    @DisplayName("사는 궁성 중앙에서 상하좌우와 대각선으로 이동할 수 있다")
+    void guardMovesInsidePalaceWithDiagonals() {
         GuardMovement movement = new GuardMovement();
-        Position center = pos(Column.E, Row.FOUR);
+        Position center = pos(Column.E, Row.ONE);
 
         List<Position> destinations = movement.findReachablePositions(center, emptyBoard());
 
         assertThat(destinations).containsExactlyInAnyOrder(
-                pos(Column.E, Row.THREE),
-                pos(Column.E, Row.FIVE),
-                pos(Column.D, Row.FOUR),
-                pos(Column.F, Row.FOUR)
+                pos(Column.E, Row.ZERO),
+                pos(Column.E, Row.TWO),
+                pos(Column.D, Row.ONE),
+                pos(Column.F, Row.ONE),
+                pos(Column.D, Row.ZERO),
+                pos(Column.F, Row.ZERO),
+                pos(Column.D, Row.TWO),
+                pos(Column.F, Row.TWO)
         );
     }
 
     @Test
-    @DisplayName("사는 보드 경계를 넘어서는 이동 후보를 만들지 않는다")
-    void guardExcludesOutOfBoardMoves() {
+    @DisplayName("사는 궁성 밖에서는 이동할 수 없다")
+    void guardCannotMoveOutsidePalace() {
         GuardMovement movement = new GuardMovement();
 
         Paths paths = movement.findPotentialPaths(pos(Column.A, Row.ZERO));
 
-        assertThat(paths.asList()).hasSize(2);
+        assertThat(paths.asList()).isEmpty();
+        assertThat(canReach(paths, pos(Column.A, Row.ONE))).isFalse();
     }
 }

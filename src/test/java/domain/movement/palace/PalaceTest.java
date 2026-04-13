@@ -30,4 +30,13 @@ class PalaceTest {
         assertThat(Palace.isInside(new Position(Column.E, Row.THREE))).isFalse();
         assertThat(Palace.isInside(new Position(Column.E, Row.SIX))).isFalse();
     }
+
+    @Test
+    @DisplayName("궁성 중심 좌표와 꼭짓점 좌표를 구분한다")
+    void distinguishesCenterAndCorner() {
+        assertThat(Palace.isCenter(new Position(Column.E, Row.ONE))).isTrue();
+        assertThat(Palace.isCorner(new Position(Column.D, Row.ZERO))).isTrue();
+        assertThat(Palace.isCenter(new Position(Column.D, Row.ONE))).isFalse();
+        assertThat(Palace.isCorner(new Position(Column.E, Row.ONE))).isFalse();
+    }
 }

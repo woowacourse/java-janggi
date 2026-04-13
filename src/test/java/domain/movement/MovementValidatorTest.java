@@ -87,27 +87,27 @@ class MovementValidatorTest {
     }
 
     @Test
-    @DisplayName("궁은 인접한 칸으로 이동할 수 있다")
+    @DisplayName("궁은 궁성 내부 인접한 칸으로 이동할 수 있다")
     void generalMovesToAdjacentPosition() {
         Map<Position, Piece> map = pieces();
-        map.put(pos(Column.E, Row.FOUR), new Piece(Team.HAN, PieceType.GENERAL));
+        map.put(pos(Column.E, Row.ONE), new Piece(Team.HAN, PieceType.GENERAL));
         Board board = boardWith(map);
 
-        Board moved = board.move(coord("e4 e5"), Team.HAN);
+        Board moved = board.move(coord("e1 e2"), Team.HAN);
 
-        assertThat(moved.isEmpty(pos(Column.E, Row.FOUR))).isTrue();
-        assertThat(moved.findPieceByPosition(pos(Column.E, Row.FIVE))).isPresent();
+        assertThat(moved.isEmpty(pos(Column.E, Row.ONE))).isTrue();
+        assertThat(moved.findPieceByPosition(pos(Column.E, Row.TWO))).isPresent();
     }
 
     @Test
     @DisplayName("사는 아군 기물이 있는 칸으로 이동할 수 없다")
     void guardCannotCaptureFriendlyPiece() {
         Map<Position, Piece> map = pieces();
-        map.put(pos(Column.D, Row.THREE), new Piece(Team.HAN, PieceType.GUARD));
-        map.put(pos(Column.D, Row.FOUR), new Piece(Team.HAN, PieceType.SOLDIER));
+        map.put(pos(Column.D, Row.ZERO), new Piece(Team.HAN, PieceType.GUARD));
+        map.put(pos(Column.D, Row.ONE), new Piece(Team.HAN, PieceType.SOLDIER));
         Board board = boardWith(map);
 
-        assertThatThrownBy(() -> board.move(coord("d3 d4"), Team.HAN))
+        assertThatThrownBy(() -> board.move(coord("d0 d1"), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
