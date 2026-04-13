@@ -31,7 +31,7 @@ public enum Team {
         return NONE;
     }
 
-    public static Team compareScore(double choScore, double hanScore) {
+    public static Team determineWinner(double choScore, double hanScore) {
         return Double.compare(choScore, hanScore) > 0 ? CHO
                 : Double.compare(hanScore, choScore) > 0 ? HAN
                 : NONE;

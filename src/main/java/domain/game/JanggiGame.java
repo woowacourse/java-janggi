@@ -125,7 +125,7 @@ public class JanggiGame {
     private Team findScoreWinner() {
         double choScore = scoreOf(Team.CHO);
         double hanScore = scoreOf(Team.HAN);
-        return Team.compareScore(choScore, hanScore);
+        return Team.determineWinner(choScore, hanScore);
     }
 
     public double scoreOf(Team team) {
