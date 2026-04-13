@@ -27,7 +27,7 @@ class GuardMoveStrategyTest {
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -54,10 +54,10 @@ class GuardMoveStrategyTest {
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
 
         // 아군 기물 배치
-        pieces.put(Position.of(9, 6), Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(9, 6), Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -75,7 +75,7 @@ class GuardMoveStrategyTest {
         final Position from = Position.of(10, 6); // 초나라 우측 사 초기 자리
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GUARD, new GeneralMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(GUARD, MoveStrategyType.GENERAL), Team.CHO));
 
         final Board board = Board.of(pieces);
 

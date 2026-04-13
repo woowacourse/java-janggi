@@ -21,14 +21,14 @@ class GeneralMoveStrategyTest {
     private final MoveStrategy strategy = new GeneralMoveStrategy();
 
     @Test
-    @DisplayName("장군은 궁성 내에서 한 칸 이동할 수 있다.")
+    @DisplayName("궁은 궁성 내에서 한 칸 이동할 수 있다.")
     void general_moves_all_directions() {
         // given
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(1, 1), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.CHO));
+        pieces.put(Position.of(1, 1), Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -55,8 +55,8 @@ class GeneralMoveStrategyTest {
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(2, 4), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.CHO));
+        pieces.put(Position.of(2, 4), Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -74,13 +74,13 @@ class GeneralMoveStrategyTest {
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.CHO));
 
         // 아군 기물 배치
-        pieces.put(Position.of(9, 6), Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(8, 5), Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(9, 6), Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
+        pieces.put(Position.of(8, 5), Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
 
-        pieces.put(Position.of(2, 4), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
+        pieces.put(Position.of(2, 4), Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.HAN));
 
         final Board board = Board.of(pieces);
 

@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.movestrategy.*;
+import domain.movestrategy.MoveStrategyType;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.PieceType;
@@ -43,13 +43,13 @@ class MoveResultTest {
 
     private static Stream<Arguments> 기물_타입_및_점수() {
         return Stream.of(
-                Arguments.of(new PieceStatus(PieceType.GENERAL, new GeneralMoveStrategy()), PieceType.GENERAL.getScore()),
-                Arguments.of(new PieceStatus(PieceType.GUARD, new GuardMoveStrategy()), PieceType.GUARD.getScore()),
-                Arguments.of(new PieceStatus(PieceType.HORSE, new HorseMoveStrategy()), PieceType.HORSE.getScore()),
-                Arguments.of(new PieceStatus(PieceType.ELEPHANT, new ElephantMoveStrategy()), PieceType.ELEPHANT.getScore()),
-                Arguments.of(new PieceStatus(PieceType.CHARIOT, new ChariotMoveStrategy()), PieceType.CHARIOT.getScore()),
-                Arguments.of(new PieceStatus(PieceType.CANNON, new CannonMoveStrategy()), PieceType.CANNON.getScore()),
-                Arguments.of(new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), PieceType.SOLDIER.getScore())
+                Arguments.of(new PieceStatus(PieceType.GENERAL, MoveStrategyType.GENERAL), PieceType.GENERAL.getScore()),
+                Arguments.of(new PieceStatus(PieceType.GUARD, MoveStrategyType.GUARD), PieceType.GUARD.getScore()),
+                Arguments.of(new PieceStatus(PieceType.HORSE, MoveStrategyType.HORSE), PieceType.HORSE.getScore()),
+                Arguments.of(new PieceStatus(PieceType.ELEPHANT, MoveStrategyType.ELEPHANT), PieceType.ELEPHANT.getScore()),
+                Arguments.of(new PieceStatus(PieceType.CHARIOT, MoveStrategyType.CHARIOT), PieceType.CHARIOT.getScore()),
+                Arguments.of(new PieceStatus(PieceType.CANNON, MoveStrategyType.CANNON), PieceType.CANNON.getScore()),
+                Arguments.of(new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), PieceType.SOLDIER.getScore())
         );
     }
 
@@ -57,7 +57,7 @@ class MoveResultTest {
     @DisplayName("왕을 잡았는지 알 수 있다.")
     void know_that_capture_general() {
         //given
-        final Piece capturedPiece = Piece.of(new PieceStatus(PieceType.GENERAL, new GeneralMoveStrategy()), Team.HAN);
+        final Piece capturedPiece = Piece.of(new PieceStatus(PieceType.GENERAL, MoveStrategyType.GENERAL), Team.HAN);
         final MoveResult moveResult = MoveResult.withCapture(capturedPiece);
 
         //then

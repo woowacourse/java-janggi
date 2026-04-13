@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotMoveStrategyTest {
 
-    private final ChariotMoveStrategy strategy = new ChariotMoveStrategy();
+    private final MoveStrategy strategy = new ChariotMoveStrategy();
 
     @Test
     @DisplayName("장애물이 없으면 끝까지 이동한다")
@@ -26,7 +26,7 @@ class ChariotMoveStrategyTest {
         // given
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -49,8 +49,8 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -71,10 +71,10 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         // 아군
-        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -93,7 +93,7 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(10, 1); // 궁성 바깥, 초나라 가장 좌측 차의 기본 자리
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -111,7 +111,7 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(9, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -134,7 +134,7 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(8, 4);// 초나라 궁성 좌측 상단 꼭짓점
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         final Board board = Board.of(pieces);
 

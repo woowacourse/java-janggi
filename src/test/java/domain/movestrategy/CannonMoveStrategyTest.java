@@ -26,7 +26,7 @@ class CannonMoveStrategyTest {
         final Map<Position, Piece> pieces = new HashMap<>();
         final Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -44,10 +44,10 @@ class CannonMoveStrategyTest {
         final Map<Position, Piece> pieces = new HashMap<>();
         final Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         // 장애물 (screen)
-        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -70,13 +70,13 @@ class CannonMoveStrategyTest {
         final Map<Position, Piece> pieces = new HashMap<>();
         final Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         // 첫 번째 장애물
-        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         // 두 번째 기물
-        pieces.put(Position.of(8, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN));
+        pieces.put(Position.of(8, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -99,10 +99,10 @@ class CannonMoveStrategyTest {
         final Map<Position, Piece> pieces = new HashMap<>();
         final Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         // 첫 번째 기물이 포
-        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -120,14 +120,14 @@ class CannonMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         // 뛰어넘을 기물
-        pieces.put(Position.of(5, 6), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN));
+        pieces.put(Position.of(5, 6), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN));
 
         // 아군 기물
         final Position ally = Position.of(5, 7);
-        pieces.put(ally, Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(ally, Piece.of(new PieceStatus(GUARD, MoveStrategyType.GUARD), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -144,10 +144,10 @@ class CannonMoveStrategyTest {
         Position from = Position.of(10, 4);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         pieces.put(Position.of(9, 5),
-                Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO)); // 점프용 기물
+                Piece.of(new PieceStatus(GENERAL, MoveStrategyType.GENERAL), Team.CHO)); // 점프용 기물
 
         Board board = Board.of(pieces);
 
@@ -162,7 +162,7 @@ class CannonMoveStrategyTest {
         Position from = Position.of(10, 4);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, MoveStrategyType.CANNON), Team.CHO));
 
         Board board = Board.of(pieces);
 
