@@ -37,7 +37,7 @@ class GameRoomDaoTest {
     @Test
     @DisplayName("게임방을 저장하면 생성된 id로 조회할 수 있다")
     void saveAndFindById() {
-        long id = gameRoomDao.save(connection, "테스트방", "CHO", "RUNNING", 0);
+        long id = gameRoomDao.save(connection, new GameRoomRawData(0L, "테스트방", "CHO", "RUNNING", 0));
 
         Optional<GameRoomRawData> found = gameRoomDao.findById(connection, id);
 
@@ -51,8 +51,8 @@ class GameRoomDaoTest {
     @Test
     @DisplayName("저장된 모든 게임방을 id 순으로 조회한다")
     void findAll() {
-        gameRoomDao.save(connection, "방1", "CHO", "RUNNING", 0);
-        gameRoomDao.save(connection, "방2", "HAN", "FINISHED", 1);
+        gameRoomDao.save(connection, new GameRoomRawData(0L, "방1", "CHO", "RUNNING", 0));
+        gameRoomDao.save(connection, new GameRoomRawData(0L, "방2", "HAN", "FINISHED", 1));
 
         List<GameRoomRawData> rooms = gameRoomDao.findAll(connection);
 
@@ -63,9 +63,9 @@ class GameRoomDaoTest {
     @Test
     @DisplayName("게임방을 업데이트하면 변경된 값이 조회된다")
     void update() {
-        long id = gameRoomDao.save(connection, "방", "CHO", "RUNNING", 0);
+        long id = gameRoomDao.save(connection, new GameRoomRawData(0L, "방", "CHO", "RUNNING", 0));
 
-        gameRoomDao.update(connection, id, "HAN", "FINISHED", 2);
+        gameRoomDao.update(connection, new GameRoomRawData(id, "방", "HAN", "FINISHED", 2));
 
         GameRoomRawData updated = gameRoomDao.findById(connection, id).orElseThrow();
         assertThat(updated.currentTurn()).isEqualTo("HAN");

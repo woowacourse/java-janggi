@@ -11,13 +11,13 @@ import java.util.Optional;
 
 public class GameRoomDao {
 
-    public long save(Connection connection, String name, String currentTurn, String status, int consecutivePassCount) {
+    public long save(Connection connection, GameRoomRawData room) {
         String sql = "INSERT INTO game_room (name, current_turn, status, consecutive_pass_count) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, name);
-            statement.setString(2, currentTurn);
-            statement.setString(3, status);
-            statement.setInt(4, consecutivePassCount);
+            statement.setString(1, room.name());
+            statement.setString(2, room.currentTurn());
+            statement.setString(3, room.status());
+            statement.setInt(4, room.consecutivePassCount());
             statement.executeUpdate();
             try (ResultSet keys = statement.getGeneratedKeys()) {
                 if (keys.next()) {
@@ -59,13 +59,13 @@ public class GameRoomDao {
         }
     }
 
-    public void update(Connection connection, long id, String currentTurn, String status, int consecutivePassCount) {
+    public void update(Connection connection, GameRoomRawData room) {
         String sql = "UPDATE game_room SET current_turn = ?, status = ?, consecutive_pass_count = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, currentTurn);
-            statement.setString(2, status);
-            statement.setInt(3, consecutivePassCount);
-            statement.setLong(4, id);
+            statement.setString(1, room.currentTurn());
+            statement.setString(2, room.status());
+            statement.setInt(3, room.consecutivePassCount());
+            statement.setLong(4, room.id());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("게임방 갱신 실패", e);

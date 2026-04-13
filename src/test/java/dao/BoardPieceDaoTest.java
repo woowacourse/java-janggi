@@ -26,7 +26,7 @@ class BoardPieceDaoTest {
         truncate(connectionManager);
         connection = connectionManager.getConnection();
         boardPieceDao = new BoardPieceDao();
-        gameRoomId = new GameRoomDao().save(connection, "방", "CHO", "RUNNING", 0);
+        gameRoomId = new GameRoomDao().save(connection, new GameRoomRawData(0L, "방", "CHO", "RUNNING", 0));
     }
 
     @AfterEach
@@ -68,7 +68,7 @@ class BoardPieceDaoTest {
                 new BoardPieceRawData(9, 4, "GENERAL", "HAN")
         ));
 
-        boardPieceDao.deletePieceAt(connection, gameRoomId, 0, 0);
+        boardPieceDao.deletePieceAt(connection, gameRoomId, new BoardPieceRawData(0, 0, "", ""));
 
         List<BoardPieceRawData> remaining = boardPieceDao.findByGameRoomId(connection, gameRoomId);
         assertThat(remaining).extracting(BoardPieceRawData::pieceType).containsExactly("GENERAL");

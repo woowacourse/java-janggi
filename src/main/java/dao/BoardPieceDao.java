@@ -40,12 +40,12 @@ public class BoardPieceDao {
         }
     }
 
-    public void deletePieceAt(Connection connection, long gameRoomId, int row, int col) {
+    public void deletePieceAt(Connection connection, long gameRoomId, BoardPieceRawData piece) {
         String sql = "DELETE FROM board_piece WHERE game_room_id = ? AND row_pos = ? AND col_pos = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameRoomId);
-            statement.setInt(2, row);
-            statement.setInt(3, col);
+            statement.setInt(2, piece.rowPos());
+            statement.setInt(3, piece.colPos());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("기물 삭제 실패", e);

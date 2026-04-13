@@ -34,13 +34,7 @@ public class GameRepository {
 
     public StoredGame createGame(String roomName, JanggiGame game) {
         return connectionManager.inTransaction(connection -> {
-            long roomId = gameRoomDao.save(
-                    connection,
-                    roomName,
-                    game.currentTurn().name(),
-                    game.getStatus().name(),
-                    game.getRecord().consecutivePassCount()
-            );
+            long roomId = gameRoomDao.save(connection, toRawData(0L, roomName, game));
             boardPieceDao.saveAll(connection, roomId, toRawPieces(game.boardSnapshot()));
             return new StoredGame(roomId, game);
         });
@@ -65,17 +59,11 @@ public class GameRepository {
         long roomId = stored.id();
         JanggiGame game = stored.game();
         connectionManager.inTransaction(connection -> {
-            gameRoomDao.update(
-                    connection,
-                    roomId,
-                    game.currentTurn().name(),
-                    game.getStatus().name(),
-                    game.getRecord().consecutivePassCount()
-            );
+            gameRoomDao.update(connection, toRawData(roomId, "", game));
             Position source = move.source();
             Position destination = move.destination();
-            boardPieceDao.deletePieceAt(connection, roomId, source.row(), source.column());
-            boardPieceDao.deletePieceAt(connection, roomId, destination.row(), destination.column());
+            boardPieceDao.deletePieceAt(connection, roomId, new BoardPieceRawData(source.row(), source.column(), "", ""));
+            boardPieceDao.deletePieceAt(connection, roomId, new BoardPieceRawData(destination.row(), destination.column(), "", ""));
             boardPieceDao.insertPiece(connection, roomId, toRawPiece(destination, move.movedPiece()));
             return null;
         });
@@ -85,13 +73,7 @@ public class GameRepository {
         long roomId = stored.id();
         JanggiGame game = stored.game();
         connectionManager.inTransaction(connection -> {
-            gameRoomDao.update(
-                    connection,
-                    roomId,
-                    game.currentTurn().name(),
-                    game.getStatus().name(),
-                    game.getRecord().consecutivePassCount()
-            );
+            gameRoomDao.update(connection, toRawData(roomId, "", game));
             return null;
         });
     }
@@ -137,5 +119,15 @@ public class GameRepository {
             pieces.put(position, piece);
         }
         return new Board(pieces);
+    }
+
+    private GameRoomRawData toRawData(long roomId, String roomName, JanggiGame game) {
+        return new GameRoomRawData(
+                roomId,
+                roomName,
+                game.currentTurn().name(),
+                game.getStatus().name(),
+                game.getRecord().consecutivePassCount()
+        );
     }
 }
