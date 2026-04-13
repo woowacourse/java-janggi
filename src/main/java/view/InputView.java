@@ -1,8 +1,8 @@
 package view;
 
-import domain.Camp;
-import domain.ElephantFormation;
-import domain.Position;
+import domain.piece.Camp;
+import domain.position.ElephantFormation;
+import domain.position.Position;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -35,6 +35,17 @@ public class InputView {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public boolean askLoadSavedBoard() {
+        while(true) {
+            System.out.print("저장된 게임 불러오기(y/n): ");
+            String input = sc.nextLine();
+            if(input.equals("y") || input.equals("n")) {
+                return input.equals("y");
+            }
+            System.out.println("잘못된 입력입니다.");
         }
     }
 

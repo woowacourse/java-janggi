@@ -1,9 +1,9 @@
 package view;
 
-import domain.Camp;
-import domain.PieceType;
-import domain.Position;
-import domain.pieces.Piece;
+import domain.piece.Camp;
+import domain.piece.PieceType;
+import domain.position.Position;
+import domain.piece.Piece;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class OutputView {
     }
 
     private String formatPiece(Piece piece) {
-        if (piece == null || piece.getPieceType() == PieceType.NONE) {
+        if (piece == null) {
             return EMPTY_SPACE;
         }
 
@@ -69,6 +69,20 @@ public class OutputView {
         String color = (piece.getCamp() == Camp.CHO) ? ANSI_GREEN : ANSI_RED;
 
         return color + symbol + ANSI_RESET;
+    }
+
+    public void printScoreByCamp(Map<Camp, Integer> scoreByCamp) {
+        for (Camp camp : scoreByCamp.keySet()) {
+            System.out.println(camp.getCampName() + "의 점수: " + scoreByCamp.get(camp));
+        }
+    }
+
+    public void printWinner(Camp camp) {
+        System.out.println(camp.getCampName() + "가 이겼습니다!");
+    }
+
+    public void printSavedComplete() {
+        System.out.println("저장 완료");
     }
 
     public void printWrongChoice() {
