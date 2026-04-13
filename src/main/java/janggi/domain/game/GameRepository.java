@@ -32,7 +32,7 @@ public class GameRepository {
         return JanggiGame.from(gameDto.get());
     }
 
-    public void updateGameStatusFinished(JanggiGame janggiGame) {
-        gameDao.updateGameStatus(janggiGame.getId(), GameStatus.IN_PROGRESS);
+    public void updateGameStatus(JanggiGame janggiGame) {
+        gameDao.updateGameStatus(janggiGame.getId(), janggiGame.getGameStatus());
     }
 }

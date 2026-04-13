@@ -26,7 +26,6 @@ public class JanggiRunner {
             Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(janggiGame, startPosition));
             janggiGameService.move(janggiGame, startPosition, endPosition);
         }
-        janggiGameService.updateGameStatusFinished(janggiGame);
         OutputView.printGameOver(janggiGame.winTeamName());
     }
 

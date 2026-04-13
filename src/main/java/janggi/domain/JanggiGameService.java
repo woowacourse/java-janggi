@@ -52,15 +52,11 @@ public class JanggiGameService {
     }
 
     public void move(JanggiGame janggiGame, Position start, Position end) {
-        Turn movedTurn = janggiGame.move(start, end);
-        turnRepository.save(movedTurn, janggiGame.getId());
-        janggiGame.addNewTurn(movedTurn);
-        List<PieceDto> pieceDtos = getPieceDtos(movedTurn);
+        JanggiGame movedJanggiGame = janggiGame.move(start, end);
+        gameRepository.updateGameStatus(janggiGame);
+        turnRepository.save(movedJanggiGame.getLastTurn(), janggiGame.getId());
+        List<PieceDto> pieceDtos = getPieceDtos(movedJanggiGame.getLastTurn());
         pieceRepository.saveAll(pieceDtos);
-    }
-
-    public void updateGameStatusFinished(JanggiGame janggiGame) {
-        gameRepository.updateGameStatusFinished(janggiGame);
     }
 
     private JanggiGame loadPreviousJanggiGame(Long gameId) {

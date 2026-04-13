@@ -73,13 +73,14 @@ public class JanggiGame {
         lastTurn.validateCanMove(start, end);
     }
 
-    public Turn move(Position start, Position end) {
+    public JanggiGame move(Position start, Position end) {
         Turn lastTurn = getLastTurn();
-        return lastTurn.move(start, end);
-    }
-
-    public void addNewTurn(Turn savedTurn) {
-        turns.add(savedTurn);
+        Turn movedTurn = lastTurn.move(start, end);
+        turns.add(movedTurn);
+        if (!movedTurn.isRunning()) {
+            new JanggiGame(id, turns, GameStatus.from(movedTurn.getTurnStatus().getFormat()));
+        }
+        return this;
     }
 
     public String winTeamName() {
@@ -98,7 +99,7 @@ public class JanggiGame {
         return Objects.hashCode(id);
     }
 
-    private Turn getLastTurn() {
+    public Turn getLastTurn() {
         return turns.getLast();
     }
 }
