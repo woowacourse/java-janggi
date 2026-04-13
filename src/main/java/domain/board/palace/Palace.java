@@ -1,7 +1,7 @@
 package domain.board.palace;
 
 import domain.coordination.Coordination;
-import domain.move.MoveContext;
+import domain.piece.Team;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,14 +45,22 @@ public class Palace {
         return coordination.isInRange(LEFT_COLUMN, RIGHT_COLUMN, BOTTOM_START_ROW, BOTTOM_END_ROW);
     }
 
-    public MoveContext createMoveContext(Coordination from, Coordination to) {
-        return new MoveContext(
-                from,
-                to,
-                palaceAreaOf(from),
-                palaceAreaOf(to),
-                palaceRoute(from, to)
-        );
+    public boolean isSamePalace(Coordination from, Coordination to) {
+        return palaceAreaOf(from).isSameArea(palaceAreaOf(to));
+    }
+
+    public boolean isEnemyPalace(Coordination coordination, Team team) {
+        PalaceArea palaceArea = palaceAreaOf(coordination);
+        if (team.isCho()) {
+            return palaceArea == PalaceArea.TOP;
+        }
+        return palaceArea == PalaceArea.BOTTOM;
+    }
+
+    public PalaceRoute diagonalRoute(Coordination from, Coordination to) {
+        return findRoute(from, to)
+                .map(route -> PalaceRoute.of(extractPath(route, from, to)))
+                .orElse(PalaceRoute.empty());
     }
 
     private PalaceArea palaceAreaOf(Coordination coordination) {
@@ -63,12 +71,6 @@ public class Palace {
             return PalaceArea.BOTTOM;
         }
         return PalaceArea.NONE;
-    }
-
-    private PalaceRoute palaceRoute(Coordination from, Coordination to) {
-        return findRoute(from, to)
-                .map(route -> PalaceRoute.of(extractPath(route, from, to)))
-                .orElse(PalaceRoute.empty());
     }
 
     private Optional<List<Coordination>> findRoute(Coordination from, Coordination to) {

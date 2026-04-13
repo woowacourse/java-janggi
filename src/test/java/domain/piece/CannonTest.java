@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-import fixture.MoveContextFactory;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -25,7 +24,7 @@ class CannonTest {
         Coordination from = Coordination.of(3, 8);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateRule(MoveContextFactory.create(from, to)))
+        assertThatThrownBy(() -> cannon.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -40,7 +39,7 @@ class CannonTest {
         Coordination from = Coordination.of(4, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> cannon.validateRule(MoveContextFactory.create(from, to)))
+        assertThatCode(() -> cannon.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -149,7 +148,7 @@ class CannonTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatCode(() -> {
-            cannon.validateRule(MoveContextFactory.create(from, to));
+            cannon.validateRule(from, to);
             cannon.validatePath(piecesOnPath(cannon, from, to, board));
         })
                 .doesNotThrowAnyException();

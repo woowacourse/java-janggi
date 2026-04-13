@@ -13,7 +13,7 @@ public class PiecePathFinder {
             Coordination to,
             Map<Coordination, Piece> board
     ) {
-        return piece.resolvePath(MoveContextFactory.create(from, to)).stream()
+        return piece.resolvePath(from, to).stream()
                 .map(board::get)
                 .filter(pathPiece -> !pathPiece.isEmpty())
                 .toList();

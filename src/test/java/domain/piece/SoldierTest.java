@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-import fixture.MoveContextFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -22,7 +21,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -36,7 +35,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -51,7 +50,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -65,7 +64,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -78,7 +77,7 @@ class SoldierTest {
         Coordination from = Coordination.of(4, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -91,7 +90,7 @@ class SoldierTest {
         Coordination from = Coordination.of(4, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateRule(MoveContextFactory.create(from, to)))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 }

@@ -1,20 +1,14 @@
 package domain.piece;
 
-import domain.move.MoveContext;
-import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
-import java.util.List;
+import domain.piece.rule.GeneralRule;
+import domain.piece.rule.PieceRule;
 
 public class General extends Piece {
+
+    private static final PieceRule RULE = new GeneralRule();
+
     public General(Team team) {
         super(team);
-    }
-
-    @Override
-    public void validateRule(MoveContext moveContext) {
-        if (!canMoveOneStepInPalace(moveContext)) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
     }
 
     @Override
@@ -28,18 +22,7 @@ public class General extends Piece {
     }
 
     @Override
-    public List<Coordination> resolvePath(MoveContext moveContext) {
-        return List.of();
-    }
-
-    @Override
-    public void validatePath(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.isEmpty()) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
-    }
-
-    private boolean canMoveOneStepInPalace(MoveContext moveContext) {
-        return moveContext.isOneStepMoveInSamePalace();
+    protected PieceRule rule() {
+        return RULE;
     }
 }

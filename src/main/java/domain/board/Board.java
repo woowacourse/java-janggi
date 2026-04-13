@@ -1,9 +1,7 @@
 package domain.board;
 
-import domain.board.palace.Palace;
 import domain.coordination.Coordination;
 import domain.game.Turn;
-import domain.move.MoveContext;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
@@ -13,7 +11,6 @@ import java.util.Map;
 public class Board {
 
     private static final int TOTAL_GENERAL_COUNT = 2;
-    private static final Palace PALACE = new Palace();
 
     private final Map<Coordination, Piece> board;
 
@@ -23,10 +20,9 @@ public class Board {
 
     public void move(Coordination from, Coordination to) {
         Piece piece = board.get(from);
-        MoveContext moveContext = PALACE.createMoveContext(from, to);
 
-        validateRule(piece, moveContext);
-        validatePiecesOnPath(piece, moveContext);
+        validateRule(piece, from, to);
+        validatePiecesOnPath(piece, from, to);
         validateNotSameTeam(to, piece);
 
         resolve(from, to, piece);
@@ -68,8 +64,8 @@ public class Board {
         piece.validateNotSameTeam(board.get(to));
     }
 
-    private void validatePiecesOnPath(Piece piece, MoveContext moveContext) {
-        List<Coordination> path = piece.resolvePath(moveContext);
+    private void validatePiecesOnPath(Piece piece, Coordination from, Coordination to) {
+        List<Coordination> path = piece.resolvePath(from, to);
         List<Piece> piecesOnPath = path.stream()
                 .map(board::get)
                 .filter(pathPiece -> !pathPiece.isEmpty())
@@ -77,7 +73,7 @@ public class Board {
         piece.validatePath(piecesOnPath);
     }
 
-    private void validateRule(Piece piece, MoveContext moveContext) {
-        piece.validateRule(moveContext);
+    private void validateRule(Piece piece, Coordination from, Coordination to) {
+        piece.validateRule(from, to);
     }
 }

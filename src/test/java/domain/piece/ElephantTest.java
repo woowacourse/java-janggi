@@ -7,7 +7,6 @@ import static fixture.PiecePathFinder.piecesOnPath;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import fixture.BoardFixtureFactory;
-import fixture.MoveContextFactory;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -28,7 +27,7 @@ class ElephantTest {
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateRule(MoveContextFactory.create(from, to)))
+        assertThatThrownBy(() -> elephant.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -44,7 +43,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> elephant.validateRule(MoveContextFactory.create(from, to)))
+        assertThatCode(() -> elephant.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 

@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.move.MoveContext;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
+import domain.piece.rule.PieceRule;
 import java.util.List;
 
 public abstract class Piece {
@@ -47,9 +47,17 @@ public abstract class Piece {
         return pieceType().score();
     }
 
-    public abstract void validateRule(MoveContext moveContext);
+    public void validateRule(Coordination from, Coordination to) {
+        rule().validate(from, to, team);
+    }
 
-    public abstract List<Coordination> resolvePath(MoveContext moveContext);
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        return rule().resolvePath(from, to, team);
+    }
 
-    public abstract void validatePath(List<Piece> piecesOnPath);
+    public void validatePath(List<Piece> piecesOnPath) {
+        rule().validatePath(piecesOnPath);
+    }
+
+    protected abstract PieceRule rule();
 }
