@@ -2,7 +2,7 @@ package data;
 
 import domain.place.piece.Side;
 
-public record GameDto(
+public record GameEntity(
         Long id,
         String playerCho,
         String playerHan,

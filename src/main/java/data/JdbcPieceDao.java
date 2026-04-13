@@ -12,14 +12,14 @@ import java.util.List;
 public class JdbcPieceDao implements PieceDao {
 
     @Override
-    public void insertAll(Connection conn, Long gameId, List<PieceDto> pieces) {
+    public void insertAll(Connection conn, Long gameId, List<PieceEntity> pieces) {
         String sql = """
                 INSERT INTO piece (game_id, piece_type, side, pos_row, pos_col)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            for (PieceDto piece : pieces) {
+            for (PieceEntity piece : pieces) {
                 ps.setLong(1, gameId);
                 ps.setString(2, piece.pieceSymbol().name());
                 ps.setString(3, piece.side().name());
@@ -35,7 +35,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public List<PieceDto> findByGameId(Connection conn, Long gameId) {
+    public List<PieceEntity> findByGameId(Connection conn, Long gameId) {
         String sql = """
                 SELECT id, game_id, piece_type, side, pos_row, pos_col
                 FROM piece
@@ -43,7 +43,7 @@ public class JdbcPieceDao implements PieceDao {
                 ORDER BY pos_row, pos_col
                 """;
 
-        List<PieceDto> result = new ArrayList<>();
+        List<PieceEntity> result = new ArrayList<>();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, gameId);
@@ -72,8 +72,8 @@ public class JdbcPieceDao implements PieceDao {
         }
     }
 
-    private PieceDto toPieceDto(ResultSet rs) throws SQLException {
-        return new PieceDto(
+    private PieceEntity toPieceDto(ResultSet rs) throws SQLException {
+        return new PieceEntity(
                 rs.getLong("id"),
                 rs.getLong("game_id"),
                 PieceSymbol.valueOf(rs.getString("piece_type")),

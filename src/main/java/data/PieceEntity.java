@@ -3,7 +3,7 @@ package data;
 import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 
-public record PieceDto(
+public record PieceEntity(
         Long id,
         Long gameId,
         PieceSymbol pieceSymbol,

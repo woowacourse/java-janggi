@@ -11,23 +11,29 @@ import java.util.Optional;
 public class JdbcGameDao implements GameDao {
 
     @Override
-    public Long insert(Connection conn, GameDto gameDto) {
+    public GameEntity insert(Connection conn, GameEntity gameEntity) {
         String sql = """
                 INSERT INTO game (player_cho, player_han, current_turn, status)
                 VALUES (?, ?, ?, ?)
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, gameDto.playerCho());
-            ps.setString(2, gameDto.playerHan());
-            ps.setString(3, gameDto.currentTurn().name());
-            ps.setBoolean(4, gameDto.status());
+            ps.setString(1, gameEntity.playerCho());
+            ps.setString(2, gameEntity.playerHan());
+            ps.setString(3, gameEntity.currentTurn().name());
+            ps.setBoolean(4, gameEntity.status());
 
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getLong(1);
+                    return new GameEntity(
+                            rs.getLong(1),
+                            gameEntity.playerCho(),
+                            gameEntity.playerHan(),
+                            gameEntity.currentTurn(),
+                            gameEntity.status()
+                    );
                 }
                 throw new SQLException("[ERROR] 생성된 id를 가져오지 못했습니다.");
             }
@@ -37,7 +43,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void update(Connection conn, GameDto gameDto) {
+    public GameEntity update(Connection conn, GameEntity gameEntity) {
         String sql = """
                 UPDATE game
                 SET player_cho = ?, player_han = ?, current_turn = ?, status = ?
@@ -45,13 +51,14 @@ public class JdbcGameDao implements GameDao {
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, gameDto.playerCho());
-            ps.setString(2, gameDto.playerHan());
-            ps.setString(3, gameDto.currentTurn().name());
-            ps.setBoolean(4, gameDto.status());
-            ps.setLong(5, gameDto.id());
+            ps.setString(1, gameEntity.playerCho());
+            ps.setString(2, gameEntity.playerHan());
+            ps.setString(3, gameEntity.currentTurn().name());
+            ps.setBoolean(4, gameEntity.status());
+            ps.setLong(5, gameEntity.id());
 
             ps.executeUpdate();
+            return gameEntity;
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("[ERROR] game 업데이트 중 오류가 발생했습니다.", e);
@@ -59,7 +66,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameDto> findById(Connection conn, Long id) {
+    public Optional<GameEntity> findById(Connection conn, Long id) {
         String sql = """
                 SELECT id, player_cho, player_han, current_turn, status
                 FROM game
@@ -93,8 +100,8 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
-    private GameDto toGameDto(ResultSet rs) throws SQLException {
-        return new GameDto(
+    private GameEntity toGameDto(ResultSet rs) throws SQLException {
+        return new GameEntity(
                 rs.getLong("id"),
                 rs.getString("player_cho"),
                 rs.getString("player_han"),

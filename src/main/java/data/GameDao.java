@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.Optional;
 
 public interface GameDao {
-    Long insert(Connection conn, GameDto gameDto);
+    GameEntity insert(Connection conn, GameEntity gameEntity);
 
-    void update(Connection conn, GameDto gameDto);
+    GameEntity update(Connection conn, GameEntity gameEntity);
 
-    Optional<GameDto> findById(Connection conn, Long id);
+    Optional<GameEntity> findById(Connection conn, Long id);
 
     void deleteById(Connection conn, Long id);
 }

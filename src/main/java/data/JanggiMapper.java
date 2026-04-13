@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class JanggiMapper {
 
-    public GameDto toGameDto(Game game) {
-        return new GameDto(
+    public GameEntity toGameDto(Game game) {
+        return new GameEntity(
                 game.id(),
                 game.players().getPlayerBySide(Side.CHO).getName(),
                 game.players().getPlayerBySide(Side.HAN).getName(),
@@ -25,8 +25,8 @@ public class JanggiMapper {
         );
     }
 
-    public List<PieceDto> toPieceDtos(Board board, Long gameId) {
-        List<PieceDto> pieceDtos = new ArrayList<>();
+    public List<PieceEntity> toPieceDtos(Board board, Long gameId) {
+        List<PieceEntity> pieceEntities = new ArrayList<>();
 
         for (int row = 1; row <= 10; row++) {
             for (int column = 1; column <= 9; column++) {
@@ -36,7 +36,7 @@ public class JanggiMapper {
                 }
 
                 Piece piece = pieceOptional.get();
-                pieceDtos.add(new PieceDto(
+                pieceEntities.add(new PieceEntity(
                         null,
                         gameId,
                         piece.getSymbol(),
@@ -47,36 +47,36 @@ public class JanggiMapper {
             }
         }
 
-        return pieceDtos;
+        return pieceEntities;
     }
 
-    public Board toBoard(List<PieceDto> pieceDtos) {
+    public Board toBoard(List<PieceEntity> pieceEntities) {
         Map<Position, Piece> map = new HashMap<>();
 
-        for (PieceDto pieceDto : pieceDtos) {
-            Piece piece = toPiece(pieceDto);
-            Position position = new Position(pieceDto.row(), pieceDto.column());
+        for (PieceEntity pieceEntity : pieceEntities) {
+            Piece piece = toPiece(pieceEntity);
+            Position position = new Position(pieceEntity.row(), pieceEntity.column());
             map.put(position, piece);
         }
 
         return new Board(map, Palace.getInstance());
     }
 
-    public Game toDomain(GameDto gameDto, Board board) {
-        List<String> names = List.of(gameDto.playerCho(), gameDto.playerHan());
+    public Game toDomain(GameEntity gameEntity, Board board) {
+        List<String> names = List.of(gameEntity.playerCho(), gameEntity.playerHan());
         Players players = Players.from(names);
 
         return new Game(
-                gameDto.id(),
+                gameEntity.id(),
                 players,
                 board,
-                gameDto.currentTurn().resolve(players.getPlayerBySide(Side.CHO),
+                gameEntity.currentTurn().resolve(players.getPlayerBySide(Side.CHO),
                         players.getPlayerBySide(Side.HAN)),
-                gameDto.status()
+                gameEntity.status()
         );
     }
 
-    private Piece toPiece(PieceDto dto) {
+    private Piece toPiece(PieceEntity dto) {
         return dto.pieceSymbol().create(dto.side());
     }
 }

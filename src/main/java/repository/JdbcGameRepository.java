@@ -1,10 +1,10 @@
 package repository;
 
 import data.GameDao;
-import data.GameDto;
+import data.GameEntity;
 import data.JanggiMapper;
 import data.PieceDao;
-import data.PieceDto;
+import data.PieceEntity;
 import domain.Game;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -37,20 +37,19 @@ public class JdbcGameRepository implements GameRepository {
             conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(false);
 
-            Long gameId;
-            GameDto gameDto = janggiMapper.toGameDto(game);
+            GameEntity persistedGameEntity;
+            GameEntity gameEntity = janggiMapper.toGameDto(game);
 
             if (game.id() == null) {
-                gameId = gameDao.insert(conn, gameDto);
-                game.assignId(gameId);
+                persistedGameEntity = gameDao.insert(conn, gameEntity);
+                game.assignId(persistedGameEntity.id());
             } else {
-                gameId = game.id();
-                gameDao.update(conn, gameDto);
-                pieceDao.deleteByGameId(conn, gameId);
+                persistedGameEntity = gameDao.update(conn, gameEntity);
+                pieceDao.deleteByGameId(conn, persistedGameEntity.id());
             }
 
-            List<PieceDto> pieceDtos = janggiMapper.toPieceDtos(game.board(), gameId);
-            pieceDao.insertAll(conn, gameId, pieceDtos);
+            List<PieceEntity> pieceEntities = janggiMapper.toPieceDtos(game.board(), persistedGameEntity.id());
+            pieceDao.insertAll(conn, persistedGameEntity.id(), pieceEntities);
 
             conn.commit();
         } catch (Exception e) {
@@ -64,14 +63,14 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public Optional<Game> findById(Long id) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            Optional<GameDto> gameDto = gameDao.findById(conn, id);
+            Optional<GameEntity> gameDto = gameDao.findById(conn, id);
             if (gameDto.isEmpty()) {
                 return Optional.empty();
             }
 
-            List<PieceDto> pieceDtos = pieceDao.findByGameId(conn, id);
+            List<PieceEntity> pieceEntities = pieceDao.findByGameId(conn, id);
             return Optional.of(
-                    janggiMapper.toDomain(gameDto.get(), janggiMapper.toBoard(pieceDtos))
+                    janggiMapper.toDomain(gameDto.get(), janggiMapper.toBoard(pieceEntities))
             );
         } catch (SQLException e) {
             throw new IllegalArgumentException("[ERROR] 게임 조회 중 오류가 발생했습니다.", e);
