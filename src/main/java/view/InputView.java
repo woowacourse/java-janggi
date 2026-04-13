@@ -2,9 +2,9 @@ package view;
 
 import domain.board.Position;
 import domain.board.SetUp;
-import domain.game.GameCommand;
-import domain.game.MoveCommand;
-import domain.game.PassCommand;
+import application.command.GameCommand;
+import application.command.MoveCommand;
+import application.command.PassCommand;
 
 import java.util.Scanner;
 

@@ -1,7 +1,8 @@
-package domain.game;
+package application.command;
 
 import dao.GameDAO;
 import domain.board.Position;
+import domain.game.Game;
 
 public record MoveCommand(Position from, Position to) implements GameCommand {
     @Override

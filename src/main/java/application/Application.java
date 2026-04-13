@@ -2,7 +2,7 @@ package application;
 
 import dao.GameDAO;
 import domain.game.Game;
-import domain.game.GameCommand;
+import application.command.GameCommand;
 import domain.piece.Camp;
 import view.*;
 

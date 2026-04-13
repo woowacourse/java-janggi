@@ -1,6 +1,7 @@
-package domain.game;
+package application.command;
 
 import dao.GameDAO;
+import domain.game.Game;
 
 public record PassCommand() implements GameCommand {
     @Override
