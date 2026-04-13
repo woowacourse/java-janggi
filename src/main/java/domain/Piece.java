@@ -1,6 +1,8 @@
 package domain;
 
 import domain.strategy.MoveStrategy;
+import domain.strategy.Palace;
+import domain.strategy.PalaceMoveStrategy;
 import domain.vo.Position;
 
 import java.util.List;
@@ -25,12 +27,12 @@ public class Piece {
     }
 
     public List<Position> getPathPositions(final Position from, final Position to) {
-        MoveStrategy strategy = type.getStrategy();
+        MoveStrategy strategy = resolveStrategy(from, to);
         return strategy.getPath(from, to);
     }
 
     public boolean canMovePiece(final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
-        MoveStrategy strategy = type.getStrategy();
+        MoveStrategy strategy = resolveStrategy(from, to);
         return strategy.canMove(this, from, to, piecesOnPath);
     }
 
@@ -48,5 +50,14 @@ public class Piece {
 
     public String getTeamName() {
         return team.getName();
+    }
+
+    private MoveStrategy resolveStrategy(final Position from, final Position to) {
+        MoveStrategy base = type.getStrategy();
+        if (Palace.isInPalace(from) || Palace.isInPalace(to)) {
+            return new PalaceMoveStrategy(base);
+        }
+
+        return base;
     }
 }

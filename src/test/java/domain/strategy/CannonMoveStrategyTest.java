@@ -129,11 +129,10 @@ class CannonMoveStrategyTest {
         Position from = Position.of(7, 3);
         Position to = Position.of(9, 5);
 
-        MoveStrategy strategy = new CannonMoveStrategy();
         Piece mover = Piece.of(Team.CHU, Type.CANNON);
         Piece general = Piece.of(Team.CHU, Type.GENERAL);
 
         // when // then
-        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of(Position.of(8, 4), general)));
+        Assertions.assertTrue(mover.canMovePiece(from, to, Map.of(Position.of(8, 4), general)));
     }
 }

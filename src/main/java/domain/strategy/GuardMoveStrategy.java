@@ -22,10 +22,6 @@ public class GuardMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        if (!palaceInRange(to)) {
-            return false;
-        }
-
         Piece target = piecesOnPath.get(to);
         if (target == null) {
             return true;
@@ -35,40 +31,11 @@ public class GuardMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (hanSoldierCanDiagonalMoveInPalace(from, to) || chuSoldierCanDiagonalMoveInPalace(from, to)) {
-            return true;
+        if (Palace.canDiagonalInPalace(from, to)
+                && Math.abs(from.getRow() - to.getRow()) == 1
+                && Math.abs(from.getCol() - to.getCol()) == 1) {
+            return false;
         }
-
         return Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1;
-    }
-
-    private boolean chuSoldierCanDiagonalMoveInPalace(Position from, Position to) {
-        if ((from.getRow() == 7 && from.getCol() == 4) || (from.getRow() == 8 && from.getCol() == 3)
-                || (from.getRow() == 8 && from.getCol() == 5)) {
-            if (isDiagonal(from, to)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hanSoldierCanDiagonalMoveInPalace(Position from, Position to) {
-        if ((from.getRow() == 2 && from.getCol() == 4) || (from.getRow() == 1 && from.getCol() == 3)
-                || (from.getRow() == 1 && from.getCol() == 5)) {
-            if (isDiagonal(from, to)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isDiagonal(final Position from, final Position to) {
-        return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
-    }
-
-    private boolean palaceInRange(final Position position) {
-        return (((0 <= position.getRow() && position.getRow() <= 2) || (7 <= position.getRow()
-                && position.getRow() <= 9))
-                && (3 <= position.getCol() && position.getCol() <= 5));
     }
 }
