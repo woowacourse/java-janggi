@@ -1,24 +1,14 @@
 package view;
 
+import static view.Formatter.CAMP_NAMES;
+import static view.Formatter.FORMATION_NAMES;
+
 import domain.Camp;
-import domain.ElephantFormation;
 import domain.Position;
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class InputView {
-
-    private static final Map<ElephantFormation, String> FORMATION_NAMES = new EnumMap<>(
-            ElephantFormation.class);
-
-    static {
-        FORMATION_NAMES.put(ElephantFormation.RIGHT, "1. [마 상 마 상]");
-        FORMATION_NAMES.put(ElephantFormation.INNER, "2. [마 상 상 마]");
-        FORMATION_NAMES.put(ElephantFormation.LEFT, "3. [상 마 상 마]");
-        FORMATION_NAMES.put(ElephantFormation.OUTER, "4. [상 마 마 상]");
-    }
 
     private final Scanner sc = new Scanner(System.in);
 
@@ -29,7 +19,7 @@ public class InputView {
     public Position readFromPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getDisplayName()
+                System.out.println(CAMP_NAMES.get(camp)
                         + " 플레이어는 움직일 말의 위치를 column, row 형식으로 입력해 주세요. (입력좌표 예시 column, row: 0, 9)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
@@ -41,7 +31,7 @@ public class InputView {
     public Position readToPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getDisplayName()
+                System.out.println(CAMP_NAMES.get(camp)
                         + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
@@ -53,7 +43,7 @@ public class InputView {
     private int readElephantFormation(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getDisplayName() + " 상 차림을 결정해주세요.");
+                System.out.println(CAMP_NAMES.get(camp) + " 상 차림을 결정해주세요.");
                 for (String name : FORMATION_NAMES.values()) {
                     System.out.println(name);
                 }

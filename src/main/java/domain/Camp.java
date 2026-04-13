@@ -1,20 +1,14 @@
 package domain;
 
 public enum Camp {
-    HAN("한나라", 1.5),
-    CHO("초나라", 0),
-    NONE("", 0);
+    HAN(1.5),
+    CHO(0),
+    NONE(0);
 
-    private final String displayName;
     private final double bonusScore;
 
-    Camp(String displayName, double bonusScore) {
-        this.displayName = displayName;
+    Camp(double bonusScore) {
         this.bonusScore = bonusScore;
-    }
-
-    public String getDisplayName() {
-        return displayName;
     }
 
     public Camp turnCamp() {

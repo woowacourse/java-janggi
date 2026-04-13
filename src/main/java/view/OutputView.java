@@ -1,5 +1,7 @@
 package view;
 
+import static view.Formatter.CAMP_NAMES;
+
 import domain.Camp;
 import domain.PieceType;
 import dto.BoardStatusDto;
@@ -82,8 +84,8 @@ public class OutputView {
     }
 
     public void printResult(Camp camp, double hanScore, double choScore) {
-        System.out.println(camp.getDisplayName() + "의 승리입니다.");
-        System.out.println(Camp.HAN.getDisplayName() + " 점수: " + hanScore);
-        System.out.println(Camp.CHO.getDisplayName() + " 점수: " + choScore);
+        System.out.println(CAMP_NAMES.get(camp) + "의 승리입니다.");
+        System.out.println(CAMP_NAMES.get(camp) + " 점수: " + hanScore);
+        System.out.println(CAMP_NAMES.get(camp) + " 점수: " + choScore);
     }
 }
