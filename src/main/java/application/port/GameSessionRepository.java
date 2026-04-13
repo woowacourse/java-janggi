@@ -9,4 +9,6 @@ public interface GameSessionRepository {
     long create();
 
     void appendCommand(long gameSessionId, String rawCommand);
+
+    void finish(long gameSessionId);
 }

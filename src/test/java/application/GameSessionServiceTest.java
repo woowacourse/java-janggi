@@ -61,6 +61,19 @@ class GameSessionServiceTest {
     }
 
     @Test
+    @DisplayName("게임이 종료되면 마지막 명령 저장 후 세션을 완료 처리한다")
+    void executeFinishesGameSession() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+        GameSession gameSession = new GameSession(3L, new StubFinishedGame());
+
+        gameSessionService.execute(gameSession, "a1 a2");
+
+        assertThat(repository.savedCommands()).containsExactly(new SavedCommand(3L, "a1 a2"));
+        assertThat(repository.finishedSessionIds()).containsExactly(3L);
+    }
+
+    @Test
     @DisplayName("유효하지 않은 명령은 저장하지 않는다")
     void executeDoesNotStoreInvalidCommand() {
         FakeGameSessionRepository repository = new FakeGameSessionRepository();
@@ -75,6 +88,7 @@ class GameSessionServiceTest {
     private static class FakeGameSessionRepository implements GameSessionRepository {
         private Optional<StoredGameSession> storedGameSession = Optional.empty();
         private final List<SavedCommand> savedCommands = new ArrayList<>();
+        private final List<Long> finishedSessionIds = new ArrayList<>();
         private boolean newSessionCreated;
 
         @Override
@@ -93,6 +107,11 @@ class GameSessionServiceTest {
             savedCommands.add(new SavedCommand(gameSessionId, rawCommand));
         }
 
+        @Override
+        public void finish(long gameSessionId) {
+            finishedSessionIds.add(gameSessionId);
+        }
+
         void prepareStoredGame(long id, List<String> rawCommands) {
             storedGameSession = Optional.of(new StoredGameSession(id, rawCommands));
         }
@@ -104,8 +123,26 @@ class GameSessionServiceTest {
         List<SavedCommand> savedCommands() {
             return List.copyOf(savedCommands);
         }
+
+        List<Long> finishedSessionIds() {
+            return List.copyOf(finishedSessionIds);
+        }
     }
 
     private record SavedCommand(long gameSessionId, String rawCommand) {
+    }
+
+    private static class StubFinishedGame extends domain.game.JanggiGame {
+        private boolean finished;
+
+        @Override
+        public void processCommand(domain.setup.Command command) {
+            finished = true;
+        }
+
+        @Override
+        public boolean isFinishPhase() {
+            return finished;
+        }
     }
 }

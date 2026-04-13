@@ -55,6 +55,17 @@ class JdbcGameSessionRepositoryTest {
                 .contains(new StoredGameSession(id, List.of("1", "1")));
     }
 
+    @Test
+    @DisplayName("완료 처리한 세션은 진행 중 게임 조회에서 제외한다")
+    void finishSession() {
+        JdbcGameSessionRepository repository = repository();
+        long id = repository.create();
+
+        repository.finish(id);
+
+        assertThat(repository.findInProgress()).isEmpty();
+    }
+
     private JdbcGameSessionRepository repository() {
         return new JdbcGameSessionRepository(connectionProvider());
     }

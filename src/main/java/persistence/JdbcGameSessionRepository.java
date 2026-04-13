@@ -44,6 +44,12 @@ public class JdbcGameSessionRepository implements GameSessionRepository {
             SET updated_at = CURRENT_TIMESTAMP
             WHERE id = ?
             """;
+    private static final String FINISH_GAME_SESSION = """
+            UPDATE game_session
+            SET status = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            """;
+    private static final String FINISHED = "FINISHED";
 
     private final ConnectionProvider connectionProvider;
 
@@ -89,6 +95,20 @@ public class JdbcGameSessionRepository implements GameSessionRepository {
             touchSession(connection, gameSessionId);
         } catch (SQLException exception) {
             throw new IllegalStateException("[ERROR] 명령 저장에 실패했습니다.", exception);
+        }
+    }
+
+    @Override
+    public void finish(long gameSessionId) {
+        try (
+                Connection connection = connectionProvider.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FINISH_GAME_SESSION)
+        ) {
+            statement.setString(1, FINISHED);
+            statement.setLong(2, gameSessionId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR] 게임 세션 종료에 실패했습니다.", exception);
         }
     }
 

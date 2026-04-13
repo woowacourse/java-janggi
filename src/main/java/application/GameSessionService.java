@@ -33,5 +33,13 @@ public class GameSessionService {
     public void execute(GameSession gameSession, String rawCommand) {
         gameSession.game().processCommand(new Command(rawCommand));
         gameSessionRepository.appendCommand(gameSession.id(), rawCommand);
+        finish(gameSession);
+    }
+
+    private void finish(GameSession gameSession) {
+        if (!gameSession.game().isFinishPhase()) {
+            return;
+        }
+        gameSessionRepository.finish(gameSession.id());
     }
 }
