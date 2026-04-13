@@ -26,7 +26,7 @@ public class RedSoldierMoveStrategy extends MoveStrategy {
     private List<Position> movablePositionsInPalace(Position currentPosition) {
         List<Position> destinations = new ArrayList<>(basicMovablePositions(currentPosition));
         List<Position> reachablePalacePositions = palace.reachablePositionsInPalace(currentPosition).stream()
-                .filter(destination -> !isForwardDiagonalPosition(currentPosition, destination)).toList();
+                .filter(destination -> !isRowDecreasingDiagonalPosition(currentPosition, destination)).toList();
         destinations.addAll(reachablePalacePositions);
         return destinations;
     }
@@ -39,7 +39,7 @@ public class RedSoldierMoveStrategy extends MoveStrategy {
         );
     }
 
-    private boolean isForwardDiagonalPosition(Position currentPosition, Position destination) {
+    private boolean isRowDecreasingDiagonalPosition(Position currentPosition, Position destination) {
         return List.of(
                         currentPosition.upCrossLeft(),
                         currentPosition.upCrossRight())

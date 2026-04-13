@@ -26,7 +26,7 @@ public class GreenSoldierMoveStrategy extends MoveStrategy {
     private List<Position> movablePositionsInPalace(Position currentPosition) {
         List<Position> destinations = new ArrayList<>(basicMovablePositions(currentPosition));
         List<Position> reachablePalacePositions = palace.reachablePositionsInPalace(currentPosition).stream()
-                .filter(destination -> !isBackwardDiagonalPosition(currentPosition, destination)).toList();
+                .filter(destination -> !isRowIncreasingDiagonalPosition(currentPosition, destination)).toList();
         destinations.addAll(reachablePalacePositions);
         return destinations;
     }
@@ -39,7 +39,7 @@ public class GreenSoldierMoveStrategy extends MoveStrategy {
         );
     }
 
-    private boolean isBackwardDiagonalPosition(Position currentPosition, Position destination) {
+    private boolean isRowIncreasingDiagonalPosition(Position currentPosition, Position destination) {
         return List.of(
                 currentPosition.downCrossLeft(),
                 currentPosition.downCrossRight())
