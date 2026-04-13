@@ -55,6 +55,7 @@ class JanggiGameTest {
         janggiGame = new JanggiGame(board);
 
         // when
+        janggiGame.initSnapshot(1L);
         janggiGame.skipTurn(); // 초(CHO) 턴 이행하지 않음
         janggiGame.move(from, to); // 한(HAN) 기물 이동
 

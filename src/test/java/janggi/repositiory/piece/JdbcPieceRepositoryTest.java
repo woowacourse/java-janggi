@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,41 +25,48 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         pieceRepository = new JdbcPieceRepository(dataSource);
 
         JdbcGameRepository gameRepository = new JdbcGameRepository(dataSource);
-        gameId = gameRepository.save(new FinishStatus(false), Team.CHO);
+        try {
+            gameId = gameRepository.save(dataSource.getConnection(), new FinishStatus(false), Team.CHO);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     @DisplayName("보드 상태를 한 번에 저장하고 전체를 조회할 수 있다")
-    void updateAll_findAll_테스트() {
+    void updateAll_findAll_테스트() throws SQLException {
         // given
         Map<Position, Piece> board = Map.of(
                 new Position(0, 0), new Tank(Team.HAN),
                 new Position(9, 0), new Soldier(Team.CHO)
         );
+        Connection conn = dataSource.getConnection();
 
         // when
-        pieceRepository.updateALL(new BoardSnapshot(gameId, board));
+        pieceRepository.updateALL(conn, new BoardSnapshot(gameId, board));
 
         // then
-        Map<Position, Piece> all = pieceRepository.findAll(gameId);
+        Map<Position, Piece> all = pieceRepository.findAll(conn, gameId);
         assertThat(all).hasSize(2);
 
     }
 
     @Test
     @DisplayName("다시 updateAll을 호출하면 기존 기물은 삭제되고 새로운 상태만 남는다")
-    void updateAll_재호출_테스트() {
+    void updateAll_재호출_테스트() throws SQLException {
         // given
         Position oldPosition = new Position(0, 0);
-        pieceRepository.updateALL(new BoardSnapshot(gameId, Map.of(oldPosition, new Tank(Team.HAN))));
+        Connection conn = dataSource.getConnection();
+
+        pieceRepository.updateALL(conn, new BoardSnapshot(gameId, Map.of(oldPosition, new Tank(Team.HAN))));
 
         // when
         Position updatedPosition = new Position(8, 4);
         Map<Position, Piece> newBoard = Map.of(updatedPosition, new King(Team.CHO));
-        pieceRepository.updateALL(new BoardSnapshot(gameId, newBoard));
+        pieceRepository.updateALL(conn, new BoardSnapshot(gameId, newBoard));
 
         // then
-        Map<Position, Piece> all = pieceRepository.findAll(gameId);
+        Map<Position, Piece> all = pieceRepository.findAll(conn, gameId);
         assertThat(all).hasSize(1);
         assertThat(all.getOrDefault(oldPosition, EmptyPiece.getInstance())).isEqualTo(EmptyPiece.getInstance());
         assertThat(all.get(updatedPosition).pieceType()).isEqualTo(PieceType.KING);
@@ -65,18 +74,20 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
 
     @Test
     @DisplayName("Empty 기물은 DB에 저장되지 않아야 한다")
-    void saveAll_ShouldFilterEmptyPieces() {
+    void saveAll_ShouldFilterEmptyPieces() throws SQLException {
         // Given
         Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(0, 0), new King(Team.HAN));
         board.put(new Position(0, 1), EmptyPiece.getInstance());
         board.put(new Position(0, 2), EmptyPiece.getInstance());
 
+        Connection conn = dataSource.getConnection();
+
         // When
-        pieceRepository.updateALL(new BoardSnapshot(gameId, board));
+        pieceRepository.updateALL(conn, new BoardSnapshot(gameId, board));
 
         // Then
-        Map<Position, Piece> result = pieceRepository.findAll(gameId);
+        Map<Position, Piece> result = pieceRepository.findAll(conn, gameId);
 
         assertThat(result).hasSize(1);
 
