@@ -7,12 +7,11 @@ import domain.game.MoveResult;
 import domain.game.Status;
 import domain.vo.Position;
 import repository.BoardDao;
-import repository.DBConnectionUtil;
 import repository.GameDao;
+import repository.TransactionTemplate;
 import repository.dto.GameDto;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class JanggiService {
@@ -35,70 +34,57 @@ public class JanggiService {
     }
 
     public Game createAndSaveGame(Formation hanFormation, Formation chuFormation) {
-        try (Connection con = DBConnectionUtil.getConnection()) {
-            con.setAutoCommit(false);
-
-            try {
+        return new TransactionTemplate<Game>() {
+            @Override
+            protected Game doInTransaction(Connection con) {
                 Board board = BoardFactory.setUp(hanFormation, chuFormation);
                 Game game = Game.of(board);
 
                 Game savedGame = gameDao.save(con, game);
                 boardDao.saveBoard(con, savedGame.getId(), game.getBoard());
-
-                con.commit();
                 return savedGame;
-            } catch (Exception e) {
-                con.rollback();
-                throw new RuntimeException("게임 생성 실패", e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+            @Override
+            protected void afterCommit(Game savedGame) {}
+        }.execute();
     }
 
     public void move(Game game, Position from, Position to) {
-        try (Connection con = DBConnectionUtil.getConnection()) {
-            con.setAutoCommit(false);
-
-            try {
+        new TransactionTemplate<MoveResult>() {
+            @Override
+            protected MoveResult doInTransaction(Connection con) {
                 MoveResult moveResult = game.validateMove(from, to);
 
                 persistMoveResult(con, game.getId(), moveResult);
-                con.commit();
-
-                game.applyMoveResult(moveResult);
-            } catch (IllegalArgumentException e) {
-                throw e;
-            } catch (Exception e) {
-                con.rollback();
-                throw new RuntimeException("이동 처리 실패", e);
+                return moveResult;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+            @Override
+            protected void afterCommit(MoveResult moveResult) {
+                game.applyMoveResult(moveResult);
+            }
+        }.execute();
     }
 
     public void forfeit(Game game, String turnName) {
-        try (Connection con = DBConnectionUtil.getConnection()) {
-            con.setAutoCommit(false);
-
-            try {
+        new TransactionTemplate<Void>() {
+            @Override
+            protected Void doInTransaction(Connection con) {
                 Status newStatus = Status.CHU_WIN;
                 if (turnName.equals(Team.CHU.getName())) {
                     newStatus = Status.HAN_WIN;
                 }
 
                 gameDao.update(con, game.getId(), game.getCurrentTeam().name(), newStatus.toString());
-                con.commit();
-
-                game.lose(turnName);
-            } catch (Exception e) {
-                con.rollback();
-                throw new RuntimeException("기권 처리 실패", e);
+                return null;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+            @Override
+            protected void afterCommit(Void result) {
+                game.lose(turnName);
+            }
+        }.execute();
     }
 
     private void persistMoveResult(Connection con, Long gameId, MoveResult moveResult) {
