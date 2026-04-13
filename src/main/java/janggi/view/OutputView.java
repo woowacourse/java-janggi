@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
@@ -22,7 +23,7 @@ public class OutputView {
         for (int r = 0; r < ROW_SIZE; r++) {
             System.out.print(r + " ");
             for (int c = 0; c < COL_SIZE; c++) {
-                Piece piece = pieces.getOrDefault(new Position(r, c), null); // 혹은 EmptyPiece
+                Piece piece = pieces.getOrDefault(new Position(r, c), EmptyPiece.getInstance());
                 System.out.print(formatCell(piece));
             }
             System.out.println();

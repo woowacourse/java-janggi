@@ -19,14 +19,7 @@ public class Board implements BoardView {
     }
 
     public Board(Map<Position, Piece> board) {
-        this.board = board.entrySet().stream()
-                .filter(entry -> !entry.getValue().isEmpty())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (existing, replacement) -> existing,
-                        HashMap::new
-                ));
+        this.board = board;
     }
 
     public static Board createBoardWith(Object... args) {

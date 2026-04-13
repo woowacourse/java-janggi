@@ -5,6 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.FinishStatus;
 import janggi.domain.vo.position.Position;
+import janggi.repositiory.piece.BoardSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +18,10 @@ public class JanggiGame {
             put(Team.CHO, false);
         }
     };
+    private boolean isResumed = false;
     private Team currentTurn;
     private Team winner = Team.NONE;
+    private BoardSnapshot boardSnapshot;
 
     public JanggiGame(Board board, Team currentTurn) {
         this.board = board;
@@ -45,6 +48,7 @@ public class JanggiGame {
         skip.put(currentTurn, false);
         board.move(from, to, currentTurn);
         currentTurn = currentTurn.anotherTeam();
+        boardSnapshot = boardSnapshot.updatePieces(board.getBoard());
     }
 
     public void skipTurn() {
@@ -77,5 +81,21 @@ public class JanggiGame {
 
     private boolean isKingCaught() {
         return board.kingsOnBoard().size() < 2;
+    }
+
+    public BoardSnapshot snapshot() {
+        return boardSnapshot;
+    }
+
+    public void initSnapshot(Long id) {
+        boardSnapshot = new BoardSnapshot(id, board.getBoard());
+    }
+
+    public void resume() {
+        isResumed = true;
+    }
+
+    public boolean isResumed() {
+        return isResumed;
     }
 }
