@@ -1,12 +1,12 @@
 package repository;
 
-import domain.Janggi;
+import domain.Game;
 import java.util.Optional;
 
 public interface GameRepository {
-    void save(Janggi game);
+    void save(Game game);
 
-    Optional<Janggi> findById(Long id);
+    Optional<Game> findById(Long id);
 
     void deleteById(Long id);
 }

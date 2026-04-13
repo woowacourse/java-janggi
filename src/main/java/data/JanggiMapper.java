@@ -1,6 +1,6 @@
 package data;
 
-import domain.Janggi;
+import domain.Game;
 import domain.board.Board;
 import domain.board.Palace;
 import domain.place.piece.Piece;
@@ -15,13 +15,13 @@ import java.util.Optional;
 
 public class JanggiMapper {
 
-    public GameDto toGameDto(Janggi janggi) {
+    public GameDto toGameDto(Game game) {
         return new GameDto(
-                janggi.id(),
-                janggi.players().getPlayerBySide(Side.CHO).getName(),
-                janggi.players().getPlayerBySide(Side.HAN).getName(),
-                janggi.getCurrentPlayer().getSide(),
-                janggi.isGameOver()
+                game.id(),
+                game.players().getPlayerBySide(Side.CHO).getName(),
+                game.players().getPlayerBySide(Side.HAN).getName(),
+                game.getCurrentPlayer().getSide(),
+                game.isGameOver()
         );
     }
 
@@ -61,11 +61,11 @@ public class JanggiMapper {
         return new Board(map, Palace.getInstance());
     }
 
-    public Janggi toDomain(GameDto gameDto, Board board) {
+    public Game toDomain(GameDto gameDto, Board board) {
         List<String> names = List.of(gameDto.playerCho(), gameDto.playerHan());
         Players players = Players.from(names);
 
-        return new Janggi(
+        return new Game(
                 gameDto.id(),
                 players,
                 board,

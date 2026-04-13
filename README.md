@@ -1,4 +1,4 @@
-# java-janggi
+# java-game
 
 장기 미션 저장소
 

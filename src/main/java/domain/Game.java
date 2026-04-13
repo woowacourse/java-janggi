@@ -9,7 +9,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Optional;
 
-public class Janggi {
+public class Game {
 
     private final Players players;
     private final Board board;
@@ -19,14 +19,14 @@ public class Janggi {
     private double choScore = 72;
     private double hanScore = 73.5;
 
-    public Janggi(Players players, Board board) {
+    public Game(Players players, Board board) {
         this.players = players;
         this.board = board;
         this.currentPlayer = players.getPlayerBySide(Side.CHO);
     }
 
-    public Janggi(Long id, Players players, Board board, Player currentPlayer, boolean gameOver, double choScore,
-                  double hanScore) {
+    public Game(Long id, Players players, Board board, Player currentPlayer, boolean gameOver, double choScore,
+                double hanScore) {
         this.id = id;
         this.players = players;
         this.board = board;

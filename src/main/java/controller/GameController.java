@@ -1,6 +1,6 @@
 package controller;
 
-import domain.Janggi;
+import domain.Game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.HorseElephantFormation;
@@ -25,18 +25,18 @@ public class GameController {
         this.outputView = outputView;
     }
 
-    public void run(Janggi janggi, GameRepository gameRepository) {
+    public void run(Game game, GameRepository gameRepository) {
         while (true) {
-            Player player = janggi.getCurrentPlayer();
-            outputView.printBoard(janggi.getBoardFormat());
+            Player player = game.getCurrentPlayer();
+            outputView.printBoard(game.getBoardFormat());
 
-            playTurn(player, janggi);
-            gameRepository.save(janggi);
+            playTurn(player, game);
+            gameRepository.save(game);
 
-            outputView.printScore(janggi.getGameTotalScore());
-            if (janggi.isGameOver()) {
-                outputView.printWinner(janggi.getWinner());
-                gameRepository.deleteById(janggi.id());
+            outputView.printScore(game.getGameTotalScore());
+            if (game.isGameOver()) {
+                outputView.printWinner(game.getWinner());
+                gameRepository.deleteById(game.id());
                 break;
             }
         }
@@ -74,12 +74,12 @@ public class GameController {
         }
     }
 
-    private void playTurn(Player player, Janggi janggi) {
+    private void playTurn(Player player, Game game) {
         while (true) {
             try {
                 Position from = getFrom(player);
                 Position to = getTo(player);
-                janggi.playOneTurn(from, to);
+                game.playOneTurn(from, to);
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printMessage(e.getMessage());

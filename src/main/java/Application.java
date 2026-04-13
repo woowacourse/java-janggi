@@ -3,7 +3,7 @@ import controller.QuitGameException;
 import data.JanggiMapper;
 import data.JdbcGameDao;
 import data.JdbcPieceDao;
-import domain.Janggi;
+import domain.Game;
 import domain.board.Board;
 import domain.player.Players;
 import repository.GameRepository;
@@ -35,18 +35,18 @@ public class Application {
                 outputView.printGameId();
                 Long gameId = Long.parseLong(inputView.readLine());
 
-                Janggi janggi;
+                Game game;
                 if (gameId == 0L) {
                     Players players = controller.getPlayer();
                     Board board = controller.getBoard();
-                    janggi = new Janggi(players, board);
-                    gameRepository.save(janggi);
+                    game = new Game(players, board);
+                    gameRepository.save(game);
                 } else {
-                    janggi = gameRepository.findById(gameId)
+                    game = gameRepository.findById(gameId)
                             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
                 }
 
-                controller.run(janggi, gameRepository);
+                controller.run(game, gameRepository);
                 break;
             } catch (QuitGameException | IllegalArgumentException e) {
                 outputView.printMessage(e.getMessage());

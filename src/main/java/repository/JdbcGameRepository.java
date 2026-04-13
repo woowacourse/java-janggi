@@ -5,7 +5,7 @@ import data.GameDto;
 import data.JanggiMapper;
 import data.PieceDao;
 import data.PieceDto;
-import domain.Janggi;
+import domain.Game;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void save(Janggi game) {
+    public void save(Game game) {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, username, password);
@@ -62,7 +62,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<Janggi> findById(Long id) {
+    public Optional<Game> findById(Long id) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Optional<GameDto> gameDto = gameDao.findById(conn, id);
             if (gameDto.isEmpty()) {
