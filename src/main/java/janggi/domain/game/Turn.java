@@ -3,7 +3,7 @@ package janggi.domain.game;
 import java.util.Objects;
 
 public class Turn {
-    private Side current;
+    private final Side current;
 
     private Turn(Side side) {
         this.current = side;
@@ -13,8 +13,8 @@ public class Turn {
         return new Turn(side);
     }
 
-    public void switchTurn() {
-        this.current = current.opposite();
+    public Turn switchTurn() {
+        return new Turn(current.opposite());
     }
 
     public boolean isCurrent(Side side) {

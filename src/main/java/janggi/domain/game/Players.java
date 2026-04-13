@@ -9,7 +9,7 @@ public class Players implements Iterable<Player> {
     private static final String ERROR_PLAYER_NOT_FOUND = "[ERROR] 해당하는 플레이어를 찾을 수 없습니다.";
 
     private final Set<Player> players;
-    private final Turn turn;
+    private Turn turn;
 
     private Players(String choPlayerName, String hanPlayerName, Side side) {
         validateDuplicatedNames(choPlayerName, hanPlayerName);
@@ -39,7 +39,7 @@ public class Players implements Iterable<Player> {
     }
 
     public void switchTurn() {
-        turn.switchTurn();
+        turn = turn.switchTurn();
     }
 
     public Iterator<Player> iterator() {
@@ -72,11 +72,11 @@ public class Players implements Iterable<Player> {
             return false;
         }
         Players players1 = (Players) o;
-        return Objects.equals(players, players1.players) && Objects.equals(turn, players1.turn);
+        return Objects.equals(players, players1.players);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(players, turn);
+        return Objects.hashCode(players);
     }
 }
