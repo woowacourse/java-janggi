@@ -13,6 +13,8 @@ import view.OutputView;
 
 public class AppConfig {
 
+    private final DatabaseProperties databaseProperties = new DatabaseProperties();
+
     public GameConsole gameConsole() {
         return new GameConsole(gameService(), inputView(), outputView());
     }
@@ -38,6 +40,6 @@ public class AppConfig {
     }
 
     private Connector connector() {
-        return new MysqlConnector();
+        return new MysqlConnector(databaseProperties);
     }
 }
