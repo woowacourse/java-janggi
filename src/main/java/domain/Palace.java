@@ -38,30 +38,20 @@ public class Palace {
     }
 
     private boolean isPalaceArea(Position currentPosition, Position palaceCenter) {
-        if (currentPosition.equals(palaceCenter.upCrossLeft())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.up())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.upCrossRight())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.left())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter)) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.right())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.downCrossLeft())) {
-            return true;
-        }
-        if (currentPosition.equals(palaceCenter.down())) {
-            return true;
-        }
-        return currentPosition.equals(palaceCenter.downCrossRight());
+        return palacePositions(palaceCenter).contains(currentPosition);
+    }
+
+    private List<Position> palacePositions(Position palaceCenter) {
+        return List.of(
+                palaceCenter.upCrossLeft(),
+                palaceCenter.up(),
+                palaceCenter.upCrossRight(),
+                palaceCenter.left(),
+                palaceCenter,
+                palaceCenter.right(),
+                palaceCenter.downCrossLeft(),
+                palaceCenter.down(),
+                palaceCenter.downCrossRight()
+        );
     }
 }
