@@ -88,13 +88,20 @@ public class H2GameRepository implements GameRepository {
             """;
     private static final String COUNT_GAMES_SQL = "select count(*) from games";
 
+    private final ConnectionManager connectionManager;
+
     public H2GameRepository() {
+        this(new H2ConnectionManager());
+    }
+
+    public H2GameRepository(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
         initialize();
     }
 
     @Override
     public void save(Game game, long gameId) {
-        Connection connection = DatabaseConnector.getConnection();
+        Connection connection = connectionManager.getConnection();
         try {
             connection.setAutoCommit(false);
             saveGame(connection, gameId, game);
@@ -112,7 +119,7 @@ public class H2GameRepository implements GameRepository {
 
     @Override
     public Game findBy(long gameId) {
-        try (Connection connection = DatabaseConnector.getConnection()) {
+        try (Connection connection = connectionManager.getConnection()) {
             Players players = findPlayers(connection, gameId);
             Team currentTeam = findCurrentTeam(connection, gameId);
             Board board = createBoard(connection, gameId);
@@ -125,7 +132,7 @@ public class H2GameRepository implements GameRepository {
 
     @Override
     public List<Game> findAll() {
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_GAME_IDS_SQL);
              ResultSet resultSet = statement.executeQuery()) {
             List<Game> games = new ArrayList<>();
@@ -145,7 +152,7 @@ public class H2GameRepository implements GameRepository {
 
     @Override
     public long count() {
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(COUNT_GAMES_SQL);
              ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
@@ -156,7 +163,7 @@ public class H2GameRepository implements GameRepository {
     }
 
     private void initialize() {
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connectionManager.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(CREATE_GAMES_TABLE_SQL);
             statement.execute(CREATE_BOARD_PIECES_TABLE_SQL);

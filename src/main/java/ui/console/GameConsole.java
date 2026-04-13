@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import repository.GameRepository;
+import repository.H2ConnectionManager;
 import repository.H2GameRepository;
 import ui.view.InputView;
 import ui.view.OutputView;
@@ -24,7 +25,7 @@ import ui.view.OutputView;
 public class GameConsole {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    GameRepository gameRepository = new H2GameRepository();
+    GameRepository gameRepository = new H2GameRepository(new H2ConnectionManager());
 
     private long gameId;
     private Game game;
