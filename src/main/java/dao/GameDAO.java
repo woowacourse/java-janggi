@@ -216,12 +216,13 @@ public class GameDAO {
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-                throw new IllegalArgumentException("기물 이동 중 DB 오류가 발생하여 롤백되었습니다.", e);
+                throw new IllegalStateException("기물 이동 중 DB 오류가 발생하여 롤백되었습니다.", e);
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             System.err.println("기물 이동 업데이트 실패: " + e.getMessage());
+            throw new IllegalArgumentException("DB 연결 오류 또는 기물 이동 업데이트 실패", e);
         }
     }
 

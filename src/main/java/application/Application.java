@@ -84,7 +84,8 @@ public class Application {
             } catch (IllegalArgumentException | NoSuchElementException exception) {
                 outputView.printError(exception.getMessage());
             } catch (IllegalStateException exception) {
-                return;
+                outputView.printError(exception.getMessage());
+                game = gameDAO.findBy(gameId);
             }
         }
     }
