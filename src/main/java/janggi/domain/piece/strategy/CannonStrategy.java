@@ -2,8 +2,6 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +12,20 @@ public class CannonStrategy implements MoveStrategy {
     private static final long REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, BoardChecker board) {
         Movement movement = new Movement(source, destination);
-        List<Position> path = findPath(source, movement);
-        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(pathBeforeDestination, destination, board, pieceStrategy);
+        List<Position> path = findPath(source, destination, movement, board);
+        validatePath(source, path, destination, board);
     }
 
-    private List<Position> findPath(Position source, Movement movement) {
+    private List<Position> findPath(Position source, Position destination, Movement movement, BoardChecker board) {
+        if (board.isPalaceRange(source, destination) && board.isAllowedDiagonalPath(source, destination)) {
+            return createDiagonalPath(source, movement);
+        }
+        return createStraightPath(source, movement);
+    }
+
+    private List<Position> createStraightPath(Position source, Movement movement) {
         if (movement.isHorizontal()) {
             return createPath(source, movement.colDistance(), Position::moveCol);
         }
@@ -29,6 +33,19 @@ public class CannonStrategy implements MoveStrategy {
             return createPath(source, movement.rowDistance(), Position::moveRow);
         }
         throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+    }
+
+    private List<Position> createDiagonalPath(Position source, Movement movement) {
+        List<Position> path = new ArrayList<>();
+        int colDirection = Integer.signum(movement.colDistance());
+        int rowDirection = Integer.signum(movement.rowDistance());
+        int distance = Math.abs(movement.rowDistance());
+
+        for (int i = 0; i < distance; i++) {
+            source = source.moveDiagonal(rowDirection, colDirection);
+            path.add(source);
+        }
+        return path;
     }
 
     private List<Position> createPath(Position source, int distance, BiFunction<Position, Integer, Position> move) {
@@ -42,10 +59,11 @@ public class CannonStrategy implements MoveStrategy {
         return path;
     }
 
-    private void validatePath(List<Position> path, Position destination, BoardChecker board, PieceStrategy pieceStrategy) {
-        validateJumpedPieceCount(path, board);
-        validateDifferentPieceRule(path, board, pieceStrategy);
-        validateDestination(board, pieceStrategy, destination);
+    private void validatePath(Position source, List<Position> path, Position destination, BoardChecker board) {
+        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
+        validateJumpedPieceCount(pathBeforeDestination, board);
+        validateDifferentPieceRule(source, pathBeforeDestination, board);
+        validateDestination(source, destination, board);
     }
 
     private void validateJumpedPieceCount(List<Position> path, BoardChecker board) {
@@ -64,19 +82,19 @@ public class CannonStrategy implements MoveStrategy {
                 .count();
     }
 
-    private void validateDifferentPieceRule(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
-        if (hasSamePieceType(path, board, pieceStrategy)) {
+    private void validateDifferentPieceRule(Position source, List<Position> path, BoardChecker board) {
+        if (hasSamePieceType(source, path, board)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }
     }
 
-    private boolean hasSamePieceType(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
+    private boolean hasSamePieceType(Position source, List<Position> path, BoardChecker board) {
         return path.stream()
-                .anyMatch(position -> board.hasSamePieceRuleAt(position, pieceStrategy));
+                .anyMatch(position -> board.isSamePieceRule(source, position));
     }
 
-    private void validateDestination(BoardChecker board, PieceStrategy pieceStrategy, Position position) {
-        if (board.hasSamePieceRuleAt(position, pieceStrategy)) {
+    private void validateDestination(Position source, Position destination, BoardChecker board) {
+        if (board.isSamePieceRule(source, destination)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
         }
     }

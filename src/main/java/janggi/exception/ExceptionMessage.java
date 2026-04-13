@@ -21,6 +21,20 @@ public enum ExceptionMessage {
     INVALID_DIAGONAL_STEP_MOVE("해당 기물은 직선 %d칸 이동 후 대각선 %d칸 이동만 가능합니다."),
     CAMP_FORMAT_NOT_FOUND("존재하지 않는 진영 형식입니다."),
     PIECE_FORMAT_NOT_FOUND("존재하지 않는 기물 형식입니다."),
+    INVALID_PALACE_MOVE("궁성 내 %d칸만 이동할 수 있습니다."),
+    GAME_SELECTION_NOT_FOUND("존재하지 않는 게임 선택 명령어 입니다."),
+    NO_PLAYING_GAME_ROOM("진행 중인 게임이 존재하지 않습니다."),
+
+    GAME_ROOM_SAVE_ERROR("게임방 정보를 저장하는 중 오류가 발생했습니다."),
+    GAME_ROOM_NOT_FOUND("%d번 게임방이 존재하지 않습니다."),
+    GAME_ROOM_FIND_ERROR("게임방 정보를 조회하는 중 오류가 발생했습니다."),
+    GAME_ROOM_UPDATE_ERROR("%d번 게임방 정보를 수정하는 중 오류가 발생했습니다."),
+
+    PIECE_SAVE_ERROR("%d번 게임방의 (%d, %d) 위치에 기물 정보를 저장하는 중 오류가 발생했습니다."),
+    PIECE_NOT_FOUND("%d번 게임방의 (%d, %d) 좌표에 기물이 존재하지 않습니다."),
+    PIECE_FIND_ERROR("%d번 게임방의 기물 정보를 조회하는 중 오류가 발생했습니다."),
+    PIECE_UPDATE_ERROR("%d번 게임방의 (%d, %d) 위치에 있는 기물 정보를 수정하는 중 오류가 발생했습니다."),
+    PIECE_DELETE_ERROR("기물 아이디 %d번 정보를 삭제하는 중 오류가 발생했습니다."),
     ;
 
 

@@ -11,24 +11,30 @@ import janggi.domain.piece.strategy.HorseStrategy;
 import janggi.domain.piece.strategy.MoveStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 
-public enum PieceStrategy {
+public enum PieceRule {
 
-    GENERAL(new GeneralStrategy()),
-    CHARIOT(new ChariotStrategy()),
-    HORSE(new HorseStrategy()),
-    CANNON(new CannonStrategy()),
-    GUARD(new GuardStrategy()),
-    ELEPHANT(new ElephantStrategy()),
-    SOLDIER(new SoldierStrategy()),
+    GENERAL(new GeneralStrategy(), 0),
+    CHARIOT(new ChariotStrategy(), 13),
+    HORSE(new HorseStrategy(), 5),
+    CANNON(new CannonStrategy(), 7),
+    GUARD(new GuardStrategy(), 3),
+    ELEPHANT(new ElephantStrategy(), 3),
+    SOLDIER(new SoldierStrategy(), 2),
     ;
 
     private final MoveStrategy moveStrategy;
+    private final double score;
 
-    PieceStrategy(MoveStrategy moveStrategy) {
+    PieceRule(MoveStrategy moveStrategy, int score) {
         this.moveStrategy = moveStrategy;
+        this.score = score;
     }
 
-    public void validateMove(Position source, Position destination, Camp camp, BoardChecker board) {
-        moveStrategy.validate(source, destination, camp, board, this);
+    public void validateMove(Position source, Position destination, BoardChecker board) {
+        moveStrategy.validate(source, destination, board);
+    }
+
+    public double getScore() {
+        return score;
     }
 }

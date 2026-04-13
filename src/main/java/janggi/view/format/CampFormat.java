@@ -1,28 +1,28 @@
 package janggi.view.format;
 
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 
 public enum CampFormat {
 
-    CHO(Camp.CHO, "초", "\u001B[32m"),
-    HAN(Camp.HAN, "한", "\u001B[31m"),
+    CHO(CampType.CHO, "초", "\u001B[32m"),
+    HAN(CampType.HAN, "한", "\u001B[31m"),
     ;
 
-    private final Camp camp;
+    private final CampType campType;
     private final String name;
     private final String color;
 
-    CampFormat(Camp camp, String name, String color) {
-        this.camp = camp;
+    CampFormat(CampType campType, String name, String color) {
+        this.campType = campType;
         this.name = name;
         this.color = color;
     }
 
-    public static CampFormat from(Camp camp) {
+    public static CampFormat from(CampType campType) {
         return Arrays.stream(CampFormat.values())
-                .filter(element -> element.camp.equals(camp))
+                .filter(element -> element.campType.equals(campType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.CAMP_FORMAT_NOT_FOUND.getMessage()));
     }

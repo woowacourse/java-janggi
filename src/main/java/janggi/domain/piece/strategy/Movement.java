@@ -34,11 +34,23 @@ public record Movement(int rowDistance, int colDistance) {
         return colDistance == 0;
     }
 
-    public boolean isInvalidMoveDistance(int firstDistance, int secondDistance) {
+    public boolean isDiagonal() {
+        return Math.abs(rowDistance) == Math.abs(colDistance) && rowDistance != 0;
+    }
+
+    public boolean isStraight() {
+        return isHorizontal() || isVertical();
+    }
+
+    public boolean isValidMoveDistance(int firstDistance, int secondDistance) {
         int absRow = Math.abs(rowDistance);
         int absCol = Math.abs(colDistance);
 
-        return !((absRow == firstDistance && absCol == secondDistance)
-                || (absRow == secondDistance && absCol == firstDistance));
+        return (absRow == firstDistance && absCol == secondDistance)
+                || (absRow == secondDistance && absCol == firstDistance);
+    }
+
+    public boolean exceedsDistance(int maxDistance) {
+        return Math.abs(rowDistance()) > maxDistance || Math.abs(colDistance()) > maxDistance;
     }
 }

@@ -6,9 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -42,7 +42,7 @@ class ElephantStrategyTest {
     @MethodSource("successPositions")
     void 직선_1칸_이동_후_대각선_2칸_이동한다(Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.HAN, new Board(Map.of()), PieceStrategy.ELEPHANT));
+                moveStrategy.validate(source, destination, new Board(Map.of())));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -55,7 +55,7 @@ class ElephantStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, new Board(Map.of()), PieceStrategy.ELEPHANT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, new Board(Map.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, DIAGONAL_DISTANCE));
     }
@@ -63,12 +63,12 @@ class ElephantStrategyTest {
     @Test
     void 이동하려는_경로에_기물이_존재하면_예외가_발생한다() {
         BoardChecker blockingBoard = new Board(Map.of(
-                new Position(7, 2), new Piece(PieceStrategy.SOLDIER, Camp.CHO)
+                new Position(7, 2), new Piece(PieceRule.SOLDIER, CampType.CHO)
         ));
         Position source = new Position(9, 1);
         Position destination = new Position(6, 3);
 
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.HAN, blockingBoard, PieceStrategy.ELEPHANT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, blockingBoard))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

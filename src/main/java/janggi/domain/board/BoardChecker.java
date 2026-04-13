@@ -1,11 +1,25 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.Piece;
+import janggi.exception.ExceptionMessage;
+import java.util.List;
 
 public interface BoardChecker {
 
     boolean hasPieceAt(Position position);
 
-    boolean hasSamePieceRuleAt(Position position, PieceStrategy pieceStrategy);
+    Piece pieceAt(Position position);
+
+    boolean isSamePieceRule(Position source, Position target);
+
+    boolean isPalaceRange(Position source, Position destination);
+
+    boolean isAllowedDiagonalPath(Position source, Position destination);
+
+    default void validateEmptyPath(List<Position> path) {
+        if (path.stream().anyMatch(this::hasPieceAt)) {
+            throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
+        }
+    }
 }

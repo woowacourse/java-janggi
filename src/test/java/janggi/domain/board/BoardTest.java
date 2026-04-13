@@ -1,11 +1,13 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
-import janggi.domain.piece.Camp;
+import janggi.domain.ScoreBoard;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
@@ -19,10 +21,10 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(8, 1);
         Board board = new Board(Map.of(
-                source, new Piece(PieceStrategy.SOLDIER, Camp.CHO)
+                source, new Piece(PieceRule.SOLDIER, CampType.CHO)
         ));
         // when
-        board.movePiece(source, destination, Camp.CHO);
+        board.movePiece(source, destination, CampType.CHO);
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(board.hasPieceAt(destination)).isTrue();
@@ -38,14 +40,14 @@ class BoardTest {
         Position destination = new Position(0, 1);
 
         Board board = new Board(Map.of(
-                new Position(4, 1), new Piece(PieceStrategy.SOLDIER, Camp.HAN),
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO),
-                source, new Piece(PieceStrategy.CANNON, Camp.HAN)
+                new Position(4, 1), new Piece(PieceRule.SOLDIER, CampType.HAN),
+                destination, new Piece(PieceRule.HORSE, CampType.CHO),
+                source, new Piece(PieceRule.CANNON, CampType.HAN)
         ));
         // when
-        board.movePiece(source, destination, Camp.HAN);
+        board.movePiece(source, destination, CampType.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceStrategy.CANNON);
+        boolean destinationExists = board.getBoard().get(destination).isSamePieceRule(PieceRule.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -62,11 +64,11 @@ class BoardTest {
 
         // when
         Board board = new Board(Map.of(
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO),
-                source, new Piece(PieceStrategy.CANNON, Camp.CHO)
+                destination, new Piece(PieceRule.HORSE, CampType.CHO),
+                source, new Piece(PieceRule.CANNON, CampType.CHO)
         ));
         // then
-        assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
+        assertThatThrownBy(() -> board.movePiece(source, destination, CampType.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_CAMP_PIECE.getMessage());
     }
@@ -79,7 +81,7 @@ class BoardTest {
         // when
         Board board = new Board(Map.of());
         // then
-        assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
+        assertThatThrownBy(() -> board.movePiece(source, destination, CampType.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
     }
@@ -88,7 +90,7 @@ class BoardTest {
     void 특정_위치에_기물이_있는지_확인한다() {
         // given
         Position position = new Position(0, 0);
-        Board board = new Board(Map.of(position, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
+        Board board = new Board(Map.of(position, new Piece(PieceRule.SOLDIER, CampType.CHO)));
 
         // when & then
         SoftAssertions.assertSoftly(softly -> {
@@ -101,9 +103,9 @@ class BoardTest {
     void 출발지와_목적지가_같으면_예외가_발생한다() {
         // given
         Position source = new Position(7, 1);
-        Board board = new Board(Map.of(source, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, CampType.CHO)));
         // when & then
-        assertThatThrownBy(() -> board.movePiece(source, source, Camp.CHO))
+        assertThatThrownBy(() -> board.movePiece(source, source, CampType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
     }
@@ -114,12 +116,47 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(0, 1);
         Board board = new Board(Map.of(
-                source, new Piece(PieceStrategy.SOLDIER, Camp.CHO),
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO)
+                source, new Piece(PieceRule.SOLDIER, CampType.CHO),
+                destination, new Piece(PieceRule.HORSE, CampType.CHO)
         ));
         // when & then
-        assertThatThrownBy(() -> board.movePiece(source, destination, Camp.CHO))
+        assertThatThrownBy(() -> board.movePiece(source, destination, CampType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+    }
+
+    @Test
+    void 현재_차례인_진영의_왕이_존재하는지_확인한다() {
+        // given
+        CampType currnetTurnCampType = CampType.CHO;
+        Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.HAN)));
+        // when
+        boolean result = board.isGeneralKilled(currnetTurnCampType);
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void 상대_진영의_기물을_잡으면_보드에서_사라지며_상대_진영은_점수를_잃는다() {
+        // given
+        Position source = new Position(3, 0);
+        Position destination = new Position(4, 0);
+        CampType rivalCampType = CampType.HAN;
+        Board board = new Board(Map.of(
+                source, new Piece(PieceRule.CHARIOT, CampType.CHO),
+                destination, new Piece(PieceRule.SOLDIER, rivalCampType)
+        ));
+
+        ScoreBoard scoreBoard = ScoreBoard.create();
+        Double scoreBeforeMinus = scoreBoard.getScoreBoard().get(rivalCampType);
+        double expectedScore = scoreBeforeMinus - PieceRule.SOLDIER.getScore();
+        // when
+        board.movePiece(source, destination, CampType.CHO);
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(board.hasPieceAt(source)).isFalse();
+            softly.assertThat(board.getBoard().get(destination).isSamePieceRule(PieceRule.CHARIOT)).isTrue();
+            softly.assertThat(board.getScoreBoard().get(CampType.HAN)).isEqualTo(expectedScore);
+        });
     }
 }

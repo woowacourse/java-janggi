@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -25,9 +26,9 @@ class PieceTest {
     @Test
     void 같은_전략_및_이동_조건이_적용되는_기물인지_확인한다() {
         // given
-        Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+        Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
         // when
-        boolean result = piece.isSamePieceRule(PieceStrategy.CANNON);
+        boolean result = piece.isSamePieceRule(PieceRule.CANNON);
         // then
         assertThat(result).isTrue();
     }
@@ -35,9 +36,9 @@ class PieceTest {
     @Test
     void 기물이_같은_진영인지_확인한다() {
         // given
-        Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+        Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
         // when
-        boolean result = piece.isSameCamp(Camp.CHO);
+        boolean result = piece.isSameCampType(CampType.CHO);
         // then
         assertThat(result).isTrue();
     }
@@ -49,24 +50,28 @@ class PieceTest {
         @Test
         void 궁은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.GENERAL, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(1, 4);
+            Piece piece = new Piece(PieceRule.GENERAL, CampType.CHO);
+            Position destination = new Position(2, 4);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(1, 4), new Position(2, 4), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 궁은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.GENERAL, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(1, 4);
+            Piece piece = new Piece(PieceRule.GENERAL, CampType.CHO);
+            Position destination = new Position(3, 4);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -77,24 +82,28 @@ class PieceTest {
         @Test
         void 사는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.GUARD, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 3);
+            Piece piece = new Piece(PieceRule.GUARD, CampType.CHO);
+            Position destination = new Position(0, 4);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(0, 3), new Position(0, 4), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 사는_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.GUARD, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 3);
+            Piece piece = new Piece(PieceRule.GUARD, CampType.CHO);
+            Position destination = new Position(0, 5);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -105,24 +114,29 @@ class PieceTest {
         @Test
         void 마는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.HORSE, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 1);
+            Piece piece = new Piece(PieceRule.HORSE, CampType.CHO);
+            Position destination = new Position(2, 2);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(0, 1), new Position(2, 2), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 마는_이동_경로에_기물이_있으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.HORSE, Camp.CHO);
+            Position source = new Position(0, 1);
+            Piece piece = new Piece(PieceRule.HORSE, CampType.CHO);
+            Position destination = new Position(2, 2);
             BoardChecker board = new Board(Map.of(
-                    new Position(1, 1), new Piece(PieceStrategy.CHARIOT, Camp.HAN)
+                    source, piece,
+                    new Position(1, 1), new Piece(PieceRule.CHARIOT, CampType.HAN)
             ));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 1), new Position(2, 2), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
@@ -130,11 +144,13 @@ class PieceTest {
         @Test
         void 마는_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.HORSE, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 1);
+            Piece piece = new Piece(PieceRule.HORSE, CampType.CHO);
+            Position destination = new Position(0, 7);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 1), new Position(0, 7), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(HORSE_STRAIGHT_MOVE_DISTANCE, HORSE_DIAGONAL_MOVE_DISTANCE));
         }
@@ -147,22 +163,26 @@ class PieceTest {
         @Test
         void 상은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.ELEPHANT, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 6);
+            Piece piece = new Piece(PieceRule.ELEPHANT, CampType.CHO);
+            Position destination = new Position(3, 4);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(0, 6), new Position(3, 4), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 상은_행마법을_따르지_않으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.ELEPHANT, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 6);
+            Piece piece = new Piece(PieceRule.ELEPHANT, CampType.CHO);
+            Position destination = new Position(3, 3);
+            BoardChecker board = new Board(Map.of(source, piece));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 6), new Position(3, 3), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(ELEPHANT_STRAIGHT_MOVE_DISTANCE, ELEPHANT_DIAGONAL_MOVE_DISTANCE));
         }
@@ -175,24 +195,29 @@ class PieceTest {
         @Test
         void 포는_이동_경로에_기물이_1개만_있으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+            Position source = new Position(2, 1);
+            Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
+            Position destination = new Position(8, 1);
             BoardChecker board = new Board(Map.of(
-                    new Position(3, 1), new Piece(PieceStrategy.CHARIOT, Camp.HAN)
+                    source, piece,
+                    new Position(3, 1), new Piece(PieceRule.CHARIOT, CampType.HAN)
             ));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(2, 1), new Position(8, 1), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 포는_이동_경로에_기물이_없으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(2, 1);
+            Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
+            Position destination = new Position(8, 1);
+            BoardChecker board = new Board(Map.of(source, piece));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(PASS_PIECE_COUNT));
         }
@@ -200,14 +225,17 @@ class PieceTest {
         @Test
         void 포는_이동_경로에_기물이_2개_이상_있으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+            Position source = new Position(2, 1);
+            Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
+            Position destination = new Position(8, 1);
             BoardChecker board = new Board(Map.of(
-                    new Position(3, 1), new Piece(PieceStrategy.CHARIOT, Camp.HAN),
-                    new Position(5, 1), new Piece(PieceStrategy.CHARIOT, Camp.CHO)
+                    source, piece,
+                    new Position(3, 1), new Piece(PieceRule.CHARIOT, CampType.HAN),
+                    new Position(5, 1), new Piece(PieceRule.CHARIOT, CampType.CHO)
             ));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(PASS_PIECE_COUNT));
         }
@@ -215,29 +243,35 @@ class PieceTest {
         @Test
         void 포는_넘으려는_기물이_같은_타입이면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+            Position source = new Position(2, 1);
+            Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
+            Position destination = new Position(8, 1);
             BoardChecker board = new Board(Map.of(
-                    new Position(5, 1), new Piece(PieceStrategy.CANNON, Camp.CHO)
+                    source, piece,
+                    new Position(5, 1), new Piece(PieceRule.CANNON, CampType.CHO)
             ));
             //when & then
-            assertThatThrownBy(() -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
+            assertThatThrownBy(() -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage(PASS_PIECE_COUNT));
+                    .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }
 
         @Test
         void 포는_목적지에_존재하는_기물이_같은_타입이면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CANNON, Camp.CHO);
+            Position source = new Position(2, 1);
+            Piece piece = new Piece(PieceRule.CANNON, CampType.CHO);
+            Position destination = new Position(8, 1);
             BoardChecker board = new Board(Map.of(
-                    new Position(5, 1), new Piece(PieceStrategy.SOLDIER, Camp.CHO),
-                    new Position(8, 1), new Piece(PieceStrategy.CANNON, Camp.HAN)
+                    source, piece,
+                    new Position(5, 1), new Piece(PieceRule.SOLDIER, CampType.CHO),
+                    destination, new Piece(PieceRule.CANNON, CampType.HAN)
             ));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage(PASS_PIECE_COUNT));
+                    .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
         }
     }
 
@@ -248,26 +282,31 @@ class PieceTest {
         @Test
         void 차는_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.CHARIOT, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 0);
+            Piece piece = new Piece(PieceRule.CHARIOT, CampType.CHO);
+            Position destination = new Position(9, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(0, 0), new Position(9, 0), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 차는_이동_경로에_기물이_1개_이상_있으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CHARIOT, Camp.CHO);
+            Position source = new Position(0, 0);
+            Piece piece = new Piece(PieceRule.CHARIOT, CampType.CHO);
+            Position destination = new Position(9, 0);
             BoardChecker board = new Board(Map.of(
-                    new Position(1, 0), new Piece(PieceStrategy.CHARIOT, Camp.HAN),
-                    new Position(5, 1), new Piece(PieceStrategy.CHARIOT, Camp.CHO)
+                    source, piece,
+                    new Position(1, 0), new Piece(PieceRule.CHARIOT, CampType.HAN),
+                    new Position(5, 1), new Piece(PieceRule.CHARIOT, CampType.CHO)
 
             ));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 0), new Position(9, 0), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
@@ -275,11 +314,13 @@ class PieceTest {
         @Test
         void 차는_행마법을_따르지_않으면_예외가_발생한다() {
             //given
-            Piece piece = new Piece(PieceStrategy.CHARIOT, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(0, 0);
+            Piece piece = new Piece(PieceRule.CHARIOT, CampType.CHO);
+            Position destination = new Position(3, 3);
+            BoardChecker board = new Board(Map.of(source, piece));
             //when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(0, 0), new Position(3, 3), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
         }
@@ -292,22 +333,26 @@ class PieceTest {
         @Test
         void 졸은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(3, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.CHO);
+            Position destination = new Position(4, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(3, 0), new Position(4, 0), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 졸은_후진할_시_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(3, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.CHO);
+            Position destination = new Position(2, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(3, 0), new Position(2, 0), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
         }
@@ -315,11 +360,13 @@ class PieceTest {
         @Test
         void 졸은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.CHO);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(3, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.CHO);
+            Position destination = new Position(5, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(3, 0), new Position(5, 0), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
@@ -332,22 +379,26 @@ class PieceTest {
         @Test
         void 병은_이동_경로에_기물이_없으면_정상_이동한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.HAN);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(6, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.HAN);
+            Position destination = new Position(5, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertDoesNotThrow(() ->
-                    piece.validateMove(new Position(6, 0), new Position(5, 0), board)
+                    piece.validateMove(source, destination, board)
             );
         }
 
         @Test
         void 병은_후진할_시_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.HAN);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(6, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.HAN);
+            Position destination = new Position(7, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(6, 0), new Position(7, 0), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
         }
@@ -355,11 +406,13 @@ class PieceTest {
         @Test
         void 병은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
-            Piece piece = new Piece(PieceStrategy.SOLDIER, Camp.HAN);
-            BoardChecker board = new Board(Map.of());
+            Position source = new Position(6, 0);
+            Piece piece = new Piece(PieceRule.SOLDIER, CampType.HAN);
+            Position destination = new Position(1, 0);
+            BoardChecker board = new Board(Map.of(source, piece));
             // when & then
             assertThatThrownBy(
-                    () -> piece.validateMove(new Position(6, 0), new Position(1, 0), board))
+                    () -> piece.validateMove(source, destination, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }

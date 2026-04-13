@@ -2,8 +2,6 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +12,16 @@ public class HorseStrategy implements MoveStrategy {
     private static final int DIAGONAL_DISTANCE = 1;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, BoardChecker board) {
         Movement movement = new Movement(source, destination);
         validateDistance(movement);
         List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(pathBeforeDestination, board);
+        board.validateEmptyPath(pathBeforeDestination);
     }
 
     private void validateDistance(Movement movement) {
-        if (movement.isInvalidMoveDistance(DIAGONAL_DISTANCE, STRAIGHT_DISTANCE + DIAGONAL_DISTANCE)) {
+        if (!movement.isValidMoveDistance(DIAGONAL_DISTANCE, STRAIGHT_DISTANCE + DIAGONAL_DISTANCE)) {
             throw new IllegalArgumentException(
                     ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, DIAGONAL_DISTANCE)
             );
@@ -56,16 +54,5 @@ public class HorseStrategy implements MoveStrategy {
             path.add(source);
         }
         return path;
-    }
-
-    private void validatePath(List<Position> path, BoardChecker board) {
-        if (isNotEmptyPath(path, board)) {
-            throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
-        }
-    }
-
-    private boolean isNotEmptyPath(List<Position> path, BoardChecker board) {
-        return path.stream()
-                .anyMatch(board::hasPieceAt);
     }
 }

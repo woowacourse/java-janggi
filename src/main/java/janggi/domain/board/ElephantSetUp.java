@@ -1,9 +1,9 @@
 package janggi.domain.board;
 
-import static janggi.domain.piece.PieceStrategy.ELEPHANT;
-import static janggi.domain.piece.PieceStrategy.HORSE;
+import static janggi.domain.piece.PieceRule.ELEPHANT;
+import static janggi.domain.piece.PieceRule.HORSE;
 
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import java.util.List;
 
 public enum ElephantSetUp {
@@ -13,13 +13,13 @@ public enum ElephantSetUp {
     INNER_ELEPHANT(List.of(HORSE, ELEPHANT, ELEPHANT, HORSE)),
     OUTER_ELEPHANT(List.of(ELEPHANT, HORSE, HORSE, ELEPHANT));
 
-    private final List<PieceStrategy> pieceStrategies;
+    private final List<PieceRule> pieceStrategies;
 
-    ElephantSetUp(List<PieceStrategy> pieceStrategies) {
+    ElephantSetUp(List<PieceRule> pieceStrategies) {
         this.pieceStrategies = pieceStrategies;
     }
 
-    public List<PieceStrategy> getPieceRules() {
+    public List<PieceRule> getPieceRules() {
         return pieceStrategies;
     }
 }

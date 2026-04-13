@@ -1,39 +1,73 @@
 package janggi;
 
 import janggi.domain.Position;
-import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.InitialPiecePlacement;
-import janggi.domain.piece.Camp;
+import janggi.domain.game.Game;
+import janggi.domain.game.GameSelectionFormat;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.camp.CampType;
+import janggi.dto.MoveResultDto;
 import janggi.dto.PiecePositionDto;
+import janggi.service.GameService;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiGame {
 
+    private final GameService gameService;
+
+    public JanggiGame(GameService gameService) {
+        this.gameService = gameService;
+    }
+
     public void run() {
+        Game game = createOrLoadGame();
+        OutputView.printBoard(toPiecePositions(game.getPiecePositions()));
+        play(game);
+    }
+
+    private Game createOrLoadGame() {
+        GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
+
+        if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {
+            return createGame();
+        }
+        return loadGame();
+    }
+
+    private Game createGame() {
         Board board = createBoard();
-        OutputView.printBoard(toPiecePositions(board.getBoard()));
-        play(board);
+        return gameService.createGame(board);
     }
 
     private Board createBoard() {
-        ElephantFormation hanElephantFormation = readElephantFormation(Camp.HAN);
-        ElephantFormation choElephantFormation = readElephantFormation(Camp.CHO);
+        ElephantFormation hanElephantFormation = readElephantFormation(CampType.HAN);
+        ElephantFormation choElephantFormation = readElephantFormation(CampType.CHO);
         return InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
     }
 
-    private ElephantFormation readElephantFormation(Camp camp) {
+    private ElephantFormation readElephantFormation(CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(camp);
-            return elephantSetUpFormat.toElephantFormation(camp);
+            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(campType);
+            return elephantSetUpFormat.toElephantFormation(campType);
         });
+    }
+
+    private Game loadGame() {
+        List<Long> gameRoomIds = gameService.findPlayingGameRoomIds();
+
+        Optional<Long> gameRoomId = InputView.readGameId(gameRoomIds);
+        if (gameRoomId.isEmpty()) {
+            return createOrLoadGame();
+        }
+        return gameService.loadGame(gameRoomId.get());
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
@@ -42,34 +76,36 @@ public class JanggiGame {
                 .toList();
     }
 
-    private void play(Board board) {
-        Turn turn = new Turn();
-        while (true) {
-            RetryHandler.retryOnInvalidInput(() -> playTurn(board, turn));
-            OutputView.printBoard(toPiecePositions(board.getBoard()));
+    private void play(Game game) {
+        while (!game.isFinished()) {
+            processTurn(game);
         }
+        OutputView.printWinner(game.getCurrentTurn());
     }
 
-    private void playTurn(Board board, Turn turn) {
-        Camp camp = turn.currentTurn();
-        Position source = readSource(board, camp);
-        Position destination = readDestination(board, source, camp);
-        board.movePiece(source, destination, camp);
-        turn.finishTurn();
+    private void processTurn(Game game) {
+        RetryHandler.retryOnInvalidInput(() -> {
+            OutputView.printScore(game.getScoreBoard());
+            Position source = readSource(game.getBoard(), game.getCurrentTurn());
+            Position destination = readDestination(game.getBoard(), source, game.getCurrentTurn());
+
+            gameService.move(game, source, destination);
+        });
+        OutputView.printBoard(toPiecePositions(game.getPiecePositions()));
     }
 
-    private Position readSource(Board board, Camp camp) {
+    private Position readSource(Board board, CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            Position source = Position.from(InputView.readSource(camp));
-            board.validateSource(source, camp);
+            Position source = Position.from(InputView.readSource(campType));
+            board.validateSource(source, campType);
             return source;
         });
     }
 
-    private Position readDestination(Board board, Position source, Camp camp) {
+    private Position readDestination(Board board, Position source, CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
             Position destination = Position.from(InputView.readDestination());
-            board.validateDestination(destination, source, camp);
+            board.validateDestination(destination, source, campType);
             return destination;
         });
     }

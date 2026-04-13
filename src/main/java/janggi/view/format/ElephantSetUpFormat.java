@@ -2,7 +2,7 @@ package janggi.view.format;
 
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.ElephantSetUp;
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 
@@ -39,7 +39,7 @@ public enum ElephantSetUpFormat {
         return description;
     }
 
-    public ElephantFormation toElephantFormation(Camp camp) {
-        return new ElephantFormation(camp, elephantSetUp);
+    public ElephantFormation toElephantFormation(CampType campType) {
+        return new ElephantFormation(campType, elephantSetUp);
     }
 }

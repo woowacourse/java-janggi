@@ -2,10 +2,12 @@ package janggi.view;
 
 import static java.util.stream.Collectors.joining;
 
+import janggi.domain.piece.camp.CampType;
 import janggi.dto.PiecePositionDto;
 import janggi.view.format.CampFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public final class OutputView {
@@ -71,11 +73,23 @@ public final class OutputView {
     }
 
     private static String colorize(PiecePositionDto piecePosition) {
-        CampFormat campFormat = CampFormat.from(piecePosition.camp());
+        CampFormat campFormat = CampFormat.from(piecePosition.campType());
         return campFormat.getColor() + piecePosition.type() + RESET_COLOR;
     }
 
     private static String fullWidthNumber(int number) {
         return FULL_WIDTH_NUMBERS[number];
+    }
+
+    public static void printScore(Map<CampType, Double> scoreBoard) {
+        System.out.println(LINE_SEPARATOR + "" +
+                "현재 점수");
+        for (Map.Entry<CampType, Double> entry : scoreBoard.entrySet()) {
+            System.out.println(CampFormat.from(entry.getKey()).getName() + "나라: " + entry.getValue());
+        }
+    }
+
+    public static void printWinner(CampType campType) {
+        System.out.println(CampFormat.from(campType).getName() + "나라 승리!");
     }
 }
