@@ -42,6 +42,7 @@ public class JanggiGame {
     }
 
     public void move(Position from, Position to) {
+        skip.put(currentTurn, false);
         board.move(from, to, currentTurn);
         currentTurn = currentTurn.anotherTeam();
     }
