@@ -28,9 +28,6 @@ public class PieceEntity {
         this.boardColumn = boardColumn;
     }
 
-    public Long getPieceId() {
-        return pieceId;
-    }
 
     public Long getGameId() {
         return gameId;

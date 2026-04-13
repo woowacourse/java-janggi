@@ -36,7 +36,11 @@ public class Player {
     public void addScore(final int score) {
         this.score += score;
     }
-    
+
+
+    public long getPlayerId() {
+        return playerId;
+    }
 
     public Name getName() {
         return name;
@@ -44,5 +48,9 @@ public class Player {
 
     public Team getTeam() {
         return team;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

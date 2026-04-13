@@ -26,9 +26,9 @@ public class JanggiApplication {
     }
 
     private static JanggiController createController(final DataSource dataSource) {
-        final JanggiGameRepository janggiGameRepository = new JanggiGameRepositoryImpl();
-        final PlayerRepository playerRepository = new PlayerRepositoryImpl();
-        final PieceRepository pieceRepository = new PieceRepositoryImpl();
+        final JanggiGameRepository janggiGameRepository = new JdbcJanggiGameRepository();
+        final PlayerRepository playerRepository = new JdbcPlayerRepository();
+        final PieceRepository pieceRepository = new JdbcPieceRepository();
         final JanggiGameService janggiGameService = new JanggiGameService(
                 dataSource,
                 janggiGameRepository,

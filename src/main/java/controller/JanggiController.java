@@ -39,11 +39,12 @@ public class JanggiController {
     }
 
     private JanggiGame initializeGame() {
+        // TODO: 1. 새 게임   2. 불러오기
         final Player choPlayer = generatePlayer(Team.CHO);
         final Player hanPlayer = generatePlayer(Team.HAN);
-
         final Board board = initializeBoard();
-        return new JanggiGame(board, choPlayer, hanPlayer);
+
+        return janggiGameService.startNewGame(choPlayer, hanPlayer, board);
     }
 
 
@@ -52,7 +53,7 @@ public class JanggiController {
             try {
                 outputView.printEnterPlayerNamePrompt(team);
                 final String playerName = inputView.readPlayerName();
-                return Player.of(playerName, team);
+                return Player.newPlayer(playerName, team);
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -90,7 +91,7 @@ public class JanggiController {
         final Position from = selectPiecePosition(game.getBoard(), player);
         final Position to = selectDestination(game.getBoard(), from);
 
-        game.movePiece(from, to);
+        janggiGameService.move(game, from, to);
     }
 
     private Position selectPiecePosition(final Board board, final Player player) {
