@@ -43,7 +43,7 @@ public class GuardMoveRule extends MoveRule {
 
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
         if (!(from.isPalace() && to.isPalace())) {
-            throw new IllegalArgumentException("해당 기물이 이동할 수 없는 위치/방향입니다.");
+            throw new exception.InvalidMoveDirectionException();
         }
         Directions directions = makeDirections(from, to);
         return directions.findPoints(from.getPoint(), to.getPoint());

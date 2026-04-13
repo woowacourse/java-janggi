@@ -20,11 +20,11 @@ public record Point(
         this.x = x;
     }
 
-    private void validate(int y, int x) {
+    private static void validate(int y, int x) {
         if (checkPointRange(y, x)) {
             return;
         }
-        throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
+        throw new exception.InvalidPointException();
     }
 
     public boolean isPalace() {
@@ -40,7 +40,7 @@ public record Point(
         return checkPointRange(this.y + y, this.x + x);
     }
 
-    private boolean checkPointRange(int y, int x) {
+    private static boolean checkPointRange(int y, int x) {
         return 0 <= y && y <= 9 && 0 <= x && x <= 8;
     }
 

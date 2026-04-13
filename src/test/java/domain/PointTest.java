@@ -184,7 +184,6 @@ class PointTest {
                     .isEqualTo(expected);
         }
 
-
         @Test
         @DisplayName("RIGHT_UP시 X축은 1증가하고 Y축은 1감소한다.")
         void should_decrease_row_and_increase_file_when_moving_right_up() {
@@ -196,7 +195,6 @@ class PointTest {
             Assertions.assertThat(actual)
                     .isEqualTo(expected);
         }
-
 
         @Test
         @DisplayName("RIGHT_DOWN시 X축은 1증가하고 Y축은 1증가한다.")

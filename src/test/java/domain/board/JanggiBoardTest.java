@@ -55,7 +55,7 @@ class JanggiBoardTest {
 
         Assertions.assertThatThrownBy(() -> board.tryToMove(start, target))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
+                .hasMessage("[ERROR] 이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
     }
 
     @Test
@@ -75,7 +75,7 @@ class JanggiBoardTest {
 
         Assertions.assertThatThrownBy(() -> board.tryToMove(start, target))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 넘어갈 수 없습니다.");
+                .hasMessage("[ERROR] 포는 포를 넘어갈 수 없습니다.");
     }
 
     @Test

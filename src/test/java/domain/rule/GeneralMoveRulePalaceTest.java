@@ -24,7 +24,7 @@ class GeneralMoveRulePalaceTest {
 
         Assertions.assertThatThrownBy(() -> rule.findPossiblePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 기물이 이동할 수 없는 위치/방향입니다.");
+                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치/방향입니다.");
     }
 
     @Test
@@ -63,9 +63,10 @@ class GeneralMoveRulePalaceTest {
                 new Intersection(nonDiagonalFrom, new Piece(Team.HAN, PieceType.GENERAL));
         Intersection nonDiagonalToIntersection = Intersection.empty(nonDiagonalTo);
 
-        Assertions.assertThatThrownBy(() -> rule.findPossiblePoints(nonDiagonalFromIntersection, nonDiagonalToIntersection))
+        Assertions.assertThatThrownBy(
+                        () -> rule.findPossiblePoints(nonDiagonalFromIntersection, nonDiagonalToIntersection))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 기물이 이동할 수 없는 위치/방향입니다.");
+                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치/방향입니다.");
     }
 }
 

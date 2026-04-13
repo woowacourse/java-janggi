@@ -45,11 +45,11 @@ public class JanggiBoard {
                 .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
     }
 
-    private IntStream range(int maxRange) {
+    private static IntStream range(int maxRange) {
         return IntStream.range(0, maxRange);
     }
 
-    private List<MoveRule> setMoveRules() {
+    private static List<MoveRule> setMoveRules() {
         return List.of(
                 new ChariotMoveRule(),
                 new GeneralMoveRule(),

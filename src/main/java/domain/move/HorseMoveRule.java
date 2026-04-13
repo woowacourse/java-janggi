@@ -58,7 +58,7 @@ public class HorseMoveRule extends MoveRule {
                 .anyMatch(Intersection::hasPiece);
 
         if (hasObstacle) {
-            throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
+            throw new exception.ObstacleInPathException();
         }
     }
 }

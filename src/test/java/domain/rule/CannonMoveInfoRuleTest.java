@@ -54,7 +54,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 같은 팀의 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -79,7 +79,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 같은 팀의 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -104,7 +104,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 넘어갈 수 없습니다.");
+                .hasMessage("[ERROR] 포는 포를 넘어갈 수 없습니다.");
     }
 
     @Test
@@ -130,7 +130,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 넘어갈 수 없습니다.");
+                .hasMessage("[ERROR] 포는 포를 넘어갈 수 없습니다.");
     }
 
     @Test
@@ -157,7 +157,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
+                .hasMessage("[ERROR] 포는 반드시 기물 하나를 넘어야 합니다.");
     }
 
     @Test
@@ -181,7 +181,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
+                .hasMessage("[ERROR] 포는 반드시 기물 하나를 넘어야 합니다.");
     }
 
     @Test
@@ -207,7 +207,7 @@ class CannonMoveInfoRuleTest {
                             intersection8,
                             to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 공격할 수 없습니다.");
+                .hasMessage("[ERROR] 포는 포를 공격할 수 없습니다.");
     }
 
     @Test

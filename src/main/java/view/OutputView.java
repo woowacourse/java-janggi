@@ -56,6 +56,18 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printNoResumableGames() {
+        System.out.println("재개할 수 있는 게임이 없습니다. 새 게임을 시작합니다.");
+    }
+
+    public void printResumableGamesHeader() {
+        System.out.println("재개 가능한 게임 목록 (한 점수 / 초 점수 / 마지막 수정)");
+    }
+
+    public void printResumableGameLine(int index, double hanScore, double choScore, String updatedAtText) {
+        System.out.printf("%d. 한 %.1f / 초 %.1f / %s%n", index, hanScore, choScore, updatedAtText);
+    }
+
     public void printWinnerTeam(Team winnerTeam) {
         System.out.println("게임이 종료되었습니다.");
         System.out.println(getTeamName(winnerTeam) + "의 승리입니다.\n");

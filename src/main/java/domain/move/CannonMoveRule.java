@@ -21,7 +21,7 @@ public class CannonMoveRule extends MoveRule {
 
     private static void validateObstacleIsNotCannon(Intersection from, List<Intersection> list) {
         if (list.getFirst().isSamePiece(from)) {
-            throw new IllegalArgumentException("포는 포를 넘어갈 수 없습니다.");
+            throw new exception.InvalidCannonMoveException(exception.ErrorMessage.CANNON_CANNOT_JUMP_CANNON);
         }
     }
 
@@ -119,13 +119,13 @@ public class CannonMoveRule extends MoveRule {
 
     private void validateObstacleIsOnly(List<Intersection> list) {
         if (list.size() != 1) {
-            throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
+            throw new exception.InvalidCannonMoveException(exception.ErrorMessage.CANNON_MUST_JUMP_PIECE);
         }
     }
 
     private void validateDestinationIsNotCannon(Intersection from, Intersection to) {
-        if (from.isSamePiece(to)) {
-            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
+        if (to.isSamePiece(PieceType.CANNON)) {
+            throw new exception.InvalidCannonMoveException(exception.ErrorMessage.CANNON_CANNOT_TARGET_CANNON);
         }
     }
 }
