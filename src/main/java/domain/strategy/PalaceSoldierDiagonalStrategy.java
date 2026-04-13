@@ -1,8 +1,8 @@
 package domain.strategy;
 
-import domain.Position;
-import domain.Side;
-import domain.Palace;
+import domain.game.Position;
+import domain.game.Side;
+import domain.game.Palace;
 import java.util.List;
 
 public class PalaceSoldierDiagonalStrategy implements MovementStrategy {

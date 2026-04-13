@@ -3,7 +3,7 @@ package domain.player;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Side;
+import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.state.ActiveTurn;

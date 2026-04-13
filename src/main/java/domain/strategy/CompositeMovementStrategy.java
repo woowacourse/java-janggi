@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Position;
+import domain.game.Position;
 import java.util.List;
 
 public class CompositeMovementStrategy implements MovementStrategy {

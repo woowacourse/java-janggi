@@ -1,7 +1,7 @@
 package persistence;
 
-import domain.Position;
-import domain.Side;
+import domain.game.Position;
+import domain.game.Side;
 import domain.board.Formation;
 import domain.piece.Piece;
 import java.sql.Connection;

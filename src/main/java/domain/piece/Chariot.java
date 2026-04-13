@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.Position;
-import domain.Side;
+import domain.game.Position;
+import domain.game.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
 import domain.strategy.Path;

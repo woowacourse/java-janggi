@@ -1,6 +1,6 @@
 package domain.player;
 
-import domain.Side;
+import domain.game.Side;
 import domain.piece.Piece;
 import domain.state.TurnState;
 

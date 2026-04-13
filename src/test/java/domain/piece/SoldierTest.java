@@ -2,8 +2,8 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Position;
-import domain.Side;
+import domain.game.Position;
+import domain.game.Side;
 import domain.board.Board;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,6 @@
 package application;
 
-import domain.Game;
+import domain.game.Game;
 
 class GameSession {
     private final long gameId;

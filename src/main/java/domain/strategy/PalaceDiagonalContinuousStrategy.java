@@ -1,7 +1,7 @@
 package domain.strategy;
 
-import domain.Position;
-import domain.Palace;
+import domain.game.Position;
+import domain.game.Palace;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

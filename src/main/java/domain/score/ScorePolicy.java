@@ -1,6 +1,6 @@
 package domain.score;
 
-import domain.Side;
+import domain.game.Side;
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;

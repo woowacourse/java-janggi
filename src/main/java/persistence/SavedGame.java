@@ -1,6 +1,6 @@
 package persistence;
 
-import domain.Side;
+import domain.game.Side;
 import domain.board.Board;
 import domain.board.Formation;
 

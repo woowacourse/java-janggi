@@ -1,8 +1,8 @@
 package application;
 
-import domain.Game;
-import domain.Position;
-import domain.Side;
+import domain.game.Game;
+import domain.game.Position;
+import domain.game.Side;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Players;

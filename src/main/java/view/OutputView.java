@@ -1,7 +1,7 @@
 package view;
 
-import domain.Position;
-import domain.Side;
+import domain.game.Position;
+import domain.game.Side;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;

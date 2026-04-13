@@ -2,7 +2,7 @@ package persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Side;
+import domain.game.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;

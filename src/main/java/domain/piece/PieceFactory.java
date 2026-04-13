@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Side;
+import domain.game.Side;
 import domain.strategy.CompositeMovementStrategy;
 import domain.strategy.ContinuousStrategy;
 import domain.strategy.Direction;

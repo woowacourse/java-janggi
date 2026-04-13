@@ -1,6 +1,6 @@
 package domain.player;
 
-import domain.Side;
+import domain.game.Side;
 import domain.state.ActiveTurn;
 import domain.state.InactiveTurn;
 import java.util.List;
