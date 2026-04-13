@@ -18,7 +18,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,35 +26,6 @@ import java.util.Map.Entry;
 
 public class H2GameRepository implements GameRepository {
 
-    private static final String CREATE_GAMES_TABLE_SQL = """
-            create table if not exists games (
-                id bigint primary key,
-                cho_player_name varchar(255) not null,
-                han_player_name varchar(255) not null,
-                current_team varchar(20) not null
-            )
-            """;
-    private static final String CREATE_BOARD_PIECES_TABLE_SQL = """
-            create table if not exists board_pieces (
-                game_id bigint not null,
-                row_num int not null,
-                column_num int not null,
-                piece_type varchar(20) not null,
-                team varchar(20) not null,
-                primary key (game_id, row_num, column_num),
-                foreign key (game_id) references games(id)
-            )
-            """;
-    private static final String CREATE_CAUGHT_PIECES_TABLE_SQL = """
-            create table if not exists caught_pieces (
-                game_id bigint not null,
-                sequence_num int not null,
-                piece_type varchar(20) not null,
-                team varchar(20) not null,
-                primary key (game_id, sequence_num),
-                foreign key (game_id) references games(id)
-            )
-            """;
     private static final String UPSERT_GAME_SQL = """
             merge into games key(id) values (?, ?, ?, ?)
             """;
@@ -74,7 +44,6 @@ public class H2GameRepository implements GameRepository {
             from games
             where id = ?
             """;
-    private static final String FIND_ALL_GAME_IDS_SQL = "select id from games order by id";
     private static final String FIND_BOARD_PIECES_SQL = """
             select row_num, column_num, piece_type, team
             from board_pieces
@@ -89,6 +58,7 @@ public class H2GameRepository implements GameRepository {
     private static final String COUNT_GAMES_SQL = "select count(*) from games";
 
     private final ConnectionManager connectionManager;
+    private final H2TableInitializer tableInitializer;
 
     public H2GameRepository() {
         this(new H2ConnectionManager());
@@ -96,6 +66,7 @@ public class H2GameRepository implements GameRepository {
 
     public H2GameRepository(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+        this.tableInitializer = new H2TableInitializer(connectionManager);
         initialize();
     }
 
@@ -163,14 +134,7 @@ public class H2GameRepository implements GameRepository {
     }
 
     private void initialize() {
-        try (Connection connection = connectionManager.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(CREATE_GAMES_TABLE_SQL);
-            statement.execute(CREATE_BOARD_PIECES_TABLE_SQL);
-            statement.execute(CREATE_CAUGHT_PIECES_TABLE_SQL);
-        } catch (SQLException e) {
-            throw new DatabaseException("데이터베이스 초기화에 실패했습니다.");
-        }
+        tableInitializer.initialize();
     }
 
     private void saveGame(Connection connection, long gameId, Game game) throws SQLException {
