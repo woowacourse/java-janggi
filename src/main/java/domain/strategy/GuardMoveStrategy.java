@@ -26,22 +26,16 @@ public class GuardMoveStrategy implements MoveStrategy {
         if (target == null) {
             return true;
         }
+
         return mover.isAnotherTeam(target);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1) {
-            return true;
+        if (Palace.canDiagonalInPalace(from, to)
+                && Math.abs(from.getRow() - to.getRow()) == 1
+                && Math.abs(from.getCol() - to.getCol()) == 1) {
+            return false;
         }
-
-        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
-            return true;
-        }
-
-        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) != 1) {
-            return true;
-        }
-
-        return false;
+        return Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1;
     }
 }

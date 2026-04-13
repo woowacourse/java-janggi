@@ -1,5 +1,7 @@
 package domain.strategy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import domain.Piece;
 import domain.Team;
 import domain.Type;
@@ -31,8 +33,8 @@ class ChariotMoveStrategyTest {
         Position from = Position.of(0, 0);
         Position to = Position.of(2, 0);
 
-        // then
-        Assertions.assertTrue(chariotPiece.canMovePiece(from, to, Map.of()));
+        // when // then
+        assertTrue(chariotPiece.canMovePiece(from, to, Map.of()));
     }
 
     @Test
@@ -42,8 +44,8 @@ class ChariotMoveStrategyTest {
         Position from = Position.of(0, 0);
         Position to = Position.of(3, 0);
 
-        // then
-        Assertions.assertFalse(chariotPiece.canMovePiece(from, to, Map.of(to, horsePiece)));
+        // when // then
+        assertFalse(chariotPiece.canMovePiece(from, to, Map.of(to, horsePiece)));
     }
 
     @Test
@@ -53,7 +55,29 @@ class ChariotMoveStrategyTest {
         Position from = Position.of(0, 0);
         Position to = Position.of(0, 3);
 
-        // then
-        Assertions.assertTrue(chariotPiece.canMovePiece(from, to, Map.of(to, elephantPiece)));
+        // when // then
+        assertTrue(chariotPiece.canMovePiece(from, to, Map.of(to, elephantPiece)));
+    }
+
+    @Test
+    @DisplayName("궁성 안에서 가능한 대각선 이동 시 이동한다.")
+    void 궁성_안_가능한_대각선_이동_가능() {
+        // given
+        Position from = Position.of(2, 3);
+        Position to = Position.of(0, 5);
+
+        // when // then
+        assertTrue(chariotPiece.canMovePiece(from, to, Map.of()));
+    }
+
+    @Test
+    @DisplayName("궁성 안에서 불가능한 대각선 이동 시 이동하지 않는다.")
+    void 궁성_안_불가능한_대각선_이동은_불가() {
+        // given
+        Position from = Position.of(0, 4);
+        Position to = Position.of(2, 6);
+
+        // when // then
+        assertFalse(chariotPiece.canMovePiece(from, to, Map.of()));
     }
 }

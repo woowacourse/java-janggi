@@ -1,6 +1,7 @@
 package view;
 
 import domain.Piece;
+import domain.Team;
 import domain.vo.Position;
 
 import java.util.Map;
@@ -49,11 +50,11 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printCurrentTurn(int turnCount) {
-        if (turnCount % 2 == 0) {
+    public void printCurrentTurn(Team team) {
+        if (team == Team.HAN) {
             System.out.println("현재는 한나라 차례입니다.");
         }
-        if (turnCount % 2 != 0) {
+        if (team == Team.CHU) {
             System.out.println("현재는 초나라 차례입니다.");
         }
     }
@@ -69,5 +70,23 @@ public class OutputView {
             type = HAN_SOLDIER;
         }
         return type;
+    }
+
+    public void printGameFinishMessage() {
+        System.out.println("왕이 잡혀서 게임을 종료합니다.");
+    }
+
+    public void printScore(int hanScore, int chuScore) {
+        System.out.println("== 최종 점수 ==");
+        System.out.println("한: " + hanScore + "점");
+        System.out.println("초: " + chuScore + "점");
+    }
+
+    public void printCurrentGameId(String gameId) {
+        System.out.println("현재 진행중인 게임의 아이디는 " + gameId);
+    }
+
+    public void printGameSurrenderMessage() {
+        System.out.println("유저의 항복으로 인해 게임을 종료합니다.");
     }
 }

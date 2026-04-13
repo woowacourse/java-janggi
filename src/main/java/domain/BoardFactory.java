@@ -29,10 +29,10 @@ public class BoardFactory {
             board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.HORSE));
         }
         if (team == Team.HAN) {
-            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.ELEPHANT));
-            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.ELEPHANT));
-            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.HORSE));
-            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.HORSE));
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.ELEPHANT));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.ELEPHANT));
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.HORSE));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.HORSE));
         }
 
         return Board.of(board);
@@ -48,10 +48,10 @@ public class BoardFactory {
             board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.HORSE));
         }
         if (team == Team.HAN) {
-            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.ELEPHANT));
-            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.ELEPHANT));
-            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.HORSE));
-            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.HORSE));
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.ELEPHANT));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.ELEPHANT));
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.HORSE));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.HORSE));
         }
 
         return Board.of(board);

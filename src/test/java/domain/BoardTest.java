@@ -1,6 +1,7 @@
 package domain;
 
 import domain.vo.Position;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -59,6 +60,18 @@ class BoardTest {
         Piece findPiece = board.findPieceByPosition(to).get();
         assertEquals(Type.SOLDIER, findPiece.getType());
         assertFalse(board.isExistPosition(from));
+    }
+
+    @Test
+    @DisplayName("모든 기물이 살아 있다면 현재 점수는 72점이다.")
+    void 현재_점수_계산() {
+        // given
+        Board board = BoardFactory.setUp();
+        JanggiGame janggiGame = JanggiGame.of(board);
+
+        // when // then
+        Assertions.assertThat(janggiGame.calculateScore(Team.HAN)).isEqualTo(72);
+        Assertions.assertThat(janggiGame.calculateScore(Team.CHU)).isEqualTo(72);
     }
 
     private static Stream<Arguments> providePiece() {
