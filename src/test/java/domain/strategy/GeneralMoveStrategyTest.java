@@ -51,8 +51,8 @@ class GeneralMoveStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nonMovablePositions")
-    @DisplayName("장군은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
+    @MethodSource("moveablePositions")
+    @DisplayName("장군은 한 칸만 이동할 수 있다. 한 칸만 이동한다면 이동 경로 규칙은 항상 true이다.")
     void general_can_move_hasValidPathTo_always_true_test(Position generalPosition, Position destination) {
         PalaceMoveStrategy moveStrategy = PalaceMoveStrategy.getInstance();
 

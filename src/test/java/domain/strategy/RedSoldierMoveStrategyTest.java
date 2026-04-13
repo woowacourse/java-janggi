@@ -13,37 +13,37 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class RedSoldierMoveStrategyTest {
 
-    private static final Position RED_SOLIDER_POSITION = new Position(3, 2);
+    private static final Position RED_SOLDIER_POSITION = new Position(3, 2);
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("한나라 졸은 현재 위치 기준 하, 좌우 한 칸 이동할 수 있다.")
-    void redSoldier_can_move_test(Position guardPosition, Position destination) {
+    void redSoldier_can_move_test(Position soldierPosition, Position destination) {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+        assertThat(moveStrategy.canMoveTo(soldierPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("moveableWithinPalaceCornerPositions")
     @DisplayName("한나라 졸이 적팀 궁성 왼쪽 모서리에 있는 경우, 하, 좌우, 궁성 중앙 대각 이동이 가능하다.")
-    void redSoldier_within_palace_corner_can_move_test(Position guardPosition, Position destination) {
+    void redSoldier_within_palace_corner_can_move_test(Position soldierPosition, Position destination) {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+        assertThat(moveStrategy.canMoveTo(soldierPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("moveableWithinPalaceCenterPositions")
     @DisplayName("한나라 졸이 적팀 궁성 중앙에 있는 경우, 하, 좌우, 왼-오 아래 대각 이동이 가능하다.")
-    void redSoldier_within_palace_center_can_move_test(Position guardPosition, Position destination) {
+    void redSoldier_within_palace_center_can_move_test(Position soldierPosition, Position destination) {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+        assertThat(moveStrategy.canMoveTo(soldierPosition, destination)).isTrue();
     }
 
     @Test
-    @DisplayName("초나라 졸은 적팀 궁성 내부에서 앞으로 이동할 수 없다.")
+    @DisplayName("한나라 졸은 적팀 궁성 내부에서 앞으로 이동할 수 없다.")
     void redSoldier_within_palace_forward_cannot_move_test() {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
         Position currentPosition = new Position(8, 4);
@@ -59,25 +59,25 @@ class RedSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("한나라 졸은 현재 위치 기준 하, 좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
-    void redSoldier_cannot_move_test(Position guardPosition, Position wrongTarget) {
+    void redSoldier_cannot_move_test(Position soldierPosition, Position wrongTarget) {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(soldierPosition, wrongTarget)).isFalse();
     }
 
     @ParameterizedTest
-    @MethodSource("nonMovablePositions")
-    @DisplayName("졸은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
-    void redSoldier_can_move_hasValidPathTo_always_true_test(Position guardPosition, Position destination) {
+    @MethodSource("moveablePositions")
+    @DisplayName("졸은 한 칸만 이동할 수 있다. 한 칸만 이동한다면 이동 경로 규칙은 항상 true이다.")
+    void redSoldier_can_move_hasValidPathTo_always_true_test(Position soldierPosition, Position destination) {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(guardPosition, destination, List.of())).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(soldierPosition, destination, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.down()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.left()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.right()));
+        return Stream.of(Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.down()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.left()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.right()));
     }
 
     private static Stream<Arguments> moveableWithinPalaceCornerPositions() {
@@ -98,11 +98,11 @@ class RedSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().up()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.left().left()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().left()),
-                Arguments.arguments(RED_SOLIDER_POSITION, RED_SOLIDER_POSITION.up().right()));
+        return Stream.of(Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.up()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.up().up()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.left().left()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.up().left()),
+                Arguments.arguments(RED_SOLDIER_POSITION, RED_SOLDIER_POSITION.up().right()));
     }
 
 }
