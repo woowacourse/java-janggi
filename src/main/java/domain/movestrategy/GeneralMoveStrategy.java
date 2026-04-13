@@ -1,25 +1,26 @@
 package domain.movestrategy;
 
 import domain.board.Board;
+import domain.board.Direction;
 import domain.board.Position;
-import domain.piece.Delta;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class GeneralMoveStrategy implements MoveStrategy {
-
-    private static final List<Delta> ALL_DIRECTIONS = List.of(
-            Delta.UP, Delta.RIGHT_UP, Delta.RIGHT, Delta.RIGHT_DOWN,
-            Delta.DOWN, Delta.LEFT_DOWN, Delta.LEFT, Delta.LEFT_UP
-    );
 
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {
         Position anotherGeneralPosition = board.getAnotherGeneralPosition(from);
 
-        return ALL_DIRECTIONS.stream()
+        List<Position> orthogonalPositions = Direction.ORTHOGONAL_DIRECTIONS.stream()
                 .map(from::move)
-                .filter(Position::isInside)
+                .toList();
+
+        List<Position> diagonalPositions = from.getDiagonalPositions();
+
+        return Stream.concat(orthogonalPositions.stream(), diagonalPositions.stream())
+                .filter(Position::isInsidePalace)
                 .filter(position -> board.isEmptyOrOpposite(from, position))
                 .filter(position -> !areGeneralsFacingEachOther(board, position, anotherGeneralPosition))
                 .toList();
@@ -37,7 +38,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         int upperGeneralColumn = Math.max(generalPosition.column(), anotherGeneralPosition.column());
         int row = generalPosition.row();
 
-        return IntStream.range(lowerGeneralColumn, upperGeneralColumn)
+        return IntStream.range(lowerGeneralColumn + 1, upperGeneralColumn)
                 .mapToObj(column -> Position.of(column, row))
                 .allMatch(board::isEmpty);
     }

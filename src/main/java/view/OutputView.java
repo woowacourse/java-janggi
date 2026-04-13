@@ -1,11 +1,18 @@
 package view;
 
+import dto.JanggiGameDto;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.ScoreDto;
+import dto.TeamNameDto;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
+import view.formatter.ElephantSetupFormatter;
+import view.formatter.PieceFormatter;
+import view.formatter.TeamNameFormatter;
 
 public class OutputView {
 
@@ -24,21 +31,27 @@ public class OutputView {
     private static final int MIN_ROW_RANGE = 1;
     private static final int MAX_ROW_RANGE = 9;
 
-    public void printEnterChoPlayerNamePrompt() {
-        System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
+    public void printPlayNewGameOrPreviousGame() {
+        System.out.println("새로운 장기 게임을 생성할까요? (1: 새 게임 생성, 2: 게임 불러오기)");
     }
 
-    public void printEnterHanPlayerNamePrompt() {
-        System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
+    public void printChoosePreviousGameId(final List<JanggiGameDto> previousGames) {
+        System.out.println("플레이 할 게임 id를 입력하세요");
+        System.out.println("id\t현재 턴\t승자");
+        for (JanggiGameDto janggiGame : previousGames) {
+            if (janggiGame.winnerTeam() == null || janggiGame.winnerTeam().isBlank()) {
+                String currentTurn = TeamNameFormatter.format(janggiGame.currentTurn());
+                System.out.printf("#%d\t%s나라\n", janggiGame.id(), currentTurn);
+                continue;
+            }
+            String winner = TeamNameFormatter.format(janggiGame.winnerTeam());
+            System.out.printf("#%d\t  -  \t%s나라 승리\n", janggiGame.id(), winner);
+        }
     }
 
-    public void printChooseChoElephantSetupPrompt(final List<String> elephantSetupNames) {
-        System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요");
-        printElephantSetups(elephantSetupNames);
-    }
-
-    public void printChooseHanElephantSetupPrompt(final List<String> elephantSetupNames) {
-        System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요");
+    public void printChooseElephantSetupPrompt(final List<String> elephantSetupNames, final TeamNameDto teamName) {
+        String formattedName = TeamNameFormatter.format(teamName.name());
+        System.out.printf("%s나라 플레이어가 사용할 상차림 번호를 입력하세요:\n", formattedName);
         printElephantSetups(elephantSetupNames);
     }
 
@@ -169,7 +182,20 @@ public class OutputView {
         System.out.println(EXCEPTION_PREFIX + exceptionMessage);
     }
 
-    private int toOneBasedIndex(int index) {
+    private int toOneBasedIndex(final int index) {
         return index + 1;
+    }
+
+    public void printScores(final ScoreDto score) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.################");
+        String choScore = decimalFormat.format(score.choScore());
+        String hanScore = decimalFormat.format(score.hanScore());
+
+        System.out.printf("초나라 점수: %s점\n", choScore);
+        System.out.printf("한나라 점수: %s점\n", hanScore);
+    }
+
+    public void printWinner(final TeamNameDto winner) {
+        System.out.printf("%s나라 플레이어 승리!\n", TeamNameFormatter.format(winner.name()));
     }
 }

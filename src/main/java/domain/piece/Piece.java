@@ -13,7 +13,7 @@ public class Piece {
         return new Piece(Team.HAN, pieceType);
     }
 
-    private Piece(final Team team, final PieceType pieceType) {
+    public Piece(final Team team, final PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
     }
@@ -32,6 +32,10 @@ public class Piece {
 
     public boolean isSameTeam(final Team team) {
         return this.team == team;
+    }
+
+    public double getScore() {
+        return pieceType.getScore();
     }
 
     public Team getTeam() {

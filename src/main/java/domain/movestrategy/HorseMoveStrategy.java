@@ -1,22 +1,22 @@
 package domain.movestrategy;
 
 import domain.board.Board;
+import domain.board.Direction;
 import domain.board.Position;
-import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    private static final Map<Delta, Delta> PATH_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Delta.of(-2, -1), Delta.UP),
-            Map.entry(Delta.of(-2, 1), Delta.UP),
-            Map.entry(Delta.of(-1, -2), Delta.LEFT),
-            Map.entry(Delta.of(1, -2), Delta.LEFT),
-            Map.entry(Delta.of(2, -1), Delta.DOWN),
-            Map.entry(Delta.of(2, 1), Delta.DOWN),
-            Map.entry(Delta.of(-1, 2), Delta.RIGHT),
-            Map.entry(Delta.of(1, 2), Delta.RIGHT)
+    private static final Map<Direction, Direction> PATH_BY_DESTINATION = Map.ofEntries(
+            Map.entry(Direction.of(-2, -1), Direction.UP),
+            Map.entry(Direction.of(-2, 1), Direction.UP),
+            Map.entry(Direction.of(-1, -2), Direction.LEFT),
+            Map.entry(Direction.of(1, -2), Direction.LEFT),
+            Map.entry(Direction.of(2, -1), Direction.DOWN),
+            Map.entry(Direction.of(2, 1), Direction.DOWN),
+            Map.entry(Direction.of(-1, 2), Direction.RIGHT),
+            Map.entry(Direction.of(1, 2), Direction.RIGHT)
     );
 
     @Override
@@ -26,7 +26,7 @@ public class HorseMoveStrategy implements MoveStrategy {
                 .filter(entry -> board.isEmpty(from.move(entry.getValue())))
                 .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(Position::isInside)
+                .filter(Position::isInsideBoard)
                 .toList();
     }
 }

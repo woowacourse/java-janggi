@@ -1,8 +1,8 @@
 package domain.movestrategy;
 
 import domain.board.Board;
+import domain.board.Direction;
 import domain.board.Position;
-import domain.piece.Delta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,12 @@ public class CannonMoveStrategy implements MoveStrategy {
     public List<Position> getMovablePositions(final Board board, final Position from) {
         List<Position> movable = new ArrayList<>();
 
-        for (Delta delta : Delta.ORTHOGONAL_DELTAS) {
-            collectMovablePositions(board, from, delta, movable);
+        for (Direction direction : Direction.ORTHOGONAL_DIRECTIONS) {
+            collectMovablePositions(board, from, direction, movable);
+        }
+
+        for (Direction direction : Direction.DIAGONAL_DIRECTIONS) {
+            collectDiagonalMovablePositions(board, from, direction, movable);
         }
 
         return movable;
@@ -23,7 +27,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     private void collectMovablePositions(
             final Board board,
             final Position from,
-            final Delta direction,
+            final Direction direction,
             final List<Position> movable
     ) {
         Optional<Position> bridge = findBridge(board, from, direction);
@@ -34,14 +38,14 @@ public class CannonMoveStrategy implements MoveStrategy {
         collectLandingPositions(board, from, bridge.get(), direction, movable);
     }
 
-    private Optional<Position> findBridge(final Board board, final Position from, final Delta direction) {
+    private Optional<Position> findBridge(final Board board, final Position from, final Direction direction) {
         Position current = from.move(direction);
 
-        while (current.isInside() && board.isEmpty(current)) {
+        while (current.isInsideBoard() && board.isEmpty(current)) {
             current = current.move(direction);
         }
 
-        if (board.isCannon(current)) {
+        if (!current.isInsideBoard() || board.isCannon(current)) {
             return Optional.empty();
         }
 
@@ -52,18 +56,50 @@ public class CannonMoveStrategy implements MoveStrategy {
             final Board board,
             final Position from,
             final Position bridge,
-            final Delta direction,
+            final Direction direction,
             final List<Position> movable
     ) {
         Position current = bridge.move(direction);
 
-        while (current.isInside() && board.isEmpty(current)) {
+        while (current.isInsideBoard() && board.isEmpty(current)) {
             movable.add(current);
             current = current.move(direction);
         }
 
-        if (current.isInside() && board.isOpposite(from, current) && !board.isCannon(current)) {
+        if (current.isInsideBoard() && board.isOpposite(from, current) && !board.isCannon(current)) {
             movable.add(current);
+        }
+    }
+
+    private void collectDiagonalMovablePositions(
+            final Board board,
+            final Position from,
+            final Direction direction,
+            final List<Position> movable
+    ) {
+        Position bridge = from.move(direction);
+
+        if (!bridge.isInsideBoard()
+                || !from.isDiagonalConnected(bridge)
+                || board.isEmpty(bridge)
+                || board.isCannon(bridge)
+        ) {
+            return;
+        }
+
+        Position landing = bridge.move(direction);
+
+        if (!landing.isInsideBoard() || !bridge.isDiagonalConnected(landing)) {
+            return;
+        }
+
+        if (board.isEmpty(landing)) {
+            movable.add(landing);
+            return;
+        }
+
+        if (board.isOpposite(from, landing) && !board.isCannon(landing)) {
+            movable.add(landing);
         }
     }
 }

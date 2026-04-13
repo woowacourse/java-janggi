@@ -8,8 +8,12 @@ public class InputView {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    public String readPlayerName() {
-        return SCANNER.nextLine();
+    public int readNewGameOrPreviousGame() {
+        return Integer.parseInt(SCANNER.nextLine());
+    }
+
+    public Long readGameId() {
+        return Long.parseLong(SCANNER.nextLine());
     }
 
     public int readElephantSetupIndex() {

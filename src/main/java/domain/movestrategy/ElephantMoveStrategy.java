@@ -1,25 +1,25 @@
 package domain.movestrategy;
 
 import domain.board.Board;
+import domain.board.Direction;
 import domain.board.Position;
-import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
-    private static final Map<Delta, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Delta.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
-            Map.entry(Delta.of(-3, 2), List.of(Delta.UP, Delta.RIGHT_UP)),
+    private static final Map<Direction, List<Direction>> PATHS_BY_DESTINATION = Map.ofEntries(
+            Map.entry(Direction.of(-3, -2), List.of(Direction.UP, Direction.LEFT_UP)),
+            Map.entry(Direction.of(-3, 2), List.of(Direction.UP, Direction.RIGHT_UP)),
 
-            Map.entry(Delta.of(3, -2), List.of(Delta.DOWN, Delta.LEFT_DOWN)),
-            Map.entry(Delta.of(3, 2), List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
+            Map.entry(Direction.of(3, -2), List.of(Direction.DOWN, Direction.LEFT_DOWN)),
+            Map.entry(Direction.of(3, 2), List.of(Direction.DOWN, Direction.RIGHT_DOWN)),
 
-            Map.entry(Delta.of(-2, -3), List.of(Delta.LEFT, Delta.LEFT_UP)),
-            Map.entry(Delta.of(2, -3), List.of(Delta.LEFT, Delta.LEFT_DOWN)),
+            Map.entry(Direction.of(-2, -3), List.of(Direction.LEFT, Direction.LEFT_UP)),
+            Map.entry(Direction.of(2, -3), List.of(Direction.LEFT, Direction.LEFT_DOWN)),
 
-            Map.entry(Delta.of(-2, 3), List.of(Delta.RIGHT, Delta.RIGHT_UP)),
-            Map.entry(Delta.of(2, 3), List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
+            Map.entry(Direction.of(-2, 3), List.of(Direction.RIGHT, Direction.RIGHT_UP)),
+            Map.entry(Direction.of(2, 3), List.of(Direction.RIGHT, Direction.RIGHT_DOWN))
     );
 
     @Override
@@ -28,18 +28,18 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 .filter(entry -> !isBlocked(board, from, entry.getValue()))
                 .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(Position::isInside)
+                .filter(Position::isInsideBoard)
                 .toList();
     }
 
-    private boolean isBlocked(final Board board, final Position from, final List<Delta> paths) {
+    private boolean isBlocked(final Board board, final Position from, final List<Direction> paths) {
         Position current = from;
-        boolean blocked = false;
-
-        for (int index = 0; index < paths.size() && !blocked; index++) {
-            current = current.move(paths.get(index));
-            blocked = !board.isEmpty(current);
+        for (Direction path : paths) {
+            current = current.move(path);
+            if (!board.isEmpty(current)) {
+                return true;
+            }
         }
-        return blocked;
+        return false;
     }
 }

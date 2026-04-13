@@ -4,63 +4,91 @@ import domain.board.ElephantSetup;
 import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import domain.player.Player;
-import dto.PieceInfoDto;
+import dto.JanggiGameDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.ScoreDto;
+import dto.TeamNameDto;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import repository.JanggiGameRepository;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
+    private static final int NEW_GAME_OPTION = 1;
+    private static final int PREVIOUS_GAME_OPTION = 2;
+
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiGameRepository janggiGameRepository;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(
+            final InputView inputView,
+            final OutputView outputView,
+            final JanggiGameRepository janggiGameRepository
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiGameRepository = janggiGameRepository;
     }
 
     public void run() {
-        Player choPlayer = retry(this::initChoPlayer);
-        Player hanPlayer = retry(this::initHanPlayer);
+        retry(this::selectGameOption);
+    }
 
-        ElephantSetup choElephantSetup = retry(this::initChoElephantSetup);
-        ElephantSetup hanElephantSetup = retry(this::initHanElephantSetup);
+    private void selectGameOption() {
+        outputView.printPlayNewGameOrPreviousGame();
+        int menuSelection = inputView.readNewGameOrPreviousGame();
 
-        JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup);
-
-        printJanggiBoard(janggiGame);
-
-        while (true) {
-            processTurn(janggiGame, Team.CHO);
-            processTurn(janggiGame, Team.HAN);
+        if (menuSelection == NEW_GAME_OPTION) {
+            startNewGame();
+            return;
         }
+        if (menuSelection == PREVIOUS_GAME_OPTION) {
+            startPreviousGame();
+            return;
+        }
+        throw new IllegalArgumentException("잘못 입력했습니다. 1 또는 2만 입력 가능합니다.");
     }
 
-    private Player initChoPlayer() {
-        outputView.printEnterChoPlayerNamePrompt();
-        String choPlayerName = inputView.readPlayerName();
-        return Player.cho(choPlayerName);
+    private void startNewGame() {
+        JanggiGame janggiGame = createNewGame();
+        Long gameId = janggiGameRepository.save(janggiGame);
+        play(janggiGame, gameId);
     }
 
-    private Player initHanPlayer() {
-        outputView.printEnterHanPlayerNamePrompt();
-        String hanPlayerName = inputView.readPlayerName();
-        return Player.han(hanPlayerName);
+    private void startPreviousGame() {
+        Long gameId = getPreviousGameId();
+        JanggiGame janggiGame = loadPreviousGame(gameId);
+        play(janggiGame, gameId);
     }
 
-    private ElephantSetup initChoElephantSetup() {
+    private void play(final JanggiGame janggiGame, final Long gameId) {
+        printJanggiBoard(janggiGame);
+        while (!janggiGame.isFinished()) {
+            processTurn(janggiGame);
+            janggiGameRepository.update(gameId, janggiGame);
+        }
+
+        Team winnerTeam = janggiGame.getWinnerTeam();
+        outputView.printWinner(TeamNameDto.of(winnerTeam));
+    }
+
+    private JanggiGame createNewGame() {
+        ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
+        ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
+        return JanggiGame.init(choElephantSetup, hanElephantSetup);
+    }
+
+    private ElephantSetup initElephantSetupFor(final Team team) {
         List<ElephantSetup> elephantSetups = ElephantSetup.all();
         List<String> elephantSetupNames = elephantSetups.stream()
                 .map(Enum::toString)
                 .toList();
-        outputView.printChooseChoElephantSetupPrompt(elephantSetupNames);
+        outputView.printChooseElephantSetupPrompt(elephantSetupNames, TeamNameDto.of(team));
         int index = inputView.readElephantSetupIndex();
 
         validateIndexRange(index, elephantSetups.size());
@@ -68,17 +96,19 @@ public class JanggiController {
         return elephantSetups.get(index);
     }
 
-    private ElephantSetup initHanElephantSetup() {
-        List<ElephantSetup> elephantSetups = ElephantSetup.all();
-        List<String> elephantSetupNames = elephantSetups.stream()
-                .map(Enum::toString)
-                .toList();
-        outputView.printChooseHanElephantSetupPrompt(elephantSetupNames);
-        int index = inputView.readElephantSetupIndex();
+    private Long getPreviousGameId() {
+        List<JanggiGameDto> previousGames = janggiGameRepository.findAll();
+        if (previousGames.isEmpty()) {
+            throw new IllegalArgumentException("이전에 플레이 한 게임이 존재하지 않습니다. 새 게임을 시작해주세요.");
+        }
 
-        validateIndexRange(index, elephantSetups.size());
+        outputView.printChoosePreviousGameId(previousGames);
+        return inputView.readGameId();
+    }
 
-        return elephantSetups.get(index);
+    private JanggiGame loadPreviousGame(final Long gameId) {
+        return janggiGameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
     }
 
     private void printJanggiBoard(final JanggiGame janggiGame) {
@@ -87,27 +117,32 @@ public class JanggiController {
     }
 
     private PiecesDto getPieceInfos(final JanggiGame janggiGame) {
-        Map<PositionDto, PieceInfoDto> pieces = janggiGame.getPieces().entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> PositionDto.of(entry.getKey()),
-                        entry -> PieceInfoDto.of(entry.getValue().getPieceType(), entry.getValue().getTeam())
-                ));
-        return PiecesDto.of(pieces);
+        return PiecesDto.from(janggiGame);
     }
 
-    private void processTurn(final JanggiGame janggiGame, final Team team) {
-        retry(() -> process(janggiGame, team));
+    private void processTurn(final JanggiGame janggiGame) {
+        retry(() -> process(janggiGame));
+
+        printJanggiBoard(janggiGame);
+        printScores(janggiGame);
     }
 
-    private void process(final JanggiGame janggiGame, final Team team) {
-        List<Position> piecePositions = janggiGame.getPositionsBy(team);
+    private void process(final JanggiGame janggiGame) {
+        List<Position> piecePositions = janggiGame.getCurrentPlayerPiecePositions();
         Position from = selectPieceToMove(janggiGame, piecePositions);
 
         List<Position> movablePositions = janggiGame.getMovablePositions(from);
+        checkMovablePositionsIsEmpty(movablePositions);
+
         Position to = selectPositionToMove(movablePositions);
 
         janggiGame.move(from, to);
-        printJanggiBoard(janggiGame);
+    }
+
+    private void checkMovablePositionsIsEmpty(final List<Position> movablePositions) {
+        if (movablePositions.isEmpty()) {
+            throw new IllegalArgumentException("해당 기물은 이동할 수 있는 위치가 없습니다. 다른 기물을 선택해주세요.");
+        }
     }
 
     private Position selectPieceToMove(final JanggiGame janggiGame, final List<Position> positions) {
@@ -141,8 +176,16 @@ public class JanggiController {
 
     private void validateIndexRange(final int index, final int count) {
         if (index < 0 || index >= count) {
-            throw new IllegalArgumentException("선택 가능한 범위를 벗어났습니다. 1 ~ " + count + 1 + "까지 입력 가능합니다.");
+            String message = String.format("선택 가능한 범위를 벗어났습니다. %d 이상, %d 이하의 정수만 입력 가능합니다.", 1, count);
+            throw new IllegalArgumentException(message);
         }
+    }
+
+    private void printScores(final JanggiGame janggiGame) {
+        double choScore = janggiGame.getScoreBy(Team.CHO);
+        double hanScore = janggiGame.getScoreBy(Team.HAN);
+
+        outputView.printScores(ScoreDto.of(choScore, hanScore));
     }
 
     private void retry(final Runnable callback) {

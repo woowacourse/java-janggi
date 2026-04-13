@@ -28,14 +28,7 @@ class SoldierMoveStrategyTest {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(4, 3);
-
         pieces.put(from, Piece.choPieceOf(PieceType.SOLDIER));
-
-        List<Position> expected = List.of(
-                Position.of(4, 2),
-                Position.of(4, 4),
-                Position.of(3, 3)
-        );
 
         Board board = Board.init(pieces);
 
@@ -43,7 +36,11 @@ class SoldierMoveStrategyTest {
         List<Position> result = strategy.getMovablePositions(board, from);
 
         // then
-        assertThat(result).containsAll(expected);
+        assertThat(result).containsExactlyInAnyOrder(
+                Position.of(4, 2),
+                Position.of(4, 4),
+                Position.of(3, 3)
+        );
     }
 
     @Test
@@ -51,14 +48,7 @@ class SoldierMoveStrategyTest {
     void hanSoldierMoveTest() {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(4, 3);
-
         pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
-
-        List<Position> expected = List.of(
-                Position.of(4, 2),
-                Position.of(4, 4),
-                Position.of(5, 3)
-        );
 
         Board board = Board.init(pieces);
 
@@ -66,7 +56,11 @@ class SoldierMoveStrategyTest {
         List<Position> result = strategy.getMovablePositions(board, from);
 
         // then
-        assertThat(result).containsAll(expected);
+        assertThat(result).containsExactlyInAnyOrder(
+                Position.of(4, 2),
+                Position.of(4, 4),
+                Position.of(5, 3)
+        );
     }
 
     @Test
@@ -109,6 +103,88 @@ class SoldierMoveStrategyTest {
                 Position.of(4, 2),
                 Position.of(4, 4),
                 Position.of(5, 3)
+        );
+    }
+
+    @Test
+    @DisplayName("초나라 졸은 궁성에서 상향 대각선으로 이동 가능하다")
+    void choSoldierCanMoveUpperDiagonalInPalace() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(2, 5);
+        pieces.put(from, Piece.choPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movable = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movable).containsExactlyInAnyOrder(
+                Position.of(1, 4),
+                Position.of(1, 5),
+                Position.of(1, 6),
+                Position.of(2, 4),
+                Position.of(2, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("초나라 졸은 궁성에서 대각선이 없는 곳으로는 이동 불가능하다")
+    void choSoldierCantMoveDiagonalInNotExistDigonalEdge() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(3, 5);
+        pieces.put(from, Piece.choPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movable = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movable).doesNotContain(
+                Position.of(2, 4),
+                Position.of(2, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("한나라 병은 궁성에서 하향 대각선으로 이동 가능하다")
+    void hanSoldierCanMoveUpperDiagonalInPalace() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(9, 5);
+        pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movable = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movable).containsExactlyInAnyOrder(
+                Position.of(9, 4),
+                Position.of(9, 6),
+                Position.of(10, 4),
+                Position.of(10, 5),
+                Position.of(10, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("한나라 병은 궁성에서 대각선이 없는 곳으로는 이동 불가능하다")
+    void hanSoldierCantMoveDiagonalInNotExistDigonalEdge() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(8, 5);
+        pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movable = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movable).doesNotContain(
+                Position.of(9, 4),
+                Position.of(9, 6)
         );
     }
 }
