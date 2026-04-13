@@ -85,4 +85,8 @@ public class OutputView {
     public void printCurrentGameId(String gameId) {
         System.out.println("현재 진행중인 게임의 아이디는 " + gameId);
     }
+
+    public void printGameSurrenderMessage() {
+        System.out.println("유저의 항복으로 인해 게임을 종료합니다.");
+    }
 }

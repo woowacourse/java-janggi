@@ -70,6 +70,12 @@ public class JanggiController {
                 outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
                 break;
             }
+
+            if (janggiGame.isSurrendered()) {
+                outputView.printGameSurrenderMessage();
+                outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
+                break;
+            }
         }
     }
 
@@ -124,7 +130,7 @@ public class JanggiController {
 
                 String input = inputView.readPosition();
                 if (input.equals(SURRENDER)) {
-                    outputView.printGameFinishMessage();
+                    janggiGame.surrender();
                     return;
                 }
 

@@ -9,6 +9,7 @@ public class JanggiGame {
 
     private final Board board;
     private TurnCount turnCount;
+    private boolean isSurrender;
 
     private JanggiGame(final Board board) {
         this.board = board;
@@ -52,6 +53,14 @@ public class JanggiGame {
 
     public boolean isFinished() {
         return !board.isGeneralAlive(Team.CHU) || !board.isGeneralAlive(Team.HAN);
+    }
+
+    public boolean isSurrendered() {
+        return isSurrender;
+    }
+
+    public void surrender() {
+        isSurrender = true;
     }
 
     public int calculateScore(Team team) {
