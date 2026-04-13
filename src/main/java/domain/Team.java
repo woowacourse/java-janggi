@@ -18,6 +18,7 @@ public enum Team {
         if (turnCount % 2 == 0) {
             return HAN;
         }
+
         return CHU;
     }
 }

@@ -29,11 +29,7 @@ public class JanggiGame {
     }
 
     public Team currentTurn() {
-        if (turnCount.getTurnCount() % 2 == 0) {
-            return Team.HAN;
-        }
-
-        return Team.CHU;
+        return Team.from(turnCount.getTurnCount());
     }
 
     public int getTurnCount() {
