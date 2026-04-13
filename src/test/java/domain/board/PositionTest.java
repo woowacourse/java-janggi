@@ -59,4 +59,26 @@ class PositionTest {
         assertThat(pos.shift(delta(0, -1))).isEqualTo(new Position(Column.C, Row.TWO));
         assertThat(pos.shift(delta(2, 3))).isEqualTo(new Position(Column.E, Row.SIX));
     }
+
+    @Test
+    @DisplayName("isBetween: 두 경계 좌표 사이에 있으면 true를 반환한다")
+    void isBetweenReturnsTrueWhenPositionIsWithinBounds() {
+        Position center = new Position(Column.E, Row.ONE);
+
+        assertThat(center.isBetween(
+                new Position(Column.D, Row.ZERO),
+                new Position(Column.F, Row.TWO))
+        ).isTrue();
+    }
+
+    @Test
+    @DisplayName("isBetween: 두 경계 좌표 밖에 있으면 false를 반환한다")
+    void isBetweenReturnsFalseWhenPositionIsOutOfBounds() {
+        Position outside = new Position(Column.C, Row.ONE);
+
+        assertThat(outside.isBetween(
+                new Position(Column.D, Row.ZERO),
+                new Position(Column.F, Row.TWO))
+        ).isFalse();
+    }
 }

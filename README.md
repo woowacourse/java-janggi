@@ -83,6 +83,10 @@
     - [x] [중간 과정] 출발 좌표에 있던 기물을 도착 좌표로 옮긴다.
     - [x] [중간 과정] 턴을 넘긴다.
 
+### ✅ 2차 구현 기능 목록
+
+#### 2.1단계:
+
 ## 3️⃣ 입출력 요구 사항
 
 ### 실행 결과 예시
@@ -149,6 +153,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 
 ```markdown
 # basic structure
+
 <type>(<scope>): <subject>
 <BLANK LINE>
 <body>
@@ -156,6 +161,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 <footer>
 
 # <type>
+
 feat (feature)
 fix (bug fix)
 docs (documentation)
@@ -165,6 +171,7 @@ test (when adding missing tests)
 chore (maintain)
 
 # <scope>
+
 console - I/O
 domain - 핵심 로직
 validation - 유효성검사
