@@ -120,11 +120,7 @@ public class H2GameRepository implements GameRepository {
     @Override
     public Game findBy(long gameId) {
         try (Connection connection = connectionManager.getConnection()) {
-            Players players = findPlayers(connection, gameId);
-            Team currentTeam = findCurrentTeam(connection, gameId);
-            Board board = createBoard(connection, gameId);
-            List<Piece> caughtPieces = findCaughtPieces(connection, gameId);
-            return Game.restore(players, board, caughtPieces, currentTeam);
+            return createGame(connection, gameId);
         } catch (SQLException e) {
             throw new DatabaseException("저장된 게임을 불러올 수 없습니다.");
         }
@@ -137,12 +133,7 @@ public class H2GameRepository implements GameRepository {
              ResultSet resultSet = statement.executeQuery()) {
             List<Game> games = new ArrayList<>();
             while (resultSet.next()) {
-                long gameId = resultSet.getLong("id");
-                Players players = findPlayers(connection, gameId);
-                Team currentTeam = findCurrentTeam(connection, gameId);
-                Board board = createBoard(connection, gameId);
-                List<Piece> caughtPieces = findCaughtPieces(connection, gameId);
-                games.add(Game.restore(players, board, caughtPieces, currentTeam));
+                games.add(createGame(connection, resultSet.getLong("id")));
             }
             return games;
         } catch (SQLException e) {
@@ -287,7 +278,7 @@ public class H2GameRepository implements GameRepository {
         return caughtPieces;
     }
 
-    private Players findPlayers(Connection connection, long gameId) throws SQLException {
+    private Game createGame(Connection connection, long gameId) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(FIND_GAME_SQL)) {
             statement.setLong(1, gameId);
             ResultSet resultSet = statement.executeQuery();
@@ -295,21 +286,14 @@ public class H2GameRepository implements GameRepository {
                 throw new DatabaseException("저장된 게임을 찾을 수 없습니다.");
             }
 
-            return createPlayers(
+            Players players = createPlayers(
                     resultSet.getString("cho_player_name"),
                     resultSet.getString("han_player_name")
             );
-        }
-    }
-
-    private Team findCurrentTeam(Connection connection, long gameId) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(FIND_GAME_SQL)) {
-            statement.setLong(1, gameId);
-            ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                throw new DatabaseException("저장된 게임을 찾을 수 없습니다.");
-            }
-            return Team.valueOf(resultSet.getString("current_team"));
+            Team currentTeam = Team.valueOf(resultSet.getString("current_team"));
+            Board board = createBoard(connection, gameId);
+            List<Piece> caughtPieces = findCaughtPieces(connection, gameId);
+            return Game.restore(players, board, caughtPieces, currentTeam);
         }
     }
 
