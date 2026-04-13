@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.game.GameResult;
 import domain.game.Turn;
 
 public class OutputView {
@@ -65,5 +66,9 @@ public class OutputView {
 
     public void printPieceMovement(Turn turn) {
         System.out.printf((REQUEST_MOVE) + "%n", formatter.formatTurn(turn.getTeam()));
+    }
+
+    public void printGameResult(GameResult gameResult) {
+        System.out.println(formatter.formatGameResult(gameResult));
     }
 }

@@ -14,12 +14,13 @@ public class GameConsole {
     }
 
     public void run() {
-        while (true) {
+        while (!janggiGame.isFinishPhase()) {
             retryUntilSuccess(() -> {
                 displayRequestCommand();
                 janggiGame.processCommand(inputView.readCommand());
             });
         }
+        outputView.printGameResult(janggiGame.getGameResult());
     }
 
     public void displayRequestCommand() {

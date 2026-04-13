@@ -71,4 +71,12 @@ public class Board implements BoardState {
         return pieces.isEmpty(position);
     }
 
+    public boolean hasGeneral(Team team) {
+        return pieces.hasGeneral(team);
+    }
+
+    public Pieces snapshot() {
+        return pieces.snapshot();
+    }
+
 }
