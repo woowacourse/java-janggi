@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.Board;
+import domain.board.BoardSnapshot;
 import domain.game.GameResult;
 import domain.game.Team;
 import domain.piece.Piece;
@@ -14,7 +14,7 @@ public class OutputView {
     private static final int MIN_COLUMN = 1;
     private static final int MAX_COLUMN = 9;
 
-    public void printBoard(Board board) {
+    public void printBoard(BoardSnapshot board) {
         StringBuilder sb = new StringBuilder();
         for (int row = MAX_ROW; row >= MIN_ROW; row--) {
             sb.append(row).append("\t");
@@ -64,7 +64,7 @@ public class OutputView {
         sb.append(System.lineSeparator());
     }
 
-    private void appendRow(StringBuilder sb, Board board, int row) {
+    private void appendRow(StringBuilder sb, BoardSnapshot board, int row) {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Piece piece = board.pieceAt(new Position(row, column));
             sb.append(PieceMapper.toDisplayName(piece)).append("\t");

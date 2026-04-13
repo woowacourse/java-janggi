@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.BoardSnapshot;
 import domain.board.formation.FormationType;
 import domain.game.condition.BikjangCondition;
 import domain.game.condition.ConsecutivePassCondition;
@@ -133,8 +134,8 @@ public class JanggiGame {
         return turn.current();
     }
 
-    public Board getBoard() {
-        return board;
+    public BoardSnapshot boardSnapshot() {
+        return board.snapshot();
     }
 
     public GameStatus getStatus() {

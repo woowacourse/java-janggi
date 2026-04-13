@@ -59,4 +59,8 @@ public class Board {
         List<Position> route = source.makeRowStraightRoute(target);
         return route.stream().noneMatch(pos -> pieceAt(pos).isNotEmpty());
     }
+
+    public BoardSnapshot snapshot() {
+        return new BoardSnapshot(pieces);
+    }
 }

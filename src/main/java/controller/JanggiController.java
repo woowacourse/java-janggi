@@ -66,10 +66,10 @@ public class JanggiController {
     }
 
     private void playGame(StoredGame stored) {
-        outputView.printBoard(stored.game().getBoard());
+        outputView.printBoard(stored.game().boardSnapshot());
         while (stored.game().isRunning()) {
             executeTurn(stored);
-            outputView.printBoard(stored.game().getBoard());
+            outputView.printBoard(stored.game().boardSnapshot());
         }
         outputView.printResult(stored.game().result());
     }

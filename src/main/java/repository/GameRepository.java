@@ -6,6 +6,7 @@ import dao.GameRoomDao;
 import dao.GameRoomRawData;
 import db.PieceTypeMapper;
 import domain.board.Board;
+import domain.board.BoardSnapshot;
 import domain.game.GameRecord;
 import domain.game.GameStatus;
 import domain.game.JanggiGame;
@@ -34,7 +35,7 @@ public class GameRepository {
                 game.getStatus().name(),
                 game.getRecord().consecutivePassCount()
         );
-        boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
+        boardPieceDao.saveAll(roomId, toRawPieces(game.boardSnapshot()));
         return new StoredGame(roomId, game);
     }
 
@@ -61,7 +62,7 @@ public class GameRepository {
                 game.getRecord().consecutivePassCount()
         );
         boardPieceDao.deleteByGameRoomId(roomId);
-        boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
+        boardPieceDao.saveAll(roomId, toRawPieces(game.boardSnapshot()));
     }
 
     public List<GameRoomSummary> listRooms() {
@@ -79,7 +80,7 @@ public class GameRepository {
         );
     }
 
-    private List<BoardPieceRawData> toRawPieces(Board board) {
+    private List<BoardPieceRawData> toRawPieces(BoardSnapshot board) {
         return Position.allPositions().stream()
                 .filter(position -> board.pieceAt(position).isNotEmpty())
                 .map(position -> {
