@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.board.Position;
 import domain.path.JumpPathGenerator;
 import domain.path.PathInfo;
-import domain.piece.BlockingPieceValidator;
+import domain.path.PathInfos;
 
 import java.util.List;
 
@@ -25,8 +25,8 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        BlockingPieceValidator.validateNoBlockingPiece(pathInfos, destination);
+    public void validateBlockingPiece(PathInfos pathInfos, Position destination) {
+        pathInfos.validateNoBlockingPiece(destination);
     }
 
     private void validateMove(int deltaX, int deltaY) {

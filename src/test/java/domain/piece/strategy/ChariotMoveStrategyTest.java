@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -94,7 +95,7 @@ class ChariotMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatCode(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> chariotMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -106,7 +107,7 @@ class ChariotMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

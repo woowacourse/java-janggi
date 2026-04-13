@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.board.Position;
 import domain.path.LinearPathGenerator;
 import domain.path.PathInfo;
-import domain.piece.BlockingPieceValidator;
+import domain.path.PathInfos;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        BlockingPieceValidator.validateNoBlockingPiece(pathInfos, destination);
+    public void validateBlockingPiece(PathInfos pathInfos, Position destination) {
+        pathInfos.validateNoBlockingPiece(destination);
     }
 }

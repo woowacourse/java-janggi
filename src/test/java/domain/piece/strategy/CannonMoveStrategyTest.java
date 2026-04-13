@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -105,7 +106,7 @@ class CannonMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.SOLDIER)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatCode(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> cannonMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -116,7 +117,7 @@ class CannonMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -129,7 +130,7 @@ class CannonMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 3), Piece.of(Camp.CHO, PieceType.HORSE)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -140,7 +141,7 @@ class CannonMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CANNON)));
 
-        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -152,7 +153,7 @@ class CannonMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CANNON)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> cannonMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

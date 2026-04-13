@@ -4,8 +4,8 @@ import domain.board.Palace;
 import domain.board.Position;
 import domain.path.PathInfo;
 import domain.path.Direction;
+import domain.path.PathInfos;
 import domain.path.SingleStepLinearPathGenerator;
-import domain.piece.BlockingPieceValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        BlockingPieceValidator.validateOnlyOneStep(pathInfos);
+    public void validateBlockingPiece(PathInfos pathInfos, Position destination) {
+        pathInfos.validateOnlyOneStep();
     }
 
     private void validateMove(Direction direction, boolean isInPalace) {

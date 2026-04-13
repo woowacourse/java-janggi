@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.board.Palace;
 import domain.board.Position;
 import domain.path.PathInfo;
-import domain.piece.BlockingPieceValidator;
+import domain.path.PathInfos;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class GeneralMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        BlockingPieceValidator.validateOnlyOneStep(pathInfos);
+    public void validateBlockingPiece(PathInfos pathInfos, Position destination) {
+        pathInfos.validateOnlyOneStep();
     }
 
     private void validateMove(boolean isInPalace) {

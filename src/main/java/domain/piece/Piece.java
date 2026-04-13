@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.path.PathInfo;
 import domain.board.Position;
+import domain.path.PathInfos;
 import domain.piece.strategy.MoveStrategy;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class Piece {
     }
 
     public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        moveStrategy.validateBlockingPiece(pathInfos, destination);
+        moveStrategy.validateBlockingPiece(new PathInfos(pathInfos), destination);
     }
 
     @Override

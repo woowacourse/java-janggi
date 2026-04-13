@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -102,7 +103,7 @@ class GeneralMoveStrategyTest {
         List<PathInfo> pathInfos = List.of(
                 new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatCode(() -> generalMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> generalMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -115,7 +116,7 @@ class GeneralMoveStrategyTest {
                 new PathInfo(to, Piece.of(Camp.CHO, PieceType.SOLDIER))
         );
 
-        assertThatThrownBy(() -> generalMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> generalMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

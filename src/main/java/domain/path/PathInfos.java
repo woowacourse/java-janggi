@@ -1,17 +1,24 @@
-package domain.piece;
+package domain.path;
 
 import domain.board.Position;
-import domain.path.PathInfo;
+import domain.piece.PieceType;
 
 import java.util.List;
 
-public class BlockingPieceValidator {
-    public static void validateOnlyOneStep(List<PathInfo> pathInfos){
+public class PathInfos {
+    private final List<PathInfo> pathInfos;
+
+    public PathInfos(List<PathInfo> pathInfos) {
+        this.pathInfos = pathInfos;
+    }
+
+    public void validateOnlyOneStep() {
         if (pathInfos.size() > 1) {
             throw new IllegalStateException("한 칸만 이동 가능합니다.");
         }
     }
-    public static void validateNoBlockingPiece(List<PathInfo> pathInfos, Position destination) {
+
+    public void validateNoBlockingPiece(Position destination) {
         boolean hasBlockingPiece = pathInfos.stream()
                 .filter(path -> !path.position().equals(destination))
                 .anyMatch(PathInfo::hasPiece);
@@ -21,7 +28,7 @@ public class BlockingPieceValidator {
         }
     }
 
-    public static void validateHasBlockingPiece(List<PathInfo> pathInfos, Position destination) {
+    public void validateHasBlockingPiece(Position destination) {
         long blockingPieceCount = pathInfos.stream()
                 .filter(pathInfo -> !pathInfo.position().equals(destination))
                 .filter(PathInfo::hasPiece)
