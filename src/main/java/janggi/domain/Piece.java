@@ -18,12 +18,12 @@ public class Piece {
         this.name = name;
     }
 
-    public void verifyMove(Position from, Position to, BoardView boardState) {
-        if (!moveStorage.canMove(from, to, boardState)) {
+    public void verifyMove(Position from, Position to, BoardView boardView) {
+        if (!moveStorage.canMove(from, to, boardView)) {
             throw new InvalidMoveException();
         }
 
-        Piece pieceTo = boardState.getPieceAt(to);
+        Piece pieceTo = boardView.getPieceAt(to);
 
         if (pieceTo != null && isSameTeam(pieceTo)) {
             throw new InvalidMoveException();
