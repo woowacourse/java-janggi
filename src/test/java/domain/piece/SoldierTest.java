@@ -3,8 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -100,5 +100,31 @@ public class SoldierTest {
         assertThatThrownBy(() -> hanSoldier.findPaths(from, hanTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    @DisplayName("졸병이 궁성 내부에서 앞 방향 대각선으로 이동할 수 있다.")
+    void soldierDiagonalInPalaceTest() {
+        Piece choSoldier = new Soldier(Country.CHO);
+        Piece hanSoldier = new Soldier(Country.HAN);
+
+        assertThat(choSoldier.findPaths(new Position(3, 0), new Position(4, 1)))
+                .isEqualTo(List.of(new Position(4, 1)));
+        assertThat(hanSoldier.findPaths(new Position(3, 9), new Position(4, 8)))
+                .isEqualTo(List.of(new Position(4, 8)));
+    }
+
+    @Test
+    @DisplayName("졸병이 궁성 내부에서 뒤 방향 대각선으로 이동할 경우 예외가 발생한다.")
+    void soldierBackwardDiagonalInPalaceExceptionTest() {
+        Piece choSoldier = new Soldier(Country.CHO);
+        Piece hanSoldier = new Soldier(Country.HAN);
+
+        assertThatThrownBy(() -> choSoldier.findPaths(new Position(3, 1), new Position(4, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 초나라 졸・병은 궁성 내부에서 대각선으로 후진할 수 없습니다.");
+        assertThatThrownBy(() -> hanSoldier.findPaths(new Position(3, 8), new Position(4, 9)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 한나라 졸・병은 궁성 내부에서 대각선으로 후진할 수 없습니다.");
     }
 }

@@ -3,8 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -51,15 +51,14 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁이 대각선으로 이동할 경우 예외가 발생한다.")
-    void generalDiagonalExceptionTest() {
-        Piece general = new General(Country.CHO);
+    @DisplayName("궁이 궁성 내부에서 대각선으로 이동할 수 있다.")
+    void generalDiagonalInPalaceTest() {
+        Piece choGeneral = new General(Country.CHO);
+        Piece hanGeneral = new General(Country.HAN);
 
-        Position from = new Position(3, 0);
-        Position to = new Position(2, 1);
-
-        assertThatThrownBy(() -> general.findPaths(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
+        assertThat(choGeneral.findPaths(new Position(3, 0), new Position(4, 1)))
+                .isEqualTo(List.of(new Position(4, 1)));
+        assertThat(hanGeneral.findPaths(new Position(3, 9), new Position(4, 8)))
+                .isEqualTo(List.of(new Position(4, 8)));
     }
 }

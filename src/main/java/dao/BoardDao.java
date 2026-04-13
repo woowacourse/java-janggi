@@ -1,0 +1,97 @@
+package dao;
+
+import domain.board.Country;
+import domain.board.Position;
+import domain.piece.PieceInfo;
+import domain.piece.PieceType;
+import dto.PieceSaveInfo;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class BoardDao {
+    private static final String FAILED_SAVE_ALL_BOARD_DATA = "[ERROR] DB에 모든 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_SAVE_BOARD_DATA = "[ERROR] DB에 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_DELETE_BOARD_DATA = "[ERROR] DB에서 보드 데이터를 삭제하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_FIND_ALL_BOARD_DATA = "[ERROR] DB에서 모든 보드 데이터를 조회하는 도중, 오류가 발생했습니다.";
+
+    public void saveAll(Connection connection, Long gameId, List<PieceSaveInfo> pieceSaveInfos) {
+        String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            for (PieceSaveInfo pieceSaveInfo : pieceSaveInfos) {
+                statement.setInt(1, pieceSaveInfo.position().x());
+                statement.setInt(2, pieceSaveInfo.position().y());
+                statement.setString(3, pieceSaveInfo.pieceInfo().pieceType().getDbValue());
+                statement.setString(4, pieceSaveInfo.pieceInfo().country().getDbValue());
+                statement.setLong(5, gameId);
+
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAILED_SAVE_ALL_BOARD_DATA, exception);
+        }
+    }
+
+    public void save(Connection connection, Long gameId, Position to, PieceInfo pieceInfo) {
+        String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, to.x());
+            statement.setInt(2, to.y());
+            statement.setString(3, pieceInfo.pieceType().getDbValue());
+            statement.setString(4, pieceInfo.country().getDbValue());
+            statement.setLong(5, gameId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAILED_SAVE_BOARD_DATA, exception);
+        }
+    }
+
+    public void delete(Connection connection, Long gameId, Position from) {
+        String sql = "DELETE FROM board WHERE game_id = ? AND x = ? AND y = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setLong(1, gameId);
+            statement.setInt(2, from.x());
+            statement.setInt(3, from.y());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAILED_DELETE_BOARD_DATA, exception);
+        }
+    }
+
+    public Map<Position, PieceInfo> findAllByGameId(Connection connection, Long gameId) {
+        String sql = "SELECT  * FROM board WHERE game_id = ?";
+        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setLong(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
+                PieceType pieceType = PieceType.from(resultSet.getString("piece_type"));
+                Country country = Country.from(resultSet.getString("country"));
+
+                pieceInfos.put(position, new PieceInfo(pieceType, country));
+            }
+        } catch (SQLException exception) {
+            throw new IllegalStateException(FAILED_FIND_ALL_BOARD_DATA, exception);
+        }
+        return pieceInfos;
+    }
+}

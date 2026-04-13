@@ -1,8 +1,8 @@
-package domain;
+package domain.board;
 
-import static domain.Position.INITIAL_POSITION;
-import static domain.Position.X_MAXIMUM_POSITION;
-import static domain.Position.Y_MAXIMUM_POSITION;
+import static domain.board.Position.INITIAL_POSITION;
+import static domain.board.Position.X_MAXIMUM_POSITION;
+import static domain.board.Position.Y_MAXIMUM_POSITION;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
@@ -28,15 +28,18 @@ public class BoardInitializer {
 
     public Map<Position, State> initialize(TableSetting choTableSetting, TableSetting hanTableSetting) {
         initializeSettings(choTableSetting, hanTableSetting);
+        fillEmptyPositions(board);
 
-        for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
-            EmptyState emptyState = new EmptyState();
-            initializeRow(y, emptyState);
-        }
         return board;
     }
 
-    private void initializeRow(int y, EmptyState emptyState) {
+    public void fillEmptyPositions(Map<Position, State> board) {
+        for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
+            initializeRow(y, new EmptyState(), board);
+        }
+    }
+
+    private void initializeRow(int y, EmptyState emptyState, Map<Position, State> board) {
         for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
             Position position = new Position(x, y);
             if (!board.containsKey(position)) {

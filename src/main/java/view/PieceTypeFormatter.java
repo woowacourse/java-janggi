@@ -1,6 +1,6 @@
 package view;
 
-import domain.Country;
+import domain.board.Country;
 import domain.piece.PieceType;
 import java.util.Arrays;
 
@@ -35,7 +35,7 @@ public enum PieceTypeFormatter {
         if (pieceType == PieceType.GENERAL) {
             return getGeneralName(country);
         }
-        
+
         String pieceName = Arrays.stream(PieceTypeFormatter.values())
                 .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
                 .map(PieceTypeFormatter::getPieceName)

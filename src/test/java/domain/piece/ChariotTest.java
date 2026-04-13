@@ -3,8 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -62,5 +62,17 @@ public class ChariotTest {
         assertThatThrownBy(() -> chariot.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    @DisplayName("차가 궁성 내부에서 대각선으로 이동할 수 있다.")
+    void chariotDiagonalInPalaceTest() {
+        Piece choChariot = new Chariot(Country.CHO);
+        Piece hanChariot = new Chariot(Country.HAN);
+
+        assertThat(choChariot.findPaths(new Position(3, 0), new Position(5, 2)))
+                .isEqualTo(List.of(new Position(4, 1), new Position(5, 2)));
+        assertThat(hanChariot.findPaths(new Position(3, 9), new Position(5, 7)))
+                .isEqualTo(List.of(new Position(4, 8), new Position(5, 7)));
     }
 }

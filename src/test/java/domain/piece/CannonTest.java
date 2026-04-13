@@ -2,11 +2,12 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.Board;
-import domain.Country;
-import domain.Position;
-import domain.TableSetting;
+import domain.board.Board;
+import domain.board.Country;
+import domain.board.Position;
+import domain.board.TableSetting;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -68,9 +69,8 @@ public class CannonTest {
     @Test
     @DisplayName("포가 포를 잡을 경우 예외가 발생한다.")
     void cannonCatchCannonExceptionTest() {
-        Board board = Board.create(TableSetting.RIGHT_TABLE, TableSetting.LEFT_TABLE);
-        board.move(new Position(0, 3), new Position(0, 4));
-        board.move(new Position(0, 4), new Position(1, 4));
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(0, 3), new Position(1, 3));
 
         Position from = new Position(1, 2);
         Position to = new Position(1, 7);
@@ -78,5 +78,42 @@ public class CannonTest {
         assertThatThrownBy(() -> board.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선으로 이동할 수 있다.")
+    void cannonDiagonalInPalaceTest() {
+        Piece choCannon = new Cannon(Country.CHO);
+        Piece hanCannon = new Cannon(Country.HAN);
+
+        assertThat(choCannon.findPaths(new Position(3, 0), new Position(5, 2)))
+                .isEqualTo(List.of(new Position(4, 1), new Position(5, 2)));
+        assertThat(hanCannon.findPaths(new Position(3, 9), new Position(5, 7)))
+                .isEqualTo(List.of(new Position(4, 8), new Position(5, 7)));
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선 이동 시 중간 기물이 있으면 이동할 수 있다.")
+    void cannonDiagonalInPalaceWithMiddlePieceTest() {
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(3, 0), new Position(3, 1));
+        board.move(new Position(3, 1), new Position(3, 2));
+        board.move(new Position(1, 2), new Position(5, 2));
+
+        assertDoesNotThrow(() -> board.move(new Position(5, 2), new Position(3, 0)));
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선 이동 시 중간에 기물이 없으면 예외가 발생한다.")
+    void cannonDiagonalInPalaceWithoutMiddlePieceTest() {
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(3, 0), new Position(3, 1));
+        board.move(new Position(3, 1), new Position(3, 2));
+        board.move(new Position(1, 2), new Position(5, 2));
+        board.move(new Position(4, 1), new Position(5, 1));
+
+        assertThatThrownBy(() -> board.move(new Position(5, 2), new Position(3, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
     }
 }

@@ -1,11 +1,14 @@
 package view;
 
-import static domain.Position.INITIAL_POSITION;
-import static domain.Position.X_MAXIMUM_POSITION;
-import static domain.Position.Y_MAXIMUM_POSITION;
+import static domain.board.Position.INITIAL_POSITION;
+import static domain.board.Position.X_MAXIMUM_POSITION;
+import static domain.board.Position.Y_MAXIMUM_POSITION;
 
-import domain.Position;
+import domain.board.Board;
+import domain.board.Country;
+import domain.board.Position;
 import domain.piece.PieceInfo;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +26,11 @@ public class OutputView {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, countryName);
     }
 
-    public void printBoard(Map<Position, PieceInfo> pieceInfos) {
-        System.out.println();
+    public void printBoard(Board board) {
+        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
+        board.forEachPiece(pieceInfos::put);
 
+        System.out.println();
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
             System.out.print(POSITION_NUMBERS.get(y));
             printRow(pieceInfos, y);
@@ -51,6 +56,16 @@ public class OutputView {
     private void printXPositionNumbers() {
         System.out.print(X_POSITION_START_BLANK);
         System.out.println(String.join(STATE_SEPARATOR, POSITION_NUMBERS.subList(0, 9)));
+    }
+
+    public void printCurrentScores(Country country, double currentScore) {
+        System.out.println(CountryFormatter.from(country) + " 점수: " + currentScore);
+    }
+
+    public void printWinner(String winCountry, String loseCountry) {
+        System.out.println();
+        System.out.println(winCountry + "가 " + loseCountry + " 궁을 잡았습니다.");
+        System.out.println(winCountry + "가 승리했습니다!");
     }
 
     public void printErrorMessage(String message) {

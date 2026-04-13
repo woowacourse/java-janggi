@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.Country;
-import domain.Direction;
+import domain.board.Country;
+import domain.board.Direction;
 import java.util.List;
 
 public class Elephant extends Piece {

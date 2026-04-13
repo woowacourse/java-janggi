@@ -1,15 +1,15 @@
 package domain.piece;
 
-import domain.Board;
-import domain.Country;
-import domain.Direction;
-import domain.Distance;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Direction;
+import domain.board.Position;
+import dto.Distance;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
-    private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+    protected static final String ONLY_MOVE_STRAIGHT = "[ERROR] 직선으로만 이동 가능합니다.";
+    protected static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
 
     protected final PieceInfo pieceInfo;
 
@@ -29,22 +29,29 @@ public abstract class Piece {
 
     public List<Direction> findMovingDirections(Position from, Position to) {
         Distance distance = from.calculateDistance(to);
-        int x = distance.x();
-        int y = distance.y();
+        List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
 
-        List<Direction> directions = Direction.findDirections(x, y);
+        if (isInPalaceMove(from, to, pieceInfo.country())) {
+            validateDirectionsInPalace(directions);
+            return directions;
+        }
         validateDirections(directions);
         return directions;
     }
 
     abstract protected void validateDirections(List<Direction> directions);
 
-    public void validateClearPath(List<Position> paths, Board board) {
-        for (int index = 0; index < paths.size() - 1; index++) {
-            if (!board.isEmpty(paths.get(index))) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-            }
+    protected void validateDirectionsInPalace(List<Direction> directions) {
+    }
+
+    public void validateClearPath(List<PieceType> pieceTypes, PieceType destinationPieceType) {
+        if (!pieceTypes.isEmpty()) {
+            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
+    }
+
+    protected boolean isInPalaceMove(Position from, Position to, Country country) {
+        return false;
     }
 
     public PieceInfo getPieceInfo() {

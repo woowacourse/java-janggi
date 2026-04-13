@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import domain.piece.PieceType;
 import java.util.ArrayList;
@@ -40,5 +40,9 @@ public enum TableSetting {
             return pieceTypes;
         }
         return pieceTypes;
+    }
+
+    public String getFormationName() {
+        return formationName;
     }
 }

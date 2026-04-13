@@ -1,4 +1,4 @@
-package domain;
+package dto;
 
 public record Distance(
         int x,

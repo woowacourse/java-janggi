@@ -3,8 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -76,15 +76,14 @@ public class GuardTest {
     }
 
     @Test
-    @DisplayName("사가 대각선으로 이동할 경우 예외가 발생한다.")
-    void soldierDiagonalExceptionTest() {
-        Piece guard = new Guard(Country.CHO);
+    @DisplayName("사가 궁성 내부에서 대각선으로 이동할 수 있다.")
+    void guardDiagonalInPalaceTest() {
+        Piece choGuard = new Guard(Country.CHO);
+        Piece hanGuard = new Guard(Country.HAN);
 
-        Position from = new Position(3, 0);
-        Position choTo = new Position(2, 1);
-
-        assertThatThrownBy(() -> guard.findPaths(from, choTo))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
+        assertThat(choGuard.findPaths(new Position(3, 0), new Position(4, 1)))
+                .isEqualTo(List.of(new Position(4, 1)));
+        assertThat(hanGuard.findPaths(new Position(3, 9), new Position(4, 8)))
+                .isEqualTo(List.of(new Position(4, 8)));
     }
 }
