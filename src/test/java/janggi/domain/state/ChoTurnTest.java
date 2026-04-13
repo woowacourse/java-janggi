@@ -30,7 +30,7 @@ public class ChoTurnTest {
         GameState state = new ChoTurn();
         for (int i = 4; i < 9; i++) {
             state = new ChoTurn();
-            Position from = Position.of(i-1, 4);
+            Position from = Position.of(i - 1, 4);
             Position to = Position.of(i, 4);
             state = state.move(from, to, board);
         }

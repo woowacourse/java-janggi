@@ -4,8 +4,9 @@ import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.board.strategy.FormationStrategy;
-import janggi.domain.piece.*;
-import janggi.domain.piece.strategy.*;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceDisplayName;
+import janggi.domain.piece.PieceFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;

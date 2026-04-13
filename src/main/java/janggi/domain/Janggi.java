@@ -7,12 +7,9 @@ import janggi.domain.state.ChoTurn;
 import janggi.domain.state.Draw;
 import janggi.domain.state.GameState;
 import janggi.domain.state.GiveUp;
-import janggi.view.dto.PieceStatus;
-import janggi.view.dto.GameResult;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class Janggi {
     private static final List<FormationStrategy> FORMATIONS = List.of(

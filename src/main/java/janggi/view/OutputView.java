@@ -1,6 +1,5 @@
 package janggi.view;
 
-import janggi.domain.Camp;
 import janggi.view.dto.GameResult;
 import janggi.view.dto.PieceStatus;
 
@@ -73,7 +72,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private String intersectionRow(int row,  Map<String, PieceStatus> boardMap) {
+    private String intersectionRow(int row, Map<String, PieceStatus> boardMap) {
         return IntStream.range(0, COL_SIZE)
                 .mapToObj(col -> renderCell(row, col, boardMap))
                 .collect(Collectors.joining("－"));

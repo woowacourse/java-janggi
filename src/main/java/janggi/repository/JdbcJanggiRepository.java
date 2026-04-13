@@ -10,7 +10,10 @@ import janggi.domain.state.GameState;
 import janggi.domain.state.GameStateFactory;
 
 import java.sql.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class JdbcJanggiRepository implements JanggiRepository {
 
@@ -140,7 +143,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
     public Optional<Janggi> findById(Long id) {
         String sql = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = DBConnectionProvider.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             return executeGameSelect(connection, statement, id);
         } catch (SQLException e) {
             throw new RuntimeException("게임 조회 중 오류 발생", e);

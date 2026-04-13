@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Position;
-import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import janggi.domain.piece.strategy.HorseStrategy;
 import org.junit.jupiter.api.DisplayName;

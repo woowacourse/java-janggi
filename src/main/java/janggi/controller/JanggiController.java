@@ -1,8 +1,8 @@
 package janggi.controller;
 
-import janggi.service.JanggiService;
 import janggi.domain.Camp;
 import janggi.domain.Position;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameResult;
@@ -81,7 +81,7 @@ public class JanggiController {
     private void playJanggiGame(Long gameId) {
         Optional<GameResult> gameResult = Optional.empty();
         while (janggiService.isOngoing(gameId)) {
-             gameResult = playTurn(gameId);
+            gameResult = playTurn(gameId);
         }
         if (gameResult.isPresent()) {
             outputView.printGameResult(gameResult.orElseThrow());

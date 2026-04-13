@@ -35,12 +35,15 @@ public record Direction(int directionRow, int directionColumn) {
     public static Direction northWest() {
         return new Direction(1, -1);
     }
+
     public static Direction northEast() {
         return new Direction(1, 1);
     }
+
     public static Direction southWest() {
         return new Direction(-1, -1);
     }
+
     public static Direction southEast() {
         return new Direction(-1, 1);
     }

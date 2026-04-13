@@ -11,7 +11,6 @@ import janggi.view.dto.PieceStatus;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class JanggiService {
     private final JanggiRepository janggiRepository;

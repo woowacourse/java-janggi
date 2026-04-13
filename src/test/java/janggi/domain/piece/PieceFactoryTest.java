@@ -29,7 +29,7 @@ public class PieceFactoryTest {
     @DisplayName("올바른 PieceType이면 올바른 Piece를 반환한다")
     @ParameterizedTest
     @MethodSource("pieceProvider")
-    void create_CorrectPieceType_ReturnCorrectPiece(String pieceType,  Class<? extends Piece> pieceClass) {
+    void create_CorrectPieceType_ReturnCorrectPiece(String pieceType, Class<? extends Piece> pieceClass) {
         assertThat(PieceFactory.create(pieceType, Camp.CHO)).isInstanceOf(pieceClass);
     }
 

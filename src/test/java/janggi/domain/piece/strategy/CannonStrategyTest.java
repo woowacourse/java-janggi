@@ -14,7 +14,7 @@ public class CannonStrategyTest implements LinearMoveAssertion {
     @Test
     @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
     void findMovablePaths_ReturnAllLinearCandidates() {
-            assertLinearStrategy(new CannonStrategy());
+        assertLinearStrategy(new CannonStrategy());
     }
 
     @DisplayName("포가 궁전 중앙이면 8방향의 경로를 반환한다")

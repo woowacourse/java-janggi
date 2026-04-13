@@ -1,8 +1,8 @@
 package janggi.config;
 
-import janggi.service.JanggiService;
 import janggi.controller.JanggiController;
 import janggi.repository.JdbcJanggiRepository;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

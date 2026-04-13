@@ -13,9 +13,11 @@ public record PieceStatus(
         return new PieceStatus(new PositionInfo(row, col), new PieceInfo(camp.isCho(), displayName));
     }
 
-    private record PositionInfo(int row, int col) {}
+    private record PositionInfo(int row, int col) {
+    }
 
-    private record PieceInfo(boolean isCho, String displayName) {}
+    private record PieceInfo(boolean isCho, String displayName) {
+    }
 
     public int getRow() {
         return positionInfo.row();

@@ -31,7 +31,7 @@ public class HanTurnTest {
         for (int i = 6; i > 1; i--) {
             state = new HanTurn();
             Position from = Position.of(i, 4);
-            Position to = Position.of(i-1, 4);
+            Position to = Position.of(i - 1, 4);
             state = state.move(from, to, board);
         }
 

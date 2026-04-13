@@ -4,7 +4,6 @@ import janggi.domain.Path;
 import janggi.domain.Position;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GeneralStrategy implements MoveStrategy {
