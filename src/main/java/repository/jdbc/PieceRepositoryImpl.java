@@ -1,5 +1,6 @@
 package repository.jdbc;
 
+import domain.piece.Piece;
 import domain.piece.PieceRepository;
 import repository.entity.PieceEntity;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class PieceRepositoryImpl implements PieceRepository {
     @Override
-    public List<PieceEntity> findByGameId(final Connection connection, final long gameId) {
+    public List<Piece> findByGameId(final Connection connection, final long gameId) {
         return List.of();
     }
 

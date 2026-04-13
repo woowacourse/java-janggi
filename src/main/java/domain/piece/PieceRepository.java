@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PieceRepository {
 
-    List<PieceEntity> findByGameId(Connection connection, long gameId);
+    List<Piece> findByGameId(Connection connection, long gameId);
 
     void move(Connection connection, long gameId, int fromRow, int fromColumn, int toRow, int toColumn);
 
