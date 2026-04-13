@@ -37,7 +37,14 @@ public class FileGameRepository implements GameRepository {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void save(Game game, long id) {
+    public long create(Game game) {
+        long gameId = nextGameId();
+        update(game, gameId);
+        return gameId;
+    }
+
+    @Override
+    public void update(Game game, long id) {
         GameData gameData = GameData.from(game);
         String gameJson = toJson(gameData);
         writeFile(gameFilePath(id), gameJson);
@@ -175,6 +182,23 @@ public class FileGameRepository implements GameRepository {
 
     private Path gameFilePath(long gameId) {
         return Path.of(SAVE_DIRECTORY).resolve(GAME_FILE_NAME_FORMAT.formatted(gameId));
+    }
+
+    private long nextGameId() {
+        Path saveDirectory = Path.of(SAVE_DIRECTORY);
+        if (Files.notExists(saveDirectory)) {
+            return 1L;
+        }
+
+        try {
+            return Files.list(saveDirectory)
+                    .filter(this::isGameFile)
+                    .mapToLong(this::extractGameId)
+                    .max()
+                    .orElse(1L);
+        } catch (IOException e) {
+            throw new FileException("다음 게임 ID를 생성할 수 없습니다.");
+        }
     }
 
     private boolean isGameFile(Path path) {

@@ -4,7 +4,9 @@ import domain.game.Game;
 import java.util.List;
 
 public interface GameRepository {
-    void save(Game game, long id);
+    long create(Game game);
+
+    void update(Game game, long id);
 
     Game findBy(long id);
 

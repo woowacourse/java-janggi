@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +27,14 @@ import java.util.Map.Entry;
 
 public class H2GameRepository implements GameRepository {
 
-    private static final String UPSERT_GAME_SQL = """
-            merge into games key(id) values (?, ?, ?, ?)
+    private static final String INSERT_GAME_SQL = """
+            insert into games(cho_player_name, han_player_name, current_team)
+            values (?, ?, ?)
+            """;
+    private static final String UPDATE_GAME_SQL = """
+            update games
+            set cho_player_name = ?, han_player_name = ?, current_team = ?
+            where id = ?
             """;
     private static final String DELETE_BOARD_PIECES_SQL = "delete from board_pieces where game_id = ?";
     private static final String DELETE_CAUGHT_PIECES_SQL = "delete from caught_pieces where game_id = ?";
@@ -71,11 +78,29 @@ public class H2GameRepository implements GameRepository {
     }
 
     @Override
-    public void save(Game game, long gameId) {
+    public long create(Game game) {
         Connection connection = connectionManager.getConnection();
         try {
             connection.setAutoCommit(false);
-            saveGame(connection, gameId, game);
+            long gameId = saveNewGame(connection, game);
+            saveBoardPieces(connection, gameId, game);
+            saveCaughtPieces(connection, gameId, game);
+            connection.commit();
+            return gameId;
+        } catch (SQLException e) {
+            rollback(connection);
+            throw new DatabaseException("게임 저장에 실패했습니다.");
+        } finally {
+            close(connection);
+        }
+    }
+
+    @Override
+    public void update(Game game, long gameId) {
+        Connection connection = connectionManager.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            updateGame(connection, gameId, game);
             deletePieces(connection, gameId);
             saveBoardPieces(connection, gameId, game);
             saveCaughtPieces(connection, gameId, game);
@@ -137,12 +162,27 @@ public class H2GameRepository implements GameRepository {
         tableInitializer.initialize();
     }
 
-    private void saveGame(Connection connection, long gameId, Game game) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(UPSERT_GAME_SQL)) {
-            statement.setLong(1, gameId);
-            statement.setString(2, game.getChoPlayerName());
-            statement.setString(3, game.getHanPlayerName());
-            statement.setString(4, game.getCurrentTeam().name());
+    private long saveNewGame(Connection connection, Game game) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, game.getChoPlayerName());
+            statement.setString(2, game.getHanPlayerName());
+            statement.setString(3, game.getCurrentTeam().name());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (!generatedKeys.next()) {
+                throw new DatabaseException("생성된 게임 ID를 찾을 수 없습니다.");
+            }
+            return generatedKeys.getLong(1);
+        }
+    }
+
+    private void updateGame(Connection connection, long gameId, Game game) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_SQL)) {
+            statement.setString(1, game.getChoPlayerName());
+            statement.setString(2, game.getHanPlayerName());
+            statement.setString(3, game.getCurrentTeam().name());
+            statement.setLong(4, gameId);
             statement.executeUpdate();
         }
     }

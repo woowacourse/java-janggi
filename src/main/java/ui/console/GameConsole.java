@@ -59,12 +59,11 @@ public class GameConsole {
     }
 
     private Game createNewGame() {
-        retryOnInvalidInput(() -> {
-            gameId = inputView.askGameId();
-        });
         Players players = createPlayers();
         Board board = createBoard();
-        return new Game(players, board);
+        Game newGame = new Game(players, board);
+        gameId = gameRepository.create(newGame);
+        return newGame;
     }
 
     private Game loadGame() {
@@ -93,7 +92,7 @@ public class GameConsole {
         outputView.printCaughtPieces(game.getCaughtPieces());
         outputView.printScore(game.getScore().getChoScore(), game.getScore().getHanScore());
 
-        gameRepository.save(game, gameId);
+        gameRepository.update(game, gameId);
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
