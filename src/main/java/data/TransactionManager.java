@@ -12,31 +12,45 @@ public class TransactionManager {
     }
 
     public <T> T executeTransaction(TransactionWork<T> transactionWork) {
-        Connection connection = null;
+        Connection connection = getConnection();
         try {
-            connection = dataSource.getConnection();
             connection.setAutoCommit(false);
-
             T result = transactionWork.run(connection);
 
             connection.commit();
             return result;
         } catch (Exception e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+            rollback(connection);
             throw new RuntimeException(e);
         } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+            close(connection);
+        }
+    }
+
+    private Connection getConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void close(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void rollback(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         }
     }
