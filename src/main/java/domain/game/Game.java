@@ -50,14 +50,14 @@ public class Game {
     }
 
     public void movePiece(Position source, Position destination) {
-        Piece destinationPiece = board.findPiece(destination);
+        catchPieceBeforeMove(destination);
         board.move(source, destination);
-        catchPiece(destinationPiece);
     }
 
-    public void catchPiece(Piece caughtPiece) {
-        if (!caughtPiece.isNone()) {
-            caughtPieces.add(caughtPiece);
+    public void catchPieceBeforeMove(Position destination) {
+        Piece destinationPiece = board.findPiece(destination);
+        if (!destinationPiece.isNone()) {
+            caughtPieces.add(destinationPiece);
         }
     }
 
