@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public enum HorseMoveRule {
-
-    UP_CROSS_RIGHT(java.util.List.of(Position::up, Position::upCrossRight)),
-    UP_CROSS_LEFT(java.util.List.of(Position::up, Position::upCrossLeft)),
+    UP_CROSS_RIGHT(List.of(Position::up, Position::upCrossRight)),
+    UP_CROSS_LEFT(List.of(Position::up, Position::upCrossLeft)),
 
     DOWN_CROSS_RIGHT(List.of(Position::down, Position::downCrossRight)),
     DOWN_CROSS_LEFT(List.of(Position::down, Position::downCrossLeft)),
