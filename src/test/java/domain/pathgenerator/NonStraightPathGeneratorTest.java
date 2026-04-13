@@ -10,9 +10,8 @@ import static domain.direction.Direction.SOUTH_EAST;
 import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -37,7 +36,7 @@ class NonStraightPathGeneratorTest {
     void 리스트를_받으면_이동규칙으로_Path객체를_만든다() {
         nonStraightPathGenerator = new NonStraightPathGenerator(sangPaths);
 
-        Path path = nonStraightPathGenerator.calculatePath(new Position(5, 4), new Position(8, 6));
+        Path path = nonStraightPathGenerator.calculatePath(new Position(5, 4), new Position(8, 6)).get();
 
         assertEquals(createPosition(5, 4), path.source());
         List<Position> waypoints = path.waypoints();
@@ -50,10 +49,9 @@ class NonStraightPathGeneratorTest {
 
 
     @Test
-    void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
+    void 이동할_수_없는_위치를_입력하면_빈_Optional을_반환한다() {
         nonStraightPathGenerator = new NonStraightPathGenerator(sangPaths);
 
-        assertThrows(JanggiException.class,
-                () -> nonStraightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
+        assertTrue(nonStraightPathGenerator.calculatePath(createPosition(1, 1), createPosition(4, 4)).isEmpty());
     }
 }

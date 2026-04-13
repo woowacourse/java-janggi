@@ -2,18 +2,16 @@ package domain.piece;
 
 import static domain.direction.Direction.EAST;
 import static domain.direction.Direction.NORTH;
-import static domain.direction.Direction.NORTH_EAST;
-import static domain.direction.Direction.NORTH_WEST;
 import static domain.direction.Direction.SOUTH;
-import static domain.direction.Direction.SOUTH_EAST;
-import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
+import domain.pathgenerator.CompositePathGenerator;
+import domain.pathgenerator.GungsungDiagonalPathGenerator;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
-import domain.strategy.BlockedMovementStrategy;
+import domain.strategy.GungsungMovementStrategy;
 import domain.strategy.MovementStrategy;
 import java.util.List;
 
@@ -23,15 +21,14 @@ public class Sa extends Piece {
             List.of(NORTH),
             List.of(SOUTH),
             List.of(EAST),
-            List.of(WEST),
-            List.of(NORTH_EAST),
-            List.of(NORTH_WEST),
-            List.of(SOUTH_EAST),
-            List.of(SOUTH_WEST)
+            List.of(WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
-    private static final PathGenerator PATH_GENERATOR = new NonStraightPathGenerator(PATHS);
+    private static final MovementStrategy MOVEMENT_STRATEGY = new GungsungMovementStrategy();
+    private static final PathGenerator PATH_GENERATOR = new CompositePathGenerator(List.of(
+            new NonStraightPathGenerator(PATHS),
+            new GungsungDiagonalPathGenerator()
+    ));
 
     public Sa(Team team) {
         super(team, PieceType.SA);

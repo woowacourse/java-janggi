@@ -1,9 +1,9 @@
 package ui.view;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
+import static domain.board.Board.MAX_COLUMN;
+import static domain.board.Board.MAX_ROW;
+import static domain.board.Board.MIN_COLUMN;
+import static domain.board.Board.MIN_ROW;
 
 import domain.piece.Piece;
 import domain.player.Team;
@@ -11,6 +11,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import repository.GameInformation;
 
 public class OutputView {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -37,6 +38,11 @@ public class OutputView {
         if (winner.isHan()) {
             System.out.println("한 팀이 이겼습니다.");
         }
+    }
+
+    public void printScore(double choScore, double hanScore) {
+        System.out.printf("초 : %.1f점%n", choScore);
+        System.out.printf("한 : %.1f점%n", hanScore);
     }
 
     public void printErrorMessage(String message) {
@@ -121,5 +127,23 @@ public class OutputView {
             }
         }
         System.out.println(sb);
+    }
+
+    // todo : game id를 어디서 관리할지 결정
+    public void printGameList(List<GameInformation> gameInformations) {
+        System.out.println("===== 저장된 게임 목록 =====");
+        if (gameInformations.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다.");
+            return;
+        }
+
+        for (GameInformation gameInformation : gameInformations) {
+            System.out.printf(
+                    "id: %d, 초: %s, 한: %s%n",
+                    gameInformation.id(),
+                    gameInformation.choPlayerName(),
+                    gameInformation.hanPlayerName()
+            );
+        }
     }
 }

@@ -1,15 +1,17 @@
 package domain.position;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-import static common.exception.ErrorMessage.INVALID_COLUMN_RANGE;
-import static common.exception.ErrorMessage.INVALID_ROW_RANGE;
+import static domain.board.Board.MAX_COLUMN;
+import static domain.board.Board.MAX_ROW;
+import static domain.board.Board.MIN_COLUMN;
+import static domain.board.Board.MIN_ROW;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 
 public record Position(int row, int column) {
+
+    private static final String INVALID_ROW_RANGE = "행값은 %s이상 %s이하여야 합니다. 입력값: %s";
+    private static final String INVALID_COLUMN_RANGE = "열값은 %s이상 %s이하여야 합니다. 입력값: %s";
+
     public Position {
         validate(row, column);
     }

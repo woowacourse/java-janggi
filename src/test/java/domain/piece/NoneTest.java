@@ -1,13 +1,12 @@
 package domain.piece;
 
-import static domain.piece.None.CAN_NOT_MOVE;
-import static domain.piece.None.DOES_NOT_HAVE_TEAM;
-
-import common.exception.JanggiException;
+import common.JanggiException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class NoneTest {
+    private static final String DOES_NOT_HAVE_TEAM = "빈 칸에는 팀이 없습니다.";
+    private static final String CAN_NOT_MOVE = "빈 칸에는 기물이 없어 이동할 수 없습니다.";
 
     @Test
     void getTeam함수를_호출하면_에러를_던진다() {

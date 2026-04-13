@@ -1,9 +1,7 @@
 package domain.direction;
 
-import static common.exception.ErrorMessage.INVALID_DIRECTION;
-
-import common.exception.JanggiException;
 import domain.position.Position;
+import java.util.Arrays;
 
 public enum Direction {
 
@@ -24,20 +22,18 @@ public enum Direction {
         this.offsetColumn = offsetColumn;
     }
 
-    public static Direction fromStraight(int rowDifference, int columnDifference) {
-        if (rowDifference < 0) {
-            return NORTH;
-        }
-        if (rowDifference > 0) {
-            return SOUTH;
-        }
-        if (columnDifference < 0) {
-            return WEST;
-        }
-        if (columnDifference > 0) {
-            return EAST;
-        }
-        throw new JanggiException(INVALID_DIRECTION.formatted(rowDifference, columnDifference));
+    public static Direction fromDelta(int deltaRow, int deltaColumn) {
+        int offsetRow = Integer.signum(deltaRow);
+        int offsetColumn = Integer.signum(deltaColumn);
+
+        return getDirection(offsetRow, offsetColumn);
+    }
+
+    private static Direction getDirection(int offsetRow, int offsetColumn) {
+        return Arrays.stream(values())
+                .filter(direction -> direction.offsetRow == offsetRow && direction.offsetColumn == offsetColumn)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("방향을 계산할 수 없습니다."));
     }
 
     public Position calculateNextPosition(Position source) {
@@ -48,5 +44,13 @@ public enum Direction {
         int nextRow = source.row() + this.offsetRow;
         int nextColumn = source.column() + this.offsetColumn;
         return Position.isValid(nextRow, nextColumn);
+    }
+
+    public boolean isStraight() {
+        return this == NORTH || this == SOUTH || this == EAST || this == WEST;
+    }
+
+    public boolean isDiagonal() {
+        return this == NORTH_EAST || this == NORTH_WEST || this == SOUTH_EAST || this == SOUTH_WEST;
     }
 }

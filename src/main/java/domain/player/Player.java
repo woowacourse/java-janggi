@@ -1,18 +1,12 @@
 package domain.player;
 
-public final class Player {
+public record Player(Name name, Team team) {
 
-    private final PlayerProfile playerProfile;
-
-    public Player(Name name, Team team) {
-        playerProfile = new PlayerProfile(name, team);
+    public static Player of(String name, Team team) {
+        return new Player(new Name(name), team);
     }
 
-    public String getName() {
-        return playerProfile.name().value();
-    }
-
-    public Team getTeam() {
-        return playerProfile.team();
+    public String getNameValue() {
+        return name.value();
     }
 }

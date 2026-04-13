@@ -6,6 +6,8 @@ import static domain.direction.Direction.SOUTH;
 import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
+import domain.pathgenerator.CompositePathGenerator;
+import domain.pathgenerator.GungsungDiagonalPathGenerator;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
@@ -26,8 +28,14 @@ public class Jol extends Piece {
             List.of(WEST));
 
     private static final MovementStrategy STRATEGY = new BlockedMovementStrategy();
-    private static final PathGenerator CHO_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);
-    private static final PathGenerator HAN_GENERATOR = new NonStraightPathGenerator(HAN_PATHS);
+    private static final PathGenerator CHO_GENERATOR = new CompositePathGenerator(List.of(
+            new NonStraightPathGenerator(CHO_PATHS),
+            new GungsungDiagonalPathGenerator()
+    ));
+    private static final PathGenerator HAN_GENERATOR = new CompositePathGenerator(List.of(
+            new NonStraightPathGenerator(HAN_PATHS),
+            new GungsungDiagonalPathGenerator()
+    ));
 
     public Jol(Team team) {
         super(team, PieceType.JOL);

@@ -1,14 +1,14 @@
 package domain.player;
 
 import static domain.TestUtil.createPlayer;
-import static domain.player.Players.PLAYER_DUPLICATED;
-import static domain.player.Players.PLAYER_LIMIT_EXCEEDED;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import org.junit.jupiter.api.Test;
 
 class PlayersTest {
+    private static final String PLAYER_DUPLICATED = "플레이어는 중복될 수 없습니다.";
+    private static final String PLAYER_LIMIT_EXCEEDED = "플레이어는 두 명을 초과할 수 없습니다.";
 
     @Test
     void 닉네임이_중복되면_에러를_던진다() {

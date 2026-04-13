@@ -1,37 +1,66 @@
 package domain.pathgenerator;
 
-import static common.exception.ErrorMessage.INVALID_STRAIGHT_PATH;
-
-import common.exception.JanggiException;
+import domain.board.Board;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class StraightPathGenerator implements PathGenerator {
 
     @Override
-    public Path calculatePath(Position source, Position destination) {
+    public Optional<Path> calculatePath(Position source, Position destination) {
         if (!isPathPossible(source, destination)) {
-            throw new JanggiException(INVALID_STRAIGHT_PATH.getMessage());
+            return Optional.empty();
         }
         Direction direction = determineDirection(source, destination);
-        return buildPath(source, destination, direction);
+        if (!direction.isStraight()) {
+            return Optional.empty();
+        }
+        return Optional.of(buildPath(source, destination, direction));
     }
 
     @Override
-    public boolean isPathPossible(Position source, Position destination) {
+    public Set<Position> findCandidateDestinations(Position source) {
+        Set<Position> candidateDestinations = new HashSet<>();
+
+        for (int row = Board.MIN_ROW; row <= Board.MAX_ROW; row++) {
+            if (row != source.row()) {
+                candidateDestinations.add(new Position(row, source.column()));
+            }
+        }
+
+        for (int column = Board.MIN_COLUMN; column <= Board.MAX_COLUMN; column++) {
+            if (column != source.column()) {
+                candidateDestinations.add(new Position(source.row(), column));
+            }
+        }
+        return candidateDestinations;
+    }
+
+    private boolean isPathPossible(Position source, Position destination) {
         if (source.equals(destination)) {
             return false;
         }
-        return source.row() == destination.row() || source.column() == destination.column();
+        return isHorizontal(source, destination) || isVertical(source, destination);
+    }
+
+    private boolean isHorizontal(Position source, Position destination) {
+        return source.row() == destination.row();
+    }
+
+    private boolean isVertical(Position source, Position destination) {
+        return source.column() == destination.column();
     }
 
     private Direction determineDirection(Position source, Position destination) {
         int rowDifference = destination.row() - source.row();
         int columnDifference = destination.column() - source.column();
-        return Direction.fromStraight(rowDifference, columnDifference);
+        return Direction.fromDelta(rowDifference, columnDifference);
     }
 
     private Path buildPath(Position source, Position destination, Direction direction) {

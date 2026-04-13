@@ -1,15 +1,19 @@
 package ui.view;
 
-import static common.exception.ErrorMessage.INVALID_NUMBER_INPUT;
-import static common.exception.ErrorMessage.INVALID_POSITION_INPUT;
-
-import common.exception.JanggiException;
+import common.JanggiException;
 import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
+    private static final String INVALID_NUMBER_INPUT = "숫자만 입력해주세요.";
+    private static final String INVALID_POSITION_INPUT = "숫자 두 개를 공백으로 구분하여 입력하세요.";
     private final Scanner scanner = new Scanner(System.in);
+
+    public String askNewOrLoadOption() {
+        System.out.println("게임을 불러오시겠습니까? (y or n)");
+        return scanner.nextLine();
+    }
 
     public String askChoPlayerName() {
         System.out.println("선공 닉네임을 입력하세요.");
@@ -26,7 +30,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new JanggiException(INVALID_NUMBER_INPUT.getMessage());
+            throw new JanggiException(INVALID_NUMBER_INPUT);
         }
     }
 
@@ -35,7 +39,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new JanggiException(INVALID_NUMBER_INPUT.getMessage());
+            throw new JanggiException(INVALID_NUMBER_INPUT);
         }
     }
 
@@ -56,11 +60,20 @@ public class InputView {
                     .map(Integer::parseInt)
                     .toList();
             if (numbers.size() != 2) {
-                throw new JanggiException(INVALID_POSITION_INPUT.getMessage());
+                throw new JanggiException(INVALID_POSITION_INPUT);
             }
             return numbers;
         } catch (NumberFormatException e) {
-            throw new JanggiException(INVALID_POSITION_INPUT.getMessage());
+            throw new JanggiException(INVALID_POSITION_INPUT);
+        }
+    }
+
+    public long askGameId() {
+        System.out.println("게임 ID를 입력하세요.");
+        try {
+            return Long.parseLong(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            throw new JanggiException(INVALID_NUMBER_INPUT);
         }
     }
 }

@@ -3,13 +3,16 @@ package domain.board;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.piece.Cha;
+import domain.piece.Jang;
 import domain.piece.Jol;
 import domain.piece.None;
 import domain.piece.Piece;
 import domain.piece.Po;
+import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
@@ -174,5 +177,24 @@ class BoardTest {
                     .count()
             );
         }
+    }
+
+    @Test
+    void 보드에_존재하는_기물을_조회한다() {
+        Map<Position, Piece> boardMap = createEmptyBoard();
+        Piece choCha = new Cha(Team.CHO);
+        Piece choJol = new Jol(Team.CHO);
+        Piece hanJang = new Jang(Team.HAN);
+        Piece hanSa = new Sa(Team.HAN);
+        boardMap.put(new Position(0, 0), choCha);
+        boardMap.put(new Position(3, 4), choJol);
+        boardMap.put(new Position(1, 4), hanJang);
+        boardMap.put(new Position(2, 5), hanSa);
+
+        Board board = new Board(boardMap);
+
+        List<Piece> remainPieces = board.getRemainPieces();
+
+        assertTrue(remainPieces.containsAll(List.of(choCha, choJol, hanJang, hanSa)));
     }
 }

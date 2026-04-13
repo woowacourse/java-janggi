@@ -3,7 +3,7 @@ package ui.console;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -16,13 +16,18 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import repository.GameRepository;
+import repository.H2ConnectionManager;
+import repository.H2GameRepository;
 import ui.view.InputView;
 import ui.view.OutputView;
 
 public class GameConsole {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
+    GameRepository gameRepository = new H2GameRepository(new H2ConnectionManager());
 
+    private long gameId;
     private Game game;
 
     public void run() {
@@ -38,9 +43,35 @@ public class GameConsole {
     }
 
     private Game createGame() {
+        return retryOnInvalidInput(() -> {
+            if (gameRepository.count() == 0) {
+                return createNewGame();
+            }
+            String newOrLoadOption = inputView.askNewOrLoadOption();
+            if ("y".equals(newOrLoadOption)) {
+                return loadGame();
+            }
+            if ("n".equals(newOrLoadOption)) {
+                return createNewGame();
+            }
+            throw new JanggiException("y 혹은 n을 입력해주세요.");
+        });
+    }
+
+    private Game createNewGame() {
         Players players = createPlayers();
         Board board = createBoard();
-        return new Game(players, board);
+        Game newGame = new Game(players, board);
+        gameId = gameRepository.create(newGame);
+        return newGame;
+    }
+
+    private Game loadGame() {
+        outputView.printGameList(gameRepository.findAll());
+        return retryOnInvalidInput(() -> {
+            gameId = inputView.askGameId();
+            return gameRepository.findBy(gameId);
+        });
     }
 
     private void playTurn() {
@@ -59,6 +90,9 @@ public class GameConsole {
         });
         outputView.printBoard(game.getBoardMap());
         outputView.printCaughtPieces(game.getCaughtPieces());
+        outputView.printScore(game.getScore().getChoScore(), game.getScore().getHanScore());
+
+        gameRepository.update(game, gameId);
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {

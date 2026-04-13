@@ -1,12 +1,12 @@
 package domain.player;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
-    public static final String PLAYER_DUPLICATED = "플레이어는 중복될 수 없습니다.";
-    public static final String PLAYER_LIMIT_EXCEEDED = "플레이어는 두 명을 초과할 수 없습니다.";
+    private static final String PLAYER_DUPLICATED = "플레이어는 중복될 수 없습니다.";
+    private static final String PLAYER_LIMIT_EXCEEDED = "플레이어는 두 명을 초과할 수 없습니다.";
     private final List<Player> players;
 
     public Players() {
@@ -14,9 +14,10 @@ public class Players {
     }
 
     public Players(List<Player> players) {
-        validateSize(players);
-        validateDuplicate(players);
-        this.players = players;
+        List<Player> copiedPlayers = List.copyOf(players);
+        validateSize(copiedPlayers);
+        validateDuplicate(copiedPlayers);
+        this.players = copiedPlayers;
     }
 
     private void validateSize(List<Player> players) {
@@ -27,7 +28,7 @@ public class Players {
 
     private void validateDuplicate(List<Player> players) {
         long distinctPlayerNameCount = players.stream()
-                .map(Player::getName)
+                .map(Player::name)
                 .distinct()
                 .count();
         if (players.size() != distinctPlayerNameCount) {
@@ -43,8 +44,16 @@ public class Players {
 
     public Player getByTeam(Team team) {
         return players.stream()
-                .filter(player -> player.getTeam() == team)
+                .filter(player -> player.team() == team)
                 .findAny()
                 .orElseThrow(() -> new JanggiException("해당 팀의 플레이어가 없습니다."));
+    }
+
+    public String getChoPlayerName() {
+        return getByTeam(Team.CHO).getNameValue();
+    }
+
+    public String getHanPlayerName() {
+        return getByTeam(Team.HAN).getNameValue();
     }
 }

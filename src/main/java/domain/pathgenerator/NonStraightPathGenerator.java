@@ -1,14 +1,14 @@
 package domain.pathgenerator;
 
-import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
-
-import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
@@ -19,18 +19,21 @@ public class NonStraightPathGenerator implements PathGenerator {
     }
 
     @Override
-    public Path calculatePath(Position source, Position destination) {
+    public Optional<Path> calculatePath(Position source, Position destination) {
         return paths.stream()
                 .map(directionPath -> tryBuildPath(source, destination, directionPath))
                 .filter(Objects::nonNull)
-                .findFirst()
-                .orElseThrow(() -> new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
+                .findFirst();
     }
 
     @Override
-    public boolean isPathPossible(Position source, Position destination) {
-        return paths.stream()
-                .anyMatch(directionPath -> tryBuildPath(source, destination, directionPath) != null);
+    public Set<Position> findCandidateDestinations(Position source) {
+        Set<Position> candidateDestinations = new HashSet<>();
+        for (List<Direction> directionPath : paths) {
+            findDestination(source, directionPath)
+                    .ifPresent(candidateDestinations::add);
+        }
+        return candidateDestinations;
     }
 
     private Path tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
@@ -51,5 +54,16 @@ public class NonStraightPathGenerator implements PathGenerator {
 
         waypoints.removeLast();
         return new Path(source, destination, waypoints);
+    }
+
+    private Optional<Position> findDestination(Position source, List<Direction> directionPath) {
+        Position current = source;
+        for (Direction direction : directionPath) {
+            if (!direction.canCalculateNextPosition(current)) {
+                return Optional.empty();
+            }
+            current = direction.calculateNextPosition(current);
+        }
+        return Optional.of(current);
     }
 }

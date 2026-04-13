@@ -1,13 +1,6 @@
 package domain.board;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
-import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
-
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.piece.None;
 import domain.piece.Piece;
 import domain.position.Path;
@@ -18,9 +11,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Board {
+    public static final int MIN_ROW = 0;
+    public static final int MAX_ROW = 9;
+    public static final int MIN_COLUMN = 0;
+    public static final int MAX_COLUMN = 8;
+    private static final String EMPTY_SOURCE_POSITION = "선택한 위치에 기물이 없습니다.";
+    private static final String INVALID_MOVEMENT = "이동할 수 없습니다.";
 
     private final Map<Position, Piece> board;
 
@@ -34,25 +34,21 @@ public class Board {
         executeMove(source, destination);
     }
 
-    private Piece executeMove(Position source, Position destination) {
+    private void executeMove(Position source, Position destination) {
         Piece movePiece = findPiece(source);
-        Piece destinationPiece = findPiece(destination);
 
         board.put(source, new None());
         board.put(destination, movePiece);
-        return destinationPiece;
     }
 
     public Set<Position> findMovablePositions(Position source) {
         validateSource(source);
+        Piece sourcePiece = findPiece(source);
         Set<Position> movablePositions = new HashSet<>();
 
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-                Position destination = new Position(row, column);
-                if (canMove(source, destination)) {
-                    movablePositions.add(destination);
-                }
+        for (Position destination : sourcePiece.findCandidateDestinations(source)) {
+            if (canMove(source, destination)) {
+                movablePositions.add(destination);
             }
         }
         return movablePositions;
@@ -61,18 +57,19 @@ public class Board {
     public boolean canMove(Position source, Position destination) {
         validateSource(source);
         Piece piece = findPiece(source);
-        if (!piece.isPathPossible(source, destination)) {
+        Optional<Path> optionalPath = piece.calculatePath(source, destination);
+        if (optionalPath.isEmpty()) {
             return false;
         }
-        Path path = piece.calculatePath(source, destination);
+        Path path = optionalPath.get();
         PathPieces pathPieces = createPathPieces(path);
-        return piece.isValidPath(pathPieces);
+        return piece.isValidPath(path, pathPieces);
     }
 
     private void validateSource(Position source) {
         Piece sourcePiece = findPiece(source);
         if (sourcePiece.isNone()) {
-            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+            throw new JanggiException(EMPTY_SOURCE_POSITION);
         }
     }
 
@@ -94,7 +91,7 @@ public class Board {
 
     private void validateMovement(Position source, Position destination) {
         if (!canMove(source, destination)) {
-            throw new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
+            throw new JanggiException(INVALID_MOVEMENT);
         }
     }
 
@@ -131,5 +128,11 @@ public class Board {
     @Override
     public int hashCode() {
         return Objects.hashCode(board);
+    }
+
+
+    public List<Piece> getRemainPieces() {
+        return board.values().stream()
+                .toList();
     }
 }

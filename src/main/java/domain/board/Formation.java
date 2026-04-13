@@ -3,7 +3,7 @@ package domain.board;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.piece.PieceType;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public enum Formation {
     MA_SANG_SANG_MA(List.of(MA, SANG, SANG, MA), 3),
     SANG_MA_MA_SANG(List.of(SANG, MA, MA, SANG), 4);
 
-    public static final String INVALID_FORMATION_INPUT = "1에서 4까지 숫자만 입력해주세요. 입력값 : ";
+    private static final String INVALID_FORMATION_INPUT = "1에서 4까지 숫자만 입력해주세요. 입력값 : ";
     private final List<PieceType> formation;
     private final int inputNumber;
 

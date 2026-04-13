@@ -20,7 +20,7 @@ class JolTest {
         Position source = new Position(sourceRow, sourceColumn);
         Position destination = new Position(destinationRow, destinationColumn);
 
-        Path path = jol.calculatePath(source, destination);
+        Path path = jol.calculatePath(source, destination).get();
 
         assertNotNull(path);
         assertEquals(source, path.source());
@@ -35,7 +35,7 @@ class JolTest {
         Position source = new Position(sourceRow, sourceColumn);
         Position destination = new Position(destinationRow, destinationColumn);
 
-        Path path = jol.calculatePath(source, destination);
+        Path path = jol.calculatePath(source, destination).get();
 
         assertNotNull(path);
         assertEquals(source, path.source());

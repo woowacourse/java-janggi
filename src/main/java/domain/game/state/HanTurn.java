@@ -1,6 +1,6 @@
 package domain.game.state;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.game.Game;
 import domain.player.Team;
 import domain.position.Position;
