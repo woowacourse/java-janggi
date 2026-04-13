@@ -6,23 +6,23 @@ public class PieceEntity {
     private final Long gameId;
     private final String team;
     private final String pieceType;
-    private final int row;
-    private final int column;
+    private final int boardRow;
+    private final int boardColumn;
 
     public PieceEntity(
             final Long pieceId,
             final Long gameId,
             final String team,
             final String pieceType,
-            final int row,
-            final int column
+            final int boardRow,
+            final int boardColumn
     ) {
         this.pieceId = pieceId;
         this.gameId = gameId;
         this.team = team;
         this.pieceType = pieceType;
-        this.row = row;
-        this.column = column;
+        this.boardRow = boardRow;
+        this.boardColumn = boardColumn;
     }
 
 
@@ -42,11 +42,11 @@ public class PieceEntity {
         return pieceType;
     }
 
-    public int getRow() {
-        return row;
+    public int getBoardRow() {
+        return boardRow;
     }
 
-    public int getColumn() {
-        return column;
+    public int getBoardColumn() {
+        return boardColumn;
     }
 }

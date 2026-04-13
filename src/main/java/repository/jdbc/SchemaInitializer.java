@@ -28,11 +28,11 @@ public class SchemaInitializer {
         try (Connection connection = dataSource.getConnection()) {
             executeSchema(connection, schema);
         } catch (final SQLException exception) {
-            throw new RuntimeException(SCHEMA_INITIALIZE_FAILED);
+            throw new RuntimeException(SCHEMA_INITIALIZE_FAILED, exception);
         }
     }
 
-    
+
     private String readSchema() {
         final InputStream inputStream = getClass().getResourceAsStream(SCHEMA_FILE);
 
@@ -47,7 +47,7 @@ public class SchemaInitializer {
         try (InputStream stream = inputStream) {
             return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (final IOException exception) {
-            throw new RuntimeException(SCHEMA_FILE_READ_FAILED);
+            throw new RuntimeException(SCHEMA_FILE_READ_FAILED, exception);
         }
     }
 
@@ -55,7 +55,7 @@ public class SchemaInitializer {
         try (Statement statement = connection.createStatement()) {
             executeStatements(statement, schema);
         } catch (final SQLException exception) {
-            throw new RuntimeException(SCHEMA_EXECUTE_FAILED);
+            throw new RuntimeException(SCHEMA_EXECUTE_FAILED, exception);
         }
     }
 
