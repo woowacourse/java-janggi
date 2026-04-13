@@ -11,6 +11,7 @@ import java.util.List;
 
 public class JanggiGame {
 
+    private final long gameId;
     private final Board board;
     private final Players players;
     private Player currentPlayer;
@@ -18,7 +19,8 @@ public class JanggiGame {
 
     private static final String GAME_NOT_FINISHED = "게임이 아직 종료되지 않았습니다.";
 
-    public JanggiGame(final Board board, final Player choPlayer, final Player hanPlayer) {
+    public JanggiGame(final long gameId, final Board board, final Player choPlayer, final Player hanPlayer) {
+        this.gameId = gameId;
         this.board = board;
         this.players = new Players(List.of(choPlayer, hanPlayer));
         currentPlayer = choPlayer;
@@ -29,6 +31,8 @@ public class JanggiGame {
     public void movePiece(final Position from, final Position to) {
         final MoveResult moveResult = board.move(from, to);
 
+        currentPlayer.addScore(moveResult.capturedScore());
+        
         if (moveResult.capturesGeneral()) {
             finish();
             return;
@@ -42,6 +46,9 @@ public class JanggiGame {
         return gameStatus == GameStatus.PLAYING;
     }
 
+    public Players getPlayers() {
+        return players;
+    }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -49,6 +56,10 @@ public class JanggiGame {
 
     public Board getBoard() {
         return board;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 
     public Player getWinner() {

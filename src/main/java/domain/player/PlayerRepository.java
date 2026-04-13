@@ -7,7 +7,7 @@ public interface PlayerRepository {
 
     List<Player> findByGameId(Connection connection, long gameId);
 
-    void saveAll(Connection connection, long gameId, List<Player> players);
+    List<Player> saveAll(Connection connection, long gameId, List<Player> players);
 
-    void updateScore(Connection connection, long gameId, Player player);
+    void update(Connection connection, long gameId, Players players);
 }

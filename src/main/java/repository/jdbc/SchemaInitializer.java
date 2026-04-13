@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 public class SchemaInitializer {
 
-    private static final String SCHEMA_FILE = "/janggi_game_initialize_schema.sql";
+    private static final String SCHEMA_FILE = "/init.sql";
     private static final String SCHEMA_FILE_NOT_FOUND = "스키마 파일을 찾을 수 없습니다.";
     private static final String SCHEMA_FILE_READ_FAILED = "스키마 파일을 읽는 데 실패했습니다.";
     private static final String SCHEMA_INITIALIZE_FAILED = "스키마 초기화에 실패했습니다.";
