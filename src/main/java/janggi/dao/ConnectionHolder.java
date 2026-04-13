@@ -5,6 +5,9 @@ import java.sql.Connection;
 public class ConnectionHolder {
     private static final ThreadLocal<Connection> THREAD_LOCAL = new ThreadLocal<>();
 
+    private ConnectionHolder() {
+    }
+
     public static void set(Connection conn) {
         THREAD_LOCAL.set(conn);
     }

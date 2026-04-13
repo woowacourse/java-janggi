@@ -47,18 +47,20 @@ public class Game {
         return turn == board.getSideAt(from);
     }
 
+    public void validateMove(Point from, Point to) {
+        if (!destinations(from).contains(to)) {
+            throw new IllegalArgumentException("기물이 이동할 수 없는 위치입니다.");
+        }
+    }
+
     public void move(Point from, Point to) {
         if (isPassTurn(from, to)) {
             switchTurn();
             return;
         }
-        if (!destinations(from).contains(to)) {
-            throw new IllegalArgumentException("기물이 이동할 수 없는 위치입니다.");
-        }
         board.moveTo(from, to);
         switchTurn();
     }
-
 
     public Map<Point, Piece> getBoard() {
         return board.getPieces();

@@ -89,5 +89,4 @@ public abstract class Piece {
 
         return pieceType == piece.pieceType && side == piece.side;
     }
-
 }
