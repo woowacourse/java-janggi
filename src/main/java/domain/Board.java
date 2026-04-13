@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 public class Board {
 
+    private static final double SECOND_PLAYER_BONUS_SCORE = 1.5;
+
     private final Map<Position, Piece> board;
 
     private Board(Map<Position, Piece> board) {
@@ -43,47 +45,12 @@ public class Board {
         return piece.hasValidPathTo(currentPosition, destination, occupiedPositions());
     }
 
-    public boolean hasGreenTeamGeneral() {
-        return hasGeneral(greenPieces());
-    }
-
-    public boolean hasRedTeamGeneral() {
-        return hasGeneral(redPieces());
-    }
-
-    private boolean hasGeneral(Map<Position, Piece> pieces) {
-        return pieces.values().stream()
-                .anyMatch(Piece::isGeneral);
-    }
-
-    public Map<Position, Piece> greenPieces() {
-        return piecesByTeam(Piece::isGreenTeam);
-    }
-
-    public Map<Position, Piece> redPieces() {
-        return piecesByTeam(Piece::isRedTeam);
-    }
-
-    public Map<Position, Piece> nonePieces() {
-        return piecesByTeam(Piece::isNoneTeam);
-    }
-
-    private Map<Position, Piece> piecesByTeam(Predicate<Piece> predicate) {
-        return board.entrySet().stream()
-                .filter(entry -> predicate.test(entry.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public Map<Position, Piece> board() {
-        return Map.copyOf(board);
-    }
-
     private Piece pieceAt(Position currentPosition) {
         return board.get(currentPosition);
     }
 
     private static Piece emptyPieceAt() {
-        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), new NonMoveableStrategy());
+        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.getInstance());
     }
 
     private boolean hasSameTeamPieceAt(Piece piece, Position destination) {
@@ -117,6 +84,52 @@ public class Board {
                 .filter(entry -> !entry.getValue().isNoneTeam())
                 .map(Map.Entry::getKey)
                 .toList();
+    }
+
+    public Map<Position, Piece> greenPieces() {
+        return piecesByTeam(Piece::isGreenTeam);
+    }
+
+    public Map<Position, Piece> redPieces() {
+        return piecesByTeam(Piece::isRedTeam);
+    }
+
+    private Map<Position, Piece> piecesByTeam(Predicate<Piece> predicate) {
+        return board.entrySet().stream()
+                .filter(entry -> predicate.test(entry.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public boolean hasGreenTeamGeneral() {
+        return hasGeneral(greenPieces());
+    }
+
+    public boolean hasRedTeamGeneral() {
+        return hasGeneral(redPieces());
+    }
+
+    private boolean hasGeneral(Map<Position, Piece> pieces) {
+        return pieces.values().stream()
+                .anyMatch(Piece::isGeneral);
+    }
+
+    public double redPiecesScore() {
+        return calculateRemainingPieceScore(redPieces()) + SECOND_PLAYER_BONUS_SCORE;
+    }
+
+    public double greenPiecesScore() {
+        return calculateRemainingPieceScore(greenPieces());
+    }
+
+    private double calculateRemainingPieceScore(Map<Position, Piece> pieces) {
+        return pieces.values()
+                .stream()
+                .mapToInt(Piece::score)
+                .sum();
+    }
+
+    public Map<Position, Piece> board() {
+        return Map.copyOf(board);
     }
 
 }

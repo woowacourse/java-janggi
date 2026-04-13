@@ -3,27 +3,65 @@ package domain.strategy;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CannonMoveStrategy extends MoveStrategy {
 
+    private static final CannonMoveStrategy INSTANCE = new CannonMoveStrategy();
+
+    private CannonMoveStrategy() {
+    }
+
+    public static CannonMoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
+        if (isPalaceDiagonalMove(currentPosition, destination)) {
+            return true;
+        }
         if (isHorizontalMove(currentPosition, destination)) {
             return isNotAdjacentHorizontalMove(destination, currentPosition);
         }
-
         if (isVerticalMove(currentPosition, destination)) {
             return isNotAdjacentVerticalMove(destination, currentPosition);
         }
+
         return false;
+    }
+
+    private boolean isPalaceDiagonalMove(Position currentPosition, Position destination) {
+        if (!isPalaceArea(currentPosition)) {
+            return false;
+        }
+
+        return oppositeDiagonalPalacePositions(currentPosition).contains(destination);
+    }
+
+    private boolean isPalaceArea(Position currentPosition) {
+        return palace.isPalaceRedArea(currentPosition) || palace.isPalaceGreenArea(currentPosition);
+    }
+
+    private List<Position> oppositeDiagonalPalacePositions(Position currentPosition) {
+        return Stream.of(
+                        currentPosition.downCrossRight().downCrossRight(),
+                        currentPosition.downCrossLeft().downCrossLeft(),
+                        currentPosition.upCrossRight().upCrossRight(),
+                        currentPosition.upCrossLeft().upCrossLeft()
+                )
+                .filter(this::isPalaceArea)
+                .toList();
     }
 
     @Override
     public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
-        if (isHorizontalMove(currentPosition, destination)) {
-            return doesHaveExactlyOnePieceInPath(horizontalRoute(destination, currentPosition), occupiedPositions);
+        if (isPalaceDiagonalMove(currentPosition, destination)) {
+            return doesHaveExactlyOnePieceInPath(palace.reachablePositionsInPalace(currentPosition), occupiedPositions);
         }
-
+        if (isHorizontalMove(currentPosition, destination)) {
+            return doesHaveExactlyOnePieceInPath(horizontalRoute(currentPosition, destination), occupiedPositions);
+        }
         if (isVerticalMove(currentPosition, destination)) {
             return doesHaveExactlyOnePieceInPath(verticalRouteTo(currentPosition, destination), occupiedPositions);
         }
@@ -48,15 +86,16 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> horizontalRoute(Position currentPosition, Position destination) {
-        List<Position> routePositons = new ArrayList<>();
+        List<Position> routePositions = new ArrayList<>();
 
         int startCol = Math.min(currentPosition.col(), destination.col()) + 1;
         int endCol = Math.max(currentPosition.col(), destination.col());
 
         for (int col = startCol; col < endCol; col++) {
-            routePositons.add(new Position(currentPosition.row(), col));
+            routePositions.add(new Position(currentPosition.row(), col));
         }
-        return routePositons;
+
+        return routePositions;
     }
 
     private List<Position> verticalRouteTo(Position currentPosition, Position destination) {
@@ -68,6 +107,7 @@ public class CannonMoveStrategy extends MoveStrategy {
         for (int row = startRow; row < endRow; row++) {
             routePositions.add(new Position(row, currentPosition.col()));
         }
+
         return routePositions;
     }
 

@@ -48,4 +48,12 @@ public class Piece {
     public boolean isNoneTeam() {
         return pieceProperty.isNoneTeam();
     }
+
+    public int score() {
+        return pieceProperty.score();
+    }
+
+    public PieceProperty pieceProperty() {
+        return pieceProperty;
+    }
 }

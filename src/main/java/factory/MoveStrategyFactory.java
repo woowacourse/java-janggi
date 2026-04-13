@@ -5,14 +5,13 @@ import domain.PieceType;
 import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.DownwardSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
-import domain.strategy.GeneralMoveStrategy;
-import domain.strategy.GuardMoveStrategy;
+import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
 import domain.strategy.NonMoveableStrategy;
-import domain.strategy.UpwardSoldierMoveStrategy;
+import domain.strategy.PalaceMoveStrategy;
+import domain.strategy.RedSoldierMoveStrategy;
 
 public class MoveStrategyFactory {
 
@@ -28,30 +27,30 @@ public class MoveStrategyFactory {
 
     private MoveStrategy createSoldierMoveStrategy(Team team) {
         if (team == Team.GREEN) {
-            return new DownwardSoldierMoveStrategy();
+            return new GreenSoldierMoveStrategy();
         }
-        return new UpwardSoldierMoveStrategy();
+        return new RedSoldierMoveStrategy();
     }
 
     private MoveStrategy createDefaultMoveStrategy(PieceType pieceType) {
         if (pieceType == PieceType.GUARD) {
-            return new GuardMoveStrategy();
+            return PalaceMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.GENERAL) {
-            return new GeneralMoveStrategy();
+            return PalaceMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.HORSE) {
-            return new HorseMoveStrategy();
+            return HorseMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.ELEPHANT) {
-            return new ElephantMoveStrategy();
+            return ElephantMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.CHARIOT) {
-            return new ChariotMoveStrategy();
+            return ChariotMoveStrategy.getInstance();
         }
         if (pieceType == PieceType.CANNON) {
-            return new CannonMoveStrategy();
+            return CannonMoveStrategy.getInstance();
         }
-        return new NonMoveableStrategy();
+        return NonMoveableStrategy.getInstance();
     }
 }

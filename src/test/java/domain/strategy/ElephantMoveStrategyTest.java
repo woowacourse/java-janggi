@@ -16,7 +16,7 @@ class ElephantMoveStrategyTest {
     @MethodSource("moveablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선으로 2번 이동할 수 있어야 한다.")
     void elephant_can_move_test(Position current, Position destination) {
-        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
@@ -25,25 +25,25 @@ class ElephantMoveStrategyTest {
     @MethodSource("nonMovablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선 2번 외에는 이동할 수 없어야 한다.")
     void elephant_cannot_move_test_negative(Position current, Position destination) {
-        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
 
     @ParameterizedTest
-    @MethodSource("blockedPaths")
+    @MethodSource("blockedElephantPaths")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
     void elephant_cannot_move_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
-        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isFalse();
     }
 
     @ParameterizedTest
-    @MethodSource("clearHorsePath")
+    @MethodSource("clearElephantPath")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
     void elephant_can_move_hasValidPathTo_non_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
-        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
 
         assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isTrue();
     }
@@ -79,7 +79,7 @@ class ElephantMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> blockedPaths() {
+    private static Stream<Arguments> blockedElephantPaths() {
         Position midPosition = new Position(4, 4);
 
         return Stream.of(
@@ -90,7 +90,7 @@ class ElephantMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> clearHorsePath() {
+    private static Stream<Arguments> clearElephantPath() {
         Position midPosition = new Position(4, 4);
 
         return Stream.of(

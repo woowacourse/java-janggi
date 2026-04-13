@@ -13,7 +13,7 @@ class PieceTest {
     void piece_after_canMoveTo_test() {
         Position current = new Position(3, 3);
         Position target = new Position(5, 2);
-        Piece horsepiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), new HorseMoveStrategy());
+        Piece horsepiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), HorseMoveStrategy.getInstance());
 
         assertThat(horsepiece.canMoveTo(current, target)).isTrue();
     }

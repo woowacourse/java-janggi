@@ -1,15 +1,17 @@
+import application.GameInitializer;
+import application.GamePersistenceService;
 import controller.JanggiController;
-import domain.Board;
-import domain.JanggiGame;
-import factory.JanggiBoardFactory;
 
 public class Application {
 
     public static void main(String[] args) {
-        JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
-        JanggiGame janggiGame = JanggiGame.of(janggiBoardFactory.initialBoard());
-        JanggiController janggiController = new JanggiController(janggiGame);
+        GameInitializer gameInitializer = new GameInitializer();
+        gameInitializer.initializeDatabase();
+
+        GamePersistenceService gamePersistenceService = gameInitializer.createGamePersistenceService();
+        JanggiController janggiController = new JanggiController(gamePersistenceService);
 
         janggiController.run();
     }
+    
 }
