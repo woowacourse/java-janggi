@@ -44,12 +44,13 @@ class BoardTest {
 
         putPiecesOnBoard(testBoard, List.of(current, target), List.of(currentHorsePiece, targetSoldierPiece));
         Board board = Board.of(testBoard);
+        int noneSize = board.board().size() - board.greenPieces().size();
 
         assertThat(board.canMove(current, target)).isTrue();
         board.movePiece(current, target);
         assertThat(board.greenPieces()).hasSize(1);
         assertThat(board.redPieces()).hasSize(0);
-        assertThat(board.nonePieces()).hasSize(1);
+        assertThat(noneSize).isEqualTo(1);
     }
 
     @Test

@@ -94,10 +94,6 @@ public class Board {
         return piecesByTeam(Piece::isRedTeam);
     }
 
-    public Map<Position, Piece> nonePieces() {
-        return piecesByTeam(Piece::isNoneTeam);
-    }
-
     private Map<Position, Piece> piecesByTeam(Predicate<Piece> predicate) {
         return board.entrySet().stream()
                 .filter(entry -> predicate.test(entry.getValue()))
