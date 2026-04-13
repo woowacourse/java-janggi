@@ -1,36 +1,24 @@
 package domain.piece;
 
-import domain.board.BoardReader;
 import domain.position.Direction;
 import domain.position.MoveDirection;
-import domain.position.Position;
-import domain.position.Route;
-
 import java.util.List;
 
-public class Elephant extends Piece {
+public class Elephant extends MultiStepPiece {
+
+    private static final int REQUIRED_PATH_SIZE = 3;
 
     public Elephant(Camp camp) {
         super(camp, PieceType.ELEPHANT);
     }
 
     @Override
-    public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (List<Direction> directions : MoveDirection.ofElephant()) {
-            List<Position> path = Route.path(from, directions);
-            if (path.size() == 3 && path.getLast().equals(to)) {
-                return checkPositionExist(boardReader, path);
-            }
-        }
-        return false;
+    protected List<List<Direction>> getMoveDirections() {
+        return MoveDirection.ofElephant();
     }
 
-    private static boolean checkPositionExist(BoardReader boardReader, List<Position> path) {
-        for (int i = 0; i < path.size() - 1; i++) {
-            if (boardReader.isExist(path.get(i))) {
-                return false;
-            }
-        }
-        return true;
+    @Override
+    protected int getRequiredPathSize() {
+        return REQUIRED_PATH_SIZE;
     }
 }
