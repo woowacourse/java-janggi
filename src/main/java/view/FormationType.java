@@ -1,4 +1,4 @@
-package domain.board.formation;
+package view;
 
 public enum FormationType {
     DEFAULT("1"),

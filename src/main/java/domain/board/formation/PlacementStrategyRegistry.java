@@ -10,6 +10,7 @@ import domain.board.formation.han.LeftInnerHorseHanPlacement;
 import domain.board.formation.han.RightInnerHorseHanPlacement;
 
 import java.util.Map;
+import view.FormationType;
 
 public final class PlacementStrategyRegistry {
     private static final Map<FormationType, PlacementStrategy> CHO = Map.of(

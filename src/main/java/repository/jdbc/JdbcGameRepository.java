@@ -1,5 +1,6 @@
 package repository.jdbc;
 
+import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -16,7 +17,6 @@ import repository.mapper.GameSnapshotMapper;
 import repository.snapshot.GameSnapshot;
 import repository.snapshot.GameStatus;
 import repository.snapshot.PieceSnapshot;
-import service.LoadedGame;
 
 public class JdbcGameRepository implements GameRepository {
 
@@ -28,6 +28,7 @@ public class JdbcGameRepository implements GameRepository {
     private static final int FIRST_GENERATED_KEY_INDEX = 1;
     
     private static final String ERROR_FIND_IN_PROGRESS_GAME = "진행 중인 게임 조회에 실패했습니다.";
+    private static final String ERROR_FIND_GAME = "게임 조회에 실패했습니다.";
     private static final String ERROR_SAVE_GAME = "게임 저장에 실패했습니다.";
     private static final String ERROR_GAME_ID_NOT_FOUND = "생성된 game id를 찾을 수 없습니다.";
     private static final String ERROR_ROLLBACK_GAME = "게임 저장 롤백에 실패했습니다.";
@@ -38,6 +39,11 @@ public class JdbcGameRepository implements GameRepository {
             WHERE status = ?
             ORDER BY updated_at DESC, id DESC
             LIMIT 1
+            """;
+    private static final String SELECT_GAME = """
+            SELECT id, current_turn, status
+            FROM games
+            WHERE id = ?
             """;
     private static final String SELECT_GAME_PIECES = """
             SELECT col_no, row_no, piece_type, team
@@ -72,7 +78,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<LoadedGame> findInProgressGame() {
+    public Optional<Long> findInProgressGameId() {
         try (Connection connection = connectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_IN_PROGRESS_GAME)) {
             statement.setString(FIRST_PARAMETER_INDEX, GameStatus.IN_PROGRESS.name());
@@ -82,14 +88,7 @@ public class JdbcGameRepository implements GameRepository {
                     return Optional.empty();
                 }
 
-                long gameId = resultSet.getLong("id");
-                Turn currentTurn = Turn.valueOf(resultSet.getString("current_turn"));
-                GameStatus status = GameStatus.valueOf(resultSet.getString("status"));
-                List<PieceSnapshot> pieces = findPieces(connection, gameId);
-
-                return Optional.of(
-                        gameSnapshotMapper.toLoadedGame(new GameSnapshot(gameId, currentTurn, status, pieces))
-                );
+                return Optional.of(resultSet.getLong("id"));
             }
         } catch (SQLException e) {
             throw new IllegalStateException(ERROR_FIND_IN_PROGRESS_GAME, e);
@@ -97,15 +96,45 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public LoadedGame save(LoadedGame loadedGame) {
-        GameSnapshot snapshot = gameSnapshotMapper.from(loadedGame);
+    public Optional<JanggiGame> findById(long gameId) {
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_GAME)) {
+            statement.setLong(FIRST_PARAMETER_INDEX, gameId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+
+                Turn currentTurn = Turn.valueOf(resultSet.getString("current_turn"));
+                GameStatus status = GameStatus.valueOf(resultSet.getString("status"));
+                List<PieceSnapshot> pieces = findPieces(connection, gameId);
+
+                return Optional.of(gameSnapshotMapper.toGame(new GameSnapshot(gameId, currentTurn, status, pieces)));
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException(ERROR_FIND_GAME, e);
+        }
+    }
+
+    @Override
+    public long save(JanggiGame janggiGame) {
+        return save(gameSnapshotMapper.from(null, janggiGame));
+    }
+
+    @Override
+    public void save(long gameId, JanggiGame janggiGame) {
+        save(gameSnapshotMapper.from(gameId, janggiGame));
+    }
+
+    private long save(GameSnapshot snapshot) {
         try (Connection connection = connectionProvider.getConnection()) {
             connection.setAutoCommit(false);
             try {
                 long gameId = saveGame(connection, snapshot);
                 replacePieces(connection, gameId, snapshot.pieces());
                 connection.commit();
-                return new LoadedGame(gameId, loadedGame.game());
+                return gameId;
             } catch (SQLException e) {
                 rollback(connection);
                 throw new IllegalStateException(ERROR_SAVE_GAME, e);

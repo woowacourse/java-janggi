@@ -1,11 +1,15 @@
 package repository;
 
+import domain.game.JanggiGame;
 import java.util.Optional;
-import service.LoadedGame;
 
 public interface GameRepository {
 
-    Optional<LoadedGame> findInProgressGame();
+    Optional<Long> findInProgressGameId();
 
-    LoadedGame save(LoadedGame loadedGame);
+    Optional<JanggiGame> findById(long gameId);
+
+    long save(JanggiGame janggiGame);
+
+    void save(long gameId, JanggiGame janggiGame);
 }

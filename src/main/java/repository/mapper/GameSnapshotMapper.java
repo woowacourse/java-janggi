@@ -13,7 +13,6 @@ import java.util.Map;
 import repository.snapshot.GameSnapshot;
 import repository.snapshot.GameStatus;
 import repository.snapshot.PieceSnapshot;
-import service.LoadedGame;
 
 public class GameSnapshotMapper {
 
@@ -26,14 +25,12 @@ public class GameSnapshotMapper {
 
     private final PieceMapper pieceMapper = new PieceMapper();
 
-    public GameSnapshot from(LoadedGame loadedGame) {
-        JanggiGame game = loadedGame.game();
-        return new GameSnapshot(loadedGame.gameId(), game.turn(), gameStatus(game), pieceSnapshots(game.snapshot()));
+    public GameSnapshot from(Long gameId, JanggiGame game) {
+        return new GameSnapshot(gameId, game.turn(), gameStatus(game), pieceSnapshots(game.snapshot()));
     }
 
-    public LoadedGame toLoadedGame(GameSnapshot snapshot) {
-        JanggiGame game = JanggiGame.restore(new GameState(snapshot.currentTurn(), restoredBoard(snapshot)));
-        return new LoadedGame(snapshot.id(), game);
+    public JanggiGame toGame(GameSnapshot snapshot) {
+        return JanggiGame.restore(new GameState(snapshot.currentTurn(), restoredBoard(snapshot)));
     }
 
     private Map<Coordination, Piece> createEmptyBoard() {

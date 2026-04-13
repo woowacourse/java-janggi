@@ -2,7 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
-import domain.board.formation.FormationType;
+import view.FormationType;
 import domain.coordination.Coordination;
 import domain.piece.Team;
 import java.util.HashMap;

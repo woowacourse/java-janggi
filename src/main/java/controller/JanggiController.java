@@ -1,12 +1,11 @@
 package controller;
 
-import domain.board.formation.FormationType;
+import view.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Team;
 import java.util.List;
 import service.GamePersistenceService;
-import service.LoadedGame;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -32,8 +31,8 @@ public class JanggiController {
     }
 
     public void start() {
-        LoadedGame loadedGame = gamePersistenceService.loadOrCreate(this::createNewGame);
-        JanggiGame janggiGame = loadedGame.game();
+        long gameId = gamePersistenceService.loadOrCreateGameId(this::createNewGame);
+        JanggiGame janggiGame = gamePersistenceService.loadGame(gameId);
 
         printBoardAndScore(janggiGame);
         while (!janggiGame.isGameEnd()) {
@@ -42,7 +41,7 @@ public class JanggiController {
             outputView.printTurn(turn);
 
             List<Integer> from = choosePiece(janggiGame, turn);
-            chooseDestinationAndGameStart(loadedGame, from);
+            chooseDestinationAndGameStart(gameId, janggiGame, from);
         }
         outputView.printGameEnd(janggiGame.turn());
     }
@@ -64,12 +63,10 @@ public class JanggiController {
         });
     }
 
-    private void chooseDestinationAndGameStart(LoadedGame loadedGame, List<Integer> from) {
+    private void chooseDestinationAndGameStart(long gameId, JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
-            JanggiGame janggiGame = loadedGame.game();
             List<Integer> to = inputView.inputDestination();
-            janggiGame.playTurn(from, to);
-            gamePersistenceService.save(loadedGame);
+            gamePersistenceService.playTurnAndSave(gameId, janggiGame, from, to);
             printBoardAndScore(janggiGame);
         });
     }
