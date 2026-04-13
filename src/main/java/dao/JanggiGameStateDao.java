@@ -45,28 +45,4 @@ public class JanggiGameStateDao {
             }
         }
     }
-//
-//    public Optional<Long> findLatestUnfinishedGameId() throws SQLException {
-//        String sql = "SELECT gameId FROM game_state WHERE status IN (?, ?) ORDER BY gameId DESC LIMIT 1";
-//        try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
-//            ps.setString(1, GameStatus.GREEN_PLAYER_TURN.name());
-//            ps.setString(2, GameStatus.RED_PLAYER_TURN.name());
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) return Optional.of(rs.getLong("gameId"));
-//                return Optional.empty();
-//            }
-//        }
-//    }
-
-//    public Optional<Long> findLatestUnfinishedGameId() throws SQLException {
-//        String sql = "SELECT gameId FROM game_state WHERE is_finished = false ORDER BY gameId DESC LIMIT 1";
-//
-//        try (PreparedStatement ps =  TransactionContext.getPreparedStatement(sql);
-//             ResultSet rs = ps.executeQuery()) {
-//            if (rs.next()) {
-//                return Optional.of(rs.getLong("gameId"));
-//            }
-//            return Optional.empty();
-//        }
-//    }
 }

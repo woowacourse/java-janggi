@@ -33,10 +33,6 @@ public record PieceInfo(PiecePosition position, PieceIdentity identity) {
         return identity.isRedTeam();
     }
 
-    public boolean isNone() {
-        return identity.isNone();
-    }
-
     private record PiecePosition(int row, int col) {
     }
 

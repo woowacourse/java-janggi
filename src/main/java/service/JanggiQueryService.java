@@ -49,10 +49,6 @@ public class JanggiQueryService {
         return janggiRepository.hasUnfinishedGame();
     }
 
-    public long findLatestUnfinishedGameId() {
-        return janggiRepository.findLatestUnfinishedGameId().get();
-    }
-
     public int currentPlayerPiecesPointSum(long gameId) {
         return findJanggiGameById(gameId).currentPlayerPiecesPointSum();
     }
