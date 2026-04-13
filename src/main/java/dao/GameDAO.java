@@ -67,32 +67,42 @@ public class GameDAO {
              PreparedStatement gameStatement = connection.prepareStatement(insertGameSql, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pieceStatement = connection.prepareStatement(insertPieceSql)) {
 
-            gameStatement.setString(1, game.currentTurn().name());
-            gameStatement.setString(2, game.isFinished() ? "FINISHED" : "IN_PROGRESS");
-            gameStatement.executeUpdate();
+            connection.setAutoCommit(false);
 
-            try (java.sql.ResultSet resultSet = gameStatement.getGeneratedKeys()) {
-                if (resultSet.next()) {
-                    generatedGameId = resultSet.getInt(1);
+            try {
+                gameStatement.setString(1, game.currentTurn().name());
+                gameStatement.setString(2, game.isFinished() ? "FINISHED" : "IN_PROGRESS");
+                gameStatement.executeUpdate();
+
+                try (java.sql.ResultSet resultSet = gameStatement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        generatedGameId = resultSet.getInt(1);
+                    }
+                    System.out.println("게임 저장 완료. 발급된 게임 번호: " + generatedGameId);
+
+                    for (Map.Entry<Position, Piece> entry : game.board().getPieces().entrySet()) {
+                        Position position = entry.getKey();
+                        Piece piece = entry.getValue();
+                        pieceStatement.setInt(1, generatedGameId);
+                        pieceStatement.setInt(2, position.x());
+                        pieceStatement.setInt(3, position.y());
+                        pieceStatement.setString(4, piece.camp().name());
+                        pieceStatement.setString(5, piece.type().name());
+                        pieceStatement.addBatch();
+                    }
+
+                    pieceStatement.executeBatch();
+
+                    connection.commit();
                 }
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new IllegalStateException("게임 저장 중 DB 오류가 발생했습니다.", e);
+            } finally {
+                connection.setAutoCommit(true);
             }
-            System.out.println("게임 저장 완료. 발급된 게임 번호: " + generatedGameId);
-
-            for (Map.Entry<Position, Piece> entry : game.board().getPieces().entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
-                pieceStatement.setInt(1, generatedGameId);
-                pieceStatement.setInt(2, position.x());
-                pieceStatement.setInt(3, position.y());
-                pieceStatement.setString(4, piece.camp().name());
-                pieceStatement.setString(5, piece.type().name());
-                pieceStatement.addBatch();
-            }
-
-            pieceStatement.executeBatch();
-
         } catch (SQLException e) {
-            System.err.println("게임 저장 실패: " + e.getMessage());
+            throw new IllegalStateException("DB 연결 오류", e);
         }
 
         return generatedGameId;
