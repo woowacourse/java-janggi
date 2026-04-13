@@ -65,9 +65,9 @@ public class BoardDao {
         return Board.of(boardMap);
     }
 
-    public void update(String gameId, Board board, int turnCount) {
+    public void update(String gameId, Map<Position, Piece> boardStatus, int turnCount) {
         ArrayList<Document> pieces = new ArrayList<>();
-        for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
+        for (Map.Entry<Position, Piece> entry : boardStatus.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
 

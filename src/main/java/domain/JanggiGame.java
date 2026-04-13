@@ -11,17 +11,18 @@ public class JanggiGame {
     private TurnCount turnCount;
     private boolean isSurrender;
 
-    private JanggiGame(final Board board) {
+    private JanggiGame(final Board board, final TurnCount turnCount, boolean isSurrender) {
         this.board = board;
-        this.turnCount = TurnCount.of(DEFAULT_TURN_COUNT);
+        this.turnCount = turnCount;
+        this.isSurrender = isSurrender;
     }
 
     public static JanggiGame of(final Board board) {
-        return new JanggiGame(board);
+        return new JanggiGame(board, TurnCount.of(DEFAULT_TURN_COUNT), false);
     }
 
     public static JanggiGame of(final Board board, final int turnCount) {
-        JanggiGame game = new JanggiGame(board);
+        JanggiGame game = new JanggiGame(board, TurnCount.of(turnCount), false);
         game.turnCount = TurnCount.of(turnCount);
 
         return game;

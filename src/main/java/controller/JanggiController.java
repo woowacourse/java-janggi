@@ -63,7 +63,7 @@ public class JanggiController {
 
         while (true) {
             movePosition(janggiGame);
-            boardDao.update(gameId, Board.of(janggiGame.getBoardStatus()), janggiGame.getTurnCount());
+            boardDao.update(gameId, janggiGame.getBoardStatus(), janggiGame.getTurnCount());
 
             if (janggiGame.isFinished()) {
                 outputView.printGameFinishMessage();

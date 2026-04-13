@@ -92,10 +92,9 @@ class BoardDaoTest {
         String gameId = boardDao.save(board, 0);
         Map<Position, Piece> updatedMap = new HashMap<>();
         updatedMap.put(Position.of(5, 5), Piece.of(Team.HAN, Type.SOLDIER));
-        Board updatedBoard = Board.of(updatedMap);
 
         // when
-        boardDao.update(gameId, updatedBoard, 1);
+        boardDao.update(gameId, updatedMap, 1);
 
         // then
         Board foundBoard = boardDao.findBoardByGameId(gameId);
