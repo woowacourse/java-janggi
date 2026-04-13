@@ -5,16 +5,28 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
+    private Long id;
     private final Map<Position, Piece> pieces;
-    private boolean gameOver;
-    private Camp winner;
+    private boolean gameInProgress;
+    private Camp turn;
 
-    public Board(Map<Position, Piece> pieces) {
+    public static Board from(Map<Position, Piece> pieces) {
+        return new Board(pieces, Boolean.TRUE, Camp.CHO);
+    }
+
+    public Board(Map<Position, Piece> pieces, boolean gameInProgress, Camp turn) {
         this.pieces = pieces;
+        this.gameInProgress = gameInProgress;
+        this.turn = turn;
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
     }
 
     public boolean isExistPieceAt(Position position) {
@@ -29,16 +41,44 @@ public class Board {
         return pieces.get(position);
     }
 
-    public boolean isGameOver() {
-        return gameOver;
+    public Long id() {
+        return id;
+    }
+
+    public boolean isGameInProgress() {
+        return gameInProgress;
+    }
+
+    public Map<Position, Piece> pieces() {
+        return Collections.unmodifiableMap(pieces);
+    }
+
+    public Camp turn() {
+        return turn;
     }
 
     public Camp winner() {
-        if (!gameOver) {
+        if (gameInProgress) {
             throw new IllegalStateException("아직 게임이 종료되지 않았습니다.");
         }
 
-        return winner;
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameType(PieceType.GENERAL))
+                .map(Piece::camp)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("궁이 존재하지 않습니다."));
+    }
+
+    public double score(Camp camp) {
+        double totalScore = pieces.values().stream()
+                .filter(piece -> piece.camp().equals(camp))
+                .mapToDouble(piece -> piece.pieceType().score())
+                .sum();
+
+        if (camp == Camp.HAN) {
+            return totalScore + 1.5;
+        }
+        return totalScore;
     }
 
     public void move(Position departure, Position destination) {
@@ -49,7 +89,7 @@ public class Board {
     }
 
     private void validateGameStatus() {
-        if (gameOver) {
+        if (!gameInProgress) {
             throw new IllegalStateException("이미 종료된 게임입니다.");
         }
     }
@@ -57,7 +97,7 @@ public class Board {
     private void handleCapture(Piece departurePiece, Position destination) {
         Piece destinationPiece = pieceAt(destination);
         validateCapture(departurePiece, destinationPiece);
-        updateGameOver(departurePiece, destinationPiece);
+        updateGameProgress(destinationPiece);
     }
 
     private void validateDepartureAndDestinationPosition(Position departure, Position destination) {
@@ -78,11 +118,16 @@ public class Board {
                 .toList();
     }
 
-    private void updateGameOver(Piece departurePiece, Piece destinationPiece) {
+    private void updateGameProgress(Piece destinationPiece) {
         if (destinationPiece.isSameType(PieceType.GENERAL)) {
-            gameOver = true;
-            winner = departurePiece.getCamp();
+            gameInProgress = false;
         }
+
+        if (destinationPiece.camp().equals(Camp.CHO)) {
+            turn = Camp.HAN;
+            return;
+        }
+        turn = Camp.CHO;
     }
 
     private void executeMove(Position departure, Position destination) {

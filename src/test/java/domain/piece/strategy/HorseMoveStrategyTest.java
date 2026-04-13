@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -132,7 +133,7 @@ class HorseMoveStrategyTest {
                 new PathInfo(to, Piece.of(Camp.HAN, PieceType.CHARIOT))
         );
 
-        assertThatCode(() -> horseMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> horseMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -144,7 +145,7 @@ class HorseMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.HAN, PieceType.CHARIOT)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> horseMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> horseMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

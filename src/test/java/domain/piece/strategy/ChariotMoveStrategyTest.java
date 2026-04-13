@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -74,6 +75,17 @@ class ChariotMoveStrategyTest {
             assertThatThrownBy(() -> chariotMoveStrategy.getPath(from, to))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+
+        @Test
+        void 차는_궁성_내에서_지정된_대각선_경로를_통해_대각선_방향으로_이동할_수_있다() {
+            Position from = new Position(3, 9);
+            Position to = new Position(4, 8);
+
+            List<Position> path = chariotMoveStrategy.getPath(from, to);
+
+            assertThat(path).containsExactly(
+                    new Position(4, 8));
+        }
     }
 
     @Test
@@ -83,7 +95,7 @@ class ChariotMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatCode(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> chariotMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -95,7 +107,7 @@ class ChariotMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

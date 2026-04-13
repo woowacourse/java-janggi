@@ -20,6 +20,12 @@ class PieceTest {
         assertThat(piece.isSameCamp(Piece.of(Camp.HAN, PieceType.SOLDIER))).isFalse();
     }
 
+    @Test
+    void 같은_타입의_기물인지_반환한다() {
+        assertThat(piece.isSameType(PieceType.CHARIOT)).isTrue();
+        assertThat(piece.isSameType(PieceType.ELEPHANT)).isFalse();
+    }
+
     @Nested
     class 동등성_비교_테스트 {
         @Test

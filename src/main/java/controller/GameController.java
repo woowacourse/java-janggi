@@ -1,6 +1,8 @@
 
 package controller;
 
+import data.BoardRepository;
+import data.TransactionManager;
 import domain.board.Board;
 import domain.board.Position;
 import view.InputView;
@@ -8,30 +10,37 @@ import view.OutputView;
 
 public class GameController {
     private final Board board;
+    private final BoardRepository boardRepository;
+    private final TransactionManager transactionManager;
 
-    public GameController(Board board) {
+    public GameController(Board board, BoardRepository boardRepository, TransactionManager transactionManager) {
         this.board = board;
+        this.boardRepository = boardRepository;
+        this.transactionManager = transactionManager;
     }
 
-    public void move() {
-        while (true) {
+    public void run(){
+        while (board.isGameInProgress()) {
+            OutputView.printBoard(board);
             try {
                 Position departure = parsePosition(InputView.readDeparturePosition());
                 Position destination = parsePosition(InputView.readDestinationPosition());
-                board.move(departure, destination);
-                return;
-            } catch (IllegalArgumentException exception) {
-                OutputView.printError(exception.getMessage());
+
+                transactionManager.executeTransaction(connection -> {
+                    board.move(departure, destination);
+                    boardRepository.save(connection, board);
+                    return null;
+                });
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof IllegalArgumentException cause) {
+                    System.out.println(cause.getMessage());
+                    continue;
+                }
+                throw e;
             }
         }
-    }
-
-    public void printBoard() {
-        OutputView.printBoard(board);
-    }
-
-    public void printWinner() {
-        OutputView.printWinner(board.winner());
     }
 
     private Position parsePosition(String value) {

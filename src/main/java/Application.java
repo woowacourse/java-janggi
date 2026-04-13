@@ -1,19 +1,71 @@
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import controller.GameController;
+import data.BoardDto;
+import data.BoardRepository;
+import data.TransactionManager;
 import domain.board.Board;
 import domain.board.BoardInitializer;
+import domain.piece.Camp;
 import view.InputView;
+import view.OutputView;
+
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
-        Board board = new Board(BoardInitializer.init(InputView.readBoardSetting()));
-        GameController gameController = new GameController(board);
+        try (HikariDataSource hikariDataSource = createDataSource()) {
+            TransactionManager transactionManager = new TransactionManager(hikariDataSource);
 
-        while (!board.isGameOver()) {
-            gameController.printBoard();
-            gameController.move();
+            BoardRepository boardRepository = new BoardRepository();
+
+            Board board = initBoard(transactionManager, boardRepository);
+
+            GameController gameController = new GameController(board, boardRepository, transactionManager);
+            gameController.run();
+
+            OutputView.printBoard(board);
+            OutputView.printWinner(board.winner(), board.score(Camp.CHO), board.score(Camp.HAN));
+
+            transactionManager.executeTransaction(connection -> {
+                        boardRepository.delete(connection, board);
+                        return null;
+                    }
+            );
         }
+    }
 
-        gameController.printBoard();
-        gameController.printWinner();
+    private static HikariDataSource createDataSource() {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl("jdbc:h2:~/janggi;INIT=RUNSCRIPT FROM 'src/main/resources/create_tables.sql'");
+        hikariConfig.setDriverClassName("org.h2.Driver");
+        hikariConfig.setUsername("sa");
+        hikariConfig.setPassword("");
+
+        return new HikariDataSource(hikariConfig);
+    }
+
+    private static Board initBoard(TransactionManager transactionManager, BoardRepository boardRepository) {
+        printSavedBoards(transactionManager, boardRepository);
+        int boardId = InputView.readBoardNumber();
+
+        Board board;
+        if (boardId == 0) {
+            board = Board.from(BoardInitializer.init(InputView.readBoardSetting()));
+            transactionManager.executeTransaction(connection -> {
+                boardRepository.save(connection, board);
+                return null;
+            });
+            return board;
+        }
+        return transactionManager.executeTransaction(connection -> boardRepository.findById(connection, (long) boardId));
+    }
+
+    private static void printSavedBoards(TransactionManager transactionManager, BoardRepository boardRepository) {
+        transactionManager.executeTransaction(connection -> {
+            List<BoardDto> boards = boardRepository.findAll(connection);
+            OutputView.printBoards(boards);
+            return null;
+        });
     }
 }

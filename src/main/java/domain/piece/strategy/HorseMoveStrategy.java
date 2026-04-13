@@ -1,20 +1,37 @@
 package domain.piece.strategy;
 
-import domain.path.Direction;
+import domain.board.Position;
+import domain.path.JumpPathGenerator;
+import domain.path.PathInfos;
 
 import java.util.List;
 
-public class HorseMoveStrategy extends JumpMoveStrategy {
-    @Override
-    protected void validateMove(int deltaX, int deltaY) {
-        if (!isHorseMove(deltaX, deltaY)) {
-            throw new IllegalArgumentException("상은 직진 후, 대각선 방향으로 두 칸 이동 가능합니다.");
-        }
+public class HorseMoveStrategy implements MoveStrategy {
+    private final JumpPathGenerator pathGenerator;
+
+    public HorseMoveStrategy() {
+        this.pathGenerator = new JumpPathGenerator();
     }
 
     @Override
-    protected List<Direction> generateDirections(Direction firstDirection, Direction secondDirection) {
-        return List.of(firstDirection, secondDirection);
+    public List<Position> getPath(Position departure, Position destination) {
+        int deltaX = departure.calculateDeltaX(destination);
+        int deltaY = departure.calculateDeltaY(destination);
+
+        validateMove(deltaX, deltaY);
+
+        return pathGenerator.getPath(departure, destination, 1);
+    }
+
+    @Override
+    public void validateBlockingPiece(PathInfos pathInfos, Position destination) {
+        pathInfos.validateNoBlockingPiece(destination);
+    }
+
+    private void validateMove(int deltaX, int deltaY) {
+        if (!isHorseMove(deltaX, deltaY)) {
+            throw new IllegalArgumentException("상은 직진 후, 대각선 방향으로 두 칸 이동 가능합니다.");
+        }
     }
 
     private boolean isHorseMove(int deltaX, int deltaY) {

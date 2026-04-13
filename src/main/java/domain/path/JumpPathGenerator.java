@@ -1,29 +1,31 @@
-package domain.piece.strategy;
+package domain.path;
 
 import domain.board.Position;
-import domain.path.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class JumpMoveStrategy implements MoveStrategy {
-    @Override
-    public List<Position> getPath(Position departure, Position destination) {
+public class JumpPathGenerator {
+    public List<Position> getPath(Position departure, Position destination, int jumpCount) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
-
-        validateMove(deltaX, deltaY);
 
         Direction firstDirection = decideFirstDirection(deltaX, deltaY);
         Position intermediatePosition = intermediatePosition(departure, firstDirection);
         Direction secondDirection = decideSecondDirection(intermediatePosition, destination);
 
-        return generateComplexPath(departure, generateDirections(firstDirection, secondDirection));
+        return generateComplexPath(departure, generateJumpDirections(firstDirection, secondDirection, jumpCount));
     }
 
-    protected abstract void validateMove(int deltaX, int deltaY);
+    private List<Direction> generateJumpDirections(Direction firstDirection, Direction secondDirection, int jumpCount) {
+        List<Direction> directions = new ArrayList<>();
 
-    protected abstract List<Direction> generateDirections(Direction firstDirection, Direction secondDirection);
+        directions.add(firstDirection);
+        for (int i = 0; i < jumpCount; i++) {
+            directions.add(secondDirection);
+        }
+        return directions;
+    }
 
     private Direction decideFirstDirection(int deltaX, int deltaY) {
         if ((Math.abs(deltaX) > Math.abs(deltaY))) {

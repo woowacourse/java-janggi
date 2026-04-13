@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.path.PathInfos;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -148,7 +149,7 @@ class ElephantMoveStrategyTest {
                 new PathInfo(to, Piece.of(Camp.HAN, PieceType.SOLDIER))
         );
 
-        assertThatCode(() -> elephantMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatCode(() -> elephantMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .doesNotThrowAnyException();
     }
 
@@ -160,7 +161,7 @@ class ElephantMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 0), Piece.of(Camp.CHO, PieceType.CHARIOT)));
         pathInfos.add(new PathInfo(to, Piece.of(Camp.HAN, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> elephantMoveStrategy.validateBlockingPiece(pathInfos, to))
+        assertThatThrownBy(() -> elephantMoveStrategy.validateBlockingPiece(new PathInfos(pathInfos), to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

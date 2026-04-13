@@ -16,7 +16,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(BoardInitializer.init(BoardSetting.LEFT_ELEPHANT_SET_UP));
+        board = Board.from(BoardInitializer.init(BoardSetting.LEFT_ELEPHANT_SET_UP));
     }
 
     @Test
@@ -56,7 +56,7 @@ class BoardTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, departurePiece);
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -75,7 +75,7 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, departurePiece);
         pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -88,15 +88,17 @@ class BoardTest {
     void 왕이_잡히면_게임이_종료되고_승자를_반환한다() {
         Position from = new Position(4, 8);
         Position to = new Position(4, 9);
+        Position choGeneralPosition = new Position(4, 0);
 
         Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(choGeneralPosition, Piece.of(Camp.CHO, PieceType.GENERAL));
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
-        assertThat(fakeBoard.isGameOver()).isTrue();
+        assertThat(fakeBoard.isGameInProgress()).isFalse();
         assertThat(fakeBoard.winner()).isEqualTo(Camp.CHO);
     }
 
@@ -108,7 +110,7 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
@@ -123,11 +125,34 @@ class BoardTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board fakeBoard = new Board(pieces);
+        Board fakeBoard = Board.from(pieces);
 
         fakeBoard.move(from, to);
 
         assertThatThrownBy(() -> fakeBoard.move(to, new Position(4, 9)))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    void 초_진영의_남은_기물_점수를_계산한다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(4, 0), Piece.of(Camp.CHO, PieceType.GENERAL));
+        pieces.put(new Position(0, 0), Piece.of(Camp.CHO, PieceType.CHARIOT));
+        pieces.put(new Position(1, 0), Piece.of(Camp.CHO, PieceType.HORSE));
+        pieces.put(new Position(2, 0), Piece.of(Camp.CHO, PieceType.SOLDIER));
+        Board fakeBoard = Board.from(pieces);
+
+        assertThat(fakeBoard.score(Camp.CHO)).isEqualTo(20.0);
+    }
+
+    @Test
+    void 한_진영의_남은_기물_점수는_총점에_1_5점을_더한다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(4, 9), Piece.of(Camp.HAN, PieceType.GENERAL));
+        pieces.put(new Position(0, 9), Piece.of(Camp.HAN, PieceType.GUARD));
+        pieces.put(new Position(1, 9), Piece.of(Camp.HAN, PieceType.SOLDIER));
+        Board fakeBoard = Board.from(pieces);
+
+        assertThat(fakeBoard.score(Camp.HAN)).isEqualTo(6.5);
     }
 }

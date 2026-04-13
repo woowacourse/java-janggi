@@ -1,10 +1,13 @@
 package view;
 
+import data.BoardDto;
 import domain.board.Board;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+
+import java.util.List;
 
 public class OutputView {
     private static final int MAX_ROW = 9;
@@ -24,7 +27,7 @@ public class OutputView {
                     System.out.print(ANSI_GUIDE + "＋" + ANSI_RESET);
                 } else {
                     Piece piece = board.pieceAt(new Position(col, row));
-                    System.out.print(colorize(piece.getCamp(), symbolOf(piece.getPieceType(), piece.getCamp())));
+                    System.out.print(colorize(piece.camp(), symbolOf(piece.pieceType(), piece.camp())));
                 }
                 if (col < MAX_COLUMN) System.out.print(" ");
             }
@@ -32,13 +35,24 @@ public class OutputView {
         }
     }
 
-    public static void printError(String message) {
-        System.out.println(message);
+    public static void printBoards(List<BoardDto> boards) {
+        System.out.println("저장된 장기판 목록");
+        if (boards.isEmpty()) {
+            System.out.println("진행 중인 장기판이 없습니다.");
+            return;
+        }
+
+        for (BoardDto board : boards) {
+            if (board.gameInProgress()) {
+                System.out.printf("[%d]", board.id());
+            }
+        }
+        System.out.println();
     }
 
-    public static void printWinner(Camp winner) {
+    public static void printWinner(Camp winner, double choScore, double hanScore) {
         String winnerName = (winner == Camp.CHO) ? "초" : "한";
-        System.out.println(winnerName + "의 승리입니다.");
+        System.out.printf("%s의 승리입니다. 초 %.1f점, 한 %.1f점%n", winnerName, choScore, hanScore);
     }
 
     private static String symbolOf(PieceType pieceType, Camp camp) {

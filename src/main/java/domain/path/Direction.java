@@ -1,5 +1,7 @@
 package domain.path;
 
+import java.util.List;
+
 public enum Direction {
     UP(0, 1),
     DOWN(0, -1),
@@ -16,6 +18,12 @@ public enum Direction {
     Direction(int deltaX, int deltaY) {
         this.deltaX = deltaX;
         this.deltaY = deltaY;
+    }
+
+    public static boolean isLinear(Direction direction){
+        List<Direction> linearDirection = List.of(UP, DOWN, RIGHT, LEFT);
+
+        return linearDirection.contains(direction);
     }
 
     public static Direction decideDirection(int deltaX, int deltaY) {

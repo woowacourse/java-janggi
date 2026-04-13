@@ -1,28 +1,27 @@
-package domain.piece.strategy;
+package domain.path;
 
+import domain.board.Palace;
 import domain.board.Position;
-import domain.path.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LinearMoveStrategy implements MoveStrategy {
-    @Override
+public class LinearPathGenerator {
     public List<Position> getPath(Position departure, Position destination) {
-        Direction direction = decideLinearDirection(departure, destination);
-        return generateStraightPath(departure, destination, direction);
-    }
-
-    private Direction decideLinearDirection(Position departure, Position destination) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateLinearMove(deltaX, deltaY);
+        Direction direction = Direction.decideDirection(deltaX, deltaY);
+        validateLinearMove(deltaX, deltaY, Palace.isPalacePath(departure, destination));
 
-        return Direction.decideDirection(deltaX, deltaY);
+        return generateStraightPath(departure, destination, direction);
     }
 
-    private void validateLinearMove(int deltaX, int deltaY) {
+    private void validateLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
+        if (isPalacePath) {
+            return;
+        }
+
         if (isNotLinear(deltaX, deltaY)) {
             throw new IllegalArgumentException("직선 방향으로만 이동할 수 있습니다.");
         }
