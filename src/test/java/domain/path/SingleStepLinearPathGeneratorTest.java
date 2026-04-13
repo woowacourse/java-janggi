@@ -1,19 +1,26 @@
 package domain.path;
 
 import domain.board.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SingleStepLinearPathGeneratorTest {
+    SingleStepLinearPathGenerator singleStepLinearPathGenerator;
+
+    @BeforeEach
+    void setUp() {
+        singleStepLinearPathGenerator = new SingleStepLinearPathGenerator();
+    }
 
     @Test
     void 직선으로_한_칸_이동하는_방향을_반환한다() {
         Position departure = new Position(4, 4);
         Position destination = new Position(5, 4);
 
-        Direction direction = SingleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false);
+        Direction direction = singleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false);
 
         assertThat(direction).isEqualTo(Direction.RIGHT);
     }
@@ -23,7 +30,7 @@ class SingleStepLinearPathGeneratorTest {
         Position departure = new Position(4, 1);
         Position destination = new Position(5, 2);
 
-        Direction direction = SingleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, true);
+        Direction direction = singleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, true);
 
         assertThat(direction).isEqualTo(Direction.NORTHEAST);
     }
@@ -33,7 +40,7 @@ class SingleStepLinearPathGeneratorTest {
         Position departure = new Position(4, 4);
         Position destination = new Position(5, 5);
 
-        assertThatThrownBy(() -> SingleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false))
+        assertThatThrownBy(() -> singleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -42,7 +49,7 @@ class SingleStepLinearPathGeneratorTest {
         Position departure = new Position(4, 4);
         Position destination = new Position(4, 6);
 
-        assertThatThrownBy(() -> SingleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false))
+        assertThatThrownBy(() -> singleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, false))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

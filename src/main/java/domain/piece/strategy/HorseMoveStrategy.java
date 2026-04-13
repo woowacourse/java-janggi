@@ -8,6 +8,12 @@ import domain.piece.BlockingPieceValidator;
 import java.util.List;
 
 public class HorseMoveStrategy implements MoveStrategy {
+    private final JumpPathGenerator pathGenerator;
+
+    public HorseMoveStrategy() {
+        this.pathGenerator = new JumpPathGenerator();
+    }
+
     @Override
     public List<Position> getPath(Position departure, Position destination) {
         int deltaX = departure.calculateDeltaX(destination);
@@ -15,7 +21,7 @@ public class HorseMoveStrategy implements MoveStrategy {
 
         validateMove(deltaX, deltaY);
 
-        return JumpPathGenerator.getPath(departure, destination, 1);
+        return pathGenerator.getPath(departure, destination, 1);
     }
 
     @Override

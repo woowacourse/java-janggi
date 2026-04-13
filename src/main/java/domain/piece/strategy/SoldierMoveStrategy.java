@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SoldierMoveStrategy implements MoveStrategy {
+    private final SingleStepLinearPathGenerator pathGenerator;
     private final Direction forwardDirection;
 
     public SoldierMoveStrategy(Direction forwardDirection) {
+        this.pathGenerator = new SingleStepLinearPathGenerator();
         this.forwardDirection = forwardDirection;
     }
 
     @Override
     public List<Position> getPath(Position departure, Position destination) {
         boolean isPalacePath = Palace.isPalacePath(departure, destination);
-        Direction direction = SingleStepLinearPathGenerator.decideSingleLinearDirection(departure, destination, isPalacePath);
+        Direction direction = pathGenerator.decideSingleLinearDirection(departure, destination, isPalacePath);
 
         validateMove(direction, isPalacePath);
         return List.of(destination);

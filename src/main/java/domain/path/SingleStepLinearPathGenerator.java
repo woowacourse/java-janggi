@@ -3,7 +3,7 @@ package domain.path;
 import domain.board.Position;
 
 public class SingleStepLinearPathGenerator {
-    public static Direction decideSingleLinearDirection(Position departure, Position destination, boolean isPalacePath) {
+    public Direction decideSingleLinearDirection(Position departure, Position destination, boolean isPalacePath) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
@@ -12,7 +12,7 @@ public class SingleStepLinearPathGenerator {
         return Direction.decideDirection(deltaX, deltaY);
     }
 
-    private static void validateSingleLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
+    private void validateSingleLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
         if (isPalacePath && isNotSingleStep(deltaX, deltaY)) {
             return;
         }
@@ -22,11 +22,11 @@ public class SingleStepLinearPathGenerator {
         }
     }
 
-    private static boolean isNotLinear(int deltaX, int deltaY) {
+    private boolean isNotLinear(int deltaX, int deltaY) {
         return deltaX != 0 && deltaY != 0;
     }
 
-    private static boolean isNotSingleStep(int deltaX, int deltaY) {
+    private boolean isNotSingleStep(int deltaX, int deltaY) {
         return Math.abs(deltaX) + Math.abs(deltaY) != 1;
     }
 }

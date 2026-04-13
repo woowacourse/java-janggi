@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JumpPathGenerator {
-    public static List<Position> getPath(Position departure, Position destination, int jumpCount) {
+    public List<Position> getPath(Position departure, Position destination, int jumpCount) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
@@ -17,34 +17,34 @@ public class JumpPathGenerator {
         return generateComplexPath(departure, generateJumpDirections(firstDirection, secondDirection, jumpCount));
     }
 
-    private static List<Direction> generateJumpDirections(Direction firstDirection, Direction secondDirection, int jumpCount) {
+    private List<Direction> generateJumpDirections(Direction firstDirection, Direction secondDirection, int jumpCount) {
         List<Direction> directions = new ArrayList<>();
 
         directions.add(firstDirection);
-        for (int i=0; i<jumpCount; i++) {
+        for (int i = 0; i < jumpCount; i++) {
             directions.add(secondDirection);
         }
         return directions;
     }
 
-    private static Direction decideFirstDirection(int deltaX, int deltaY) {
+    private Direction decideFirstDirection(int deltaX, int deltaY) {
         if ((Math.abs(deltaX) > Math.abs(deltaY))) {
             return Direction.decideDirection(deltaX, 0);
         }
         return Direction.decideDirection(0, deltaY);
     }
 
-    private static Direction decideSecondDirection(Position intermediatePosition, Position destination) {
+    private Direction decideSecondDirection(Position intermediatePosition, Position destination) {
         return Direction.decideDirection(
                 intermediatePosition.calculateDeltaX(destination),
                 intermediatePosition.calculateDeltaY(destination));
     }
 
-    private static Position intermediatePosition(Position departure, Direction firstDirection) {
+    private Position intermediatePosition(Position departure, Direction firstDirection) {
         return departure.move(firstDirection.getDeltaX(), firstDirection.getDeltaY());
     }
 
-    private static List<Position> generateComplexPath(Position departure, List<Direction> directions) {
+    private List<Position> generateComplexPath(Position departure, List<Direction> directions) {
         List<Position> paths = new ArrayList<>();
 
         Position current = departure;

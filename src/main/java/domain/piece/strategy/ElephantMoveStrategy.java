@@ -8,6 +8,11 @@ import domain.piece.BlockingPieceValidator;
 import java.util.List;
 
 public class ElephantMoveStrategy implements MoveStrategy {
+    private final JumpPathGenerator pathGenerator;
+
+    public ElephantMoveStrategy() {
+        this.pathGenerator = new JumpPathGenerator();
+    }
 
     @Override
     public List<Position> getPath(Position departure, Position destination) {
@@ -16,7 +21,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
         validateMove(deltaX, deltaY);
 
-        return JumpPathGenerator.getPath(departure, destination, 2);
+        return pathGenerator.getPath(departure, destination, 2);
     }
 
     @Override

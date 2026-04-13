@@ -8,9 +8,15 @@ import domain.piece.BlockingPieceValidator;
 import java.util.List;
 
 public class CannonMoveStrategy implements MoveStrategy {
+    private final LinearPathGenerator pathGenerator;
+
+    public CannonMoveStrategy() {
+        this.pathGenerator = new LinearPathGenerator();
+    }
+
     @Override
     public List<Position> getPath(Position departure, Position destination) {
-        return LinearPathGenerator.getPath(departure, destination);
+        return pathGenerator.getPath(departure, destination);
     }
 
     @Override
