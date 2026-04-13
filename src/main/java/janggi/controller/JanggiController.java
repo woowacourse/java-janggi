@@ -18,37 +18,52 @@ public class JanggiController {
     }
 
     public void run() {
+        printIntroMessage();
+
+        while (!janggiService.isFinished()) {
+            Team currentTeam = janggiService.getCurrentTeam();
+            TurnCommand command = TurnCommand.fromOption(inputView.readTurnBehavior(currentTeam));
+
+            if (command == TurnCommand.PLAY) {
+                playTurn(currentTeam);
+            }
+
+            if (command == TurnCommand.SKIP) {
+                skipTurn();
+            }
+
+            if (command == TurnCommand.RESIGN) {
+                resignTrun(currentTeam);
+            }
+        }
+
+        outputView.printWinner(janggiService.decideWinner());
+    }
+
+    private void resignTrun(Team currentTeam) {
+        janggiService.resign();
+        outputView.printResign(currentTeam);
+    }
+
+    private void skipTurn() {
+        janggiService.skipTurn();
+        outputView.skipTurn();
+    }
+
+    private void playTurn(Team currentTeam) {
+        MoveCommand moveCommand = inputView.readMovePositions(currentTeam);
+        janggiService.playTurn(moveCommand);
+        outputView.printBoard(janggiService.getBoard());
+    }
+
+    private void printIntroMessage() {
         if (janggiService.isResumed()) {
             outputView.printResumed();
         } else {
             outputView.printIntroduce();
         }
-
+        
         outputView.printBoard(janggiService.getBoard());
-
-        while (!janggiService.isFinished()) {
-            Team currentTeam = janggiService.getCurrentTeam();
-
-            int option = inputView.readTurnBehavior(currentTeam);
-
-            if (option == 1) {
-                MoveCommand moveCommand = inputView.readMovePositions(currentTeam);
-                janggiService.playTurn(moveCommand);
-                outputView.printBoard(janggiService.getBoard());
-            }
-
-            if (option == 2) {
-                janggiService.skipTurn();
-                outputView.skipTurn();
-            }
-
-            if (option == 3) {
-                janggiService.resign();
-                outputView.printResign(currentTeam);
-            }
-        }
-
-        outputView.printWinner(janggiService.decideWinner());
     }
 }
 

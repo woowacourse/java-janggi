@@ -8,23 +8,11 @@ import java.util.*;
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public int readTurnBehavior(Team team) {
+    public String readTurnBehavior(Team team) {
         System.out.println(getTeamName(team) + "의 턴입니다.");
         System.out.println("1. 말 이동 / 2. 턴 넘기기 / 3. 기권 중 하나의 옵션을 선택해주세요. \n(숫자만 입력, 예: 1)");
         String input = scanner.nextLine();
-        int number;
-
-        try {
-            number = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(input + "는 정수가 아닙니다.");
-        }
-
-        if (!List.of(1, 2, 3).contains(number)){
-            throw new IllegalArgumentException(input + "이/가 아닌 1 2 3 사이의 숫자가 입력되어야합니다.");
-        }
-
-        return number;
+        return input;
     }
 
     public MoveCommand readMovePositions(Team team) {
