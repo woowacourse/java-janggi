@@ -3,6 +3,7 @@ package dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.mongodb.BoardDao;
+import dao.mongodb.MongoConnection;
 import domain.Board;
 import domain.BoardFactory;
 import domain.Piece;
@@ -21,7 +22,7 @@ class BoardDaoTest {
 
     @BeforeEach
     void setUp() {
-        boardDao = new BoardDao();
+        boardDao = new BoardDao(new MongoConnection());
     }
 
     @Test

@@ -1,9 +1,6 @@
 package dao.mongodb;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import domain.Board;
 import domain.Piece;
@@ -21,10 +18,8 @@ public class BoardDao {
 
     private final MongoCollection<Document> collection;
 
-    public BoardDao() {
-        MongoClient client = MongoClients.create("mongodb://admin:password123@localhost:27017");
-        MongoDatabase database = client.getDatabase("janggi");
-        this.collection = database.getCollection("board");
+    public BoardDao(MongoConnection connection) {
+        this.collection = connection.getCollection("board");
     }
 
     public String save(Board board, int turnCount) {
