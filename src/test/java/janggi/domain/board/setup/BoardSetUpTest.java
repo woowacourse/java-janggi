@@ -2,16 +2,17 @@ package janggi.domain.board.setup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.point.Point;
-import janggi.domain.piece.unit.Advisor;
-import janggi.domain.piece.unit.Cannon;
-import janggi.domain.piece.unit.Chariot;
-import janggi.domain.piece.unit.Elephant;
-import janggi.domain.piece.unit.General;
-import janggi.domain.piece.unit.Horse;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.piece.unit.Soldier;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.linear.Cannon;
+import janggi.domain.piece.linear.Chariot;
+import janggi.domain.piece.single.Advisor;
+import janggi.domain.piece.stepped.Elephant;
+import janggi.domain.piece.single.General;
+import janggi.domain.piece.stepped.Horse;
+import janggi.domain.piece.single.Soldier;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import janggi.view.BoardSetUpFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -24,42 +25,42 @@ class BoardSetUpTest {
 
     public static Stream<Arguments> generate() {
         return Stream.of(
-                Arguments.of(new InElephantSetUp(), Side.CHO, Map.of(
+                Arguments.of(BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp(), Side.CHO, Map.of(
                         new Point(0, 1), new Horse(Side.CHO), new Point(0, 2), new Elephant(Side.CHO),
                         new Point(0, 6), new Elephant(Side.CHO), new Point(0, 7), new Horse(Side.CHO))),
 
-                Arguments.of(new InElephantSetUp(), Side.HAN, Map.of(
+                Arguments.of(BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp(), Side.HAN, Map.of(
                         new Point(9, 7), new Horse(Side.HAN), new Point(9, 6), new Elephant(Side.HAN),
                         new Point(9, 2), new Elephant(Side.HAN), new Point(9, 1), new Horse(Side.HAN)
                 )),
-                Arguments.of(new OutElephantSetUp(), Side.CHO, Map.of(
+                Arguments.of(OutElephantSetUp.INSTANCE, Side.CHO, Map.of(
                         new Point(0, 1), new Elephant(Side.CHO), new Point(0, 2), new Horse(Side.CHO),
                         new Point(0, 6), new Horse(Side.CHO), new Point(0, 7), new Elephant(Side.CHO)
                 )),
-                Arguments.of(new OutElephantSetUp(), Side.HAN, Map.of(
+                Arguments.of(OutElephantSetUp.INSTANCE, Side.HAN, Map.of(
                         new Point(9, 7), new Elephant(Side.HAN), new Point(9, 6), new Horse(Side.HAN),
                         new Point(9, 2), new Horse(Side.HAN), new Point(9, 1), new Elephant(Side.HAN)
                 )),
-                Arguments.of(new LeftElephantSetUp(), Side.CHO, Map.of(
+                Arguments.of(LeftElephantSetUp.INSTANCE, Side.CHO, Map.of(
                         new Point(0, 1), new Elephant(Side.CHO), new Point(0, 2), new Horse(Side.CHO),
                         new Point(0, 6), new Elephant(Side.CHO), new Point(0, 7), new Horse(Side.CHO)
                 )),
-                Arguments.of(new LeftElephantSetUp(), Side.HAN, Map.of(
+                Arguments.of(LeftElephantSetUp.INSTANCE, Side.HAN, Map.of(
                         new Point(9, 7), new Elephant(Side.HAN), new Point(9, 6), new Horse(Side.HAN),
                         new Point(9, 2), new Elephant(Side.HAN), new Point(9, 1), new Horse(Side.HAN)
                 )),
-                Arguments.of(new RightElephantSetUp(), Side.CHO, Map.of(
+                Arguments.of(RightElephantSetUp.INSTANCE, Side.CHO, Map.of(
                         new Point(0, 1), new Horse(Side.CHO), new Point(0, 2), new Elephant(Side.CHO),
                         new Point(0, 6), new Horse(Side.CHO), new Point(0, 7), new Elephant(Side.CHO)
                 )),
-                Arguments.of(new RightElephantSetUp(), Side.HAN, Map.of(
+                Arguments.of(RightElephantSetUp.INSTANCE, Side.HAN, Map.of(
                         new Point(9, 7), new Horse(Side.HAN), new Point(9, 6), new Elephant(Side.HAN),
                         new Point(9, 2), new Horse(Side.HAN), new Point(9, 1), new Elephant(Side.HAN)
                 )),
-                Arguments.of(new LeftElephantSetUp(), Side.CHO, createChoCommonBoard()),
-                Arguments.of(new LeftElephantSetUp(), Side.HAN, createHanCommonBoard()),
-                Arguments.of(new RightElephantSetUp(), Side.CHO, createChoCommonBoard()),
-                Arguments.of(new RightElephantSetUp(), Side.HAN, createHanCommonBoard())
+                Arguments.of(LeftElephantSetUp.INSTANCE, Side.CHO, createChoCommonBoard()),
+                Arguments.of(LeftElephantSetUp.INSTANCE, Side.HAN, createHanCommonBoard()),
+                Arguments.of(RightElephantSetUp.INSTANCE, Side.CHO, createChoCommonBoard()),
+                Arguments.of(RightElephantSetUp.INSTANCE, Side.HAN, createHanCommonBoard())
 
         );
     }

@@ -2,11 +2,10 @@ package janggi.domain.board;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.unit.Soldier;
+import janggi.domain.piece.single.Soldier;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.Map;
@@ -19,7 +18,7 @@ class BoardTest {
     @Test
     @DisplayName("destinations(): Point에 있는 Piece의 모든 목적지를 리턴한다")
     void destinations() {
-        BoardSetUp testSetUp = (side) -> Map.of(
+        BoardSetUp testSetUp = side -> Map.of(
                 new Point(0, 0),
                 new Soldier(Side.CHO),
                 new Point(1, 0),
@@ -27,42 +26,33 @@ class BoardTest {
                 new Point(0, 1),
                 new Soldier(Side.HAN));
 
-        BoardSetUp emptyBoardSetUp = (side) -> Collections.emptyMap();
-        Board board = Board.setUp(testSetUp, emptyBoardSetUp);
+        BoardSetUp emptyBoardSetUp = side -> Collections.emptyMap();
+        Board board = Board.setUp(null, testSetUp, emptyBoardSetUp);
 
         Point from = new Point(0, 0);
         Set<Point> destinations = board.destinations(from);
 
-        assertThat(destinations.size()).isEqualTo(1);
-        assertThat(destinations).contains(new Point(0, 1));
+        assertThat(destinations).hasSize(1)
+                .contains(new Point(0, 1));
     }
 
     @Test
     @DisplayName("moveTo(): Point from에서 Point to로 기물을 이동시킨다.")
     void moveTo() {
-        BoardSetUp testSetUp = (side) -> Map.of(
+        BoardSetUp choBoardSetUp = side -> Map.of(
                 new Point(0, 0),
-                new Soldier(Side.CHO),
+                new Soldier(side),
                 new Point(1, 0),
-                new Soldier(Side.CHO),
-                new Point(0, 1),
-                new Soldier(Side.HAN));
+                new Soldier(side));
 
-        BoardSetUp emptyBoardSetUp = (side) -> Collections.emptyMap();
+        BoardSetUp hanBoardSetUp = side -> Map.of(new Point(0, 1),
+                new Soldier(side));
 
-        Board board = Board.setUp(testSetUp, emptyBoardSetUp);
+        Board board = Board.setUp(null, choBoardSetUp, hanBoardSetUp);
 
         board.moveTo(new Point(0, 0), new Point(0, 1));
 
-        assertThat(board.getBoard().size()).isEqualTo(2);
-        assertThat(board.getBoard().containsKey(new Point(0, 0))).isFalse();
+        assertThat(board.getPieces()).hasSize(2);
+        assertThat(board.getPieces().containsKey(new Point(0, 0))).isFalse();
     }
-
-    @Test
-    @DisplayName("범위를 벗어난 Point가 들어오면 예외를 반환한다.")
-    void constructor() {
-        assertThatThrownBy(() -> new Board(Map.of(new Point(10, 10), new Soldier(Side.CHO))))
-                .isInstanceOf(IllegalStateException.class);
-    }
-
 }

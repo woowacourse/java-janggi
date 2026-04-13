@@ -1,12 +1,12 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.board.point.Point;
-import janggi.domain.piece.unit.Advisor;
-import janggi.domain.piece.unit.Cannon;
-import janggi.domain.piece.unit.Chariot;
-import janggi.domain.piece.unit.General;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.piece.unit.Soldier;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.linear.Cannon;
+import janggi.domain.piece.linear.Chariot;
+import janggi.domain.piece.single.Advisor;
+import janggi.domain.piece.single.General;
+import janggi.domain.piece.single.Soldier;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.Map;

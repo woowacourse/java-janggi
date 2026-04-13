@@ -1,10 +1,10 @@
 package janggi.view;
 
-import janggi.domain.board.point.Point;
+import janggi.controller.GameSelect;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.io.InputStream;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +16,11 @@ public class InputView {
 
     public InputView(InputStream inputStream) {
         sc = new Scanner(inputStream);
+    }
+
+    public String readGameName() {
+        System.out.println("생성할 게임의 이름을 입력해 주세요!");
+        return sc.nextLine();
     }
 
     public BoardSetUp readBoardSetup(Side side) {
@@ -46,13 +51,13 @@ public class InputView {
         return new Point(x, y);
     }
 
-    public Optional<Point> readDestination() {
-        System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - Q 입력)");
+    public Point readDestination() {
+        System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - C 입력, 제자리에 놓으면 턴을 넘깁니다.)");
         String input = sc.nextLine();
         Matcher matcher = pattern.matcher(input);
 
-        if (input.equals("Q")) {
-            return Optional.empty();
+        if (input.equals("C")) {
+            return null;
         }
 
         if (!matcher.matches()) {
@@ -61,9 +66,12 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return Optional.of(new Point(x, y));
+        return new Point(x, y);
     }
 
+    public GameSelect readGameSelect() {
+        return GameSelect.from(sc.nextLine());
+    }
 
     private void validateBlank(String input) {
         if (input.isBlank()) {
@@ -78,6 +86,4 @@ public class InputView {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
     }
-
-
 }

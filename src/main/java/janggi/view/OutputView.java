@@ -1,8 +1,11 @@
 package janggi.view;
 
-import janggi.domain.board.point.Point;
-import janggi.domain.piece.unit.Piece;
+import janggi.controller.GameSelect;
+import janggi.domain.piece.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,7 +35,7 @@ public class OutputView {
                 Piece piece = board.getOrDefault(point, null);
 
                 if (destinations != null && destinations.contains(point)) {
-                    String symbol = isEmpty(piece) ? PATH_SYMBOL : piece.getName();
+                    String symbol = isEmpty(piece) ? PATH_SYMBOL : piece.getPieceName();
                     System.out.print(colored(cell(symbol), ANSI_BLUE));
                     continue;
                 }
@@ -43,7 +46,7 @@ public class OutputView {
                 }
 
                 String color = Side.CHO.equals(piece.getSide()) ? ANSI_GREEN : ANSI_RED;
-                System.out.print(colored(cell(piece.getName()), color));
+                System.out.print(colored(cell(piece.getPieceName()), color));
             }
             System.out.println();
         }
@@ -60,6 +63,13 @@ public class OutputView {
         System.out.println(color + side.getName() + " 차례입니다." + ANSI_RESET);
     }
 
+
+    public void printWinner(Side side) {
+        String color = Side.CHO.equals(side) ? ANSI_GREEN : ANSI_RED;
+        System.out.println("승자는 " + side.getName() + " 입니다! 축하합니다" + ANSI_RESET);
+    }
+
+
     public void printError(String message) {
         System.out.println("[ERROR] " + message);
     }
@@ -75,5 +85,20 @@ public class OutputView {
 
     private String colored(String text, String color) {
         return color + text + ANSI_RESET;
+    }
+
+    public void printSelectGame() {
+        Arrays.stream(GameSelect.values())
+                .map(GameSelect::getFormatMessage)
+                .forEach(System.out::println);
+
+        System.out.println("선택지를 입력해 주세요");
+    }
+
+    public void printAllGameNames(List<String> allGameNames) {
+        System.out.println("게임 이름 목록");
+        System.out.println("------------");
+        allGameNames.forEach(gameName -> System.out.println(gameName));
+        System.out.println("------------");
     }
 }

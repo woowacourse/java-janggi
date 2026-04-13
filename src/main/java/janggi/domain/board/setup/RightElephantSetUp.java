@@ -1,13 +1,15 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.board.point.Point;
-import janggi.domain.piece.unit.Elephant;
-import janggi.domain.piece.unit.Horse;
-import janggi.domain.piece.unit.Piece;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.stepped.Elephant;
+import janggi.domain.piece.stepped.Horse;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;
 
 public class RightElephantSetUp implements BoardSetUp {
+    public static final BoardSetUp INSTANCE = new RightElephantSetUp();
+
     @Override
     public Map<Point, Piece> generate(Side side) {
         Map<Point, Piece> setup = createCommonBoard(side);
@@ -26,5 +28,10 @@ public class RightElephantSetUp implements BoardSetUp {
             setup.put(new Point(9, 1), new Elephant(side));
         }
         return setup;
+    }
+
+    @Override
+    public String toString() {
+        return "오른상차림";
     }
 }
