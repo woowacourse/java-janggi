@@ -19,12 +19,53 @@ public class JanggiGame {
 
     private static final String GAME_NOT_FINISHED = "게임이 아직 종료되지 않았습니다.";
 
-    public JanggiGame(final long gameId, final Board board, final Player choPlayer, final Player hanPlayer) {
+    private JanggiGame(
+            final long gameId,
+            final Board board,
+            final Player choPlayer,
+            final Player hanPlayer,
+            final Player currentPlayer,
+            final GameStatus gameStatus
+    ) {
         this.gameId = gameId;
         this.board = board;
         this.players = new Players(List.of(choPlayer, hanPlayer));
-        currentPlayer = choPlayer;
-        gameStatus = GameStatus.PLAYING;
+        this.currentPlayer = currentPlayer;
+        this.gameStatus = gameStatus;
+    }
+
+    public static JanggiGame newGame(
+            final long gameId,
+            final Board board,
+            final Player choPlayer,
+            final Player hanPlayer
+    ) {
+        return new JanggiGame(
+                gameId,
+                board,
+                choPlayer,
+                hanPlayer,
+                choPlayer,
+                GameStatus.PLAYING
+        );
+    }
+
+    public static JanggiGame loadGame(
+            final long gameId,
+            final Board board,
+            final Player choPlayer,
+            final Player hanPlayer,
+            final Player currentPlayer,
+            final GameStatus gameStatus
+    ) {
+        return new JanggiGame(
+                gameId,
+                board,
+                choPlayer,
+                hanPlayer,
+                currentPlayer,
+                gameStatus
+        );
     }
 
 
@@ -32,7 +73,7 @@ public class JanggiGame {
         final MoveResult moveResult = board.move(from, to);
 
         currentPlayer.addScore(moveResult.capturedScore());
-        
+
         if (moveResult.capturesGeneral()) {
             finish();
             return;
@@ -44,6 +85,11 @@ public class JanggiGame {
 
     public boolean isPlaying() {
         return gameStatus == GameStatus.PLAYING;
+    }
+
+
+    public long getGameId() {
+        return gameId;
     }
 
     public Players getPlayers() {

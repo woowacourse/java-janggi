@@ -1,8 +1,12 @@
 package domain.game;
 
+import java.sql.Connection;
+
 public interface JanggiGameRepository {
 
-    JanggiGame findById(long gameId);
+    long save(Connection connection);
 
-    long save(JanggiGame game);
+    JanggiGame findById(Connection connection, long gameId);
+
+    void update(Connection connection, JanggiGame game);
 }
