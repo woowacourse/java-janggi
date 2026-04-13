@@ -100,6 +100,26 @@ public class Position {
         return row == 4 && (col == 1 || col == 8);
     }
 
+    private boolean isPalaceCorner() {
+        int col = getColumnValue();
+        int row = getRowValue();
+
+        boolean isHanCorner = (row == 3 || row == 5) && (col == 0 || col == 2);
+        boolean isChoCorner = (row == 3 || row == 5) && (col == 7 || col == 9);
+
+        return isHanCorner || isChoCorner;
+    }
+
+    public boolean isInEnemyPalace(Team team) {
+        Team enemyTeam = (team == Team.HAN) ? Team.CHO : Team.HAN;
+        return isInOwnPalace(enemyTeam);
+    }
+
+    public boolean isPalaceDiagonalPath(Position to) {
+        return (this.isPalaceCorner() && to.isPalaceCenter()) ||
+                (this.isPalaceCenter() && to.isPalaceCorner());
+    }
+
     public int getRowValue() {
         return row.getValue();
     }

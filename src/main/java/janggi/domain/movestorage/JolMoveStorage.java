@@ -5,8 +5,6 @@ import janggi.domain.Position;
 import janggi.domain.Team;
 
 public class JolMoveStorage implements MoveStorage{
-    private static final int HAN_FORWARD = 1;
-    private static final int CHO_FORWARD = -1;
     public static final int NEXT_TO = 1;
 
     @Override
@@ -21,7 +19,7 @@ public class JolMoveStorage implements MoveStorage{
             return true;
         }
 
-        return false;
+        return isPalaceDiagonalMove(from, to, team);
     }
 
     private boolean isSidewaysMove(Position from, Position to) {
@@ -29,13 +27,37 @@ public class JolMoveStorage implements MoveStorage{
     }
 
     private boolean isForwardMove(Position from, Position to, Team team) {
+        int forwardDirection = getForwardDirection(team);
         int columnDiff = to.getColumnValue() - from.getColumnValue();
         boolean isSameRow = from.getRowValue() == to.getRowValue();
 
+        return isSameRow && columnDiff == forwardDirection;
+    }
+
+    private int getForwardDirection(Team team) {
         if (team == Team.HAN) {
-            return isSameRow && columnDiff == HAN_FORWARD;
+            return 1;
+        }
+        return -1;
+    }
+
+    private boolean isPalaceDiagonalMove(Position from, Position to, Team team) {
+        if (!from.isInEnemyPalace(team) || !to.isInEnemyPalace(team)) {
+            return false;
         }
 
-        return isSameRow && columnDiff == CHO_FORWARD;
+        return isForwardDiagonal(from, to, team);
+    }
+
+    private boolean isForwardDiagonal(Position from, Position to, Team team) {
+        int forwardDirection = getForwardDirection(team);
+        int columnDiff = to.getColumnValue() - from.getColumnValue();
+        int rowDiff = Math.abs(to.getRowValue() - from.getRowValue());
+
+        if (columnDiff != forwardDirection || rowDiff != 1) {
+            return false;
+        }
+
+        return from.isPalaceDiagonalPath(to);
     }
 }
