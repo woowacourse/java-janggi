@@ -18,12 +18,7 @@ public class BoardDao {
 
             preparedStatement.executeUpdate();
 
-            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
-                if (resultSet.next()) {
-                    return resultSet.getLong(1);
-                }
-                throw new IllegalArgumentException("ID를 조회할 수 없습니다.");
-            }
+            return getGenerateId(preparedStatement);
 
         } catch (SQLException e) {
             throw new IllegalStateException("데이터 삽입에 실패했습니다.", e);
@@ -37,16 +32,7 @@ public class BoardDao {
         ) {
             preparedStatement.setLong(1, boardId);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (!resultSet.next()) {
-                    return Optional.empty();
-                }
-                Long id = resultSet.getLong("id");
-                boolean gameInProgress = resultSet.getBoolean("game_in_progress");
-                Camp turn = Camp.valueOf(resultSet.getString("turn"));
-
-                return Optional.of(new BoardDto(id, gameInProgress, turn));
-            }
+            return getBoardDto(preparedStatement);
         } catch (SQLException e) {
             throw new IllegalStateException("데이터 조회에 실패했습니다.", e);
         }
@@ -60,11 +46,7 @@ public class BoardDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                boards.add(new BoardDto(
-                        resultSet.getLong("id"),
-                        resultSet.getBoolean("game_in_progress"),
-                        Camp.valueOf(resultSet.getString("turn"))
-                ));
+                boards.add(mapRow(resultSet));
             }
             return boards;
         } catch (SQLException e) {
@@ -99,5 +81,31 @@ public class BoardDao {
         } catch (SQLException e) {
             throw new IllegalStateException("데이터 수정에 실패했습니다.", e);
         }
+    }
+
+    private Long getGenerateId(PreparedStatement preparedStatement) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+            if (resultSet.next()) {
+                return resultSet.getLong(1);
+            }
+            throw new IllegalArgumentException("ID를 조회할 수 없습니다.");
+        }
+    }
+
+    private Optional<BoardDto> getBoardDto(PreparedStatement preparedStatement) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+            return Optional.of(mapRow(resultSet));
+        }
+    }
+
+    private BoardDto mapRow(ResultSet resultSet) throws SQLException {
+        return new BoardDto(
+                resultSet.getLong("id"),
+                resultSet.getBoolean("game_in_progress"),
+                Camp.valueOf(resultSet.getString("turn"))
+        );
     }
 }
