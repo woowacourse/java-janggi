@@ -6,6 +6,7 @@ import domain.position.Position;
 import view.InputView;
 import view.OutputView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,8 +24,9 @@ public class JanggiController {
 
     public void run() {
         boolean loadSaveBoard = inputView.askLoadSavedBoard();
-        Board board = generateBoard(loadSaveBoard);
+
         Camp camp = loadTurn(loadSaveBoard);
+        Board board = generateBoard(loadSaveBoard);
 
         printBoard(board);
 
@@ -57,24 +59,22 @@ public class JanggiController {
         }
     }
 
-    private Board loadBoard() {
-        return janggiService.loadBoard();
-    }
-
     private Camp loadTurn(boolean loadSaveBoard) {
         return janggiService.loadTurn(loadSaveBoard);
     }
 
     private Board generateBoard(boolean loadSaveBoard) {
         if(loadSaveBoard) {
-            return loadBoard();
+            return janggiService.loadBoard();
         }
-        Board board = new Board();
+
+        Map<Camp, ElephantFormation> initBoardInfo = new HashMap<>();
         int choElephantFormation = inputView.askElephantFormation(Camp.CHO);
         int hanElephantFormation = inputView.askElephantFormation(Camp.HAN);
-        board.generatePiecesBy(Camp.CHO, mappingElephantFormation(choElephantFormation));
-        board.generatePiecesBy(Camp.HAN, mappingElephantFormation(hanElephantFormation));
-        return board;
+        initBoardInfo.put(Camp.CHO, mappingElephantFormation(choElephantFormation));
+        initBoardInfo.put(Camp.HAN, mappingElephantFormation(hanElephantFormation));
+
+        return janggiService.generateNewBoard(initBoardInfo);
     }
 
     private void saveGame(Map<Position, Piece> boardStatus, Camp camp) {
