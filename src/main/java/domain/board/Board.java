@@ -1,26 +1,31 @@
 package domain.board;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import domain.movepolicy.MoveContext;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.PathRule;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public record Board(Map<Position, Piece> pieces) {
+public class Board {
+    private final Map<Position, Piece> pieces;
 
-    @Override
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces = Map.copyOf(pieces);
+    }
+
     public Map<Position, Piece> pieces() {
-        return Map.copyOf(pieces);
+        return pieces;
     }
 
     public Board merge(Board other) {
         Map<Position, Piece> merged = new HashMap<>();
-        pieces.forEach(merged::put);
-        other.pieces.forEach(merged::put);
+        merged.putAll(pieces);
+        merged.putAll(other.pieces);
         return new Board(merged);
     }
 
@@ -31,9 +36,8 @@ public record Board(Map<Position, Piece> pieces) {
 
         validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
         validateDestination(departurePiece, destinationPiece, moveContext.destinationRule());
-        movePiece(departure, destination, departurePiece);
 
-        return new Board(pieces);
+        return new Board(movePiece(departure, destination, departurePiece));
     }
 
     private void validatePathPieces(List<Position> pathPositions, PathRule pathRule) {
@@ -52,8 +56,21 @@ public record Board(Map<Position, Piece> pieces) {
                 .toList();
     }
 
-    private void movePiece(Position departure, Position destination, Piece departurePiece) {
-        pieces.put(departure, new EmptyPiece());
-        pieces.put(destination, departurePiece);
+    private Map<Position, Piece> movePiece(Position departure, Position destination, Piece departurePiece) {
+        Map<Position, Piece> temp = new HashMap<>(pieces);
+        temp.put(departure, new EmptyPiece());
+        temp.put(destination, departurePiece);
+        return temp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Board other)) {
+            return false;
+        }
+        return Objects.equals(pieces, other.pieces);
     }
 }

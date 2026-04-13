@@ -3,6 +3,8 @@ package domain.movepolicy.path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.exception.InvalidPathRuleException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import domain.pieces.Gung;
@@ -19,7 +21,8 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPathRuleException.class)
+            .hasMessage(MovePolicyErrorMessage.PATH_MUST_CONTAIN_PIECE.message());
     }
 
     @Test
@@ -29,7 +32,8 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPathRuleException.class)
+            .hasMessage(MovePolicyErrorMessage.PATH_MUST_CONTAIN_ONE_PIECE.message());
     }
 
     @Test
@@ -39,7 +43,8 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPathRuleException.class)
+            .hasMessage(MovePolicyErrorMessage.PO_CANNOT_JUMP_OVER_PO.message());
     }
 
     @Test

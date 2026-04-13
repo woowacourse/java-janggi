@@ -25,6 +25,22 @@ public class Position {
         return column.index();
     }
 
+    public boolean canMoveUp() {
+        return row() < 9;
+    }
+
+    public boolean canMoveDown() {
+        return row() > 0;
+    }
+
+    public boolean canMoveLeft() {
+        return column() > 0;
+    }
+
+    public boolean canMoveRight() {
+        return column() < 8;
+    }
+
     public Position moveUp() {
         return new Position(row.up(), column);
     }
@@ -65,6 +81,10 @@ public class Position {
         return this.column.equals(departure.column);
     }
 
+    public boolean isStraightLineTo(Position destination) {
+        return isSameRow(destination) || isSameColumn(destination);
+    }
+
     public boolean isLowerRowThan(Position destination) {
         return this.row.isLowerThan(destination.row);
     }
@@ -73,9 +93,47 @@ public class Position {
         return this.column.isLeft(destination.column);
     }
 
-    public boolean isGapBiggerThanOne(Position destination) {
+    public boolean isRightUp(Position destination) {
+        return destination.row.index() > this.row.index()
+                && destination.column.index() > this.column.index()
+                && destination.row.index() - this.row.index()
+                == destination.column.index() - this.column.index();
+    }
+
+    public boolean isLeftUp(Position destination) {
+        return destination.row.index() > this.row.index()
+                && destination.column.index() < this.column.index()
+                && destination.row.index() - this.row.index()
+                == this.column.index() - destination.column.index();
+    }
+
+    public boolean isRightDown(Position destination) {
+        return destination.row.index() < this.row.index()
+                && destination.column.index() > this.column.index()
+                && this.row.index() - destination.row.index()
+                == destination.column.index() - this.column.index();
+    }
+
+    public boolean isLeftDown(Position destination) {
+        return destination.row.index() < this.row.index()
+                && destination.column.index() < this.column.index()
+                && this.row.index() - destination.row.index()
+                == this.column.index() - destination.column.index();
+    }
+
+    public boolean isSingleStepDiagonalTo(Position destination) {
+        return Math.abs(row() - destination.row()) == 1
+                && Math.abs(column() - destination.column()) == 1;
+    }
+
+    public boolean isDoubleStepDiagonalTo(Position destination) {
+        return Math.abs(row() - destination.row()) == 2
+                && Math.abs(column() - destination.column()) == 2;
+    }
+
+    public boolean isMoreThanOneStepAwayFrom(Position destination) {
         return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(
-            destination.column);
+                destination.column);
     }
 
     @Override

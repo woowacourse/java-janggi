@@ -1,13 +1,13 @@
 package view;
 
-import domain.pieces.PieceType;
 import domain.pieces.Side;
+import java.util.List;
+import view.dto.GameResultDto;
+import view.dto.GameScoreResultDto;
 import view.dto.PieceDto;
 
 public class OutputView {
-    private static final String RED = "\u001B[31m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String RESET = "\u001B[0m";
+    private final BoardRenderer boardRenderer = new BoardRenderer();
 
     public void printSangSetupType(Side side) {
         System.out.printf("%s의 상차림을 선택하세요.%n", sideName(side));
@@ -28,22 +28,16 @@ public class OutputView {
 
     public void printMoveGuide() {
         System.out.println("이동할 기물의 출발지와 도착지를 입력하세요.");
+        System.out.println("- 중단: 현재 상태를 유지한 채 종료합니다.");
+        System.out.println("- 종료: 현재 점수 기준으로 게임을 종료합니다.");
     }
 
     public void printErrorMessage(String message) {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printBoard(PieceDto[][] board) {
-        for (int row = 9; row >= 0; row--) {
-            System.out.printf("%2d ", row);
-            for (int column = 0; column <= 8; column++) {
-                System.out.print("|" + displayPiece(board[row][column]));
-            }
-            System.out.println("|");
-            System.out.println("   ---------------------------------------------");
-        }
-        System.out.println("     0    1    2    3    4    5    6    7    8");
+    public void printBoard(List<List<PieceDto>> board) {
+        System.out.println(boardRenderer.render(board));
     }
 
     private String sideName(Side side) {
@@ -53,54 +47,20 @@ public class OutputView {
         return "한나라";
     }
 
-    private String displayPiece(PieceDto pieceDto) {
-        String text = pieceSymbol(pieceDto);
-        String padded = String.format(" %-2s", text);
-
-        if (pieceDto.isEmpty()) {
-            return padded;
+    public void printGameResult(GameResultDto gameResult) {
+        if (!gameResult.ended()) {
+            return;
         }
-        if (pieceDto.side().isCho()) {
-            return GREEN + padded + RESET;
-        }
-        return RED + padded + RESET;
+        System.out.printf("게임 종료: %s 승리%n", gameResult.winnerName());
     }
 
-    private String pieceSymbol(PieceDto pieceDto) {
-        if (pieceDto.pieceType() == PieceType.EMPTY) {
-            return "・";
-        }
-        if (pieceDto.pieceType() == PieceType.GUNG) {
-            if (pieceDto.side().isCho()) {
-                return "將";
-            }
-            return "宮";
-        }
-        if (pieceDto.pieceType() == PieceType.JOL_BYEONG) {
-            if (pieceDto.side().isCho()) {
-                return "兵";
-            }
-            return "卒";
-        }
-        return basicSymbol(pieceDto.pieceType());
+    public void printGameScoreResult(GameScoreResultDto gameScoreResult) {
+        System.out.printf("게임 종료: %s 승리%n", gameScoreResult.winnerName());
+        System.out.printf("초 점수: %s%n", gameScoreResult.choScoreText());
+        System.out.printf("한 점수: %s%n", gameScoreResult.hanScoreText());
     }
 
-    private String basicSymbol(PieceType pieceType) {
-        if (pieceType == PieceType.CHA) {
-            return "車";
-        }
-        if (pieceType == PieceType.MA) {
-            return "馬";
-        }
-        if (pieceType == PieceType.SANG) {
-            return "象";
-        }
-        if (pieceType == PieceType.SA) {
-            return "士";
-        }
-        if (pieceType == PieceType.PO) {
-            return "包";
-        }
-        throw new IllegalArgumentException("지원하지 않는 기물입니다.");
+    public void printMessage(String message) {
+        System.out.println(message);
     }
 }

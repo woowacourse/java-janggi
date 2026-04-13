@@ -1,15 +1,10 @@
 package domain.board;
 
+import static domain.board.BoardTestSupport.emptyChoBoard;
+import static domain.board.BoardTestSupport.emptyHanBoard;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Board;
-import domain.board.OuterSangSetup;
-import domain.board.SangSetup;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.jupiter.api.Test;
 import domain.pieces.Cha;
-import domain.pieces.EmptyPiece;
 import domain.pieces.Gung;
 import domain.pieces.JolByeong;
 import domain.pieces.Ma;
@@ -19,10 +14,10 @@ import domain.pieces.Sa;
 import domain.pieces.Sang;
 import domain.pieces.Side;
 import domain.position.Position;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 class OuterSangSetupTest {
-
-    private final static Piece EMPTY_PIECE = new EmptyPiece();
 
     @Test
     void 한나라진영이_바깥상차림으로_초기화한다() {
@@ -53,26 +48,6 @@ class OuterSangSetupTest {
     private static Map<Position, Piece> expectedHanBoard() {
         Map<Position, Piece> board = emptyHanBoard();
         putHanPieces(board);
-        return board;
-    }
-
-    private static Map<Position, Piece> emptyChoBoard() {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int row = 0; row <= 4; row++) {
-            for (int column = 0; column <= 8; column++) {
-                board.put(new Position(row, column), EMPTY_PIECE);
-            }
-        }
-        return board;
-    }
-
-    private static Map<Position, Piece> emptyHanBoard() {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int row = 5; row <= 9; row++) {
-            for (int column = 0; column <= 8; column++) {
-                board.put(new Position(row, column), EMPTY_PIECE);
-            }
-        }
         return board;
     }
 

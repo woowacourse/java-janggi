@@ -1,5 +1,8 @@
 package domain.pieces;
 
+import domain.board.Palace;
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
@@ -11,7 +14,9 @@ import domain.movement.SlidingDirectionFinder;
 import domain.movement.SlidingPath;
 
 public class Cha extends FullPiece {
+
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
+    private static final Palace PALACE = new Palace();
 
     public Cha(Side side) {
         super(side);
@@ -19,9 +24,17 @@ public class Cha extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)) {
-            throw new IllegalArgumentException("차의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+        if (departure.equals(destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
+        if (!canMoveInStraightLineOrPalaceDiagonal(departure, destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
+        }
+    }
+
+    private boolean canMoveInStraightLineOrPalaceDiagonal(Position departure, Position destination) {
+        return departure.isStraightLineTo(destination)
+                || PALACE.isSlidingDiagonalConnection(departure, destination);
     }
 
     @Override
@@ -38,11 +51,6 @@ public class Cha extends FullPiece {
     @Override
     protected PathRule getPathRule() {
         return new EmptyPathRule();
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
     }
 
     @Override

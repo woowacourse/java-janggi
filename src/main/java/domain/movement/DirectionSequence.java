@@ -1,5 +1,7 @@
 package domain.movement;
 
+import domain.movement.exception.InvalidDirectionSequenceException;
+import domain.movement.exception.MovementErrorMessage;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,13 +33,13 @@ public class DirectionSequence {
 
     private void validateDirections(List<Direction> directions) {
         if (directions == null) {
-            throw new IllegalArgumentException("방향 조합은 null일 수 없습니다.");
+            throw new InvalidDirectionSequenceException(MovementErrorMessage.NULL_DIRECTIONS);
         }
         if (directions.isEmpty()) {
-            throw new IllegalArgumentException("방향 조합은 비어 있을 수 없습니다.");
+            throw new InvalidDirectionSequenceException(MovementErrorMessage.EMPTY_DIRECTIONS);
         }
         if (directions.stream().anyMatch(Objects::isNull)) {
-            throw new IllegalArgumentException("방향 조합에는 null 방향이 포함될 수 없습니다.");
+            throw new InvalidDirectionSequenceException(MovementErrorMessage.NULL_DIRECTION_IN_SEQUENCE);
         }
     }
 }

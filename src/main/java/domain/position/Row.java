@@ -1,5 +1,8 @@
 package domain.position;
 
+import domain.position.exception.InvalidPositionException;
+import domain.position.exception.PositionErrorMessage;
+
 public record Row(int index) {
 
     private static final int MINIMUM_BOUNDARY = 0;
@@ -12,7 +15,7 @@ public record Row(int index) {
 
     private void validateRange(int index) {
         if (index < MINIMUM_BOUNDARY || index > MAXIMUM_BOUNDARY) {
-            throw new IllegalArgumentException("유효하지 않은 ROW입니다.");
+            throw new InvalidPositionException(PositionErrorMessage.INVALID_ROW);
         }
     }
 

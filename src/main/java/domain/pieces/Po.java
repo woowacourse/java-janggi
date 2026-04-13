@@ -1,5 +1,8 @@
 package domain.pieces;
 
+import domain.board.Palace;
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.destination.PoDestinationRule;
@@ -11,7 +14,9 @@ import domain.movement.SlidingDirectionFinder;
 import domain.movement.SlidingPath;
 
 public class Po extends FullPiece {
+
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
+    private static final Palace PALACE = new Palace();
 
     public Po(Side side) {
         super(side);
@@ -19,12 +24,20 @@ public class Po extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)) {
-            throw new IllegalArgumentException("포의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+        if (departure.equals(destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
-        if (!departure.isGapBiggerThanOne(destination)) {
-            throw new IllegalArgumentException("포는 한 칸만 이동할 수 없습니다.");
+        if (!canMoveInStraightLineOrPalaceDiagonal(departure, destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.PO_INVALID_MOVE);
         }
+        if (!departure.isMoreThanOneStepAwayFrom(destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.PO_ONE_SPACE_MOVE);
+        }
+    }
+
+    private boolean canMoveInStraightLineOrPalaceDiagonal(Position departure, Position destination) {
+        return departure.isStraightLineTo(destination)
+                || PALACE.isSlidingDiagonalConnection(departure, destination);
     }
 
     @Override
@@ -41,11 +54,6 @@ public class Po extends FullPiece {
     @Override
     protected PathRule getPathRule() {
         return new PoPathRule();
-    }
-
-    @Override
-    public boolean isPo() {
-        return true;
     }
 
     @Override

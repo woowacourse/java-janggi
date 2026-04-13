@@ -1,22 +1,25 @@
-package view;
+package view.mapper;
 
 import domain.board.Board;
-import domain.pieces.Side;
-import java.util.Map;
 import domain.pieces.Piece;
+import domain.pieces.Side;
 import domain.position.Position;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import view.dto.PieceDto;
 
 public class BoardViewMapper {
-    public PieceDto[][] map(Board board) {
-        PieceDto[][] result = new PieceDto[10][9];
+    public List<List<PieceDto>> map(Board board) {
+        List<List<PieceDto>> result = new ArrayList<>();
         Map<Position, Piece> pieces = board.pieces();
-
         for (int row = 0; row <= 9; row++) {
+            List<PieceDto> rowList = new ArrayList<>();
             for (int column = 0; column <= 8; column++) {
                 Piece piece = pieces.get(new Position(row, column));
-                result[row][column] = toPieceDto(piece);
+                rowList.add(toPieceDto(piece));
             }
+            result.add(rowList);
         }
         return result;
     }
@@ -25,7 +28,7 @@ public class BoardViewMapper {
         if (piece.isEmpty()) {
             return new PieceDto(piece.getType(), null);
         }
-        if (piece.isCho()) {
+        if (piece.getSide().isCho()) {
             return new PieceDto(piece.getType(), Side.CHO);
         }
         return new PieceDto(piece.getType(), Side.HAN);

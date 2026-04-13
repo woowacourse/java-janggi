@@ -1,5 +1,7 @@
 package domain.movement;
 
+import domain.movement.exception.EmptyDirectionSequenceResultException;
+import domain.movement.exception.MovementErrorMessage;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ public class DirectionSequenceResult {
 
     public Position lastPosition() {
         if (positions.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로가 비어 있어 마지막 위치를 반환할 수 없습니다.");
+            throw new EmptyDirectionSequenceResultException(MovementErrorMessage.EMPTY_DIRECTION_SEQUENCE_RESULT);
         }
         return positions.getLast();
     }

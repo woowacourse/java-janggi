@@ -1,5 +1,8 @@
 package domain.pieces;
 
+import domain.board.Palace;
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
@@ -9,19 +12,16 @@ import domain.position.Position;
 
 public class Sa extends FullPiece {
 
+    private static final Palace PALACE = new Palace();
+
     public Sa(Side side) {
         super(side);
     }
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = List.of(
-                departure.moveUp(),
-                departure.moveDown(),
-                departure.moveLeft(),
-                departure.moveRight());
-        if (!movableDestinations.contains(destination)) {
-            throw new IllegalArgumentException("사의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+        if (!PALACE.isConnected(departure, destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.SA_INVALID_MOVE);
         }
     }
 
@@ -38,11 +38,6 @@ public class Sa extends FullPiece {
     @Override
     protected PathRule getPathRule() {
         return new EmptyPathRule();
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
     }
 
     @Override

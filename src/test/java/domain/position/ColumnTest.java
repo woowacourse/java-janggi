@@ -3,6 +3,8 @@ package domain.position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.position.exception.InvalidPositionException;
+import domain.position.exception.PositionErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,13 +18,15 @@ class ColumnTest {
     @Test
     void COLUMN의_범위가_8을_넘을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Column(9))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPositionException.class)
+            .hasMessage(PositionErrorMessage.INVALID_COLUMN.message());
     }
 
     @Test
     void COLUMN의_범위가_0보다_작을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Column(-1))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPositionException.class)
+            .hasMessage(PositionErrorMessage.INVALID_COLUMN.message());
     }
 
     @Nested
@@ -55,7 +59,8 @@ class ColumnTest {
             Column prev = new Column(MAXIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::right)
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidPositionException.class)
+                .hasMessage(PositionErrorMessage.INVALID_COLUMN.message());
         }
 
         @Test
@@ -64,7 +69,8 @@ class ColumnTest {
             Column prev = new Column(MINIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::left)
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidPositionException.class)
+                .hasMessage(PositionErrorMessage.INVALID_COLUMN.message());
         }
     }
 }

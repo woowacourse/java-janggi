@@ -1,10 +1,13 @@
 package view;
 
 import domain.board.SangSetupType;
-import java.util.Scanner;
 import domain.position.Position;
+import java.util.Scanner;
+import view.dto.PositionInput;
 
 public class InputView {
+    private static final String PAUSE_COMMAND = "중단";
+    private static final String FINISH_COMMAND = "종료";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -17,10 +20,25 @@ public class InputView {
         }
     }
 
-    public Position readPosition(String target) {
-        System.out.printf("%s 좌표를 입력하세요. (row,column)%n", target);
-        String[] values = splitPositionInput(scanner.nextLine());
-        return parsePosition(values);
+    public PositionInput readDeparturePosition() {
+        return readPosition("출발지 좌표를 입력하세요. (row,column)");
+    }
+
+    public PositionInput readDestinationPosition() {
+        return readPosition("도착지 좌표를 입력하세요. (row,column)");
+    }
+
+    private PositionInput readPosition(String message) {
+        System.out.println(message);
+        String input = scanner.nextLine().trim();
+        if (input.equals(PAUSE_COMMAND)) {
+            return PositionInput.pausing();
+        }
+        if (input.equals(FINISH_COMMAND)) {
+            return PositionInput.finishing();
+        }
+        String[] values = splitPositionInput(input);
+        return PositionInput.of(parsePosition(values));
     }
 
     private String[] splitPositionInput(String input) {
