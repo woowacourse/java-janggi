@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.Position;
 import domain.game.Game;
 import domain.game.GameStatus;
+import domain.game.SavedGame;
 import domain.game.TurnManager;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -22,7 +23,7 @@ class H2GameRepositoryTest {
         H2GameRepository repository = new H2GameRepository(new ConnectionManager(config));
         databaseInitializer.initialize();
 
-        Game savedGame = repository.save(new Game(
+        SavedGame savedGame = repository.save(new Game(
                 new Board(Map.of(
                         Position.of(0, 4), Piece.of(TeamColor.HAN, PieceType.KING),
                         Position.of(9, 4), Piece.of(TeamColor.CHO, PieceType.KING),
@@ -32,14 +33,13 @@ class H2GameRepositoryTest {
                 GameStatus.IN_PROGRESS
         ));
 
-        Game loadedGame = repository.findInProgress().orElseThrow();
+        SavedGame loadedGame = repository.findInProgress().orElseThrow();
 
-        assertThat(savedGame.id()).isNotNull();
         assertThat(loadedGame.id()).isEqualTo(savedGame.id());
-        assertThat(loadedGame.currentTurn()).isEqualTo(TeamColor.HAN);
-        assertThat(loadedGame.status()).isEqualTo(GameStatus.IN_PROGRESS);
-        assertThat(loadedGame.board().findPiece(Position.of(6, 0))).isPresent();
-        assertThat(loadedGame.board().findPiece(Position.of(6, 0)).orElseThrow().getPieceType()).isEqualTo(PieceType.PAWN);
+        assertThat(loadedGame.game().currentTurn()).isEqualTo(TeamColor.HAN);
+        assertThat(loadedGame.game().status()).isEqualTo(GameStatus.IN_PROGRESS);
+        assertThat(loadedGame.game().board().findPiece(Position.of(6, 0))).isPresent();
+        assertThat(loadedGame.game().board().findPiece(Position.of(6, 0)).orElseThrow().getPieceType()).isEqualTo(PieceType.PAWN);
     }
 
     @Test
@@ -49,7 +49,7 @@ class H2GameRepositoryTest {
         H2GameRepository repository = new H2GameRepository(new ConnectionManager(config));
         databaseInitializer.initialize();
 
-        Game game = repository.save(new Game(
+        SavedGame savedGame = repository.save(new Game(
                 new Board(Map.of(
                         Position.of(0, 4), Piece.of(TeamColor.HAN, PieceType.KING),
                         Position.of(9, 4), Piece.of(TeamColor.CHO, PieceType.KING)
@@ -57,8 +57,8 @@ class H2GameRepositoryTest {
                 new TurnManager(),
                 GameStatus.IN_PROGRESS
         ));
-        game.finish();
-        repository.save(game);
+        savedGame.game().finish();
+        repository.save(savedGame);
 
         assertThat(repository.findInProgress()).isEmpty();
     }

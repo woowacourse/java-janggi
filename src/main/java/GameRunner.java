@@ -9,6 +9,7 @@ import domain.board.Route;
 import domain.game.Game;
 import domain.game.FormationType;
 import domain.game.GameRepository;
+import domain.game.SavedGame;
 import domain.game.TurnResult;
 import domain.piece.TeamColor;
 import io.InputView;
@@ -51,21 +52,23 @@ public class GameRunner {
 
     public void run() {
         outputView.printGameStart();
-        Game game = loadOrCreateGame();
+        SavedGame savedGame = loadOrCreateGame();
+        Game game = savedGame.game();
         outputView.printBoard(game.board());
 
         while (game.isInProgress()) {
-            playTurn(game);
+            savedGame = playTurn(savedGame);
+            game = savedGame.game();
         }
     }
 
-    private Game loadOrCreateGame() {
+    private SavedGame loadOrCreateGame() {
         return gameRepository.findInProgress()
                 .map(this::chooseGameToStart)
                 .orElseGet(this::createNewGame);
     }
 
-    private Game chooseGameToStart(Game inProgressGame) {
+    private SavedGame chooseGameToStart(SavedGame inProgressGame) {
         while (true) {
             outputView.printGameStartOptions();
             try {
@@ -82,7 +85,7 @@ public class GameRunner {
         }
     }
 
-    private Game createNewGame() {
+    private SavedGame createNewGame() {
         FormationType choFormation = chooseFormation(TeamColor.CHO);
         FormationType hanFormation = chooseFormation(TeamColor.HAN);
         return gameRepository.save(newGameFactory.create(choFormation, hanFormation));
@@ -99,7 +102,8 @@ public class GameRunner {
         }
     }
 
-    private void playTurn(Game game) {
+    private SavedGame playTurn(SavedGame savedGame) {
+        final Game game = savedGame.game();
         final Board board = game.board();
         final TeamColor currentTurn = game.currentTurn();
         outputView.printCurrentTurn(currentTurn);
@@ -116,9 +120,9 @@ public class GameRunner {
                 final Position destination = selectedRoute.get().endPos();
                 final TurnResult turnResult = game.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
-                gameRepository.save(game);
+                final SavedGame updatedGame = gameRepository.save(savedGame);
                 turnResult.winner().ifPresent(outputView::printWinner);
-                return;
+                return updatedGame;
             } catch (IllegalArgumentException exception) {
                 outputView.printError(exception.getMessage());
             }

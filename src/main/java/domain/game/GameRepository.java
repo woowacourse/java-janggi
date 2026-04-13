@@ -3,9 +3,11 @@ package domain.game;
 import java.util.Optional;
 
 public interface GameRepository {
-    Optional<Game> findInProgress();
+    Optional<SavedGame> findInProgress();
 
-    Game save(Game game);
+    SavedGame save(Game game);
+
+    SavedGame save(SavedGame savedGame);
 
     void deleteInProgress();
 }

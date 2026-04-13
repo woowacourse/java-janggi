@@ -6,6 +6,7 @@ import domain.board.Position;
 import domain.game.Game;
 import domain.game.GameRepository;
 import domain.game.GameStatus;
+import domain.game.SavedGame;
 import domain.game.TurnManager;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -55,7 +56,7 @@ public class H2GameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<Game> findInProgress() {
+    public Optional<SavedGame> findInProgress() {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_IN_PROGRESS_SQL)) {
             statement.setString(1, GameStatus.IN_PROGRESS.name());
@@ -68,31 +69,47 @@ public class H2GameRepository implements GameRepository {
             Board board = loadBoard(connection, id);
             TurnManager turnManager = new TurnManager(TeamColor.valueOf(resultSet.getString("current_turn")));
             Game game = new Game(
-                    id,
                     board,
                     turnManager,
                     GameStatus.valueOf(resultSet.getString("status"))
             );
-            return Optional.of(game);
+            return Optional.of(new SavedGame(id, game));
         } catch (SQLException exception) {
             throw new IllegalStateException("진행 중 게임 조회에 실패했습니다.", exception);
         }
     }
 
     @Override
-    public Game save(Game game) {
+    public SavedGame save(Game game) {
         try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                if (game.id() == null) {
-                    insertGame(connection, game);
-                } else {
-                    updateGame(connection, game);
-                }
+                final long gameId = insertGame(connection, game);
+                final SavedGame savedGame = new SavedGame(gameId, game);
 
-                replaceSnapshots(connection, game);
+                replaceSnapshots(connection, savedGame);
                 connection.commit();
-                return game;
+                return savedGame;
+            } catch (SQLException exception) {
+                connection.rollback();
+                throw exception;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException exception) {
+            throw new IllegalStateException("게임 저장에 실패했습니다.", exception);
+        }
+    }
+
+    @Override
+    public SavedGame save(SavedGame savedGame) {
+        try (Connection connection = connectionManager.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                updateGame(connection, savedGame);
+                replaceSnapshots(connection, savedGame);
+                connection.commit();
+                return savedGame;
             } catch (SQLException exception) {
                 connection.rollback();
                 throw exception;
@@ -135,7 +152,7 @@ public class H2GameRepository implements GameRepository {
         }
     }
 
-    private void insertGame(Connection connection, Game game) throws SQLException {
+    private long insertGame(Connection connection, Game game) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
             bindGame(statement, game);
             statement.executeUpdate();
@@ -143,14 +160,14 @@ public class H2GameRepository implements GameRepository {
             if (!generatedKeys.next()) {
                 throw new IllegalStateException("게임 식별자를 생성하지 못했습니다.");
             }
-            game.assignId(generatedKeys.getLong(1));
+            return generatedKeys.getLong(1);
         }
     }
 
-    private void updateGame(Connection connection, Game game) throws SQLException {
+    private void updateGame(Connection connection, SavedGame savedGame) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_SQL)) {
-            bindGame(statement, game);
-            statement.setLong(3, game.id());
+            bindGame(statement, savedGame.game());
+            statement.setLong(3, savedGame.id());
             statement.executeUpdate();
         }
     }
@@ -160,15 +177,15 @@ public class H2GameRepository implements GameRepository {
         statement.setString(2, game.currentTurn().name());
     }
 
-    private void replaceSnapshots(Connection connection, Game game) throws SQLException {
+    private void replaceSnapshots(Connection connection, SavedGame savedGame) throws SQLException {
         try (PreparedStatement deleteStatement = connection.prepareStatement(DELETE_SNAPSHOTS_SQL)) {
-            deleteStatement.setLong(1, game.id());
+            deleteStatement.setLong(1, savedGame.id());
             deleteStatement.executeUpdate();
         }
 
         try (PreparedStatement insertStatement = connection.prepareStatement(INSERT_SNAPSHOT_SQL)) {
-            for (PiecePosition piecePosition : game.board().findAllPieces()) {
-                insertStatement.setLong(1, game.id());
+            for (PiecePosition piecePosition : savedGame.game().board().findAllPieces()) {
+                insertStatement.setLong(1, savedGame.id());
                 insertStatement.setInt(2, piecePosition.position().row());
                 insertStatement.setInt(3, piecePosition.position().column());
                 insertStatement.setString(4, piecePosition.piece().getTeamColor().name());
