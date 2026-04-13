@@ -6,7 +6,7 @@ public record PieceProperty(PieceType pieceType, Team team) {
         return pieceType == PieceType.GENERAL;
     }
 
-    public boolean isCannon () {
+    public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
 
