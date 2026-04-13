@@ -6,12 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
+import domain.strategy.PalaceMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
+
+    private static final Position PALACE_RED_CENTER = new Position(1, 4);
+    private static final Position PALACE_GREEN_CENTER = new Position(8, 4);
 
     @Test
     @DisplayName("플레이어가 선택한 기물 위치에 플레이어 소유의 기물이 존재하면 예외를 던지지 않는다.")
@@ -83,24 +87,55 @@ class JanggiGameTest {
     }
 
     @Test
-    @DisplayName("장기 게임은 게임 종료 알 수 있다.")
-    void game_finished_test() {
-        Position current = new Position(3, 3);
-        Position target = new Position(5, 2);
+    @DisplayName("초나라 장군이 잡혔을 경우, 한나라 승리 결과를 확인할 수 있다.")
+    void green_general_captured_returns_red_win_result_test() {
+        Position redHorsePosition = new Position(6, 3);
+
+        Piece greenGeneral = Piece.of(new PieceProperty(PieceType.GENERAL, Team.GREEN),
+                PalaceMoveStrategy.getInstance());
+        Piece redGeneral = Piece.of(new PieceProperty(PieceType.GENERAL, Team.RED),
+                PalaceMoveStrategy.getInstance());
+        Piece redHorsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED),
+                HorseMoveStrategy.getInstance());
 
         Map<Position, Piece> testBoard = new HashMap<>();
-        Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED),
-                HorseMoveStrategy.getInstance());
-        Piece soldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.getInstance());
-        testBoard.put(current, horsePiece);
-        testBoard.put(target, soldierPiece);
+        testBoard.put(PALACE_GREEN_CENTER, greenGeneral);
+        testBoard.put(PALACE_RED_CENTER, redGeneral);
+        testBoard.put(redHorsePosition, redHorsePiece);
         Board board = Board.of(testBoard);
-
         JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
+
+        janggiGame.move(redHorsePosition, PALACE_GREEN_CENTER);
         janggiGame.checkGameFinished();
 
         assertThat(janggiGame.isGameFinished()).isTrue();
+        assertThat(janggiGame.gameStatus()).isEqualTo(GameStatus.RED_TEAM_WIN);
+    }
+
+    @Test
+    @DisplayName("한나라 장군이 잡혔을 경우, 초나라 승리 결과를 확인할 수 있다.")
+    void red_general_captured_returns_green_win_result_test() {
+        Position greenHorsePosition = new Position(3, 3);
+
+        Piece greenGeneral = Piece.of(new PieceProperty(PieceType.GENERAL, Team.GREEN),
+                PalaceMoveStrategy.getInstance());
+        Piece greenHorsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
+                HorseMoveStrategy.getInstance());
+        Piece redGeneral = Piece.of(new PieceProperty(PieceType.GENERAL, Team.RED),
+                PalaceMoveStrategy.getInstance());
+
+        Map<Position, Piece> testBoard = new HashMap<>();
+        testBoard.put(PALACE_GREEN_CENTER, greenGeneral);
+        testBoard.put(greenHorsePosition, greenHorsePiece);
+        testBoard.put(PALACE_RED_CENTER, redGeneral);
+        Board board = Board.of(testBoard);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.RED_PLAYER_TURN);
+
+        janggiGame.move(greenHorsePosition, PALACE_RED_CENTER);
+        janggiGame.checkGameFinished();
+
+        assertThat(janggiGame.isGameFinished()).isTrue();
+        assertThat(janggiGame.gameStatus()).isEqualTo(GameStatus.GREEN_TEAM_WIN);
     }
 
 }
