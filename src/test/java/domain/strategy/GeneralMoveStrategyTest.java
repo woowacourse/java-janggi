@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PalaceMoveStrategyTest {
+class GeneralMoveStrategyTest {
 
     @Test
     @DisplayName("장군은 궁성 외부로는 움직일 수 없다.")
@@ -35,10 +35,10 @@ class PalaceMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("moveableCornerPositions")
     @DisplayName("장군이 궁성 모서리 위치인 경우, 궁성 내부에서만 이동 가능하며 궁성 중앙으로 이동이 가능하다.")
-    void general_corner_can_move_test(Position guardPosition, Position destination) {
+    void general_corner_can_move_test(Position generalPosition, Position destination) {
         PalaceMoveStrategy moveStrategy = PalaceMoveStrategy.getInstance();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+        assertThat(moveStrategy.canMoveTo(generalPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
