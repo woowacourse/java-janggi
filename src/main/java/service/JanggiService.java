@@ -1,3 +1,5 @@
+package service;
+
 import domain.board.Board;
 import domain.piece.Camp;
 import domain.piece.Piece;

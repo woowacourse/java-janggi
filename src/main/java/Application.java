@@ -1,4 +1,6 @@
+import controller.JanggiController;
 import repository.JanggiRepository;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 

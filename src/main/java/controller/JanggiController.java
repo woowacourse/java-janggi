@@ -1,8 +1,11 @@
+package controller;
+
 import domain.board.Board;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.position.ElephantFormation;
 import domain.position.Position;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
