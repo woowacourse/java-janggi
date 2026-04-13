@@ -2,8 +2,8 @@ package service;
 
 import domain.JanggiGame;
 import domain.Position;
+import exception.JanggiBusinessException;
 import factory.JanggiBoardFactory;
-import factory.JanggiGameRestorer;
 import repository.JanggiRepository;
 
 public class JanggiCommandService {
@@ -28,6 +28,7 @@ public class JanggiCommandService {
     }
 
     private JanggiGame findJanggiGame(long gameId) {
-        return janggiRepository.loadGame(gameId);
+        return janggiRepository.loadGame(gameId)
+                .orElseThrow(() -> new JanggiBusinessException("[ERROR] 존재하지 않는 게임 ID입니다."));
     }
 }

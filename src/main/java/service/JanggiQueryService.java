@@ -4,6 +4,7 @@ import domain.JanggiGame;
 import domain.Position;
 import dto.PieceInfo;
 import dto.UnfinishedGameInfo;
+import exception.JanggiBusinessException;
 import java.util.List;
 import repository.JanggiRepository;
 
@@ -36,7 +37,8 @@ public class JanggiQueryService {
     }
 
     private JanggiGame findJanggiGameById(long gameId) {
-        return janggiRepository.loadGame(gameId);
+        return janggiRepository.loadGame(gameId)
+                .orElseThrow(() -> new JanggiBusinessException("[ERROR] 존재하지 않는 게임 ID입니다."));
     }
 
     public List<UnfinishedGameInfo> findUnfinishedGameInfos() {
@@ -45,10 +47,6 @@ public class JanggiQueryService {
 
     public boolean hasUnfinishedGameId() {
         return janggiRepository.hasUnfinishedGame();
-    }
-
-    public long findLatestUnfinishedGameId() {
-        return janggiRepository.findLatestUnfinishedGameId().get();
     }
 
     public int currentPlayerPiecesPointSum(long gameId) {
