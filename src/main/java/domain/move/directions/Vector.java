@@ -1,5 +1,7 @@
 package domain.move.directions;
 
+import domain.piece.Team;
+
 public enum Vector {
 
     UP(-1, 0),
@@ -12,6 +14,9 @@ public enum Vector {
     RIGHT_UP(-1, 1),
     RIGHT_DOWN(1, 1),
     ;
+
+    private static final int FORWARD_FOR_CHO = 0;
+    private static final int FORWARD_FOR_HAN = 0;
 
     private final int dy;
     private final int dx;
@@ -27,6 +32,13 @@ public enum Vector {
 
     public int dx() {
         return dx;
+    }
+
+    public boolean isForwardFor(Team team) {
+        if (team == Team.CHO) {
+            return this.dy <= FORWARD_FOR_CHO;
+        }
+        return this.dy >= FORWARD_FOR_HAN;
     }
 
 }

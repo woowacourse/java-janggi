@@ -1,8 +1,9 @@
 package view;
 
+import domain.command.BoardSelectCommand;
 import domain.board.Formation;
 import domain.piece.Team;
-import domain.point.dto.Command;
+import domain.command.MoveCommand;
 
 import java.util.Scanner;
 
@@ -18,16 +19,21 @@ public class InputReader {
         this.scanner = new Scanner(System.in);
     }
 
+    public BoardSelectCommand requestBoardSelectCommand() {
+        System.out.println("이어서 진행하려는 게임은 방번호를, 새로운 게임을 생성하려면 0을 입력해주세요.");
+        return BoardSelectCommand.from(scanner.nextLine());
+    }
+
     public Formation requestFormation(Team team) {
         System.out.println(FORMATION_INFORMATION);
         System.out.printf(FORMATION_REQUEST_MESSAGE, team);
         return Formation.from(scanner.nextLine());
     }
 
-    public Command requestCommand(Team team) {
+    public MoveCommand requestCommand(Team team) {
         System.out.printf(COMMAND_REQUEST_MESSAGE, team);
         System.out.println();
-        return Command.from(scanner.nextLine());
+        return MoveCommand.from(scanner.nextLine());
     }
 
 }

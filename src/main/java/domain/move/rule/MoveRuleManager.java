@@ -5,6 +5,7 @@ import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ public class MoveRuleManager {
         moveRule.validateMoveRule(path);
     }
 
-    public MoveRule findMoveRule(Intersection origin) {
-        Piece piece = origin.readPiece();
+    private MoveRule findMoveRule(Intersection origin) {
+        Piece piece = origin.getPiece();
         return moveRules.get(piece.pieceType());
     }
 

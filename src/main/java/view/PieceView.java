@@ -9,12 +9,12 @@ public enum PieceView {
 
     GENERAL(PieceType.GENERAL, "［왕］"),
     CHARIOT(PieceType.CHARIOT, "［차］"),
-    CANNON(PieceType.CANNON,   "［포］"),
-    HORSE(PieceType.HORSE,     "［마］"),
-    ELEPHANT(PieceType.ELEPHANT,"［상］"),
-    GUARD(PieceType.GUARD,     "［사］"),
+    CANNON(PieceType.CANNON, "［포］"),
+    HORSE(PieceType.HORSE, "［마］"),
+    ELEPHANT(PieceType.ELEPHANT, "［상］"),
+    GUARD(PieceType.GUARD, "［사］"),
     SOLDIER(PieceType.SOLDIER, "［졸］"),
-    NONE(PieceType.NONE,       "  .  "),
+    NONE(PieceType.NONE, "  .  "),
     ;
 
     private final PieceType pieceType;

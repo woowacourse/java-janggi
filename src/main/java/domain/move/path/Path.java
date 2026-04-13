@@ -2,6 +2,7 @@ package domain.move.path;
 
 import domain.intersection.Intersection;
 import domain.move.path.exception.PathException;
+
 import java.util.ArrayList;
 import java.util.List;
 

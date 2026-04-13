@@ -2,6 +2,7 @@ package domain.move.rule;
 
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
+import domain.intersection.palace.NormalIntersection;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
@@ -34,10 +35,10 @@ class ElephantMoveRuleTest {
         Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.ELEPHANT);
 
-        Intersection origin = new Intersection(start, elephant);
-        Intersection middleIntersection1 = Intersection.empty(middlePoint1);
-        Intersection middleIntersection2 = Intersection.empty(middlePoint2);
-        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
+        Intersection origin = new NormalIntersection(start, elephant);
+        Intersection middleIntersection1 = NormalIntersection.empty(middlePoint1);
+        Intersection middleIntersection2 = NormalIntersection.empty(middlePoint2);
+        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
 
         // when
         ElephantMoveRule elephantRule = new ElephantMoveRule();
@@ -67,10 +68,10 @@ class ElephantMoveRuleTest {
         Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
         Piece obstacle = new Piece(sameTeam, PieceType.ELEPHANT);
 
-        Intersection origin = new Intersection(start, elephant);
-        Intersection obstacleIntersection = new Intersection(middlePoint1, obstacle);
-        Intersection intersection = Intersection.empty(middlePoint2);
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, elephant);
+        Intersection obstacleIntersection = new NormalIntersection(middlePoint1, obstacle);
+        Intersection intersection = NormalIntersection.empty(middlePoint2);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
@@ -97,11 +98,11 @@ class ElephantMoveRuleTest {
 
         Piece elephant = new Piece(Team.CHO, PieceType.ELEPHANT);
 
-        Intersection origin = new Intersection(start, elephant);
-        Intersection intersection1 = Intersection.empty(middlePoint1);
-        Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection emptyDestination = Intersection.empty(end);
-        Intersection expected = new Intersection(end, elephant);
+        Intersection origin = new NormalIntersection(start, elephant);
+        Intersection intersection1 = NormalIntersection.empty(middlePoint1);
+        Intersection intersection2 = NormalIntersection.empty(middlePoint2);
+        Intersection emptyDestination = NormalIntersection.empty(end);
+        Intersection expected = new NormalIntersection(end, elephant);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -111,7 +112,7 @@ class ElephantMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -133,11 +134,11 @@ class ElephantMoveRuleTest {
         Piece elephant = new Piece(team, PieceType.ELEPHANT);
         Piece opponent = new Piece(opponentTeam, PieceType.ELEPHANT);
 
-        Intersection origin = new Intersection(start, elephant);
-        Intersection intersection1 = Intersection.empty(middlePoint1);
-        Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection opponentDestination = new Intersection(end, opponent);
-        Intersection expected = new Intersection(end, elephant);
+        Intersection origin = new NormalIntersection(start, elephant);
+        Intersection intersection1 = NormalIntersection.empty(middlePoint1);
+        Intersection intersection2 = NormalIntersection.empty(middlePoint2);
+        Intersection opponentDestination = new NormalIntersection(end, opponent);
+        Intersection expected = new NormalIntersection(end, elephant);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -147,7 +148,7 @@ class ElephantMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then

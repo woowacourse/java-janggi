@@ -2,6 +2,7 @@ package domain.move.rule;
 
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
+import domain.intersection.palace.NormalIntersection;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
@@ -32,9 +33,9 @@ class HorseMoveRuleTest {
         Piece horse = new Piece(sameTeam, PieceType.HORSE);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.HORSE);
 
-        Intersection origin = new Intersection(start, horse);
-        Intersection intersection = Intersection.empty(middlePoint);
-        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
+        Intersection origin = new NormalIntersection(start, horse);
+        Intersection intersection = NormalIntersection.empty(middlePoint);
+        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
 
         // when
         HorseMoveRule horseRule = new HorseMoveRule();
@@ -62,9 +63,9 @@ class HorseMoveRuleTest {
         Piece horse = new Piece(sameTeam, PieceType.HORSE);
         Piece obstacle = new Piece(sameTeam, PieceType.HORSE);
 
-        Intersection origin = new Intersection(start, horse);
-        Intersection obstacleIntersection = new Intersection(middlePoint, obstacle);
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, horse);
+        Intersection obstacleIntersection = new NormalIntersection(middlePoint, obstacle);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         HorseMoveRule horseRule = new HorseMoveRule();
@@ -91,10 +92,10 @@ class HorseMoveRuleTest {
         Team team = Team.CHO;
         Piece horse = new Piece(team, PieceType.HORSE);
 
-        Intersection origin = new Intersection(start, horse);
-        Intersection intersection = Intersection.empty(middlePoint);
-        Intersection emptyDestination = Intersection.empty(end);
-        Intersection expected = new Intersection(end, horse);
+        Intersection origin = new NormalIntersection(start, horse);
+        Intersection intersection = NormalIntersection.empty(middlePoint);
+        Intersection emptyDestination = NormalIntersection.empty(end);
+        Intersection expected = new NormalIntersection(end, horse);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -103,7 +104,7 @@ class HorseMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, team);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -124,10 +125,10 @@ class HorseMoveRuleTest {
         Piece horse = new Piece(team, PieceType.HORSE);
         Piece opponent = new Piece(opponentTeam, PieceType.HORSE);
 
-        Intersection origin = new Intersection(start, horse);
-        Intersection intersection = Intersection.empty(middlePoint);
-        Intersection opponentDestination = new Intersection(end, opponent);
-        Intersection expected = new Intersection(end, horse);
+        Intersection origin = new NormalIntersection(start, horse);
+        Intersection intersection = NormalIntersection.empty(middlePoint);
+        Intersection opponentDestination = new NormalIntersection(end, opponent);
+        Intersection expected = new NormalIntersection(end, horse);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -136,7 +137,7 @@ class HorseMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, team);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then

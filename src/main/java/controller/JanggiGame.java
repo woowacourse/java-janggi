@@ -1,12 +1,17 @@
 package controller;
 
 import common.exception.JanggiException;
+import service.JanggiService;
+import domain.board.context.BoardIdContext;
+import database.dto.GameResult;
+import domain.command.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
-import domain.board.JanggiIntersectionGenerator;
-import domain.board.dto.JanggiBoardDto;
+import domain.board.generator.JanggiIntersectionGenerator;
+import view.dto.JanggiBoardDto;
+import service.dto.Moved;
 import domain.piece.Team;
-import domain.point.dto.Command;
+import domain.command.MoveCommand;
 import view.InputReader;
 import view.OutputWriter;
 
@@ -16,16 +21,50 @@ public class JanggiGame {
 
     private final InputReader reader;
     private final OutputWriter writer;
+    private final JanggiService janggiService;
 
-    public JanggiGame(InputReader reader, OutputWriter writer) {
+    public JanggiGame(InputReader reader, OutputWriter writer, JanggiService janggiService) {
         this.reader = reader;
         this.writer = writer;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        JanggiBoard janggiBoard = generateJanggiBoard();
-        startGame(janggiBoard);
-        announceWinner(janggiBoard.getWinner());
+        JanggiBoard janggiBoard;
+        showDoesntEndBoardList();
+        while ((janggiBoard = requestAndGetBoard()) != null) {
+            startGame(janggiBoard);
+            applyGameResult(janggiBoard);
+            announceWinner(janggiBoard.getWinner());
+            showDoesntEndBoardList();
+        }
+    }
+
+    private void showDoesntEndBoardList() {
+        writer.printExistingPlayingBoard(janggiService.readExistPlayingBoard());
+    }
+
+    private JanggiBoard requestAndGetBoard() {
+        return retry(() -> {
+            BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
+            return getJanggiBoard(selectCommand);
+        });
+    }
+
+    private JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
+        if (selectCommand.isExitCommand()) {
+            return null;
+        }
+
+        if (selectCommand.isNewGameCommand()) {
+            JanggiBoard janggiBoard = generateJanggiBoard();
+            Long boardId = janggiService.createBoard(janggiBoard);
+            BoardIdContext.setBoardId(boardId);
+            return janggiBoard;
+        }
+
+        BoardIdContext.setBoardId(selectCommand.select());
+        return janggiService.getExistBoard(selectCommand.select());
     }
 
     private JanggiBoard generateJanggiBoard() {
@@ -39,23 +78,23 @@ public class JanggiGame {
     }
 
     private void startGame(JanggiBoard janggiBoard) {
-        Team currentTeam = Team.HAN;
         printJanggiBoard(JanggiBoardDto.from(janggiBoard));
-        progressGame(janggiBoard, currentTeam);
+        progressGame(janggiBoard);
     }
 
-    private void progressGame(JanggiBoard janggiBoard, Team currentTeam) {
+    private void progressGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isGameOver()) {
-            progressTurn(janggiBoard, currentTeam);
-            currentTeam = currentTeam.nextTurn();
+            Moved moved = progressTurn(janggiBoard);
+            janggiService.updateTurn(moved);
         }
     }
 
-    public void progressTurn(JanggiBoard janggiBoard, Team currentTeam) {
-        retry(() -> {
-            Command command = requestCommand(currentTeam);
-            janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
+    private Moved progressTurn(JanggiBoard janggiBoard) {
+        return retry(() -> {
+            MoveCommand command = requestCommand(janggiBoard.getCurrentTurn());
+            janggiBoard.processTurn(command.start(), command.end());
             printJanggiBoard(JanggiBoardDto.from(janggiBoard));
+            return Moved.of(janggiBoard, command.start(), command.end());
         });
     }
 
@@ -63,21 +102,18 @@ public class JanggiGame {
         writer.printJanggiBoard(boardView);
     }
 
-    private Command requestCommand(Team team) {
+    private MoveCommand requestCommand(Team team) {
         return reader.requestCommand(team);
     }
 
-    public void announceWinner(Team team) {
-        writer.printWinner(team);
+    private void applyGameResult(JanggiBoard janggiBoard) {
+        GameResult gameResult = GameResult.from(janggiBoard);
+        janggiService.updateBoardResult(gameResult);
+        BoardIdContext.clear();
     }
 
-    private void retry(Runnable action) {
-        try {
-            action.run();
-        } catch (JanggiException e) {
-            writer.printErrorMessage(e.getMessage());
-            retry(action);
-        }
+    private void announceWinner(Team team) {
+        writer.printWinner(team);
     }
 
     private <T> T retry(Supplier<T> supplier) {

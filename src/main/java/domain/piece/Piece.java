@@ -27,10 +27,6 @@ public record Piece(
         return this.team == Team.HAN;
     }
 
-    public boolean isSamePiece(PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
     public boolean hasPiece() {
         return this.pieceType != PieceType.NONE;
     }

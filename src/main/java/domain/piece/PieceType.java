@@ -9,7 +9,7 @@ public enum PieceType {
     ELEPHANT, // 상
     GUARD,    // 사
     SOLDIER,  // 졸
-    NONE,    // null 포장
+    NONE,
     ;
 
     public boolean isGeneral() {
