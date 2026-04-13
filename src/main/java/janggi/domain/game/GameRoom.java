@@ -45,6 +45,11 @@ public class GameRoom {
         this.currentTurn = campType;
     }
 
+    public void finish() {
+        this.gameStatus = GameStatus.changeByCamp(currentTurn);
+        this.endAt = LocalDateTime.now();
+    }
+
     public Long getGameRoomId() {
         return gameRoomId;
     }

@@ -1,8 +1,6 @@
 package janggi.repository;
 
 import javax.sql.DataSource;
-import janggi.domain.Position;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.PlacedPiece;
 import janggi.domain.piece.camp.CampType;
@@ -12,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PieceRepository {
 
@@ -36,7 +34,7 @@ public class PieceRepository {
             preparedStatement.setInt(4, placedPiece.getRowPosition());
             preparedStatement.setInt(5, placedPiece.getColPosition());
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -50,7 +48,7 @@ public class PieceRepository {
         }
     }
 
-    public Map<Position, Piece> findByGameRoomId(long gameRoomId) {
+    public List<PlacedPiece> findAllByGameRoomId(long gameRoomId) {
         String sql = "SELECT * FROM pieces" +
                 " WHERE game_room_id = ?";
 
@@ -60,11 +58,16 @@ public class PieceRepository {
             preparedStatement.setLong(1, gameRoomId);
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
-                Map<Position, Piece> pieces = new HashMap<>();
+                List<PlacedPiece> pieces = new ArrayList<>();
                 while (rs.next()) {
-                    Position position = new Position(rs.getInt("row_position"), rs.getInt("col_position"));
-                    Piece piece = new Piece(PieceRule.valueOf(rs.getString("piece_type")), CampType.valueOf(rs.getString("camp")));
-                    pieces.put(position, piece);
+                    pieces.add(new PlacedPiece(
+                            rs.getLong("piece_id"),
+                            rs.getLong("game_room_id"),
+                            CampType.valueOf(rs.getString("camp")),
+                            PieceRule.valueOf(rs.getString("piece_type")),
+                            rs.getInt("row_position"),
+                            rs.getInt("col_position")
+                    ));
                 }
                 return pieces;
             }
@@ -73,7 +76,7 @@ public class PieceRepository {
         }
     }
 
-    public PlacedPiece findByGameIdAndPosition(long gameRoomId, int row, int column) {
+    public PlacedPiece findByGameRoomIdAndPosition(long gameRoomId, int row, int column) {
         String sql = "SELECT * FROM pieces " +
                 "WHERE game_room_id = ? AND row_position = ? AND col_position = ?";
 
@@ -132,7 +135,7 @@ public class PieceRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setLong(1, placedPiece.getPlacedPieceId());
-            
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(ExceptionMessage.PIECE_DELETE_ERROR.getMessage(placedPiece.getPlacedPieceId()), e);

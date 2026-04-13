@@ -37,10 +37,14 @@ public class JanggiGame {
         GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
 
         if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {
-            Board board = createBoard();
-            return gameService.createGame(board);
+            return createGame();
         }
         return loadGame();
+    }
+
+    private Game createGame() {
+        Board board = createBoard();
+        return gameService.createGame(board);
     }
 
     private Board createBoard() {
@@ -58,6 +62,7 @@ public class JanggiGame {
 
     private Game loadGame() {
         List<Long> gameRoomIds = gameService.findPlayingGameRoomIds();
+
         Optional<Long> gameRoomId = InputView.readGameId(gameRoomIds);
         if (gameRoomId.isEmpty()) {
             return createOrLoadGame();
@@ -72,31 +77,21 @@ public class JanggiGame {
     }
 
     private void play(Game game) {
-        while (!game.isGameOver()) {
+        while (!game.isFinished()) {
             processTurn(game);
         }
-        finishGame(game);
+        OutputView.printWinner(game.getCurrentTurn());
     }
 
     private void processTurn(Game game) {
         RetryHandler.retryOnInvalidInput(() -> {
-            MoveResultDto moveResultDto = playTurn(game);
-            gameService.progressMove(game.getGameRoomId(), moveResultDto);
+            OutputView.printScore(game.getScoreBoard());
+            Position source = readSource(game.getBoard(), game.getCurrentTurn());
+            Position destination = readDestination(game.getBoard(), source, game.getCurrentTurn());
+
+            gameService.move(game, source, destination);
         });
-        OutputView.printBoard(toPiecePositions(game.getBoard().getBoard()));
-        gameService.changeTurn(game);
-    }
-
-    private MoveResultDto playTurn(Game game) {
-        OutputView.printScore(game.getBoard().getScoreBoard());
-        Position source = readSource(game.getBoard(), game.getCurrentTurn());
-        Position destination = readDestination(game.getBoard(), source, game.getCurrentTurn());
-        return game.move(source, destination);
-    }
-
-    private void finishGame(Game game) {
-        gameService.finishGame(game);
-        OutputView.printWinner(game.getCurrentTurn().next());
+        OutputView.printBoard(toPiecePositions(game.getPiecePositions()));
     }
 
     private Position readSource(Board board, CampType campType) {

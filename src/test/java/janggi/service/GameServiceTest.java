@@ -12,7 +12,6 @@ import janggi.domain.game.GameStatus;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.camp.CampType;
-import janggi.dto.MoveResultDto;
 import janggi.repository.GameRoomRepository;
 import janggi.repository.PieceRepository;
 import java.util.List;
@@ -88,12 +87,14 @@ class GameServiceTest {
         Position destination = new Position(1, 0);
 
         Piece piece = new Piece(PieceRule.CHARIOT, CampType.CHO);
-        Board board = new Board(Map.of(source, piece));
+        Board board = new Board(Map.of(
+                source, piece,
+                new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.CHO),
+                new Position(9, 4), new Piece(PieceRule.GENERAL, CampType.HAN)
+        ));
         Game game = gameService.createGame(board);
-
-        MoveResultDto moveResultDto = new MoveResultDto(CampType.CHO, PieceRule.CHARIOT, source, destination, false);
         // when
-        gameService.progressMove(game.getGameRoomId(), moveResultDto);
+        gameService.move(game, source, destination);
         // then
         Game loadedGame = gameService.loadGame(game.getGameRoomId());
         assertThat(loadedGame.getPiecePositions()).containsEntry(destination, piece);
@@ -108,39 +109,45 @@ class GameServiceTest {
 
         Board board = new Board(Map.of(
                 source, new Piece(PieceRule.CHARIOT, CampType.CHO),
-                destination, new Piece(PieceRule.SOLDIER, CampType.HAN)
+                destination, new Piece(PieceRule.SOLDIER, CampType.HAN),
+                new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.CHO),
+                new Position(9, 4), new Piece(PieceRule.GENERAL, CampType.HAN)
         ));
         Game game = gameService.createGame(board);
-
-        MoveResultDto moveResultDto = new MoveResultDto(CampType.CHO, PieceRule.CHARIOT, source, destination, true);
         // when
-        gameService.progressMove(game.getGameRoomId(), moveResultDto);
+        gameService.move(game, source, destination);
         // then
         Game loadedGame = gameService.loadGame(game.getGameRoomId());
-        assertThat(loadedGame.getPiecePositions()).hasSize(1);
+        assertThat(loadedGame.getPiecePositions()).hasSize(3);
         assertThat(loadedGame.getPiecePositions()).containsEntry(destination, new Piece(PieceRule.CHARIOT, CampType.CHO));
     }
 
     @Test
-    void 턴을_변경한다() {
+    void 상태를_동기화한다() {
         // given
-        Board board = new Board(Map.of());
+        Board board = new Board(Map.of(
+                new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.CHO),
+                new Position(9, 4), new Piece(PieceRule.GENERAL, CampType.HAN),
+                new Position(0, 0), new Piece(PieceRule.CHARIOT, CampType.CHO)
+        ));
         Game game = gameService.createGame(board);
         // when
-        gameService.changeTurn(game);
+        gameService.move(game, new Position(0, 0), new Position(1, 0));
         // then
         Game loadedGame = gameService.loadGame(game.getGameRoomId());
         assertThat(loadedGame.getCurrentTurn()).isEqualTo(CampType.HAN);
     }
 
     @Test
-    void 게임을_종료한다() {
+    void 게임종료_상태를_동기화한다() {
         // given
-        Board board = new Board(Map.of());
+        Board board = new Board(Map.of(
+                new Position(9, 4), new Piece(PieceRule.GUARD, CampType.CHO),
+                new Position(8, 4), new Piece(PieceRule.GENERAL, CampType.HAN)
+        ));
         Game game = gameService.createGame(board);
-        gameService.changeTurn(game);
         // when
-        gameService.finishGame(game);
+        gameService.move(game, new Position(9, 4), new Position(8, 4));
         // then
         Game loadedGame = gameService.loadGame(game.getGameRoomId());
         assertThat(loadedGame.getGameStatus()).isEqualTo(GameStatus.CHO_WIN);

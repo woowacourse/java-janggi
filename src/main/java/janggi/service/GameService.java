@@ -5,13 +5,11 @@ import janggi.domain.board.Board;
 import janggi.domain.game.Game;
 import janggi.domain.game.GameRoom;
 import janggi.domain.game.GameStatus;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PlacedPiece;
 import janggi.dto.MoveResultDto;
 import janggi.repository.GameRoomRepository;
 import janggi.repository.PieceRepository;
 import java.util.List;
-import java.util.Map;
 
 public class GameService {
 
@@ -39,32 +37,30 @@ public class GameService {
 
     public Game loadGame(long gameRoomId) {
         GameRoom gameRoom = gameRoomRepository.findById(gameRoomId);
-        Map<Position, Piece> pieces = pieceRepository.findByGameRoomId(gameRoomId);
-        return new Game(
-                gameRoom.getGameRoomId(),
-                gameRoom.getCurrentTurn(),
-                gameRoom.getGameStatus(),
-                gameRoom.getStartAt(),
-                gameRoom.getEndAt(),
-                gameRoom.getLastUpdatedAt(),
-                Board.restore(pieces)
-        );
+        List<PlacedPiece> pieces = pieceRepository.findAllByGameRoomId(gameRoomId);
+        Board board = Board.restore(pieces);
+        return new Game(gameRoom, board);
     }
 
     public List<Long> findPlayingGameRoomIds() {
         return gameRoomRepository.findAllByGameStatus(GameStatus.PLAYING);
     }
 
-    public void progressMove(long gameRoomId, MoveResultDto moveResultDto) {
+    public void move(Game game, Position source, Position destination) {
+        MoveResultDto moveResultDto = game.move(source, destination);
+
         if (moveResultDto.captured()) {
-            removeCapturedPiece(gameRoomId, moveResultDto);
+            removeCapturedPiece(game.getGameRoomId(), moveResultDto);
         }
-        movePiece(gameRoomId, moveResultDto);
+        movePiece(game.getGameRoomId(), moveResultDto);
+
+        updateGameStatus(game);
     }
 
-    private void removeCapturedPiece(long gameId, MoveResultDto moveResultDto) {
-        PlacedPiece capturedPiece = pieceRepository.findByGameIdAndPosition(
-                gameId,
+
+    private void removeCapturedPiece(long gameRoomId, MoveResultDto moveResultDto) {
+        PlacedPiece capturedPiece = pieceRepository.findByGameRoomIdAndPosition(
+                gameRoomId,
                 moveResultDto.destination().row(),
                 moveResultDto.destination().column()
         );
@@ -72,7 +68,7 @@ public class GameService {
     }
 
     private void movePiece(long gameRoomId, MoveResultDto moveResultDto) {
-        PlacedPiece placedPiece = pieceRepository.findByGameIdAndPosition(
+        PlacedPiece placedPiece = pieceRepository.findByGameRoomIdAndPosition(
                 gameRoomId,
                 moveResultDto.source().row(),
                 moveResultDto.source().column()
@@ -81,14 +77,7 @@ public class GameService {
         pieceRepository.update(placedPiece);
     }
 
-    public void changeTurn(Game game) {
-        game.changeTurn();
-        GameRoom gameRoom = GameRoom.from(game);
-        gameRoomRepository.update(gameRoom);
-    }
-
-    public void finishGame(Game game) {
-        game.finish();
+    private void updateGameStatus(Game game) {
         GameRoom gameRoom = GameRoom.from(game);
         gameRoomRepository.update(gameRoom);
     }

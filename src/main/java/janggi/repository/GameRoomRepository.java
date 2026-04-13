@@ -32,7 +32,7 @@ public class GameRoomRepository {
             preparedStatement.setString(1, gameRoom.getCurrentTurn().name());
             preparedStatement.setString(2, gameRoom.getGameStatus().name());
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {

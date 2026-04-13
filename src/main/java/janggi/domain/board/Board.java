@@ -4,11 +4,13 @@ import janggi.domain.Position;
 import janggi.domain.ScoreBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PlacedPiece;
 import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.strategy.Palace;
 import janggi.dto.MoveResultDto;
 import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardChecker {
@@ -17,7 +19,14 @@ public class Board implements BoardChecker {
     private final ScoreBoard scoreBoard;
     private final Palace palace;
 
-    public static Board restore(Map<Position, Piece> board) {
+    public static Board restore(List<PlacedPiece> placedPieces) {
+        Map<Position, Piece> board = new HashMap<>();
+
+        for (PlacedPiece placedPiece : placedPieces) {
+            Position position = new Position(placedPiece.getRowPosition(), placedPiece.getColPosition());
+            Piece piece = new Piece(placedPiece.getPieceRule(), placedPiece.getCampType());
+            board.put(position, piece);
+        }
         return new Board(board, ScoreBoard.restore(board), new Palace());
     }
 

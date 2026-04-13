@@ -10,69 +10,55 @@ import java.util.Map;
 
 public class Game {
 
-    private Long gameRoomId;
+    private final GameRoom gameRoom;
 
-    private CampType currentTurn;
+    private final Board board;
 
-    private GameStatus gameStatus;
-
-    private LocalDateTime startAt;
-
-    private LocalDateTime endAt;
-
-    private LocalDateTime lastUpdatedAt;
-
-    private Board board;
-
-    public Game(Long gameRoomId, CampType currentTurn, GameStatus gameStatus, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime lastUpdatedAt, Board board) {
-        this.gameRoomId = gameRoomId;
-        this.currentTurn = currentTurn;
-        this.gameStatus = gameStatus;
-        this.startAt = startAt;
-        this.endAt = endAt;
-        this.lastUpdatedAt = lastUpdatedAt;
+    public Game(GameRoom gameRoom, Board board) {
+        this.gameRoom = gameRoom;
         this.board = board;
     }
 
+    public boolean isFinished() {
+        return gameRoom.getGameStatus() != GameStatus.PLAYING;
+    }
+
     public MoveResultDto move(Position source, Position destination) {
-        return board.movePiece(source, destination, currentTurn);
+        MoveResultDto moveResultDto = board.movePiece(source, destination, gameRoom.getCurrentTurn());
+        processAfterMove();
+        return moveResultDto;
     }
 
-    public boolean isGameOver() {
-        return board.isGeneralKilled(currentTurn);
-    }
-
-    public void changeTurn() {
-        this.currentTurn = currentTurn.next();
-    }
-
-    public void finish() {
-        this.gameStatus = GameStatus.changeByCamp(currentTurn.next());
-        this.endAt = LocalDateTime.now();
+    private void processAfterMove() {
+        if (board.isGeneralKilled(gameRoom.getCurrentTurn().next())) {
+            gameRoom.finish();
+            return;
+        }
+        gameRoom.changeTurn(gameRoom.getCurrentTurn().next());
     }
 
     public long getGameRoomId() {
-        return gameRoomId;
+        return gameRoom.getGameRoomId();
     }
 
     public CampType getCurrentTurn() {
-        return currentTurn;
+        return gameRoom.getCurrentTurn();
     }
 
     public GameStatus getGameStatus() {
-        return gameStatus;
+        return gameRoom.getGameStatus();
     }
 
     public LocalDateTime getStartAt() {
-        return startAt;
+        return gameRoom.getStartAt();
     }
 
     public LocalDateTime getEndAt() {
-        return endAt;
+        return gameRoom.getEndAt();
     }
 
     public LocalDateTime getLastUpdatedAt() {
-        return lastUpdatedAt;
+        return gameRoom.getLastUpdatedAt();
     }
 
     public Board getBoard() {
@@ -81,5 +67,9 @@ public class Game {
 
     public Map<Position, Piece> getPiecePositions() {
         return board.getBoard();
+    }
+
+    public Map<CampType, Double> getScoreBoard() {
+        return board.getScoreBoard();
     }
 }

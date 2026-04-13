@@ -12,6 +12,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.PlacedPiece;
 import janggi.domain.piece.camp.CampType;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,6 @@ class PieceRepositoryTest {
         pieceRepository = new PieceRepository(dataSource);
         gameRoomRepository = new GameRoomRepository(dataSource);
 
-        Board board = new Board(Map.of());
         GameRoom gameRoom = GameRoom.create();
         gameRoomId = gameRoomRepository.save(gameRoom);
     }
@@ -43,7 +43,8 @@ class PieceRepositoryTest {
         // when
         pieceRepository.save(placedPiece);
         // then
-        Map<Position, Piece> result = pieceRepository.findByGameRoomId(gameRoomId);
+        List<PlacedPiece> pieces = pieceRepository.findAllByGameRoomId(gameRoomId);
+        Map<Position, Piece> result = Board.restore(pieces).getBoard();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(result).hasSize(1);
             softly.assertThat(result.get(new Position(0, 0))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.CHO));
@@ -56,12 +57,13 @@ class PieceRepositoryTest {
         pieceRepository.save(new PlacedPiece(gameRoomId, CampType.CHO, PieceRule.CHARIOT, 0, 0));
         pieceRepository.save(new PlacedPiece(gameRoomId, CampType.HAN, PieceRule.CHARIOT, 9, 8));
         // when
-        Map<Position, Piece> pieces = pieceRepository.findByGameRoomId(gameRoomId);
+        List<PlacedPiece> pieces = pieceRepository.findAllByGameRoomId(gameRoomId);
+        Map<Position, Piece> result = Board.restore(pieces).getBoard();
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(pieces).hasSize(2);
-            softly.assertThat(pieces.get(new Position(0, 0))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.CHO));
-            softly.assertThat(pieces.get(new Position(9, 8))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.HAN));
+            softly.assertThat(result).hasSize(2);
+            softly.assertThat(result.get(new Position(0, 0))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.CHO));
+            softly.assertThat(result.get(new Position(9, 8))).isEqualTo(new Piece(PieceRule.CHARIOT, CampType.HAN));
         });
     }
 
@@ -70,7 +72,7 @@ class PieceRepositoryTest {
         // given
         pieceRepository.save(new PlacedPiece(gameRoomId, CampType.CHO, PieceRule.CHARIOT, 0, 0));
         // when
-        PlacedPiece result = pieceRepository.findByGameIdAndPosition(gameRoomId, 0, 0);
+        PlacedPiece result = pieceRepository.findByGameRoomIdAndPosition(gameRoomId, 0, 0);
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(result.getGameRoomId()).isEqualTo(gameRoomId);
@@ -89,9 +91,10 @@ class PieceRepositoryTest {
         // when
         pieceRepository.update(updatedPiece);
         // then
-        Map<Position, Piece> pieces = pieceRepository.findByGameRoomId(gameRoomId);
-        assertThat(pieces).containsEntry(new Position(1, 1), new Piece(PieceRule.CHARIOT, CampType.CHO));
-        assertThat(pieces.get(new Position(0, 0))).isNull();
+        List<PlacedPiece> pieces = pieceRepository.findAllByGameRoomId(gameRoomId);
+        Map<Position, Piece> result = Board.restore(pieces).getBoard();
+        assertThat(result).containsEntry(new Position(1, 1), new Piece(PieceRule.CHARIOT, CampType.CHO));
+        assertThat(result.get(new Position(0, 0))).isNull();
     }
 
     @Test
@@ -102,7 +105,7 @@ class PieceRepositoryTest {
         // when
         pieceRepository.delete(pieceToDelete);
         // then
-        Map<Position, Piece> pieces = pieceRepository.findByGameRoomId(gameRoomId);
+        List<PlacedPiece> pieces = pieceRepository.findAllByGameRoomId(gameRoomId);
         assertThat(pieces).isEmpty();
     }
 }
