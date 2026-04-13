@@ -36,14 +36,6 @@ public class JanggiRepository {
         return gameId;
     }
 
-    private Long saveOrUpdate(Long gameId, Team turn, boolean isFinished) {
-        if (gameId == null) {
-            return gameDao.save(new GameEntity(null, turn, isFinished));
-        }
-        gameDao.update(new GameEntity(gameId, turn, isFinished));
-        return gameId;
-    }
-
     public List<GameEntity> findOngoingGames() {
         return gameDao.findOngoingGames();
     }
@@ -65,5 +57,13 @@ public class JanggiRepository {
         }
 
         return loadedBoard;
+    }
+
+    private Long saveOrUpdate(Long gameId, Team turn, boolean isFinished) {
+        if (gameId == null) {
+            return gameDao.save(new GameEntity(null, turn, isFinished));
+        }
+        gameDao.update(new GameEntity(gameId, turn, isFinished));
+        return gameId;
     }
 }

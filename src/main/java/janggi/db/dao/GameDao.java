@@ -23,7 +23,6 @@ public class GameDao {
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임 저장 중 오류가 발생했습니다", e);
         }
-
     }
 
     public void update(GameEntity game) {

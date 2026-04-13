@@ -51,6 +51,10 @@ public enum Palace {
         return palacePositions.contains(position);
     }
 
+    public List<Route> findDiagonalRoutes(Position position) {
+        return diagonalInfos.getOrDefault(position, List.of());
+    }
+
     private List<Position> initializePalacePositions(int startY, int endY) {
         List<Position> palacePositions = new ArrayList<>();
         for (int x = START_X; x <= END_X; x++) {
@@ -63,9 +67,5 @@ public enum Palace {
         for (int y = startY; y <= endY; y++) {
             palacePositions.add(new Position(x, y));
         }
-    }
-
-    public List<Route> findDiagonalRoutes(Position position) {
-        return diagonalInfos.getOrDefault(position, List.of());
     }
 }

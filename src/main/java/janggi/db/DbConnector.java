@@ -32,9 +32,8 @@ public class DbConnector {
     }
 
     public static void initDatabase() {
-        try (Connection conn = getConnection();
-             Statement statement = conn.createStatement()) {
-
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
             String sql = Files.readString(Path.of("src/main/resources/schema.sql"));
             statement.execute(sql);
             System.out.println("[INFO] 데이터베이스 테이블이 초기화되었습니다.");
