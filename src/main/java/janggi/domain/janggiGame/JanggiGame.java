@@ -62,7 +62,7 @@ public class JanggiGame {
         }
 
         if (isKingCaught()) {
-            winner = board.kingsOnBoard().get(0).findTeam();
+            winner = board.kingsOnBoard().get(0).getTeam();
             return winner;
         }
 

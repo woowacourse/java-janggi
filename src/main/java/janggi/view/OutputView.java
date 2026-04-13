@@ -50,7 +50,7 @@ public class OutputView {
         if (piece == null || piece.isEmpty()) {
             return "[ . ] ";
         }
-        String team = getTeamName(piece.findTeam());
+        String team = getTeamName(piece.getTeam());
         String symbol = getSymbol(piece.pieceType());
 
         return String.format("[%s%s] ", team, symbol);

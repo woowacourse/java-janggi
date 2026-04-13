@@ -15,11 +15,13 @@ public abstract class Piece {
         return team == otherTeam;
     }
 
+    public boolean isSameType(PieceType other) {return this.pieceType() == other;}
+
     public boolean isEmpty() {
         return false;
     }
 
-    public Team findTeam() {
+    public Team getTeam() {
         return team;
     }
 

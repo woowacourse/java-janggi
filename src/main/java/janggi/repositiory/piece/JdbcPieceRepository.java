@@ -64,7 +64,7 @@ public class JdbcPieceRepository implements PieceRepository {
                 pstmt.setInt(2, pos.getRow());
                 pstmt.setInt(3, pos.getCol());
                 pstmt.setString(4, piece.pieceType().getCode());
-                pstmt.setString(5, piece.findTeam().getCode());
+                pstmt.setString(5, piece.getTeam().getCode());
                 pstmt.addBatch();
             }
             pstmt.executeBatch();

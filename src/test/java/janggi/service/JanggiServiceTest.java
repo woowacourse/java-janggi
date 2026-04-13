@@ -114,7 +114,7 @@ class JanggiServiceTest {
 
         Piece expectedPiece = pieceRepository.findAll(id).get(position);
         assertThat(expectedPiece.pieceType()).isEqualTo(PieceType.SOLDIER);
-        assertThat(expectedPiece.findTeam()).isEqualTo(Team.CHO);
+        assertThat(expectedPiece.getTeam()).isEqualTo(Team.CHO);
     }
 
     @Test

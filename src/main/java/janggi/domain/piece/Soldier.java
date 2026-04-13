@@ -16,6 +16,6 @@ public class Soldier extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return new SoldierMoveRule(findTeam());
+        return new SoldierMoveRule(getTeam());
     }
 }
