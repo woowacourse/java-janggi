@@ -3,6 +3,7 @@ package view;
 import dto.PieceInfo;
 import dto.SelectResumeOptionRequest;
 import dto.SelectPositionRequest;
+import dto.SelectSavedGameRequest;
 import dto.UnfinishedGameInfo;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -25,7 +26,7 @@ public final class InputView {
         return SelectResumeOptionRequest.of(readLine());
     }
 
-    public static long selectSavedGameId(List<UnfinishedGameInfo> unfinishedGameInfos) {
+    public static SelectSavedGameRequest selectSavedGameId(List<UnfinishedGameInfo> unfinishedGameInfos) {
         String separator = "+---------+----------------------+";
 
         System.out.println(separator);
@@ -41,7 +42,7 @@ public final class InputView {
         System.out.println(separator);
 
         System.out.print("불러올 게임의 ID를 입력하세요: ");
-        return Long.parseLong(readLine());
+        return SelectSavedGameRequest.of(readLine());
     }
 
     public static SelectPositionRequest selectPiecePosition() {

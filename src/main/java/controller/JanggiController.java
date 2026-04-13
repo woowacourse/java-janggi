@@ -3,6 +3,7 @@ package controller;
 import domain.Position;
 import dto.SelectResumeOptionRequest;
 import dto.SelectPositionRequest;
+import dto.SelectSavedGameRequest;
 import exception.JanggiGameException;
 import java.util.function.Supplier;
 import service.JanggiCommandService;
@@ -36,9 +37,9 @@ public class JanggiController {
     }
 
     private void setupSavedGameId() {
-        long gameId = InputView.selectSavedGameId(queryService.findUnfinishedGameInfos());
-        queryService.isInProgress(gameId);
-        currentGameId = gameId;
+        SelectSavedGameRequest request = InputView.selectSavedGameId(queryService.findUnfinishedGameInfos());
+        queryService.isInProgress(request.gameId());
+        currentGameId = request.gameId();
     }
 
     private boolean isPlayerWantPlayingUnfinishedGame() {
@@ -116,9 +117,9 @@ public class JanggiController {
     private <T> T executeWithReturn(Supplier<T> task) {
         while (true) {
             try {
-                T result = task.get(); // task 실행 후 결과값 받기
+                T result = task.get();
                 OutputView.printTaskDivider();
-                return result;         // 결과값 반환
+                return result;
             } catch (JanggiGameException e) {
                 OutputView.printError(e.getMessage());
                 OutputView.printTaskDivider();
