@@ -2,6 +2,9 @@ package view;
 
 import domain.board.Position;
 import domain.board.SetUp;
+import application.command.GameCommand;
+import application.command.MoveCommand;
+import application.command.PassCommand;
 
 import java.util.Scanner;
 
@@ -12,7 +15,9 @@ public class InputView {
     private static final int MOVE_COMMAND_TOKEN_SIZE = 4;
     private static final int DISPLAYED_LAST_ROW = 0;
     private static final int ACTUAL_LAST_ROW = 10;
-    public static final String COMMAND_MUST_BE_NUMBER_ERROR_MESSAGE = "[ERROR] 상차림 번호는 숫자여야 합니다.";
+    private static final String COMMAND_MUST_BE_NUMBER_ERROR_MESSAGE = "[ERROR] 상차림 번호는 숫자여야 합니다.";
+    private static final String INVALID_MENU_ERROR_MESSAGE = "[ERROR] 메뉴는 1 또는 2만 입력 가능합니다.";
+    private static final String INVALID_GAME_ID_ERROR_MESSAGE = "[ERROR] 게임 번호는 숫자여야 합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -45,6 +50,26 @@ public class InputView {
                 parsePosition(tokens[0], tokens[1]),
                 parsePosition(tokens[2], tokens[3])
         );
+    }
+
+    public String readMainMenu() {
+        String input = readLine();
+
+        if (!"1".equals(input) && !"2".equals(input)) {
+            throw new IllegalArgumentException(INVALID_MENU_ERROR_MESSAGE);
+        }
+
+        return input;
+    }
+
+    public int readGameId() {
+        String input = readLine();
+
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_GAME_ID_ERROR_MESSAGE);
+        }
     }
 
     private Position parsePosition(String xToken, String yToken) {

@@ -91,4 +91,55 @@ public class CannonStrategyTest {
         assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("출발 지점과 도착 지점이 궁성 내부일 경우 도착 위치가 궁성의 외곽이 아니면 예외가 발생한다")
+    void throwException_When_FromAndToIsInPalaceButNotOuterPerimeter() {
+        dummyBoard.put(new Position(4, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        pathChecker = new Board(dummyBoard);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 1);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("출발 지점과 도착 지점이 궁성 내부일 경우 대각선 이동이고 도착 지점에 포가 없다면 정상 이동한다")
+    void moveSuccess_When_FromAndToIsInPalaceAndOuterPerimeter() {
+        dummyBoard.put(new Position(4, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER));
+        pathChecker = new Board(dummyBoard);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatCode(() -> cannon.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("출발 지점과 도착 지점이 궁성 내부일 경우 도착 위치가 궁성의 외곽이고 경로에 포가 있다면 예외가 발생한다")
+    void throwException_When_FromAndToIsInPalaceAndOuterPerimeterButCannonInPath() {
+        dummyBoard.put(new Position(4, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(4, 2), new Piece(Camp.CHO, PieceType.CANNON));
+        dummyBoard.put(new Position(5, 2), new Piece(Camp.HAN, PieceType.CANNON));
+        pathChecker = new Board(dummyBoard);
+
+        Position from = new Position(4, 1);
+        Position to1 = new Position(4, 3);
+        Position to2 = new Position(6, 3);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> cannon.move(from, to1, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cannon.move(from, to2, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

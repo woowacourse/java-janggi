@@ -26,6 +26,11 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(new Position(1, 4), new Piece(Camp.HAN, PieceType.SOLDIER));
         dummyBoard.put(new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER));
+        dummyBoard.put(new Position(4, 1), new Piece(Camp.CHO, PieceType.SOLDIER));
+        dummyBoard.put(new Position(4, 3), new Piece(Camp.CHO, PieceType.SOLDIER));
+        dummyBoard.put(new Position(4, 8), new Piece(Camp.HAN, PieceType.SOLDIER));
+        dummyBoard.put(new Position(4, 10), new Piece(Camp.HAN, PieceType.SOLDIER));
+
 
         pathChecker = new Board(dummyBoard);
     }
@@ -129,6 +134,126 @@ public class SoldierStrategyTest {
         Piece soldier = dummyBoard.get(from);
 
         assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 현재 위치가 궁성 내부이고 진행 방향일 때 중앙을 포함한 대각선 이동이 가능하다")
+    void moveSuccess_When_ChoSoldierCurrentPositionIsInPalace_And_Forward_And_IncludePalaceCenter() {
+        Position from = new Position(4, 3);
+        Position to = new Position(5, 2);
+
+        Piece choSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> choSoldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 현재 위치가 궁성 내부이고 진행 방향일 때 중앙을 포함하지 않은 대각선 이동은 예외가 발생한다")
+    void throwException_When_ChoSoldierCurrentPositionIsInPalace_And_Forward_And_NotIncludePalaceCenter() {
+        Position from = new Position(4, 3);
+        Position to = new Position(3, 2);
+
+        Piece choSoldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> choSoldier.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸은 현재 위치가 궁성 내부이고 중앙을 포함하더라도 진행 방향이 아닌 대각선 이동은 예외가 발생한다")
+    void throwException_When_ChoSoldierCurrentPositionIsInPalace_And_IncludePalaceCenter_And_NotForward() {
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 2);
+
+        Piece choSoldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> choSoldier.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("병은 현재 위치가 궁성 내부이고 진행 방향일 때 중앙을 포함한 대각선 이동이 가능하다")
+    void moveSuccess_When_HanSoldierCurrentPositionIsInPalace_And_Forward_And_IncludePalaceCenter() {
+        Position from = new Position(4, 8);
+        Position to = new Position(5, 9);
+
+        Piece hanSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> hanSoldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 현재 위치가 궁성 내부이고 진행 방향일 때 중앙을 포함하지 않은 대각선 이동은 예외가 발생한다")
+    void throwException_When_HanSoldierCurrentPositionIsInPalace_And_Forward_And_NotIncludePalaceCenter() {
+        Position from = new Position(4, 8);
+        Position to = new Position(3, 9);
+
+        Piece hanSoldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> hanSoldier.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("병은 현재 위치가 궁성 내부이고 중앙을 포함하더라도 진행 방향이 아닌 대각선 이동은 예외가 발생한다")
+    void throwException_When_HanSoldierCurrentPositionIsInPalace_And_IncludePalaceCenter_And_NotForward() {
+        Position from = new Position(4, 10);
+        Position to = new Position(5, 9);
+
+        Piece hanSoldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> hanSoldier.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 내부에서 좌우로 움직일 수 있다")
+    void moveLeftOrRightSuccess_When_ChoSoldierCurrentPositionIsInPalace() {
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 1);
+
+        Piece choSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> choSoldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 내부에서 직진할 수 있다")
+    void moveStraightSuccess_When_ChoSoldierCurrentPositionIsInPalace() {
+        Position from = new Position(4, 3);
+        Position to = new Position(4, 2);
+
+        Piece choSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> choSoldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 궁성 내부에서 좌우로 움직일 수 있다")
+    void moveLeftOrRightSuccess_When_HanSoldierCurrentPositionIsInPalace() {
+        Position from = new Position(4, 8);
+        Position to = new Position(5, 8);
+
+        Piece hanSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> hanSoldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 궁성 내부에서 직진할 수 있다")
+    void moveStraightSuccess_When_HanSoldierCurrentPositionIsInPalace() {
+        Position from = new Position(4, 8);
+        Position to = new Position(4, 9);
+
+        Piece hanSoldier = dummyBoard.get(from);
+
+        assertThatCode(() -> hanSoldier.move(from, to, pathChecker))
                 .doesNotThrowAnyException();
     }
 }

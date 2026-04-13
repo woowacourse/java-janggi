@@ -14,4 +14,12 @@ public interface PathChecker {
     Camp findCamp(Position position);
 
     boolean isTargetType(Position position, PieceType pieceType);
+
+    boolean isInPalace(Position position);
+
+    boolean isOnPalaceCenter(Position position);
+
+    boolean isInDifferencePalace(Position from, Position to);
+
+    Position findPalaceCenter(Position from);
 }

@@ -9,6 +9,7 @@ import java.util.*;
 public class Board implements PathChecker {
 
     private static final String NO_PIECE_EXIST_ERROR_MESSAGE = "[ERROR] 해당 좌표에 기물이 없습니다.";
+    private static final Palace PALACE = new Palace();
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
@@ -42,6 +43,12 @@ public class Board implements PathChecker {
 
         board.remove(from);
         board.put(to, targetPiece);
+    }
+
+    public boolean isGeneral(Position to) {
+        return findPiece(to)
+                .map(piece -> piece.type() == PieceType.GENERAL)
+                .orElse(false);
     }
 
     public Piece findBy(Position position) {
@@ -83,5 +90,41 @@ public class Board implements PathChecker {
         }
 
         return fromPiece.camp() == toPiece.camp();
+    }
+
+    @Override
+    public boolean isInPalace(Position position) {
+        return PALACE.isInPalace(position);
+    }
+
+    @Override
+    public boolean isOnPalaceCenter(Position position) {
+        return PALACE.isOnPalaceCenter(position);
+    }
+
+    @Override
+    public boolean isInDifferencePalace(Position from, Position to) {
+        return PALACE.isInDifferencePalace(from, to);
+    }
+
+    public boolean isOnlyGeneralAndGuard() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.type() != PieceType.GENERAL && piece.type() != PieceType.GUARD);
+    }
+
+    public double calculateScore(Camp camp) {
+        return board.values().stream()
+                .filter(piece -> piece.camp() == camp)
+                .mapToDouble(piece -> piece.type().score())
+                .sum();
+    }
+
+    @Override
+    public Position findPalaceCenter(Position from) {
+        return PALACE.findPalaceCenter(from);
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(this.board);
     }
 }
