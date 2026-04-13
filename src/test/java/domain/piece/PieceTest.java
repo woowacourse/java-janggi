@@ -49,7 +49,7 @@ class PieceTest {
         }
 
         @Test
-        void 궁성과_사는_궁성_경로_생성기로_후보_경로를_생성한다() {
+        void 궁성과_사는_이동_전략으로_후보_경로를_생성한다() {
             final Piece piece = Piece.of(TeamColor.HAN, PieceType.GUARD);
 
             assertThat(piece.makeRoutes(Position.of(0, 3))).containsExactlyInAnyOrder(

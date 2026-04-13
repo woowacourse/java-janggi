@@ -5,9 +5,7 @@ import domain.board.MovePath;
 import domain.piece.TeamColor;
 import java.util.List;
 
-public class PawnMoveStrategy implements MoveStrategy{
-
-
+public class PawnMoveStrategy implements MoveStrategy {
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
         if (teamColor == TeamColor.CHO) {
@@ -25,5 +23,3 @@ public class PawnMoveStrategy implements MoveStrategy{
         );
     }
 }
-
-
