@@ -18,7 +18,7 @@ public class AppConfig {
     private static final String DB_USER = "DB_USER";
     private static final String DB_PASSWORD = "DB_PASSWORD";
 
-    public GameRunner gameManager() {
+    public GameRunner gameRunner() {
         return new GameRunner(outputView(), inputView(), janggiRepository());
     }
 
