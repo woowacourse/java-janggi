@@ -11,7 +11,7 @@ import domain.position.Position;
 import java.util.List;
 import parser.PlayerNameParser;
 import parser.PositionParser;
-import repository.GameRepository;
+import service.GameService;
 import view.InputView;
 import view.OutputView;
 
@@ -19,24 +19,26 @@ public class GameController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameService gameService;
 
-    public GameController(InputView inputView, OutputView outputView) {
+    public GameController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
-    public void run(Game game, GameRepository gameRepository) {
+    public void run(Game game) {
         while (true) {
             Player player = game.getCurrentPlayer();
             outputView.printBoard(game.getBoardFormat());
 
             playTurn(player, game);
-            gameRepository.save(game);
+            gameService.saveProgress(game);
 
             outputView.printScore(game.getGameTotalScore());
             if (game.isGameOver()) {
                 outputView.printWinner(game.getWinner());
-                gameRepository.deleteById(game.id());
+                gameService.deleteFinishedGame(game);
                 break;
             }
         }
