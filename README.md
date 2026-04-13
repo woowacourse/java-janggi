@@ -72,3 +72,16 @@
 - [x] 보드에 남아있는 특정 팀의 모든 기물 점수의 합을 구한다.
 - [x] 한나라 팀의 경우, 총 점수에 1.5점을 추가한다.
 - [x] 두 팀의 점수를 비교하여, 승패를 판정한다.
+
+### DB 세팅
+테이블 생성: src/main/resources/schema.sql을 실행해 주세요.
+
+설정 파일: db.properties.sample 파일을 복사하여 동일한 위치에 db.properties 파일을 만듭니다.
+
+정보 입력: 아래 형식을 참고해서 MySQL 접속 정보를 입력해 주시면 실행 가능합니다!
+
+```
+db.url=jdbc:mysql://localhost:3306/janggi_db
+db.user=사용자_계정
+db.password=사용자_비밀번호
+```
