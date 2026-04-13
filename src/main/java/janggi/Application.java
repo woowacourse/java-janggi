@@ -1,15 +1,26 @@
 package janggi;
 
+import janggi.db.ConnectionFactory;
+import janggi.db.DatabaseException;
+import janggi.db.SchemaInitializer;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
+import janggi.domain.game.JanggiGame;
+import janggi.domain.game.MoveResult;
+import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
+import janggi.repository.GameRepository;
+import janggi.repository.JdbcGameRepository;
+import janggi.repository.SavedGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
 
 public class Application {
+    private static final String DATABASE_ERROR_MESSAGE =
+            "데이터베이스 처리 중 문제가 발생했습니다. 프로그램을 다시 실행해 주세요.";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -23,25 +34,55 @@ public class Application {
     }
 
     private void run() {
-        OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
-        Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
-                openingFormationChoices.choChoice());
-
-        while (isPlaying()) {
-            outputView.printBoardMap(BoardDto.from(board));
-            Position startPiecePosition = readStartPositionUntilValid();
-            Position endPiecePosition = readEndPositionUntilValid();
-            tryMove(board, startPiecePosition, endPiecePosition);
+        try {
+            runGame();
+        } catch (DatabaseException e) {
+            outputView.printErrorMessage(DATABASE_ERROR_MESSAGE);
         }
     }
 
-    private boolean isPlaying() {
-        return true;
+    private void runGame() {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        initializeSchema(connectionFactory);
+        GameRepository gameRepository = new JdbcGameRepository(connectionFactory);
+        SavedGame savedGame = findSavedGameOrCreateNewGame(gameRepository);
+        JanggiGame janggiGame = savedGame.janggiGame();
+        long savedGameId = savedGame.id();
+
+        while (janggiGame.isPlaying()) {
+            outputView.printBoardMap(BoardDto.from(janggiGame.getBoard()));
+            Position startPiecePosition = readStartPositionUntilValid();
+            Position endPiecePosition = readEndPositionUntilValid();
+            tryMove(gameRepository, savedGameId, janggiGame, startPiecePosition, endPiecePosition);
+        }
+        outputView.printBoardMap(BoardDto.from(janggiGame.getBoard()));
+        outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
     }
 
-    private void tryMove(Board board, Position from, Position to) {
+    private void initializeSchema(ConnectionFactory connectionFactory) {
+        SchemaInitializer schemaInitializer = new SchemaInitializer(connectionFactory);
+        schemaInitializer.initialize();
+    }
+
+    private SavedGame findSavedGameOrCreateNewGame(GameRepository gameRepository) {
+        return gameRepository.findPlayingGame()
+                .orElseGet(() -> createNewGame(gameRepository));
+    }
+
+    private SavedGame createNewGame(GameRepository gameRepository) {
+        OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
+        Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
+                openingFormationChoices.choChoice());
+        JanggiGame janggiGame = JanggiGame.start(board);
+        long savedGameId = gameRepository.saveNewGame(janggiGame);
+        return new SavedGame(savedGameId, janggiGame);
+    }
+
+    private void tryMove(GameRepository gameRepository, long savedGameId, JanggiGame janggiGame,
+                         Position startPiecePosition, Position endPiecePosition) {
         try {
-            board.move(from, to);
+            MoveResult moveResult = janggiGame.move(startPiecePosition, endPiecePosition);
+            gameRepository.applyMoveResult(savedGameId, moveResult);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }

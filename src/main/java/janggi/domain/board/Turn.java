@@ -16,7 +16,7 @@ public class Turn {
         return new Turn(Team.HAN);
     }
 
-    public boolean isCurrentTeam(Team team) {
-        return this.team == team;
+    public Team team() {
+        return team;
     }
 }

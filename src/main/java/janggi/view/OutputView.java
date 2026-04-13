@@ -26,6 +26,12 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printScore(double hanScore, double choScore) {
+        System.out.println();
+        System.out.printf("한 점수: %.1f%n", hanScore);
+        System.out.printf("초 점수: %.1f%n", choScore);
+    }
+
     private void printRow(int y, List<PositionPieceDto> positionPieceDtos) {
         System.out.printf("%s ", ROW_LABELS.get(y - 1));
         for (int x = BoardRange.MIN_X; x <= BoardRange.MAX_X; x++) {

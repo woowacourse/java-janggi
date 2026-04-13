@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class Board {
     private final Map<Position, Piece> board;
-    private Turn turn = new Turn(Team.HAN);
 
     public Board(Map<Position, Piece> board) {
         this.board = board;
@@ -19,17 +18,19 @@ public class Board {
         return Collections.unmodifiableMap(board);
     }
 
-    public void move(Position from, Position to) {
-        validatePieceExistsAt(from);
+    public Piece move(Position from, Position to) {
         Piece piece = board.get(from);
-        validateCurrentTurn(piece);
-
+        Piece capturedPiece = board.get(to);
         if (!piece.canMove(from, to, this)) {
             throw new IllegalArgumentException("해당 기물은 이동할 수 없습니다.");
         }
 
         movePiece(from, to);
-        changeTurn();
+        return capturedPiece;
+    }
+
+    public Piece findPiece(Position position) {
+        return board.get(position);
     }
 
     public boolean hasPieceAt(Position position) {
@@ -47,28 +48,21 @@ public class Board {
         return positionPieces;
     }
 
-    private boolean isCurrentTeamPiece(Piece piece) {
-        return turn.isCurrentTeam(piece.getTeam());
+    public double calculateScore(Team team) {
+        double score = board.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToDouble(Piece::score)
+                .sum();
+
+        if (team == Team.HAN) {
+            return score + 1.5;
+        }
+
+        return score;
     }
 
     private void movePiece(Position from, Position to) {
         board.put(to, board.get(from));
         board.remove(from);
-    }
-
-    private void changeTurn() {
-        this.turn = turn.changeTurn();
-    }
-
-    private void validatePieceExistsAt(Position from) {
-        if (!hasPieceAt(from)) {
-            throw new IllegalArgumentException("해당 출발 위치에는 기물이 존재하지 않습니다");
-        }
-    }
-
-    private void validateCurrentTurn(Piece piece) {
-        if (!isCurrentTeamPiece(piece)) {
-            throw new IllegalArgumentException("해당 기물은 현재 턴의 진영 기물이 아닙니다.");
-        }
     }
 }

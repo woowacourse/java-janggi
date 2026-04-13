@@ -1,14 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.movestrategy.CannonStrategy;
-import janggi.domain.movestrategy.ChariotStrategy;
-import janggi.domain.movestrategy.ChoSoldierStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.GeneralStrategy;
-import janggi.domain.movestrategy.GuardStrategy;
-import janggi.domain.movestrategy.HanSoldierStrategy;
-import janggi.domain.movestrategy.HorseStrategy;
-import janggi.domain.movestrategy.MoveStrategy;
 import janggi.domain.piece.CannonPiece;
 import janggi.domain.piece.ChariotPiece;
 import janggi.domain.piece.ElephantPiece;
@@ -71,38 +62,30 @@ public class BoardInitializer {
     }
 
     private static void initializeSoldiers(Map<Position, Piece> board, Team team, int y) {
-        MoveStrategy soldierStrategy = createSoldierStrategy(team);
         for (int x : SOLDIER_COLUMNS) {
-            board.put(new Position(x, y), new SoldierPiece(team, soldierStrategy));
+            board.put(new Position(x, y), new SoldierPiece(team));
         }
-    }
-
-    private static MoveStrategy createSoldierStrategy(Team team) {
-        if (team == Team.HAN) {
-            return new HanSoldierStrategy();
-        }
-        return new ChoSoldierStrategy();
     }
 
     private static void initializeCannons(Map<Position, Piece> board, Team team, int y) {
         for (int x : CANNON_COLUMNS) {
-            board.put(new Position(x, y), new CannonPiece(team, new CannonStrategy()));
+            board.put(new Position(x, y), new CannonPiece(team));
         }
     }
 
     private static void initializeGeneral(Map<Position, Piece> board, Team team, int y) {
-        board.put(new Position(GENERAL_COLUMN, y), new GeneralPiece(team, new GeneralStrategy()));
+        board.put(new Position(GENERAL_COLUMN, y), new GeneralPiece(team));
     }
 
     private static void initializeGuards(Map<Position, Piece> board, Team team, int y) {
         for (int x : GUARD_COLUMNS) {
-            board.put(new Position(x, y), new GuardPiece(team, new GuardStrategy()));
+            board.put(new Position(x, y), new GuardPiece(team));
         }
     }
 
     private static void initializeChariots(Map<Position, Piece> board, Team team, int y) {
         for (int x : CHARIOT_COLUMNS) {
-            board.put(new Position(x, y), new ChariotPiece(team, new ChariotStrategy()));
+            board.put(new Position(x, y), new ChariotPiece(team));
         }
     }
 
@@ -118,8 +101,8 @@ public class BoardInitializer {
 
     private static Piece createFormationPiece(Name name, Team team) {
         if (name == Name.ELEPHANT) {
-            return new ElephantPiece(team, new ElephantStrategy());
+            return new ElephantPiece(team);
         }
-        return new HorsePiece(team, new HorseStrategy());
+        return new HorsePiece(team);
     }
 }
