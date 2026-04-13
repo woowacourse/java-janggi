@@ -47,11 +47,11 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public JanggiGame loadGame(long gameId) {
+    public Optional<JanggiGame> loadGame(long gameId) {
         return TransactionContext.query(() -> {
             List<PieceSnapshot> pieceSnapshots = janggiGameDao.findAllPieces(gameId);
-            GameStateData gameStateData = janggiGameStateDao.findByGameId(gameId);
-            return JanggiGameRestorer.restore(pieceSnapshots, gameStateData);
+            Optional<GameStateData> gameStateData = janggiGameStateDao.findByGameId(gameId);
+            return gameStateData.map(state -> JanggiGameRestorer.restore(pieceSnapshots, state));
         });
     }
 

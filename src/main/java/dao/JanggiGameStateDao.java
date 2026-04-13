@@ -5,6 +5,7 @@ import infrastructure.TransactionContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class JanggiGameStateDao {
 
@@ -30,7 +31,7 @@ public class JanggiGameStateDao {
         }
     }
 
-    public GameStateData findByGameId(long gameId) throws SQLException {
+    public Optional<GameStateData> findByGameId(long gameId) throws SQLException {
         String sql = "SELECT status, is_finished FROM game_state WHERE game_id = ?";
 
         try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
@@ -38,9 +39,9 @@ public class JanggiGameStateDao {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
-                    throw new SQLException("game_state 없음: game_id=" + gameId);
+                    return Optional.empty();
                 }
-                return new GameStateData(rs.getString("status"), rs.getBoolean("is_finished"));
+                return Optional.of(new GameStateData(rs.getString("status"), rs.getBoolean("is_finished")));
             }
         }
     }

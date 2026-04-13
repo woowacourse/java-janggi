@@ -11,7 +11,7 @@ public interface JanggiRepository {
 
     void updateGame(long gameId, JanggiGame game);
 
-    JanggiGame loadGame(long gameId);
+    Optional<JanggiGame> loadGame(long gameId);
 
     boolean hasUnfinishedGame();
 
