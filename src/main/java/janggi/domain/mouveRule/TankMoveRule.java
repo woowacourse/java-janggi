@@ -7,7 +7,7 @@ import janggi.domain.vo.position.Position;
 public class TankMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        if (!(board.palace().isOnDiagonalPath(from, to) || from.isStraightLine(to))) {
+        if (!(board.isOnDiagonalPath(from, to) || from.isStraightLine(to))) {
             return false;
         }
 

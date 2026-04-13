@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CannonMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        if (!(board.palace().isOnDiagonalPath(from, to) || from.isStraightLine(to))){
+        if (!(board.isOnDiagonalPath(from, to) || from.isStraightLine(to))){
             return false;
         }
 
@@ -26,7 +26,7 @@ public class CannonMoveRule implements MoveRule {
     }
 
     private boolean isTargetCannon(Position to, BoardView board) {
-        return board.findTypeByPosition(to) == PieceType.CANNON;
+        return board.findPieceByPosition(to).isSameType(PieceType.CANNON);
     }
 
     private List<PieceType> findPieceTypesBetween(Position from, Position to, BoardView board) {
@@ -34,7 +34,7 @@ public class CannonMoveRule implements MoveRule {
         Path path = Path.between(from, to);
 
         for (int i = 0; i < path.size(); i++) {
-            pieces.add(board.findTypeByPosition(path.positionAt(i)));
+            pieces.add(board.findPieceByPosition(path.positionAt(i)).pieceType());
         }
 
         return pieces.stream()

@@ -17,7 +17,7 @@ public final class SoldierMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        if (board.palace().isOnDiagonalPath(from, to)){
+        if (board.isOnDiagonalPath(from, to)){
             List<Direction> palacePaths = Direction.forwardDiagonals(SOLDIER_PATHS.get(0));
             return Path.createByDirections(from, palacePaths).contains(to);
         }
