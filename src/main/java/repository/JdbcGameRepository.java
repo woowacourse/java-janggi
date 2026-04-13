@@ -46,7 +46,7 @@ public class JdbcGameRepository implements GameRepository {
             } else {
                 gameId = game.id();
                 gameDao.update(conn, gameDto);
-                pieceDao.deleteByBoardId(conn, gameId);
+                pieceDao.deleteByGameId(conn, gameId);
             }
 
             List<PieceDto> pieceDtos = janggiMapper.toPieceDtos(game.board(), gameId);
@@ -69,7 +69,7 @@ public class JdbcGameRepository implements GameRepository {
                 return Optional.empty();
             }
 
-            List<PieceDto> pieceDtos = pieceDao.findByBoardId(conn, id);
+            List<PieceDto> pieceDtos = pieceDao.findByGameId(conn, id);
             return Optional.of(
                     janggiMapper.toDomain(gameDto.get(), janggiMapper.toBoard(pieceDtos))
             );

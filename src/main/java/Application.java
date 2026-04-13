@@ -12,8 +12,7 @@ import view.InputView;
 import view.OutputView;
 
 public class Application {
-    private static final String DB_URL = "jdbc:h2:~/janggi;INIT=RUNSCRIPT FROM\n"
-            + "  'src/main/resources/schema.sql'";
+    private static final String DB_URL = "jdbc:h2:~/janggi_new;INIT=RUNSCRIPT FROM 'file:src/main/resources/schema.sql'";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD = "";
 

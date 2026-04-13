@@ -13,10 +13,6 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public abstract PieceSymbol getSymbol();
-
-    public abstract double getScore();
-
     public String getFormat() {
         return side.colorize(getSymbol().display());
     }
@@ -44,4 +40,8 @@ public abstract class Piece {
     public boolean canMove(BoardView board, Position from, Position to) {
         return moveStrategy.canMove(board, from, to);
     }
+
+    public abstract PieceSymbol getSymbol();
+
+    public abstract double getScore();
 }

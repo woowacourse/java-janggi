@@ -12,15 +12,15 @@ import java.util.List;
 public class JdbcPieceDao implements PieceDao {
 
     @Override
-    public void insertAll(Connection conn, Long boardId, List<PieceDto> pieces) {
+    public void insertAll(Connection conn, Long gameId, List<PieceDto> pieces) {
         String sql = """
-                INSERT INTO piece (board_id, piece_type, side, pos_row, pos_col)
+                INSERT INTO piece (game_id, piece_type, side, pos_row, pos_col)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             for (PieceDto piece : pieces) {
-                ps.setLong(1, boardId);
+                ps.setLong(1, gameId);
                 ps.setString(2, piece.pieceSymbol().name());
                 ps.setString(3, piece.side().name());
                 ps.setInt(4, piece.row());
@@ -30,23 +30,23 @@ public class JdbcPieceDao implements PieceDao {
 
             ps.executeBatch();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("piece 저장 중 오류가 발생했습니다. boardId=" + boardId, e);
+            throw new IllegalArgumentException("piece 저장 중 오류가 발생했습니다. gameId=" + gameId, e);
         }
     }
 
     @Override
-    public List<PieceDto> findByBoardId(Connection conn, Long boardId) {
+    public List<PieceDto> findByGameId(Connection conn, Long gameId) {
         String sql = """
-                SELECT board_id, piece_type, side, pos_row, pos_col
+                SELECT id, game_id, piece_type, side, pos_row, pos_col
                 FROM piece
-                WHERE board_id = ?
+                WHERE game_id = ?
                 ORDER BY pos_row, pos_col
                 """;
 
         List<PieceDto> result = new ArrayList<>();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, boardId);
+            ps.setLong(1, gameId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -56,25 +56,26 @@ public class JdbcPieceDao implements PieceDao {
 
             return result;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("piece을 찾는 도중 오류가 발생했습니다. boardId=" + boardId, e);
+            throw new IllegalArgumentException("piece을 찾는 도중 오류가 발생했습니다. gameId=" + gameId, e);
         }
     }
 
     @Override
-    public void deleteByBoardId(Connection conn, Long boardId) {
-        String sql = "DELETE FROM piece WHERE board_id = ?";
+    public void deleteByGameId(Connection conn, Long gameId) {
+        String sql = "DELETE FROM piece WHERE game_id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, boardId);
+            ps.setLong(1, gameId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("piece 삭제 중 오류가 발생했습니다. boardId=" + boardId, e);
+            throw new IllegalArgumentException("piece 삭제 중 오류가 발생했습니다. gameId=" + gameId, e);
         }
     }
 
     private PieceDto toPieceDto(ResultSet rs) throws SQLException {
         return new PieceDto(
-                rs.getLong("board_id"),
+                rs.getLong("id"),
+                rs.getLong("game_id"),
                 PieceSymbol.valueOf(rs.getString("piece_type")),
                 Side.valueOf(rs.getString("side")),
                 rs.getInt("pos_row"),

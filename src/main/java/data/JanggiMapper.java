@@ -25,7 +25,7 @@ public class JanggiMapper {
         );
     }
 
-    public List<PieceDto> toPieceDtos(Board board, Long boardId) {
+    public List<PieceDto> toPieceDtos(Board board, Long gameId) {
         List<PieceDto> pieceDtos = new ArrayList<>();
 
         for (int row = 1; row <= 10; row++) {
@@ -37,7 +37,8 @@ public class JanggiMapper {
 
                 Piece piece = pieceOptional.get();
                 pieceDtos.add(new PieceDto(
-                        boardId,
+                        null,
+                        gameId,
                         piece.getSymbol(),
                         piece.getSide(),
                         row,
@@ -71,9 +72,7 @@ public class JanggiMapper {
                 board,
                 gameDto.currentTurn().resolve(players.getPlayerBySide(Side.CHO),
                         players.getPlayerBySide(Side.HAN)),
-                gameDto.status(),
-                board.calculateScore(Side.CHO),
-                board.calculateScore(Side.HAN)
+                gameDto.status()
         );
     }
 

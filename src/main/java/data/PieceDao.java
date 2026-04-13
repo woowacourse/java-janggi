@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface PieceDao {
 
-    void insertAll(Connection conn, Long boardId, List<PieceDto> pieces);
+    void insertAll(Connection conn, Long gameId, List<PieceDto> pieces);
 
-    List<PieceDto> findByBoardId(Connection conn, Long boardId);
+    List<PieceDto> findByGameId(Connection conn, Long gameId);
 
-    void deleteByBoardId(Connection conn, Long boardId);
+    void deleteByGameId(Connection conn, Long gameId);
 }
