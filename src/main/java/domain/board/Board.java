@@ -26,9 +26,7 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("이동할 기물이 없는 위치입니다."));
         validateMove(src, dest, team, piece);
         Optional<Piece> destPiece = findPiece(dest);
-        if (destPiece.isPresent()) {
-            piece.validateDestination(destPiece.get());
-        }
+        destPiece.ifPresent(piece::validateDestination);
         applyMove(src, dest, piece);
     }
 
@@ -58,9 +56,7 @@ public class Board {
         }
         cannonRule.validateJumpCount(count);
         Optional<Piece> destPiece = findPiece(dest);
-        if (destPiece.isPresent()) {
-            cannonRule.validateCaptureDest(destPiece.get());
-        }
+        destPiece.ifPresent(cannonRule::validateCaptureDest);
     }
 
     private void validateIntermediateRoute(List<Position> route) {
