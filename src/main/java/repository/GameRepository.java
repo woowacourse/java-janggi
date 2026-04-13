@@ -63,8 +63,19 @@ public class GameRepository {
         boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
     }
 
-    public List<GameRoomRawData> listRooms() {
-        return gameRoomDao.findAll();
+    public List<GameRoomSummary> listRooms() {
+        return gameRoomDao.findAll().stream()
+                .map(this::toSummary)
+                .toList();
+    }
+
+    private GameRoomSummary toSummary(GameRoomRawData raw) {
+        return new GameRoomSummary(
+                raw.id(),
+                raw.name(),
+                Team.valueOf(raw.currentTurn()),
+                GameStatus.valueOf(raw.status())
+        );
     }
 
     private List<BoardPieceRawData> toRawPieces(Board board) {

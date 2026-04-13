@@ -1,11 +1,11 @@
 package controller;
 
 import controller.command.TurnCommand;
-import dao.GameRoomRawData;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Team;
 import java.util.List;
+import repository.GameRoomSummary;
 import service.JanggiGameService;
 import view.InputView;
 import view.MainMenu;
@@ -52,7 +52,7 @@ public class JanggiController {
     }
 
     private void listAndEnterRoom() {
-        List<GameRoomRawData> rooms = gameService.listRooms();
+        List<GameRoomSummary> rooms = gameService.listRooms();
         outputView.printRoomList(rooms);
         if (rooms.isEmpty()) {
             return;

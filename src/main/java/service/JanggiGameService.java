@@ -1,12 +1,12 @@
 package service;
 
-import dao.GameRoomRawData;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.position.Position;
 import java.util.List;
 import java.util.Optional;
 import repository.GameRepository;
+import repository.GameRoomSummary;
 
 public class JanggiGameService {
     private final GameRepository gameRepository;
@@ -25,7 +25,7 @@ public class JanggiGameService {
         return gameRepository.loadGame(roomId);
     }
 
-    public List<GameRoomRawData> listRooms() {
+    public List<GameRoomSummary> listRooms() {
         return gameRepository.listRooms();
     }
 
