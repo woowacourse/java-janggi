@@ -1,13 +1,16 @@
 package domain.pieces;
 
+import domain.PieceFinder;
 import domain.enums.Country;
+import domain.enums.Direction;
 import domain.enums.PieceType;
 import domain.Position;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-public abstract class Piece {
+public abstract class Piece{
     private final Country country;
     private final PieceType pieceType;
 
@@ -20,11 +23,25 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public abstract boolean canMovePosition(Position start, Position end);
+    public int getPieceScore() {
+        return pieceType.getScore();
+    }
 
-    public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
+    public Optional<Position> move(Position start, Direction direction) {
+        int startX = start.getX();
+        int startY = start.getY();
+        int forward = country.getForward();
+        int dx = direction.getDx();
+        int dy = direction.getDy();
+        try {
+            return Optional.of(Position.create(startX + dx * forward, startY + dy * forward));
+        } catch(IllegalArgumentException e) {
+            return Optional.empty();
+        }
+    }
 
-//    public abstract List<Position> getAvailableRoute();
+    public abstract List<Position> getAvailableRoute(Position start, PieceFinder finder);
+
     public boolean isDifferentCountry(Country endCountry) {
         return !country.equals(endCountry);
     }

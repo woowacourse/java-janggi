@@ -1,10 +1,14 @@
 package domain.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import domain.enums.Country;
-import domain.enums.PieceType;
+import domain.PieceFinder;
 import domain.Position;
+import domain.enums.Country;
+import domain.enums.Direction;
+import domain.enums.PieceType;
 
 public class Po extends Piece {
 
@@ -13,33 +17,67 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        return start.getX() == end.getX() || start.getY() == end.getY();
-    }
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
+        List<Position> availableRoute = new ArrayList<>();
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+        start.addPalaceDirection(directions);
 
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        // 중간에 기물 하나인지 && 넘는게 포인지
-        if (countSameLine(pieces) != 1) {
-            return false;
+        for (Direction direction : directions) {
+            availableRoute.addAll(searchOneDirection(start, finder, direction));
         }
-
-        // 도착 기물이 포인지
-        return !endPieceType.equals(PieceType.PO);
+        return availableRoute;
     }
 
-    private int countSameLine(List<Piece> pieces) {
-        int pieceCount = 0;
+    private List<Position> searchOneDirection(Position start, PieceFinder finder, Direction direction) {
+        List<Position> availableRoute = new ArrayList<>();
+        List<Piece> pieces = new ArrayList<>();
+        Position now = start;
+
+        for (int i = 0; i < Position.MAX_ROW; i++) {
+            Optional<Position> position = move(now, direction);
+            if (position.isEmpty()) break;
+            now = position.get();
+
+            if (cantMoveDiagonalOutOfPalace(direction, now)) break;
+            Piece endPiece = finder.find(now);
+
+            if (checkEndPiece(endPiece) && checkPieceAmongRoute(pieces)) {
+                availableRoute.add(now);
+            }
+            pieces.add(endPiece);
+        }
+        return availableRoute;
+    }
+
+    private boolean cantMoveDiagonalOutOfPalace(Direction direction, Position now) {
+        return Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace());
+    }
+
+    private boolean checkEndPiece(Piece endPiece) {
+        return isNotPo(endPiece) && isDifferentCountry(endPiece.getCountry());
+    }
+
+    private boolean checkPieceAmongRoute(List<Piece> pieces) {
+        return hasNotPoAmongPath(pieces) && hasOnePieceAmongPath(pieces);
+    }
+
+    private boolean isNotPo(Piece piece) {
+        return !(piece.getPieceType() == PieceType.PO);
+    }
+
+    private boolean hasOnePieceAmongPath(List<Piece> pieces) {
+        int count = 0;
         for (Piece piece : pieces) {
-            if (piece.getPieceType().equals(PieceType.PO)) {
-                throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
-            }
-
-            if (!piece.equals(None.INSTANCE)) {
-                pieceCount++;
-            }
+            if (piece.getPieceType() != PieceType.NONE) count++;
         }
-
-        return pieceCount;
+        return count == 1;
     }
+
+    private boolean hasNotPoAmongPath(List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            if (piece.getPieceType() == PieceType.PO) return false;
+        }
+        return true;
+    }
+
 }

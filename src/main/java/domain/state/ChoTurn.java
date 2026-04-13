@@ -12,4 +12,14 @@ public class ChoTurn implements State {
     public Country getCountry() {
         return Country.CHO;
     }
+
+    @Override
+    public boolean isGameOver() {
+        return false;
+    }
+
+    @Override
+    public String getValue(){
+        return "ChoTurn";
+    }
 }

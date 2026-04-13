@@ -59,4 +59,16 @@ public class InputView {
         Validator.validateLength(COORDINATE_INPUT_LENGTH, coordinate.size());
         return Optional.of(coordinate);
     }
+
+    public int chooseGameStartNewOrAgain() {
+        System.out.println("1. 게임 새로 시작하기\n2. 게임 이어하기\n원하는 번호를 선택해주세요.");
+        int choice = Validator.validateNumber(scanner.nextLine());
+        Validator.validateNumberInRange(CHOICE_START_NUMBER_WITH_QUIT, 2, choice);
+        return choice;
+    }
+
+    public int requestGameId() {
+        System.out.println("게임 ID를 입력해주세요 (숫자)");
+        return Validator.validateNumber(scanner.nextLine());
+    }
 }

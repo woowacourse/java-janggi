@@ -5,11 +5,12 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import domain.Board;
-import domain.enums.Country;
 import domain.JanggiGame;
+import domain.Position;
+import domain.enums.Country;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
-import domain.Position;
+import exception.Validator;
 import service.JanggiService;
 import service.dto.PositionDto;
 import view.InputView;
@@ -30,24 +31,31 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = initBoard();
-        JanggiGame janggiGame = initJanggiGame(board);
+        int gameId = initOrGetGame();
+        playJanggiGame(gameId);
 
-        boolean isGameContinue = true;
-        while (isGameContinue) {
-            outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
-            playTurn(janggiGame, board);
-            isGameContinue= isGameContinue();
-        }
+        outputView.printScore(janggiService.buildScoreDto(gameId));
+        outputView.printGameOverMessage(janggiService.getFinalWinner(gameId));
     }
 
+    private int initOrGetGame() {
+        return doRetry(() -> {
+            int choose = inputView.chooseGameStartNewOrAgain();
+            if (choose == 2) {
+                int num = inputView.requestGameId();
+                janggiService.validateExistGame(num);
+                return num;
+            }
+            Board board = initBoard();
+            JanggiGame janggiGame = initJanggiGame(board);
+            return janggiService.initializeData(janggiGame);
+        });
+    }
 
     private Board initBoard() {
         outputView.printGameStartMessage();
-
         MaSang choMaSangChoose = initMaSang(Country.CHO);
         MaSang hanMaSangChoose = initMaSang(Country.HAN);
-
         return janggiService.createBoard(choMaSangChoose, hanMaSangChoose);
     }
 
@@ -64,10 +72,25 @@ public class JanggiController {
         return janggiService.createJanggiGame(board);
     }
 
-    private List<PositionDto> requestMovePiece(JanggiGame janggiGame) {
+    private void playJanggiGame(int gameId) {
+        boolean isGameContinue = true;
+        while (!janggiService.isGameOver(gameId) && isGameContinue) {
+            outputView.printScore(janggiService.buildScoreDto(gameId));
+            outputView.printChangeTurnMessage(janggiService.getNowTurnCountry(gameId));
+            playTurn(gameId);
+            outputView.printBoard(janggiService.buildResultDto(gameId));
+
+            if (janggiService.isGameOver(gameId)) {
+                break;
+            }
+            isGameContinue = isGameContinue();
+        }
+    }
+
+    private List<PositionDto> requestMovePiece(int gameId) {
         return doRetry(() -> {
             PieceType pt = PieceType.of(inputView.requestPiece());
-            List<PositionDto> dtos = janggiService.getPiecePositions(janggiGame, pt);
+            List<PositionDto> dtos = janggiService.getPiecePositions(gameId, pt);
             outputView.printPiecePossiblePosition(pt, dtos);
             return dtos;
         });
@@ -76,7 +99,7 @@ public class JanggiController {
     private Optional<Position> requestStartPiecePosition(List<PositionDto> positionDtos) {
         return doRetry(() -> {
             int choiceStart = inputView.requestStartPiecePosition(positionDtos.size());
-            if (choiceStart==InputView.CHOICE_QUIT_NUMBER) {
+            if (choiceStart == InputView.CHOICE_QUIT_NUMBER) {
                 return Optional.empty();
             }
             int startIdx = choiceStart - 1;
@@ -84,29 +107,33 @@ public class JanggiController {
         });
     }
 
-    private void requestEndPosition(Position start, JanggiGame janggiGame) {
+    private void requestEndPosition(Position start, int gameId) {
         doRetry(() -> {
                     Optional<List<Integer>> input = inputView.requestMovePosition();
-                    if (input.isEmpty()){
-                        return Optional.empty();
-                    }
-                    List<Integer> destination= input.get();
+                    Validator.validateDataExist(input.isPresent(),"올바르지 않은 입력입니다.");
+
+                    List<Integer> destination = input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
-                    janggiService.applyMove(start, end, janggiGame);
+                    janggiService.applyMove(start, end, gameId);
                     return Optional.empty();
                 }
         );
     }
 
-    private void playTurn(JanggiGame janggiGame, Board board) {
-        outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
-        List<PositionDto> positionDtos = requestMovePiece(janggiGame);
-        Optional<Position> start = requestStartPiecePosition(positionDtos);
-        if (start.isEmpty()) {
-            return;
-        }
-        requestEndPosition(start.get(), janggiGame);
-        outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
+    private void playTurn(int gameId) {
+        doRetry(() -> {
+                    outputView.printBoard(janggiService.buildResultDto(gameId));
+                    List<PositionDto> positionDtos = requestMovePiece(gameId);
+                    Optional<Position> start = requestStartPiecePosition(positionDtos);
+                    Validator.validateDataExist(start.isPresent(), "올바르지 않은 입력입니다. 번호를 다시 입력해주세요.");
+
+                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(gameId, start.get());
+                    Validator.validateDataExist(!availableEndPositions.isEmpty(), "이동 가능한 좌표가 없습니다.");
+                    outputView.printPiecePossibleEndPosition(availableEndPositions);
+                    requestEndPosition(start.get(), gameId);
+                    return Optional.empty();
+                }
+        );
     }
 
     private boolean isGameContinue() {
@@ -126,7 +153,7 @@ public class JanggiController {
         }
     }
 
-    private static void checkRetryLimit(int retry) {
+    private void checkRetryLimit(int retry) {
         if (retry > MAX_RETRY) {
             throw new IllegalStateException("입력횟수를 초과했습니다.");
         }

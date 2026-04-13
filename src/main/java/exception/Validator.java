@@ -22,12 +22,18 @@ public final class Validator {
     }
 
     public static boolean validateYesOrNo(String input) {
-        if (input.equals("y")) {
+        if (input.equals("y") || input.isBlank()) {
             return true;
         }
         if  (input.equals("n")) {
             return false;
         }
         throw new IllegalArgumentException("입력이 올바르지 않습니다.");
+    }
+
+    public static void validateDataExist(boolean isDataExist, String message) {
+        if (!isDataExist) {
+            throw new IllegalArgumentException(message);
+        }
     }
 }

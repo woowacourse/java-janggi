@@ -2,25 +2,25 @@ package domain.state;
 
 import domain.enums.Country;
 
-public class HanTurn implements State{
+public class ExitGame implements State {
     @Override
     public State changeTurn() {
-        return new ChoTurn();
+        return new ExitGame();
     }
 
     @Override
     public Country getCountry() {
-        return Country.HAN;
+        return Country.NONE;
     }
 
     @Override
     public boolean isGameOver() {
-        return false;
+        return true;
     }
 
     @Override
     public String getValue(){
-        return "HanTurn";
+        return "Exit";
     }
 
 }

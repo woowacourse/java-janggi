@@ -1,27 +1,44 @@
 package domain.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import domain.enums.Country;
-import domain.enums.PieceType;
+import domain.PieceFinder;
 import domain.Position;
+import domain.enums.Country;
+import domain.enums.Direction;
+import domain.enums.PieceType;
 
 public class Jang extends Piece {
 
     public Jang(Country country) {
-        super(country,PieceType.JANG);
+        super(country, PieceType.JANG);
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
+        List<Position> availableRoute = new ArrayList<>();
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+        start.addPalaceDirection(directions);
 
-        return Math.abs(diffX) + Math.abs(diffY) == 1;
+        for (Direction direction : directions) {
+            Optional<Position> position = move(start, direction);
+            if (checkPositionInPalace(position)) continue;
+
+            Piece endPiece = finder.find(position.get());
+            if (!canMoveToEnd(endPiece)) continue;
+
+            availableRoute.add(position.get());
+        }
+        return availableRoute;
     }
 
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        return true;
+    private boolean checkPositionInPalace(Optional<Position> position) {
+        return (position.isEmpty() || !position.get().isInPalace());
+    }
+
+    private boolean canMoveToEnd(Piece endPiece) {
+        return endPiece == None.INSTANCE || isDifferentCountry(endPiece.getCountry());
     }
 }
