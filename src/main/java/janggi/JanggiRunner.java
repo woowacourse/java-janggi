@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.JanggiGame;
 import janggi.domain.Position;
+import janggi.domain.WinnerResult;
 import janggi.service.JanggiService;
 import janggi.util.ActionExecutor;
 import janggi.util.DelimiterParser;
@@ -51,12 +52,11 @@ public class JanggiRunner {
 
     private void finish(JanggiGame janggiGame) {
         PersistenceExecutor.retryOnTimeout(janggiService::finishGame, this::printPersistenceTimeoutMessage);
-        int winnerScore = janggiGame.getWinnerScore();
+        WinnerResult winnerResult = janggiGame.getWinnerResult();
         outputView.printResult(
             janggiGame.makeCurrentTurnBoardSnapShot(),
-            janggiGame.findWinner()
-                .orElseThrow(() -> new IllegalStateException("승자가 존재하지 않습니다.")),
-            winnerScore
+            winnerResult.winner(),
+            winnerResult.winnerScore()
         );
     }
 

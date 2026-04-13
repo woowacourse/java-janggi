@@ -53,13 +53,13 @@ public class Turn {
         return board.findWinner();
     }
 
-    public int getWinnerScore() {
+    public WinnerResult getWinnerResult() {
         Optional<TeamType> winnerCandidate = findWinner();
         if (winnerCandidate.isEmpty()) {
             throw new IllegalArgumentException("아직 승자가 존재하지 않습니다.");
         }
         TeamType winner = winnerCandidate.get();
-        return board.calculateScore(winner);
+        return new WinnerResult(winner, board.calculateScore(winner));
     }
 
     private TeamType playingTeamType() {
