@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.BoardMove;
 import domain.board.BoardSnapshot;
 import domain.board.formation.FormationType;
 import domain.game.condition.BikjangCondition;
@@ -55,13 +56,14 @@ public class JanggiGame {
         );
     }
 
-    public void move(Position source, Position destination) {
+    public BoardMove move(Position source, Position destination) {
         validateRunning();
         validateTurn(source);
-        board.move(source, destination);
+        BoardMove boardMove = board.move(source, destination);
         record.recordMove();
         turn = turn.next();
         checkEndConditions();
+        return boardMove;
     }
 
     public void pass() {

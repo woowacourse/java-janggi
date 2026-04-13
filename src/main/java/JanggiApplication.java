@@ -13,9 +13,9 @@ public class JanggiApplication {
         ConnectionManager connectionManager = new ConnectionManager();
         new DatabaseInitializer(connectionManager).initialize();
 
-        GameRoomDao gameRoomDao = new GameRoomDao(connectionManager);
-        BoardPieceDao boardPieceDao = new BoardPieceDao(connectionManager);
-        GameRepository gameRepository = new GameRepository(gameRoomDao, boardPieceDao);
+        GameRoomDao gameRoomDao = new GameRoomDao();
+        BoardPieceDao boardPieceDao = new BoardPieceDao();
+        GameRepository gameRepository = new GameRepository(connectionManager, gameRoomDao, boardPieceDao);
         JanggiGameService gameService = new JanggiGameService(gameRepository);
 
         JanggiController controller = new JanggiController(new InputView(), new OutputView(), gameService);

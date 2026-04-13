@@ -49,4 +49,20 @@ public class ConnectionManager {
             throw new IllegalStateException("DB 연결 실패", e);
         }
     }
+
+    public <T> T inTransaction(TransactionCallback<T> callback) {
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                T result = callback.execute(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException | RuntimeException e) {
+                connection.rollback();
+                throw new IllegalStateException("트랜잭션 실패", e);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 연결 실패", e);
+        }
+    }
 }

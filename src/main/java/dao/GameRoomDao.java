@@ -1,6 +1,5 @@
 package dao;
 
-import db.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,16 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class GameRoomDao {
-    private final ConnectionManager connectionManager;
 
-    public GameRoomDao(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
-    public long save(String name, String currentTurn, String status, int consecutivePassCount) {
+    public long save(Connection connection, String name, String currentTurn, String status, int consecutivePassCount) {
         String sql = "INSERT INTO game_room (name, current_turn, status, consecutive_pass_count) VALUES (?, ?, ?, ?)";
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, name);
             statement.setString(2, currentTurn);
             statement.setString(3, status);
@@ -37,10 +30,9 @@ public class GameRoomDao {
         }
     }
 
-    public List<GameRoomRawData> findAll() {
+    public List<GameRoomRawData> findAll(Connection connection) {
         String sql = "SELECT id, name, current_turn, status, consecutive_pass_count FROM game_room ORDER BY id";
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             List<GameRoomRawData> rooms = new ArrayList<>();
             while (resultSet.next()) {
@@ -52,10 +44,9 @@ public class GameRoomDao {
         }
     }
 
-    public Optional<GameRoomRawData> findById(long id) {
+    public Optional<GameRoomRawData> findById(Connection connection, long id) {
         String sql = "SELECT id, name, current_turn, status, consecutive_pass_count FROM game_room WHERE id = ?";
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -68,10 +59,9 @@ public class GameRoomDao {
         }
     }
 
-    public void update(long id, String currentTurn, String status, int consecutivePassCount) {
+    public void update(Connection connection, long id, String currentTurn, String status, int consecutivePassCount) {
         String sql = "UPDATE game_room SET current_turn = ?, status = ?, consecutive_pass_count = ? WHERE id = ?";
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, currentTurn);
             statement.setString(2, status);
             statement.setInt(3, consecutivePassCount);

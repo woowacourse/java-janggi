@@ -9,28 +9,37 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameRoomDaoTest {
 
+    private ConnectionManager connectionManager;
+    private Connection connection;
     private GameRoomDao gameRoomDao;
 
     @BeforeEach
     void setUp() throws SQLException {
-        ConnectionManager connectionManager = new ConnectionManager();
+        connectionManager = new ConnectionManager();
         new DatabaseInitializer(connectionManager).initialize();
         truncate(connectionManager);
-        gameRoomDao = new GameRoomDao(connectionManager);
+        connection = connectionManager.getConnection();
+        gameRoomDao = new GameRoomDao();
+    }
+
+    @AfterEach
+    void tearDown() throws SQLException {
+        connection.close();
     }
 
     @Test
     @DisplayName("게임방을 저장하면 생성된 id로 조회할 수 있다")
     void saveAndFindById() {
-        long id = gameRoomDao.save("테스트방", "CHO", "RUNNING", 0);
+        long id = gameRoomDao.save(connection, "테스트방", "CHO", "RUNNING", 0);
 
-        Optional<GameRoomRawData> found = gameRoomDao.findById(id);
+        Optional<GameRoomRawData> found = gameRoomDao.findById(connection, id);
 
         assertThat(found).isPresent();
         assertThat(found.get().name()).isEqualTo("테스트방");
@@ -42,10 +51,10 @@ class GameRoomDaoTest {
     @Test
     @DisplayName("저장된 모든 게임방을 id 순으로 조회한다")
     void findAll() {
-        gameRoomDao.save("방1", "CHO", "RUNNING", 0);
-        gameRoomDao.save("방2", "HAN", "FINISHED", 1);
+        gameRoomDao.save(connection, "방1", "CHO", "RUNNING", 0);
+        gameRoomDao.save(connection, "방2", "HAN", "FINISHED", 1);
 
-        List<GameRoomRawData> rooms = gameRoomDao.findAll();
+        List<GameRoomRawData> rooms = gameRoomDao.findAll(connection);
 
         assertThat(rooms).hasSize(2);
         assertThat(rooms).extracting(GameRoomRawData::name).containsExactly("방1", "방2");
@@ -54,11 +63,11 @@ class GameRoomDaoTest {
     @Test
     @DisplayName("게임방을 업데이트하면 변경된 값이 조회된다")
     void update() {
-        long id = gameRoomDao.save("방", "CHO", "RUNNING", 0);
+        long id = gameRoomDao.save(connection, "방", "CHO", "RUNNING", 0);
 
-        gameRoomDao.update(id, "HAN", "FINISHED", 2);
+        gameRoomDao.update(connection, id, "HAN", "FINISHED", 2);
 
-        GameRoomRawData updated = gameRoomDao.findById(id).orElseThrow();
+        GameRoomRawData updated = gameRoomDao.findById(connection, id).orElseThrow();
         assertThat(updated.currentTurn()).isEqualTo("HAN");
         assertThat(updated.status()).isEqualTo("FINISHED");
         assertThat(updated.consecutivePassCount()).isEqualTo(2);

@@ -21,10 +21,11 @@ public class Board {
                 .forEach(pos -> pieces.putIfAbsent(pos, EmptyPiece.getInstance()));
     }
 
-    public void move(Position source, Position destination) {
+    public BoardMove move(Position source, Position destination) {
         Piece piece = pieceAt(source);
         piece.validateMove(source, destination, this::pieceAt);
         applyMove(source, destination, piece);
+        return new BoardMove(source, destination, piece);
     }
 
     private void applyMove(Position source, Position destination, Piece piece) {

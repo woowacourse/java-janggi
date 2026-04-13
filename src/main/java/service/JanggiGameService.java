@@ -1,5 +1,6 @@
 package service;
 
+import domain.board.BoardMove;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.position.Position;
@@ -30,12 +31,12 @@ public class JanggiGameService {
     }
 
     public void move(StoredGame stored, Position source, Position destination) {
-        stored.game().move(source, destination);
-        gameRepository.saveGame(stored);
+        BoardMove boardMove = stored.game().move(source, destination);
+        gameRepository.applyMove(stored, boardMove);
     }
 
     public void pass(StoredGame stored) {
         stored.game().pass();
-        gameRepository.saveGame(stored);
+        gameRepository.applyPass(stored);
     }
 }
