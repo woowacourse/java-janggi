@@ -51,7 +51,7 @@ public class FileGameRepository implements GameRepository {
     }
 
     @Override
-    public List<Game> findAll() {
+    public List<GameInformation> findAll() {
         Path saveDirectory = Path.of(SAVE_DIRECTORY);
         if (Files.notExists(saveDirectory)) {
             return List.of();
@@ -62,9 +62,7 @@ public class FileGameRepository implements GameRepository {
                     .filter(Files::isRegularFile)
                     .filter(this::isGameFile)
                     .sorted(Comparator.comparingLong(this::extractGameId))
-                    .map(this::readFile)
-                    .map(this::fromJson)
-                    .map(this::toGame)
+                    .map(this::toGameInformation)
                     .toList();
         } catch (IOException e) {
             throw new FileException("저장된 게임 목록을 읽을 수 없습니다.");
@@ -118,6 +116,17 @@ public class FileGameRepository implements GameRepository {
         } catch (JsonProcessingException e) {
             throw new FileException("JSON을 GameData로 변환할 수 없습니다.");
         }
+    }
+
+    private GameInformation toGameInformation(Path path) {
+        long gameId = extractGameId(path);
+        GameData gameData = fromJson(readFile(path));
+        return new GameInformation(
+                gameId,
+                gameData.choPlayerName(),
+                gameData.hanPlayerName(),
+                gameData.currentTeam()
+        );
     }
 
     private Game toGame(GameData gameData) {

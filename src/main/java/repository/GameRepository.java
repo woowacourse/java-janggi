@@ -8,7 +8,7 @@ public interface GameRepository {
 
     Game findBy(long id);
 
-    List<Game> findAll();
+    List<GameInformation> findAll();
 
     long count();
 }

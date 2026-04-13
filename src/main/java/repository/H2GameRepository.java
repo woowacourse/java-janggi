@@ -127,18 +127,27 @@ public class H2GameRepository implements GameRepository {
     }
 
     @Override
-    public List<Game> findAll() {
+    public List<GameInformation> findAll() {
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_GAME_IDS_SQL);
+             PreparedStatement statement = connection.prepareStatement("select * from games order by id");
              ResultSet resultSet = statement.executeQuery()) {
-            List<Game> games = new ArrayList<>();
+            List<GameInformation> gameInformations = new ArrayList<>();
             while (resultSet.next()) {
-                games.add(createGame(connection, resultSet.getLong("id")));
+                gameInformations.add(createGameInformation(resultSet));
             }
-            return games;
+            return gameInformations;
         } catch (SQLException e) {
             throw new DatabaseException("저장된 게임 목록을 읽을 수 없습니다.");
         }
+    }
+
+    private GameInformation createGameInformation(ResultSet resultSet) throws SQLException {
+        return new GameInformation(
+                resultSet.getLong("id"),
+                resultSet.getString("cho_player_name"),
+                resultSet.getString("han_player_name"),
+                resultSet.getString("current_team")
+        );
     }
 
     @Override
