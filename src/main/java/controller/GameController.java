@@ -1,31 +1,86 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import model.board.*;
+import model.game.GameSession;
 import model.game.JanggiGame;
 import model.move.Move;
 import model.position.Position;
+import repository.GameRepository;
+import repository.GameRestorer;
+import repository.GameSnapshot;
+import repository.SavedGame;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
+import view.StartOption;
 
 public class GameController {
     private final BoardInitializer boardInitializer;
+    private final GameRepository gameRepository;
 
-    public GameController(BoardInitializer boardInitializer) {
+    public GameController(BoardInitializer boardInitializer, GameRepository gameRepository) {
         this.boardInitializer = boardInitializer;
+        this.gameRepository = gameRepository;
     }
 
     public void start() {
+        GameSession session = loadGameSession();
+        Board board = session.board();
+        JanggiGame game = session.game();
+
+        OutputView.printBoard(board);
+        while (true) {
+            runGame(game, board);
+
+            if (game.isFinished()) {
+                printResult(board, game);
+                gameRepository.clear();
+                break;
+            }
+            saveGame(game, board);
+        }
+    }
+
+    private GameSession loadGameSession() {
+        Optional<SavedGame> savedGame = gameRepository.find();
+
+        if(savedGame.isEmpty()){
+            OutputView.printNewGameMessage();
+            return newGameSession();
+        }
+
+        return chooseGameSession(savedGame.get());
+    }
+
+    private GameSession chooseGameSession(SavedGame savedGame) {
+        OutputView.printSavedGameOptionMessage();
+
+        StartOption startOption = InputHandler.retry(() ->
+                StartOption.from(InputView.readStartOption()));
+
+        if (startOption == StartOption.LOAD) {
+            OutputView.printLoadedGameMessage();
+            return GameRestorer.restore(savedGame);
+        }
+
+        gameRepository.clear();
+        OutputView.printNewGameMessage();
+        return newGameSession();
+    }
+
+    private GameSession newGameSession() {
         Board board = new Board();
         init(board);
         JanggiGame game = new JanggiGame(board);
-        OutputView.printBoard(board);
+        return new GameSession(board, game);
+    }
 
-        while (true) {
-            runGame(game, board);
-        }
+    private void saveGame(JanggiGame game, Board board) {
+        SavedGame savedGame = GameSnapshot.from(game, board);
+        gameRepository.save(savedGame);
     }
 
     private void init(Board board) {
@@ -55,5 +110,11 @@ public class GameController {
             OutputView.printBoard(board);
             return null;
         });
+    }
+
+    private void printResult(Board board, JanggiGame game) {
+        OutputView.printWinner(game.winner());
+        OutputView.printScore(Country.CHO, board.calculateScore(Country.CHO));
+        OutputView.printScore(Country.HAN, board.calculateScore(Country.HAN));
     }
 }

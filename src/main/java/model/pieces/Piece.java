@@ -23,6 +23,10 @@ public class Piece {
         return pieceType.rule().matches(move, board, country);
     }
 
+    public int score() {
+        return pieceType().score();
+    }
+
     public Country country() {
         return country;
     }
@@ -44,5 +48,4 @@ public class Piece {
     public int hashCode() {
         return Objects.hash(country, pieceType);
     }
-
 }

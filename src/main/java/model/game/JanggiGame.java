@@ -8,15 +8,36 @@ import model.pieces.Piece;
 public class JanggiGame {
     private final Board board;
     private Country turn;
+    private GameStatus status;
 
     public JanggiGame(Board board) {
+        this(board, Country.CHO, GameStatus.playing());
+    }
+
+    private JanggiGame(Board board, Country turn, GameStatus status) {
         this.board = board;
-        this.turn = Country.CHO;
+        this.turn = turn;
+        this.status = status;
+    }
+
+    public static JanggiGame restore(Board board, Country turn, boolean finished, Country winner) {
+        return new JanggiGame(
+                board,
+                turn,
+                GameStatus.restore(finished, winner)
+        );
     }
 
     public void move(Move move) {
+        status.validateNotFinished();
         validateTurn(move);
-        board.move(move);
+
+        Piece capturedPiece = board.move(move);
+        status = status.update(capturedPiece, turn);
+
+        if (status.isFinished()) {
+            return;
+        }
         changeTurn();
     }
 
@@ -42,5 +63,13 @@ public class JanggiGame {
 
     public Country turn() {
         return turn;
+    }
+
+    public Country winner() {
+        return status.winner();
+    }
+
+    public boolean isFinished() {
+        return status.isFinished();
     }
 }

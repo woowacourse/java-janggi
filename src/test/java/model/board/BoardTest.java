@@ -1,11 +1,8 @@
-package model;
+package model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import model.board.Army;
-import model.board.Board;
-import model.board.Country;
 import model.board.strategy.InnerElephant;
 import model.board.strategy.OuterElephant;
 import model.move.Move;
@@ -204,5 +201,24 @@ class BoardTest {
 
         assertThatThrownBy(() -> board.move(move))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 나라별_남아있는_기물_점수를_계산한다() {
+        Board board = new Board();
+
+        board.place(Position.of(10, 1), new Piece(Country.CHO, PieceType.CHARIOT));
+        board.place(Position.of(7, 1), new Piece(Country.CHO, PieceType.SOLDIER));
+        board.place(Position.of(3, 2), new Piece(Country.HAN, PieceType.CANNON));
+        board.place(Position.of(2, 5), new Piece(Country.HAN, PieceType.GENERAL));
+
+        assertThat(board.calculateScore(Country.CHO)).isEqualTo(15.0);
+        assertThat(board.calculateScore(Country.HAN)).isEqualTo(8.5);
+    }
+
+    @Test
+    void 초기_기물배치_초나라의_총점은_72점_한나라의_총점은_73_점_5점이다() {
+        assertThat(board.calculateScore(Country.CHO)).isEqualTo(72.0);
+        assertThat(board.calculateScore(Country.HAN)).isEqualTo(73.5);
     }
 }

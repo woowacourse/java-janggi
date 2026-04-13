@@ -15,11 +15,18 @@ public class ChariotMoveRule extends PatternMoveRule {
 
     @Override
     protected List<MovePattern> patterns(Move move, Country country) {
-        if (!move.isStraight()) {
+        if(!isMovable(move)){
             return List.of();
         }
 
         return createPatterns(move);
+    }
+
+    private boolean isMovable(Move move){
+        if(move.isStraight()){
+            return true;
+        }
+        return isPalaceDiagonal(move);
     }
 
     private List<MovePattern> createPatterns(Move move) {

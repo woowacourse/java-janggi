@@ -46,6 +46,28 @@ public class OutputView {
         printLine();
     }
 
+    public static void printWinner(Country winner) {
+        System.out.println(winner.title() + "나라가 승리했습니다.");
+    }
+
+    public static void printScore(Country country, double score) {
+        System.out.println(country.title() + "나라 점수: " + score);
+    }
+
+    public static void printLoadedGameMessage(){
+        System.out.println("저장된 게임을 불러와 이어서 시작합니다.");
+    }
+
+    public static void printNewGameMessage(){
+        System.out.println("게임을 시작합니다.");
+    }
+
+    public static void printSavedGameOptionMessage(){
+        System.out.println("저장된 게임이 있습니다.");
+        System.out.println("1. 저장된 게임 이어서 시작");
+        System.out.println("2. 새 게임 시작");
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = 1; col <= 9; col++) {
             Position position = Position.of(row, col);

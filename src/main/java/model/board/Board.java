@@ -35,7 +35,7 @@ public class Board {
         board.remove(position);
     }
 
-    public void move(Move move) {
+    public Piece move(Move move) {
         Piece piece = findPiece(move.from());
         validatePieceExists(piece);
 
@@ -43,18 +43,9 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
         }
 
+        Piece capturedPiece = findPiece(move.to());
         executeMove(move, piece);
-    }
-
-    private static void validatePieceExists(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
-        }
-    }
-
-    private void executeMove(Move move, Piece piece) {
-        place(move.to(), piece);
-        remove(move.from());
+        return capturedPiece;
     }
 
     public boolean isPieceAt(Position position, Piece piece) {
@@ -69,6 +60,17 @@ public class Board {
         return findPiece(position) == null;
     }
 
+    public double calculateScore(Country country) {
+        double totalScore = country.bonusScore();
+        for (Piece piece : board.values()) {
+            if (piece.country() != country) {
+                continue;
+            }
+            totalScore += piece.score();
+        }
+        return totalScore;
+    }
+
     public List<Piece> findBetweenPieces(Move move) {
         List<Piece> pieces = new ArrayList<>();
         Position from = move.from();
@@ -80,6 +82,27 @@ public class Board {
             current = getPosition(move, current, pieces);
         }
         return List.copyOf(pieces);
+    }
+
+    public List<PlacedPiece> placedPieces() {
+        List<PlacedPiece> placedPieces = new ArrayList<>();
+
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            placedPieces.add(new PlacedPiece(entry.getKey(), entry.getValue()));
+        }
+
+        return List.copyOf(placedPieces);
+    }
+
+    private static void validatePieceExists(Piece piece) {
+        if (piece == null) {
+            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+        }
+    }
+
+    private void executeMove(Move move, Piece piece) {
+        place(move.to(), piece);
+        remove(move.from());
     }
 
     private Position getPosition(Move move, Position current, List<Piece> pieces) {
