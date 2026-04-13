@@ -8,38 +8,20 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class CannonTest {
 
-    @DisplayName("포는 이동한 경로를 반환한다.")
+    @DisplayName("포는 목적지까지 이동할 수 없으면 빈 경로를 반환한다.")
     @Test
-    void 포는_이동한_경로를_반환한다() {
-        // given
-        Position sourcePosition = Position.of(1,1);
-        Position targetPosition = Position.of(1,5);
-        Piece piece = PieceType.CANNON.create(Side.HAN);
-
-        // when
-        List<Position> positions = piece.findRoute(sourcePosition, targetPosition);
-
-        // then
-        List<Position> expected = List.of(Position.of(1, 2), Position.of(1, 3), Position.of(1, 4));
-        for(int i = 0; i < 3; i++) {
-            Assertions.assertThat(positions.get(i)).isEqualTo(expected.get(i));
-        }
-    }
-
-    @DisplayName("포는 목적지까지 이동할 수 없으면 예외를 발생한다.")
-    @Test
-    void 포는_목적지까지_이동할_수_없으면_예외를_발생한다() {
+    void 포는_목적지까지_이동할_수_없으면_빈_경로를_반환한다() {
         // given
         Position sourcePosition = Position.of(1,1);
         Position targetPosition = Position.of(2,5);
         Piece piece = PieceType.CANNON.create(Side.CHO);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findRoute(sourcePosition, targetPosition))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("이동할 수 없는 목적지입니다.");
+        assertThat(piece.findRoute(sourcePosition)).doesNotContain(targetPosition);
     }
 
     @DisplayName("포 이동 경로에 포를 제외한 기물이 하나 존재해야 한다.")

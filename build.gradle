@@ -13,6 +13,9 @@ dependencies {
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+
+    // MongoDB 의존성
+    implementation 'org.mongodb:mongodb-driver-sync:5.0.1'
 }
 
 java {

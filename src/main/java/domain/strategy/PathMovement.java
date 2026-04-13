@@ -6,10 +6,22 @@ import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathMovement extends MovementStrategy{
+public class PathMovement extends MovementStrategy {
 
     @Override
-    protected List<Position> buildRoute(List<Direction> path, Position source, Position target) {
+    public List<Position> findRoute(List<List<Direction>> paths, Position sourcePosition) {
+        List<Position> destinations = new ArrayList<>();
+        for (List<Direction> path : paths) {
+            List<Position> route = buildRoute(path, sourcePosition);
+            if (!route.isEmpty()) {
+                destinations.add(route.getLast());
+            }
+        }
+        return destinations;
+    }
+
+    @Override
+    protected List<Position> buildRoute(List<Direction> path, Position source) {
         List<Position> route = new ArrayList<>();
         Position current = source;
 

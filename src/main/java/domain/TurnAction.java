@@ -1,5 +1,5 @@
 package domain;
 
 public enum TurnAction {
-    MOVE, PASS
+    MOVE, PASS, JUDGE
 }

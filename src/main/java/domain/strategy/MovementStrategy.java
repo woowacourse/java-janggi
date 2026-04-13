@@ -3,22 +3,30 @@ package domain.strategy;
 import domain.Direction;
 import domain.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MovementStrategy {
 
-    protected static final String INVALID_TARGET_POSITION = "이동할 수 없는 목적지입니다.";
-
-    public List<Position> findRoute(List<List<Direction>> paths, Position sourcePosition, Position targetPosition) {
+    public List<Position> findRoute(List<List<Direction>> paths, Position sourcePosition) {
+        List<Position> positions = new ArrayList<>();
         for(List<Direction> path: paths) {
-            List<Position> positions = buildRoute(path, sourcePosition, targetPosition);
-            if(!positions.isEmpty() && positions.getLast().equals(targetPosition)) {
-                return positions;
-            }
+            positions.addAll(buildRoute(path, sourcePosition));
         }
-        throw new IllegalArgumentException(INVALID_TARGET_POSITION);
+        return positions;
     }
 
-    protected abstract List<Position> buildRoute(List<Direction> route, Position sourcePosition, Position targetPosition);
+    public List<Position> findPathTo(List<List<Direction>> paths, Position source, Position target) {
+        for(List<Direction> path: paths) {
+            List<Position> route = buildRoute(path, source);
+            int targetIndex = route.indexOf(target);
+            if(targetIndex != -1) {
+                return new ArrayList<>(route.subList(0, targetIndex));
+            }
+        }
+        return List.of();
+    }
+
+    protected abstract List<Position> buildRoute(List<Direction> route, Position sourcePosition);
 }
 

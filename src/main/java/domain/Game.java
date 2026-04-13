@@ -9,11 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+import static constant.BoardConstant.*;
+import static constant.ErrorMessage.*;
 
-
-    private static final String NOT_OWN_PIECE = "선택한 기물은 아군 기물이 아닙니다.";
-    private static final String PIECE_NOT_FOUND = "해당 위치에 기물이 존재하지 않습니다.";
+public class Game {
 
     private static final int BACK_Y = 0;
     private static final int KING_Y = 1;
@@ -28,23 +27,51 @@ public class Board {
     private static final List<Integer> FORMATION_X = List.of(2, 3, 7, 8);
 
     private final Map<Position, Piece> board = new HashMap<>();
+    private final Long id;
+    private final Turn turn;
 
-    public Board(Formation choFormation, Formation hanFormation) {
+    public Game(Long id, Turn turn, Formation choFormation, Formation hanFormation) {
         createBoard(choFormation, hanFormation);
+        this.id = id;
+        this.turn = turn;
     }
 
-    public void movePiece(Turn turn, Position sourcePosition, Position targetPosition) {
-        Piece piece = board.get(sourcePosition);
+    public Game(Long id, Turn turn, Map<Position, Piece> board) {
+        this.board.putAll(board);
+        this.id = id;
+        this.turn = turn;
+    }
 
+    public List<Position> findPath(Position sourcePosition, Turn turn) {
+        Piece piece = board.get(sourcePosition);
         validatePieceExists(piece);
         validateOwnPiece(piece, turn);
+        return filterValidTargets(piece, sourcePosition);
+    }
 
-        List<Position> route = piece.findRoute(sourcePosition, targetPosition);
-        findPiecesOnRoute(piece, route, targetPosition);
+    public void movePiece(Position source, Position target, List<Position> availableTargets) {
+        if (!availableTargets.contains(target)) {
+            throw new IllegalArgumentException(INVALID_TARGET_POSITION);
+        }
+        Piece piece = board.get(source);
+        board.put(target, piece);
+        board.put(source, new Empty());
+    }
 
-        validateAvailableTarget(piece, targetPosition);
-        board.put(targetPosition, board.get(sourcePosition));
-        board.put(sourcePosition, new Empty());
+    public ScoreStatus calculateScore() {
+        return ScoreStatus.from(board.values());
+    }
+
+    public boolean isFinished() {
+        return board.values().stream().filter(Piece::isKing).count() < 2;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 
     public Map<Position, Piece> getBoard() {
@@ -52,8 +79,8 @@ public class Board {
     }
 
     private void createBoard(Formation choFormation, Formation hanFormation) {
-        for (int x = 1; x <= 9; x++) {
-            for (int y = 1; y <= 10; y++) {
+        for (int x = MIN_X; x <= MAX_X; x++) {
+            for (int y = MIN_Y; y <= MAX_Y; y++) {
                 placePiece(Position.of(x, y), PieceType.EMPTY.create(Side.NONE));
             }
         }
@@ -95,29 +122,44 @@ public class Board {
         }
     }
 
+    private List<Position> filterValidTargets(Piece piece, Position source) {
+        List<Position> allTargets = piece.findRoute(source);
+        List<Position> validTargets = new ArrayList<>();
+        for (Position target : allTargets) {
+            if (isValidMove(piece, source, target)) {
+                validTargets.add(target);
+            }
+        }
+        return validTargets;
+    }
+
+    private boolean isValidMove(Piece piece, Position source, Position target) {
+        List<Piece> piecesOnPath = collectPiecesOnPath(piece, source, target);
+        if (!piece.isValidRoute(piecesOnPath)) {
+            return false;
+        }
+        Piece targetPiece = board.get(target);
+        return piece.isValidTarget(targetPiece);
+    }
+
+    private List<Piece> collectPiecesOnPath(Piece piece, Position source, Position target) {
+        List<Position> path = piece.findPathTo(source, target);
+        List<Piece> pieces = new ArrayList<>();
+        for (Position position : path) {
+            pieces.add(board.get(position));
+        }
+        return pieces;
+    }
+
     private void validatePieceExists(Piece piece) {
         if(piece.isEmpty()) {
             throw new IllegalArgumentException(PIECE_NOT_FOUND);
         }
     }
 
-    private void findPiecesOnRoute(Piece piece, List<Position> route, Position targetPosition) {
-        List<Piece> pieces = new ArrayList<>();
-        for(Position position : route) {
-            if(!position.equals(targetPosition)) {
-                pieces.add(board.get(position));
-            }
-        }
-        piece.checkRoute(pieces);
-    }
-
     private void validateOwnPiece(Piece piece, Turn turn) {
-        if(!piece.getSide().equals(turn.current())) {
+        if (!piece.getSide().equals(turn.current())) {
             throw new IllegalArgumentException(NOT_OWN_PIECE);
         }
-    }
-
-    private void validateAvailableTarget(Piece piece, Position targetPosition) {
-        piece.checkTarget(board.get(targetPosition));
     }
 }

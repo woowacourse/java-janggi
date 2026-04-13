@@ -6,11 +6,10 @@ import domain.strategy.MovementStrategy;
 
 import java.util.List;
 
-public abstract class Piece {
+import static constant.ErrorMessage.CANNOT_CAPTURE_OWN_PIECE;
+import static constant.ErrorMessage.ROUTE_BLOCKED;
 
-    protected static final String CANNOT_CAPTURE_OWN_PIECE = "아군 기물은 잡을 수 없습니다.";
-    protected static final String INVALID_TARGET_POSITION = "이동할 수 없는 목적지입니다.";
-    protected static final String ROUTE_BLOCKED = "이동 경로가 막혀있습니다.";
+public abstract class Piece {
 
     protected final Side side;
     protected final MovementStrategy movementStrategy;
@@ -28,17 +27,28 @@ public abstract class Piece {
         return side;
     }
 
-    public void checkTarget(Piece piece) {
-        if(side.equals(piece.side)) {
-            throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
+    public boolean isValidRoute(List<Piece> piecesOnPath) {
+        for (Piece piece : piecesOnPath) {
+            if (!piece.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidTarget(Piece targetPiece) {
+        return !targetPiece.isSameSide(this.side);
+    }
+
+    public void checkRoute(List<Piece> piecesOnPath) {
+        if (!isValidRoute(piecesOnPath)) {
+            throw new IllegalArgumentException(ROUTE_BLOCKED);
         }
     }
 
-    public void checkRoute(List<Piece> pieces) {
-        for(Piece piece : pieces) {
-            if(!(piece.isEmpty())) {
-                throw new IllegalArgumentException(ROUTE_BLOCKED);
-            }
+    public void checkTarget(Piece targetPiece) {
+        if (side.equals(targetPiece.side)) {
+            throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
         }
     }
 
@@ -50,7 +60,15 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract List<Position> findRoute(Position sourcePosition, Position targetPosition);
+    public boolean isKing() {
+        return false;
+    }
+
+    public abstract List<Position> findRoute(Position source);
+
+    public abstract List<Position> findPathTo(Position source, Position target);
 
     public abstract String getName();
+
+    public abstract double getScore();
 }

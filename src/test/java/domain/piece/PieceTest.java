@@ -11,20 +11,30 @@ import java.util.List;
 
 class PieceTest {
 
-    static class TestPiece extends Piece{
+    static class TestPiece extends Piece {
 
         public TestPiece() {
             super(Side.CHO, new PathMovement());
         }
 
         @Override
-        public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
+        public List<Position> findRoute(Position sourcePosition) {
+            return List.of();
+        }
+
+        @Override
+        public List<Position> findPathTo(Position source, Position target) {
             return List.of();
         }
 
         @Override
         public String getName() {
             return "";
+        }
+
+        @Override
+        public double getScore() {
+            return 0;
         }
     }
 

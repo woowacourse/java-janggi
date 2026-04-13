@@ -2,10 +2,12 @@ package domain.piece;
 
 import domain.Position;
 import domain.Side;
-import org.assertj.core.api.Assertions;
+import domain.strategy.PathMovement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
@@ -22,10 +24,9 @@ class ElephantTest {
     ) {
         Position source = Position.of(sourceX, sourceY);
         Position target = Position.of(targetX, targetY);
-        Piece piece = new Elephant(IRRELEVANT_SIDE);
+        Piece piece = new Elephant(IRRELEVANT_SIDE, new PathMovement());
 
-        Assertions.assertThatCode(() -> piece.findRoute(source, target))
-                .doesNotThrowAnyException();
+        assertThat(piece.findRoute(source)).contains(target);
     }
 
     @ParameterizedTest(name = "[{index}] ({0},{1}) -> ({2},{3})")
@@ -39,9 +40,8 @@ class ElephantTest {
     ) {
         Position source = Position.of(sourceX, sourceY);
         Position target = Position.of(targetX, targetY);
-        Piece piece = new Elephant(IRRELEVANT_SIDE);
+        Piece piece = new Elephant(IRRELEVANT_SIDE, new PathMovement());
 
-        Assertions.assertThatThrownBy(() -> piece.findRoute(source, target))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(piece.findRoute(source)).doesNotContain(target);
     }
 }

@@ -1,5 +1,7 @@
 package domain;
 
+import static constant.ErrorMessage.INVALID_DIRECTION;
+
 public enum Direction {
     UP(0,-1),
     DOWN(0, 1),
@@ -24,5 +26,14 @@ public enum Direction {
 
     public int getY() {
         return y;
+    }
+
+    public static Direction of(int dx, int dy) {
+        for (Direction direction : values()) {
+            if (direction.x == dx && direction.y == dy) {
+                return direction;
+            }
+        }
+        throw new IllegalArgumentException(String.format(INVALID_DIRECTION, dx, dy));
     }
 }

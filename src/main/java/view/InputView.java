@@ -5,14 +5,24 @@ import domain.TurnAction;
 
 import java.util.Scanner;
 
+import static constant.ErrorMessage.*;
+
 public class InputView {
 
-    private static final String READ_FORMATION_MESSAGE = "[%s] 포진을 선택해주세요.";
-    private static final String INVALID_FORMATION_RANGE = "번호는 1~4 사이의 숫자여야 합니다.";
-    private static final String INVALID_TURN_ACTION_RANGE = "1 또는 2를 입력해주세요.";
-    private static final String INVALID_NUMBER_FORMAT = "유효한 숫자를 입력해주세요.";
-
     private final Scanner scanner = new Scanner(System.in);
+
+    public int readOption() {
+        System.out.println("""
+                1. 새 게임
+                2. 이어하기
+                """);
+        return parseOption(scanner.nextLine());
+    }
+
+    public String readGameId() {
+        System.out.println("게임 ID를 입력해주세요");
+        return scanner.nextLine();
+    }
 
     public Formation readChoFormation() {
         System.out.printf(READ_FORMATION_MESSAGE, "초");
@@ -24,49 +34,6 @@ public class InputView {
         System.out.printf(READ_FORMATION_MESSAGE, "한");
         System.out.println();
         return parseFormation(readFormationMenu());
-    }
-
-    public TurnAction readTurnAction() {
-        System.out.println("""
-                1. 기물 이동
-                2. 한수쉼
-                """);
-        String input = scanner.nextLine();
-        return parseTurnAction(input);
-    }
-
-    private Formation parseFormation(String input) {
-        int index = parseFormationIndex(input);
-        return Formation.values()[index - 1];
-    }
-
-    private TurnAction parseTurnAction(String input) {
-        int index = parseTurnActionIndex(input);
-        return TurnAction.values()[index - 1];
-    }
-
-    private int parseFormationIndex(String input) {
-        try {
-            int index = Integer.parseInt(input);
-            if (index < 1 || index > Formation.values().length) {
-                throw new IllegalArgumentException(INVALID_FORMATION_RANGE);
-            }
-            return index;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_FORMATION_RANGE);
-        }
-    }
-
-    private int parseTurnActionIndex(String input) {
-        try {
-            int index = Integer.parseInt(input);
-            if (index < 1 || index > TurnAction.values().length) {
-                throw new IllegalArgumentException(INVALID_TURN_ACTION_RANGE);
-            }
-            return index;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_TURN_ACTION_RANGE);
-        }
     }
 
     public int readSourceXPosition() {
@@ -91,12 +58,14 @@ public class InputView {
         return parseCoordinate(scanner.nextLine());
     }
 
-    private int parseCoordinate(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_NUMBER_FORMAT);
-        }
+    public TurnAction readTurnAction() {
+        System.out.println("""
+                1. 기물 이동
+                2. 한수쉼
+                3. 점수 판정
+                """);
+        String input = scanner.nextLine();
+        return parseTurnAction(input);
     }
 
     private String readFormationMenu() {
@@ -107,5 +76,59 @@ public class InputView {
                 4. 마상마상
                 """);
         return scanner.nextLine();
+    }
+
+    private Formation parseFormation(String input) {
+        int index = parseFormationIndex(input);
+        return Formation.values()[index - 1];
+    }
+
+    private int parseFormationIndex(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            if (index < 1 || index > Formation.values().length) {
+                throw new IllegalArgumentException(INVALID_FORMATION_RANGE);
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_FORMATION_RANGE);
+        }
+    }
+
+    private int parseCoordinate(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_NUMBER_FORMAT);
+        }
+    }
+
+    private TurnAction parseTurnAction(String input) {
+        int index = parseTurnActionIndex(input);
+        return TurnAction.values()[index - 1];
+    }
+
+    private int parseTurnActionIndex(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            if (index < 1 || index > TurnAction.values().length) {
+                throw new IllegalArgumentException(INVALID_TURN_ACTION_RANGE);
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_TURN_ACTION_RANGE);
+        }
+    }
+
+    private int parseOption(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            if(!(1 <= index && index <= 2)) {
+                throw new IllegalArgumentException(INVALID_OPTION_RANGE);
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_OPTION_RANGE);
+        }
     }
 }

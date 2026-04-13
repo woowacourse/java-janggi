@@ -2,10 +2,11 @@ package domain.piece;
 
 import domain.Position;
 import domain.Side;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierTest {
 
@@ -22,8 +23,7 @@ class SoldierTest {
         Position target = Position.of(targetX, targetY);
         Piece piece = PieceType.SOLDIER.create(Side.CHO);
 
-        Assertions.assertThatCode(() -> piece.findRoute(source, target))
-                .doesNotThrowAnyException();
+        assertThat(piece.findRoute(source)).contains(target);
     }
 
     @ParameterizedTest(name = "[{index}] ({0},{1}) -> ({2},{3})")
@@ -38,8 +38,7 @@ class SoldierTest {
         Position target = Position.of(targetX, targetY);
         Piece piece = PieceType.SOLDIER.create(Side.CHO);
 
-        Assertions.assertThatThrownBy(() -> piece.findRoute(source, target))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(piece.findRoute(source)).doesNotContain(target);
     }
 
     @ParameterizedTest(name = "[{index}] ({0},{1}) -> ({2},{3})")
@@ -55,8 +54,7 @@ class SoldierTest {
         Position target = Position.of(targetX, targetY);
         Piece piece = PieceType.SOLDIER.create(Side.HAN);
 
-        Assertions.assertThatCode(() -> piece.findRoute(source, target))
-                .doesNotThrowAnyException();
+        assertThat(piece.findRoute(source)).contains(target);
     }
 
     @ParameterizedTest(name = "[{index}] ({0},{1}) -> ({2},{3})")
@@ -71,7 +69,6 @@ class SoldierTest {
         Position target = Position.of(targetX, targetY);
         Piece piece = PieceType.SOLDIER.create(Side.HAN);
 
-        Assertions.assertThatThrownBy(() -> piece.findRoute(source, target))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(piece.findRoute(source)).doesNotContain(target);
     }
 }

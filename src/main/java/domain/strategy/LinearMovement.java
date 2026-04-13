@@ -9,7 +9,7 @@ import java.util.List;
 public class LinearMovement extends MovementStrategy {
 
     @Override
-    protected List<Position> buildRoute(List<Direction> path, Position sourcePosition, Position targetPosition) {
+    protected List<Position> buildRoute(List<Direction> path, Position sourcePosition) {
         List<Position> route = new ArrayList<>();
         Direction direction = path.getFirst();
         Position current = sourcePosition;
@@ -17,11 +17,9 @@ public class LinearMovement extends MovementStrategy {
         while (current.canMove(direction.getX(), direction.getY())) {
             Position next = current.createPosition(direction.getX(), direction.getY());
             route.add(next);
-            if (next.equals(targetPosition)) {
-                return List.copyOf(route);
-            }
             current = next;
         }
-        return List.of();
+
+        return List.copyOf(route);
     }
 }
