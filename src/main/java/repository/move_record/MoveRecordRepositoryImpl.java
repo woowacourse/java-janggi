@@ -14,7 +14,6 @@ public class MoveRecordRepositoryImpl implements MoveRecordRepository {
 
     private static final String SAVE_FAILED_MESSAGE = "데이터 저장에 실패했습니다.";
     private static final String LOAD_FAILED_MESSAGE = "데이터 조회에 실패했습니다.";
-    private static final String DELETE_ALL_FAILED_MESSAGE = "데이터 삭제에 실패했습니다.";
 
     private final Connector connector;
 
@@ -23,57 +22,50 @@ public class MoveRecordRepositoryImpl implements MoveRecordRepository {
     }
 
     @Override
-    public void save(MoveRecord moveRecord) {
-        String sql = "INSERT INTO move_record(source_x, source_y, target_x, target_y, turn_side) "
-            + "VALUES (?, ?, ?, ?, ?)";
+    public void save(Long gameRecordId, MoveRecord moveRecord) {
+        String sql = "INSERT INTO move_record(game_record_id, source_x, source_y, target_x, target_y, turn_side) "
+            + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connector.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, moveRecord.sourceX());
-            stmt.setInt(2, moveRecord.sourceY());
-            stmt.setInt(3, moveRecord.targetX());
-            stmt.setInt(4, moveRecord.targetY());
-            stmt.setString(5, moveRecord.turn().name());
+            stmt.setLong(1, gameRecordId);
+            stmt.setInt(2, moveRecord.sourceX());
+            stmt.setInt(3, moveRecord.sourceY());
+            stmt.setInt(4, moveRecord.targetX());
+            stmt.setInt(5, moveRecord.targetY());
+            stmt.setString(6, moveRecord.turn().name());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(SAVE_FAILED_MESSAGE);
+            throw new RuntimeException(SAVE_FAILED_MESSAGE, e);
         }
     }
 
     @Override
-    public List<MoveRecord> findAll() {
-        String sql = "SELECT source_x, source_y, target_x, target_y, turn_side FROM move_record";
+    public List<MoveRecord> findAllByGameRecordId(Long gameRecordId) {
+        String sql = "SELECT source_x, source_y, target_x, target_y, turn_side FROM move_record "
+            + "WHERE game_record_id = ? ORDER BY id ASC";
 
         try (Connection conn = connector.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()) {
-            List<MoveRecord> moveRecords = new ArrayList<>();
-            while (rs.next()) {
-                moveRecords.add(new MoveRecord(
-                    rs.getInt("source_x"),
-                    rs.getInt("source_y"),
-                    rs.getInt("target_x"),
-                    rs.getInt("target_y"),
-                    Side.valueOf(rs.getString("turn_side"))
-                ));
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, gameRecordId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<MoveRecord> moveRecords = new ArrayList<>();
+                while (rs.next()) {
+                    moveRecords.add(new MoveRecord(
+                        rs.getInt("source_x"),
+                        rs.getInt("source_y"),
+                        rs.getInt("target_x"),
+                        rs.getInt("target_y"),
+                        Side.valueOf(rs.getString("turn_side"))
+                    ));
+                }
+                return moveRecords;
             }
-            return moveRecords;
         } catch (SQLException e) {
             throw new RuntimeException(LOAD_FAILED_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public void deleteAll() {
-        String sql = "DELETE FROM move_record";
-        try (Connection conn = connector.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(DELETE_ALL_FAILED_MESSAGE, e);
         }
     }
 }

@@ -4,7 +4,10 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.game.Game;
+import domain.game.GameStatus;
+import domain.piece.Side;
 import domain.vo.Position;
+import java.util.List;
 import repository.game_record.GameRecordRepository;
 import repository.game_record.dto.GameRecord;
 import repository.move_record.MoveRecordRepository;
@@ -21,14 +24,22 @@ public class GameService {
     }
 
     public boolean existsGame() {
-        return gameRecordRepository.existsGameRecord();
+        List<GameRecord> inProgressGames = gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.IN_PROGRESS);
+
+        if (inProgressGames.size() == 1) {
+            return true;
+        }
+        if (inProgressGames.size() > 1) {
+            finishInProgressGames();
+        }
+        return false;
     }
 
     public Game loadGame() {
-        GameRecord gameRecord = gameRecordRepository.findGameRecord();
+        GameRecord gameRecord = findInProgressGameRecord();
         Board board = BoardFactory.createBoard(gameRecord.choFormation(), gameRecord.hanFormation());
         Game game = new Game(board);
-        for (MoveRecord moveRecord : moveRecordRepository.findAll()) {
+        for (MoveRecord moveRecord : moveRecordRepository.findAllByGameRecordId(gameRecord.id())) {
             Position source = Position.of(moveRecord.sourceX(), moveRecord.sourceY());
             Position target = Position.of(moveRecord.targetX(), moveRecord.targetY());
             game.move(source, target);
@@ -38,8 +49,7 @@ public class GameService {
     }
 
     public Game createGame(Formation choFormation, Formation hanFormation) {
-        gameRecordRepository.deleteAll();
-        moveRecordRepository.deleteAll();
+        finishInProgressGames();
         gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
         Board board = BoardFactory.createBoard(choFormation, hanFormation);
 
@@ -47,17 +57,24 @@ public class GameService {
     }
 
     public void moveAndSave(Game game, Position sourcePosition, Position targetPosition) {
+        GameRecord gameRecord = findInProgressGameRecord();
+        Side movingSide = game.getCurrentTurn();
         game.move(sourcePosition, targetPosition);
 
-        if (game.isGameEnd()) {
-            gameRecordRepository.deleteAll();
-            moveRecordRepository.deleteAll();
-            
-            return;
-        }
-
-        moveRecordRepository.save(
+        moveRecordRepository.save(gameRecord.id(),
             new MoveRecord(sourcePosition.getX(), sourcePosition.getY(), targetPosition.getX(), targetPosition.getY(),
-                game.getCurrentTurn().opposite()));
+                movingSide));
+
+        if (game.isGameEnd()) {
+            gameRecordRepository.updateGameStatus(gameRecord.id(), GameStatus.FINISHED);
+        }
+    }
+
+    private GameRecord findInProgressGameRecord() {
+        return gameRecordRepository.findGameRecordByGameStatus(GameStatus.IN_PROGRESS);
+    }
+
+    private void finishInProgressGames() {
+        gameRecordRepository.updateGameStatuses(GameStatus.IN_PROGRESS, GameStatus.FINISHED);
     }
 }

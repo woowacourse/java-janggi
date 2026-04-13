@@ -1,14 +1,18 @@
 package repository.game_record;
 
+import domain.game.GameStatus;
+import java.util.List;
 import repository.game_record.dto.GameRecord;
 
 public interface GameRecordRepository {
 
-    boolean existsGameRecord();
+    List<GameRecord> findAllGameRecordsByGameStatus(GameStatus status);
 
-    GameRecord findGameRecord();
+    GameRecord findGameRecordByGameStatus(GameStatus status);
 
     void save(GameRecord gameRecord);
 
-    void deleteAll();
+    void updateGameStatus(Long gameRecordId, GameStatus gameStatus);
+
+    void updateGameStatuses(GameStatus sourceStatus, GameStatus targetStatus);
 }

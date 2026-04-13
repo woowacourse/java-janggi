@@ -5,9 +5,7 @@ import repository.move_record.dto.MoveRecord;
 
 public interface MoveRecordRepository {
 
-    void save(MoveRecord moveRecord);
+    void save(Long gameRecordId, MoveRecord moveRecord);
 
-    List<MoveRecord> findAll();
-
-    void deleteAll();
+    List<MoveRecord> findAllByGameRecordId(Long gameRecordId);
 }
