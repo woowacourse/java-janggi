@@ -51,14 +51,14 @@ public class PawnMoveStrategyTest {
     class 좌표생성 {
         @Test
         public void 초나라_졸이_정상적으로_진행경로_좌표를_안다(){
-            Position curPos = Position.of(2,3);
+            Position curPos = Position.of(4, 4);
             MoveStrategy moveStrategy = new PawnMoveStrategy();
 
             List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
             assertThat(routes).containsExactlyInAnyOrder(
-                    new Route(curPos, Position.of(1, 3), List.of()),
-                    new Route(curPos, Position.of(2, 4), List.of()),
-                    new Route(curPos, Position.of(2, 2), List.of())
+                    new Route(curPos, Position.of(3, 4), List.of()),
+                    new Route(curPos, Position.of(4, 5), List.of()),
+                    new Route(curPos, Position.of(4, 3), List.of())
             );
         }
 
@@ -103,5 +103,4 @@ public class PawnMoveStrategyTest {
         }
     }
 }
-
 
