@@ -21,6 +21,16 @@ class ByeongTest {
     }
 
     @Test
+    void 병_대각선_경로_정상_판정_테스트() {
+        Piece piece = new Byeong(Team.CHO);
+
+        Position from = new Position(4, 8);
+        Position to = new Position(3, 9);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
     void 병_후진_움직임_예외_처리_테스트() {
         Piece piece = new Byeong(Team.CHO);
 
@@ -36,8 +46,8 @@ class ByeongTest {
     void 병_대각선_움직임_예외_처리_테스트() {
         Piece piece = new Byeong(Team.CHO);
 
-        Position from = new Position(0, 3);
-        Position to = new Position(1, 4);
+        Position from = new Position(4, 8);
+        Position to = new Position(3, 7);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateMove(from, to))

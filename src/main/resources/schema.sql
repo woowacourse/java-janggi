@@ -1,0 +1,13 @@
+CREATE TABLE game (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    turn VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE piece (
+    game_id BIGINT NOT NULL,
+    x INT NOT NULL,
+    y INT NOT NULL,
+    team VARCHAR(20) NOT NULL,
+    piece_type VARCHAR(20) NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES game(id)
+);

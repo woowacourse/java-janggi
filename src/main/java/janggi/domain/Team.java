@@ -19,4 +19,19 @@ public enum Team {
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절하지 않은 진영입니다."));
     }
+
+    public static Team initialTeam() {
+        return CHO;
+    }
+
+    public Team next() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
