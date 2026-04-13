@@ -6,20 +6,43 @@ import domain.common.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class JdbcGameRepositoryTest {
+    private ConnectionFactory connectionFactory;
     private JdbcGameRepository gameRepository;
 
     @BeforeEach
     void setUp() {
         String url = "jdbc:h2:mem:janggi-test-" + UUID.randomUUID() + ";MODE=MySQL;DB_CLOSE_DELAY=-1";
-        ConnectionFactory connectionFactory = new ConnectionFactory(url, "sa", "");
+        connectionFactory = new ConnectionFactory(url, "sa", "");
         new SchemaInitializer(connectionFactory).initialize();
         gameRepository = new JdbcGameRepository(connectionFactory);
+    }
+
+    @Test
+    void 게임_생성시_정규화된_테이블에_저장된다() {
+        Board board = BoardFactory.create(Formation.LEFT_ELEPHANT, Formation.RIGHT_ELEPHANT);
+        long gameId = gameRepository.createGame(
+                "초초",
+                "한한",
+                Formation.LEFT_ELEPHANT,
+                Formation.RIGHT_ELEPHANT,
+                board.getBoard(),
+                Side.CHO,
+                0
+        );
+
+        assertThat(countByGameId("game", gameId)).isEqualTo(1);
+        assertThat(countByGameId("game_participant", gameId)).isEqualTo(2);
+        assertThat(countByGameId("game_piece", gameId)).isEqualTo(board.getBoard().size());
     }
 
     @Test
@@ -76,6 +99,8 @@ class JdbcGameRepositoryTest {
         assertThat(savedGame.id()).isEqualTo(gameId);
         assertThat(savedGame.choPlayerName()).isEqualTo("초초");
         assertThat(savedGame.hanPlayerName()).isEqualTo("한한");
+        assertThat(savedGame.choFormation()).isEqualTo(Formation.LEFT_ELEPHANT);
+        assertThat(savedGame.hanFormation()).isEqualTo(Formation.RIGHT_ELEPHANT);
         assertThat(savedGame.currentSide()).isEqualTo(Side.CHO);
         assertThat(savedGame.moveCount()).isEqualTo(2);
         assertThat(savedGame.board().getBoard()).isEqualTo(board.getBoard());
@@ -99,5 +124,23 @@ class JdbcGameRepositoryTest {
         assertThat(savedGames).isEmpty();
 
         assertThat(gameRepository.findInProgressById(gameId)).isEmpty();
+    }
+
+    private int countByGameId(String table, long gameId) {
+        String sql = "SELECT COUNT(*) FROM " + table + " WHERE game_id = ?";
+        if ("game".equals(table)) {
+            sql = "SELECT COUNT(*) FROM game WHERE id = ?";
+        }
+
+        try (Connection connection = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, gameId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
