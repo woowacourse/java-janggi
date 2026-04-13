@@ -2,7 +2,6 @@ package domain.piece.strategy;
 
 import domain.board.Palace;
 import domain.board.Position;
-import domain.path.PathInfo;
 import domain.path.Direction;
 import domain.path.PathInfos;
 import domain.path.SingleStepLinearPathGenerator;

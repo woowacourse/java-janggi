@@ -2,7 +2,6 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.JumpPathGenerator;
-import domain.path.PathInfo;
 import domain.path.PathInfos;
 
 import java.util.List;
