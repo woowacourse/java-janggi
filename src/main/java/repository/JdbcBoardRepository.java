@@ -97,7 +97,7 @@ public class JdbcBoardRepository implements BoardRepository {
             case ELEPHANT -> new Elephant(team, new ElephantStrategy());
             case HORSE -> new Horse(team, new HorseStrategy());
             case GUARD -> new Guard(team, new PalaceStrategy());
-            default -> throw new IllegalArgumentException("복구할 수 없는 기물입니다. " + pieceType);
+            case BLANK -> throw new IllegalArgumentException("복구할 수 없는 기물입니다. " + pieceType);
         };
     }
 
