@@ -7,39 +7,30 @@ import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import persistence.datasource.DataSourceInitializer;
 import persistence.entity.GameState;
 import persistence.entity.PieceState;
 
 class JdbcGameStateRepositoryTest {
 
     private DataSource dataSource;
-    private Connection connection;
+    private DataSourceInitializer dataSourceInitializer;
     private GameStateRepository repository;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         dataSource = createDataSource();
-        connection = dataSource.getConnection();
-        createTables(connection);
+        dataSourceInitializer = new DataSourceInitializer(dataSource);
+        dataSourceInitializer.initialize();
         repository = new JdbcGameStateRepository(dataSource);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        connection.close();
     }
 
     @Test
@@ -82,24 +73,10 @@ class JdbcGameStateRepositoryTest {
 
     private DataSource createDataSource() {
         JdbcDataSource dataSource = new JdbcDataSource();
-        dataSource.setURL("jdbc:h2:mem:" + UUID.randomUUID());
+        dataSource.setURL("jdbc:h2:mem:" + UUID.randomUUID() + ";DB_CLOSE_DELAY=-1");
         dataSource.setUser("sa");
         dataSource.setPassword("");
         return dataSource;
-    }
-
-    private void createTables(Connection connection) throws Exception {
-        String sql = Files.readString(Path.of("src/main/resources/schema.sql"));
-        List<String> statements = List.of(sql.split(";"));
-
-        try (Statement statement = connection.createStatement()) {
-            for (String each : statements) {
-                if (each.isBlank()) {
-                    continue;
-                }
-                statement.execute(each);
-            }
-        }
     }
 
     private GameState createGameState() {
