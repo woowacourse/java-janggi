@@ -34,11 +34,7 @@ public class BoardDao {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
 
-            Document document = new Document()
-                    .append("row", position.getRow())
-                    .append("col", position.getCol())
-                    .append("team", piece.getTeamName())
-                    .append("type", piece.getTypeName());
+            Document document = toDocument(position, piece);
             pieces.add(document);
         }
 
@@ -75,11 +71,7 @@ public class BoardDao {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
 
-            Document document = new Document()
-                    .append("row", position.getRow())
-                    .append("col", position.getCol())
-                    .append("team", piece.getTeamName())
-                    .append("type", piece.getTypeName());
+            Document document = toDocument(position, piece);
 
             pieces.add(document);
         }
@@ -101,6 +93,14 @@ public class BoardDao {
         }
 
         return gameDocument.getInteger("turnCount");
+    }
+
+    private Document toDocument(Position position, Piece piece) {
+        return new Document()
+                .append("row", position.getRow())
+                .append("col", position.getCol())
+                .append("team", piece.getTeamName())
+                .append("type", piece.getTypeName());
     }
 
     private Team findTeamByName(String name) {
