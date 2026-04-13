@@ -25,7 +25,7 @@ public class GamePersistenceService {
                 .orElseThrow(() -> new IllegalStateException(ERROR_GAME_NOT_FOUND));
     }
 
-    public void playTurnAndSave(long gameId, JanggiGame janggiGame, List<Integer> from, List<Integer> to) {
+    public void playTurn(long gameId, JanggiGame janggiGame, List<Integer> from, List<Integer> to) {
         janggiGame.playTurn(from, to);
         gameRepository.save(gameId, janggiGame);
     }

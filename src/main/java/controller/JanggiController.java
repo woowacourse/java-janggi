@@ -66,7 +66,7 @@ public class JanggiController {
     private void chooseDestinationAndGameStart(long gameId, JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            gamePersistenceService.playTurnAndSave(gameId, janggiGame, from, to);
+            gamePersistenceService.playTurn(gameId, janggiGame, from, to);
             printBoardAndScore(janggiGame);
         });
     }
