@@ -4,6 +4,9 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+janggi.mv.db
+janggi.trace.db
+janggi.lock.db
 
 ### STS ###
 .apt_generated

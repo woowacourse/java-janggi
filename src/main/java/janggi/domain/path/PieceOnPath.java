@@ -1,13 +1,12 @@
 package janggi.domain.path;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
-public class PieceOnPath implements Iterable<Piece> {
+public class PieceOnPath {
 
     private final List<Piece> pieces;
 
@@ -19,12 +18,13 @@ public class PieceOnPath implements Iterable<Piece> {
         pieces.add(piece);
     }
 
-    public Stream<Piece> stream() {
-        return pieces.stream();
+    public long countNonEmpty() {
+        return pieces.stream()
+                .filter(piece -> !piece.isEmptyPiece())
+                .count();
     }
 
-    @Override
-    public Iterator<Piece> iterator() {
-        return pieces.iterator();
+    public boolean hasType(PieceType type) {
+        return pieces.stream().anyMatch(piece -> piece.isSameType(type));
     }
 }

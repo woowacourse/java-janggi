@@ -26,8 +26,8 @@ public class Horse extends MoveablePiece {
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        validateAllPieceEmpty(piecesOnPath);
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateAllPieceEmpty(pieceOnPath);
         validateSameTeam(endPiece);
     }
 
@@ -49,8 +49,8 @@ public class Horse extends MoveablePiece {
         return path;
     }
 
-    private void validateAllPieceEmpty(PieceOnPath piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+    private void validateAllPieceEmpty(PieceOnPath pieceOnPath) {
+        if (pieceOnPath.countNonEmpty() != 0) {
             throw new IllegalArgumentException("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

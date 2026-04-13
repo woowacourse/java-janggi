@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
-import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 
-public class General extends MoveablePiece {
+public class General extends PalacePiece {
     private static final int MAX_MOVE_DISTANCE = 1;
 
     public General(Team team) {
@@ -18,25 +17,37 @@ public class General extends MoveablePiece {
     }
 
     @Override
-    public Path getPath(Movement movement) {
-        validateMove(movement);
-        return new Path();
-    }
-
-    @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
     }
 
-    private void validateMove(Movement movement) {
+    @Override
+    protected boolean isNormalMove(Movement movement) {
+        validateInPalace(movement);
+        return isOneStepStraightMove(movement);
+    }
+
+    @Override
+    protected boolean isPalaceMove(Movement movement) {
+        return isOneStepMove(movement) && palace.hasRoute(movement.getFrom(), movement.getTo());
+    }
+
+    private void validateInPalace(Movement movement) {
+        if (!palace.isPalaceMove(movement.getFrom(), movement.getTo())) {
+            throw new IllegalArgumentException("[ERROR] 장은 궁성 내에서만 움직일 수 있습니다.");
+        }
+    }
+
+    private boolean isOneStepStraightMove(Movement movement) {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-
-        boolean isValidMove = (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
+        return (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
                 || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
+    }
 
-        if (!isValidMove) {
-            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
-        }
+    private boolean isOneStepMove(Movement movement) {
+        int absRowDiff = Math.abs(movement.calculateRowDiff());
+        int absColumnDiff = Math.abs(movement.calculateColumnDiff());
+        return absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
     }
 }

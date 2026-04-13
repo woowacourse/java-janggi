@@ -28,14 +28,9 @@ public class Board {
         executeMove(movement, fromPiece);
     }
 
-    private void executeMove(Movement movement, Piece fromPiece) {
-        piecesByPosition.put(movement.getFrom(), new EmptyPiece());
-        piecesByPosition.put(movement.getTo(), fromPiece);
-    }
-
     public boolean isGeneralCaptured(Team currentTeam) {
         return piecesByPosition.values().stream()
-                .noneMatch(piece -> piece.getType() == PieceType.GENERAL && piece.getTeam() == currentTeam);
+                .noneMatch(piece -> piece.isSameType(PieceType.GENERAL) && piece.isSameTeam(currentTeam));
     }
 
     public Map<Position, Piece> showBoard() {
@@ -66,8 +61,13 @@ public class Board {
     }
 
     private void validateCurrentTeamPiece(Piece fromPiece, Team currentTeam) {
-        if (!(fromPiece.getTeam() == currentTeam)) {
+        if (!(fromPiece.isSameTeam(currentTeam))) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 이동시킬 수 있습니다.");
         }
+    }
+
+    private void executeMove(Movement movement, Piece fromPiece) {
+        piecesByPosition.put(movement.getFrom(), new EmptyPiece());
+        piecesByPosition.put(movement.getTo(), fromPiece);
     }
 }

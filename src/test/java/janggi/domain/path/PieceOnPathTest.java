@@ -1,30 +1,57 @@
 package janggi.domain.path;
 
 import janggi.domain.Team;
-import janggi.domain.piece.EmptyPiece;
-import janggi.domain.piece.General;
-import org.junit.jupiter.api.Test;
+import janggi.domain.piece.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceOnPathTest {
 
-    @Test
-    void 경로_위_기물에_피스를_추가하면_저장된다() {
+    @DisplayName("빈 기물이 아닌 기물의 수를 반환한다.")
+    @ParameterizedTest
+    @MethodSource("countNonEmptyArguments")
+    void 빈기물이_아닌_기물의_수를_반환한다(List<Piece> pieces, long expected) {
+        // given
         PieceOnPath pieceOnPath = new PieceOnPath();
-        EmptyPiece emptyPiece = new EmptyPiece();
-        General general = new General(Team.HAN);
+        pieces.forEach(pieceOnPath::add);
 
-        pieceOnPath.add(emptyPiece);
-        pieceOnPath.add(general);
+        // when
+        long count = pieceOnPath.countNonEmpty();
 
-        assertThat(pieceOnPath).containsExactly(emptyPiece, general);
+        // then
+        assertThat(count).isEqualTo(expected);
     }
 
-    @Test
-    void 빈_경로_위_기물을_순회하면_비어있다() {
-        PieceOnPath pieceOnPath = new PieceOnPath();
+    private static Stream<Arguments> countNonEmptyArguments() {
+        return Stream.of(
+                Arguments.of(List.of(new EmptyPiece(), new Soldier(Team.HAN)), 1L),
+                Arguments.of(List.of(new EmptyPiece(), new EmptyPiece()), 0L)
+        );
+    }
 
-        assertThat(pieceOnPath).isEmpty();
+    @DisplayName("특정 타입의 기물이 있는지 확인한다.")
+    @ParameterizedTest
+    @MethodSource("hasTypeArguments")
+    void 특정_타입의_기물이_있는지_확인한다(Piece piece, PieceType type, boolean expected) {
+        // given
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(piece);
+
+        // when & then
+        assertThat(pieceOnPath.hasType(type)).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> hasTypeArguments() {
+        return Stream.of(
+                Arguments.of(new Cannon(Team.HAN), PieceType.CANNON, true),
+                Arguments.of(new Soldier(Team.HAN), PieceType.CANNON, false)
+        );
     }
 }

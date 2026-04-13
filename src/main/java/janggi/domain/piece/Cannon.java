@@ -1,12 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
-import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
-import janggi.domain.position.Movement;
-import janggi.domain.position.Position;
 
-public class Cannon extends MoveablePiece {
+public class Cannon extends PalacePiece {
 
     public Cannon(Team team) {
         super(team);
@@ -18,55 +15,28 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public Path getPath(Movement movement) {
-        validateMove(movement);
-        return findPath(movement.getFrom(), movement.getTo());
-    }
-
-    @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        validateJumpOnlyOnePiece(piecesOnPath);
-        validateJumpCannon(piecesOnPath);
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateJumpOnlyOnePiece(pieceOnPath);
+        validateJumpCannon(pieceOnPath);
         validateSameTeam(endPiece);
         validateEndCannon(endPiece);
     }
 
-    private void validateMove(Movement movement) {
-        int rowDiff = movement.calculateRowDiff();
-        int columnDiff = movement.calculateColumnDiff();
-
-        if (rowDiff != 0 && columnDiff != 0) {
-            throw new IllegalArgumentException("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
-        }
-    }
-
-    private Path findPath(Position from, Position to) {
-        Path path = new Path();
-        Position target = from.nextStraight(to);
-        while (!target.equals(to)) {
-            path.add(target);
-            target = target.nextStraight(to);
-        }
-        return path;
-    }
-
     private void validateJumpOnlyOnePiece(PieceOnPath piecesOnPath) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+        if (piecesOnPath.countNonEmpty() != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
         }
     }
 
-    private void validateEndCannon(Piece endPiece) {
-        if (isSamePiece(endPiece)) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+    private void validateJumpCannon(PieceOnPath pieceOnPath) {
+        if (pieceOnPath.hasType(getType())) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }
 
-    private void validateJumpCannon(PieceOnPath piecesOnPath) {
-        if (piecesOnPath.stream()
-                .anyMatch(this::isSamePiece)) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
+    private void validateEndCannon(Piece endPiece) {
+        if (endPiece.isSameType(getType())) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 }

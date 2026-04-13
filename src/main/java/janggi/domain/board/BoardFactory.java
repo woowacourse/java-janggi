@@ -9,12 +9,9 @@ import janggi.domain.position.Row;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static janggi.domain.board.PieceSetup.*;
-
 public class BoardFactory {
 
     private BoardFactory() {
-
     }
 
     public static Board create(PieceSetup hanSetup, PieceSetup choSetup) {
@@ -23,6 +20,14 @@ public class BoardFactory {
         placeHan(base);
         placeCho(base);
         applySetUp(base, hanSetup, choSetup);
+        return new Board(base);
+    }
+
+    public static Board restore(Map<Position, Piece> pieces) {
+        Map<Position, Piece> base = new LinkedHashMap<>();
+        initializeEmpty(base);
+        base.putAll(pieces);
+
         return new Board(base);
     }
 

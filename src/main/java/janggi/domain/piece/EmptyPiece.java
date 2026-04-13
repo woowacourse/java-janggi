@@ -13,13 +13,18 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof EmptyPiece;
+    public boolean isSameTeam(Team team) {
+        return team == Team.NONE;
     }
 
     @Override
-    public PieceType getType() {
-        return PieceType.EMPTY;
+    public boolean isSameType(PieceType type) {
+        return getType() == type;
+    }
+
+    @Override
+    public double getScore() {
+        return 0.0;
     }
 
     @Override
@@ -28,12 +33,17 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.EMPTY;
+    }
+
+    @Override
     public Path getPath(Movement movement) {
         throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
         throw new IllegalArgumentException("[ERROR] 빈 기물은 이동할 수 없습니다.");
     }
 }

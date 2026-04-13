@@ -4,7 +4,7 @@ import janggi.domain.Team;
 
 public abstract class MoveablePiece implements Piece {
 
-    private final Team team;
+    protected final Team team;
 
     public MoveablePiece(Team team) {
         this.team = team;
@@ -16,8 +16,13 @@ public abstract class MoveablePiece implements Piece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return this.getClass() == other.getClass();
+    public boolean isSameType(PieceType type) {
+        return getType() == type;
+    }
+
+    @Override
+    public double getScore() {
+        return getType().getScore();
     }
 
     @Override
@@ -25,8 +30,13 @@ public abstract class MoveablePiece implements Piece {
         return team;
     }
 
+    @Override
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     protected void validateSameTeam(Piece endPiece) {
-        if (endPiece.getTeam() == team) {
+        if (endPiece.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
     }

@@ -1,16 +1,15 @@
 package janggi.domain;
 
 public enum Team {
-    HAN("한", -1),
-    CHO("초", 1),
-    NONE("무", 0),
-    ;
+    HAN(-1),
+    CHO(1),
+    NONE(0);
 
-    private final String displayName;
+    public static final Team FIRST_TURN = CHO;
+
     private final int backwardDirection;
 
-    Team(String displayName, int backwardDirection) {
-        this.displayName = displayName;
+    Team(int backwardDirection) {
         this.backwardDirection = backwardDirection;
     }
 
@@ -27,6 +26,6 @@ public enum Team {
             return Team.HAN;
         }
 
-        throw new IllegalArgumentException("[ERROR] 한나라, 초나라만 선택 가능합니다.");
+        throw new IllegalArgumentException("[ERROR] 한나라, 초나라만 변환 가능합니다.");
     }
 }

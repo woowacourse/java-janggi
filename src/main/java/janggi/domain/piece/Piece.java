@@ -9,13 +9,17 @@ public interface Piece {
 
     boolean isEmptyPiece();
 
-    boolean isSamePiece(Piece other);
+    boolean isSameTeam(Team team);
 
-    PieceType getType();
+    boolean isSameType(PieceType type);
+
+    double getScore();
 
     Team getTeam();
 
+    PieceType getType();
+
     Path getPath(Movement movement);
 
-    void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece);
+    void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece);
 }
