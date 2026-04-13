@@ -35,6 +35,14 @@ class BoardPieceDaoTest {
     }
 
     @Test
+    @DisplayName("게임방에 저장된 기물이 없을 때 조회하면 빈 리스트를 반환한다")
+    void findByGameRoomId_empty() {
+        List<BoardPieceRawData> found = boardPieceDao.findByGameRoomId(connection, gameRoomId);
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
     @DisplayName("기물들을 저장하면 게임방 id로 전부 조회된다")
     void saveAllAndFind() {
         List<BoardPieceRawData> pieces = List.of(

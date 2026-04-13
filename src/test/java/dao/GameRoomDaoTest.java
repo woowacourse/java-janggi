@@ -61,6 +61,22 @@ class GameRoomDaoTest {
     }
 
     @Test
+    @DisplayName("존재하지 않는 게임방 id로 조회하면 빈 Optional을 반환한다")
+    void findById_notExists() {
+        Optional<GameRoomRawData> found = gameRoomDao.findById(connection, 9999L);
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
+    @DisplayName("저장된 게임방이 없을 때 전부 조회하면 빈 리스트를 반환한다")
+    void findAll_empty() {
+        List<GameRoomRawData> rooms = gameRoomDao.findAll(connection);
+
+        assertThat(rooms).isEmpty();
+    }
+
+    @Test
     @DisplayName("게임방을 업데이트하면 변경된 값이 조회된다")
     void update() {
         long id = gameRoomDao.save(connection, new GameRoomRawData(0L, "방", "CHO", "RUNNING", 0));
