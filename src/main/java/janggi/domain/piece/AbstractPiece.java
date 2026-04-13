@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractPiece implements Piece {
     protected final TeamType teamType;
@@ -27,12 +28,34 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public final TeamType getTeamTypeForDTO() {
+    public final TeamType teamType() {
         return this.teamType;
     }
 
     @Override
-    public final PieceType getPieceTypeForDTO() {
+    public final PieceType pieceType() {
         return getPieceType();
+    }
+
+    @Override
+    public final int score() {
+        return pieceType().score();
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final TeamType teamType = this.teamType;
+        final TeamType otherTeamType = ((AbstractPiece) object).teamType;
+        final PieceType pieceType = this.pieceType();
+        final PieceType otherPieceType = ((AbstractPiece) object).pieceType();
+        return teamType == otherTeamType && pieceType == otherPieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teamType, pieceType());
     }
 }

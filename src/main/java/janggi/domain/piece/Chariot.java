@@ -1,11 +1,9 @@
 package janggi.domain.piece;
 
-import static janggi.domain.Position.MAXIMUM_COLUMN;
-import static janggi.domain.Position.MAXIMUM_ROW;
-
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
+import janggi.domain.movement.PalaceSlidingMoveRule;
 import janggi.domain.movement.SlidingMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
@@ -16,10 +14,15 @@ public class Chariot extends AbstractPiece {
 
     static {
         final List<MoveRule> movementStrategies = List.of(
-                new SlidingMoveRule(new Movement(MAXIMUM_ROW, Direction.UP)),
-                new SlidingMoveRule(new Movement(MAXIMUM_ROW, Direction.DOWN)),
-                new SlidingMoveRule(new Movement(MAXIMUM_COLUMN, Direction.RIGHT)),
-                new SlidingMoveRule(new Movement(MAXIMUM_COLUMN, Direction.LEFT)));
+                new SlidingMoveRule(new Movement(Direction.UP)),
+                new SlidingMoveRule(new Movement(Direction.DOWN)),
+                new SlidingMoveRule(new Movement(Direction.RIGHT)),
+                new SlidingMoveRule(new Movement(Direction.LEFT)),
+
+                new PalaceSlidingMoveRule(new Movement(Direction.UP_LEFT)),
+                new PalaceSlidingMoveRule(new Movement(Direction.UP_RIGHT)),
+                new PalaceSlidingMoveRule(new Movement(Direction.DOWN_LEFT)),
+                new PalaceSlidingMoveRule(new Movement(Direction.DOWN_RIGHT)));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 

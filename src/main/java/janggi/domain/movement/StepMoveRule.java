@@ -15,16 +15,16 @@ public class StepMoveRule implements MoveRule {
 
     public static StepMoveRule elephantShape(Direction straight, Direction diagonal) {
         return new StepMoveRule(List.of(
-                new Movement(1, straight),
-                new Movement(1, diagonal),
-                new Movement(1, diagonal)
+                new Movement(straight),
+                new Movement(diagonal),
+                new Movement(diagonal)
         ));
     }
 
     public static StepMoveRule horseShape(Direction straight, Direction diagonal) {
         return new StepMoveRule(List.of(
-                new Movement(1, straight),
-                new Movement(1, diagonal)
+                new Movement(straight),
+                new Movement(diagonal)
         ));
     }
 
@@ -45,7 +45,7 @@ public class StepMoveRule implements MoveRule {
         if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(from, teamType, boardMediator)) {
             return List.of();
         }
-        final Position destination = lastMovement.findFirstOccupiedPositionOrMax(from, boardMediator);
+        final Position destination = lastMovement.calculateNextPosition(from);
         return List.of(destination);
     }
 }

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.movement.CannonMoveRule;
+import janggi.domain.movement.CannonPalaceMoveRule;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
 import janggi.domain.team.TeamType;
@@ -15,7 +16,12 @@ public class Cannon extends AbstractPiece {
                 new CannonMoveRule(Direction.UP),
                 new CannonMoveRule(Direction.DOWN),
                 new CannonMoveRule(Direction.RIGHT),
-                new CannonMoveRule(Direction.LEFT));
+                new CannonMoveRule(Direction.LEFT),
+
+                new CannonPalaceMoveRule(Direction.UP_LEFT),
+                new CannonPalaceMoveRule(Direction.UP_RIGHT),
+                new CannonPalaceMoveRule(Direction.DOWN_LEFT),
+                new CannonPalaceMoveRule(Direction.DOWN_RIGHT));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 

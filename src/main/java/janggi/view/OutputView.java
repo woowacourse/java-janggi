@@ -47,6 +47,12 @@ public final class OutputView {
     private OutputView() {
     }
 
+    public static void printStartJanggi() {
+        System.out.println("장기 게임입니다. 메뉴 번호를 입력해주세요.");
+        System.out.println("1. 새로운 게임 시작");
+        System.out.println("2. 이전 게임 시작");
+    }
+
     public static void printSetupGuide(TeamType teamType) {
         System.out.println(teamType.getName() + "의 차림법을 입력해주세요.");
         for (final String description : ELEPHANT_FORMATION_DESCRIPTIONS) {
@@ -56,6 +62,10 @@ public final class OutputView {
 
     public static void printErrorMessage(String message) {
         System.out.println(ERROR_PREFIX + message);
+    }
+
+    public static void printScore(String currentTeamType, double score) {
+        System.out.println(currentTeamType + "의 현재 점수: " + score);
     }
 
     public static void printBoard(final BoardDto boardDto, String currentTeamType) {
@@ -68,6 +78,10 @@ public final class OutputView {
         for (int row = Position.MINIMUM_ROW; row <= Position.MAXIMUM_ROW; row++) {
             System.out.println(composeRowStatus(row, boardDto.pieceMap(), movablePositions));
         }
+    }
+
+    public static void printNewGameStartNotice() {
+        System.out.println("불러올 수 있는 게임이 없어 새 게임을 시작합니다.");
     }
 
     public static void printInputFromPosition() {

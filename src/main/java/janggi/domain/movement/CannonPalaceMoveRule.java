@@ -5,25 +5,25 @@ import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
-public class CannonMoveRule implements MoveRule {
+public class CannonPalaceMoveRule implements MoveRule {
 
-    private static final int MAX_DISTANCE = 10;
     private final Movement movement;
 
-    public CannonMoveRule(final Direction direction) {
+    public CannonPalaceMoveRule(final Direction direction) {
         this.movement = new Movement(direction);
     }
 
     @Override
     public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        from = movement.findFirstOccupiedPalacePositionOrMax(from, boardMediator);
+        from = movement.findFirstOccupiedPositionOrMax(from, boardMediator);  // 포다리 찾기
         if (isInvalidBridge(from, boardMediator)) {
             return List.of();
         }
-        return removeCannonFromPositions(movement.calculateTraces(from, teamType, boardMediator, MAX_DISTANCE),
+        return removeCannonFromPositions(movement.calculateTracesForPalace(from, teamType, boardMediator),
                 boardMediator);
     }
 
+    // 포다리가 안되는 경우 검증(빈 공간인지 or 포다리가 포 인지)
     private boolean isInvalidBridge(final Position bridge, final BoardMediator boardMediator) {
         return !boardMediator.hasPieceAt(bridge) || boardMediator.isCannon(bridge);
     }

@@ -1,6 +1,5 @@
 package janggi.domain.movement;
 
-import static janggi.domain.Position.MAXIMUM_ROW;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
@@ -27,7 +26,7 @@ public class SlidingMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         Direction direction = Direction.DOWN;
-        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(MAXIMUM_ROW, direction));
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(direction));
         Position from = Position.valueOf(5, 3);
 
         // when
@@ -52,7 +51,7 @@ public class SlidingMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         Direction direction = Direction.DOWN;
-        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(MAXIMUM_ROW, direction));
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(direction));
         Position from = Position.valueOf(5, 3);
 
         // when
@@ -73,7 +72,7 @@ public class SlidingMoveRuleTest {
         Map<Position, Piece> positionPieceMap = Map.of(Position.valueOf(5, 3), new Chariot(TeamType.RED));
         Board board = new Board(positionPieceMap);
         Direction direction = Direction.UP;
-        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(MAXIMUM_ROW, direction));
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(direction));
         Position from = Position.valueOf(5, 3);
 
         // when
@@ -96,7 +95,7 @@ public class SlidingMoveRuleTest {
         Map<Position, Piece> positionPieceMap = Map.of(Position.valueOf(1, 3), new Chariot(TeamType.RED));
         Board board = new Board(positionPieceMap);
         Direction direction = Direction.UP;
-        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(MAXIMUM_ROW, direction));
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(direction));
         Position from = Position.valueOf(1, 3);
 
         // when

@@ -55,7 +55,15 @@ public final class Position {
         return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
 
-    public boolean checkNextBound(final int distance, final Direction direction) {
+    public boolean checkNextBound(final Direction direction) {
+        final int nextRow = row + direction.getRowDirection();
+        final int nextColumn = column + direction.getColumnDirection();
+
+        return nextRow >= MINIMUM_ROW && nextRow <= MAXIMUM_ROW && nextColumn >= MINIMUM_COLUMN
+                && nextColumn <= MAXIMUM_COLUMN;
+    }
+
+    public boolean checkNextBound(final Direction direction, final int distance) {
         final int nextRow = row + direction.getRowDirection() * distance;
         final int nextColumn = column + direction.getColumnDirection() * distance;
 
@@ -63,7 +71,15 @@ public final class Position {
                 && nextColumn <= MAXIMUM_COLUMN;
     }
 
-    public Position calculateNext(final int distance, final Direction direction) {
+    public Position calculateNext(final Direction direction) {
+        final int nextRow = row + direction.getRowDirection();
+        final int nextColumn = column + direction.getColumnDirection();
+
+        return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
+                Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
+    }
+
+    public Position calculateNext(final Direction direction, final int distance) {
         final int nextRow = row + direction.getRowDirection() * distance;
         final int nextColumn = column + direction.getColumnDirection() * distance;
 
@@ -83,5 +99,13 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }

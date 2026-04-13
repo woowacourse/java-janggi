@@ -2,8 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
-import janggi.domain.movement.Movement;
-import janggi.domain.movement.SlidingMoveRule;
+import janggi.domain.movement.PalaceMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -13,14 +12,14 @@ public class Guard extends AbstractPiece {
 
     static {
         final List<MoveRule> movementStrategies = List.of(
-                new SlidingMoveRule(new Movement(1, Direction.UP_LEFT)),
-                new SlidingMoveRule(new Movement(1, Direction.UP)),
-                new SlidingMoveRule(new Movement(1, Direction.UP_RIGHT)),
-                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
-                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
-                new SlidingMoveRule(new Movement(1, Direction.DOWN_LEFT)),
-                new SlidingMoveRule(new Movement(1, Direction.DOWN)),
-                new SlidingMoveRule(new Movement(1, Direction.DOWN_RIGHT)));
+                new PalaceMoveRule(Direction.UP_LEFT),
+                new PalaceMoveRule(Direction.UP),
+                new PalaceMoveRule(Direction.UP_RIGHT),
+                new PalaceMoveRule(Direction.LEFT),
+                new PalaceMoveRule(Direction.RIGHT),
+                new PalaceMoveRule(Direction.DOWN_LEFT),
+                new PalaceMoveRule(Direction.DOWN),
+                new PalaceMoveRule(Direction.DOWN_RIGHT));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 

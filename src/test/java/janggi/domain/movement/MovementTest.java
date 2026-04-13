@@ -40,7 +40,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(1, direction);
+            Movement Movement = new Movement(direction);
             boolean expected = true;
 
             // when
@@ -57,7 +57,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(1, direction);
+            Movement Movement = new Movement(direction);
             boolean expected = false;
 
             // when
@@ -73,7 +73,7 @@ class MovementTest {
             // given
             Board board = new Board(positionPieceMap);
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(1, direction);
+            Movement Movement = new Movement(direction);
             boolean expected = true;
 
             // when
@@ -89,13 +89,12 @@ class MovementTest {
     class IsBlocked {
 
         private static Position from;
-        private static Piece me;
         private static Map<Position, Piece> positionPieceMap;
 
         @BeforeEach
         void setUp() {
             from = Position.valueOf(5, 3);
-            me = new Soldier(TeamType.RED);
+            Piece me = new Soldier(TeamType.RED);
             positionPieceMap = new LinkedHashMap<>();
             positionPieceMap.put(from, me);
         }
@@ -106,7 +105,7 @@ class MovementTest {
             // given
             Board board = new Board(positionPieceMap);
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(1, direction);
+            Movement Movement = new Movement(direction);
             boolean expected = false;
 
             // when
@@ -123,7 +122,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(1, direction);
+            Movement Movement = new Movement(direction);
             boolean expected = true;
 
             // when
@@ -155,7 +154,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 1;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
+            Movement Movement = new Movement(direction);
             Position expected = Position.valueOf(5, 3);
 
             // when
@@ -174,7 +173,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 1;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
+            Movement Movement = new Movement(direction);
             Position expected = Position.valueOf(5, 4);
 
             // when
@@ -192,7 +191,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 1;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
+            Movement Movement = new Movement(direction);
             Position expected = Position.valueOf(5, 4);
 
             // when
@@ -205,7 +204,7 @@ class MovementTest {
     }
 
     @Nested
-    @DisplayName("경로 자취 계산 테스트")
+    @DisplayName("한 칸 이동 경로 자취 계산 테스트")
     class CalculateTraces {
 
         private static Map<Position, Piece> positionPieceMap;
@@ -220,17 +219,15 @@ class MovementTest {
         @DisplayName("경로에 아군이 있는 경우")
         void success_1() {
             // given
-            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.RED));
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
-            List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
+            Movement Movement = new Movement(direction);
+            List<Position> expected = List.of();
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, TeamType.RED,
-                    board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -240,17 +237,15 @@ class MovementTest {
         @DisplayName("경로에 적군이 있는 경우")
         void success_2() {
             // given
-            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.BLUE));
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
-            List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
-                    Position.valueOf(5, 6));
+            Movement Movement = new Movement(direction);
+            List<Position> expected = List.of(Position.valueOf(5, 4));
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -262,14 +257,12 @@ class MovementTest {
             // given
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
             Direction direction = Direction.RIGHT;
-            Movement Movement = new Movement(maxDistance, direction);
-            List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
-                    Position.valueOf(5, 6), Position.valueOf(5, 7));
+            Movement Movement = new Movement(direction);
+            List<Position> expected = List.of(Position.valueOf(5, 4));
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board);
+            List<Position> actual = Movement.calculateTraces(from, TeamType.RED, board, 1);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);

@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.movement.Palace;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
@@ -23,15 +24,14 @@ public class Board implements BoardMediator {
         return findPieceByPosition(from).calculateMovablePositions(from, this);
     }
 
-    @Override
-    public boolean hasPieceAt(final Position position) {
-        return hasPieceIn(position);
-    }
-
-    @Override
     public boolean hasGeneral(TeamType teamType) {
         return positionPieceMap.values().stream()
                 .anyMatch(piece -> piece.isGeneral() && piece.isSameTeamType(teamType));
+    }
+
+    @Override
+    public boolean hasPieceAt(final Position position) {
+        return hasPieceIn(position);
     }
 
     @Override
@@ -44,8 +44,20 @@ public class Board implements BoardMediator {
         return findPieceByPosition(position).isSameTeamType(teamType);
     }
 
-    public Map<Position, Piece> getPositionPieceMapForDTO() {
+    @Override
+    public boolean isPalace(Position position) {
+        return Palace.isPalacePosition(position);
+    }
+
+    public Map<Position, Piece> getPositionPieceMap() {
         return Map.copyOf(positionPieceMap);
+    }
+
+    public double calculateScore(TeamType teamType) {
+        return positionPieceMap.values().stream()
+                .filter(piece -> piece.isSameTeamType(teamType))
+                .mapToDouble(Piece::score)
+                .sum() + teamType.bonusScore();
     }
 
     private boolean hasPieceIn(final Position position) {

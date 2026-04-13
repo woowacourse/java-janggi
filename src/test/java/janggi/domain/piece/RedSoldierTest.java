@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
+import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,12 +20,12 @@ public class RedSoldierTest {
     @DisplayName("Red Soldier 이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece redSoldier;
-        static Piece enemy1;
-        static Piece enemy2;
-        static Piece ally1;
-        static Piece ally2;
-        static Map<Position, Piece> positionPieceMap;
+        private Piece enemy1;
+        private Piece enemy2;
+        private Piece ally1;
+        private Piece ally2;
+        private Map<Position, Piece> positionPieceMap;
+        private Piece redSoldier;
 
         @BeforeEach
         void setUp() {
@@ -42,18 +43,14 @@ public class RedSoldierTest {
             positionPieceMap.put(Position.valueOf(6, 4), redSoldier);
             positionPieceMap.put(Position.valueOf(7, 4), enemy1);
             positionPieceMap.put(Position.valueOf(6, 3), enemy2);
-
             List<Position> expected = List.of(
                     Position.valueOf(7, 4),
                     Position.valueOf(6, 3),
                     Position.valueOf(6, 5)
             );
 
-            Board board = new Board(positionPieceMap);
-
-            List<Position> actual = redSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), board
-            );
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -64,16 +61,10 @@ public class RedSoldierTest {
             positionPieceMap.put(Position.valueOf(6, 4), redSoldier);
             positionPieceMap.put(Position.valueOf(7, 4), ally1);
             positionPieceMap.put(Position.valueOf(6, 5), ally2);
+            List<Position> expected = List.of(Position.valueOf(6, 3));
 
-            List<Position> expected = List.of(
-                    Position.valueOf(6, 3)
-            );
-
-            Board board = new Board(positionPieceMap);
-
-            List<Position> actual = redSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), board
-            );
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -83,14 +74,43 @@ public class RedSoldierTest {
         void test3() {
             positionPieceMap.put(Position.valueOf(10, 1), redSoldier);
             positionPieceMap.put(Position.valueOf(10, 2), ally1);
-
             List<Position> expected = List.of();
 
-            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(10, 1), boardMediator);
 
-            List<Position> actual = redSoldier.calculateMovablePositions(
-                    Position.valueOf(10, 1), board
-            );
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("홍졸은 궁성 내부에서 대각선으로 이동할 수 있다.")
+        void test4() {
+            positionPieceMap.put(Position.valueOf(8, 4), redSoldier);
+            List<Position> expected = List.of(
+                    Position.valueOf(9, 4),
+                    Position.valueOf(8, 3),
+                    Position.valueOf(8, 5),
+                    Position.valueOf(9, 5));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(8, 4), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("홍졸은 궁성 내부에서 대각선으로 이동할 수 있다.")
+        void test5() {
+            positionPieceMap.put(Position.valueOf(9, 5), redSoldier);
+            List<Position> expected = List.of(
+                    Position.valueOf(9, 4),
+                    Position.valueOf(9, 6),
+                    Position.valueOf(10, 5),
+                    Position.valueOf(10, 4),
+                    Position.valueOf(10, 6));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(9, 5), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
