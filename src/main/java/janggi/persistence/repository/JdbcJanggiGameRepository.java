@@ -1,6 +1,7 @@
 package janggi.persistence.repository;
 
 import janggi.domain.Position;
+import janggi.exception.PersistenceTimeoutException;
 import janggi.persistence.GameStatus;
 import janggi.persistence.dto.MoveHistory;
 import janggi.persistence.model.JanggiGameHistory;
@@ -9,12 +10,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
     private static final String JDBC_URL = "jdbc:sqlite:janggi.db";
+    private static final int QUERY_TIMEOUT_SECONDS = 3;
     private static final String FIND_RECENT_GAME_SQL =
         """
             SELECT id, status
@@ -68,6 +71,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             Connection connection = DriverManager.getConnection(JDBC_URL);
             PreparedStatement statement = connection.prepareStatement(SAVE_MOVE_HISTORY_SQL)
         ) {
+            statement.setQueryTimeout(QUERY_TIMEOUT_SECONDS);
             statement.setLong(1, gameId);
             statement.setInt(2, turnNumber);
             statement.setInt(3, startPosition.getX());
@@ -75,6 +79,8 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             statement.setInt(5, endPosition.getX());
             statement.setInt(6, endPosition.getY());
             statement.executeUpdate();
+        } catch (SQLTimeoutException e) {
+            throw new PersistenceTimeoutException("타임아웃입니다. 재시도합니다.", e);
         } catch (SQLException e) {
             throw new IllegalStateException("수 저장에 실패했습니다.", e);
         }
@@ -86,9 +92,12 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             Connection connection = DriverManager.getConnection(JDBC_URL);
             PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_STATUS_SQL)
         ) {
+            statement.setQueryTimeout(QUERY_TIMEOUT_SECONDS);
             statement.setString(1, gameStatus.name());
             statement.setLong(2, gameId);
             statement.executeUpdate();
+        } catch (SQLTimeoutException e) {
+            throw new PersistenceTimeoutException("타임아웃입니다. 재시도합니다.", e);
         } catch (SQLException e) {
             throw new IllegalStateException("게임 상태 변경에 실패했습니다.", e);
         }

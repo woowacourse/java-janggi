@@ -5,6 +5,7 @@ import janggi.domain.Position;
 import janggi.service.JanggiService;
 import janggi.util.ActionExecutor;
 import janggi.util.DelimiterParser;
+import janggi.util.PersistenceExecutor;
 import janggi.view.input.InputView;
 import janggi.view.output.OutputView;
 import java.util.List;
@@ -24,7 +25,10 @@ public class JanggiRunner {
 
     public void execute() {
         outputView.printStartMessage();
-        JanggiGame janggiGame = janggiService.loadGame();
+        JanggiGame janggiGame = PersistenceExecutor.retryOnTimeout(
+            janggiService::loadGame,
+            this::printPersistenceTimeoutMessage
+        );
         while (isGameContinue(janggiGame)) {
             outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
             Position startPosition = ActionExecutor.retryUntilSuccess(
@@ -37,13 +41,16 @@ public class JanggiRunner {
                 outputView.printMessage("말 선택을 취소했습니다. 다시 선택해주세요.");
                 continue;
             }
-            janggiService.play(janggiGame, startPosition, endPosition.get());
+            PersistenceExecutor.retryOnTimeout(
+                () -> janggiService.play(janggiGame, startPosition, endPosition.get()),
+                this::printPersistenceTimeoutMessage
+            );
         }
         finish(janggiGame);
     }
 
     private void finish(JanggiGame janggiGame) {
-        janggiService.finishGame();
+        PersistenceExecutor.retryOnTimeout(janggiService::finishGame, this::printPersistenceTimeoutMessage);
         int winnerScore = janggiGame.getWinnerScore();
         outputView.printResult(
             janggiGame.makeCurrentTurnBoardSnapShot(),
@@ -77,5 +84,9 @@ public class JanggiRunner {
         Position endPosition = Position.makePosition(parsedMovePosition);
         janggiGame.validateValidEndPosition(startPosition, endPosition);
         return Optional.of(endPosition);
+    }
+
+    private void printPersistenceTimeoutMessage() {
+        outputView.printMessage("데이터베이스 응답이 지연되었습니다. 다시 시도합니다.");
     }
 }

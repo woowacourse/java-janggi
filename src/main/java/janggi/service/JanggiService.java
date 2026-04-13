@@ -26,17 +26,17 @@ public class JanggiService {
         return rebuildJanggiGame(recentGame);
     }
 
+    public void play(JanggiGame janggiGame, Position startPosition, Position endPosition) {
+        janggiGame.doGame(startPosition, endPosition);
+        saveMove(janggiGame, startPosition, endPosition);
+    }
+
     public void saveMove(JanggiGame janggiGame, Position startPosition, Position endPosition) {
         janggiGameRepository.saveMove(currentGameId, janggiGame.getTurnCount(), startPosition, endPosition);
     }
 
     public void finishGame() {
         janggiGameRepository.update(GameStatus.FINISHED, currentGameId);
-    }
-
-    public void play(JanggiGame janggiGame, Position startPosition, Position endPosition) {
-        janggiGame.doGame(startPosition, endPosition);
-        saveMove(janggiGame, startPosition, endPosition);
     }
 
     private JanggiGame rebuildJanggiGame(JanggiGameHistory recentGame) {
