@@ -27,8 +27,8 @@ public class JdbcPieceDao implements PieceDao {
                 statement.setInt(1, gameId);
                 statement.setString(2, piece.type());
                 statement.setString(3, piece.team());
-                statement.setInt(4, piece.rowIdx());
-                statement.setInt(5, piece.colIdx());
+                statement.setInt(4, piece.rowIndex());
+                statement.setInt(5, piece.colIndex());
                 statement.addBatch();
             }
             statement.executeBatch();

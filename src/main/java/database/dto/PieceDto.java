@@ -1,4 +1,4 @@
 package database.dto;
 
-public record PieceDto(String type, String team, int rowIdx, int colIdx) {
+public record PieceDto(String type, String team, int rowIndex, int colIndex) {
 }

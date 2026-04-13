@@ -57,7 +57,7 @@ public class GameService {
     private Map<Position, Piece> toPiecesMap(List<PieceDto> dtos) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceDto dto : dtos) {
-            Position position = new Position(dto.rowIdx(), dto.colIdx());
+            Position position = new Position(dto.rowIndex(), dto.colIndex());
             Piece piece = PieceDefinition.valueOf(dto.type()).createPiece(Team.valueOf(dto.team()));
             pieces.put(position, piece);
         }
