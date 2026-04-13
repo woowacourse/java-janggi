@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Coordination {
 
+    private static final String NOT_DIAGONAL_PATH_MESSAGE = "대각선 경로가 아닙니다.";
+
     private final Column column;
     private final Row row;
 
@@ -38,6 +40,25 @@ public class Coordination {
 
     public boolean isVertical(Coordination other) {
         return !this.row.equals(other.row) && this.column.equals(other.column);
+    }
+
+    public boolean isDiagonal(Coordination to) {
+        int columnDifferent = Math.abs(this.column.different(to.column));
+        int rowDifferent = Math.abs(this.row.different(to.row));
+        return columnDifferent == rowDifferent;
+    }
+
+    public List<Coordination> diagonalPathTo(Coordination other) {
+        List<Column> columnBetween = this.column.between(other.column);
+        List<Row> rowBetween = this.row.between(other.row);
+        if (columnBetween.size() != rowBetween.size()) {
+            throw new IllegalArgumentException(NOT_DIAGONAL_PATH_MESSAGE);
+        }
+        List<Coordination> coordinations = new ArrayList<>();
+        for (int i = 0; i < columnBetween.size(); i++) {
+            coordinations.add(new Coordination(columnBetween.get(i), rowBetween.get(i)));
+        }
+        return coordinations;
     }
 
     public List<Integer> coordination() {

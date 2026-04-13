@@ -2,7 +2,15 @@ package domain.board.cho;
 
 import domain.board.PlacementStrategy;
 import domain.coordination.Coordination;
-import domain.piece.*;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.Soldier;
+import domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;

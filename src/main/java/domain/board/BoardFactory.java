@@ -12,13 +12,20 @@ import java.util.Map;
 
 public class BoardFactory {
 
-    public static Board create(String choOption, String hanOption) {
+    public static Board initialize(String choOption, String hanOption) {
         Map<Coordination, Piece> board = new HashMap<>();
 
         placeEmpty(board);
         board.putAll(PlacementOption.hanFrom(hanOption).place());
         board.putAll(PlacementOption.choFrom(choOption).place());
 
+        return new Board(board);
+    }
+
+    public static Board restore(Map<Coordination, Piece> existedBoard) {
+        Map<Coordination, Piece> board = new HashMap<>();
+        placeEmpty(board);
+        board.putAll(existedBoard);
         return new Board(board);
     }
 

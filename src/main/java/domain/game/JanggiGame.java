@@ -3,21 +3,37 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.coordination.Coordination;
-import dto.BoardSnapshot;
+import domain.piece.Team;
+import dto.BoardRowDetails;
+import dto.BoardViewSnapshot;
+import dto.GameSaveRequest;
 
 import java.util.List;
 
 public class JanggiGame {
 
     private final Board board;
-    private Turn turn = Turn.CHO;
+    private Turn turn;
 
     private JanggiGame(Board board) {
-        this.board = board;
+        this(board, Turn.CHO);
     }
 
-    public static JanggiGame of(String inputCho, String inputHan) {
-        return new JanggiGame(BoardFactory.create(inputCho, inputHan));
+    private JanggiGame(Board board, Turn turn) {
+        this.board = board;
+        this.turn = turn;
+    }
+
+    public static JanggiGame init(String inputCho, String inputHan) {
+        return new JanggiGame(BoardFactory.initialize(inputCho, inputHan));
+    }
+
+    public static JanggiGame resume(Board board, Turn turn) {
+        return new JanggiGame(board, turn);
+    }
+
+    public GameSaveRequest toInitialSetupRequest() {
+        return new GameSaveRequest(BoardRowDetails.from(this.board), turn.getName());
     }
 
     public String getTurnName() {
@@ -25,7 +41,7 @@ public class JanggiGame {
     }
 
     public String getWinnerName() {
-        return turn.getName();
+        return turn.reverse().getName();
     }
 
     public void checkSameTeam(List<Integer> inputTokens) {
@@ -37,16 +53,19 @@ public class JanggiGame {
         return !board.hasTwoGenerals();
     }
 
-    public void start(List<Integer> from, List<Integer> to) {
+    public void play(List<Integer> from, List<Integer> to) {
         board.move(
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
         );
-
         turn = turn.reverse();
     }
 
-    public BoardSnapshot captureBoard() {
-        return BoardSnapshot.from(this.board);
+    public BoardViewSnapshot boardSnapshot() {
+        return BoardViewSnapshot.from(this.board);
+    }
+
+    public double getScore(Team team) {
+        return board.calculateScore(team);
     }
 }

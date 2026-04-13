@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -18,8 +18,7 @@ class ElephantTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> elephant.validateRule(from, to))
-                .isInstanceOf(PieceException.class)
-                .hasMessageContaining(Piece.IMPOSSIBLE_MOVE_MESSAGE);
+                .isExactlyInstanceOf(InvalidMovementException.class);
     }
 
     @ParameterizedTest

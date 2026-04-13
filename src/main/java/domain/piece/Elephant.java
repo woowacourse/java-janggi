@@ -1,13 +1,15 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import domain.piece.error.InvalidMovementException;
 
 import java.util.List;
 
 public class Elephant extends Piece {
 
     private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(2, 3), List.of(3, 2));
+
+    private static final String IMPOSSIBLE_MOVE_MESSAGE = "기물이 움직일 수 없는 위치입니다.";
 
     public Elephant(Team team) {
         super(team);
@@ -23,7 +25,7 @@ public class Elephant extends Piece {
         int absCol = Math.abs(from.differentColumn(to));
         int absRow = Math.abs(from.differentRow(to));
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absCol, absRow))) {
-            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
+            throw new InvalidMovementException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 

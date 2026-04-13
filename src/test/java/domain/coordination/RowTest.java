@@ -17,14 +17,12 @@ class RowTest {
         }).doesNotThrowAnyException();
     }
 
-
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 11})
     public void 로우_객체를_생성할_때_경계값을_넘는_수인_0_음수_11이_들어가면_예외가_발생한다(int index) {
 
         assertThatThrownBy(() -> {
             new Row(index);
-        }).isInstanceOf(IllegalArgumentException.class);
+        }).isExactlyInstanceOf(IllegalArgumentException.class);
     }
-
 }
