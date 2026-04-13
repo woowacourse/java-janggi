@@ -1,5 +1,8 @@
 package domain.board;
 
+import static domain.Index.BOARD_COLUMNS;
+import static domain.Index.BOARD_ROWS;
+
 import db.PieceFactory;
 import domain.dto.JanggiBoardDto;
 import domain.dto.PieceDto;
@@ -20,8 +23,8 @@ public class JanggiBoardLoader implements BoardInitializer {
     public Map<Position, Piece> init() {
         Map<Position, Piece> board = new HashMap<>();
 
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 9; col++) {
+        for (int row = 0; row < BOARD_ROWS.getIndex(); row++) {
+            for (int col = 0; col < BOARD_COLUMNS.getIndex(); col++) {
                 board.put(new Position(row, col), new Blank());
             }
         }

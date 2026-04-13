@@ -7,6 +7,7 @@ import domain.board.PieceProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import view.OutputView;
 
 public class CarStrategy implements Strategy {
 
@@ -17,32 +18,27 @@ public class CarStrategy implements Strategy {
 
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
-        return getDirections().stream()
-                .flatMap(direction -> addPathCandidates(from, team, direction, board).stream())
-                .collect(Collectors.toList());
-    }
-
-    private List<Position> addPathCandidates(Position from, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Position next = move(from, direction, team);
-
-        while (!next.isInvalid()) {
-            candidates.add(next);
-            next = nextPosition(next, direction, team, board);
+        for (Direction direction : getDirections()) {
+            addPathCandidates(from, direction, board, team, candidates);
         }
         return candidates;
     }
 
-    private Position nextPosition(Position current, Direction direction, Team team, PieceProvider board) {
-        if (!board.isBlank(current)) {
-            return current; // isInvalid()가 true인 sentinel 역할 → 루프 종료 필요
-        }
-        return move(current, direction, team);
-    }
+    private void addPathCandidates(Position from, Direction direction, PieceProvider board, Team team,
+                                   List<Position> candidatePositions) {
+        Position next = from.next(direction.getRowOffset(team), direction.getColOffset(team));
 
-    private Position move(Position pos, Direction direction, Team team) {
-        int nextRow = pos.row() + direction.getRowOffset(team);
-        int nextCol = pos.col() + direction.getColOffset(team);
-        return new Position(nextRow, nextCol);
+        while (!next.isInvalid()) {
+            if (board.isBlank(next)) {
+                candidatePositions.add(next);
+                next = next.next(direction.getRowOffset(team), direction.getColOffset(team));
+                continue;
+            }
+            if (board.getPiece(next).isOtherTeam(team)) {
+                candidatePositions.add(next);
+            }
+            break;
+        }
     }
 }

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JanggiBoardInitializer implements BoardInitializer {
+    @Override
     public Map<Position, Piece> init() {
         Map<Position, Piece> boardSetting = new HashMap<>();
 
@@ -53,7 +54,7 @@ public class JanggiBoardInitializer implements BoardInitializer {
         boardSetting.put(new Position(cannonRow, 1), new Cannon(team));
         boardSetting.put(new Position(cannonRow, 7), new Cannon(team));
         // 졸/병
-        for (int col = 0; col < 9; col += 2) {
+        for (int col = 0; col < BOARD_COLUMNS.getIndex(); col += 2) {
             boardSetting.put(new Position(pawnRow, col), new Pawn(team));
         }
     }

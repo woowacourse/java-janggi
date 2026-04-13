@@ -4,6 +4,7 @@ import db.BoardDao;
 import domain.board.JanggiGame;
 import domain.Team;
 import domain.position.Position;
+import java.util.List;
 import view.InputView;
 import view.OutputView;
 
@@ -22,8 +23,8 @@ public class JanggiController {
         while (isRunning) {
             try {
                 outputView.printBoard(janggiGame.getBoardDto());
-                Position from = inputMovePosition();
-                Position to = inputTargetPosition();
+                Position from = createPosition(inputView.inputMovePiece());
+                Position to = createPosition(inputView.inputTargetPosition());
                 janggiGame.playTurn(from, to);
                 if (janggiGame.isGameOver()) {
                     isRunning = false;
@@ -48,15 +49,7 @@ public class JanggiController {
         return new JanggiGame();
     }
 
-    private Position inputMovePosition() {
-        String input = inputView.inputMovePiece();
-        String[] parts = input.split(",");
-        return new Position(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
-    }
-
-    private Position inputTargetPosition() {
-        String input = inputView.inputTargetPosition();
-        String[] parts = input.split(",");
-        return new Position(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
+    private Position createPosition(List<Integer> coordinates) {
+        return new Position(coordinates.get(0), coordinates.get(1));
     }
 }
