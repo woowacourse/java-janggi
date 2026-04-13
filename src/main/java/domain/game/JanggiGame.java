@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class JanggiGame {
-    private Long id;
     private Turn turn;
     private final Board board;
     private final List<GameEndCondition> endConditions;
@@ -22,22 +21,29 @@ public class JanggiGame {
     private final ScoreCalculator scoreCalculator;
     private GameStatus status;
 
-    public JanggiGame(Turn turn, Board board, List<GameEndCondition> endConditions,
-                      GameRecord record, ScoreCalculator scoreCalculator) {
+    private JanggiGame(Turn turn, Board board, List<GameEndCondition> endConditions,
+                       GameRecord record, ScoreCalculator scoreCalculator, GameStatus status) {
         this.turn = turn;
         this.board = board;
         this.endConditions = endConditions;
         this.record = record;
         this.scoreCalculator = scoreCalculator;
-        this.status = GameStatus.RUNNING;
+        this.status = status;
     }
 
-    public static JanggiGame restore(long id, Turn turn, Board board,
-                                      GameRecord record, GameStatus status) {
-        JanggiGame game = new JanggiGame(turn, board, defaultConditions(), record, new ScoreCalculator());
-        game.id = id;
-        game.status = status;
-        return game;
+    public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
+        return new JanggiGame(
+                Turn.first(),
+                BoardFactory.create(choFormation, hanFormation),
+                defaultConditions(),
+                new GameRecord(),
+                new ScoreCalculator(),
+                GameStatus.RUNNING
+        );
+    }
+
+    public static JanggiGame restore(Turn turn, Board board, GameRecord record, GameStatus status) {
+        return new JanggiGame(turn, board, defaultConditions(), record, new ScoreCalculator(), status);
     }
 
     private static List<GameEndCondition> defaultConditions() {
@@ -48,16 +54,6 @@ public class JanggiGame {
         );
     }
 
-    public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
-        return new JanggiGame(
-                Turn.first(),
-                BoardFactory.create(choFormation, hanFormation),
-                defaultConditions(),
-                new GameRecord(),
-                new ScoreCalculator()
-        );
-    }
-
     public void move(Position source, Position destination) {
         validateRunning();
         validateTurn(source);
@@ -65,13 +61,6 @@ public class JanggiGame {
         record.recordMove();
         turn = turn.next();
         checkEndConditions();
-    }
-
-    public void assignId(long id) {
-        if (this.id != null) {
-            throw new IllegalStateException("이미 ID가 할당된 게임입니다.");
-        }
-        this.id = id;
     }
 
     public void pass() {
@@ -146,10 +135,6 @@ public class JanggiGame {
 
     public Board getBoard() {
         return board;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public GameStatus getStatus() {

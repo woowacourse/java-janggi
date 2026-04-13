@@ -2,10 +2,10 @@ package controller;
 
 import controller.command.TurnCommand;
 import domain.board.formation.FormationType;
-import domain.game.JanggiGame;
 import domain.game.Team;
 import java.util.List;
 import repository.GameRoomSummary;
+import repository.StoredGame;
 import service.JanggiGameService;
 import view.InputView;
 import view.MainMenu;
@@ -46,9 +46,9 @@ public class JanggiController {
         String roomName = inputView.askRoomName();
         FormationType choFormation = FormationConverter.convert(inputView.initialFormation(Team.CHO));
         FormationType hanFormation = FormationConverter.convert(inputView.initialFormation(Team.HAN));
-        JanggiGame game = gameService.createGame(roomName, choFormation, hanFormation);
-        outputView.printGameCreated(game.getId());
-        playGame(game);
+        StoredGame stored = gameService.createGame(roomName, choFormation, hanFormation);
+        outputView.printGameCreated(stored.id());
+        playGame(stored);
     }
 
     private void listAndEnterRoom() {
@@ -65,19 +65,19 @@ public class JanggiController {
                 );
     }
 
-    private void playGame(JanggiGame game) {
-        outputView.printBoard(game.getBoard());
-        while (game.isRunning()) {
-            executeTurn(game);
-            outputView.printBoard(game.getBoard());
+    private void playGame(StoredGame stored) {
+        outputView.printBoard(stored.game().getBoard());
+        while (stored.game().isRunning()) {
+            executeTurn(stored);
+            outputView.printBoard(stored.game().getBoard());
         }
-        outputView.printResult(game.result());
+        outputView.printResult(stored.game().result());
     }
 
-    private void executeTurn(JanggiGame game) {
+    private void executeTurn(StoredGame stored) {
         try {
-            TurnCommand command = inputView.askTurnCommand(game.currentTurn());
-            command.apply(gameService, game);
+            TurnCommand command = inputView.askTurnCommand(stored.game().currentTurn());
+            command.apply(gameService, stored);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }

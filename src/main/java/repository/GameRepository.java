@@ -27,32 +27,33 @@ public class GameRepository {
         this.boardPieceDao = boardPieceDao;
     }
 
-    public void createGame(String roomName, JanggiGame game) {
+    public StoredGame createGame(String roomName, JanggiGame game) {
         long roomId = gameRoomDao.save(
                 roomName,
                 game.currentTurn().name(),
                 game.getStatus().name(),
                 game.getRecord().consecutivePassCount()
         );
-        game.assignId(roomId);
         boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
+        return new StoredGame(roomId, game);
     }
 
-    public Optional<JanggiGame> loadGame(long roomId) {
+    public Optional<StoredGame> loadGame(long roomId) {
         return gameRoomDao.findById(roomId).map(this::assemble);
     }
 
-    private JanggiGame assemble(GameRoomRawData roomData) {
+    private StoredGame assemble(GameRoomRawData roomData) {
         List<BoardPieceRawData> pieceData = boardPieceDao.findByGameRoomId(roomData.id());
         Board board = toBoard(pieceData);
         Turn turn = Turn.of(Team.valueOf(roomData.currentTurn()));
         GameRecord record = new GameRecord(roomData.consecutivePassCount());
         GameStatus status = GameStatus.valueOf(roomData.status());
-        return JanggiGame.restore(roomData.id(), turn, board, record, status);
+        return new StoredGame(roomData.id(), JanggiGame.restore(turn, board, record, status));
     }
 
-    public void saveGame(JanggiGame game) {
-        long roomId = game.getId();
+    public void saveGame(StoredGame stored) {
+        long roomId = stored.id();
+        JanggiGame game = stored.game();
         gameRoomDao.update(
                 roomId,
                 game.currentTurn().name(),

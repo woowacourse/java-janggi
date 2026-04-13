@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import repository.GameRepository;
 import repository.GameRoomSummary;
+import repository.StoredGame;
 
 public class JanggiGameService {
     private final GameRepository gameRepository;
@@ -15,13 +16,12 @@ public class JanggiGameService {
         this.gameRepository = gameRepository;
     }
 
-    public JanggiGame createGame(String roomName, FormationType choFormation, FormationType hanFormation) {
+    public StoredGame createGame(String roomName, FormationType choFormation, FormationType hanFormation) {
         JanggiGame game = JanggiGame.of(choFormation, hanFormation);
-        gameRepository.createGame(roomName, game);
-        return game;
+        return gameRepository.createGame(roomName, game);
     }
 
-    public Optional<JanggiGame> enterGame(long roomId) {
+    public Optional<StoredGame> enterGame(long roomId) {
         return gameRepository.loadGame(roomId);
     }
 
@@ -29,13 +29,13 @@ public class JanggiGameService {
         return gameRepository.listRooms();
     }
 
-    public void move(JanggiGame game, Position source, Position destination) {
-        game.move(source, destination);
-        gameRepository.saveGame(game);
+    public void move(StoredGame stored, Position source, Position destination) {
+        stored.game().move(source, destination);
+        gameRepository.saveGame(stored);
     }
 
-    public void pass(JanggiGame game) {
-        game.pass();
-        gameRepository.saveGame(game);
+    public void pass(StoredGame stored) {
+        stored.game().pass();
+        gameRepository.saveGame(stored);
     }
 }

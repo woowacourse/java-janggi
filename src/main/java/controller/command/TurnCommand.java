@@ -1,8 +1,8 @@
 package controller.command;
 
-import domain.game.JanggiGame;
+import repository.StoredGame;
 import service.JanggiGameService;
 
 public sealed interface TurnCommand permits MoveCommand, PassCommand {
-    void apply(JanggiGameService gameService, JanggiGame game);
+    void apply(JanggiGameService gameService, StoredGame stored);
 }

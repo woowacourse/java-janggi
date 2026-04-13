@@ -1,12 +1,12 @@
 package controller.command;
 
-import domain.game.JanggiGame;
 import domain.position.Position;
+import repository.StoredGame;
 import service.JanggiGameService;
 
 public record MoveCommand(Position source, Position destination) implements TurnCommand {
     @Override
-    public void apply(JanggiGameService gameService, JanggiGame game) {
-        gameService.move(game, source, destination);
+    public void apply(JanggiGameService gameService, StoredGame stored) {
+        gameService.move(stored, source, destination);
     }
 }

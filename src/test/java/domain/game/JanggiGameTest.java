@@ -4,33 +4,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
-import domain.game.condition.BikjangCondition;
-import domain.game.condition.ConsecutivePassCondition;
-import domain.game.condition.GameEndCondition;
-import domain.game.condition.GeneralCapturedCondition;
 import domain.piece.Chariot;
 import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.position.Position;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
 
     private JanggiGame createGame(Map<Position, Piece> pieces) {
-        return new JanggiGame(
+        return JanggiGame.restore(
                 Turn.first(),
                 new Board(pieces),
-                List.of(
-                        new GeneralCapturedCondition(),
-                        new ConsecutivePassCondition(),
-                        new BikjangCondition()
-                ),
                 new GameRecord(),
-                new ScoreCalculator()
+                GameStatus.RUNNING
         );
     }
 
