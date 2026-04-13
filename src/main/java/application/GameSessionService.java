@@ -4,6 +4,7 @@ import application.port.GameSessionRepository;
 import application.port.StoredGameSession;
 import domain.game.JanggiGame;
 import domain.setup.Command;
+import java.util.Optional;
 
 public class GameSessionService {
     private final GameSessionRepository gameSessionRepository;
@@ -14,10 +15,18 @@ public class GameSessionService {
         this.gameReplayer = gameReplayer;
     }
 
-    public GameSession loadOrStart() {
+    public Optional<GameSession> findInProgress() {
         return gameSessionRepository.findInProgress()
-                .map(this::restore)
-                .orElseGet(this::startNewSession);
+                .map(this::restore);
+    }
+
+    public GameSession start() {
+        return startNewSession();
+    }
+
+    public GameSession abandonAndStart(long gameSessionId) {
+        gameSessionRepository.abandon(gameSessionId);
+        return startNewSession();
     }
 
     private GameSession restore(StoredGameSession storedGameSession) {

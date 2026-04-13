@@ -20,11 +20,11 @@ class GameSessionServiceTest {
 
     @Test
     @DisplayName("진행 중인 게임이 없으면 새 세션을 시작한다")
-    void loadOrStartStartsNewSession() {
+    void startStartsNewSession() {
         FakeGameSessionRepository repository = new FakeGameSessionRepository();
         GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
 
-        GameSession gameSession = gameSessionService.loadOrStart();
+        GameSession gameSession = gameSessionService.start();
 
         assertThat(gameSession.id()).isEqualTo(1L);
         assertThat(gameSession.game().getTurn().getTeam()).isEqualTo(Team.HAN);
@@ -33,12 +33,12 @@ class GameSessionServiceTest {
 
     @Test
     @DisplayName("진행 중인 게임이 있으면 명령 이력을 재생해 복구한다")
-    void loadOrStartRestoresInProgressSession() {
+    void findInProgressRestoresStoredGame() {
         FakeGameSessionRepository repository = new FakeGameSessionRepository();
         repository.prepareStoredGame(3L, List.of("1", "1", "e6 e5"));
         GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
 
-        GameSession gameSession = gameSessionService.loadOrStart();
+        GameSession gameSession = gameSessionService.findInProgress().orElseThrow();
 
         assertThat(gameSession.id()).isEqualTo(3L);
         assertThat(gameSession.game().getTurn().getTeam()).isEqualTo(Team.HAN);
@@ -48,11 +48,20 @@ class GameSessionServiceTest {
     }
 
     @Test
+    @DisplayName("진행 중인 게임이 없으면 빈 값을 반환한다")
+    void findInProgressReturnsEmpty() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        assertThat(gameSessionService.findInProgress()).isEmpty();
+    }
+
+    @Test
     @DisplayName("유효한 명령을 실행하면 명령 이력을 저장한다")
     void executeStoresSuccessfulCommand() {
         FakeGameSessionRepository repository = new FakeGameSessionRepository();
         GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
-        GameSession gameSession = gameSessionService.loadOrStart();
+        GameSession gameSession = gameSessionService.start();
 
         gameSessionService.execute(gameSession, "1");
 
@@ -78,17 +87,32 @@ class GameSessionServiceTest {
     void executeDoesNotStoreInvalidCommand() {
         FakeGameSessionRepository repository = new FakeGameSessionRepository();
         GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
-        GameSession gameSession = gameSessionService.loadOrStart();
+        GameSession gameSession = gameSessionService.start();
 
         assertThatThrownBy(() -> gameSessionService.execute(gameSession, "5"))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThat(repository.savedCommands()).isEmpty();
     }
 
+    @Test
+    @DisplayName("저장된 게임을 포기하면 새 게임을 시작한다")
+    void abandonAndStartStartsNewSession() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        repository.prepareStoredGame(7L, List.of("1"));
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        GameSession gameSession = gameSessionService.abandonAndStart(7L);
+
+        assertThat(repository.abandonedSessionIds()).containsExactly(7L);
+        assertThat(gameSession.id()).isEqualTo(1L);
+        assertThat(repository.isNewSessionCreated()).isTrue();
+    }
+
     private static class FakeGameSessionRepository implements GameSessionRepository {
         private Optional<StoredGameSession> storedGameSession = Optional.empty();
         private final List<SavedCommand> savedCommands = new ArrayList<>();
         private final List<Long> finishedSessionIds = new ArrayList<>();
+        private final List<Long> abandonedSessionIds = new ArrayList<>();
         private boolean newSessionCreated;
 
         @Override
@@ -112,6 +136,11 @@ class GameSessionServiceTest {
             finishedSessionIds.add(gameSessionId);
         }
 
+        @Override
+        public void abandon(long gameSessionId) {
+            abandonedSessionIds.add(gameSessionId);
+        }
+
         void prepareStoredGame(long id, List<String> rawCommands) {
             storedGameSession = Optional.of(new StoredGameSession(id, rawCommands));
         }
@@ -126,6 +155,10 @@ class GameSessionServiceTest {
 
         List<Long> finishedSessionIds() {
             return List.copyOf(finishedSessionIds);
+        }
+
+        List<Long> abandonedSessionIds() {
+            return List.copyOf(abandonedSessionIds);
         }
     }
 

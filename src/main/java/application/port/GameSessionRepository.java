@@ -11,4 +11,6 @@ public interface GameSessionRepository {
     void appendCommand(long gameSessionId, String rawCommand);
 
     void finish(long gameSessionId);
+
+    void abandon(long gameSessionId);
 }

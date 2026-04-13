@@ -66,6 +66,17 @@ class JdbcGameSessionRepositoryTest {
         assertThat(repository.findInProgress()).isEmpty();
     }
 
+    @Test
+    @DisplayName("포기 처리한 세션은 진행 중 게임 조회에서 제외한다")
+    void abandonSession() {
+        JdbcGameSessionRepository repository = repository();
+        long id = repository.create();
+
+        repository.abandon(id);
+
+        assertThat(repository.findInProgress()).isEmpty();
+    }
+
     private JdbcGameSessionRepository repository() {
         return new JdbcGameSessionRepository(connectionProvider());
     }

@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public class JdbcGameSessionRepository implements GameSessionRepository {
     private static final String IN_PROGRESS = "IN_PROGRESS";
+    private static final String FINISHED = "FINISHED";
+    private static final String ABANDONED = "ABANDONED";
     private static final String SELECT_IN_PROGRESS_SESSION = """
             SELECT id
             FROM game_session
@@ -49,7 +51,6 @@ public class JdbcGameSessionRepository implements GameSessionRepository {
             SET status = ?, updated_at = CURRENT_TIMESTAMP
             WHERE id = ?
             """;
-    private static final String FINISHED = "FINISHED";
 
     private final ConnectionProvider connectionProvider;
 
@@ -100,15 +101,24 @@ public class JdbcGameSessionRepository implements GameSessionRepository {
 
     @Override
     public void finish(long gameSessionId) {
+        updateStatus(gameSessionId, FINISHED, "[ERROR] 게임 세션 종료에 실패했습니다.");
+    }
+
+    @Override
+    public void abandon(long gameSessionId) {
+        updateStatus(gameSessionId, ABANDONED, "[ERROR] 게임 세션 포기에 실패했습니다.");
+    }
+
+    private void updateStatus(long gameSessionId, String status, String errorMessage) {
         try (
                 Connection connection = connectionProvider.getConnection();
                 PreparedStatement statement = connection.prepareStatement(FINISH_GAME_SESSION)
         ) {
-            statement.setString(1, FINISHED);
+            statement.setString(1, status);
             statement.setLong(2, gameSessionId);
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 게임 세션 종료에 실패했습니다.", exception);
+            throw new IllegalStateException(errorMessage, exception);
         }
     }
 
