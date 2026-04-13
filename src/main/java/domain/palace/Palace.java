@@ -21,6 +21,8 @@ public class Palace {
             Position.of(2, 3),
             Position.of(2, 5)
     );
+    private static final Palace CHO_PALACE = createChoPalace();
+    private static final Palace HAN_PALACE = createHanPalace();
 
     private final Map<Position, Set<Position>> connections;
     private final Position center;
@@ -34,22 +36,30 @@ public class Palace {
 
     public static Palace of(TeamColor teamColor) {
         if (teamColor == TeamColor.CHO) {
-            return new Palace(Map.of(
-                    Position.of(7, 3), Set.of(Position.of(7, 4), Position.of(8, 3), Position.of(8, 4)),
-                    Position.of(7, 4), Set.of(Position.of(7, 3), Position.of(7, 5), Position.of(8, 4)),
-                    Position.of(7, 5), Set.of(Position.of(7, 4), Position.of(8, 4), Position.of(8, 5)),
-                    Position.of(8, 3), Set.of(Position.of(7, 3), Position.of(8, 4), Position.of(9, 3)),
-                    Position.of(8, 4), Set.of(
-                            Position.of(7, 3), Position.of(7, 4), Position.of(7, 5),
-                            Position.of(8, 3), Position.of(8, 5),
-                            Position.of(9, 3), Position.of(9, 4), Position.of(9, 5)
-                    ),
-                    Position.of(8, 5), Set.of(Position.of(7, 5), Position.of(8, 4), Position.of(9, 5)),
-                    Position.of(9, 3), Set.of(Position.of(8, 3), Position.of(8, 4), Position.of(9, 4)),
-                    Position.of(9, 4), Set.of(Position.of(9, 3), Position.of(9, 5), Position.of(8, 4)),
-                    Position.of(9, 5), Set.of(Position.of(8, 4), Position.of(8, 5), Position.of(9, 4))
-            ), CHO_CENTER, CHO_CORNERS);
+            return CHO_PALACE;
         }
+        return HAN_PALACE;
+    }
+
+    private static Palace createChoPalace() {
+        return new Palace(Map.of(
+                Position.of(7, 3), Set.of(Position.of(7, 4), Position.of(8, 3), Position.of(8, 4)),
+                Position.of(7, 4), Set.of(Position.of(7, 3), Position.of(7, 5), Position.of(8, 4)),
+                Position.of(7, 5), Set.of(Position.of(7, 4), Position.of(8, 4), Position.of(8, 5)),
+                Position.of(8, 3), Set.of(Position.of(7, 3), Position.of(8, 4), Position.of(9, 3)),
+                Position.of(8, 4), Set.of(
+                        Position.of(7, 3), Position.of(7, 4), Position.of(7, 5),
+                        Position.of(8, 3), Position.of(8, 5),
+                        Position.of(9, 3), Position.of(9, 4), Position.of(9, 5)
+                ),
+                Position.of(8, 5), Set.of(Position.of(7, 5), Position.of(8, 4), Position.of(9, 5)),
+                Position.of(9, 3), Set.of(Position.of(8, 3), Position.of(8, 4), Position.of(9, 4)),
+                Position.of(9, 4), Set.of(Position.of(9, 3), Position.of(9, 5), Position.of(8, 4)),
+                Position.of(9, 5), Set.of(Position.of(8, 4), Position.of(8, 5), Position.of(9, 4))
+        ), CHO_CENTER, CHO_CORNERS);
+    }
+
+    private static Palace createHanPalace() {
         return new Palace(Map.of(
                 Position.of(0, 3), Set.of(Position.of(0, 4), Position.of(1, 3), Position.of(1, 4)),
                 Position.of(0, 4), Set.of(Position.of(0, 3), Position.of(0, 5), Position.of(1, 4)),
