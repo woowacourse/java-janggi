@@ -2,15 +2,20 @@ package janggi;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.PieceSelection;
+import janggi.domain.game.Player;
+import janggi.domain.game.PlayerResultDTO;
 import janggi.domain.game.Players;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.board.BoardDTO;
 import janggi.domain.game.PlayerDTO;
+import janggi.domain.repository.JanggiRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class JanggiGame {
@@ -18,24 +23,36 @@ public class JanggiGame {
     private final OutputView outputView;
     private final InputView inputView;
     private final Board board;
+    private final JanggiRepository repository;
+    private final Long gameId;
 
-    public JanggiGame(OutputView outputView, InputView inputView) {
+    public JanggiGame(OutputView outputView, InputView inputView, JanggiRepository repository, Board board,
+                      Long gameId) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.board = Board.initialize();
+        this.repository = repository;
+        this.board = board;
+        this.gameId = gameId;
     }
 
-    public void run() {
-        Players players = initialPlayers();
+    public void play(Players players) {
         printBoard();
-        play(players);
-    }
 
-    private Players initialPlayers() {
-        String choPlayerName = readPlayerName(Side.CHO);
-        String hanPlayerName = readPlayerName(Side.HAN);
+        while (true) {
+            Player current = players.getCurrentPlayer();
+            PlayerDTO currentPlayerDTO = PlayerDTO.from(current);
+            printPlayerTurnNotice(currentPlayerDTO);
 
-        return Players.of(choPlayerName, hanPlayerName);
+            playerTurn(currentPlayerDTO);
+
+            if (board.isGameOver()) {
+                handleGameOver(currentPlayerDTO, players);
+                break;
+            }
+
+            players.switchTurn();
+            repository.updateGameStatus(this.gameId, board, players.getTurn());
+        }
     }
 
     private void printBoard() {
@@ -43,19 +60,22 @@ public class JanggiGame {
         outputView.printBoardStatus(BoardDTO.from(board));
     }
 
-    private void play(Players players) {
-        while (true) {
-            PlayerDTO currentPlayer = players.getCurrentPlayer();
-            printPlayerTurnNotice(currentPlayer);
-            playerTurn(currentPlayer);
-            players.switchTurn();
-        }
-    }
-
     private void playerTurn(PlayerDTO currentPlayer) {
         Side currentSide = currentPlayer.side();
         PieceSelection pieceSelection = selectMovablePiece(currentSide);
         movePiece(pieceSelection.selected(), pieceSelection.destinations());
+    }
+
+    private void handleGameOver(PlayerDTO winner, Players players) {
+        repository.finishGame(this.gameId);
+        outputView.printWinnerNotice(winner.side(), winner.name());
+
+        List<PlayerResultDTO> playerResults = new ArrayList<>();
+        for (Player player : players) {
+            double score = board.calculateScore(player.getSide());
+            playerResults.add(new PlayerResultDTO(player.getName(), player.getSide(), score));
+        }
+        outputView.printTotalScores(playerResults);
     }
 
     private PieceSelection selectMovablePiece(Side currentSide) {
@@ -99,31 +119,24 @@ public class JanggiGame {
         });
     }
 
-    private String readPlayerName(Side side) {
-        return retry(() -> {
-            outputView.printPlayerNameNotice(side.getDisplayName());
-            return inputView.readPlayerName();
-        });
-    }
-
     private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
         outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.side().getDisplayName());
     }
 
     private <T> T retry(Supplier<T> supplier) {
-        T result = null;
-        while (result == null) {
+        Optional<T> result = Optional.empty();
+        while (result.isEmpty()) {
             result = tryOnce(supplier);
         }
-        return result;
+        return result.get();
     }
 
-    private <T> T tryOnce(Supplier<T> supplier) {
+    private <T> Optional<T> tryOnce(Supplier<T> supplier) {
         try {
-            return supplier.get();
+            return Optional.of(supplier.get());
         } catch (IllegalArgumentException e) {
             outputView.printLine(e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 }

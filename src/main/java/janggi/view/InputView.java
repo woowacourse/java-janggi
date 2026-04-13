@@ -41,4 +41,19 @@ public class InputView {
     public void close() {
         scanner.close();
     }
+
+    public Boolean readContinueAnswer() {
+        String input = scanner.nextLine().trim().toLowerCase();
+        validateNotBlank(input);
+
+        if (input.equals("y")) {
+            return true;
+        }
+
+        if (input.equals("n")) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 'y' 또는 'n'만 입력 가능합니다.");
+    }
 }

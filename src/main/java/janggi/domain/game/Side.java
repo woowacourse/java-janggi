@@ -22,10 +22,13 @@ public enum Side {
     }
 
     public Side opposite() {
-        if (this.equals(CHO)) {
+        if (this == CHO) {
             return HAN;
         }
-        return CHO;
+        if (this == HAN) {
+            return CHO;
+        }
+        return NONE;
     }
 
     public EnumSet<Direction> getSoldierDirections() {

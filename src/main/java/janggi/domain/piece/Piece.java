@@ -36,6 +36,10 @@ public class Piece {
         return this.pieceType == PieceType.CANNON;
     }
 
+    public boolean isGeneral() {
+        return this.pieceType == PieceType.GENERAL;
+    }
+
     public boolean isEmpty() {
         return this.pieceType == PieceType.EMPTY;
     }
@@ -48,16 +52,20 @@ public class Piece {
         return EMPTY_INSTANCE;
     }
 
-    Side getSide() {
+    public Side getSide() {
         return side;
     }
 
-    PieceType getPieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 
-    String getPieceNumber() {
+    public String getPieceNumber() {
         return pieceNumber;
+    }
+
+    public double getScore() {
+        return pieceType.getScore();
     }
 
     @Override

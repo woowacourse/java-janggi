@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class StepMoveStrategy implements MoveStrategy {
 
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
-        for (Direction baseDirection : baseDirections) {
-            addStepPath(current, baseDirection, paths);
+        for (Direction direction : baseDirections) {
+            addStepPath(current, direction, paths);
         }
+
         return paths;
     }
 
@@ -35,14 +37,14 @@ public class StepMoveStrategy implements MoveStrategy {
         for (Path route : routes) {
             validateStepPath(route, boardState, destinations, movingPiece);
         }
+
         return destinations;
     }
 
     private void validateStepPath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         Position destination = route.iterator().next();
-        Piece target = state.get(destination);
-
-        if (target == null || !target.isSameSide(me)) {
+        Optional<Piece> target = Optional.ofNullable(state.get(destination));
+        if (target.isEmpty() || !target.get().isSameSide(me)) {
             destinations.add(destination);
         }
     }

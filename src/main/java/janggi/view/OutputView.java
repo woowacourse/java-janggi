@@ -1,8 +1,11 @@
 package janggi.view;
 
 import janggi.domain.board.Position;
+import janggi.domain.game.PlayerResultDTO;
+import janggi.domain.game.Side;
 import janggi.domain.piece.PieceDTO;
 import janggi.domain.board.BoardDTO;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +17,15 @@ public class OutputView {
     private static final String INPUT_TARGET_TO_MOVE_NOTICE = "기물을 이동할 좌표를 입력해주세요.";
     private static final String MOVE_POSITION_ROW_NOTICE = "좌표의 행을 입력해주세요.";
     private static final String MOVE_POSITION_COLUMN_NOTICE = "좌표의 열을 입력해주세요.";
+
+    private static final String CONTINUE_GAME_NOTICE = "\n[안내] 진행 중인 게임이 발견되었습니다.";
+    private static final String CONTINUE_GAME_QUESTION = "이전 게임을 이어서 진행하시겠습니까? (y / n)";
+    private static final String RESUME_NOTICE = "\n이전 게임 데이터를 성공적으로 불러왔습니다. 게임을 재개합니다.";
+
+    private static final String GAME_OVER_NOTICE = "\n========================== 게임 종료 ==========================";
+    private static final String SCORE_RESULT_NOTICE = "\n-------------------------- [ 최종 기물 점수 결과 ] --------------------------";
+    private static final String WINNER_NOTICE = "(%s) 플레이어 %s 님의 승리입니다.";
+    private static final String TOTAL_SCORE_NOTICE = "(%s) 플레이어 %s 님의 총점은 %.1f점입니다.";
 
     private static final String EMPTY_CELL = "　　";
     private static final String COLUMN_INDEXES = "　　║　　０　　　　１　　　　２　　　　３　　　　４　　　　５　　　　６　　　　７　　　　８";
@@ -128,5 +140,29 @@ public class OutputView {
 
     public void printSelectTargetPosition() {
         printLine(INPUT_TARGET_TO_MOVE_NOTICE);
+    }
+
+    public void printWinnerNotice(Side side, String playerName) {
+        printLine(GAME_OVER_NOTICE);
+        printLine(String.format(WINNER_NOTICE, side, playerName));
+        printLine(SCORE_RESULT_NOTICE);
+    }
+
+    public void printTotalScores(List<PlayerResultDTO> results) {
+        for (PlayerResultDTO result : results) {
+            printLine(String.format(TOTAL_SCORE_NOTICE,
+                    result.side(),
+                    result.name(),
+                    result.score()));
+        }
+    }
+
+    public void printContinueGameNotice() {
+        printLine(CONTINUE_GAME_NOTICE);
+        printLine(CONTINUE_GAME_QUESTION);
+    }
+
+    public void printResumeNotice() {
+        printLine(RESUME_NOTICE);
     }
 }

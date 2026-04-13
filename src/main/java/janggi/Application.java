@@ -1,15 +1,12 @@
 package janggi;
 
-import janggi.view.InputView;
-import janggi.view.OutputView;
+import janggi.config.AppConfig;
 
 public class Application {
 
     public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-        JanggiGame janggiGame = new JanggiGame(outputView, inputView);
-        janggiGame.run();
-        inputView.close();
+        AppConfig appConfig = new AppConfig();
+        GameRunner gameRunner = appConfig.gameRunner();
+        gameRunner.run();
     }
 }

@@ -8,6 +8,7 @@ import janggi.domain.game.Side;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Board {
     private static final String ERROR_NOT_FOUND_PIECE = "[ERROR] 해당 위치에 기물이 없습니다.";
@@ -44,10 +45,17 @@ public class Board {
     private static final String ID_FIRST = "0";
     private static final String ID_SECOND = "1";
 
+    // 점수 계산
+    private static final double HAN_BONUS_SCORE = 1.5;
+
     private final Map<Position, Piece> piecePosition;
 
     private Board(Map<Position, Piece> piecePosition) {
         this.piecePosition = new HashMap<>(piecePosition);
+    }
+
+    public static Board from(Map<Position, Piece> piecePosition) {
+        return new Board(piecePosition);
     }
 
     public static Board initialize() {
@@ -90,7 +98,7 @@ public class Board {
     }
 
     private static void initPalaceAndCannons(Map<Position, Piece> initialBoard, Side side, int palaceRow, int cannonRow) {
-        put(initialBoard, palaceRow, PALACE_COL, side, PieceType.PALACE, ID_FIRST);
+        put(initialBoard, palaceRow, PALACE_COL, side, PieceType.GENERAL, ID_FIRST);
         put(initialBoard, cannonRow, ELEPHANT_LEFT, side, PieceType.CANNON, ID_FIRST);
         put(initialBoard, cannonRow, ELEPHANT_RIGHT, side, PieceType.CANNON, ID_SECOND);
     }
@@ -106,7 +114,7 @@ public class Board {
         initialBoard.put(new Position(row, column), new Piece(side, pieceType, pieceNumber));
     }
 
-    Map<Position, Piece> getPiecePosition() {
+    public Map<Position, Piece> getPiecePosition() {
         return Map.copyOf(this.piecePosition);
     }
 
@@ -173,5 +181,41 @@ public class Board {
         validatePieceExist(selected);
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
+    }
+
+    public boolean isGameOver() {
+        return !hasGeneral(Side.CHO) || !hasGeneral(Side.HAN);
+    }
+
+    private boolean hasGeneral(Side side) {
+        return piecePosition.values().stream()
+                .anyMatch(piece -> piece.isOwnedBy(side) && piece.isGeneral());
+    }
+
+    public double calculateScore(Side side) {
+        double totalScore = piecePosition.values().stream()
+                .filter(piece -> piece.isOwnedBy(side))
+                .mapToDouble(Piece::getScore)
+                .sum();
+
+        if (side == Side.HAN) {
+            totalScore += HAN_BONUS_SCORE;
+        }
+
+        return totalScore;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Board board = (Board) o;
+        return Objects.equals(piecePosition, board.piecePosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(piecePosition);
     }
 }

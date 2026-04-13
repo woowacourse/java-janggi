@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
@@ -40,16 +41,18 @@ public class HorseMoveStrategy implements MoveStrategy {
 
     private void validateHorsePath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         Iterator<Position> iterator = route.iterator();
-        Position transit = iterator.next(); // 멱 (1번째)
+        Position firstStep = iterator.next(); // 멱 (1번째)
+        Optional<Piece> pieceAtFirstStep = Optional.ofNullable(state.get(firstStep));
 
-        if (state.get(transit) == null) {
+        if (pieceAtFirstStep.isEmpty()) {
             addIfValid(iterator.next(), state, destinations, me); // 도착지 (2번째)
         }
     }
 
     private void addIfValid(Position destination, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Piece target = state.get(destination);
-        if (target == null || !target.isSameSide(me)) {
+        Optional<Piece> target = Optional.ofNullable(state.get(destination));
+
+        if (target.isEmpty() || !target.get().isSameSide(me)) {
             destinations.add(destination);
         }
     }
