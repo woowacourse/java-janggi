@@ -42,14 +42,14 @@ public class Board {
                 .toList();
     }
 
-    public boolean hasGeneral(Team team) {
+    public boolean hasEssentialPieceOf(Team team) {
         return pieces.values().stream()
-                .anyMatch(piece -> piece.belongsTo(team) && piece.isGeneral());
+                .anyMatch(piece -> piece.belongsTo(team) && piece.isEssentialForVictory());
     }
 
     public Position findGeneralPosition(Team team) {
         return pieces.entrySet().stream()
-                .filter(entry -> entry.getValue().belongsTo(team) && entry.getValue().isGeneral())
+                .filter(entry -> entry.getValue().belongsTo(team) && entry.getValue().isEssentialForVictory())
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("궁이 존재하지 않습니다."));

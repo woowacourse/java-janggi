@@ -115,7 +115,7 @@ public class JanggiGame {
 
     private Optional<Team> findCaptureWinner() {
         return Stream.of(Team.CHO, Team.HAN)
-                .filter(team -> !board.hasGeneral(team))
+                .filter(team -> !board.hasEssentialPieceOf(team))
                 .findFirst()
                 .map(Team::opposite);
     }

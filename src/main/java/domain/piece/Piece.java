@@ -62,7 +62,7 @@ public abstract class Piece {
         return true;
     }
 
-    public boolean isGeneral() {
+    public boolean isEssentialForVictory() {
         return false;
     }
 

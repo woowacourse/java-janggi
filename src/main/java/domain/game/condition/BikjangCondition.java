@@ -9,7 +9,7 @@ public class BikjangCondition implements GameEndCondition {
 
     @Override
     public boolean isSatisfied(Board board, GameRecord record) {
-        if (!board.hasGeneral(Team.CHO) || !board.hasGeneral(Team.HAN)) {
+        if (!board.hasEssentialPieceOf(Team.CHO) || !board.hasEssentialPieceOf(Team.HAN)) {
             return false;
         }
 

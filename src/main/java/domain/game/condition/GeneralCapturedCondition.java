@@ -8,6 +8,6 @@ public class GeneralCapturedCondition implements GameEndCondition {
 
     @Override
     public boolean isSatisfied(Board board, GameRecord record) {
-        return !board.hasGeneral(Team.CHO) || !board.hasGeneral(Team.HAN);
+        return !board.hasEssentialPieceOf(Team.CHO) || !board.hasEssentialPieceOf(Team.HAN);
     }
 }
