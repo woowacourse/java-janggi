@@ -1,7 +1,7 @@
 package janggi.controller;
 
+import janggi.dao.entity.GameEntity;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.game.Game;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import janggi.service.GameService;
@@ -24,42 +24,42 @@ public class GameController {
         BoardSetUp choBoardSetUp = inputView.readBoardSetup(Side.CHO);
         BoardSetUp hanBoardSetUp = inputView.readBoardSetup(Side.HAN);
         String gameName = inputView.readGameName();
-        Game game = gameService.createGame(gameName, choBoardSetUp, hanBoardSetUp);
-        playGame(game);
+        GameEntity gameEntity = gameService.createGame(gameName, choBoardSetUp, hanBoardSetUp);
+        playGame(gameEntity.id());
     }
 
     public void loadGame() {
         outputView.printAllGameNames(gameService.findAllGameNames());
         String gameName = inputView.readGameName();
-        Game game = gameService.findByName(gameName);
-        playGame(game);
+        GameEntity gameEntity = gameService.findByName(gameName);
+        playGame(gameEntity.id());
     }
 
-    private void playGame(Game game) {
-        while (game.canPlay()) {
-            ControllerUtil.retry(() -> move(game), outputView);
+    private void playGame(int gameId) {
+        while (gameService.canPlay(gameId)) {
+            ControllerUtil.retry(() -> move(gameId), outputView);
         }
-        outputView.printWinner(game.winnerSide());
-        gameService.updateWinner(game);
+        outputView.printWinner(gameService.getWinnderSide(gameId));
     }
 
-    private void move(Game game) {
-        outputView.printBoard(game.getBoard());
-        outputView.printSide(game.getTurn());
+    private void move(int gameId) {
+        outputView.printBoard(gameService.getBoardByGameId(gameId));
+        outputView.printSide(gameService.getTurn(gameId));
 
-        Point from = readPoint(game);
-        outputView.printBoardWithPath(game.getBoard(), game.destinations(from));
+        Point from = readPoint(gameId);
+        outputView.printBoardWithPath(gameService.getBoardByGameId(gameId),
+                gameService.getDestinations(gameId, from));
 
         Point to = inputView.readDestination();
         if (to == null) {
             return;
         }
-        gameService.move(game, from, to);
+        gameService.move(gameId, from, to);
     }
 
-    private Point readPoint(Game game) {
+    private Point readPoint(int gameId) {
         Point from = inputView.readPoint();
-        if (!game.isTurnPiece(from)) {
+        if (!gameService.isTurnPiece(gameId, from)) {
             throw new IllegalArgumentException("움직일 수 없습니다.");
         }
         return from;

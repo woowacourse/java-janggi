@@ -13,13 +13,13 @@ public record MoveEntity(
         int y
 ) {
 
-    public static MoveEntity of(Game game, Point point) {
+    public static MoveEntity of(Game game, Point from, Point to) {
         return new MoveEntity(
                 null,
-                game.getPieceType(point).name(),
-                game.getSideAt(point).name(),
-                point.x(),
-                point.y());
+                game.getPieceType(from).name(),
+                game.getSideAt(from).name(),
+                to.x(),
+                to.y());
     }
 
     public static MoveEntity from(Entry<Point, Piece> move) {
