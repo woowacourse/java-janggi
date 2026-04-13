@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.exception.position.InvalidPositionException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,40 @@ public class Position {
         return of(Row.of(coordinates.get(0)), Column.of(coordinates.get(1)));
     }
 
-    private static String generateKey(Row row, Column column) {
-        return String.format("%d,%d", row.getValue(), column.getValue());
+    public boolean isSameRow(Position to) {
+        return this.getRowValue() == to.getRowValue();
+    }
+
+    public boolean isSameColumn(Position to) {
+        return this.getColumnValue() == to.getColumnValue();
+    }
+
+    public boolean isInPalace() {
+        return (getRowValue() >= 3 && getRowValue() <= 5 && getColumnValue() >= 0 && getColumnValue() <= 2) ||
+                (getRowValue() >= 3 && getRowValue() <= 5 && getColumnValue() >= 7 && getColumnValue() <= 9);
+    }
+
+    public boolean isOnSameDiagonal(Position to) {
+        return Math.abs(this.getRowValue() - to.getRowValue()) == Math.abs(this.getColumnValue() - to.getColumnValue());
+    }
+
+    public List<Position> getStraightPathTo(Position to) {
+        if (isSameRow(to)) {
+            return getRowStraightPositions(to);
+        }
+
+        return getColumnStraightPositions(to);
+    }
+
+    public int calculateDistance(Position to) {
+        return Math.abs(row.getValue() - to.getRowValue());
+    }
+
+    public Position getMiddlePosition(Position to) {
+        int middleRow = (row.getValue() + to.getRowValue()) / 2;
+        int middleCol = (column.getValue() + to.getColumnValue()) / 2;
+
+        return Position.of(Row.of(middleRow), Column.of(middleCol));
     }
 
     public int getRowValue() {
@@ -47,6 +80,36 @@ public class Position {
 
     public int getColumnValue() {
         return column.getValue();
+    }
+
+    private static String generateKey(Row row, Column column) {
+        return String.format("%d,%d", row.getValue(), column.getValue());
+    }
+
+    private List<Position> getRowStraightPositions(Position to) {
+        List<Position> path = new ArrayList<>();
+
+        int start = Math.min(this.getRowValue(), to.getRowValue()) + 1;
+        int end = Math.max(this.getRowValue(), to.getRowValue());
+
+        for (int i = start; i < end; i++) {
+            path.add(Position.of(Row.of(i), Column.of(this.getColumnValue())));
+        }
+
+        return path;
+    }
+
+    private List<Position> getColumnStraightPositions(Position to) {
+        List<Position> path = new ArrayList<>();
+
+        int start = Math.min(this.getColumnValue(), to.getColumnValue()) + 1;
+        int end = Math.max(this.getColumnValue(), to.getColumnValue());
+
+        for (int i = start; i < end; i++) {
+            path.add(Position.of(Row.of(this.getRowValue()), Column.of(i)));
+        }
+
+        return path;
     }
 
     @Override
