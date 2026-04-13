@@ -12,6 +12,7 @@ import domain.game.GameRepository;
 import domain.game.SavedGame;
 import domain.game.TurnResult;
 import domain.piece.TeamColor;
+import domain.score.PieceScoreCalculator;
 import io.InputView;
 import io.OutputView;
 import java.util.List;
@@ -34,27 +35,34 @@ public class GameRunner {
     private final OutputView outputView;
     private final GameRepository gameRepository;
     private final NewGameFactory newGameFactory;
+    private final PieceScoreCalculator pieceScoreCalculator;
 
     public GameRunner() {
         this(new H2GameRepository(new ConnectionManager(new DatabaseConfig())));
     }
 
     public GameRunner(GameRepository gameRepository) {
-        this(new InputView(), new OutputView(), gameRepository, new NewGameFactory());
+        this(new InputView(), new OutputView(), gameRepository, new NewGameFactory(), new PieceScoreCalculator());
     }
 
     public GameRunner(InputView inputView, OutputView outputView, GameRepository gameRepository, NewGameFactory newGameFactory) {
+        this(inputView, outputView, gameRepository, newGameFactory, new PieceScoreCalculator());
+    }
+
+    public GameRunner(InputView inputView, OutputView outputView, GameRepository gameRepository,
+                      NewGameFactory newGameFactory, PieceScoreCalculator pieceScoreCalculator) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.gameRepository = gameRepository;
         this.newGameFactory = newGameFactory;
+        this.pieceScoreCalculator = pieceScoreCalculator;
     }
 
     public void run() {
         outputView.printGameStart();
         SavedGame savedGame = loadOrCreateGame();
         Game game = savedGame.game();
-        outputView.printBoard(game.board());
+        printBoard(game.board());
 
         while (game.isInProgress()) {
             savedGame = playTurn(savedGame);
@@ -107,7 +115,7 @@ public class GameRunner {
         final Board board = game.board();
         final TeamColor currentTurn = game.currentTurn();
         outputView.printCurrentTurn(currentTurn);
-        outputView.printBoard(board);
+        printBoard(board);
 
         while (true) {
             try {
@@ -146,6 +154,10 @@ public class GameRunner {
             return;
         }
         throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
+    }
+
+    private void printBoard(Board board) {
+        outputView.printBoard(board, pieceScoreCalculator.calculate(board));
     }
 
     private Piece choosePiece(Board board, TeamColor currentTurn) {

@@ -2,7 +2,6 @@ package io;
 
 import domain.board.Board;
 import domain.score.PieceScore;
-import domain.score.PieceScoreCalculator;
 import domain.palace.Palace;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -49,16 +48,6 @@ public class OutputView {
     private static final Palace CHO_PALACE = Palace.of(TeamColor.CHO);
     private static final Palace HAN_PALACE = Palace.of(TeamColor.HAN);
 
-    private final PieceScoreCalculator pieceScoreCalculator;
-
-    public OutputView() {
-        this(new PieceScoreCalculator());
-    }
-
-    public OutputView(PieceScoreCalculator pieceScoreCalculator) {
-        this.pieceScoreCalculator = pieceScoreCalculator;
-    }
-
     public void printGameStart() {
         System.out.println(GAME_START_MESSAGE);
     }
@@ -99,9 +88,7 @@ public class OutputView {
         }
     }
 
-    public void printBoard(Board board) {
-        final PieceScore pieceScore = pieceScoreCalculator.calculate(board);
-
+    public void printBoard(Board board, PieceScore pieceScore) {
         System.out.println();
         System.out.println(CURRENT_BOARD_MESSAGE);
         System.out.println(SCORE_MESSAGE_FORMAT.formatted(pieceScore.cho(), pieceScore.han()));
