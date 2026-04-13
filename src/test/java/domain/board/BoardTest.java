@@ -61,7 +61,9 @@ class BoardTest {
             final MoveResult moveResult = movableBoard.move(movingRook, Position.of(1, 4));
 
             assertThat(moveResult.capturedKing()).isTrue();
+            assertThat(movableBoard.findPiece(Position.of(4, 4))).isEmpty();
             assertThat(movableBoard.findPiece(Position.of(1, 4))).contains(movingRook);
+            assertThat(movableBoard.findPiecesByTeam(TeamColor.HAN)).isEmpty();
         }
 
         @Test

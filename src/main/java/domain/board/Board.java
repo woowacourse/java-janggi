@@ -79,6 +79,7 @@ public class Board {
 
         final MoveResult moveResult = MoveResult.from(destinationPiece);
         pieces.remove(currentPosition);
+        destinationPiece.ifPresent(capturedPiece -> pieces.remove(destination));
         pieces.put(destination, piece);
         return moveResult;
     }
