@@ -2,7 +2,6 @@ import database.ConnectionManager;
 import database.DatabaseConfig;
 import database.H2GameRepository;
 import domain.board.Board;
-import domain.board.MoveResult;
 import domain.piece.Piece;
 import domain.board.PiecePosition;
 import domain.board.Position;
@@ -10,6 +9,7 @@ import domain.board.Route;
 import domain.game.Game;
 import domain.game.FormationType;
 import domain.game.GameRepository;
+import domain.game.TurnResult;
 import domain.piece.TeamColor;
 import io.InputView;
 import io.OutputView;
@@ -114,16 +114,10 @@ public class GameRunner {
                 }
 
                 final Position destination = selectedRoute.get().endPos();
-                final MoveResult moveResult = board.move(selectedPiece, destination);
+                final TurnResult turnResult = game.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
-                if (moveResult.capturedKing()) {
-                    game.finish();
-                    gameRepository.save(game);
-                    outputView.printWinner(currentTurn);
-                    return;
-                }
-                game.advanceTurn();
                 gameRepository.save(game);
+                turnResult.winner().ifPresent(outputView::printWinner);
                 return;
             } catch (IllegalArgumentException exception) {
                 outputView.printError(exception.getMessage());

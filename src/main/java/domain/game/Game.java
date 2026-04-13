@@ -1,6 +1,9 @@
 package domain.game;
 
 import domain.board.Board;
+import domain.board.MoveResult;
+import domain.board.Position;
+import domain.piece.Piece;
 import domain.piece.TeamColor;
 
 public class Game {
@@ -41,6 +44,19 @@ public class Game {
 
     public void advanceTurn() {
         turnManager.advanceTurn();
+    }
+
+    public TurnResult move(Piece piece, Position destination) {
+        final TeamColor movingTeam = currentTurn();
+        final MoveResult moveResult = board.move(piece, destination);
+
+        if (moveResult.capturedKing()) {
+            finish();
+            return TurnResult.finished(moveResult, movingTeam);
+        }
+
+        advanceTurn();
+        return TurnResult.inProgress(moveResult);
     }
 
     public TurnManager turnManager() {
