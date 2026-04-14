@@ -1,21 +1,30 @@
 package janggi.domain.movestorage;
 
 import janggi.domain.BoardView;
-import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
-import janggi.domain.Row;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class PoMoveStorage implements MoveStorage {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView boardView) {
-        if (isNotStraight(from, to)) {
-            return false;
+        if (isStraight(from, to)) {
+            return canMoveStraight(from, to, boardView);
         }
 
+        if (isValidPalaceDiagonal(from, to)) {
+            return canMoveDiagonal(from, to, boardView);
+        }
+
+        return false;
+    }
+
+    private boolean isStraight(Position from, Position to) {
+        return from.getRowValue() == to.getRowValue() && from.getColumnValue() == to.getColumnValue();
+    }
+
+    private boolean canMoveStraight(Position from, Position to, BoardView boardView) {
         List<Piece> pathPieces = getPathPieces(from, to, boardView);
 
         if (isInvalidPath(pathPieces)) {
@@ -25,30 +34,30 @@ public class PoMoveStorage implements MoveStorage {
         return isValidTarget(to, boardView);
     }
 
-    private boolean isNotStraight(Position from, Position to) {
-        return from.getRowValue() != to.getRowValue() && from.getColumnValue() != to.getColumnValue();
+    private boolean isValidPalaceDiagonal(Position from, Position to) {
+        return from.isInPalace() && to.isInPalace() &&
+                from.isOnSameDiagonal(to) && from.calculateDistance(to) == 2;
+    }
+
+    private boolean canMoveDiagonal(Position from, Position to, BoardView boardView) {
+        Position middle = from.getMiddlePosition(to);
+
+        if (!boardView.hasPieceAt(middle)) {
+            return false;
+        }
+
+        Piece bridge = boardView.getPieceAt(middle);
+        if (isPo(bridge)) {
+            return false;
+        }
+
+        return isValidTarget(to, boardView);
     }
 
     private List<Piece> getPathPieces(Position from, Position to, BoardView boardView) {
-        return getPathPositions(from, to).stream()
+        return from.getStraightPathTo(to).stream()
                 .filter(boardView::hasPieceAt)
                 .map(boardView::getPieceAt)
-                .toList();
-    }
-
-    private List<Position> getPathPositions(Position from, Position to) {
-        if (from.getRowValue() == to.getRowValue()) {
-            int row = from.getRowValue();
-            return IntStream.range(Math.min(from.getColumnValue(), to.getColumnValue()) + 1,
-                            Math.max(from.getColumnValue(), to.getColumnValue()))
-                    .mapToObj(column -> Position.of(Row.of(row), Column.of(column)))
-                    .toList();
-        }
-
-        int column = from.getColumnValue();
-        return IntStream.range(Math.min(from.getRowValue(), to.getRowValue()) + 1,
-                        Math.max(from.getRowValue(), to.getRowValue()))
-                .mapToObj(row -> Position.of(Row.of(row), Column.of(column)))
                 .toList();
     }
 
