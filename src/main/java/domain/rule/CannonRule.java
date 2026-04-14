@@ -6,6 +6,7 @@ import domain.coordinate.Position;
 import domain.piece.Cannon;
 import domain.piece.Piece;
 
+import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,13 @@ public class CannonRule implements Rule {
         return -1;
     }
 
-    private List<Position> landingPositions(Side movingSide, Map<Position, Piece> pathPieces, List<Position> positions, int pivotIndex) {
+    private List<Position> landingPositions(Side movingSide, Map<Position, Piece> pathPieces, List<Position> positions,
+                                            int pivotIndex) {
         List<Position> result = new ArrayList<>();
         for (int i = pivotIndex + 1; i < positions.size(); i++) {
             Position pos = positions.get(i);
             Piece piece = pathPieces.get(pos);
-            if (piece instanceof Cannon || piece.isFriendly(movingSide)) {
+            if (isCannon(piece) || piece.isFriendly(movingSide)) {
                 break;
             }
             result.add(pos);
@@ -53,5 +55,9 @@ public class CannonRule implements Rule {
             }
         }
         return result;
+    }
+
+    private boolean isCannon(Piece piece) {
+        return piece.getType() == PieceType.CANNON;
     }
 }
