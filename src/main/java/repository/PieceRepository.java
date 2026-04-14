@@ -12,11 +12,10 @@ import java.util.Map;
 public class PieceRepository {
 
     public Map<Position, Piece> getPiecesPosition() {
-        try (Connection connection = Database.getConnection()) {
-            String sql = "SELECT col_num, row_num, piece_type, side FROM piece";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet resultSet = pstmt.executeQuery();
-
+        String sql = "SELECT col_num, row_num, piece_type, side FROM piece";
+        try (Connection connection = Database.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet resultSet = pstmt.executeQuery()) {
             return PieceMapper.toPositionPiece(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);

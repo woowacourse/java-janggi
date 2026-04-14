@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.rule.Rule;

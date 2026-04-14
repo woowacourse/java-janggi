@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
-import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.LeapRule;
 import domain.strategy.SequenceStrategy;

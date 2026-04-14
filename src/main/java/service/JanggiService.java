@@ -1,11 +1,12 @@
 package service;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import domain.Game;
 import domain.board.BoardInitializer;
 import domain.board.DatabaseBoardInitializer;
 import domain.coordinate.Position;
-import java.sql.Connection;
-import java.sql.SQLException;
 import repository.Database;
 import repository.GameRepository;
 import repository.PieceRepository;

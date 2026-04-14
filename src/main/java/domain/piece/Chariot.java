@@ -1,11 +1,8 @@
 package domain.piece;
 
-import domain.coordinate.Position;
 import domain.rule.SlidingRule;
 import domain.Side;
 import domain.strategy.LinearStrategy;
-
-import java.util.List;
 
 public final class Chariot extends Piece {
 

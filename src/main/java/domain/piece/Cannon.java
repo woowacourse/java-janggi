@@ -1,11 +1,9 @@
 package domain.piece;
 
-import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.CannonRule;
 import domain.strategy.LinearStrategy;
 
-import java.util.List;
 
 public final class Cannon extends Piece {
 

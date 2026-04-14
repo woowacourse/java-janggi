@@ -1,12 +1,9 @@
 package domain.piece;
 
-import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.StepRule;
 import domain.strategy.PalaceStrategy;
 import domain.strategy.StepStrategy;
-
-import java.util.List;
 
 public final class King extends Piece {
 
