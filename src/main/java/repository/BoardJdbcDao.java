@@ -71,11 +71,10 @@ public class BoardJdbcDao implements BoardDao {
     }
 
     @Override
-    public Board findByGameId(Long gameId) {
+    public Board findByGameId(Connection con, Long gameId) {
         String sql = "select * from boards where game_id = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
+        try (PreparedStatement pstmt = con.prepareStatement(sql)
         ) {
 
             pstmt.setLong(1, gameId);
@@ -99,9 +98,5 @@ public class BoardJdbcDao implements BoardDao {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
     }
 }

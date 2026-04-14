@@ -5,11 +5,13 @@ import domain.game.Game;
 import domain.game.Status;
 import domain.vo.Position;
 import repository.BoardDao;
+import repository.DBConnectionUtil;
 import repository.GameDao;
 import repository.TransactionTemplate;
 import repository.dto.GameDto;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class JanggiService {
@@ -23,12 +25,21 @@ public class JanggiService {
     }
 
     public List<GameDto> findAllGames() {
-        return gameDao.findAll();
+        try (Connection con = DBConnectionUtil.getConnection()) {
+            return gameDao.findAll(con);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public Game loadGame(Long gameId) {
-        Board board = boardDao.findByGameId(gameId);
-        return gameDao.findById(gameId, board);
+        try (Connection con = DBConnectionUtil.getConnection()) {
+
+            Board board = boardDao.findByGameId(con, gameId);
+            return gameDao.findById(con, gameId, board);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public Game createAndSaveGame(Formation hanFormation, Formation chuFormation) {
@@ -49,7 +60,8 @@ public class JanggiService {
         return new TransactionTemplate<Game>() {
             @Override
             protected Game doInTransaction(Connection con) {
-                Game findGame = loadGame(gameId);
+                Board board = boardDao.findByGameId(con, gameId);
+                Game findGame = gameDao.findById(con, gameId, board);
 
                 boolean hasTargetPiece = findGame.getBoard().findPieceByPosition(to).isPresent();
                 findGame.tryToMove(from, to);
@@ -58,7 +70,6 @@ public class JanggiService {
                 }
 
                 updateGameState(findGame, from, to, hasTargetPiece, con);
-
                 return findGame;
             }
         }.execute();
@@ -68,7 +79,8 @@ public class JanggiService {
         return new TransactionTemplate<Game>() {
             @Override
             protected Game doInTransaction(Connection con) {
-                Game findGame = loadGame(gameId);
+                Board board = boardDao.findByGameId(con, gameId);
+                Game findGame = gameDao.findById(con, gameId, board);
 
                 findGame.lose(turnName);
                 gameDao.update(con, findGame.getId(), findGame.getCurrentTeam().name(), findGame.getStatus().name());

@@ -12,5 +12,5 @@ public interface BoardDao {
 
     void updatePosition(Connection con, Long gameId, int fromRow, int fromCol, int toRow, int toCol);
 
-    Board findByGameId(Long gameId);
+    Board findByGameId(Connection con, Long gameId);
 }

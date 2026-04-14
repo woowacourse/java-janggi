@@ -58,11 +58,10 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public List<GameDto> findAll() {
+    public List<GameDto> findAll(Connection con) {
         String sql = "select * from games";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
+        try (PreparedStatement pstmt = con.prepareStatement(sql)
         ) {
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -85,11 +84,10 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public Game findById(Long gameId, Board board) {
+    public Game findById(Connection con, Long gameId, Board board) {
         String sql = "select * from games where id = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
+        try (PreparedStatement pstmt = con.prepareStatement(sql)
         ) {
 
             pstmt.setLong(1, gameId);
@@ -107,9 +105,5 @@ public class GameJdbcDao implements GameDao {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
     }
 }

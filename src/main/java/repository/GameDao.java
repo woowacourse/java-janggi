@@ -13,7 +13,7 @@ public interface GameDao {
 
     void update(Connection con, Long gameId, String turnName, String status);
 
-    List<GameDto> findAll();
+    List<GameDto> findAll(Connection con);
 
-    Game findById(Long gameId, Board board);
+    Game findById(Connection con, Long gameId, Board board);
 }
