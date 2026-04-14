@@ -2,9 +2,17 @@ package repository;
 
 import domain.Side;
 import domain.coordinate.Position;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.EmptyPiece;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.PieceTypeMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -21,9 +29,22 @@ public class PieceMapper {
             String side = resultSet.getString("side");
 
             Position position = new Position(colNum, rowNum);
-            Piece piece = PieceTypeMapper.create(PieceType.valueOf(pieceType), Side.valueOf(side));
+            Piece piece = createPiece(PieceType.valueOf(pieceType), Side.valueOf(side));
             pieces.put(position, piece);
         }
         return pieces;
+    }
+
+    private static Piece createPiece(PieceType type, Side side) {
+        return switch (type) {
+            case KING -> new King(side);
+            case GUARD -> new Guard(side);
+            case CHARIOT -> new Chariot(side);
+            case HORSE -> new Horse(side);
+            case ELEPHANT -> new Elephant(side);
+            case CANNON -> new Cannon(side);
+            case PAWN -> new Pawn(side);
+            case EMPTY -> EmptyPiece.getInstance();
+        };
     }
 }
