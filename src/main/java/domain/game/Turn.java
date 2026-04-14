@@ -15,7 +15,7 @@ public class Turn {
     }
 
     public Team change() {
-        this.team = this.team.change();
+        this.team = this.team.opposite();
         return this.team;
     }
 
