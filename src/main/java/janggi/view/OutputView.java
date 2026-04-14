@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Camp;
+import janggi.view.dto.GameResult;
 import janggi.view.dto.PieceStatus;
 
 import java.util.List;
@@ -24,6 +24,34 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printEnterGameRoom(Long roomNumber) {
+        System.out.println(roomNumber + "번방에 입장하셨습니다.");
+    }
+
+    public void printEndGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방은 종료되었습니다.");
+    }
+
+    public void printDeleteGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방을 삭제하였습니다.");
+    }
+
+    public void printCantDeleteGame(Long roomNumber) {
+        System.out.println(roomNumber + "번방은 진행 중이여서 삭제할 수 없습니다.");
+    }
+
+    public void printGameResult(GameResult gameResult) {
+        System.out.println();
+        int choScore = gameResult.getChoScore();
+        int hanScore = gameResult.getHanScore();
+        String description = gameResult.getDescription();
+        if (choScore >= 0 && hanScore >= 0) {
+            System.out.printf("초나라 점수: %d, 한나라 점수: %d / %s!%n", choScore, hanScore, description);
+            return;
+        }
+        System.out.printf("%s!%n", description);
+    }
+
     public void printBoard(List<PieceStatus> piecesStatus, List<Integer> rows) {
         System.out.println();
 
@@ -44,7 +72,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private String intersectionRow(int row,  Map<String, PieceStatus> boardMap) {
+    private String intersectionRow(int row, Map<String, PieceStatus> boardMap) {
         return IntStream.range(0, COL_SIZE)
                 .mapToObj(col -> renderCell(row, col, boardMap))
                 .collect(Collectors.joining("－"));

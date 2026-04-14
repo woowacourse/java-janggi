@@ -1,18 +1,18 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
 public class Advisor extends Piece {
     public Advisor(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+        super(PieceInfo.from(camp, 3), moveStrategy);
     }
 
     @Override
-    public boolean canPassRoute(Map<Position, Piece> piecesInPath) {
+    public boolean canPassRoute(Map<JanggiPosition, Piece> piecesInPath) {
         return true;
     }
 
@@ -32,7 +32,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected String pieceDisplayName(Camp camp) {
-        return PieceDisplayName.ADVISOR.findDisplayName(camp);
+    protected PieceDisplayName pieceDisplayName() {
+        return PieceDisplayName.ADVISOR;
     }
 }

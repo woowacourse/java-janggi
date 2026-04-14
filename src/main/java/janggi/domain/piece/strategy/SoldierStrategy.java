@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,17 +15,32 @@ public class SoldierStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Path> findMovablePaths(Position current) {
+    public List<Path> findMovablePaths(JanggiPosition current) {
         List<Path> paths = new ArrayList<>();
 
         addPath(paths, current, forwardDirection);
-        addPath(paths, current, Direction.left());
-        addPath(paths, current, Direction.right());
+        addPath(paths, current, Direction.west());
+        addPath(paths, current, Direction.east());
+
+        if (current.isPalaceDiagonal()) {
+            paths.addAll(calculateDiagonalPath(current));
+        }
 
         return Collections.unmodifiableList(paths);
     }
 
-    private void addPath(List<Path> paths, Position current, Direction direction) {
+    private List<Path> calculateDiagonalPath(JanggiPosition current) {
+        List<Path> diagonalDirections = new ArrayList<>();
+        Direction.diagonalDirections()
+                .stream()
+                .filter(forwardDirection::isSameDirectionOfProgress)
+                .forEach(direction -> addPath(diagonalDirections, current, direction));
+        return diagonalDirections.stream()
+                .filter(Path::isDestinationInsidePalace)
+                .toList();
+    }
+
+    private void addPath(List<Path> paths, JanggiPosition current, Direction direction) {
         direction.findNextPosition(current)
                 .map(position -> new Path(List.of(), position))
                 .ifPresent(paths::add);

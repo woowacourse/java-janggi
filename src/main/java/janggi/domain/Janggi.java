@@ -3,7 +3,8 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
 import janggi.domain.piece.Piece;
-import janggi.view.dto.PieceStatus;
+import janggi.domain.state.ChoTurn;
+import janggi.domain.state.GameState;
 
 import java.util.List;
 import java.util.Map;
@@ -17,18 +18,22 @@ public class Janggi {
     );
 
     private final Board board;
-    private boolean ongoing;
+    private GameState gameState;
 
-    private Janggi(Board board, boolean ongoing) {
+    private Janggi(Board board, GameState gameState) {
         this.board = board;
-        this.ongoing = ongoing;
+        this.gameState = gameState;
     }
 
     public static Janggi start(int choFormationNumber, int hanFormationNumber) {
         return new Janggi(Board.initializeToBoard(
                 readFormation(choFormationNumber),
                 readFormation(hanFormationNumber)),
-                true);
+                new ChoTurn());
+    }
+
+    public static Janggi reconstruct(Board board, GameState gameState) {
+        return new Janggi(board, gameState);
     }
 
     private static FormationStrategy readFormation(int choice) {
@@ -38,32 +43,39 @@ public class Janggi {
         return FORMATIONS.get(choice - 1);
     }
 
-    public void movePiece(Position from, Position to) {
-        board.movePiece(from, to);
+    public void movePiece(JanggiPosition from, JanggiPosition to) {
+        gameState = gameState.move(from, to, board);
     }
 
-    public void validateCamp(Position position, Camp camp) {
-        Piece piece = board.selectPiece(position);
-        if (!piece.isSameCamp(camp)) {
-            throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
-        }
-    }
-
-    public List<PieceStatus> piecesStatus() {
-        Map<Position, String> displayBoard = board.displayBoard();
-        return displayBoard.keySet()
-                .stream()
-                .map(position -> PieceStatus.from(position,
-                        board.checkCampOfThePiece(position),
-                        displayBoard.get(position)))
-                .toList();
+    public void validateCamp(JanggiPosition position) {
+        gameState.validateCamp(position, board);
     }
 
     public boolean isOnGoing() {
-        return ongoing;
+        return gameState.isOngoing();
     }
 
-    public void stopGame() {
-        ongoing = false;
+    public void giveUpGame() {
+        gameState = gameState.giveUp();
+    }
+
+    public void drawGame() {
+        gameState = gameState.draw();
+    }
+
+    public Camp currentTurn() {
+        return gameState.turn();
+    }
+
+    public Map<JanggiPosition, Piece> getBoardSnapshot() {
+        return board.getPiecesSnapshot();
+    }
+
+    public int calculateTotalScore(Camp camp) {
+        return board.calculateTotalScore(camp);
+    }
+
+    public String getStateType() {
+        return gameState.getStateType();
     }
 }

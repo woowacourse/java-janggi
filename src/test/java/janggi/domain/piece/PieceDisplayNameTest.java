@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Camp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceDisplayNameTest {
 
@@ -24,8 +24,8 @@ class PieceDisplayNameTest {
             "GENERAL, HAN, 漢",
             "HORSE, CHO, 馬",
             "HORSE, HAN, 馬",
-            "SOLIDER, CHO, 卒",
-            "SOLIDER, HAN, 兵"
+            "SOLDIER, CHO, 卒",
+            "SOLDIER, HAN, 兵"
     })
     void findDisplayName_giveCamp_ReturnDisplayNameByCamp(PieceDisplayName pieceDisplayName, Camp camp, String expectedName) {
         String displayName = pieceDisplayName.findDisplayName(camp);

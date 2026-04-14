@@ -2,9 +2,8 @@ package janggi.domain.piece;
 
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.piece.strategy.CannonStrategy;
-import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class CannonTest {
     @Test
     void canPassRoute_PieceInPathSizeIsZero_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        Map<Position, Piece> pieceInPath = new HashMap<>();
+        Map<JanggiPosition, Piece> pieceInPath = new HashMap<>();
         assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
@@ -42,9 +41,9 @@ public class CannonTest {
     @Test
     void canPassRoute_PieceInPathSizeOverTwo_Return_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        Map<Position, Piece> pieceInPath = new HashMap<>();
-        pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
-        pieceInPath.put(Position.of(3, 4), new Elephant(Camp.CHO, new ElephantStrategy()));
+        Map<JanggiPosition, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(JanggiPosition.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
+        pieceInPath.put(JanggiPosition.of(3, 4), new Elephant(Camp.CHO, new ElephantStrategy()));
         assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
@@ -52,8 +51,8 @@ public class CannonTest {
     @Test
     void canPassRoute_PieceInPathCanBeJumpedOver_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        Map<Position, Piece> pieceInPath = new HashMap<>();
-        pieceInPath.put(Position.of(3, 3), new Cannon(Camp.CHO, new CannonStrategy()));
+        Map<JanggiPosition, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(JanggiPosition.of(3, 3), new Cannon(Camp.CHO, new CannonStrategy()));
         assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
@@ -61,8 +60,8 @@ public class CannonTest {
     @Test
     void canPassRoute_PieceInPathNotCannon_ReturnTrue() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        Map<Position, Piece> pieceInPath = new HashMap<>();
-        pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
+        Map<JanggiPosition, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(JanggiPosition.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
         assertThat(piece.canPassRoute(pieceInPath)).isTrue();
     }
 

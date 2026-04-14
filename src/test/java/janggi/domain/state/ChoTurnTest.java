@@ -1,0 +1,51 @@
+package janggi.domain.state;
+
+import janggi.domain.JanggiPosition;
+import janggi.domain.board.Board;
+import janggi.domain.board.strategy.HorseElephantHorseElephant;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class ChoTurnTest {
+
+    @DisplayName("초의 턴에 기물을 움직인 후 왕이 잡히지 않았다면 한의 턴을 반환한다")
+    @Test
+    void move_IsGeneralHadntBeenCaught_ReturnHanTurn() {
+        Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
+        JanggiPosition from = JanggiPosition.of(3, 4);
+        JanggiPosition to = JanggiPosition.of(4, 4);
+        ChoTurn choTurn = new ChoTurn();
+
+        assertThat(choTurn.move(from, to, board)).isInstanceOf(HanTurn.class);
+    }
+
+    @DisplayName("초의 턴에 기물을 움직인 후 왕이 잡혔다면 외통수를 반환한다")
+    @Test
+    void move_IsGeneralCaught_ReturnCheckmate() {
+        Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
+
+        GameState state = new ChoTurn();
+        for (int i = 4; i < 9; i++) {
+            state = new ChoTurn();
+            JanggiPosition from = JanggiPosition.of(i - 1, 4);
+            JanggiPosition to = JanggiPosition.of(i, 4);
+            state = state.move(from, to, board);
+        }
+
+        assertThat(state).isInstanceOf(Checkmate.class);
+    }
+
+    @DisplayName("초의 턴에 한의 기물을 움직이려고 하면 예외가 발생한다")
+    @Test
+    void move_TryMoveDifferentPiece_ReturnException() {
+        Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
+        JanggiPosition from = JanggiPosition.of(6, 4);
+        JanggiPosition to = JanggiPosition.of(5, 4);
+        ChoTurn choTurn = new ChoTurn();
+
+        assertThatThrownBy(() -> choTurn.move(from, to, board)).isInstanceOf(IllegalArgumentException.class);
+    }
+}
