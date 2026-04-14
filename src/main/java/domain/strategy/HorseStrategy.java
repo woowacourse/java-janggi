@@ -25,7 +25,7 @@ public class HorseStrategy implements Strategy {
     private void addCandidatesForStraight(Position from, Team team, PieceProvider board,
                                           Direction straight, List<Position> candidates) {
         Position myeok = from.next(straight.getRowOffset(team), straight.getColOffset(team));
-        if (!board.isBlank(myeok)) return;
+        if (!board.getPiece(myeok).isBlank()) return;
         addCandidatesForDiagonals(myeok, team, straight, candidates);
     }
 

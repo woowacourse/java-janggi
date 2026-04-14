@@ -63,13 +63,13 @@ public class JanggiGame {
     }
 
     private void validateNotBlank(Position from) {
-        if (janggiBoard.isBlank(from)) {
+        if (janggiBoard.getPiece(from).isBlank()) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
         }
     }
 
     private void validateCurrentPiece(Piece currentPiece) {
-        if (currentPiece.getTeam() != janggiBoard.getTurn()) {
+        if (currentPiece.isOtherTeam(janggiBoard.getTurn())) {
             throw new IllegalArgumentException("[ERROR] 상대방의 기물을 이동할 수 없습니다.");
         }
     }

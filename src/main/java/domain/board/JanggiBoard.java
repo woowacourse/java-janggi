@@ -51,11 +51,6 @@ public class JanggiBoard implements PieceProvider {
     }
 
     @Override
-    public boolean isBlank(Position position) {
-        return getPiece(position).getPieceType().equals(PieceType.BLANK);
-    }
-
-    @Override
     public Piece getPiece(Position position) {
         return janggiBoard.get(position);
     }

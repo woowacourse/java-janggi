@@ -26,4 +26,6 @@ public abstract class Piece {
     public boolean isCannon() {
         return false;
     }
+
+    public abstract boolean isBlank();
 }

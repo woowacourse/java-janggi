@@ -35,7 +35,7 @@ public class CannonStrategy implements Strategy {
 
     private Position findObstacle(Position from, Team team, Direction direction, PieceProvider board) {
         Position obstacle = from.next(direction.getRowOffset(team), direction.getColOffset(team));
-        while (!obstacle.isInvalid() && board.isBlank(obstacle)) {
+        while (!obstacle.isInvalid() && board.getPiece(from).isBlank()) {
             obstacle = obstacle.next(direction.getRowOffset(team), direction.getColOffset(team));
         }
         return obstacle;
@@ -46,7 +46,7 @@ public class CannonStrategy implements Strategy {
         Position target = obstacle.next(direction.getRowOffset(team), direction.getColOffset(team));
 
         while (!target.isInvalid()) {
-            if (board.isBlank(target)) {
+            if (board.getPiece(target).isBlank()) {
                 candidates.add(target);
                 target = target.next(direction.getRowOffset(team), direction.getColOffset(team));
                 continue;

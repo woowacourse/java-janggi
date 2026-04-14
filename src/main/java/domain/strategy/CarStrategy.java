@@ -30,7 +30,7 @@ public class CarStrategy implements Strategy {
         Position next = from.next(direction.getRowOffset(team), direction.getColOffset(team));
 
         while (!next.isInvalid()) {
-            if (board.isBlank(next)) {
+            if (board.getPiece(next).isBlank()) {
                 candidatePositions.add(next);
                 next = next.next(direction.getRowOffset(team), direction.getColOffset(team));
                 continue;
