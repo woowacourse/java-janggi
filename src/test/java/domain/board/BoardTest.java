@@ -209,6 +209,40 @@ public class BoardTest {
     }
 
     @Test
+    void 기물이_있는_위치를_조회하면_기물이_반환된다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(1, 1), new Chariot(Team.CHO));
+        Board board = new Board(pieces);
+
+        assertThat(board.findPieceAt(1, 1)).isPresent();
+    }
+
+    @Test
+    void 기물이_없는_위치를_조회하면_빈값이_반환된다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Board board = new Board(pieces);
+
+        assertThat(board.findPieceAt(1, 1)).isEmpty();
+    }
+
+    @Test
+    void 기물이_있는_위치는_true를_반환한다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(1, 1), new Chariot(Team.CHO));
+        Board board = new Board(pieces);
+
+        assertThat(board.hasPieceAt(new Position(1, 1))).isTrue();
+    }
+
+    @Test
+    void 기물이_없는_위치는_false를_반환한다() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Board board = new Board(pieces);
+
+        assertThat(board.hasPieceAt(new Position(1, 1))).isFalse();
+    }
+
+    @Test
     void 점수_계산_시_각_팀_기물_점수가_합산된다() {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(new Position(1, 1), new Chariot(Team.CHO));
