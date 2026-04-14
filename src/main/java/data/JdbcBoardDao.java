@@ -2,6 +2,7 @@ package data;
 
 import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
+import domain.position.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,14 +65,43 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public void deleteByGameId(Connection conn, Long gameId) {
-        String sql = "DELETE FROM board WHERE game_id = ?";
+    public void deleteByPosition(Connection conn, Long gameId, Position position) {
+        String sql = """
+                DELETE FROM board
+                WHERE game_id = ? AND pos_row = ? AND pos_col = ?
+                """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, gameId);
+            ps.setInt(2, position.getRow());
+            ps.setInt(3, position.getColumn());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("board 삭제 중 오류가 발생했습니다. gameId=" + gameId, e);
+            throw new IllegalArgumentException("board 위치 삭제 중 오류가 발생했습니다. gameId=" + gameId, e);
+        }
+    }
+
+    @Override
+    public void updatePosition(Connection conn, Long gameId, Position from, Position to) {
+        String sql = """
+                UPDATE board
+                SET pos_row = ?, pos_col = ?
+                WHERE game_id = ? AND pos_row = ? AND pos_col = ?
+                """;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, to.getRow());
+            ps.setInt(2, to.getColumn());
+            ps.setLong(3, gameId);
+            ps.setInt(4, from.getRow());
+            ps.setInt(5, from.getColumn());
+
+            int updatedCount = ps.executeUpdate();
+            if (updatedCount == 0) {
+                throw new IllegalArgumentException("[ERROR] 이동할 기물을 찾을 수 없습니다.");
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("board 위치 수정 중 오류가 발생했습니다. gameId=" + gameId, e);
         }
     }
 

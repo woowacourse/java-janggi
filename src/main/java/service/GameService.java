@@ -27,12 +27,13 @@ public class GameService {
     public Game playTurn(Long gameId, Position from, Position to) {
         Game game = loadGame(gameId);
         game.playOneTurn(from, to);
-        gameRepository.save(game);
 
         if (game.isGameOver()) {
             gameRepository.deleteById(game.id());
+            return game;
         }
 
+        gameRepository.updateTurn(game, from, to);
         return game;
     }
 

@@ -1,5 +1,6 @@
 package data;
 
+import domain.position.Position;
 import java.sql.Connection;
 import java.util.List;
 
@@ -9,5 +10,7 @@ public interface BoardDao {
 
     List<BoardEntity> findByGameId(Connection conn, Long gameId);
 
-    void deleteByGameId(Connection conn, Long gameId);
+    void deleteByPosition(Connection conn, Long gameId, Position position);
+
+    void updatePosition(Connection conn, Long gameId, Position from, Position to);
 }
