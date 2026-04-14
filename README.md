@@ -31,7 +31,7 @@
 - [x] 장군·사는 궁성 안에서만 이동하며, 대각 칸끼리는 1칸 대각 이동을 추가로 허용한다.
 - [x] 차·포는 출발·목적이 모두 궁 대각 칸일 때 대각 직선 이동을 기존 직선 이동에 합친다.
 - [x] 졸은 진영별 기본 이동에 더해, 궁 대각 칸에서는 팀에 맞는 대각 한 칸 이동을 추가한다.
-- [x] MySQL에 `game`·`piece` 테이블을 두고, HikariCP로 `DataSource`를 구성한다.
+- [x] MySQL에 `game`·`piece` 테이블을 두고, classpath의 `jdbc.properties`와 `DriverManager`로 연결을 열어 `ConnectionFactory`로 감싼다.
 - [x] 신규 게임 시 `game` 행과 초기 `piece` 행을 한 트랜잭션으로 저장하고, 생성된 `game id`를 사용한다.
 - [x] 매 수마다 DB의 `piece id`(좌표 기준 조회)로 이동·포획을 반영하고 `game` 정보(차례·점수·진행·승자)를 갱신한다.
 - [x] 미종료 게임 목록을 보여 주고, 선택 시 DB에서 로드해 `Game`·보드를 복원한다.
@@ -65,10 +65,11 @@
     - 규칙 클래스는 `defaultDirection`(기존 직선·곡선 패턴)과 `palaceDirection`(궁 전용)을 필요 시 `merge`한다.
     - 장·사는 `findPossiblePoints` 단계에서 출발/목적이 모두 궁 안일 때만 후보를 계산하고, 궁 밖이면 예외로 막는다.
 - **DB 저장**
-    - `Application`이 `GameDao.createDataSourceFromClasspath()`로 풀을 만들고, 종료 시 `HikariDataSource.close()`로 정리한다.
+    - `Application`이 `DatabaseConfig.createConnectionFactory()`로 연결 팩토리를 만들고, `TransactionTemplate`·`GameDao`·`JanggiController`를 조립한다.
+    - 트랜잭션 경계는 `TransactionTemplate`이 담당하고, `GameDao`는 전달받은 `Connection`으로 SQL만 실행한다.
     - `game`: 진행 여부·차례·양 팀 점수·승자(null이면 재개 가능)·타임스탬프.
     - `piece`: `game_id` FK, 팀·기물 종류·좌표; 게임 삭제 시 CASCADE.
-    - 컨트롤러는 `game id`를 유지하고, 이동 전 DB에서 `piece id`를 조회한 뒤 `persistMove`로 반영한다.
+    - 컨트롤러는 `game id`를 유지하고, 이동 전 DB에서 `piece id`를 조회한 뒤 `TransactionTemplate.executeInTransaction` 안에서 `GameDao.persistMove(conn, MovePersistDto)`로 반영한다.
     - 재개 시 `LoadedGameState`·`LoadedPiece`로 읽어 `SavedPiecesGenerator`·`Game.restored`로 메모리 상태를 맞춘다.
 
 ### 기물별 이동 규칙 정리
