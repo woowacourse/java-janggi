@@ -2,11 +2,11 @@ package dao;
 
 import config.ConnectionFactory;
 import dto.dao.InitialGamePersistDto;
-import dto.dao.LoadedGameState;
-import dto.dao.LoadedPiece;
 import dto.dao.MovePersistDto;
 import dto.dao.PiecePlacement;
-import dto.dao.ResumableGame;
+import entity.GameEntity;
+import entity.PieceEntity;
+import entity.ResumableGameEntity;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,14 +17,13 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class GameDao {
     private final ConnectionFactory connectionFactory;
 
     public GameDao(ConnectionFactory connectionFactory) {
-        this.connectionFactory = Objects.requireNonNull(connectionFactory);
+        this.connectionFactory = connectionFactory;
     }
 
     private static long extract(ResultSet keys) throws SQLException {
@@ -40,34 +39,35 @@ public class GameDao {
             ps.setString(3, p.pieceType());
             ps.setInt(4, p.y());
             ps.setInt(5, p.x());
-            ps.executeUpdate();
+            ps.addBatch();
         }
+        ps.executeBatch();
     }
 
-    private static void addResumableGames(ResultSet rs, List<ResumableGame> out) throws SQLException {
+    private static void addResumableGames(ResultSet rs, List<ResumableGameEntity> out) throws SQLException {
         while (rs.next()) {
-            out.add(ResumableGame.fromRow(rs));
+            out.add(ResumableGameEntity.fromRow(rs));
         }
     }
 
-    private static List<LoadedPiece> getLoadedPieces(PreparedStatement ps) throws SQLException {
+    private static List<PieceEntity> getLoadedPieces(PreparedStatement ps) throws SQLException {
         try (ResultSet rs = ps.executeQuery()) {
             return collectPieces(rs);
         }
     }
 
-    private static List<LoadedPiece> collectPieces(ResultSet rs) throws SQLException {
-        List<LoadedPiece> pieces = new ArrayList<>();
+    private static List<PieceEntity> collectPieces(ResultSet rs) throws SQLException {
+        List<PieceEntity> pieces = new ArrayList<>();
         while (rs.next()) {
-            pieces.add(LoadedPiece.fromRow(rs));
+            pieces.add(PieceEntity.fromRow(rs));
         }
         return pieces;
     }
 
-    private static LoadedGameState getLoadedGameState(long gameId, List<LoadedPiece> pieces, PreparedStatement ps)
+    private static GameEntity getLoadedGameState(long gameId, List<PieceEntity> pieces, PreparedStatement ps)
             throws SQLException {
         try (ResultSet rs = ps.executeQuery()) {
-            return LoadedGameState.fromHeaderResultSet(gameId, rs, pieces);
+            return GameEntity.fromHeaderResultSet(gameId, rs, pieces);
         }
     }
 
@@ -141,7 +141,7 @@ public class GameDao {
         }
     }
 
-    public List<ResumableGame> findResumableGames() {
+    public List<ResumableGameEntity> findResumableGames() {
         String sql = """
                 SELECT id, cho_score, han_score, updated_at
                   FROM game
@@ -151,7 +151,7 @@ public class GameDao {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            List<ResumableGame> out = new ArrayList<>();
+            List<ResumableGameEntity> out = new ArrayList<>();
             addResumableGames(rs, out);
             return out;
         } catch (SQLException e) {
@@ -159,16 +159,16 @@ public class GameDao {
         }
     }
 
-    public LoadedGameState loadGameForResume(long gameId) {
+    public GameEntity loadGameForResume(long gameId) {
         try (Connection conn = connectionFactory.getConnection()) {
-            List<LoadedPiece> pieces = queryPieceRows(conn, gameId);
+            List<PieceEntity> pieces = queryPieceRows(conn, gameId);
             return queryLoadedGameState(conn, gameId, pieces);
         } catch (SQLException e) {
             throw new IllegalStateException("게임 로드 실패", e);
         }
     }
 
-    private List<LoadedPiece> queryPieceRows(Connection conn, long gameId) throws SQLException {
+    private List<PieceEntity> queryPieceRows(Connection conn, long gameId) throws SQLException {
         String sql = """
                 SELECT team, piece_type, y, x
                   FROM piece
@@ -180,7 +180,7 @@ public class GameDao {
         }
     }
 
-    private LoadedGameState queryLoadedGameState(Connection conn, long gameId, List<LoadedPiece> pieces)
+    private GameEntity queryLoadedGameState(Connection conn, long gameId, List<PieceEntity> pieces)
             throws SQLException {
         String sql = """
                 SELECT cho_score, han_score, turn_team
