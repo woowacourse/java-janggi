@@ -42,7 +42,7 @@ class BoardTest {
             JanggiGenerator janggiGenerator = new JanggiGenerator(formation, Formation.ELEPHANT_HORSE_HORSE_ELEPHANT);
             JanggiBoard janggiBoard = new JanggiBoard(janggiGenerator);
 
-            int row = 0; // HAN back row
+            int row = 0;
             List<Point> elephantAndHorsePoints = Stream.concat(
                     formation.elephantFormations().stream().map(x -> new Point(row, x)),
                     formation.horseFormations().stream().map(x -> new Point(row, x))
@@ -73,7 +73,7 @@ class BoardTest {
             JanggiGenerator janggiGenerator = new JanggiGenerator(Formation.ELEPHANT_HORSE_HORSE_ELEPHANT, formation);
             JanggiBoard janggiBoard = new JanggiBoard(janggiGenerator);
 
-            int row = 9; // CHO back row
+            int row = 9;
             List<Point> elephantAndHorsePoints = Stream.concat(
                     formation.elephantFormations().stream().map(x -> new Point(row, x)),
                     formation.horseFormations().stream().map(x -> new Point(row, x))
