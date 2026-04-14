@@ -52,11 +52,9 @@ public class Board {
 
     public int calculateScore(Team team) {
         int totalScore = 0;
-        for (Position position : board.keySet()) {
-            Piece piece = findPieceByPosition(position)
-                    .orElse(null);
-
-            if (piece != null && piece.getTeam() == team) {
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            Piece piece = entry.getValue();
+            if (piece.getTeam() == team) {
                 totalScore += piece.getType().getScore();
             }
         }
