@@ -3,13 +3,12 @@ package transaction;
 import config.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public final class TransactionTemplate {
     private final ConnectionFactory connectionFactory;
 
     public TransactionTemplate(ConnectionFactory connectionFactory) {
-        this.connectionFactory = Objects.requireNonNull(connectionFactory);
+        this.connectionFactory = connectionFactory;
     }
 
     private static void rollbackQuietly(Connection conn) {
