@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
-public class DBConnection {
+public class DbConnection {
     private static final String URL = "jdbc:h2:./janggi_db";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
@@ -24,7 +24,7 @@ public class DBConnection {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             String sql = new String(
-                    Objects.requireNonNull(DBConnection.class.getResourceAsStream("/schema.sql")).readAllBytes()
+                    Objects.requireNonNull(DbConnection.class.getResourceAsStream("/schema.sql")).readAllBytes()
             );
             statement.execute(sql.split(";")[0]);
             statement.execute(sql.split(";")[1]);

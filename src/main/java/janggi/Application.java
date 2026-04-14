@@ -1,7 +1,7 @@
 package janggi;
 
-import janggi.dao.DBConnection;
-import janggi.dao.JanggiDAO;
+import janggi.dao.DbConnection;
+import janggi.dao.JanggiDao;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.turn.ChoTurn;
@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 
 public class Application {
     public static void main(String[] args) {
-        DBConnection.initializeDatabase();
-        JanggiDAO janggiDAO = new JanggiDAO();
+        DbConnection.initializeDatabase();
+        JanggiDao janggiDAO = new JanggiDao();
 
         System.out.println("장기게임을 시작합니다");
         Scanner scanner = new Scanner(System.in);
@@ -37,14 +37,14 @@ public class Application {
         });
     }
 
-    private static Board createBoard(String choice, JanggiDAO janggiDAO) {
+    private static Board createBoard(String choice, JanggiDao janggiDAO) {
         if (choice.equals("2") && janggiDAO.hasSavedGame()) {
             return new Board(janggiDAO.loadBoard());
         }
         return new Board(BoardFactory.settingUpBoard());
     }
 
-    private static Turn createTurn(String choice, JanggiDAO janggiDAO) {
+    private static Turn createTurn(String choice, JanggiDao janggiDAO) {
         if (choice.equals("2") && janggiDAO.hasSavedGame()) {
             return janggiDAO.loadCurrentTurn();
         }

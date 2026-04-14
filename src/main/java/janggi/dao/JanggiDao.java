@@ -15,12 +15,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JanggiDAO {
+public class JanggiDao {
 
     public void savePieces(int gameID, Board board) {
         String query = "INSERT INTO piece (game_id, team, piece_type, position_column, position_row) VALUES (?,?,?,?,?)";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             Map<Position, Piece> currentBoard = board.getBoard();
 
@@ -42,7 +42,7 @@ public class JanggiDAO {
 
     public void saveGame(Turn currentTurn, Board board) {
         String deleteQuery = "DELETE FROM game";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -50,7 +50,7 @@ public class JanggiDAO {
         }
 
         String insertGameQuery = "INSERT INTO game(game_id, current_turn) VALUES(1,?)";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertGameQuery)) {
             preparedStatement.setString(1, currentTurn.getTeam().name());
             preparedStatement.execute();
@@ -65,7 +65,7 @@ public class JanggiDAO {
         Map<Position, Piece> loadedBoard = new HashMap<>();
         String query = "SELECT team, piece_type, position_column, position_row FROM piece WHERE game_id = 1";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -87,7 +87,7 @@ public class JanggiDAO {
 
     public Turn loadCurrentTurn() {
         String query = "SELECT current_turn FROM game WHERE game_id = 1";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
@@ -105,7 +105,7 @@ public class JanggiDAO {
 
     public boolean hasSavedGame() {
         String query = "SELECT COUNT(*) FROM game WHERE game_id = 1";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet rs = preparedStatement.executeQuery()) {
             if (rs.next()) {

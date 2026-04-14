@@ -1,4 +1,4 @@
-package janggi.domain.moveRules.outOfPalaceMoveRules;
+package janggi.domain.moveRules.outofpalacemoverules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

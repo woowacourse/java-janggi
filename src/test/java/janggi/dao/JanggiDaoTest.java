@@ -19,17 +19,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class JanggiDAOTest {
+class JanggiDaoTest {
 
-    private JanggiDAO janggiDAO;
+    private JanggiDao janggiDAO;
 
     @BeforeEach
     void setUp() {
-        DBConnection.initializeDatabase();
-        janggiDAO = new JanggiDAO();
+        DbConnection.initializeDatabase();
+        janggiDAO = new JanggiDao();
 
         String deleteQuery = "DELETE FROM game";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
             preparedStatement.execute();
         } catch (SQLException e) {

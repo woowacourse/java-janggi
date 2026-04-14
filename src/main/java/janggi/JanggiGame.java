@@ -2,7 +2,7 @@ package janggi;
 
 import static janggi.Application.retry;
 
-import janggi.dao.JanggiDAO;
+import janggi.dao.JanggiDao;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
@@ -17,7 +17,7 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final Board board;
-    private final JanggiDAO janggiDAO = new JanggiDAO();
+    private final JanggiDao janggiDAO = new JanggiDao();
 
     public JanggiGame(Board board) {
         this.board = board;

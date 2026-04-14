@@ -1,11 +1,11 @@
-package janggi.domain.moveRules.palaceMoveRules;
+package janggi.domain.moveRules.palacemoverules;
 
 import janggi.domain.Direction;
 import janggi.domain.Palace;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
-import janggi.domain.moveRules.outOfPalaceMoveRules.OnceMoveRule;
+import janggi.domain.moveRules.outofpalacemoverules.OnceMoveRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
