@@ -107,4 +107,16 @@ public class OutputView {
         System.out.printf("초나라: %.1f점%n", choscore);
         System.out.printf("한나라: %.1f점%n", hanscore);
     }
+
+    public void printFinalResult(Team winner, double choScore, double hanScore) {
+        System.out.println();
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.printf(" 왕(궁)이 잡혔습니다! %s나라의 승리입니다!%n", winner.getName());
+        System.out.println();
+        System.out.println(" [최종 점수]");
+        System.out.printf(" 초나라 : %.1f점%n", choScore);
+        System.out.printf(" 한나라 : %.1f점%n", hanScore);
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println();
+    }
 }

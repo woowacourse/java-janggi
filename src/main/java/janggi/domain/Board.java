@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.exception.game.GameNotOverException;
 import janggi.exception.move.EmptyPositionException;
 
 import janggi.exception.move.InvalidTargetException;
@@ -73,5 +74,26 @@ public class Board implements BoardView {
         }
 
         return score;
+    }
+
+    public Team getWinner() {
+        return board.values().stream()
+                .filter(this::isKing)
+                .map(Piece::getTeam)
+                .findFirst()
+                .orElseThrow(GameNotOverException::new);
+    }
+
+    private boolean isKing(Piece piece) {
+        String name = piece.getName();
+        return name.equals("楚") || name.equals("漢");
+    }
+
+    public boolean isKingCaptured() {
+        long kingCount = board.values().stream()
+                .filter(this::isKing)
+                .count();
+
+        return kingCount < 2;
     }
 }

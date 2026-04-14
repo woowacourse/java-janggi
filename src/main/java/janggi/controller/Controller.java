@@ -46,15 +46,19 @@ public class Controller {
         Team currentTeam = Team.CHO;
 
         while (!isGameOver(board)) {
-            outputView.printBoard(BoardDto.from(board));
-
-            double choscore = board.calculateScore(Team.CHO);
-            double hanscore = board.calculateScore(Team.HAN);
-            outputView.printScore(choscore, hanscore);
-
+            printCurrentState(board);
             playTurn(board, currentTeam);
             currentTeam = currentTeam.switchTeam();
         }
+
+        printFinalResult(board);
+    }
+
+    private void printCurrentState(Board board) {
+        outputView.printBoard(BoardDto.from(board));
+        double choScore = board.calculateScore(Team.CHO);
+        double hanScore = board.calculateScore(Team.HAN);
+        outputView.printScore(choScore, hanScore);
     }
 
     private void playTurn(Board board, Team team) {
@@ -76,8 +80,15 @@ public class Controller {
         }
     }
 
+    private void printFinalResult(Board board) {
+        outputView.printBoard(BoardDto.from(board));
+        Team winner = board.getWinner();
+        double choScore = board.calculateScore(Team.CHO);
+        double hanScore = board.calculateScore(Team.HAN);
+        outputView.printFinalResult(winner, choScore, hanScore);
+    }
+
     private boolean isGameOver(Board board) {
-        // TODO: 왕(궁)이 잡혔는지 판별하는 로직 추가
-        return false;
+        return board.isKingCaptured();
     }
 }
