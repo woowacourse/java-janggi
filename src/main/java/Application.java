@@ -3,6 +3,7 @@ import config.DatabaseConfig;
 import controller.JanggiController;
 import dao.GameDao;
 import mapper.BoardOutputMapper;
+import repository.GameRepository;
 import transaction.TransactionTemplate;
 import view.InputView;
 import view.OutputView;
@@ -13,12 +14,14 @@ public class Application {
 
         GameDao gameDao = new GameDao(connectionFactory);
         TransactionTemplate transactionTemplate = new TransactionTemplate(connectionFactory);
+        GameRepository gameRepository = new GameRepository(gameDao, transactionTemplate);
+
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
         BoardOutputMapper boardOutputMapper = new BoardOutputMapper();
 
         JanggiController janggiController = new JanggiController(
-                inputView, outputView, boardOutputMapper, gameDao, transactionTemplate);
+                inputView, outputView, boardOutputMapper, gameRepository);
         janggiController.run();
     }
 }
