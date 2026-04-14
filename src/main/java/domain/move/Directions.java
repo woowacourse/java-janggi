@@ -16,7 +16,7 @@ public class Directions {
                 .filter(direction -> direction.canReach(from, to))
                 .findFirst()
                 .map(direction -> direction.getPoints(from))
-                .orElseThrow(() -> new IllegalArgumentException("해당 기물이 이동할 수 없는 위치/방향입니다.")));
+                .orElseThrow(() -> new exception.InvalidMoveDirectionException()));
     }
 
     public Directions merge(Directions other) {
