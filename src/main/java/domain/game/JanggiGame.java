@@ -10,6 +10,8 @@ import domain.game.condition.ConsecutivePassCondition;
 import domain.game.condition.GameEndCondition;
 import domain.game.condition.GeneralCapturedCondition;
 import domain.game.judge.GameJudge;
+import domain.game.progress.GameProgress;
+import domain.game.progress.MoveLog;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
@@ -21,55 +23,43 @@ public class JanggiGame {
             new BikjangCondition()
     );
 
-    private Turn turn;
     private final Board board;
-    private final GameRecord record;
+    private final GameProgress progress;
     private final GameJudge judge;
-    private GameStatus status;
 
-    private JanggiGame(Turn turn, Board board, GameRecord record, GameJudge judge, GameStatus status) {
-        this.turn = turn;
+    private JanggiGame(Board board, GameProgress progress, GameJudge judge) {
         this.board = board;
-        this.record = record;
+        this.progress = progress;
         this.judge = judge;
-        this.status = status;
     }
 
     public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
         return new JanggiGame(
-                Turn.first(),
                 BoardFactory.create(choFormation, hanFormation),
-                new GameRecord(),
-                GameJudge.defaultJudge(),
-                GameStatus.RUNNING
+                GameProgress.initial(),
+                GameJudge.defaultJudge()
         );
     }
 
-    public static JanggiGame restore(Turn turn, Board board, GameRecord record, GameStatus status) {
-        return new JanggiGame(turn, board, record, GameJudge.defaultJudge(), status);
+    public static JanggiGame restore(Board board, GameProgress progress) {
+        return new JanggiGame(board, progress, GameJudge.defaultJudge());
     }
 
     public BoardMove move(Position source, Position destination) {
-        validateRunning();
+        progress.assertRunning();
         validateTurn(source);
+        Team mover = progress.currentTurn();
         BoardMove boardMove = board.move(source, destination);
-        record.recordMove();
-        turn = turn.next();
+        progress.recordMove(MoveLog.move(mover, boardMove));
         checkEndConditions();
         return boardMove;
     }
 
     public void pass() {
-        validateRunning();
-        record.recordPass();
-        turn = turn.next();
+        progress.assertRunning();
+        Team passer = progress.currentTurn();
+        progress.recordPass(MoveLog.pass(passer));
         checkEndConditions();
-    }
-
-    private void validateRunning() {
-        if (!status.isRunning()) {
-            throw new IllegalStateException("이미 종료된 게임입니다.");
-        }
     }
 
     private void validateTurn(Position source) {
@@ -79,25 +69,25 @@ public class JanggiGame {
             throw new IllegalArgumentException("빈 칸을 선택하셨습니다.");
         }
 
-        if (!sourcePiece.belongsTo(turn.current())) {
+        if (!sourcePiece.belongsTo(progress.currentTurn())) {
             throw new IllegalArgumentException("현재 턴의 기물이 아닙니다.");
         }
     }
 
     private void checkEndConditions() {
         boolean ended = END_CONDITIONS.stream()
-                .anyMatch(condition -> condition.isSatisfied(board, record));
+                .anyMatch(condition -> condition.isSatisfied(board, progress));
         if (ended) {
-            status = GameStatus.FINISHED;
+            progress.finish();
         }
     }
 
     public boolean isRunning() {
-        return status.isRunning();
+        return progress.isRunning();
     }
 
     public GameResult result() {
-        if (status.isRunning()) {
+        if (progress.isRunning()) {
             throw new IllegalStateException("아직 게임이 진행 중입니다.");
         }
         return judge.decide(board);
@@ -108,7 +98,7 @@ public class JanggiGame {
     }
 
     public Team currentTurn() {
-        return turn.current();
+        return progress.currentTurn();
     }
 
     public BoardSnapshot boardSnapshot() {
@@ -116,10 +106,10 @@ public class JanggiGame {
     }
 
     public GameStatus getStatus() {
-        return status;
+        return progress.status();
     }
 
-    public GameRecord getRecord() {
-        return record;
+    public GameProgress getProgress() {
+        return progress;
     }
 }

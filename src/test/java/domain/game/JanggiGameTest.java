@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
+import domain.game.progress.GameProgress;
 import domain.piece.Chariot;
 import domain.piece.General;
 import domain.piece.Piece;
@@ -16,12 +17,7 @@ import org.junit.jupiter.api.Test;
 class JanggiGameTest {
 
     private JanggiGame createGame(Map<Position, Piece> pieces) {
-        return JanggiGame.restore(
-                Turn.first(),
-                new Board(pieces),
-                new GameRecord(),
-                GameStatus.RUNNING
-        );
+        return JanggiGame.restore(new Board(pieces), GameProgress.initial());
     }
 
     @Test

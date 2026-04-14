@@ -9,11 +9,13 @@ import db.PieceTypeMapper;
 import domain.board.Board;
 import domain.board.BoardMove;
 import domain.board.BoardSnapshot;
-import domain.game.GameRecord;
 import domain.game.GameStatus;
 import domain.game.JanggiGame;
 import domain.game.Team;
 import domain.game.Turn;
+import domain.game.progress.GameProgress;
+import domain.game.progress.GameRecord;
+import domain.game.progress.PassStreak;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;
@@ -50,9 +52,10 @@ public class GameRepository {
         List<BoardPieceRawData> pieceData = boardPieceDao.findByGameRoomId(connection, roomData.id());
         Board board = toBoard(pieceData);
         Turn turn = Turn.of(Team.valueOf(roomData.currentTurn()));
-        GameRecord record = new GameRecord(roomData.consecutivePassCount());
         GameStatus status = GameStatus.valueOf(roomData.status());
-        return new StoredGame(roomData.id(), JanggiGame.restore(turn, board, record, status));
+        PassStreak passStreak = new PassStreak(roomData.consecutivePassCount());
+        GameProgress progress = GameProgress.restore(turn, status, new GameRecord(), passStreak);
+        return new StoredGame(roomData.id(), JanggiGame.restore(board, progress));
     }
 
     public void applyMove(StoredGame stored, BoardMove move) {
@@ -127,7 +130,7 @@ public class GameRepository {
                 roomName,
                 game.currentTurn().name(),
                 game.getStatus().name(),
-                game.getRecord().consecutivePassCount()
+                game.getProgress().consecutivePassCount()
         );
     }
 }
