@@ -17,6 +17,7 @@ dependencies {
     testImplementation('org.assertj:assertj-core')
     testImplementation('org.testcontainers:junit-jupiter')
     testImplementation('org.testcontainers:mysql')
+    testImplementation 'org.slf4j:slf4j-nop:2.0.13'
 }
 
 processTestResources {
