@@ -9,27 +9,29 @@ import domain.game.condition.BikjangCondition;
 import domain.game.condition.ConsecutivePassCondition;
 import domain.game.condition.GameEndCondition;
 import domain.game.condition.GeneralCapturedCondition;
+import domain.game.judge.GameJudge;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 public class JanggiGame {
+    private static final List<GameEndCondition> END_CONDITIONS = List.of(
+            new GeneralCapturedCondition(),
+            new ConsecutivePassCondition(),
+            new BikjangCondition()
+    );
+
     private Turn turn;
     private final Board board;
-    private final List<GameEndCondition> endConditions;
     private final GameRecord record;
-    private final ScoreCalculator scoreCalculator;
+    private final GameJudge judge;
     private GameStatus status;
 
-    private JanggiGame(Turn turn, Board board, List<GameEndCondition> endConditions,
-                       GameRecord record, ScoreCalculator scoreCalculator, GameStatus status) {
+    private JanggiGame(Turn turn, Board board, GameRecord record, GameJudge judge, GameStatus status) {
         this.turn = turn;
         this.board = board;
-        this.endConditions = endConditions;
         this.record = record;
-        this.scoreCalculator = scoreCalculator;
+        this.judge = judge;
         this.status = status;
     }
 
@@ -37,23 +39,14 @@ public class JanggiGame {
         return new JanggiGame(
                 Turn.first(),
                 BoardFactory.create(choFormation, hanFormation),
-                defaultConditions(),
                 new GameRecord(),
-                new ScoreCalculator(),
+                GameJudge.defaultJudge(),
                 GameStatus.RUNNING
         );
     }
 
     public static JanggiGame restore(Turn turn, Board board, GameRecord record, GameStatus status) {
-        return new JanggiGame(turn, board, defaultConditions(), record, new ScoreCalculator(), status);
-    }
-
-    private static List<GameEndCondition> defaultConditions() {
-        return List.of(
-                new GeneralCapturedCondition(),
-                new ConsecutivePassCondition(),
-                new BikjangCondition()
-        );
+        return new JanggiGame(turn, board, record, GameJudge.defaultJudge(), status);
     }
 
     public BoardMove move(Position source, Position destination) {
@@ -92,7 +85,7 @@ public class JanggiGame {
     }
 
     private void checkEndConditions() {
-        boolean ended = endConditions.stream()
+        boolean ended = END_CONDITIONS.stream()
                 .anyMatch(condition -> condition.isSatisfied(board, record));
         if (ended) {
             status = GameStatus.FINISHED;
@@ -104,32 +97,14 @@ public class JanggiGame {
     }
 
     public GameResult result() {
-        return new GameResult(findWinner(), scoreOf(Team.CHO), scoreOf(Team.HAN));
-    }
-
-    public Team findWinner() {
         if (status.isRunning()) {
             throw new IllegalStateException("아직 게임이 진행 중입니다.");
         }
-        return findCaptureWinner()
-                .orElseGet(this::findScoreWinner);
-    }
-
-    private Optional<Team> findCaptureWinner() {
-        return Stream.of(Team.CHO, Team.HAN)
-                .filter(team -> !board.hasEssentialPieceOf(team))
-                .findFirst()
-                .map(Team::opposite);
-    }
-
-    private Team findScoreWinner() {
-        double choScore = scoreOf(Team.CHO);
-        double hanScore = scoreOf(Team.HAN);
-        return Team.determineWinner(choScore, hanScore);
+        return judge.decide(board);
     }
 
     public double scoreOf(Team team) {
-        return scoreCalculator.calculate(board.findPiecesByTeam(team), team);
+        return judge.scoreOf(board, team);
     }
 
     public Team currentTurn() {
