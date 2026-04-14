@@ -23,6 +23,7 @@ public class JanggiGameService {
 
     private static final String SAVE_NEW_GAME_FAILED = "새 게임 저장에 실패했습니다.";
     private static final String DB_CONNECTION_FAILED = "DB 연결에 실패했습니다.";
+    private static final String LOAD_GAME_NOT_FOUND = "불러올 게임이 없습니다.";
     private static final String LOAD_GAME_FAILED = "게임 불러오기에 실패했습니다.";
     private static final String SAVE_PIECE_MOVE_FAILED = "기물 이동 저장에 실패했습니다.";
     private static final String PLAYER_NOT_FOUND = "플레이어를 찾을 수 없습니다.";
@@ -73,8 +74,9 @@ public class JanggiGameService {
         }
     }
 
-    public JanggiGame loadGame(final long gameId) {
+    public JanggiGame loadLatestGame() {
         try (Connection connection = dataSource.getConnection()) {
+            final long gameId = latestGameId(connection);
             return janggiGameRepository.findById(connection, gameId);
         } catch (final SQLException exception) {
             throw new RuntimeException(LOAD_GAME_FAILED, exception);
@@ -105,13 +107,18 @@ public class JanggiGameService {
     }
 
 
+    private long latestGameId(final Connection connection) {
+        return janggiGameRepository.findLatestGameId(connection)
+                .orElseThrow(() -> new IllegalStateException(LOAD_GAME_NOT_FOUND));
+    }
+
     private Player findByTeam(final List<Player> players, final Team team) {
         return players.stream()
                 .filter(player -> player.getTeam() == team)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(PLAYER_NOT_FOUND));
     }
-    
+
 
     private void beginTransaction(final Connection connection) throws SQLException {
         connection.setAutoCommit(false);

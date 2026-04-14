@@ -23,6 +23,11 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printGameStartMenu() {
+        System.out.println("게임 시작 방식을 선택하세요.");
+        System.out.println("1. 새 게임");
+        System.out.println("2. 이어하기");
+    }
 
     public void printEnterPlayerNamePrompt(final Team team) {
         System.out.println(getTeamName(team) + " 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");

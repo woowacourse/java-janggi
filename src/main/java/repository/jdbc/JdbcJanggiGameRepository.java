@@ -8,6 +8,7 @@ import repository.entity.JanggiGameEntity;
 import repository.mapper.JanggiGameMapper;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
@@ -28,11 +29,19 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             WHERE game_id = ?
             """;
 
+    private static final String FIND_LATEST_GAME_ID = """
+            SELECT game_id
+            FROM game
+            ORDER BY game_id DESC
+            LIMIT 1
+            """;
+
     private static final String SAVE_GAME_FAILED = "게임 저장에 실패했습니다.";
     private static final String UPDATE_GAME_FAILED = "게임 갱신에 실패했습니다.";
     private static final String GET_GAME_ID_FAILED = "생성된 game_id를 가져오지 못했습니다.";
     private static final String GAME_NOT_FOUND = "해당 게임이 존재하지 않습니다.";
     private static final String FIND_GAME_FAILED = "게임 조회에 실패했습니다.";
+    private static final String FIND_LATEST_GAME_ID_FAILED = "마지막 게임 번호 조회에 실패했습니다.";
 
     private final JdbcPlayerRepository playerRepository;
     private final JdbcPieceRepository pieceRepository;
@@ -75,6 +84,21 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             statement.executeUpdate();
         } catch (final SQLException exception) {
             throw new RuntimeException(UPDATE_GAME_FAILED, exception);
+        }
+    }
+
+    @Override
+    public Optional<Long> findLatestGameId(final Connection connection) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME_ID);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getLong("game_id"));
+            }
+
+            return Optional.empty();
+        } catch (final SQLException exception) {
+            throw new RuntimeException(FIND_LATEST_GAME_ID_FAILED, exception);
         }
     }
 

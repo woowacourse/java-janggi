@@ -16,6 +16,8 @@ import view.OutputView;
 
 import java.util.List;
 
+import static controller.GameStartOption.NEW_GAME;
+
 public class JanggiController {
 
     private final InputView inputView;
@@ -40,6 +42,28 @@ public class JanggiController {
 
     private JanggiGame initializeGame() {
         // TODO: 1. 새 게임   2. 불러오기
+        final GameStartOption gameStartOption = selectGameStartOption();
+
+        if (gameStartOption == NEW_GAME) {
+            return startNewGame();
+        }
+
+        return janggiGameService.loadLatestGame();
+    }
+
+    private GameStartOption selectGameStartOption() {
+        while (true) {
+            try {
+                outputView.printGameStartMenu();
+                final int selectedNumber = inputView.readNumber(GameStartOption.values().length);
+                return GameStartOption.of(selectedNumber);
+            } catch (final IllegalArgumentException exception) {
+                outputView.printErrorMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private JanggiGame startNewGame() {
         final Player choPlayer = generatePlayer(Team.CHO);
         final Player hanPlayer = generatePlayer(Team.HAN);
         final Board board = initializeBoard();
