@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public enum Formation {
     LEFT_ELEPHANT_RIGHT_ELEPHANT, // 상마상마

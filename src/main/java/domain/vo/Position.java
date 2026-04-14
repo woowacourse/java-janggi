@@ -17,6 +17,32 @@ public class Position {
         return new Position(row, col);
     }
 
+    public boolean isOneStepStraightTo(Position to) {
+        return (this.row == to.row && Math.abs(this.col - to.col) == 1)
+                || (this.col == to.col && Math.abs(this.row - to.row) == 1);
+    }
+
+    public boolean isOneStepDiagonalTo(Position to) {
+        return Math.abs(this.row - to.row) == 1
+                && Math.abs(this.col - to.col) == 1;
+    }
+
+    public boolean isStraightTo(Position to) {
+        return (this.row == to.row) || (this.col == to.col);
+    }
+
+    public boolean isDiagonalTo(Position to) {
+        return Math.abs(this.row - to.row) == Math.abs(this.col - to.col);
+    }
+
+    public int getDistanceRow(Position to) {
+        return Math.abs(this.row - to.row);
+    }
+
+    public int getDistanceCol(Position to) {
+        return Math.abs(this.col - to.col);
+    }
+
     public int getRow() {
         return this.row;
     }
@@ -44,13 +70,13 @@ public class Position {
 
     private void validateRowInRange(final int row) {
         if (0 > row || row > 9) {
-            throw new IllegalArgumentException("[ERROR] 행이 0~9 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("행이 0~9 범위를 벗어났습니다.");
         }
     }
 
     private void validateColInRange(final int col) {
         if (0 > col || col > 8) {
-            throw new IllegalArgumentException("[ERROR] 열이 0~8 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("열이 0~8 범위를 벗어났습니다.");
         }
     }
 }

@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.Board;
 import domain.strategy.MoveStrategy;
 import domain.vo.Position;
 

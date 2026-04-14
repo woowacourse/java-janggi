@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public enum Team {
     CHU("초"),
@@ -12,5 +12,12 @@ public enum Team {
 
     public String getName() {
         return name;
+    }
+
+    public Team opposite() {
+        if (this == Team.HAN) {
+            return Team.CHU;
+        }
+        return Team.HAN;
     }
 }

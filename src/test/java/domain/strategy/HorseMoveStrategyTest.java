@@ -1,8 +1,8 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.BoardFactory;
-import domain.Formation;
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

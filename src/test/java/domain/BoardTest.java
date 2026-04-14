@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.*;
 import domain.strategy.SoldierMoveStrategy;
 import domain.vo.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -41,12 +42,27 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.tryToMove(from, to, Team.CHU);
+        board.tryToMove(from, to);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();
         assertEquals(Type.SOLDIER, findPiece.getType());
         assertFalse(board.isExistPosition(from));
+    }
+
+    @Test
+    @DisplayName("기물의 점수를 계산한다.")
+    void shouldCalculateScore() {
+        // given
+        // when
+        Map<Position, Piece> tempBoard = new HashMap<>();
+        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+
+        Board board = Board.of(tempBoard);
+
+        // then
+        assertEquals(2, board.calculateScore(Team.CHU));
+        assertEquals(0, board.calculateScore(Team.HAN));
     }
 
     private static Stream<Arguments> providePiece() {

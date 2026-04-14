@@ -1,13 +1,14 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.board.Board;
 import domain.vo.Position;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotStraightPath(from, to))
+        if (!from.isStraightTo(to)
+                && !MoveValidator.canMoveDiagonal(from, to, board))
             return false;
 
         int dx = Integer.compare(to.getRow(), from.getRow());
@@ -29,9 +30,5 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         return board.canOccupy(from, to);
-    }
-
-    private boolean isNotStraightPath(final Position from, final Position to) {
-        return from.getCol() != to.getCol() && from.getRow() != to.getRow();
     }
 }

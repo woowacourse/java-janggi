@@ -1,8 +1,8 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.Piece;
-import domain.Type;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Type;
 import domain.vo.Position;
 
 import java.util.Optional;
@@ -13,7 +13,8 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotStraightPath(from, to))
+        if (!from.isStraightTo(to)
+                && !MoveValidator.canMoveDiagonal(from, to, board))
             return false;
 
         int dx = Integer.compare(to.getRow(), from.getRow());
@@ -51,9 +52,5 @@ public class CannonMoveStrategy implements MoveStrategy {
     private boolean isCannon(Board board, int row, int col) {
         Optional<Piece> piece = board.findPieceByPosition(Position.of(row, col));
         return piece.isPresent() && piece.get().getType() == Type.CANNON;
-    }
-
-    private boolean isNotStraightPath(Position from, Position to) {
-        return from.getRow() != to.getRow() && from.getCol() != to.getCol();
     }
 }

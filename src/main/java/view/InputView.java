@@ -1,13 +1,65 @@
 package view;
 
-import domain.Formation;
+import domain.board.Formation;
+import domain.game.GameType;
+import repository.dto.GameDto;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final String POSITION_PATTERN = "^\\d+\\s+\\d+$";
     private final Scanner scanner = new Scanner(System.in);
+
+    public GameType readGameType() {
+        System.out.println("어떤 걸 선택하시겠습니다? (숫자만 입력)");
+        System.out.println("1. 새로운 게임");
+        System.out.println("2. 기존 게임");
+        System.out.println("3. 게임 종료");
+
+        String input = scanner.nextLine().trim();
+        try {
+            int parsedInput = Integer.parseInt(input);
+
+            System.out.println();
+            return switch (parsedInput) {
+                case 1 -> GameType.NEW;
+                case 2 -> GameType.LOAD;
+                case 3 -> GameType.EXIT;
+                default -> throw new IllegalArgumentException();
+            };
+        }
+        catch (Exception e) {
+            System.out.println("[ERROR] 잘못된 입력입니다.");
+            System.out.println();
+            return readGameType();
+        }
+    }
+
+    public Long readGameNumber(List<GameDto> games) {
+        System.out.println("어떤 게임을 이어서 하시겠어요? (숫자만 입력)");
+        for (GameDto game : games) {
+            System.out.println(game.getId() + "번 게임 마지막 수정 시간 : " + game.getUpdatedAt());
+        }
+
+        String input = scanner.nextLine().trim();
+        try {
+            Long parsedInput = Long.parseLong(input);
+            games.stream()
+                    .filter(g -> g.getId().equals(parsedInput))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
+
+            System.out.println();
+            return parsedInput;
+        }
+        catch (Exception e) {
+            System.out.println("[ERROR] 잘못된 입력입니다.");
+            System.out.println();
+            return readGameNumber(games);
+        }
+    }
 
     public Formation readHorseElephantFormation(String team) {
         System.out.println(team + "의 초기 진형을 선택하세요. (숫자만 입력)");
@@ -19,8 +71,7 @@ public class InputView {
         String input = scanner.nextLine().trim();
         try {
             int parsedInput = Integer.parseInt(input);
-            if (parsedInput < 1 || parsedInput > 4)
-                throw new IllegalArgumentException();
+
             System.out.println();
             return switch (parsedInput) {
                 case 1 -> Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT;
@@ -39,11 +90,11 @@ public class InputView {
     
     public String readPosition(String turnName) {
         System.out.println(turnName + " 차례입니다.");
-        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
+        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 중단: n] [기권: r]");
 
         String input = scanner.nextLine();
         try {
-            if (input.equals("n")) {
+            if (input.equals("n") || input.equals("r")) {
                 return input;
             }
             validatePositionFormat(input);
@@ -53,6 +104,7 @@ public class InputView {
             }
             Integer.parseInt(tokens[0]);
             Integer.parseInt(tokens[1]);
+            System.out.println();
             return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -62,11 +114,11 @@ public class InputView {
     }
 
     public String readTargetPosition() {
-        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
+        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0) [게임 중단: n] [기권: r]");
 
         String input = scanner.nextLine();
         try {
-            if (input.equals("n")) {
+            if (input.equals("n") || input.equals("r")) {
                 return input;
             }
             validatePositionFormat(input);
@@ -76,6 +128,7 @@ public class InputView {
             }
             Integer.parseInt(tokens[0]);
             Integer.parseInt(tokens[1]);
+            System.out.println();
             return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());

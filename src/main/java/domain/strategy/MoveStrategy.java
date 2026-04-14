@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.board.Board;
 import domain.vo.Position;
 
 public interface MoveStrategy {

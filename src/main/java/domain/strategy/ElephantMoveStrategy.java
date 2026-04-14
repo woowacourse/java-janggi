@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.board.Board;
 import domain.vo.Position;
 
 public class ElephantMoveStrategy implements MoveStrategy {
@@ -16,11 +16,13 @@ public class ElephantMoveStrategy implements MoveStrategy {
         int row = from.getRow();
         int col = from.getCol();
 
-        if (board.isExistPosition(Position.of(row + distanceX / 3, col + distanceY / 3))) {
+        Position step1 = Position.of(row + distanceX / 3, col + distanceY / 3);
+        if (board.isExistPosition(step1)) {
             return false;
         }
 
-        if (board.isExistPosition(Position.of(row + distanceX / 3 + distanceX / 2, col + distanceY / 3 + distanceY / 2))) {
+        Position step2 = Position.of(row + distanceX / 3 + distanceX / 2, col + distanceY / 3 + distanceY / 2);
+        if (board.isExistPosition(step2)) {
             return false;
         }
 
@@ -28,10 +30,10 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotValidElephantMove(final Position from, final Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getCol() - to.getCol()) == 3) {
+        if (from.getDistanceRow(to) == 2 && from.getDistanceCol(to) == 3) {
             return false;
         }
-        if (Math.abs(from.getRow() - to.getRow()) == 3 && Math.abs(from.getCol() - to.getCol()) == 2) {
+        if (from.getDistanceRow(to) == 3 && from.getDistanceCol(to) == 2) {
             return false;
         }
         return true;

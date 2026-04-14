@@ -9,10 +9,16 @@ repositories {
 }
 
 dependencies {
+    // H2 Database
+    implementation 'com.h2database:h2:2.2.224'
+
+    // Test
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+
+    testImplementation('org.mockito:mockito-core:5.12.0')
 }
 
 java {
