@@ -1,5 +1,6 @@
 package view;
 
+import exception.InvalidNumericInputException;
 import java.util.Scanner;
 
 public class InputView {
@@ -18,14 +19,32 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    private int parseIntLine(String line) {
+        try {
+            return Integer.parseInt(line.trim());
+        } catch (NumberFormatException e) {
+            throw new InvalidNumericInputException();
+        }
+    }
+
+    public int inputNewOrResume() {
+        System.out.print("1. 새 게임\n2. 진행 중인 게임 재개\n번호를 입력하세요:");
+        return parseIntLine(scanner.nextLine());
+    }
+
+    public int inputResumeGameChoice(int maxInclusive) {
+        System.out.printf("재개할 게임 번호를 입력하세요 (1-%d):%n", maxInclusive);
+        return parseIntLine(scanner.nextLine());
+    }
+
     public int inputHanWingSetup() {
         System.out.print(HAN_WING_SETUP_MESSAGE);
-        return Integer.parseInt(scanner.nextLine().trim());
+        return parseIntLine(scanner.nextLine());
     }
 
     public int inputChoWingSetup() {
         System.out.print(CHO_WING_SETUP_MESSAGE);
-        return Integer.parseInt(scanner.nextLine().trim());
+        return parseIntLine(scanner.nextLine());
     }
 
     public String inputMovePiecePoint() {
