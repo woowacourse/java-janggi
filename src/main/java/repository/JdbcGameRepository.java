@@ -3,8 +3,8 @@ package repository;
 import data.GameDao;
 import data.GameEntity;
 import data.JanggiMapper;
-import data.PieceDao;
-import data.PieceEntity;
+import data.BoardDao;
+import data.BoardEntity;
 import domain.Game;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,16 +14,16 @@ import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
     private final GameDao gameDao;
-    private final PieceDao pieceDao;
+    private final BoardDao boardDao;
     private final JanggiMapper janggiMapper;
     private final String url;
     private final String username;
     private final String password;
 
-    public JdbcGameRepository(GameDao gameDao, PieceDao pieceDao, JanggiMapper janggiMapper,
+    public JdbcGameRepository(GameDao gameDao, BoardDao boardDao, JanggiMapper janggiMapper,
                               String url, String username, String password) {
         this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.boardDao = boardDao;
         this.janggiMapper = janggiMapper;
         this.url = url;
         this.username = username;
@@ -45,11 +45,11 @@ public class JdbcGameRepository implements GameRepository {
                 game.assignId(persistedGameEntity.id());
             } else {
                 persistedGameEntity = gameDao.update(conn, gameEntity);
-                pieceDao.deleteByGameId(conn, persistedGameEntity.id());
+                boardDao.deleteByGameId(conn, persistedGameEntity.id());
             }
 
-            List<PieceEntity> pieceEntities = janggiMapper.toPieceDtos(game.board(), persistedGameEntity.id());
-            pieceDao.insertAll(conn, persistedGameEntity.id(), pieceEntities);
+            List<BoardEntity> pieceEntities = janggiMapper.toPieceDtos(game.board(), persistedGameEntity.id());
+            boardDao.insertAll(conn, persistedGameEntity.id(), pieceEntities);
 
             conn.commit();
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class JdbcGameRepository implements GameRepository {
                 return Optional.empty();
             }
 
-            List<PieceEntity> pieceEntities = pieceDao.findByGameId(conn, id);
+            List<BoardEntity> pieceEntities = boardDao.findByGameId(conn, id);
             return Optional.of(
                     janggiMapper.toDomain(gameDto.get(), janggiMapper.toBoard(pieceEntities))
             );

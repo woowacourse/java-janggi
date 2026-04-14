@@ -2,7 +2,7 @@ import controller.GameController;
 import controller.QuitGameException;
 import data.JanggiMapper;
 import data.JdbcGameDao;
-import data.JdbcPieceDao;
+import data.JdbcBoardDao;
 import domain.Game;
 import domain.board.Board;
 import domain.player.Players;
@@ -22,7 +22,7 @@ public class Application {
         OutputView outputView = new OutputView();
         GameRepository gameRepository = new JdbcGameRepository(
                 new JdbcGameDao(),
-                new JdbcPieceDao(),
+                new JdbcBoardDao(),
                 new JanggiMapper(),
                 DB_URL,
                 DB_USERNAME,

@@ -25,8 +25,8 @@ public class JanggiMapper {
         );
     }
 
-    public List<PieceEntity> toPieceDtos(Board board, Long gameId) {
-        List<PieceEntity> pieceEntities = new ArrayList<>();
+    public List<BoardEntity> toPieceDtos(Board board, Long gameId) {
+        List<BoardEntity> pieceEntities = new ArrayList<>();
 
         for (int row = 1; row <= 10; row++) {
             for (int column = 1; column <= 9; column++) {
@@ -36,7 +36,7 @@ public class JanggiMapper {
                 }
 
                 Piece piece = pieceOptional.get();
-                pieceEntities.add(new PieceEntity(
+                pieceEntities.add(new BoardEntity(
                         null,
                         gameId,
                         piece.getSymbol(),
@@ -50,10 +50,10 @@ public class JanggiMapper {
         return pieceEntities;
     }
 
-    public Board toBoard(List<PieceEntity> pieceEntities) {
+    public Board toBoard(List<BoardEntity> pieceEntities) {
         Map<Position, Piece> map = new HashMap<>();
 
-        for (PieceEntity pieceEntity : pieceEntities) {
+        for (BoardEntity pieceEntity : pieceEntities) {
             Piece piece = toPiece(pieceEntity);
             Position position = new Position(pieceEntity.row(), pieceEntity.column());
             map.put(position, piece);
@@ -76,7 +76,7 @@ public class JanggiMapper {
         );
     }
 
-    private Piece toPiece(PieceEntity dto) {
+    private Piece toPiece(BoardEntity dto) {
         return dto.pieceSymbol().create(dto.side());
     }
 }
