@@ -102,10 +102,10 @@ public class JanggiController {
 
     private Optional<GameResult> selectAndMove(Long gameId) {
         PositionRequest fromRequest = inputView.readPieceSelection();
-        if (fromRequest.howPlaying().equals("q")) {
+        if (fromRequest.isGiveUp()) {
             return Optional.of(janggiService.giveUpGame(gameId));
         }
-        if (fromRequest.howPlaying().equals("d")) {
+        if (fromRequest.isDraw()) {
             return drawHandling(gameId);
         }
         return processMove(gameId, fromRequest);
