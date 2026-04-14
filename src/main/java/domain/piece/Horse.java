@@ -4,7 +4,9 @@ import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
 import domain.Side;
 import domain.rule.LeapRule;
+import domain.rule.Rule;
 import domain.strategy.SequenceStrategy;
+import domain.strategy.Strategy;
 
 import java.util.List;
 
@@ -20,8 +22,21 @@ public final class Horse extends Piece {
             DirectionSequence.of(Direction.RIGHT, Direction.UP_RIGHT),
             DirectionSequence.of(Direction.RIGHT, Direction.DOWN_RIGHT));
 
+    private final Strategy strategy = new SequenceStrategy(SEQUENCES);
+    private final Rule rule = new LeapRule();
+
     public Horse(Side side) {
-        super(side, new SequenceStrategy(SEQUENCES), new LeapRule());
+        super(side);
+    }
+
+    @Override
+    protected Strategy getStrategy() {
+        return strategy;
+    }
+
+    @Override
+    protected Rule getRule() {
+        return rule;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.coordinate.Direction;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.rule.Rule;
@@ -12,13 +13,9 @@ import java.util.Map;
 public abstract class Piece {
 
     private final Side side;
-    private final Strategy strategy;
-    private final Rule rule;
 
-    public Piece(Side side, Strategy strategy, Rule rule) {
+    public Piece(Side side) {
         this.side = side;
-        this.strategy = strategy;
-        this.rule = rule;
     }
 
     public Side getSide() {
@@ -37,7 +34,13 @@ public abstract class Piece {
         return this.side == side;
     }
 
+    public Direction forward() {
+        return side.getForward();
+    }
+
     public List<Position> getPossibleMoves(Position start, Pieces pieces) {
+        Strategy strategy = getStrategy();
+        Rule rule = getRule();
         List<Path> paths = strategy.getPaths(start, pieces.getTopology());
         Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
@@ -48,4 +51,8 @@ public abstract class Piece {
     public abstract Piece withSide(Side side);
 
     public abstract boolean isEmpty();
+
+    protected abstract Strategy getStrategy();
+
+    protected abstract Rule getRule();
 }
