@@ -119,4 +119,11 @@ public class OutputView {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println();
     }
+
+    public void printCheckMessage(Team team) {
+        System.out.println();
+        System.out.println("┌─────────────────────────────────────────────────────────┐");
+        System.out.printf("  장군입니다! %s나라 왕이 위험합니다! 기물을 움직여 궁을 살리세요.%n", team.getName());
+        System.out.println("└─────────────────────────────────────────────────────────┘");
+    }
 }

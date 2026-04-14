@@ -1,6 +1,8 @@
 package janggi.domain;
 
+import janggi.exception.BusinessException;
 import janggi.exception.game.GameNotOverException;
+import janggi.exception.game.KingNotFoundException;
 import janggi.exception.move.EmptyPositionException;
 
 import janggi.exception.move.InvalidTargetException;
@@ -95,5 +97,36 @@ public class Board implements BoardView {
                 .count();
 
         return kingCount < 2;
+    }
+
+    public boolean isCheck(Team targetTeam) {
+        Position kingPosition = findKingPosition(targetTeam);
+        Team attackerTeam = targetTeam.switchTeam();
+
+        return board.entrySet().stream()
+                .filter(entry -> entry.getValue().isSameTeam(attackerTeam))
+                .anyMatch(entry -> canAttack(entry.getKey(), kingPosition));
+    }
+
+    private Position findKingPosition(Team team) {
+        return board.entrySet().stream()
+                .filter(entry -> isKingOf(entry.getValue(), team))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow(KingNotFoundException::new);
+    }
+
+    private boolean isKingOf(Piece piece, Team team) {
+        return isKing(piece) && piece.isSameTeam(team);
+    }
+
+    private boolean canAttack(Position from, Position kingPosition) {
+        Piece attacker = board.get(from);
+        try {
+            attacker.verifyMove(from, kingPosition, this);
+            return true;
+        } catch (BusinessException e) {
+            return false;
+        }
     }
 }

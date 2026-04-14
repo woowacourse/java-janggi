@@ -67,6 +67,12 @@ public class Controller {
         while (!isSuccess) {
             isSuccess = attemptMove(board, team);
         }
+
+        if (board.isKingCaptured()) {
+            return;
+        }
+
+        notifyAnyCheck(board);
     }
 
     private boolean attemptMove(Board board, Team team) {
@@ -77,6 +83,16 @@ public class Controller {
         } catch (BusinessException e) {
             outputView.printErrorMessage(e.getMessage());
             return false;
+        }
+    }
+
+    private void notifyAnyCheck(Board board) {
+        if (board.isCheck(Team.HAN)) {
+            outputView.printCheckMessage(Team.HAN);
+        }
+
+        if (board.isCheck(Team.CHO)) {
+            outputView.printCheckMessage(Team.CHO);
         }
     }
 
