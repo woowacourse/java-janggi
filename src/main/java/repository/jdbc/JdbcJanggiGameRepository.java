@@ -4,10 +4,12 @@ import domain.board.Board;
 import domain.game.GameStatus;
 import domain.game.JanggiGame;
 import domain.game.JanggiGameRepository;
+import domain.player.Player;
 import repository.entity.JanggiGameEntity;
 import repository.mapper.JanggiGameMapper;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcJanggiGameRepository implements JanggiGameRepository {
@@ -70,7 +72,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     public JanggiGame findById(final Connection connection, final long gameId) {
         final JanggiGameEntity gameEntity = findGameEntity(connection, gameId);
         final Board board = pieceRepository.findByGameId(connection, gameId);
-        final var players = playerRepository.findByGameId(connection, gameId);
+        final List<Player> players = playerRepository.findByGameId(connection, gameId);
 
         return janggiGameMapper.toDomain(gameEntity, board, players);
     }
