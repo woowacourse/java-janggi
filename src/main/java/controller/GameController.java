@@ -27,18 +27,17 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    public void run(Game game) {
+    public void run(Long gameId) {
         while (true) {
+            Game game = gameService.loadGame(gameId);
             Player player = game.getCurrentPlayer();
             outputView.printBoard(game.getBoardFormat());
 
-            playTurn(player, game);
-            gameService.saveProgress(game);
+            Game playedGame = playTurn(player, gameId);
 
-            outputView.printScore(game.getGameTotalScore());
-            if (game.isGameOver()) {
-                outputView.printWinner(game.getWinner());
-                gameService.deleteFinishedGame(game);
+            outputView.printScore(playedGame.getGameTotalScore());
+            if (playedGame.isGameOver()) {
+                outputView.printWinner(playedGame.getWinner());
                 break;
             }
         }
@@ -76,13 +75,12 @@ public class GameController {
         }
     }
 
-    private void playTurn(Player player, Game game) {
+    private Game playTurn(Player player, Long gameId) {
         while (true) {
             try {
                 Position from = getFrom(player);
                 Position to = getTo(player);
-                game.playOneTurn(from, to);
-                break;
+                return gameService.playTurn(gameId, from, to);
             } catch (IllegalArgumentException e) {
                 outputView.printMessage(e.getMessage());
             }

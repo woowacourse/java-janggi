@@ -45,7 +45,7 @@ public class Application {
                     game = gameService.loadGame(gameId);
                 }
 
-                controller.run(game);
+                controller.run(game.id());
                 break;
             } catch (QuitGameException | IllegalArgumentException e) {
                 outputView.printMessage(e.getMessage());
