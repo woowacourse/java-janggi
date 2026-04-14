@@ -57,9 +57,12 @@ public class Board implements Pieces {
         return snapshot;
     }
 
-    public Map<Position, CellSnapshot> toSnapshotMap() {
+    public Map<Position, CellSnapshot> getBoardPiecesPosition() {
         Map<Position, CellSnapshot> result = new HashMap<>();
-        board.forEach((position, piece) -> result.put(position, new CellSnapshot(piece.getType(), piece.getSide())));
+        board.entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .forEach(entry ->
+                        result.put(entry.getKey(), new CellSnapshot(entry.getValue().getType(), entry.getValue().getSide())));
         return result;
     }
 }

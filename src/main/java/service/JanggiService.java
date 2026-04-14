@@ -34,7 +34,7 @@ public class JanggiService {
                 connection.setAutoCommit(false);
                 Game game = new Game(defaultBoardInitializer);
                 gameRepository.createGame(connection, game.getTurn());
-                pieceRepository.updatePiecesPosition(connection, game.getBoardSnapshotMap());
+                pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
                 connection.commit();
                 return game;
             } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class JanggiService {
             connection.setAutoCommit(false);
             try {
                 game.move(start, destination);
-                pieceRepository.updatePiecesPosition(connection, game.getBoardSnapshotMap());
+                pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
                 gameRepository.updateCurrentTurn(connection, game.getTurn());
                 connection.commit();
             } catch (SQLException e) {

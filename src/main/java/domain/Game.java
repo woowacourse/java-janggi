@@ -31,7 +31,7 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return board.toSnapshotMap().values().stream()
+        return board.getBoardPiecesPosition().values().stream()
                 .filter(cell -> cell.type() == PieceType.KING)
                 .map(CellSnapshot::side)
                 .distinct()
@@ -42,7 +42,7 @@ public class Game {
         if (!isGameOver()) {
             throw new IllegalStateException("게임이 종료되지 않았습니다.");
         }
-        return board.toSnapshotMap().values().stream()
+        return board.getBoardPiecesPosition().values().stream()
                 .filter(cell -> cell.type() == PieceType.KING)
                 .map(CellSnapshot::side)
                 .findFirst()
@@ -50,7 +50,7 @@ public class Game {
     }
 
     public double calculateScore(Side side) {
-        int allPiecesScore = board.toSnapshotMap().values().stream()
+        int allPiecesScore = board.getBoardPiecesPosition().values().stream()
                 .filter(cell -> cell.side() == side)
                 .mapToInt(cell -> cell.type().getScore())
                 .sum();
@@ -90,7 +90,7 @@ public class Game {
         return board.toSnapshot();
     }
 
-    public Map<Position, CellSnapshot> getBoardSnapshotMap() {
-        return board.toSnapshotMap();
+    public Map<Position, CellSnapshot> getBoardPiecesPosition() {
+        return board.getBoardPiecesPosition();
     }
 }
