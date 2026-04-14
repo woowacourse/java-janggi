@@ -27,5 +27,11 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract boolean isBlank();
+    public boolean isKing() {
+        return false;
+    }
+
+    public boolean isBlank() {
+        return false;
+    }
 }

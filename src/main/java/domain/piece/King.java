@@ -8,4 +8,9 @@ public class King extends MoveablePiece {
     public King(Team team) {
         super(team, PieceType.KING, new PalaceStrategy());
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }

@@ -30,7 +30,7 @@ public class JanggiBoard implements PieceProvider {
 
     public boolean isGameOver() {
         return janggiBoard.values().stream()
-                .filter(piece -> piece.getPieceType() == PieceType.KING)
+                .filter(Piece::isKing)
                 .count() < 2;
     }
 
