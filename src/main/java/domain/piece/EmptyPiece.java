@@ -10,7 +10,7 @@ public class EmptyPiece extends Piece {
     private static final EmptyPiece INSTANCE = new EmptyPiece();
 
     private EmptyPiece() {
-        super(Side.NEUTRAL);
+        super(Side.NEUTRAL, null, null);
     }
 
     public static EmptyPiece getInstance() {

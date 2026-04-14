@@ -2,16 +2,12 @@ package domain.piece;
 
 import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
-import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.LeapRule;
-import domain.rule.Rule;
 import domain.strategy.SequenceStrategy;
-import domain.strategy.Strategy;
 
 import java.util.List;
-import java.util.Map;
 
 public final class Horse extends Piece {
 
@@ -25,11 +21,8 @@ public final class Horse extends Piece {
             DirectionSequence.of(Direction.RIGHT, Direction.UP_RIGHT),
             DirectionSequence.of(Direction.RIGHT, Direction.DOWN_RIGHT));
 
-    private final Strategy strategy = new SequenceStrategy(SEQUENCES);
-    private final Rule rule = new LeapRule();
-
     public Horse(Side side) {
-        super(side);
+        super(side, new SequenceStrategy(SEQUENCES), new LeapRule());
     }
 
     @Override
@@ -45,12 +38,5 @@ public final class Horse extends Piece {
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public List<Position> getPossibleMoves(Position start, Pieces pieces) {
-        List<Path> paths = strategy.getPaths(start, pieces.getTopology());
-        Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
-        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }
