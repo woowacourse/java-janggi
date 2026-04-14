@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.BoardState;
 import domain.board.JanggiBoard;
+import domain.intersection.Intersection;
 import domain.point.Point;
 import domain.team.Team;
 
@@ -13,11 +14,24 @@ public class Game {
     private Team turn;
 
     public Game(JanggiBoard janggiBoard) {
+        this(
+                janggiBoard,
+                new ScoreCalculator().calculate(janggiBoard.boardState()),
+                Team.CHO,
+                janggiBoard.isGameRunning()
+        );
+    }
+
+    private Game(JanggiBoard janggiBoard, GameScore currentScore, Team turn, boolean isGameRunning) {
         this.janggiBoard = janggiBoard;
         this.scoreCalculator = new ScoreCalculator();
-        this.currentScore = scoreCalculator.calculate(janggiBoard.boardState());
-        this.isGameRunning = true;
-        this.turn = Team.CHO;
+        this.currentScore = currentScore;
+        this.turn = turn;
+        this.isGameRunning = isGameRunning;
+    }
+
+    public static Game restored(JanggiBoard board, GameScore score, Team turn, boolean running) {
+        return new Game(board, score, turn, running);
     }
 
     public void processTurn(MoveCommand move) {
@@ -31,10 +45,14 @@ public class Game {
     }
 
     private void validateTurn(Point point) {
-        if (janggiBoard.isSameTeamAt(point, turn)) {
-            return;
+        if (!janggiBoard.isSameTeamAt(point, turn)) {
+            throw new exception.InvalidTurnException();
         }
-        throw new IllegalArgumentException("현재 턴에 해당하는 팀의 기물만 움직일 수 있습니다.");
+    }
+
+    public boolean willCaptureOpponent(Point to) {
+        Intersection toIntersection = janggiBoard.findIntersection(to);
+        return toIntersection.hasPiece() && !toIntersection.isSameTeam(turn);
     }
 
     public Team currentTurn() {
@@ -45,11 +63,11 @@ public class Game {
         return isGameRunning;
     }
 
-    public BoardState getBoardState() {
-        return janggiBoard.boardState();
-    }
-
     public GameScore currentScore() {
         return currentScore;
+    }
+
+    public BoardState getBoardState() {
+        return janggiBoard.boardState();
     }
 }
