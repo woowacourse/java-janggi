@@ -4,20 +4,21 @@ import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 
-import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
 public class Game {
 
-    private static final double HAN_BONUS_SCORE = 1.5;
-
-    private final Board board;
     private Side turn;
+    private final Board board;
+    private final GameEndJudge gameEndJudge;
+    private final ScoreCalculator scoreCalculator;
 
     public Game(BoardInitializer boardInitializer) {
         this.board = new Board(boardInitializer.initialize(), boardInitializer.createTopology());
         this.turn = boardInitializer.getFirstTurnSide();
+        this.gameEndJudge = new GameEndJudge();
+        this.scoreCalculator = new ScoreCalculator();
     }
 
     public void validateStartPosition(Position start) {
@@ -31,33 +32,15 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return board.getBoardPiecesPosition().values().stream()
-                .filter(cell -> cell.type() == PieceType.KING)
-                .map(CellSnapshot::side)
-                .distinct()
-                .count() < 2;
+        return gameEndJudge.isGameOver(board.getBoardPiecesPosition());
     }
 
     public Side getWinner() {
-        if (!isGameOver()) {
-            throw new IllegalStateException("게임이 종료되지 않았습니다.");
-        }
-        return board.getBoardPiecesPosition().values().stream()
-                .filter(cell -> cell.type() == PieceType.KING)
-                .map(CellSnapshot::side)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
+        return gameEndJudge.getWinner(board.getBoardPiecesPosition());
     }
 
     public double calculateScore(Side side) {
-        int allPiecesScore = board.getBoardPiecesPosition().values().stream()
-                .filter(cell -> cell.side() == side)
-                .mapToInt(cell -> cell.type().getScore())
-                .sum();
-        if (side.isHan()) {
-            return allPiecesScore + HAN_BONUS_SCORE;
-        }
-        return allPiecesScore;
+        return scoreCalculator.calculate(board.getBoardPiecesPosition(), side);
     }
 
     private boolean isFriendlyPiece(Position position) {
