@@ -56,4 +56,8 @@ public class Piece {
     public Position position() {
         return moveStrategy.position();
     }
+
+    public int point() {
+        return pieceProperty.point();
+    }
 }

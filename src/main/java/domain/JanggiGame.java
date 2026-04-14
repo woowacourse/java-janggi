@@ -1,6 +1,7 @@
 package domain;
 
 import dto.PieceInfo;
+import dto.PieceSnapshot;
 import exception.JanggiBusinessException;
 import java.util.List;
 
@@ -9,9 +10,17 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
+    private JanggiGame(Board board) {
+        this(board, GameStatus.GREEN_PLAYER_TURN);
+    }
+
     public JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
         this.gameStatus = gameStatus;
+    }
+
+    public static JanggiGame initGame(Board board) {
+        return new JanggiGame(board);
     }
 
     public PieceInfo findPieceInfoAt(Position selectPosition) {
@@ -29,7 +38,7 @@ public class JanggiGame {
         shiftGameStatus();
     }
 
-    public boolean isGameFinished() {
+    public boolean isFinished() {
         return this.gameStatus.isFinished();
     }
 
@@ -39,6 +48,13 @@ public class JanggiGame {
 
     public String currentPlayerTurn() {
         return gameStatus.description();
+    }
+
+    public int currentPlayerPiecesPointSum() {
+        if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
+            return board.greenTeamPointSum();
+        }
+        return board.redTeamPointSum();
     }
 
     public List<PieceInfo> allFactors() {
@@ -87,5 +103,11 @@ public class JanggiGame {
         if (gameStatus.equals(GameStatus.RED_PLAYER_TURN) && board.isPieceGreenTeamAt(position)) {
             throw new JanggiBusinessException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
+    }
+
+    public List<PieceSnapshot> pieceSnapshots() {
+        return board.allFactors().stream()
+                .map(PieceSnapshot::of)
+                .toList();
     }
 }

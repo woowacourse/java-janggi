@@ -49,7 +49,7 @@ public record Position(int row, int col) {
     }
 
     public boolean isInPalace() {
-        return Palace.isInPalace(this.row, this.col);
+        return PalaceRange.isInPalace(this.row, this.col);
     }
 
     public boolean isPalaceRedEastNorth() {
@@ -92,6 +92,10 @@ public record Position(int row, int col) {
         return Palace.isGreenCenter(this.row, this.col);
     }
 
+    public boolean isPalaceSide() {
+        return PalaceRange.isInPalace(this.row, this.col) && Palace.isNotConnerOrCenter(this.row, this.col);
+    }
+
     private enum BoardRange {
         ROW(0, 9),
         COL(0, 8),
@@ -105,6 +109,31 @@ public record Position(int row, int col) {
             this.max = max;
         }
     }
+
+    private enum PalaceRange {
+        RED(0, 2, 3, 5),
+        GREEN(7, 9, 3, 5),
+        ;
+
+        final int minRow, maxRow, minCol, maxCol;
+
+        PalaceRange(int minRow, int maxRow, int minCol, int maxCol) {
+            this.minRow = minRow;
+            this.maxRow = maxRow;
+            this.minCol = minCol;
+            this.maxCol = maxCol;
+        }
+
+         static boolean isInPalace(int row, int col) {
+            return Arrays.stream(PalaceRange.values())
+                    .anyMatch(range -> range.contains(row, col));
+        }
+
+        private boolean contains(int row, int col) {
+            return row >= minRow && row <= maxRow && col >= minCol && col <= maxCol;
+        }
+    }
+
 
     private enum Palace {
         RED_EAST_NORTH(current -> current.equals(Position.of(0, 5))),
@@ -130,9 +159,9 @@ public record Position(int row, int col) {
             this.predicate = predicate;
         }
 
-        private static boolean isInPalace(int row, int col) {
-            Position current = Position.of(row,col);
-            return Arrays.stream(Palace.values()).anyMatch(pos -> pos.predicate.test(current));
+        private static boolean isNotConnerOrCenter (int row, int col) {
+            return Arrays.stream(Palace.values()).map(palace -> palace.predicate)
+                    .anyMatch(positionPredicate -> positionPredicate.test(Position.of(row, col)));
         }
 
         private static boolean isRedEastNorth(int row, int col) {
@@ -140,7 +169,7 @@ public record Position(int row, int col) {
         }
 
         private static boolean isRedEastSouth(int row, int col) {
-            return RED_EAST_NORTH.predicate.test(Position.of(row, col));
+            return RED_EAST_SOUTH.predicate.test(Position.of(row, col));
         }
 
         private static boolean isRedWestNorth(int row, int col) {

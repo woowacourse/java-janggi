@@ -2,16 +2,16 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public interface MoveRules {
 
-    List<Function<Position, Position>> moveSteps();
+    List<UnaryOperator<Position>> moveSteps();
 
     default Position destination(Position currentPosition) {
         Position position = currentPosition;
 
-        for (Function<Position, Position> stepAction : moveSteps()) {
+        for (UnaryOperator<Position> stepAction : moveSteps()) {
             position = stepAction.apply(position);
         }
 
@@ -22,7 +22,7 @@ public interface MoveRules {
         List<Position> nodes = new ArrayList<>();
         Position position = currentPosition;
 
-        for (Function<Position, Position> stepAction : stepsToRoute()) {
+        for (UnaryOperator<Position> stepAction : stepsToRoute()) {
             position = stepAction.apply(position);
             nodes.add(position);
         }
@@ -30,8 +30,8 @@ public interface MoveRules {
         return nodes;
     }
 
-    private List<Function<Position, Position>> stepsToRoute() {
-        List<Function<Position, Position>> moveSteps = moveSteps();
+    private List<UnaryOperator<Position>> stepsToRoute() {
+        List<UnaryOperator<Position>> moveSteps = moveSteps();
         return moveSteps.subList(0, moveSteps.size() - 1);
     }
 }

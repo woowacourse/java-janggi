@@ -1,25 +1,28 @@
 package domain.strategy;
 
-import domain.moverule.GeneralMoveRule;
+import domain.MoveRoute;
 import domain.Position;
-import java.util.Arrays;
+import domain.moverule.PalaceMoveRule;
 import java.util.List;
 
-public class GeneralMoveStrategy extends MoveStrategy {
+public class PalacePieceMoveStrategy extends MoveStrategy {
 
     private final List<Position> destinations;
 
-    private GeneralMoveStrategy(Position position) {
+    private PalacePieceMoveStrategy(Position position) {
         super(position);
         this.destinations = setupDestinations();
     }
 
-    public static GeneralMoveStrategy of(Position position) {
-        return new GeneralMoveStrategy(position);
+    public static PalacePieceMoveStrategy of(Position position) {
+        return new PalacePieceMoveStrategy(position);
     }
 
     @Override
     public boolean isMoveAble(Position targetPosition) {
+        if (!targetPosition.isInPalace()) {
+            return false;
+        }
         return destinations.contains(targetPosition);
     }
 
@@ -29,8 +32,8 @@ public class GeneralMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> setupDestinations() {
-        return Arrays.stream(GeneralMoveRule.values())
-                .map(generalMoveRule -> generalMoveRule.destination(position))
+        return PalaceMoveRule.moveRoutesOf(position).stream()
+                .map(MoveRoute::destination)
                 .toList();
     }
 }

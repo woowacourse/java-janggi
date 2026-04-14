@@ -66,6 +66,6 @@ class JanggiGameTest {
 
         janggiGame.move(from, to);
 
-        assertThat(janggiGame.isGameFinished()).isTrue();
+        assertThat(janggiGame.isFinished()).isTrue();
     }
 }

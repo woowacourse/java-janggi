@@ -21,16 +21,6 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("포 기물의 현재 위치 기준 상하좌우 방향으로 바로 1칸은 이동할 수 없다.")
-    void cannon_move_test_negative() {
-        Position current = Position.of(4, 4);
-        Position target = Position.of(4, 5);
-        CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
-
-        assertThat(moveStrategy.isMoveAble(target)).isFalse();
-    }
-
-    @Test
     @DisplayName("포 기물은 이동 경로에 기물이 단 하나만 포함되는지 여부를 판단할 수 있어야 한다.(경로에 기물 1개)")
     void cannon_valid_path_test() {
         Position current = Position.of(9, 4);

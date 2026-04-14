@@ -1,9 +1,11 @@
 package domain.moverule;
 
+import domain.MoveRoute;
 import domain.MoveRules;
 import domain.Position;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public enum ElephantMoveRule implements MoveRules {
 
@@ -20,14 +22,24 @@ public enum ElephantMoveRule implements MoveRules {
     LEFT_CROSS_DOWN_CROSS_DOWN(List.of(Position::left, Position::downCrossLeft, Position::downCrossLeft)),
     ;
 
-    private final List<Function<Position, Position>> moveSteps;
+    private final List<UnaryOperator<Position>> moveSteps;
 
-    ElephantMoveRule(List<Function<Position, Position>> moveSteps) {
+    ElephantMoveRule(List<UnaryOperator<Position>> moveSteps) {
         this.moveSteps = moveSteps;
     }
 
+    public static List<MoveRoute> moveRoutesOf(Position currentPosition) {
+        return Arrays.stream(ElephantMoveRule.values())
+                .map(rule -> moveRoutesFrom(currentPosition, rule))
+                .toList();
+    }
+
+    private static MoveRoute moveRoutesFrom(Position currentPosition, ElephantMoveRule rule) {
+        return new MoveRoute(rule.destination(currentPosition), rule.route(currentPosition));
+    }
+
     @Override
-    public List<Function<Position, Position>> moveSteps() {
+    public List<UnaryOperator<Position>> moveSteps() {
         return this.moveSteps;
     }
 }
