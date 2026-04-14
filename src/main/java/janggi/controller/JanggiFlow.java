@@ -6,13 +6,14 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
-import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.Piece;
 import janggi.domain.result.ScoreResult;
 import janggi.dto.FinalResultDto;
 import janggi.dto.PieceDto;
+import janggi.dto.GameDto;
 import janggi.dto.ScoreResultDto;
+import janggi.service.JanggiService;
 import janggi.view.ApplicationView;
 import janggi.view.label.ArrangementStrategyLabel;
 import java.util.List;
@@ -22,35 +23,53 @@ import java.util.function.Supplier;
 public class JanggiFlow {
 
     private final ApplicationView view;
+    private final JanggiService service;
 
-    public JanggiFlow(ApplicationView view) {
+    public JanggiFlow(ApplicationView view, JanggiService service) {
         this.view = view;
+        this.service = service;
     }
 
     public void process() {
-        ArrangementStrategy hanStrategy = repeatAskStrategyUntilSuccess(Side.HAN);
-        ArrangementStrategy choStrategy = repeatAskStrategyUntilSuccess(Side.CHO);
-        Board board = Board.create(BoardAssembler.from(List.of(hanStrategy, choStrategy)));
 
-        Side current = Side.CHO;
+        GameDto gameDto = loadOrStartNewGame();
+
+        int gameId = gameDto.gameId();
+        Board board = gameDto.board();
+        Side currentTurn = gameDto.turn();
+
         do {
             view.showBoardArray(convertBoardStatus(board));
             view.showScoreResults(convertScoreResult(board));
-            view.showCurrentSide(current.getNameFormat());
+            view.showCurrentSide(currentTurn.getNameFormat());
 
-            final Side turnSide = current;
+            Side turnSide = currentTurn;
             retryUntilPieceIsSuccessfullyMoved(() -> {
                 Location from = repeatAskLocationOfPieceUntilSuccess(turnSide, board);
                 Location to = repeatAskLocationToMoveUntilSuccess(from, board);
                 board.move(from, to);
             });
 
-            current = current.switchSide();
+            currentTurn = currentTurn.switchSide();
+
+            service.saveGame(gameId, board, currentTurn);
 
         } while (canContinueJanggi(board));
 
         view.showBoardArray(convertBoardStatus(board));
         view.showFinalResult(convertFinalResult(board));
+
+        service.finishGame(gameId);
+    }
+
+    private GameDto loadOrStartNewGame() {
+        if (service.checkIfAnyOngoingGameExists()) {
+            return service.loadOngoingGame();
+        }
+
+        ArrangementStrategy hanStrategy = repeatAskStrategyUntilSuccess(Side.HAN);
+        ArrangementStrategy choStrategy = repeatAskStrategyUntilSuccess(Side.CHO);
+        return service.startNewGame(hanStrategy, choStrategy);
     }
 
     private FinalResultDto convertFinalResult(Board board) {

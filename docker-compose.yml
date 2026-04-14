@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: janggi-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: janggi
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_TZ: Asia/Seoul
+    ports:
+      - "13306:3306"
+    volumes:
+      # 초기 스키마 실행을 위한 스크립트 위치
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      # 데이터 영속성을 위한 볼륨 설정
+      - ./db/data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci

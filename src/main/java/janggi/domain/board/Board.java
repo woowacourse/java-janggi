@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.strategy.BoardAssembler;
+import janggi.domain.board.strategy.PieceInfo;
 import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Board {
 
@@ -126,5 +128,23 @@ public class Board {
     public AlivePieces getAlivePieces() {
         List<Piece> alivePieces = boardState.values().stream().toList();
         return AlivePieces.from(alivePieces);
+    }
+
+    public List<PieceInfo> getAlivePieceInfos() {
+        List<PieceInfo> pieceInfos = new ArrayList<>();
+        for (Entry<Location, Piece> pieceEntry : boardState.entrySet()) {
+            addIfNotEmptyPiece(pieceEntry, pieceInfos);
+        }
+        return List.copyOf(pieceInfos);
+    }
+
+    private void addIfNotEmptyPiece(Entry<Location, Piece> pieceEntry, List<PieceInfo> pieceInfos) {
+        Piece piece = pieceEntry.getValue();
+        if (piece.isEmpty()) {
+            return;
+        }
+        Location location = pieceEntry.getKey();
+        PieceInfo pieceInfo = new PieceInfo(piece.getPieceType(), piece.getSide(), location.row(), location.col());
+        pieceInfos.add(pieceInfo);
     }
 }
