@@ -1,21 +1,12 @@
 package controller;
 
-import dao.GameDao;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
-import domain.board.SavedPiecesGenerator;
 import domain.game.Game;
-import domain.game.GameScore;
 import domain.game.MoveCommand;
-import domain.intersection.Intersection;
-import domain.team.Team;
 import dto.InputMoveDto;
-import dto.dao.InitialGamePersistDto;
-import dto.dao.LoadedGameState;
-import dto.dao.LoadedPiece;
-import dto.dao.MovePersistDto;
-import dto.dao.ResumableGame;
+import entity.ResumableGameEntity;
 import exception.InvalidMenuChoiceException;
 import exception.PieceDbIdNotFoundException;
 import java.util.List;
@@ -24,7 +15,7 @@ import java.util.function.Supplier;
 import mapper.BoardOutputMapper;
 import mapper.MoveMapper;
 import parser.MoveInputParser;
-import transaction.TransactionTemplate;
+import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -32,27 +23,18 @@ public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
     private final BoardOutputMapper boardOutputMapper;
-    private final GameDao gameDao;
-    private final TransactionTemplate transactionTemplate;
+    private final GameRepository gameRepository;
 
     public JanggiController(
             InputView inputView,
             OutputView outputView,
             BoardOutputMapper boardOutputMapper,
-            GameDao gameDao,
-            TransactionTemplate transactionTemplate
+            GameRepository gameRepository
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.boardOutputMapper = boardOutputMapper;
-        this.gameDao = gameDao;
-        this.transactionTemplate = transactionTemplate;
-    }
-
-    private static void validateMenuChoice(int choice) {
-        if (choice != 1 && choice != 2) {
-            throw new InvalidMenuChoiceException();
-        }
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
@@ -68,13 +50,9 @@ public class JanggiController {
         });
     }
 
-    private <T> T retry(Supplier<T> inputSupplier) {
-        while (true) {
-            try {
-                return inputSupplier.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+    private static void validateMenuChoice(int choice) {
+        if (choice != 1 && choice != 2) {
+            throw new InvalidMenuChoiceException();
         }
     }
 
@@ -92,7 +70,7 @@ public class JanggiController {
         JanggiGenerator janggiGenerator = new JanggiGenerator(hanFormation, choFormation);
 
         final Game game = new Game(new JanggiBoard(janggiGenerator));
-        long gameId = insertInitialGame(InitialGamePersistDto.from(game));
+        long gameId = gameRepository.saveNewGame(game);
         runGameLoop(game, gameId);
     }
 
@@ -109,10 +87,6 @@ public class JanggiController {
         } catch (IllegalArgumentException e) {
             throw new exception.InvalidFormationChoiceException();
         }
-    }
-
-    private long insertInitialGame(InitialGamePersistDto dto) {
-        return transactionTemplate.executeInTransaction(conn -> gameDao.insertInitialGameAndPieces(conn, dto));
     }
 
     private void runGameLoop(Game game, long gameId) {
@@ -158,7 +132,7 @@ public class JanggiController {
     private long findMovedPieceId(long gameId, MoveCommand move) {
         int y = move.getFrom().y();
         int x = move.getFrom().x();
-        return gameDao.findPieceIdAt(gameId, y, x)
+        return gameRepository.findPieceIdAt(gameId, y, x)
                 .orElseThrow(PieceDbIdNotFoundException::new);
     }
 
@@ -168,23 +142,16 @@ public class JanggiController {
         }
         int y = move.getTo().y();
         int x = move.getTo().x();
-        return gameDao.findPieceIdAt(gameId, y, x)
+        return gameRepository.findPieceIdAt(gameId, y, x)
                 .orElseThrow(PieceDbIdNotFoundException::new);
     }
 
     private void saveMove(Game game, long gameId, MoveCommand move, long movedPieceId, Long capturedPieceId) {
-        persistMove(MovePersistDto.afterTurn(game, gameId, move, movedPieceId, capturedPieceId));
-    }
-
-    private void persistMove(MovePersistDto dto) {
-        transactionTemplate.executeInTransaction(conn -> {
-            gameDao.persistMove(conn, dto);
-            return null;
-        });
+        gameRepository.saveMove(game, gameId, move, movedPieceId, capturedPieceId);
     }
 
     private void resumeExistingGame() {
-        List<ResumableGame> games = gameDao.findResumableGames();
+        List<ResumableGameEntity> games = gameRepository.findResumableGames();
         if (games.isEmpty()) {
             outputView.printNoResumableGames();
             startNewGame();
@@ -192,15 +159,15 @@ public class JanggiController {
         }
         printResumableGames(games);
         long gameId = games.get(readResumeChoice(games.size()) - 1).id();
-        LoadedGameState state = gameDao.loadGameForResume(gameId);
-        runGameLoop(restoreGame(state), state.gameId());
+        Game game = gameRepository.findById(gameId);
+        runGameLoop(game, gameId);
     }
 
-    private void printResumableGames(List<ResumableGame> games) {
+    private void printResumableGames(List<ResumableGameEntity> games) {
         outputView.printResumableGamesHeader();
 
         int displayNumber = 1;
-        for (ResumableGame game : games) {
+        for (ResumableGameEntity game : games) {
             outputView.printResumableGameLine(
                     displayNumber++,
                     game.hanScore(),
@@ -222,16 +189,13 @@ public class JanggiController {
         return choice;
     }
 
-    private Game restoreGame(LoadedGameState state) {
-        List<Intersection> intersections = state.pieces().stream()
-                .map(LoadedPiece::toIntersection)
-                .toList();
-        JanggiBoard board = new JanggiBoard(new SavedPiecesGenerator(intersections));
-        return Game.restored(
-                board,
-                new GameScore(state.choScore(), state.hanScore()),
-                Team.valueOf(state.turnTeam()),
-                board.isGameRunning()
-        );
+    private <T> T retry(Supplier<T> inputSupplier) {
+        while (true) {
+            try {
+                return inputSupplier.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 }
