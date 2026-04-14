@@ -4,9 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
 import janggi.domain.piece.Piece;
 import janggi.domain.state.ChoTurn;
-import janggi.domain.state.Draw;
 import janggi.domain.state.GameState;
-import janggi.domain.state.GiveUp;
 
 import java.util.List;
 import java.util.Map;
@@ -58,11 +56,11 @@ public class Janggi {
     }
 
     public void giveUpGame() {
-        gameState = new GiveUp(gameState.turn());
+        gameState = gameState.giveUp();
     }
 
     public void drawGame() {
-        gameState = new Draw(gameState.turn());
+        gameState = gameState.draw();
     }
 
     public Camp currentTurn() {

@@ -38,4 +38,14 @@ public class ChoTurn implements GameState {
     public String getStateType() {
         return "CHO TURN";
     }
+
+    @Override
+    public GameState giveUp() {
+        return new GiveUp(camp);
+    }
+
+    @Override
+    public GameState draw() {
+        return new Draw(camp);
+    }
 }

@@ -14,4 +14,8 @@ public interface GameState {
     void validateCamp(Position current, Board board);
 
     String getStateType();
+
+    GameState giveUp();
+
+    GameState draw();
 }
