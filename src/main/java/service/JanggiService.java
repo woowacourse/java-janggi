@@ -1,8 +1,5 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import domain.Game;
 import domain.board.BoardInitializer;
 import domain.board.DatabaseBoardInitializer;
@@ -29,53 +26,28 @@ public class JanggiService {
             BoardInitializer dbInitializer = new DatabaseBoardInitializer(pieceRepository, gameRepository);
             return new Game(dbInitializer);
         }
-        try (Connection connection = Database.getConnection()) {
-            try {
-                connection.setAutoCommit(false);
-                Game game = new Game(defaultBoardInitializer);
-                gameRepository.createGame(connection, game.getTurn());
-                pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
-                connection.commit();
-                return game;
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
-        }
+        return Database.executeInTransaction(connection -> {
+            Game game = new Game(defaultBoardInitializer);
+            gameRepository.createGame(connection, game.getTurn());
+            pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
+            return game;
+        }, "게임 초기화 중 오류가 발생했습니다.");
     }
 
     public void movePiece(Game game, Position start, Position destination) {
-        try (Connection connection = Database.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                game.move(start, destination);
-                pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
-                gameRepository.updateCurrentTurn(connection, game.getTurn());
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException("기물 이동 중 오류가 발생했습니다.", e);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("기물 이동 중 오류가 발생했습니다.", e);
-        }
+        Database.executeInTransaction(connection -> {
+            game.move(start, destination);
+            pieceRepository.updatePiecesPosition(connection, game.getBoardPiecesPosition());
+            gameRepository.updateCurrentTurn(connection, game.getTurn());
+            return null;
+        }, "기물 이동 중 오류가 발생했습니다.");
     }
 
     public void resetGame() {
-        try (Connection connection = Database.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                gameRepository.resetAll(connection);
-                pieceRepository.resetAll(connection);
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
-        }
+        Database.executeInTransaction(connection -> {
+            gameRepository.resetAll(connection);
+            pieceRepository.resetAll(connection);
+            return null;
+        }, "게임 초기화 중 오류가 발생했습니다.");
     }
 }

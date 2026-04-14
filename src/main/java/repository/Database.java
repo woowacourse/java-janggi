@@ -11,4 +11,20 @@ public class Database {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
     }
+
+    public static <T> T executeInTransaction(TransactionAction<T> action, String errorMessage) {
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                T result = action.execute(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(errorMessage, e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(errorMessage, e);
+        }
+    }
 }
