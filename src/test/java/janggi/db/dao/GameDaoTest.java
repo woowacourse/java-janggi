@@ -95,8 +95,8 @@ class GameDaoTest {
     }
 
     @Test
-    @DisplayName("진행 중인 게임을 최대 5개 가져올 수 있다")
-    void 진행중인_게임_가져오기_5개_미만() {
+    @DisplayName("저장된 게임 중 진행 중인 게임이 5개 미만이라도 진행 중인 게임만 가져온다")
+    void 진행중인_게임_5개_미만이라도_진행중인_게임만_가져오기() {
         // given
         GameEntity game1 = new GameEntity(null, Team.HAN, true);
         gameDao.save(game1);
