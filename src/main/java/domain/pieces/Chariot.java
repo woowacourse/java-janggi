@@ -12,9 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Chariot extends Piece {
-    private static final List<MovingFunction> movements = List.of(
-            Piece::north, Piece::south, Piece::west, Piece::east
-    );
+
     public Chariot(Camp camp) {
         super(camp);
     }
@@ -22,24 +20,36 @@ public class Chariot extends Piece {
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-
-        for (MovingFunction movement : movements) {
-            routeOfDestination.putAll(move(from, boardChecker, movement));
+        for (MovingFunction movement : MOVEMENTS) {
+            routeOfDestination.putAll(move(from, movement, boardChecker, false));
         }
-
+        if (from.isPalaceDiagonalPosition()) {
+            for (MovingFunction movement : DIAGONAL_MOVEMENTS) {
+                routeOfDestination.putAll(move(from, movement, boardChecker, true));
+            }
+        }
         return routeOfDestination.containsKey(to);
     }
 
-    private Map<Position, List<Position>> move(Position position, BoardChecker boardChecker,
-            MovingFunction movement) {
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    private Map<Position, List<Position>> move(Position position,
+            MovingFunction movement, BoardChecker boardChecker, Boolean isDiagonal) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
-        List<Position> collectedMovablePositions = new ArrayList<>();
+        List<Position> path = new ArrayList<>();
         Optional<Position> next = movement.move(position);
+
         while (next.isPresent()) {
             Position currentPosition = next.get();
-            collectedMovablePositions.add(currentPosition);
-            movablePositions.put(currentPosition, collectedMovablePositions);
 
+            if (isOutOfPalaceBound(currentPosition, isDiagonal)) {
+                return movablePositions;
+            }
+            path.add(currentPosition);
+            movablePositions.put(currentPosition, new ArrayList<>(path));
             if (boardChecker.isExist(currentPosition)) {
                 return movablePositions;
             }
@@ -48,8 +58,7 @@ public class Chariot extends Piece {
         return movablePositions;
     }
 
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.CHARIOT;
+    private boolean isOutOfPalaceBound(Position current, boolean isDiagonal) {
+        return isDiagonal && !current.isPalaceDiagonalPosition();
     }
 }

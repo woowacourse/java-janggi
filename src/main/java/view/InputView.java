@@ -1,26 +1,14 @@
 package view;
 
+import static view.Formatter.CAMP_NAMES;
+import static view.Formatter.FORMATION_NAMES;
+
 import domain.Camp;
-import domain.ElephantFormation;
 import domain.Position;
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class InputView {
-
-    private static final Map<Camp, String> CAMP_NAMES = new EnumMap<>(
-            Map.of(Camp.CHO, "초나라", Camp.HAN, "한나라"));
-    private static final Map<ElephantFormation, String> FORMATION_NAMES = new EnumMap<>(
-            ElephantFormation.class);
-
-    static {
-        FORMATION_NAMES.put(ElephantFormation.RIGHT, "1. [마 상 마 상]");
-        FORMATION_NAMES.put(ElephantFormation.INNER, "2. [마 상 상 마]");
-        FORMATION_NAMES.put(ElephantFormation.LEFT, "3. [상 마 상 마]");
-        FORMATION_NAMES.put(ElephantFormation.OUTER, "4. [상 마 마 상]");
-    }
 
     private final Scanner sc = new Scanner(System.in);
 
@@ -79,7 +67,7 @@ public class InputView {
     }
 
     private int validateFormationNum(int formationNum) {
-        if (formationNum < 0 || formationNum >= FORMATION_NAMES.size()) {
+        if (formationNum < 0 || formationNum > FORMATION_NAMES.size()) {
             throw new IllegalArgumentException("[ERROR] 상차림 정보는 1 ~ 4 사이어야 합니다.");
         }
         return formationNum;

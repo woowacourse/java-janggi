@@ -12,40 +12,58 @@ import java.util.Set;
 
 public class Soldier extends Piece {
 
-    private static final List<MovingFunction> hanMovement = List.of(
-            Piece::south, Piece::west, Piece::east
-    );
-    private static final List<MovingFunction> choMovement = List.of(
-            Piece::north, Piece::west, Piece::east
-    );
-
     public Soldier(Camp camp) {
         super(camp);
     }
 
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
-
-        Set<Position> destination = new HashSet<>();
-        if (this.isSameCamp(Camp.HAN)) {
-            for (MovingFunction movement : hanMovement) {
-                move(from, movement).ifPresent(destination::add);
-            }
-        }
-        if (this.isSameCamp(Camp.CHO)) {
-            for (MovingFunction movement : choMovement) {
-                move(from, movement).ifPresent(destination::add);
-            }
+        Set<Position> destination = new HashSet<>(moveStraight(from));
+        if (from.isPalaceDiagonalPosition()) {
+            destination.addAll(moveDiagonal(from));
         }
         return destination.contains(to);
-    }
-
-    private Optional<Position> move(Position position, MovingFunction movement) {
-        return movement.move(position);
     }
 
     @Override
     public PieceType getPieceType() {
         return PieceType.SOLDIER;
+    }
+
+    private Set<Position> moveStraight(Position from) {
+        Set<Position> destination = new HashSet<>();
+        for (MovingFunction movement : getMovements()) {
+            move(from, movement).ifPresent(destination::add);
+        }
+        return destination;
+    }
+
+    private Set<Position> moveDiagonal(Position from) {
+        Set<Position> destination = new HashSet<>();
+        for (MovingFunction movement : getDiagonalMovement()) {
+            move(from, movement)
+                    .filter(Position::isPalaceDiagonalPosition)
+                    .ifPresent(destination::add);
+        }
+        return destination;
+    }
+
+
+    private List<MovingFunction> getMovements() {
+        if (this.isSameCamp(Camp.HAN)) {
+            return List.of(Piece::south, Piece::west, Piece::east);
+        }
+        return List.of(Piece::north, Piece::west, Piece::east);
+    }
+
+    private List<MovingFunction> getDiagonalMovement() {
+        if (this.isSameCamp(Camp.HAN)) {
+            return List.of(Piece::southWest, Piece::southEast);
+        }
+        return List.of(Piece::northWest, Piece::northEast);
+    }
+
+    private Optional<Position> move(Position position, MovingFunction movement) {
+        return movement.move(position);
     }
 }

@@ -7,28 +7,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
 
-    private final Map<Position, Piece> board = new HashMap<>();
+    private final Map<Position, Piece> board;
 
-    public void generatePiecesBy(Camp camp, int elephantFormation) {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-        Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
-
-        board.putAll(pieces);
+    private Board(Map<Position, Piece> board) {
+        this.board = board;
     }
 
-    public void locatePiece(Position position, Piece piece) {
-        if (isExist(position) && getPieceFrom(position).isSameCamp(piece)) {
-            throw new InvalidMoveException("[ERROR] 같은 팀은 잡을 수 없습니다!");
-        }
-
-        board.put(position, piece);
+    public static Board empty() {
+        return new Board(new HashMap<>());
     }
 
-    public Piece getPieceFrom(Position position) {
-        return board.get(position);
+    public static Board restore(Map<Position, Piece> board) {
+        return new Board(new HashMap<>(board));
     }
 
     @Override
@@ -38,23 +32,56 @@ public class Board implements BoardChecker {
 
     @Override
     public boolean isNotCannon(Position position) {
-        return board.get(position).getPieceType() != PieceType.CANNON;
+        return isExist(position) && board.get(position).getPieceType() != PieceType.CANNON;
     }
 
     public void move(Position fromPosition, Position toPosition) {
-        if (fromPosition.equals(toPosition)) {
-            throw new InvalidMoveException("[ERROR] 제자리 이동은 불가능합니다.");
-        }
+        validateMoveToDifferentPosition(fromPosition, toPosition);
 
         Piece piece = board.get(fromPosition);
         boolean canMove = piece.canMove(fromPosition, toPosition, this);
-        if (canMove) {
-            locatePiece(toPosition, piece);
-            board.remove(fromPosition);
-            return;
+        if (!canMove) {
+            throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
+        }
+        locatePiece(toPosition, piece);
+        board.remove(fromPosition);
+    }
+
+    private void validateMoveToDifferentPosition(Position fromPosition, Position toPosition) {
+        if (fromPosition.equals(toPosition)) {
+            throw new InvalidMoveException("[ERROR] 제자리 이동은 불가능합니다.");
+        }
+    }
+
+    public void generatePiecesBy(Camp camp, int elephantFormation) {
+        PieceGenerator pieceGenerator = new PieceGenerator();
+        Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
+
+        board.putAll(pieces);
+    }
+
+    public void locatePiece(Position position, Piece piece) {
+        if (canNotCatch(position, piece)) {
+            throw new InvalidMoveException("[ERROR] 같은 팀은 잡을 수 없습니다!");
         }
 
-        throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
+        board.put(position, piece);
+    }
+
+    public boolean isPieceOfCamp(Position position, Camp camp) {
+        if (!board.containsKey(position)) {
+            return false;
+        }
+
+        return board.get(position).isSameCamp(camp);
+    }
+
+    public boolean isGameOver() {
+        return leftOneGeneral();
+    }
+
+    public Piece getPieceFrom(Position position) {
+        return board.get(position);
     }
 
     public BoardStatusDto getBoardStatus() {
@@ -72,6 +99,18 @@ public class Board implements BoardChecker {
         return new BoardStatusDto(boardStatusDto);
     }
 
+    public List<Piece> getPiecesByCamp(Camp camp) {
+        return board.values().stream().filter(p -> p.isSameCamp(camp)).collect(Collectors.toList());
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
+
+    private boolean canNotCatch(Position position, Piece piece) {
+        return isExist(position) && getPieceFrom(position).isSameCamp(piece);
+    }
+
     private PositionStatusDto getPositionStatusDto(Position position) {
         if (!board.containsKey(position)) {
             return new PositionStatusDto(position, PieceType.NONE, Camp.NONE);
@@ -83,11 +122,18 @@ public class Board implements BoardChecker {
         return new PositionStatusDto(position, pieceType, camp);
     }
 
-    public boolean isPieceOfCamp(Position position, Camp camp) {
-        if (!board.containsKey(position)) {
-            return false;
-        }
+    private boolean leftOneGeneral() {
+        return board.values().stream().filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+                .count() == 1;
+    }
 
-        return board.get(position).isSameCamp(camp);
+    public double calculateScoreByCamp(Camp camp) {
+        List<Piece> pieces = getPiecesByCamp(camp);
+        return pieces.stream().mapToInt(p -> p.getPieceType().getScore()).sum() + getBonusScore(
+                camp);
+    }
+
+    private double getBonusScore(Camp camp) {
+        return camp.getBonusScore();
     }
 }

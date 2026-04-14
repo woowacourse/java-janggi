@@ -2,7 +2,11 @@ import domain.Board;
 import domain.Camp;
 import domain.InvalidMoveException;
 import domain.Position;
+import domain.pieces.Piece;
 import dto.BoardStatusDto;
+import java.sql.SQLException;
+import repository.BoardRepository;
+import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -10,51 +14,71 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardRepository boardRepository;
+    private final GameRepository gameRepository;
 
-    JanggiController(InputView inputView, OutputView outputView) {
+    JanggiController(InputView inputView, OutputView outputView, BoardRepository boardRepository,
+            GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardRepository = boardRepository;
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
-        Board board = generateBoard();
-        printBoard(board);
+        try {
+            Long gameId = gameRepository.findPlayingGame();
+            GameContext gameContext = loadOrGenerateBoard(gameId);
+            gameContext = playJanggi(gameContext);
+            printResult(gameContext);
+        } catch (SQLException e) {
+            throw new RuntimeException("db오류", e);
+        }
+    }
 
-        playJanggi(board);
+    private GameContext loadOrGenerateBoard(Long gameId) {
+        if (gameId == null) {
+            Board board = generateBoard();
+            long newGameId = gameRepository.createGame(board, Camp.CHO);
+            boardRepository.createBoard(newGameId, board);
+            return new GameContext(newGameId, board, Camp.CHO);
+        }
+        Board board = boardRepository.findBoard(gameId);
+        Camp camp = gameRepository.findCurrentCamp(gameId);
+        return new GameContext(gameId, board, camp);
     }
 
     private Board generateBoard() {
-        Board board = new Board();
         int choElephantFormation = inputView.askElephantFormation(Camp.CHO);
         int hanElephantFormation = inputView.askElephantFormation(Camp.HAN);
+        Board board = Board.empty();
         board.generatePiecesBy(Camp.CHO, choElephantFormation);
         board.generatePiecesBy(Camp.HAN, hanElephantFormation);
         return board;
     }
 
-    private void playJanggi(Board board) {
-        Camp camp = Camp.CHO;
-        while (true) {
+    private GameContext playJanggi(GameContext gameContext) throws SQLException {
+        Camp camp = gameRepository.findCurrentCamp(gameContext.gameId());
+        printBoard(gameContext.board());
+        while (!gameContext.board().isGameOver()) {
             try {
-                Position fromPosition = askFromPosition(camp, board);
+                Position fromPosition = askFromPosition(camp, gameContext.board());
                 Position toPosition = askToPosition(camp);
-                board.move(fromPosition, toPosition);
+                Piece movingPiece = gameContext.board().getPieceFrom(fromPosition);
+                gameContext.board().move(fromPosition, toPosition);
+                boardRepository.updateBoard(gameContext.gameId(), movingPiece, fromPosition,
+                        toPosition);
+                printBoard(gameContext.board());
+                if (!gameContext.board().isGameOver()) {
+                    camp = camp.turnCamp();
+                }
+                gameRepository.updateGame(gameContext.gameId(), gameContext.board(), camp,
+                        gameContext.board().isGameOver());
             } catch (InvalidMoveException e) {
                 outputView.printErrorMessage(e);
-                continue;
             }
-            printBoard(board);
-            camp = turnCamp(camp);
-
-            //Todo: 사이클2 왕이 잡히면, 게임이 종료
         }
-    }
-
-    private Camp turnCamp(Camp camp) {
-        if (camp.equals(Camp.CHO)) {
-            return Camp.HAN;
-        }
-        return Camp.CHO;
+        return new GameContext(gameContext.gameId(), gameContext.board(), camp);
     }
 
     private Position askFromPosition(Camp camp, Board board) {
@@ -75,5 +99,11 @@ public class JanggiController {
     private void printBoard(Board board) {
         BoardStatusDto boardStatus = board.getBoardStatus();
         outputView.printBoardStatus(boardStatus);
+    }
+
+    private void printResult(GameContext gameContext) {
+        double hanScore = gameContext.board().calculateScoreByCamp(Camp.HAN);
+        double choScore = gameContext.board().calculateScoreByCamp(Camp.CHO);
+        outputView.printResult(gameContext.camp(), hanScore, choScore);
     }
 }
