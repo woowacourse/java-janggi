@@ -81,25 +81,25 @@ public class JanggiPosition {
     }
 
     public boolean isPalaceDiagonal() {
-        if (isChoPalace(this)) {
+        if (isChoPalace()) {
             return isDiagonal(CHO_PALACE);
         }
-        if (isHanPalace(this)) {
+        if (isHanPalace()) {
             return isDiagonal(HAN_PALACE);
         }
         return false;
     }
 
     public boolean isPalace() {
-        return isChoPalace(this) || isHanPalace(this);
+        return isChoPalace() || isHanPalace();
     }
 
-    private boolean isChoPalace(JanggiPosition position) {
-        return CHO_PALACE.contains(position);
+    private boolean isChoPalace() {
+        return CHO_PALACE.contains(this);
     }
 
-    private boolean isHanPalace(JanggiPosition position) {
-        return HAN_PALACE.contains(position);
+    private boolean isHanPalace() {
+        return HAN_PALACE.contains(this);
     }
 
     private boolean isDiagonal(List<JanggiPosition> palace) {
