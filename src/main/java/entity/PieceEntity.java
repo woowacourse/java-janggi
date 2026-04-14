@@ -1,4 +1,4 @@
-package dto.dao;
+package entity;
 
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -8,9 +8,9 @@ import domain.team.Team;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public record LoadedPiece(String team, String pieceType, int y, int x) {
-    public static LoadedPiece fromRow(ResultSet rs) throws SQLException {
-        return new LoadedPiece(
+public record PieceEntity(String team, String pieceType, int y, int x) {
+    public static PieceEntity fromRow(ResultSet rs) throws SQLException {
+        return new PieceEntity(
                 rs.getString("team"),
                 rs.getString("piece_type"),
                 rs.getInt("y"),

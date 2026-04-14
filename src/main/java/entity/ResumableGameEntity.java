@@ -1,12 +1,12 @@
-package dto.dao;
+package entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public record ResumableGame(long id, double choScore, double hanScore, Timestamp updatedAt) {
-    public static ResumableGame fromRow(ResultSet rs) throws SQLException {
-        return new ResumableGame(
+public record ResumableGameEntity(long id, double choScore, double hanScore, Timestamp updatedAt) {
+    public static ResumableGameEntity fromRow(ResultSet rs) throws SQLException {
+        return new ResumableGameEntity(
                 rs.getLong("id"),
                 rs.getBigDecimal("cho_score").doubleValue(),
                 rs.getBigDecimal("han_score").doubleValue(),
