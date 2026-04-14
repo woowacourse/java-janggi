@@ -1,19 +1,20 @@
 package domain.movestrategy;
 
-import static domain.piece.PieceType.HORSE;
-import static domain.piece.PieceType.SOLDIER;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static domain.piece.PieceType.HORSE;
+import static domain.piece.PieceType.SOLDIER;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class HorseMoveStrategyTest {
 
@@ -26,7 +27,7 @@ class HorseMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(HORSE, new HorseMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(HORSE, MoveStrategyType.HORSE), Team.CHO));
         final Board board = Board.of(pieces);
 
         // when
@@ -52,10 +53,10 @@ class HorseMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(HORSE, new HorseMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(HORSE, MoveStrategyType.HORSE), Team.CHO));
 
         // UP 경유지 막기
-        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -87,11 +88,11 @@ class HorseMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(HORSE, new HorseMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(HORSE, MoveStrategyType.HORSE), Team.CHO));
 
         // UP, RIGHT 막기
-        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO)); // UP
-        pieces.put(Position.of(5, 6), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO)); // RIGHT
+        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO)); // UP
+        pieces.put(Position.of(5, 6), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO)); // RIGHT
 
         final Board board = Board.of(pieces);
 
@@ -114,8 +115,8 @@ class HorseMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(HORSE, new HorseMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(3, 4), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(HORSE, MoveStrategyType.HORSE), Team.CHO));
+        pieces.put(Position.of(3, 4), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 

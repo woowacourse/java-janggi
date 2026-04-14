@@ -1,20 +1,17 @@
 package domain.board;
 
-import static domain.board.Board.MAX_COLUMN_RANGE;
-import static domain.board.Board.MAX_ROW_RANGE;
-
-import domain.movestrategy.CannonMoveStrategy;
-import domain.movestrategy.ChariotMoveStrategy;
-import domain.movestrategy.GeneralMoveStrategy;
-import domain.movestrategy.GuardMoveStrategy;
-import domain.movestrategy.SoldierMoveStrategy;
+import domain.movestrategy.MoveStrategyType;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.player.Team;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static domain.board.Board.MAX_COLUMN_RANGE;
+import static domain.board.Board.MAX_ROW_RANGE;
 
 public class BoardInitializer {
 
@@ -32,22 +29,22 @@ public class BoardInitializer {
 
 
     private static void putDefaultPiece(final Map<Position, Piece> pieces, final Team team) {
-        put(pieces, Position.of(1, 1), new PieceStatus(PieceType.CHARIOT, new ChariotMoveStrategy()), team);
-        put(pieces, Position.of(1, 9), new PieceStatus(PieceType.CHARIOT, new ChariotMoveStrategy()), team);
+        put(pieces, Position.of(1, 1), new PieceStatus(PieceType.CHARIOT, MoveStrategyType.CHARIOT), team);
+        put(pieces, Position.of(1, 9), new PieceStatus(PieceType.CHARIOT, MoveStrategyType.CHARIOT), team);
 
-        put(pieces, Position.of(1, 4), new PieceStatus(PieceType.GUARD, new GuardMoveStrategy()), team);
-        put(pieces, Position.of(1, 6), new PieceStatus(PieceType.GUARD, new GuardMoveStrategy()), team);
+        put(pieces, Position.of(1, 4), new PieceStatus(PieceType.GUARD, MoveStrategyType.GUARD), team);
+        put(pieces, Position.of(1, 6), new PieceStatus(PieceType.GUARD, MoveStrategyType.GUARD), team);
 
-        put(pieces, Position.of(2, 5), new PieceStatus(PieceType.GENERAL, new GeneralMoveStrategy()), team);
+        put(pieces, Position.of(2, 5), new PieceStatus(PieceType.GENERAL, MoveStrategyType.GENERAL), team);
 
-        put(pieces, Position.of(3, 2), new PieceStatus(PieceType.CANNON, new CannonMoveStrategy()), team);
-        put(pieces, Position.of(3, 8), new PieceStatus(PieceType.CANNON, new CannonMoveStrategy()), team);
+        put(pieces, Position.of(3, 2), new PieceStatus(PieceType.CANNON, MoveStrategyType.CANNON), team);
+        put(pieces, Position.of(3, 8), new PieceStatus(PieceType.CANNON, MoveStrategyType.CANNON), team);
 
-        put(pieces, Position.of(4, 1), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
-        put(pieces, Position.of(4, 3), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
-        put(pieces, Position.of(4, 5), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
-        put(pieces, Position.of(4, 7), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
-        put(pieces, Position.of(4, 9), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
+        put(pieces, Position.of(4, 1), new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), team);
+        put(pieces, Position.of(4, 3), new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), team);
+        put(pieces, Position.of(4, 5), new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), team);
+        put(pieces, Position.of(4, 7), new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), team);
+        put(pieces, Position.of(4, 9), new PieceStatus(PieceType.SOLDIER, MoveStrategyType.SOLDIER), team);
     }
 
     private static void put(final Map<Position, Piece> pieces,

@@ -1,9 +1,11 @@
 package domain.board;
 
+import domain.piece.Delta;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.player.Team;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +21,11 @@ public class Board {
     private static final String GENERAL_NOWHERE = "궁이 존재하지 않습니다.";
 
     private final Map<Position, Piece> pieces;
+    private final Palace palace;
 
     Board(final Map<Position, Piece> pieces) {
         this.pieces = pieces;
+        this.palace = PalaceInitializer.initialize();
     }
 
     public static Board of(final Map<Position, Piece> pieces) {
@@ -29,9 +33,17 @@ public class Board {
     }
 
 
-    public void move(final Position from, final Position to) {
+    public MoveResult move(final Position from, final Position to) {
         final Piece piece = pieces.remove(from);
+
+        if (hasPiece(to)) {
+            final Piece capturedPiece = getPiece(to);
+            pieces.put(to, piece);
+            return MoveResult.withCapture(capturedPiece);
+        }
+
         pieces.put(to, piece);
+        return MoveResult.withoutCapture();
     }
 
 
@@ -43,6 +55,15 @@ public class Board {
     public boolean hasPiece(final Position position) {
         return pieces.containsKey(position);
     }
+
+    public boolean inPalace(final Position position) {
+        return palace.inAnyPalace(position);
+    }
+
+    public boolean inAllyPalace(final Position position, final Team team) {
+        return palace.inAllyPalace(position, team);
+    }
+
 
     public Position findGeneral(final Team team) {
         return pieces.entrySet().stream()
@@ -60,12 +81,15 @@ public class Board {
                 .toList();
     }
 
-
     public Piece getPiece(final Position position) {
         if (hasPiece(position)) {
             return pieces.get(position);
         }
         throw new IllegalStateException(EMPTY_POSITION);
+    }
+
+    public List<Delta> getPalaceDeltas(final Position position) {
+        return palace.getDiagonalDeltas(position);
     }
 
     public int getMinRowRange() {

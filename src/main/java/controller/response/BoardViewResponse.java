@@ -3,11 +3,12 @@ package controller.response;
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.Position;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record BoardView(
+public record BoardViewResponse(
         int minRow,
         int maxRow,
         int minCol,
@@ -15,8 +16,8 @@ public record BoardView(
         Map<Position, Piece> pieces
 ) {
 
-    public static BoardView from(final Board board) {
-        return new BoardView(
+    public static BoardViewResponse from(final Board board) {
+        return new BoardViewResponse(
                 board.getMinRowRange(),
                 board.getMaxRowRange(),
                 board.getMinColumnRange(),

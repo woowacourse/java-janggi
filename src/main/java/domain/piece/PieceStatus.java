@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.movestrategy.MoveStrategy;
+import domain.movestrategy.MoveStrategyType;
 
 public record PieceStatus(
         PieceType pieceType,
-        MoveStrategy moveStrategy
+        MoveStrategyType moveStrategyType
 ) {
 }

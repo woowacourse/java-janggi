@@ -1,7 +1,9 @@
 package domain.piece;
 
 import domain.board.Board;
+import domain.movestrategy.MoveStrategyType;
 import domain.player.Team;
+
 import java.util.List;
 
 public class Piece {
@@ -22,7 +24,7 @@ public class Piece {
 
 
     public List<Position> calculateMovablePositions(final Position from, final Board board) {
-        final List<Position> movablePositions = pieceStatus.moveStrategy().calculateMovablePositions(from, board);
+        final List<Position> movablePositions = pieceStatus.moveStrategyType().getMoveStrategy().calculateMovablePositions(from, board);
 
         if (movablePositions.isEmpty()) {
             throw new IllegalArgumentException(CANNOT_MOVE);
@@ -39,8 +41,8 @@ public class Piece {
         return this.team == other.team;
     }
 
-    public boolean isCannon() {
-        return pieceStatus.pieceType() == PieceType.CANNON;
+    public boolean isSameType(PieceType pieceType) {
+        return pieceStatus.pieceType() == pieceType;
     }
 
 
@@ -52,7 +54,15 @@ public class Piece {
         return pieceStatus.pieceType();
     }
 
+    public MoveStrategyType getMoveStrategyType() {
+        return pieceStatus.moveStrategyType();
+    }
+
     public Team getTeam() {
         return team;
+    }
+
+    public int getScore() {
+        return pieceStatus.pieceType().getScore();
     }
 }

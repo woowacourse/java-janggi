@@ -1,19 +1,20 @@
 package domain.movestrategy;
 
-import static domain.piece.PieceType.ELEPHANT;
-import static domain.piece.PieceType.SOLDIER;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static domain.piece.PieceType.ELEPHANT;
+import static domain.piece.PieceType.SOLDIER;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantMoveStrategyTest {
 
@@ -24,7 +25,9 @@ class ElephantMoveStrategyTest {
     void shouldMoveInAllDirections_whenNoBlockExists() {
         // given
         final Position from = Position.of(5, 5);
-        final Map<Position, Piece> pieces = Map.of();
+
+        final Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -51,7 +54,9 @@ class ElephantMoveStrategyTest {
         final Position from = Position.of(5, 5);
 
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO)); // UP 막힘
+        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT), Team.CHO));
+
+        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO)); // UP 막힘
 
         final Board board = Board.of(pieces);
 
@@ -72,8 +77,10 @@ class ElephantMoveStrategyTest {
         final Position from = Position.of(5, 5);
 
         final Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT), Team.CHO));
+
         pieces.put(Position.of(3, 4),
-                Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN)); // UP → LEFT_UP
+                Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN)); // UP → LEFT_UP
 
         final Board board = Board.of(pieces);
 
@@ -93,7 +100,9 @@ class ElephantMoveStrategyTest {
         final Position from = Position.of(5, 5);
 
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN)); // UP 막힘
+        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT), Team.CHO));
+
+        pieces.put(Position.of(4, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN)); // UP 막힘
 
         final Board board = Board.of(pieces);
 
@@ -119,10 +128,10 @@ class ElephantMoveStrategyTest {
         final Position from = Position.of(5, 5);
 
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, new ElephantMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(ELEPHANT, MoveStrategyType.ELEPHANT), Team.CHO));
 
         // 도착지
-        pieces.put(Position.of(2, 3), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(2, 3), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 

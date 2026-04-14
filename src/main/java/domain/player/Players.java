@@ -17,4 +17,8 @@ public class Players {
                 .findFirst()
                 .orElseThrow();
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

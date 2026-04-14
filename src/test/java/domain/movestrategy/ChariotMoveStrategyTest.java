@@ -1,23 +1,24 @@
 package domain.movestrategy;
 
-import static domain.piece.PieceType.CHARIOT;
-import static domain.piece.PieceType.SOLDIER;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static domain.piece.PieceType.CHARIOT;
+import static domain.piece.PieceType.SOLDIER;
+import static org.assertj.core.api.Assertions.assertThat;
+
 class ChariotMoveStrategyTest {
 
-    private final ChariotMoveStrategy strategy = new ChariotMoveStrategy();
+    private final MoveStrategy strategy = new ChariotMoveStrategy();
 
     @Test
     @DisplayName("장애물이 없으면 끝까지 이동한다")
@@ -25,7 +26,7 @@ class ChariotMoveStrategyTest {
         // given
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -48,8 +49,8 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
-        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -70,10 +71,10 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
 
         // 아군
-        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, MoveStrategyType.SOLDIER), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -82,6 +83,65 @@ class ChariotMoveStrategyTest {
 
         // then
         assertThat(result).contains(Position.of(6, 5));
-        assertThat(result).doesNotContain(Position.of(7, 5)); // 아군은 못감
+        assertThat(result).doesNotContain(Position.of(7, 5));
+    }
+
+    @Test
+    @DisplayName("궁성 바깥에서는 대각선으로 이동할 수 없다.")
+    void cannot_move_diagonal_palace_outside() {
+        // given
+        final Position from = Position.of(10, 1); // 궁성 바깥, 초나라 가장 좌측 차의 기본 자리
+        final Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
+
+        final Board board = Board.of(pieces);
+
+        // when
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
+
+        // then
+        assertThat(result).doesNotContain(Position.of(4, 4)); // 궁성 중앙
+    }
+
+    @Test
+    @DisplayName("궁성 중앙에서는 네 가지 방향의 대각선으로 이동한다")
+    void palace_diagonal_from_center() {
+        // given
+        final Position from = Position.of(9, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
+
+        final Board board = Board.of(pieces);
+
+        // when
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
+
+        // then
+        assertThat(result).contains(
+                Position.of(8, 4),
+                Position.of(8, 6),
+                Position.of(10, 4),
+                Position.of(10, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("궁성 내에서 대각선 이동을 할 때 궁성 밖을 벗어나지 않는다.")
+    void cannot_out_palace_boundary() {
+        //given
+        final Position from = Position.of(8, 4);// 초나라 궁성 좌측 상단 꼭짓점
+        final Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, MoveStrategyType.CHARIOT), Team.CHO));
+
+        final Board board = Board.of(pieces);
+
+        //when
+        final List<Position> result = strategy.calculatePalaceMovablePositions(from, board);
+
+        //then
+        assertThat(result).allMatch(board::inPalace);
     }
 }

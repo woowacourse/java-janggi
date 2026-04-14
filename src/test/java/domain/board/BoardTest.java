@@ -1,17 +1,6 @@
 package domain.board;
 
-import static domain.piece.PieceType.CANNON;
-import static domain.piece.PieceType.CHARIOT;
-import static domain.piece.PieceType.ELEPHANT;
-import static domain.piece.PieceType.GENERAL;
-import static domain.piece.PieceType.GUARD;
-import static domain.piece.PieceType.HORSE;
-import static domain.piece.PieceType.SOLDIER;
-import static domain.player.Team.CHO;
-import static domain.player.Team.HAN;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import controller.response.BoardView;
+import controller.response.BoardViewResponse;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -19,17 +8,22 @@ import domain.player.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static domain.piece.PieceType.*;
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
+
 class BoardTest {
 
     @Test
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
         // given
-        final Board board = BoardInitializer.initialize(ElephantSetup.InnerElephantSetup,
-                ElephantSetup.InnerElephantSetup);
+        final Board board = BoardInitializer.initialize(ElephantSetup.INNER_ELEPHANT_SETUP,
+                ElephantSetup.INNER_ELEPHANT_SETUP);
 
         // when
-        final BoardView view = BoardView.from(board);
+        final BoardViewResponse view = BoardViewResponse.from(board);
 
         // then
         assertThat(view.pieces()).hasSize(32);
@@ -69,7 +63,7 @@ class BoardTest {
         assertPiece(view, 4, 9, SOLDIER, HAN);
     }
 
-    private void assertPiece(final BoardView view, final int row, final int col, final PieceType pieceType,
+    private void assertPiece(final BoardViewResponse view, final int row, final int col, final PieceType pieceType,
                              final Team team) {
         final Piece piece = view.findPiece(Position.of(row, col)).orElseThrow();
 
