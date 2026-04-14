@@ -4,20 +4,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class Position {
+public class JanggiPosition {
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
     private static final int PALACE_CENTER_INDEX = 4;
 
-    private static final List<Position> ALL_POSITION;
-    private static final List<Position> CHO_PALACE;
-    private static final List<Position> HAN_PALACE;
+    private static final List<JanggiPosition> ALL_POSITION;
+    private static final List<JanggiPosition> CHO_PALACE;
+    private static final List<JanggiPosition> HAN_PALACE;
 
     static {
         ALL_POSITION = IntStream.range(0, ROW_SIZE)
                 .boxed()
                 .flatMap(row -> IntStream.range(0, COLUMN_SIZE)
-                        .mapToObj(column -> new Position(row, column)))
+                        .mapToObj(column -> new JanggiPosition(row, column)))
                 .toList();
     }
 
@@ -25,36 +25,36 @@ public class Position {
         CHO_PALACE = IntStream.range(0, 3)
                 .boxed()
                 .flatMap(row -> IntStream.range(3, 6)
-                        .mapToObj(column -> Position.of(row, column)))
+                        .mapToObj(column -> JanggiPosition.of(row, column)))
                 .toList();
         HAN_PALACE = IntStream.range(7, 10)
                 .boxed()
                 .flatMap(row -> IntStream.range(3, 6)
-                        .mapToObj(column -> Position.of(row, column)))
+                        .mapToObj(column -> JanggiPosition.of(row, column)))
                 .toList();
     }
 
     private final int row;
     private final int column;
 
-    private Position(int row, int column) {
+    private JanggiPosition(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public static Position of(int row, int column) {
+    public static JanggiPosition of(int row, int column) {
         validateRange(row, column);
         return ALL_POSITION.get(calculateIndex(row, column));
     }
 
-    private static Optional<Position> findPosition(int row, int column) {
+    private static Optional<JanggiPosition> findPosition(int row, int column) {
         if (isOutOfBounds(row, column)) {
             return Optional.empty();
         }
         return Optional.of(ALL_POSITION.get(calculateIndex(row, column)));
     }
 
-    public Optional<Position> move(int deltaRow, int deltaColumn) {
+    public Optional<JanggiPosition> move(int deltaRow, int deltaColumn) {
         return findPosition(this.row + deltaRow, this.column + deltaColumn);
     }
 
@@ -94,16 +94,16 @@ public class Position {
         return isChoPalace(this) || isHanPalace(this);
     }
 
-    private boolean isChoPalace(Position position) {
+    private boolean isChoPalace(JanggiPosition position) {
         return CHO_PALACE.contains(position);
     }
 
-    private boolean isHanPalace(Position position) {
+    private boolean isHanPalace(JanggiPosition position) {
         return HAN_PALACE.contains(position);
     }
 
-    private boolean isDiagonal(List<Position> palace) {
-        Position palaceCenter = palace.get(PALACE_CENTER_INDEX);
+    private boolean isDiagonal(List<JanggiPosition> palace) {
+        JanggiPosition palaceCenter = palace.get(PALACE_CENTER_INDEX);
         return (this.row == palaceCenter.row) == (this.column == palaceCenter.column);
     }
 }

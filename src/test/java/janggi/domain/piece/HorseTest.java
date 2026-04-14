@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import janggi.domain.piece.strategy.HorseStrategy;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +31,8 @@ public class HorseTest {
     @Test
     void 경로에_어떤_기물이라도_있으면_false를_반환한다() {
         Piece piece = new Horse(Camp.CHO, new HorseStrategy());
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(Position.of(3, 3), new Horse(Camp.HAN, new HorseStrategy()));
+        Map<JanggiPosition, Piece> board = new HashMap<>();
+        board.put(JanggiPosition.of(3, 3), new Horse(Camp.HAN, new HorseStrategy()));
 
         boolean canPassRoute = piece.canPassRoute(board);
 
@@ -42,7 +42,7 @@ public class HorseTest {
     @Test
     void 경로에_기물이_없으면_true를_반환한다() {
         Piece piece = new Horse(Camp.CHO, new HorseStrategy());
-        Map<Position, Piece> board = new HashMap<>();
+        Map<JanggiPosition, Piece> board = new HashMap<>();
 
         boolean canPassRoute = piece.canPassRoute(board);
 

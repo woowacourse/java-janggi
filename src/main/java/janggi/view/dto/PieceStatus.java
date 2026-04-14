@@ -1,13 +1,13 @@
 package janggi.view.dto;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 public record PieceStatus(
         PositionInfo positionInfo,
         PieceInfo pieceInfo
 ) {
-    public static PieceStatus from(Position position, Camp camp, String displayName) {
+    public static PieceStatus from(JanggiPosition position, Camp camp, String displayName) {
         int row = position.getRow();
         int col = position.getColumn();
         return new PieceStatus(new PositionInfo(row, col), new PieceInfo(camp.isCho(), displayName));

@@ -1,14 +1,14 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdvisorStrategy implements MoveStrategy {
     @Override
-    public List<Path> findMovablePaths(Position current) {
+    public List<Path> findMovablePaths(JanggiPosition current) {
         List<Path> paths = new ArrayList<>();
 
         Direction.orthogonalDirections()
@@ -23,7 +23,7 @@ public class AdvisorStrategy implements MoveStrategy {
                 .toList();
     }
 
-    private void addPath(List<Path> paths, Position current, Direction direction) {
+    private void addPath(List<Path> paths, JanggiPosition current, Direction direction) {
         direction.findNextPosition(current)
                 .map(destination -> new Path(List.of(), destination))
                 .ifPresent(paths::add);

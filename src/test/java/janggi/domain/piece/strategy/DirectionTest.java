@@ -1,6 +1,6 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +15,10 @@ public class DirectionTest {
     void next_ReceiveCurrentPosition_ReturnFindNextPositionByDirectionPosition() {
         int currentRow = 5;
         int currentCol = 5;
-        Position currentPosition = Position.of(currentRow, currentCol);
+        JanggiPosition currentPosition = JanggiPosition.of(currentRow, currentCol);
         for (Direction direction : Direction.linear()) {
-            Optional<Position> position = direction.findNextPosition(currentPosition);
-            Position expectedPosition = Position.of(currentRow + direction.directionRow(), currentCol + direction.directionColumn());
+            Optional<JanggiPosition> position = direction.findNextPosition(currentPosition);
+            JanggiPosition expectedPosition = JanggiPosition.of(currentRow + direction.directionRow(), currentCol + direction.directionColumn());
             assertThat(position).isPresent();
             assertThat(position.get()).isEqualTo(expectedPosition);
         }

@@ -1,6 +1,6 @@
 package janggi.domain.state;
 
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.HorseElephantHorseElephant;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +15,8 @@ public class ChoTurnTest {
     @Test
     void move_IsGeneralHadntBeenCaught_ReturnHanTurn() {
         Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
-        Position from = Position.of(3, 4);
-        Position to = Position.of(4, 4);
+        JanggiPosition from = JanggiPosition.of(3, 4);
+        JanggiPosition to = JanggiPosition.of(4, 4);
         ChoTurn choTurn = new ChoTurn();
 
         assertThat(choTurn.move(from, to, board)).isInstanceOf(HanTurn.class);
@@ -30,8 +30,8 @@ public class ChoTurnTest {
         GameState state = new ChoTurn();
         for (int i = 4; i < 9; i++) {
             state = new ChoTurn();
-            Position from = Position.of(i - 1, 4);
-            Position to = Position.of(i, 4);
+            JanggiPosition from = JanggiPosition.of(i - 1, 4);
+            JanggiPosition to = JanggiPosition.of(i, 4);
             state = state.move(from, to, board);
         }
 
@@ -42,8 +42,8 @@ public class ChoTurnTest {
     @Test
     void move_TryMoveDifferentPiece_ReturnException() {
         Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
-        Position from = Position.of(6, 4);
-        Position to = Position.of(5, 4);
+        JanggiPosition from = JanggiPosition.of(6, 4);
+        JanggiPosition to = JanggiPosition.of(5, 4);
         ChoTurn choTurn = new ChoTurn();
 
         assertThatThrownBy(() -> choTurn.move(from, to, board)).isInstanceOf(IllegalArgumentException.class);

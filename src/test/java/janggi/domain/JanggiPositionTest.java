@@ -10,7 +10,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class PositionTest {
+public class JanggiPositionTest {
 
     @DisplayName("정해진 범위가 벗어난 position을 찾을 경우 예외가 발생한다")
     @ParameterizedTest
@@ -19,24 +19,24 @@ public class PositionTest {
             "10, 9"
     })
     void of_OutOfRangePosition_ThrowException(int row, int column) {
-        assertThatThrownBy(() -> Position.of(row, column))
+        assertThatThrownBy(() -> JanggiPosition.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("잘못된 좌표입니다.");
     }
 
     @Test
     void 정해진_범위_내로_움직이면_올바른_Position_객체를_반환한다() {
-        Position current = Position.of(4, 4);
-        Optional<Position> move = current.move(3, 3);
-        Position position = move.get();
+        JanggiPosition current = JanggiPosition.of(4, 4);
+        Optional<JanggiPosition> move = current.move(3, 3);
+        JanggiPosition position = move.get();
 
-        assertThat(position).isEqualTo(Position.of(7, 7));
+        assertThat(position).isEqualTo(JanggiPosition.of(7, 7));
     }
 
     @Test
     void 정해진_범위_내로_움직이지_않으면_Optinal_null_객체를_반환한다() {
-        Position current = Position.of(4, 4);
-        Optional<Position> move = current.move(5, 5);
+        JanggiPosition current = JanggiPosition.of(4, 4);
+        Optional<JanggiPosition> move = current.move(5, 5);
 
         assertThat(move).isEmpty();
     }
@@ -54,7 +54,7 @@ public class PositionTest {
             "9, 5",
     })
     void isPalaceDiagonal_LocatedAtDiagonal_ReturnTrue(int row, int col) {
-        Position position = Position.of(row, col);
+        JanggiPosition position = JanggiPosition.of(row, col);
 
         assertThat(position.isPalaceDiagonal()).isTrue();
     }
@@ -72,7 +72,7 @@ public class PositionTest {
             "9, 4",
     })
     void isPalaceDiagonal_LocatedAtOrthogonal_ReturnFalse(int row, int col) {
-        Position position = Position.of(row, col);
+        JanggiPosition position = JanggiPosition.of(row, col);
 
         assertThat(position.isPalaceDiagonal()).isFalse();
     }
@@ -90,7 +90,7 @@ public class PositionTest {
             "9, 6",
     })
     void isPalaceDiagonal_LocatedOutside_ReturnFalse(int row, int col) {
-        Position position = Position.of(row, col);
+        JanggiPosition position = JanggiPosition.of(row, col);
 
         assertThat(position.isPalaceDiagonal()).isFalse();
     }

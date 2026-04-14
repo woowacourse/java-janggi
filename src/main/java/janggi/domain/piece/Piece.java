@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public List<Path> findMovablePaths(Position current) {
+    public List<Path> findMovablePaths(JanggiPosition current) {
         return moveStrategy.findMovablePaths(current);
     }
 
@@ -45,7 +45,7 @@ public abstract class Piece {
         return pieceInfo.getScoreIfCampMatches(camp);
     }
 
-    abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
+    abstract public boolean canPassRoute(Map<JanggiPosition, Piece> piecesInPath);
 
     abstract public boolean canCatch(Piece piece);
 

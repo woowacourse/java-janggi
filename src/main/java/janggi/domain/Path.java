@@ -3,15 +3,15 @@ package janggi.domain;
 import java.util.List;
 
 public class Path {
-    private final List<Position> route;
-    private final Position destination;
+    private final List<JanggiPosition> route;
+    private final JanggiPosition destination;
 
-    public Path(List<Position> route, Position destination) {
+    public Path(List<JanggiPosition> route, JanggiPosition destination) {
         this.route = route;
         this.destination = destination;
     }
 
-    public Position destination() {
+    public JanggiPosition destination() {
         return destination;
     }
 
@@ -19,11 +19,11 @@ public class Path {
         return destination.isPalace();
     }
 
-    public boolean hasDestination(Position position) {
+    public boolean hasDestination(JanggiPosition position) {
         return destination == position;
     }
 
-    public boolean hasRoute(Position currentPosition) {
+    public boolean hasRoute(JanggiPosition currentPosition) {
         return route.stream()
                 .anyMatch(position -> position == currentPosition);
     }

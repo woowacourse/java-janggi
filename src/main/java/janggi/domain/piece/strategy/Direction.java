@@ -1,6 +1,6 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +66,7 @@ public record Direction(int directionRow, int directionColumn) {
         );
     }
 
-    public Optional<Position> findNextPosition(Position current) {
+    public Optional<JanggiPosition> findNextPosition(JanggiPosition current) {
         return current.move(directionRow, directionColumn);
     }
 

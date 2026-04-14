@@ -1,7 +1,7 @@
 package janggi.controller;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -125,8 +125,8 @@ public class JanggiController {
                 return Optional.empty();
             }
             janggiService.move(gameId,
-                    Position.of(fromRequest.row(), fromRequest.column()),
-                    Position.of(toRequest.get().row(), toRequest.get().column()));
+                    JanggiPosition.of(fromRequest.row(), fromRequest.column()),
+                    JanggiPosition.of(toRequest.get().row(), toRequest.get().column()));
             return janggiService.checkMatchResult(gameId);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());

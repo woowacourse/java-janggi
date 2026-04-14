@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ public class CannonStrategy implements MoveStrategy {
     private static final int DISTANCE_INCREMENT = 1;
 
     @Override
-    public List<Path> findMovablePaths(Position current) {
+    public List<Path> findMovablePaths(JanggiPosition current) {
         List<Path> totalPaths = new ArrayList<>();
         List<Direction> directions = Direction.linear();
 
@@ -30,7 +30,7 @@ public class CannonStrategy implements MoveStrategy {
         return Collections.unmodifiableList(totalPaths);
     }
 
-    private void addDiagonalPath(List<Path> totalPaths, Position current, List<Direction> directions) {
+    private void addDiagonalPath(List<Path> totalPaths, JanggiPosition current, List<Direction> directions) {
         for (Direction direction : directions) {
             List<Path> diagonalPaths = collectPathsByDirection(current, direction).stream()
                     .filter(Path::isDestinationInsidePalace)
@@ -40,14 +40,14 @@ public class CannonStrategy implements MoveStrategy {
     }
 
 
-    private List<Path> collectPathsByDirection(Position current, Direction direction) {
+    private List<Path> collectPathsByDirection(JanggiPosition current, Direction direction) {
         List<Path> paths = new ArrayList<>();
-        List<Position> route = new ArrayList<>();
+        List<JanggiPosition> route = new ArrayList<>();
         int currentDistance = INITIAL_DISTANCE;
-        Optional<Position> next = direction.findNextPosition(current);
+        Optional<JanggiPosition> next = direction.findNextPosition(current);
 
         while (next.isPresent()) {
-            Position destination = next.get();
+            JanggiPosition destination = next.get();
             addValidPath(paths, route, destination, currentDistance);
 
             route.add(destination);
@@ -58,7 +58,7 @@ public class CannonStrategy implements MoveStrategy {
         return paths;
     }
 
-    private void addValidPath(List<Path> paths, List<Position> route, Position destination, int distance) {
+    private void addValidPath(List<Path> paths, List<JanggiPosition> route, JanggiPosition destination, int distance) {
         if (distance >= CANNON_MIN_DISTANCE) {
             paths.add(new Path(List.copyOf(route), destination));
         }

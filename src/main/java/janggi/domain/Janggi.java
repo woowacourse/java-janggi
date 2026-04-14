@@ -43,11 +43,11 @@ public class Janggi {
         return FORMATIONS.get(choice - 1);
     }
 
-    public void movePiece(Position from, Position to) {
+    public void movePiece(JanggiPosition from, JanggiPosition to) {
         gameState = gameState.move(from, to, board);
     }
 
-    public void validateCamp(Position position) {
+    public void validateCamp(JanggiPosition position) {
         gameState.validateCamp(position, board);
     }
 
@@ -67,7 +67,7 @@ public class Janggi {
         return gameState.turn();
     }
 
-    public Map<Position, Piece> getBoardSnapshot() {
+    public Map<JanggiPosition, Piece> getBoardSnapshot() {
         return board.getPiecesSnapshot();
     }
 

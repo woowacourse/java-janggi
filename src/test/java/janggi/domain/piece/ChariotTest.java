@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
@@ -32,8 +32,8 @@ public class ChariotTest {
     @Test
     void canPassRoute_PiecesInPathIsNotEmpty_ReturnFalse() {
         Piece piece = new Chariot(Camp.CHO, new ChariotStrategy());
-        Map<Position, Piece> piecesInPath = new HashMap<>();
-        piecesInPath.put(Position.of(3, 3),
+        Map<JanggiPosition, Piece> piecesInPath = new HashMap<>();
+        piecesInPath.put(JanggiPosition.of(3, 3),
                 new Elephant(Camp.HAN, new ElephantStrategy()));
         assertThat(piece.canPassRoute(piecesInPath)).isFalse();
     }
@@ -42,7 +42,7 @@ public class ChariotTest {
     @Test
     void canPassRoute_PiecesInPathIsEmpty_ReturnTrue() {
         Piece piece = new Chariot(Camp.CHO, new ChariotStrategy());
-        Map<Position, Piece> piecesInPath = new HashMap<>();
+        Map<JanggiPosition, Piece> piecesInPath = new HashMap<>();
         assertThat(piece.canPassRoute(piecesInPath)).isTrue();
     }
 

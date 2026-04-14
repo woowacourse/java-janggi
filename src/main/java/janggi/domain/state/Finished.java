@@ -1,12 +1,12 @@
 package janggi.domain.state;
 
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.board.Board;
 
 public abstract class Finished implements GameState {
 
     @Override
-    public GameState move(Position from, Position to, Board board) {
+    public GameState move(JanggiPosition from, JanggiPosition to, Board board) {
         throw new IllegalStateException("게임이 종료된 상태입니다.");
     }
 
@@ -16,7 +16,7 @@ public abstract class Finished implements GameState {
     }
 
     @Override
-    public void validateCamp(Position current, Board board) {
+    public void validateCamp(JanggiPosition current, Board board) {
         throw new IllegalStateException("게임이 종료된 상태입니다.");
     }
 

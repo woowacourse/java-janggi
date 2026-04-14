@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Camp;
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceDisplayName;
@@ -13,60 +13,60 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-    private final Map<Position, Piece> janggiBoard;
+    private final Map<JanggiPosition, Piece> janggiBoard;
 
-    private Board(Map<Position, Piece> janggiBoard) {
+    private Board(Map<JanggiPosition, Piece> janggiBoard) {
         this.janggiBoard = janggiBoard;
     }
 
     public static Board initializeToBoard(FormationStrategy formationStrategyByCho, FormationStrategy formationStrategyByHan) {
-        Map<Position, Piece> initBoard = new HashMap<>();
+        Map<JanggiPosition, Piece> initBoard = new HashMap<>();
         initBoard.putAll(initializeFormation(Camp.CHO, formationStrategyByCho));
         initBoard.putAll(initializeFormation(Camp.HAN, formationStrategyByHan));
         return new Board(initBoard);
     }
 
-    public static Board reconstruct(Map<Position, Piece> janggiBoard) {
+    public static Board reconstruct(Map<JanggiPosition, Piece> janggiBoard) {
         return new Board(janggiBoard);
     }
 
-    private static Map<Position, Piece> initializeFormation(Camp camp, FormationStrategy formationStrategy) {
-        Map<Position, Piece> formation = new HashMap<>(formationStrategy.createPieces(camp));
+    private static Map<JanggiPosition, Piece> initializeFormation(Camp camp, FormationStrategy formationStrategy) {
+        Map<JanggiPosition, Piece> formation = new HashMap<>(formationStrategy.createPieces(camp));
         int initRow = camp.baselineRow();
         int generalRow = camp.calculateRow(1);
         int cannonRow = camp.calculateRow(2);
         int soldierRow = camp.calculateRow(3);
-        formation.put(Position.of(generalRow, 4), PieceFactory.create("GENERAL", camp));
-        formation.put(Position.of(initRow, 0), PieceFactory.create("CHARIOT", camp));
-        formation.put(Position.of(initRow, 8), PieceFactory.create("CHARIOT", camp));
-        formation.put(Position.of(initRow, 3), PieceFactory.create("ADVISOR", camp));
-        formation.put(Position.of(initRow, 5), PieceFactory.create("ADVISOR", camp));
-        formation.put(Position.of(cannonRow, 1), PieceFactory.create("CANNON", camp));
-        formation.put(Position.of(cannonRow, 7), PieceFactory.create("CANNON", camp));
+        formation.put(JanggiPosition.of(generalRow, 4), PieceFactory.create("GENERAL", camp));
+        formation.put(JanggiPosition.of(initRow, 0), PieceFactory.create("CHARIOT", camp));
+        formation.put(JanggiPosition.of(initRow, 8), PieceFactory.create("CHARIOT", camp));
+        formation.put(JanggiPosition.of(initRow, 3), PieceFactory.create("ADVISOR", camp));
+        formation.put(JanggiPosition.of(initRow, 5), PieceFactory.create("ADVISOR", camp));
+        formation.put(JanggiPosition.of(cannonRow, 1), PieceFactory.create("CANNON", camp));
+        formation.put(JanggiPosition.of(cannonRow, 7), PieceFactory.create("CANNON", camp));
         for (int i = 0; i <= 8; i += 2) {
-            formation.put(Position.of(soldierRow, i), PieceFactory.create("SOLDIER", camp));
+            formation.put(JanggiPosition.of(soldierRow, i), PieceFactory.create("SOLDIER", camp));
         }
         return formation;
     }
 
-    public void movePiece(Position from, Position to) {
+    public void movePiece(JanggiPosition from, JanggiPosition to) {
         Piece piece = selectPiece(from);
         Path path = findPath(piece, from, to);
         validateMove(piece, path, to);
         executeMove(piece, from, to);
     }
 
-    public Piece selectPiece(Position position) {
+    public Piece selectPiece(JanggiPosition position) {
         return Optional.ofNullable(janggiBoard.get(position))
                 .orElseThrow(() -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다."));
     }
 
-    private void validateMove(Piece piece, Path path, Position to) {
+    private void validateMove(Piece piece, Path path, JanggiPosition to) {
         validateRoute(piece, path);
         validateDestination(piece, to);
     }
 
-    private Path findPath(Piece piece, Position from, Position to) {
+    private Path findPath(Piece piece, JanggiPosition from, JanggiPosition to) {
         return piece.findMovablePaths(from).stream()
                 .filter(path -> path.hasDestination(to))
                 .findFirst()
@@ -74,19 +74,19 @@ public class Board {
     }
 
     private void validateRoute(Piece piece, Path path) {
-        Map<Position, Piece> piecesOnRoute = findPiecesOnRoute(path);
+        Map<JanggiPosition, Piece> piecesOnRoute = findPiecesOnRoute(path);
         if (!piece.canPassRoute(piecesOnRoute)) {
             throw new IllegalArgumentException("경로가 막혀있습니다.");
         }
     }
 
-    private Map<Position, Piece> findPiecesOnRoute(Path path) {
+    private Map<JanggiPosition, Piece> findPiecesOnRoute(Path path) {
         return janggiBoard.entrySet().stream()
                 .filter(entry -> path.hasRoute(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private void validateDestination(Piece piece, Position to) {
+    private void validateDestination(Piece piece, JanggiPosition to) {
         Optional.ofNullable(janggiBoard.get(to))
                 .ifPresent(target -> {
                     if (!piece.canCatch(target)) {
@@ -95,21 +95,21 @@ public class Board {
                 });
     }
 
-    private void executeMove(Piece piece, Position from, Position to) {
+    private void executeMove(Piece piece, JanggiPosition from, JanggiPosition to) {
         janggiBoard.remove(from);
         janggiBoard.put(to, piece);
     }
 
-    public Map<Position, String> displayBoard() {
-        Map<Position, String> board = new HashMap<>();
-        for (Position position : janggiBoard.keySet()) {
+    public Map<JanggiPosition, String> displayBoard() {
+        Map<JanggiPosition, String> board = new HashMap<>();
+        for (JanggiPosition position : janggiBoard.keySet()) {
             Piece piece = janggiBoard.get(position);
             board.put(position, piece.displayName());
         }
         return Collections.unmodifiableMap(board);
     }
 
-    public Camp checkCampOfThePiece(Position position) {
+    public Camp checkCampOfThePiece(JanggiPosition position) {
         return janggiBoard.get(position)
                 .getCamp();
     }
@@ -125,7 +125,7 @@ public class Board {
         return generals.getFirst().isSameCamp(camp);
     }
 
-    public boolean isSameCamp(Position position, Camp camp) {
+    public boolean isSameCamp(JanggiPosition position, Camp camp) {
         return janggiBoard.get(position).isSameCamp(camp);
     }
 
@@ -136,7 +136,7 @@ public class Board {
                 .sum();
     }
 
-    public Map<Position, Piece> getPiecesSnapshot() {
+    public Map<JanggiPosition, Piece> getPiecesSnapshot() {
         return Collections.unmodifiableMap(janggiBoard);
     }
 }

@@ -2,7 +2,7 @@ package janggi.service;
 
 import janggi.domain.Camp;
 import janggi.domain.Janggi;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.repository.JanggiRepository;
 import janggi.view.dto.GameResult;
 import janggi.view.dto.GameRoom;
@@ -24,7 +24,7 @@ public class JanggiService {
         return janggiRepository.save(janggi);
     }
 
-    public void move(Long gameId, Position from, Position to) {
+    public void move(Long gameId, JanggiPosition from, JanggiPosition to) {
         Janggi janggi = loadJanggi(gameId);
 
         janggi.movePiece(from, to);

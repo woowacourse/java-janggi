@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public interface LinearMoveAssertion {
     default void assertLinearStrategy(MoveStrategy strategy) {
         int row = 4;
         int column = 4;
-        List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
-        List<Position> destinations = paths.stream()
+        List<Path> paths = strategy.findMovablePaths(JanggiPosition.of(row, column));
+        List<JanggiPosition> destinations = paths.stream()
                 .map(Path::destination)
                 .toList();
 
@@ -24,20 +24,20 @@ public interface LinearMoveAssertion {
         verifyVerticalPaths(destinations, row, column);
     }
 
-    private void verifyHorizontalPaths(List<Position> destinations, int row, int column) {
+    private void verifyHorizontalPaths(List<JanggiPosition> destinations, int row, int column) {
         for (int i = MIN_INDEX; i <= MAX_COL_INDEX; i++) {
             checkHorizontalPresence(destinations, row, column, i);
         }
     }
 
-    private void verifyVerticalPaths(List<Position> destinations, int row, int column) {
+    private void verifyVerticalPaths(List<JanggiPosition> destinations, int row, int column) {
         for (int i = MIN_INDEX; i <= MAX_ROW_INDEX; i++) {
             checkVerticalPresence(destinations, row, column, i);
         }
     }
 
-    private void checkHorizontalPresence(List<Position> destinations, int row, int column, int colIndex) {
-        Position target = Position.of(row, colIndex);
+    private void checkHorizontalPresence(List<JanggiPosition> destinations, int row, int column, int colIndex) {
+        JanggiPosition target = JanggiPosition.of(row, colIndex);
         if (colIndex == column) {
             assertThat(destinations).doesNotContain(target);
             return;
@@ -45,8 +45,8 @@ public interface LinearMoveAssertion {
         assertThat(destinations).contains(target);
     }
 
-    private void checkVerticalPresence(List<Position> destinations, int row, int column, int rowIndex) {
-        Position target = Position.of(rowIndex, column);
+    private void checkVerticalPresence(List<JanggiPosition> destinations, int row, int column, int rowIndex) {
+        JanggiPosition target = JanggiPosition.of(rowIndex, column);
         if (rowIndex == row) {
             assertThat(destinations).doesNotContain(target);
             return;

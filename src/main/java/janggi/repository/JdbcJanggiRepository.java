@@ -2,7 +2,7 @@ package janggi.repository;
 
 import janggi.domain.Camp;
 import janggi.domain.Janggi;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
@@ -72,14 +72,14 @@ public class JdbcJanggiRepository implements JanggiRepository {
         }
     }
 
-    private void executePieceBatch(PreparedStatement statement, Long gameId, Map<Position, Piece> snapshot) throws SQLException {
-        for (Map.Entry<Position, Piece> entry : snapshot.entrySet()) {
+    private void executePieceBatch(PreparedStatement statement, Long gameId, Map<JanggiPosition, Piece> snapshot) throws SQLException {
+        for (Map.Entry<JanggiPosition, Piece> entry : snapshot.entrySet()) {
             addSinglePieceToBatch(statement, gameId, entry.getKey(), entry.getValue());
         }
         statement.executeBatch();
     }
 
-    private void addSinglePieceToBatch(PreparedStatement statement, Long gameId, Position position, Piece piece) throws SQLException {
+    private void addSinglePieceToBatch(PreparedStatement statement, Long gameId, JanggiPosition position, Piece piece) throws SQLException {
         statement.setLong(1, gameId);
         statement.setString(2, piece.getCamp().name());
         statement.setString(3, piece.getPieceType());
@@ -188,17 +188,17 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     private Board extractBoard(ResultSet resultSet) throws SQLException {
-        Map<Position, Piece> pieces = new HashMap<>();
+        Map<JanggiPosition, Piece> pieces = new HashMap<>();
         while (resultSet.next()) {
             putSinglePiece(pieces, resultSet);
         }
         return Board.reconstruct(pieces);
     }
 
-    private void putSinglePiece(Map<Position, Piece> pieces, ResultSet resultSet) throws SQLException {
+    private void putSinglePiece(Map<JanggiPosition, Piece> pieces, ResultSet resultSet) throws SQLException {
         int row = resultSet.getInt("row_pos");
         int col = resultSet.getInt("col_pos");
-        Position position = Position.of(row, col);
+        JanggiPosition position = JanggiPosition.of(row, col);
 
         String pieceType = resultSet.getString("piece_type");
         Camp camp = Camp.valueOf(resultSet.getString("camp"));

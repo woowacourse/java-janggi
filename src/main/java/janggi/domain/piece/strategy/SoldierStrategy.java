@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.JanggiPosition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ public class SoldierStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Path> findMovablePaths(Position current) {
+    public List<Path> findMovablePaths(JanggiPosition current) {
         List<Path> paths = new ArrayList<>();
 
         addPath(paths, current, forwardDirection);
@@ -29,7 +29,7 @@ public class SoldierStrategy implements MoveStrategy {
         return Collections.unmodifiableList(paths);
     }
 
-    private List<Path> calculateDiagonalPath(Position current) {
+    private List<Path> calculateDiagonalPath(JanggiPosition current) {
         List<Path> diagonalDirections = new ArrayList<>();
         Direction.diagonalDirections()
                 .stream()
@@ -40,7 +40,7 @@ public class SoldierStrategy implements MoveStrategy {
                 .toList();
     }
 
-    private void addPath(List<Path> paths, Position current, Direction direction) {
+    private void addPath(List<Path> paths, JanggiPosition current, Direction direction) {
         direction.findNextPosition(current)
                 .map(position -> new Path(List.of(), position))
                 .ifPresent(paths::add);
