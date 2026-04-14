@@ -6,7 +6,6 @@ import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class SoldierMoveRule implements MoveRule {
@@ -18,6 +17,11 @@ public final class SoldierMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        return Path.candidatePositions(from, SOLDIER_PATHS).contains(to);
+        if (board.isOnDiagonalPath(from, to)){
+            List<Direction> palacePaths = Direction.forwardDiagonals(SOLDIER_PATHS.get(0));
+            return Path.createByDirections(from, palacePaths).contains(to);
+        }
+
+        return Path.createByDirections(from, SOLDIER_PATHS).contains(to);
     }
 }

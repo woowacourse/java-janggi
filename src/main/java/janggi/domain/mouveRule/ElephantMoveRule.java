@@ -1,9 +1,10 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.board.BoardView;
 import janggi.domain.Direction;
+import janggi.domain.board.BoardView;
 import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
+
 import java.util.List;
 
 public class ElephantMoveRule implements MoveRule {
@@ -22,7 +23,7 @@ public class ElephantMoveRule implements MoveRule {
         for (List<Direction> directions : ELEPHANT_PATHS) {
             Path path = from.generatePath(directions);
 
-            if (path.isArrived(to) && isNotBlocked(path, board)){
+            if (path.isArrived(to) && isNotBlocked(path, board)) {
                 return true;
             }
         }

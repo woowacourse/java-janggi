@@ -34,7 +34,7 @@ class BoardInitializerTest {
     })
     void 생성기물_개수_테스트(Team team, PieceType pieceType, int expectedCount) {
         long actualCount = board.values().stream()
-                .filter(piece -> piece.findTeam() == team)
+                .filter(piece -> piece.getTeam() == team)
                 .filter(piece -> piece.pieceType() == pieceType)
                 .count();
 

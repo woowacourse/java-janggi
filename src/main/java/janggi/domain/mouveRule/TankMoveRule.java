@@ -7,7 +7,11 @@ import janggi.domain.vo.position.Position;
 public class TankMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        return from.isStraightLine(to) && isNotBlocked(from, to, board);
+        if (!(board.isOnDiagonalPath(from, to) || from.isStraightLine(to))) {
+            return false;
+        }
+
+        return isNotBlocked(from, to, board);
     }
 
     private boolean isNotBlocked(Position from, Position to, BoardView board) {

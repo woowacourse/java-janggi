@@ -1,18 +1,31 @@
 package janggi.domain.piece;
 
+import java.util.Arrays;
+
 public enum PieceType {
-    SOLDIER("졸"),
-    ADVISOR("사"),
-    CANNON("포"),
-    ELEPHANT("상"),
-    HORSE("마"),
-    KING("장"),
-    TANK("차"),
-    EMPTY("X");
+    SOLDIER("SOL"),
+    ADVISOR("ADV"),
+    CANNON("CAN"),
+    ELEPHANT("ELE"),
+    HORSE("HOR"),
+    KING("KIN"),
+    TANK("TAN"),
+    EMPTY("EMP");
 
-    private final String name;
+    private final String code;
 
-    PieceType(String name) {
-        this.name = name;
+    PieceType(String code) {
+        this.code = code;
+    }
+
+    public static PieceType fromCode(String code) {
+        return Arrays.stream(values())
+                .filter(type -> type.code.equals(code))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 기물 코드입니다: " + code));
+    }
+
+    public String getCode() {
+        return code;
     }
 }

@@ -21,10 +21,10 @@ public class BoardTest {
         Position position = new Position(1, 4);
 
         // when
-        Piece piece = board.findByPosition(position);
+        Piece piece = board.findPieceByPosition(position);
 
         // then
-        assertThat(piece.findTeam()).isEqualTo(Team.HAN);
+        assertThat(piece.getTeam()).isEqualTo(Team.HAN);
         assertThat(piece.pieceType()).isEqualTo(PieceType.KING);
     }
 
@@ -49,8 +49,8 @@ public class BoardTest {
         board.move(from, to, Team.CHO);
 
         // then
-        assertThat(board.findByPosition(from).isEmpty()).isTrue();
-        assertThat(board.findByPosition(to).pieceType()).isEqualTo(PieceType.TANK);
+        assertThat(board.findPieceByPosition(from).isEmpty()).isTrue();
+        assertThat(board.findPieceByPosition(to).pieceType()).isEqualTo(PieceType.TANK);
     }
 
     @Test

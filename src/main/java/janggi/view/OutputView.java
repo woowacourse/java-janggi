@@ -1,10 +1,12 @@
 package janggi.view;
 
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class OutputView {
@@ -21,11 +23,19 @@ public class OutputView {
         for (int r = 0; r < ROW_SIZE; r++) {
             System.out.print(r + " ");
             for (int c = 0; c < COL_SIZE; c++) {
-                Piece piece = pieces.getOrDefault(new Position(r, c), null); // 혹은 EmptyPiece
+                Piece piece = pieces.getOrDefault(new Position(r, c), EmptyPiece.getInstance());
                 System.out.print(formatCell(piece));
             }
             System.out.println();
         }
+    }
+
+    public void skipTurn() {
+        System.out.println("움직임 없이 턴을 넘깁니다.");
+    }
+
+    public void printWinner(Team team) {
+        System.out.println(getTeamName(team) + "나라가 이겼습니다.");
     }
 
     private void printHeader() {
@@ -41,7 +51,7 @@ public class OutputView {
         if (piece == null || piece.isEmpty()) {
             return "[ . ] ";
         }
-        String team = piece.isSameTeam(Team.CHO) ? "초" : "한";
+        String team = getTeamName(piece.getTeam());
         String symbol = getSymbol(piece.pieceType());
 
         return String.format("[%s%s] ", team, symbol);
@@ -58,5 +68,25 @@ public class OutputView {
             case SOLDIER -> "卒";
             default -> "？";
         };
+    }
+
+    private String getTeamName(Team team) {
+        Map<Team, String> names = new HashMap<>(){
+            {
+                put(Team.CHO, "초");
+                put(Team.HAN, "한");
+            }
+        };
+
+        return names.get(team);
+    }
+
+    public void printResign(Team team) {
+        System.out.println(getTeamName(team) + "나라가 기권을 선언했습니다.");
+    }
+
+    public void printResumed() {
+        System.out.println("끝나지 않은 기존 게임 이력이 존재합니다...\n" +
+                "기존 게임을 불러옵니다.");
     }
 }

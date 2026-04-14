@@ -1,11 +1,20 @@
 package janggi.domain.piece;
 
 import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.vo.position.Position;
+
+import java.util.Objects;
 
 public class EmptyPiece extends Piece {
 
-    public EmptyPiece(Team team) {
-        super(team);
+    private static final EmptyPiece INSTANCE = new EmptyPiece();
+
+    private EmptyPiece() {
+        super(Team.NONE);
+    }
+
+    public static EmptyPiece getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -20,6 +29,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        throw new UnsupportedOperationException("'빈 공간'은 이동할 수 없습니다.");
     }
 }
