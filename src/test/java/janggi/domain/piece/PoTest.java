@@ -3,9 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.Board;
-import janggi.domain.Position;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ class PoTest {
     }
 
     @Test
-    @DisplayName("포는 대각선이나 제자리로 이동할 수 없다.")
+    @DisplayName("포는 궁성 밖 대각선이나 제자리로 이동할 수 없다.")
     void cannotMoveInvalidPattern() {
         // given
         Po po = new Po(TeamType.CHU);
@@ -35,7 +36,21 @@ class PoTest {
         // when & then
         assertAll(
             () -> assertThat(po.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 4, 4)).isFalse()
+            () -> assertThat(po.isValidMovePattern(4, 4, 4, 4)).isFalse(),
+            () -> assertThat(po.isValidMovePattern(4, 2, 5, 1)).isFalse()
+        );
+    }
+
+    @Test
+    @DisplayName("포는 궁성 안에서 대각선 이동할 수 있다.")
+    void canMoveDiagonalInsidePalace() {
+        // given
+        Po po = new Po(TeamType.CHU);
+
+        // when & then
+        assertAll(
+            () -> assertThat(po.isValidMovePattern(4, 1, 5, 2)).isTrue(),
+            () -> assertThat(po.isValidMovePattern(4, 1, 6, 3)).isTrue()
         );
     }
 
@@ -44,11 +59,13 @@ class PoTest {
     void isObstaclesNotExistWhenExactlyOneBridgeExists() {
         // given
         Po po = new Po(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-        Board movedBoard = board.move(new Position(1, 4), new Position(2, 4), TeamType.CHU);
+        MoveRoute moveRoute = new MoveRoute(
+            List.of(PieceType.JOL),
+            Optional.empty()
+        );
 
         // when
-        boolean result = po.isObstaclesNotExist(new Position(2, 3), new Position(2, 6), movedBoard);
+        boolean result = po.canMove(moveRoute);
 
         // then
         assertThat(result).isTrue();
@@ -59,10 +76,10 @@ class PoTest {
     void cannotMoveWithoutBridge() {
         // given
         Po po = new Po(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(List.of(), Optional.empty());
 
         // when
-        boolean result = po.isObstaclesNotExist(new Position(2, 3), new Position(2, 6), board);
+        boolean result = po.canMove(moveRoute);
 
         // then
         assertThat(result).isFalse();
@@ -73,13 +90,48 @@ class PoTest {
     void cannotUsePoAsBridgeOrTarget() {
         // given
         Po po = new Po(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-        Board movedBoard = board.move(new Position(1, 4), new Position(2, 4), TeamType.CHU);
+        MoveRoute poBridgeRoute = new MoveRoute(
+            List.of(PieceType.PO),
+            Optional.empty()
+        );
+        MoveRoute poTargetRoute = new MoveRoute(
+            List.of(PieceType.JOL),
+            Optional.of(PieceType.PO)
+        );
 
         // when & then
         assertAll(
-            () -> assertThat(po.isObstaclesNotExist(new Position(2, 3), new Position(2, 10), board)).isFalse(),
-            () -> assertThat(po.isObstaclesNotExist(new Position(2, 3), new Position(2, 8), movedBoard)).isFalse()
+            () -> assertThat(po.canMove(poBridgeRoute)).isFalse(),
+            () -> assertThat(po.canMove(poTargetRoute)).isFalse()
         );
     }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에 다리가 하나 있으면 이동할 수 있다.")
+    void canMoveDiagonallyInsidePalaceWithBridge() {
+        // given
+        Po po = new Po(TeamType.CHU);
+        MoveRoute moveRoute = new MoveRoute(List.of(PieceType.GUNG), Optional.empty());
+
+        // when
+        boolean result = po.canMove(moveRoute);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에 다리가 없으면 이동할 수 없다.")
+    void cannotMoveDiagonallyInsidePalaceWithoutBridge() {
+        // given
+        Po po = new Po(TeamType.CHU);
+        MoveRoute moveRoute = new MoveRoute(List.of(), Optional.empty());
+
+        // when
+        boolean result = po.canMove(moveRoute);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
 }

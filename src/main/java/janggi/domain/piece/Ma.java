@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Delta;
-import janggi.domain.Position;
-import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.movepath.FixedMovePath;
+import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +44,8 @@ public class Ma implements Piece {
     }
 
     @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePathStrategy> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        return movePath.get().intermediatePositions(start, end).stream()
-            .noneMatch(board::hasPiece);
+    public boolean canMove(MoveRoute moveRoute) {
+        return moveRoute.intermediatePieceTypes().isEmpty();
     }
 
     @Override
@@ -67,5 +61,10 @@ public class Ma implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 }

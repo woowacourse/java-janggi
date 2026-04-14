@@ -5,6 +5,7 @@ import janggi.domain.piece.Gung;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
@@ -82,6 +83,11 @@ public class Pieces {
         return Optional.ofNullable(value.get(position));
     }
 
+    public boolean hasPieceType(PieceType pieceType) {
+        return value.values().stream()
+            .anyMatch(piece -> piece.getPieceType() == pieceType);
+    }
+
     private static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
         pieces.put(new Position(1, indexY), new Cha(teamType));
         pieces.put(new Position(9, indexY), new Cha(teamType));
@@ -115,5 +121,11 @@ public class Pieces {
         for (int i = 1; i < 10; i += 2) {
             pieces.put(new Position(i, indexY), new Jol(teamType));
         }
+    }
+
+    public int sumScore() {
+        return value.values().stream()
+            .mapToInt(Piece::getScore)
+            .sum();
     }
 }

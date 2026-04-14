@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpots;
+import java.util.Optional;
 
 public class Turn {
 
@@ -16,6 +17,10 @@ public class Turn {
 
     public static Turn createInitialTurn() {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
+    }
+
+    public static Turn from(TeamType movedTeam, Board board) {
+        return new Turn(movedTeam, board);
     }
 
     public boolean isMyTeamPieceExist(Position position) {
@@ -33,7 +38,7 @@ public class Turn {
     }
 
     public void canMove(Position startPosition, Position endPosition) {
-        board.canMove(startPosition, endPosition, playingTeamType());
+        board.validateMove(startPosition, endPosition, playingTeamType());
     }
 
     public TeamType nextTurnTeam() {
@@ -42,6 +47,19 @@ public class Turn {
 
     public BoardSpots makeBoardSnapShot() {
         return board.makeSnapShot();
+    }
+
+    public Optional<TeamType> findWinner() {
+        return board.findWinner();
+    }
+
+    public WinnerResult getWinnerResult() {
+        Optional<TeamType> winnerCandidate = findWinner();
+        if (winnerCandidate.isEmpty()) {
+            throw new IllegalArgumentException("아직 승자가 존재하지 않습니다.");
+        }
+        TeamType winner = winnerCandidate.get();
+        return new WinnerResult(winner, board.calculateScore(winner));
     }
 
     private TeamType playingTeamType() {

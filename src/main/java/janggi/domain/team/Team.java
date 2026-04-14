@@ -3,6 +3,7 @@ package janggi.domain.team;
 import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.dto.BoardSpots;
 import java.util.Optional;
 
@@ -32,11 +33,19 @@ public class Team {
         return pieces.findPiece(position);
     }
 
+    public boolean hasPieceType(PieceType pieceType) {
+        return pieces.hasPieceType(pieceType);
+    }
+
     public Team remove(Position position) {
         return new Team(teamType, pieces.remove(position));
     }
 
     public Team move(Position piecePosition, Position targetPosition) {
         return new Team(teamType, pieces.move(piecePosition, targetPosition));
+    }
+
+    public int calculatePiecesScore() {
+        return pieces.sumScore();
     }
 }

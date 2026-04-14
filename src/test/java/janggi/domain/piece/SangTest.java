@@ -3,9 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.Board;
-import janggi.domain.Position;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,10 +50,10 @@ class SangTest {
     void isObstaclesNotExistWhenIntermediatePositionsAreEmpty() {
         // given
         Sang sang = new Sang(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(List.of(), Optional.empty());
 
         // when
-        boolean result = sang.isObstaclesNotExist(new Position(4, 5), new Position(7, 7), board);
+        boolean result = sang.canMove(moveRoute);
 
         // then
         assertThat(result).isTrue();
@@ -63,10 +64,13 @@ class SangTest {
     void cannotMoveWhenIntermediatePositionIsBlocked() {
         // given
         Sang sang = new Sang(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(
+            List.of(PieceType.JOL),
+            Optional.empty()
+        );
 
         // when
-        boolean result = sang.isObstaclesNotExist(new Position(4, 2), new Position(7, 4), board);
+        boolean result = sang.canMove(moveRoute);
 
         // then
         assertThat(result).isFalse();

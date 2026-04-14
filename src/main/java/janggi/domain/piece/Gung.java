@@ -1,33 +1,22 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
-import janggi.domain.Delta;
+import janggi.domain.Palace;
 import janggi.domain.Position;
 import janggi.domain.movepath.MovePathStrategy;
-import janggi.domain.movepath.FixedMovePath;
 import janggi.domain.team.TeamType;
-import java.util.List;
+import janggi.dto.MoveRoute;
 import java.util.Optional;
 
 public class Gung implements Piece {
 
     private final TeamType teamType;
     private final PieceType pieceType;
-    private final List<MovePathStrategy> paths;
+    private final Palace palace;
 
     public Gung(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.GUNG;
-        paths = List.of(
-            new FixedMovePath(List.of(Delta.createUp())),
-            new FixedMovePath(List.of(Delta.createDown())),
-            new FixedMovePath(List.of(Delta.createLeft())),
-            new FixedMovePath(List.of(Delta.createRight())),
-            new FixedMovePath(List.of(Delta.createRightUp())),
-            new FixedMovePath(List.of(Delta.createRightDown())),
-            new FixedMovePath(List.of(Delta.createLeftUp())),
-            new FixedMovePath(List.of(Delta.createLeftDown()))
-        );
+        palace = new Palace();
     }
 
     @Override
@@ -37,32 +26,12 @@ public class Gung implements Piece {
 
     @Override
     public Optional<MovePathStrategy> findMovePath(int startX, int startY, int endX, int endY) {
-        int dx = endX - startX;
-        int dy = endY - startY;
-        int distanceX = Math.abs(dx);
-        int distanceY = Math.abs(dy);
-        if (isSamePosition(distanceX, distanceY)) {
-            return Optional.empty();
-        }
-        if (!isOneStep(distanceX, distanceY)) {
-            return Optional.empty();
-        }
-        return paths.stream()
-            .filter(path -> path.matches(dx, dy))
-            .findFirst();
+        return palace.findOneStepMovePath(new Position(startX, startY), new Position(endX, endY));
     }
 
     @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+    public boolean canMove(MoveRoute moveRoute) {
         return true;
-    }
-
-    private boolean isSamePosition(int distanceX, int distanceY) {
-        return distanceX == 0 && distanceY == 0;
-    }
-
-    private boolean isOneStep(int distanceX, int distanceY) {
-        return distanceX <= 1 && distanceY <= 1;
     }
 
     @Override
@@ -78,5 +47,10 @@ public class Gung implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 }

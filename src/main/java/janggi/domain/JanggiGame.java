@@ -5,6 +5,7 @@ import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpots;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiGame {
 
@@ -51,6 +52,22 @@ public class JanggiGame {
     public TeamType getCurrentTurnTeam() {
         Turn lastTurn = getLastTurn();
         return lastTurn.nextTurnTeam();
+    }
+
+    public boolean isGameOver() {
+        return findWinner().isPresent();
+    }
+
+    public Optional<TeamType> findWinner() {
+        return getLastTurn().findWinner();
+    }
+
+    public WinnerResult getWinnerResult() {
+        return getLastTurn().getWinnerResult();
+    }
+
+    public int getTurnCount() {
+        return turns.size() - 1;
     }
 
     private Turn getLastTurn() {

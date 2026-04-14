@@ -20,4 +20,6 @@ public interface OutputView {
     void printAskPiecePosition();
 
     void printAskMovePosition(String nickname);
+
+    void printResult(BoardSpots boardSpots, TeamType winner, int winnerScore);
 }

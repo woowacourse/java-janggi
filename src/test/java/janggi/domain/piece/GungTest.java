@@ -17,10 +17,10 @@ class GungTest {
 
         // when & then
         assertAll(
-            () -> assertThat(gung.isValidMovePattern(4, 4, 4, 5)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 4, 3)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 5, 4)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 3, 4)).isTrue()
+            () -> assertThat(gung.isValidMovePattern(5, 2, 5, 3)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 5, 1)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 6, 2)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 4, 2)).isTrue()
         );
     }
 
@@ -32,25 +32,25 @@ class GungTest {
 
         // when & then
         assertAll(
-            () -> assertThat(gung.isValidMovePattern(4, 4, 5, 5)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 5, 3)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 3, 5)).isTrue(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 3, 3)).isTrue()
+            () -> assertThat(gung.isValidMovePattern(5, 2, 6, 3)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 6, 1)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 4, 3)).isTrue(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 4, 1)).isTrue()
         );
     }
 
     @Test
-    @DisplayName("궁은 두 칸 이상 이동할 수 없다.")
+    @DisplayName("궁은 궁성 밖으로 나가거나 연결되지 않은 대각선으로 이동할 수 없다.")
     void cannotMoveOverOneStep() {
         // given
         Gung gung = new Gung(TeamType.CHU);
 
         // when & then
         assertAll(
-            () -> assertThat(gung.isValidMovePattern(4, 4, 6, 4)).isFalse(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 6, 6)).isFalse(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 4, 6)).isFalse(),
-            () -> assertThat(gung.isValidMovePattern(4, 4, 2, 4)).isFalse()
+            () -> assertThat(gung.isValidMovePattern(5, 2, 5, 4)).isFalse(),
+            () -> assertThat(gung.isValidMovePattern(4, 1, 6, 3)).isFalse(),
+            () -> assertThat(gung.isValidMovePattern(4, 2, 5, 1)).isFalse(),
+            () -> assertThat(gung.isValidMovePattern(5, 2, 3, 2)).isFalse()
         );
     }
 
@@ -61,6 +61,6 @@ class GungTest {
         Gung gung = new Gung(TeamType.CHU);
 
         // when & then
-        assertThat(gung.isValidMovePattern(4, 4, 4, 4)).isFalse();
+        assertThat(gung.isValidMovePattern(5, 2, 5, 2)).isFalse();
     }
 }
