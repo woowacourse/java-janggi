@@ -78,7 +78,7 @@ public class Controller {
     private boolean attemptMove(Board board, Team team) {
         try {
             MoveCommand command = inputView.readMoveCommand(team.getTeam());
-            board.move(command.fromPosition(), command.toPosition());
+            board.move(command.fromPosition(), command.toPosition(), team);
             return true;
         } catch (BusinessException e) {
             outputView.printErrorMessage(e.getMessage());

@@ -6,6 +6,7 @@ import janggi.exception.game.KingNotFoundException;
 import janggi.exception.move.EmptyPositionException;
 
 import janggi.exception.move.InvalidTargetException;
+import janggi.exception.move.NotYourPieceException;
 import janggi.exception.move.SamePositionException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,8 +19,10 @@ public class Board implements BoardView {
         this.board = new HashMap<>(initialPieces);
     }
 
-    public void move(Position from, Position to) {
+    public void move(Position from, Position to, Team currentTeam) {
         Piece movingPiece = findPieceAt(from);
+
+        validatePieceOwner(movingPiece, currentTeam);
 
         validateMove(from, to, movingPiece);
 
@@ -34,6 +37,12 @@ public class Board implements BoardView {
             throw new EmptyPositionException();
         }
         return piece;
+    }
+
+    private void validatePieceOwner(Piece movingPiece, Team currentTeam) {
+        if (!movingPiece.isSameTeam(currentTeam)) {
+            throw new NotYourPieceException();
+        }
     }
 
     private void validateMove(Position from, Position to, Piece movingPiece) {
