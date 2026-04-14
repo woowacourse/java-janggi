@@ -4,7 +4,7 @@ import janggi.domain.Camp;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 
-public class HanTurn extends Running {
+public class HanTurn implements GameState {
     private static final Camp camp = Camp.HAN;
 
     @Override
@@ -15,6 +15,11 @@ public class HanTurn extends Running {
             return new Checkmate(Camp.CHO);
         }
         return new ChoTurn();
+    }
+
+    @Override
+    public boolean isOngoing() {
+        return true;
     }
 
     @Override

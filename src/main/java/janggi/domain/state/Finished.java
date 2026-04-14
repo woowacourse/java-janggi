@@ -3,7 +3,7 @@ package janggi.domain.state;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 
-public abstract class Finished extends Started {
+public abstract class Finished implements GameState {
 
     @Override
     public GameState move(Position from, Position to, Board board) {
