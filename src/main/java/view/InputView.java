@@ -19,16 +19,7 @@ public class InputView {
             + "\n3. 상 - 마 - 상 - 마 (象 - 馬 - 象 - 馬)"
             + "\n4. 상 - 마 - 마 - 상 (象 - 馬 - 馬 - 象)\n";
 
-
     private final Scanner scanner = new Scanner(System.in);
-
-    private int parseIntLine(String line) {
-        try {
-            return Integer.parseInt(line.trim());
-        } catch (NumberFormatException e) {
-            throw new InvalidNumericInputException();
-        }
-    }
 
     public int inputNewOrResume() {
         System.out.print(NEW_OR_RESUME_MESSAGE);
@@ -58,5 +49,13 @@ public class InputView {
     public String inputDestinationPoint() {
         System.out.print(INPUT_DESTINATION_POINT_MESSAGE);
         return scanner.nextLine();
+    }
+
+    private int parseIntLine(String line) {
+        try {
+            return Integer.parseInt(line.trim());
+        } catch (NumberFormatException e) {
+            throw new InvalidNumericInputException();
+        }
     }
 }
