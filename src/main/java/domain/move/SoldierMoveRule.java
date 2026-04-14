@@ -60,10 +60,10 @@ public class SoldierMoveRule extends MoveRule {
     }
 
     protected Directions makeDirections(Intersection from, Intersection to) {
+        if (from.isSameTeam(Team.CHO) && from.isPalaceDiagonal() && to.isPalaceDiagonal()) {
+            return defaultChoDirection().merge(palaceChoDirection());
+        }
         if (from.isSameTeam(Team.CHO)) {
-            if (from.isPalaceDiagonal() && to.isPalaceDiagonal()) {
-                return defaultChoDirection().merge(palaceChoDirection());
-            }
             return defaultChoDirection();
         }
         if (from.isPalaceDiagonal() && to.isPalaceDiagonal()) {
