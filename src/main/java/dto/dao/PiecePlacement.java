@@ -4,7 +4,6 @@ import domain.board.IntersectionState;
 import domain.piece.PieceType;
 
 public record PiecePlacement(String team, String pieceType, int y, int x) {
-
     public static PiecePlacement from(IntersectionState cell) {
         return new PiecePlacement(
                 cell.getTeam().name(),

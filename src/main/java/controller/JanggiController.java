@@ -1,7 +1,6 @@
 package controller;
 
-import dto.dao.InitialGamePersistDto;
-import dto.dao.MovePersistDto;
+import dao.GameDao;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
@@ -12,20 +11,20 @@ import domain.game.MoveCommand;
 import domain.intersection.Intersection;
 import domain.team.Team;
 import dto.InputMoveDto;
+import dto.dao.InitialGamePersistDto;
 import dto.dao.LoadedGameState;
 import dto.dao.LoadedPiece;
+import dto.dao.MovePersistDto;
 import dto.dao.ResumableGame;
-import dao.GameDao;
-import exception.ErrorMessage;
 import exception.InvalidMenuChoiceException;
 import exception.PieceDbIdNotFoundException;
 import java.util.List;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
-import transaction.TransactionTemplate;
 import mapper.BoardOutputMapper;
 import mapper.MoveMapper;
 import parser.MoveInputParser;
+import transaction.TransactionTemplate;
 import view.InputView;
 import view.OutputView;
 
@@ -50,6 +49,12 @@ public class JanggiController {
         this.transactionTemplate = transactionTemplate;
     }
 
+    private static void validateMenuChoice(int choice) {
+        if (choice != 1 && choice != 2) {
+            throw new InvalidMenuChoiceException();
+        }
+    }
+
     public void run() {
         int choice = readValidMenuChoice();
         executeMenu(choice);
@@ -70,12 +75,6 @@ public class JanggiController {
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
-        }
-    }
-
-    private static void validateMenuChoice(int choice) {
-        if (choice != 1 && choice != 2) {
-            throw new InvalidMenuChoiceException();
         }
     }
 

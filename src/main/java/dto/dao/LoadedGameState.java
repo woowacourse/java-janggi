@@ -6,7 +6,6 @@ import java.util.List;
 
 public record LoadedGameState(long gameId, double choScore, double hanScore, String turnTeam,
                               List<LoadedPiece> pieces) {
-
     public static LoadedGameState fromHeaderResultSet(long gameId, ResultSet headerRs, List<LoadedPiece> pieces)
             throws SQLException {
         if (!headerRs.next()) {

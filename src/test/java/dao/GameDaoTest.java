@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
-import transaction.TransactionTemplate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import transaction.TransactionTemplate;
 
 @Testcontainers(disabledWithoutDocker = true)
 class GameDaoTest {
@@ -43,12 +43,6 @@ class GameDaoTest {
                 MYSQL.getJdbcUrl(), MYSQL.getUsername(), MYSQL.getPassword());
         transactionTemplate = new TransactionTemplate(connectionFactory);
         runSchema(connectionFactory);
-    }
-
-    @BeforeEach
-    void setUp() {
-        gameDao = new GameDao(connectionFactory);
-        truncateTables(connectionFactory);
     }
 
     private static void runSchema(ConnectionFactory factory) throws Exception {
@@ -71,6 +65,23 @@ class GameDaoTest {
         }
     }
 
+    private static void truncateTables(ConnectionFactory factory) {
+        try (Connection conn = factory.getConnection(); Statement st = conn.createStatement()) {
+            st.execute("SET FOREIGN_KEY_CHECKS=0");
+            st.execute("TRUNCATE TABLE piece");
+            st.execute("TRUNCATE TABLE game");
+            st.execute("SET FOREIGN_KEY_CHECKS=1");
+        } catch (SQLException e) {
+            throw new IllegalStateException("테스트 테이블 초기화 실패", e);
+        }
+    }
+
+    @BeforeEach
+    void setUp() {
+        gameDao = new GameDao(connectionFactory);
+        truncateTables(connectionFactory);
+    }
+
     private long insertInitial(InitialGamePersistDto dto) {
         TransactionTemplate.Callback<Long> callback = conn -> gameDao.insertInitialGameAndPieces(conn, dto);
         return transactionTemplate.executeInTransaction(callback);
@@ -82,17 +93,6 @@ class GameDaoTest {
             return null;
         };
         transactionTemplate.executeInTransaction(callback);
-    }
-
-    private static void truncateTables(ConnectionFactory factory) {
-        try (Connection conn = factory.getConnection(); Statement st = conn.createStatement()) {
-            st.execute("SET FOREIGN_KEY_CHECKS=0");
-            st.execute("TRUNCATE TABLE piece");
-            st.execute("TRUNCATE TABLE game");
-            st.execute("SET FOREIGN_KEY_CHECKS=1");
-        } catch (SQLException e) {
-            throw new IllegalStateException("테스트 테이블 초기화 실패", e);
-        }
     }
 
     @Test

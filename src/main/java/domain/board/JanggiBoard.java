@@ -35,16 +35,6 @@ public class JanggiBoard {
         }
     }
 
-    private Map<Point, Intersection> fillEmptyIntersections() {
-        return getAllPoints()
-                .collect(Collectors.toMap(point -> point, Intersection::empty));
-    }
-
-    private Stream<Point> getAllPoints() {
-        return range(MAX_ROW).boxed()
-                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
-    }
-
     private static IntStream range(int maxRange) {
         return IntStream.range(0, maxRange);
     }
@@ -59,6 +49,16 @@ public class JanggiBoard {
                 new CannonMoveRule(),
                 new HorseMoveRule()
         );
+    }
+
+    private Map<Point, Intersection> fillEmptyIntersections() {
+        return getAllPoints()
+                .collect(Collectors.toMap(point -> point, Intersection::empty));
+    }
+
+    private Stream<Point> getAllPoints() {
+        return range(MAX_ROW).boxed()
+                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
     }
 
     public void tryToMove(Point start, Point end) {

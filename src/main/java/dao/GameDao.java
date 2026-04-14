@@ -27,6 +27,77 @@ public class GameDao {
         this.connectionFactory = Objects.requireNonNull(connectionFactory);
     }
 
+    private static long extract(ResultSet keys) throws SQLException {
+        validateUpdateResult(!keys.next(), "game id 생성 실패");
+        return keys.getLong(1);
+    }
+
+    private static void setupBatchForPieces(long gameId, List<PiecePlacement> placements, PreparedStatement ps)
+            throws SQLException {
+        for (PiecePlacement p : placements) {
+            ps.setLong(1, gameId);
+            ps.setString(2, p.team());
+            ps.setString(3, p.pieceType());
+            ps.setInt(4, p.y());
+            ps.setInt(5, p.x());
+            ps.executeUpdate();
+        }
+    }
+
+    private static void addResumableGames(ResultSet rs, List<ResumableGame> out) throws SQLException {
+        while (rs.next()) {
+            out.add(ResumableGame.fromRow(rs));
+        }
+    }
+
+    private static List<LoadedPiece> getLoadedPieces(PreparedStatement ps) throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            return collectPieces(rs);
+        }
+    }
+
+    private static List<LoadedPiece> collectPieces(ResultSet rs) throws SQLException {
+        List<LoadedPiece> pieces = new ArrayList<>();
+        while (rs.next()) {
+            pieces.add(LoadedPiece.fromRow(rs));
+        }
+        return pieces;
+    }
+
+    private static LoadedGameState getLoadedGameState(long gameId, List<LoadedPiece> pieces, PreparedStatement ps)
+            throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            return LoadedGameState.fromHeaderResultSet(gameId, rs, pieces);
+        }
+    }
+
+    private static Optional<Long> getPieceId(PreparedStatement ps) throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            return getPieceId(rs);
+        }
+    }
+
+    private static Optional<Long> getPieceId(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            return Optional.of(rs.getLong(1));
+        }
+        return Optional.empty();
+    }
+
+    private static void executePieceDeletion(long pieceId, PreparedStatement ps) throws SQLException {
+        validateUpdateResult(ps.executeUpdate() != 1, "piece 삭제 실패: id=" + pieceId);
+    }
+
+    private static void executePieceUpdate(long pieceId, PreparedStatement ps) throws SQLException {
+        validateUpdateResult(ps.executeUpdate() != 1, "piece 위치 갱신 실패: id=" + pieceId);
+    }
+
+    private static void validateUpdateResult(boolean isFailure, String errorMessage) {
+        if (isFailure) {
+            throw new IllegalStateException(errorMessage);
+        }
+    }
+
     public long insertInitialGameAndPieces(Connection conn, InitialGamePersistDto dto) throws SQLException {
         long gameId = insertGameRow(conn, dto.inProgress(), dto.turnTeam(), dto.choScore(), dto.hanScore());
         savePieces(conn, gameId, dto.placements());
@@ -60,11 +131,6 @@ public class GameDao {
         }
     }
 
-    private static long extract(ResultSet keys) throws SQLException {
-        validateUpdateResult(!keys.next(), "game id 생성 실패");
-        return keys.getLong(1);
-    }
-
     private void savePieces(Connection conn, long gameId, List<PiecePlacement> placements) throws SQLException {
         String sql = """
                 INSERT INTO piece (game_id, team, piece_type, y, x)
@@ -72,18 +138,6 @@ public class GameDao {
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             setupBatchForPieces(gameId, placements, ps);
-        }
-    }
-
-    private static void setupBatchForPieces(long gameId, List<PiecePlacement> placements, PreparedStatement ps)
-            throws SQLException {
-        for (PiecePlacement p : placements) {
-            ps.setLong(1, gameId);
-            ps.setString(2, p.team());
-            ps.setString(3, p.pieceType());
-            ps.setInt(4, p.y());
-            ps.setInt(5, p.x());
-            ps.executeUpdate();
         }
     }
 
@@ -102,12 +156,6 @@ public class GameDao {
             return out;
         } catch (SQLException e) {
             throw new IllegalStateException("재개 가능 게임 조회 실패", e);
-        }
-    }
-
-    private static void addResumableGames(ResultSet rs, List<ResumableGame> out) throws SQLException {
-        while (rs.next()) {
-            out.add(ResumableGame.fromRow(rs));
         }
     }
 
@@ -132,20 +180,6 @@ public class GameDao {
         }
     }
 
-    private static List<LoadedPiece> getLoadedPieces(PreparedStatement ps) throws SQLException {
-        try (ResultSet rs = ps.executeQuery()) {
-            return collectPieces(rs);
-        }
-    }
-
-    private static List<LoadedPiece> collectPieces(ResultSet rs) throws SQLException {
-        List<LoadedPiece> pieces = new ArrayList<>();
-        while (rs.next()) {
-            pieces.add(LoadedPiece.fromRow(rs));
-        }
-        return pieces;
-    }
-
     private LoadedGameState queryLoadedGameState(Connection conn, long gameId, List<LoadedPiece> pieces)
             throws SQLException {
         String sql = """
@@ -156,13 +190,6 @@ public class GameDao {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, gameId);
             return getLoadedGameState(gameId, pieces, ps);
-        }
-    }
-
-    private static LoadedGameState getLoadedGameState(long gameId, List<LoadedPiece> pieces, PreparedStatement ps)
-            throws SQLException {
-        try (ResultSet rs = ps.executeQuery()) {
-            return LoadedGameState.fromHeaderResultSet(gameId, rs, pieces);
         }
     }
 
@@ -177,19 +204,6 @@ public class GameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("기물 조회 실패", e);
         }
-    }
-
-    private static Optional<Long> getPieceId(PreparedStatement ps) throws SQLException {
-        try (ResultSet rs = ps.executeQuery()) {
-            return getPieceId(rs);
-        }
-    }
-
-    private static Optional<Long> getPieceId(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            return Optional.of(rs.getLong(1));
-        }
-        return Optional.empty();
     }
 
     public void persistMove(Connection conn, MovePersistDto dto) throws SQLException {
@@ -216,10 +230,6 @@ public class GameDao {
         }
     }
 
-    private static void executePieceDeletion(long pieceId, PreparedStatement ps) throws SQLException {
-        validateUpdateResult(ps.executeUpdate() != 1, "piece 삭제 실패: id=" + pieceId);
-    }
-
     private void updatePiecePosition(Connection conn, long pieceId, int x, int y) throws SQLException {
         String sql = """
                 UPDATE piece
@@ -233,10 +243,6 @@ public class GameDao {
             ps.setLong(4, pieceId);
             executePieceUpdate(pieceId, ps);
         }
-    }
-
-    private static void executePieceUpdate(long pieceId, PreparedStatement ps) throws SQLException {
-        validateUpdateResult(ps.executeUpdate() != 1, "piece 위치 갱신 실패: id=" + pieceId);
     }
 
     private void updateGameAfterMove(
@@ -267,12 +273,6 @@ public class GameDao {
             ps.setTimestamp(6, Timestamp.from(Instant.now()));
             ps.setLong(7, gameId);
             validateUpdateResult(ps.executeUpdate() != 1, "game 갱신 실패: id=" + gameId);
-        }
-    }
-
-    private static void validateUpdateResult(boolean isFailure, String errorMessage) {
-        if (isFailure) {
-            throw new IllegalStateException(errorMessage);
         }
     }
 }

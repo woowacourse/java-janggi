@@ -27,6 +27,10 @@ public record Point(
         throw new exception.InvalidPointException();
     }
 
+    private static boolean checkPointRange(int y, int x) {
+        return 0 <= y && y <= 9 && 0 <= x && x <= 8;
+    }
+
     public boolean isPalace() {
         return PALACE_ROWS.contains(this.y) && PALACE_FILES.contains(this.x);
     }
@@ -38,10 +42,6 @@ public record Point(
 
     public boolean canMake(int y, int x) {
         return checkPointRange(this.y + y, this.x + x);
-    }
-
-    private static boolean checkPointRange(int y, int x) {
-        return 0 <= y && y <= 9 && 0 <= x && x <= 8;
     }
 
     public Point movePoint(int y, int x) {
