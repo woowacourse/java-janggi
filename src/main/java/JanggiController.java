@@ -91,23 +91,19 @@ public class JanggiController {
         String turnName = game.getTurnDisplayName();
 
         String currentInput = inputView.readPosition(turnName);
-        if (currentInput.equals(QUIT_COMMAND)) {
-            return janggiService.forfeit(game.getId(), turnName);
-        }
-        if (currentInput.equals(STOP_COMMAND)) {
-            return game;
-        }
+        Game currentGame = getInput(game, currentInput, turnName);
+        if (currentGame != null)
+            return currentGame;
+
         Position from = parsePosition(currentInput);
 
         game.validateFromPosition(from);
 
         String targetInput = inputView.readTargetPosition();
-        if (targetInput.equals(QUIT_COMMAND)) {
-            return janggiService.forfeit(game.getId(), turnName);
-        }
-        if (targetInput.equals(STOP_COMMAND)) {
-            return game;
-        }
+        Game targetGame = getInput(game, targetInput, turnName);
+        if (targetGame != null)
+            return targetGame;
+
         Position to = parsePosition(targetInput);
 
         Game movedGame = janggiService.move(game.getId(), from, to);
@@ -117,6 +113,19 @@ public class JanggiController {
             return game;
         }
         return proceedMove(movedGame);
+    }
+
+    private Game getInput(Game game, String currentInput, String turnName) {
+        if (currentInput.equals(QUIT_COMMAND)) {
+            Game forfeitGame = janggiService.forfeit(game.getId(), turnName);
+            outputView.printScore(forfeitGame.calculateScore(Team.CHU), forfeitGame.calculateScore(Team.HAN));
+            return forfeitGame;
+        }
+        if (currentInput.equals(STOP_COMMAND)) {
+            outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
+            return game;
+        }
+        return null;
     }
 
     private Position parsePosition(String input) {

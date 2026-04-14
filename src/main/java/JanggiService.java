@@ -1,9 +1,7 @@
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.board.Team;
 import domain.game.Game;
-import domain.game.MoveResult;
 import domain.game.Status;
 import domain.vo.Position;
 import repository.BoardDao;
@@ -51,13 +49,17 @@ public class JanggiService {
         return new TransactionTemplate<Game>() {
             @Override
             protected Game doInTransaction(Connection con) {
-                Game game = loadGame(gameId);
-                MoveResult moveResult = game.validateMove(from, to);
+                Game findGame = loadGame(gameId);
 
-                persistMoveResult(con, gameId, moveResult);
-                game.applyMoveResult(moveResult);
+                boolean hasTargetPiece = findGame.getBoard().findPieceByPosition(to).isPresent();
+                findGame.tryToMove(from, to);
+                if (findGame.getStatus() == Status.PLAYING) {
+                    findGame.changeTurn();
+                }
 
-                return game;
+                updateGameState(findGame, from, to, hasTargetPiece, con);
+
+                return findGame;
             }
         }.execute();
     }
@@ -66,34 +68,22 @@ public class JanggiService {
         return new TransactionTemplate<Game>() {
             @Override
             protected Game doInTransaction(Connection con) {
-                Game game = loadGame(gameId);
+                Game findGame = loadGame(gameId);
 
-                Status newStatus = Status.CHU_WIN;
-                if (turnName.equals(Team.CHU.getName())) {
-                    newStatus = Status.HAN_WIN;
-                }
+                findGame.lose(turnName);
+                gameDao.update(con, findGame.getId(), findGame.getCurrentTeam().name(), findGame.getStatus().name());
 
-                gameDao.update(con, gameId, game.getCurrentTeam().name(), newStatus.toString());
-                game.lose(turnName);
-
-                return game;
+                return findGame;
             }
         }.execute();
     }
 
-    private void persistMoveResult(Connection con, Long gameId, MoveResult moveResult) {
-        if (moveResult.captured()) {
-            boardDao.deleteByPosition(con, gameId,
-                    moveResult.to().getRow(),
-                    moveResult.to().getCol());
+    private void updateGameState(Game game, Position from, Position to, boolean hasTargetPiece, Connection con) {
+        if (hasTargetPiece) {
+            boardDao.deleteByPosition(con, game.getId(), to.getRow(), to.getCol());
         }
+        boardDao.updatePosition(con, game.getId(), from.getRow(), from.getCol(), to.getRow(), to.getCol());
 
-        boardDao.updatePosition(con, gameId,
-                moveResult.from().getRow(), moveResult.from().getCol(),
-                moveResult.to().getRow(), moveResult.to().getCol());
-
-        gameDao.update(con, gameId,
-                moveResult.nextTurn().name(),
-                moveResult.status().toString());
+        gameDao.update(con, game.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
     }
 }

@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.vo.Position;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,21 +26,15 @@ public class Board {
         return Optional.ofNullable(board.get(position));
     }
 
-    public void validateMove(Position from, Position to) {
-        Piece piece = findPieceByPosition(from)
+    public Optional<Piece> tryToMove(final Position from, final Position to) {
+        Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
 
-        if (!piece.canMovePiece(from, to, this)) {
+        if (!fromPiece.canMovePiece(from, to, Board.of(new HashMap<>(this.board)))) {
             throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
-    }
 
-    public void movePiece(Position from, Position to) {
-        Piece fromPiece = findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("움직일 기물이 존재하지 않습니다."));
-
-        board.remove(from);
-        board.put(to, fromPiece);
+        return movePiece(from, to, fromPiece);
     }
 
     public boolean canOccupy(Position from, Position to) {
@@ -70,5 +65,13 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    private Optional<Piece> movePiece(Position from, Position to, Piece fromPiece) {
+        Optional<Piece> capturedPiece = findPieceByPosition(to);
+
+        board.remove(from);
+        board.put(to, fromPiece);
+        return capturedPiece;
     }
 }

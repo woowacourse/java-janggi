@@ -2,7 +2,6 @@ package domain;
 
 import domain.board.*;
 import domain.game.Game;
-import domain.game.MoveResult;
 import domain.game.Status;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
@@ -41,8 +40,7 @@ class GameTest {
         Game game = Game.loadGame(1L, board, Team.HAN, Status.PLAYING);
 
         // when
-        MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
-        game.applyMoveResult(moveResult);
+        game.tryToMove(Position.of(2, 4), Position.of(1, 4));
 
         // then
         Assertions.assertEquals(Status.HAN_WIN, game.getStatus());
@@ -59,8 +57,7 @@ class GameTest {
         Game game = Game.of(board);
 
         // when
-        MoveResult moveResult = game.validateMove(Position.of(7, 4), Position.of(8, 4));
-        game.applyMoveResult(moveResult);
+        game.tryToMove(Position.of(7, 4), Position.of(8, 4));
 
         // then
         Assertions.assertEquals(Status.CHU_WIN, game.getStatus());
@@ -77,8 +74,7 @@ class GameTest {
         Game game = Game.of(board);
 
         // when
-        MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
-        game.applyMoveResult(moveResult);
+        game.tryToMove(Position.of(2, 4), Position.of(1, 4));
 
         // then
         Assertions.assertEquals(Status.PLAYING, game.getStatus());
@@ -96,10 +92,11 @@ class GameTest {
         Game game = Game.of(board);
 
         // when
+        game.lose("한");
+
         // then
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            MoveResult moveResult = game.validateMove(Position.of(2, 4), Position.of(1, 4));
-            game.applyMoveResult(moveResult);
+            game.tryToMove(Position.of(2, 4), Position.of(1, 4));
         });
     }
 }
