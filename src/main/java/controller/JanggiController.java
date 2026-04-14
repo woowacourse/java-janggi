@@ -38,9 +38,11 @@ public class JanggiController {
     }
 
     private void playGame(GameInfo gameInfo) {
+        Board board = gameInfo.board();
+        int gameId = gameInfo.gameId();
         Turn turn = gameInfo.turn();
-        while (gameInfo.board().isGeneralAlive()) {
-            turn = playTurn(gameInfo.board(), turn, gameInfo.gameId());
+        while (board.isGeneralAlive()) {
+            turn = playTurn(board, turn, gameId);
         }
     }
 
