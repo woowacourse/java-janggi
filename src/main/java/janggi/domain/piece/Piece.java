@@ -53,6 +53,10 @@ public class Piece {
         return team == other.team;
     }
 
+    public boolean isMyTeamPiece(Team turn) {
+        return team == turn;
+    }
+
     public List<Position> findMovablePositions(Board board, Position position) {
         return pieceType.findMovablePositions(board, position, team);
     }

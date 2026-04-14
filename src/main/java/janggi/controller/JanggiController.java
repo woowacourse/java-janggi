@@ -101,7 +101,7 @@ public class JanggiController {
     private void playGame(Team team, Board board) {
         outputView.printTurnMessage(TeamResponse.from(team));
 
-        Position movePiecePosition = askMovePiecePositionUntilValid(board);
+        Position movePiecePosition = askMovePiecePositionUntilValid(board, team);
 
         List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
 
@@ -114,19 +114,19 @@ public class JanggiController {
         outputView.printBoard(BoardResponse.from(board));
     }
 
-    private Position askMovePiecePositionUntilValid(Board board) {
+    private Position askMovePiecePositionUntilValid(Board board, Team team) {
         Position position = null;
         while (position == null) {
-            position = getValidMovePiecePositionOrNull(board);
+            position = getValidMovePiecePositionOrNull(board, team);
         }
         return position;
     }
 
-    private Position getValidMovePiecePositionOrNull(Board board) {
+    private Position getValidMovePiecePositionOrNull(Board board, Team team) {
         try {
             outputView.printMoveInfo();
             Position position = inputView.readPosition();
-            board.validateMovePiecePosition(position);
+            board.validateMovePiecePosition(position, team);
             List<Position> positions = board.findAvailablePositions(position);
             board.validateAvailablePositions(positions);
             return position;

@@ -42,10 +42,9 @@ public class Board {
         return piece.findMovablePositions(this, position);
     }
 
-    public void validateMovePiecePosition(Position movePiecePosition) {
-        if (!hasPiece(movePiecePosition)) {
-            throw new IllegalArgumentException("[ERROR] 빈 칸을 선택하셨습니다.");
-        }
+    public void validateMovePiecePosition(Position movePiecePosition, Team team) {
+        validateEmptyPosition(movePiecePosition);
+        validateMyTeamPiece(movePiecePosition, team);
     }
 
     public void validateDestination(Position movePiecePosition, Position destination) {
@@ -101,5 +100,17 @@ public class Board {
             totalScore = piece.addScore(team, totalScore);
         }
         return totalScore;
+    }
+
+    private void validateEmptyPosition(Position movePiecePosition) {
+        if (!hasPiece(movePiecePosition)) {
+            throw new IllegalArgumentException("[ERROR] 빈 칸을 선택하셨습니다.");
+        }
+    }
+
+    private void validateMyTeamPiece(Position movePiecePosition, Team team) {
+        if (!pieceAt(movePiecePosition).isMyTeamPiece(team)) {
+            throw new IllegalArgumentException("[ERROR] 상대편 기물을 선택하셨습니다. 본인 팀 기물을 선택하세요.");
+        }
     }
 }
