@@ -1,13 +1,14 @@
 package domain.strategy;
 
-import domain.board.BoardBounds;
 import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SequenceStrategy implements Strategy {
 
@@ -18,10 +19,10 @@ public class SequenceStrategy implements Strategy {
     }
 
     @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
+    public List<Path> getPaths(Position start, Topology topology) {
         List<Path> paths = new ArrayList<>();
         for (DirectionSequence sequence : sequences) {
-            Path path = buildPath(start, sequence, bounds);
+            Path path = buildPath(start, sequence);
             if (path != null) {
                 paths.add(path);
             }
@@ -29,14 +30,15 @@ public class SequenceStrategy implements Strategy {
         return paths;
     }
 
-    private Path buildPath(Position start, DirectionSequence sequence, BoardBounds bounds) {
+    private Path buildPath(Position start, DirectionSequence sequence) {
         List<Position> positions = new ArrayList<>();
         Position current = start;
         for (Direction direction : sequence.directions()) {
-            current = current.nextPosition(direction);
-            if (!bounds.contains(current)) {
+            Optional<Position> next = current.tryNextPosition(direction);
+            if (next.isEmpty()) {
                 return null;
             }
+            current = next.get();
             positions.add(current);
         }
         return new Path(positions);

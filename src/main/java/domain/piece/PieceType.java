@@ -1,5 +1,22 @@
 package domain.piece;
 
 public enum PieceType {
-    KING, GUARD, CHARIOT, HORSE, ELEPHANT, CANNON, PAWN, EMPTY
+    KING(0),
+    GUARD(3),
+    CHARIOT(13),
+    HORSE(5),
+    ELEPHANT(3),
+    CANNON(7),
+    PAWN(2),
+    EMPTY(0);
+
+    private final int score;
+
+    PieceType(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

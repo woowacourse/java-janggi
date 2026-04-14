@@ -1,14 +1,12 @@
 package domain.piece;
 
-import domain.Game;
-import domain.coordinate.Position;
 import domain.Side;
-import domain.board.BoardInitializer;
-import org.assertj.core.api.Assertions;
+import domain.board.BasicBoardInitializer;
+import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,109 +14,104 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class KingTest {
 
-    static class HanSideKingInitializer implements BoardInitializer {
+    private static final Topology TOPOLOGY = new BasicBoardInitializer().createTopology();
 
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return new Pieces() {
+            @Override
+            public Piece getPiece(Position position) {
+                return pieces.getOrDefault(position, EmptyPiece.getInstance());
+            }
 
-            piecesPosition.put(new Position(1, 4), new King(Side.HAN));
-
-            piecesPosition.put(new Position(0, 3), new Guard(Side.HAN));
-            piecesPosition.put(new Position(0, 5), new Guard(Side.HAN));
-
-            piecesPosition.put(new Position(3, 5), new Guard(Side.HAN));
-            piecesPosition.put(new Position(3, 6), new King(Side.HAN));
-            piecesPosition.put(new Position(3, 7), new Guard(Side.HAN));
-            piecesPosition.put(new Position(4, 6), new Guard(Side.HAN));
-            piecesPosition.put(new Position(2, 6), new Guard(Side.HAN));
-            piecesPosition.put(new Position(4, 7), new Guard(Side.CHU));
-
-            return piecesPosition;
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
-        }
+            @Override
+            public Topology getTopology() {
+                return TOPOLOGY;
+            }
+        };
     }
-
-    static class ChuSideKingInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(6, 0), new King(Side.CHU));
-            piecesPosition.put(new Position(6, 2), new Guard(Side.CHU));
-            piecesPosition.put(new Position(6, 4), new Guard(Side.CHU));
-            piecesPosition.put(new Position(6, 6), new Guard(Side.CHU));
-            piecesPosition.put(new Position(6, 7), new Guard(Side.CHU));
-
-            return piecesPosition;
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.CHU;
-        }
-    }
-
 
     @Test
-    @DisplayName("한나라 진영에서 장은 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
-    void getHanPossibleMovesTest() {
+    @DisplayName("장은 해당 좌표에서 이동 가능한 모든 방향으로 1칸 이동할 수 있다.")
+    void getPossibleMovesTest() {
         // given
-        Game game = new Game(new HanSideKingInitializer());
+        King king = new King(Side.HAN);
         Position start = new Position(1, 4);
+        Pieces pieces = piecesFrom(Map.of(start, king));
 
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4),
-                new Position(1, 5));
-    }
-
-    @Test
-    @DisplayName("초나라 진영에서 장은 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
-    void getChuPossibleMovesTest() {
-        // given
-        Game game = new Game(new ChuSideKingInitializer());
-        Position start = new Position(6, 0);
-
-        // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
-
-        // then
-        assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
+        assertThat(moves).containsOnly(
+                new Position(0, 4),
+                new Position(2, 4),
+                new Position(1, 3),
+                new Position(1, 5),
+                new Position(0, 3),
+                new Position(0, 5),
+                new Position(2, 3),
+                new Position(2, 5)
+        );
     }
 
     @Test
     @DisplayName("장은 아군 기물이 있는 위치로 이동할 수 없다.")
-    void doesNotMoveTest() {
+    void blockedByFriendlyTest() {
         // given
-        Game game = new Game(new HanSideKingInitializer());
-        Position start = new Position(3, 6);
+        King king = new King(Side.HAN);
+        Position start = new Position(1, 4);
+        Pieces pieces = piecesFrom(Map.of(
+                start, king,
+                new Position(0, 4), new Guard(Side.HAN),
+                new Position(2, 4), new Guard(Side.HAN),
+                new Position(1, 3), new Guard(Side.HAN),
+                new Position(1, 5), new Guard(Side.HAN),
+                new Position(0, 3), new Guard(Side.HAN),
+                new Position(0, 5), new Guard(Side.HAN),
+                new Position(2, 3), new Guard(Side.HAN),
+                new Position(2, 5), new Guard(Side.HAN)
+        ));
 
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
-        Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
+        assertThat(moves).isEmpty();
     }
 
     @Test
     @DisplayName("장은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Game game = new Game(new HanSideKingInitializer());
-        Position start = new Position(3, 7);
+        King king = new King(Side.HAN);
+        Position start = new Position(1, 4);
+        Pieces pieces = piecesFrom(Map.of(
+                start, king,
+                new Position(0, 4), new Guard(Side.CHU)
+        ));
 
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(possibleMoves).contains(new Position(4, 7));
+        assertThat(moves).contains(new Position(0, 4));
+    }
+
+    @Test
+    @DisplayName("장은 궁성 밖으로 이동할 수 없다.")
+    void cannotMoveOutsidePalace() {
+        // given
+        King king = new King(Side.CHU);
+        Position start = new Position(7, 3); // 하단 궁성 좌상단 모서리
+        Pieces pieces = piecesFrom(Map.of(start, king));
+
+        // when
+        List<Position> moves = king.getPossibleMoves(start, pieces);
+
+        // then
+        assertThat(moves).doesNotContain(
+                new Position(7, 2),
+                new Position(6, 3)
+        );
     }
 }

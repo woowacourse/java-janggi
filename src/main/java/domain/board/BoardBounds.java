@@ -1,59 +1,59 @@
 package domain.board;
 
-import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardBounds {
-    public static final BoardBounds JANGGI = new BoardBounds(10, 9);
+    public static final BoardBounds JANGGI = createJanggi();
 
-    private final int colSize;
     private final int rowSize;
+    private final int colSize;
+    private final List<PalaceBounds> palaces;
 
-    public BoardBounds(int colSize, int rowSize) {
-        this.colSize = colSize;
+    private static BoardBounds createJanggi() {
+        PalaceBounds palace = new PalaceBounds(0, 2, 3, 5);
+        return new BoardBounds(10, 9, List.of(palace, palace.mirror(10)));
+    }
+
+    public BoardBounds(int rowSize, int colSize, List<PalaceBounds> palaces) {
         this.rowSize = rowSize;
+        this.colSize = colSize;
+        this.palaces = palaces;
     }
 
-    public boolean contains(Position position) {
-        return position.col() >= 0 && position.col() < colSize
-                && position.row() >= 0 && position.row() < rowSize;
+    public boolean contains(int row, int col) {
+        return row >= 0 && row < rowSize && col >= 0 && col < colSize;
     }
 
-    public void validateContains(Position position) {
-        if (!contains(position)) {
-            throw new IllegalArgumentException(
-                    String.format("잘못된 좌표: (%d, %d) (열 좌표는 0 에서 %d 사이, 행 좌표는 0 에서 %d 사이여야 합니다.)",
-                            position.col(), position.row(), colSize - 1, rowSize - 1));
+    public boolean isInPalace(int row, int col) {
+        for (PalaceBounds palace : palaces) {
+            if (palace.contains(row, col)) {
+                return true;
+            }
         }
+        return false;
     }
 
     public List<Position> allPositions() {
         List<Position> positions = new ArrayList<>();
-        for (int col = 0; col < colSize; col++) {
-            for (int row = 0; row < rowSize; row++) {
-                positions.add(new Position(col, row));
+        for (int row = 0; row < rowSize; row++) {
+            for (int col = 0; col < colSize; col++) {
+                positions.add(new Position(row, col));
             }
         }
         return positions;
     }
 
-    public List<Position> rayPositions(Position start, Direction direction) {
-        List<Position> positions = new ArrayList<>();
-        Position next = start.nextPosition(direction);
-        while (contains(next)) {
-            positions.add(next);
-            next = next.nextPosition(direction);
-        }
-        return positions;
+    public int rowSize() {
+        return rowSize;
     }
 
-    public int colsize() {
+    public int colSize() {
         return colSize;
     }
 
-    public int rowSize() {
-        return rowSize;
+    public List<PalaceBounds> getPalaces() {
+        return palaces;
     }
 }

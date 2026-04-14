@@ -1,14 +1,11 @@
 package domain.piece;
 
-import domain.Game;
-import domain.coordinate.Position;
 import domain.Side;
-import domain.board.BoardInitializer;
-import org.assertj.core.api.Assertions;
+import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,106 +13,113 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
-    static class ElephantTestInitializer implements BoardInitializer {
+    private static final Topology DEFAULT_TOPOLOGY = new Topology(Map.of());
 
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return new Pieces() {
+            @Override
+            public Piece getPiece(Position position) {
+                return pieces.getOrDefault(position, EmptyPiece.getInstance());
+            }
 
-            piecesPosition.put(new Position(4, 4), new Elephant(Side.HAN));
-
-            piecesPosition.put(new Position(0, 0), new Elephant(Side.HAN));
-            piecesPosition.put(new Position(0, 1), new Horse(Side.CHU));
-            piecesPosition.put(new Position(1, 0), new Horse(Side.HAN));
-
-            piecesPosition.put(new Position(9, 8), new Elephant(Side.HAN));
-            piecesPosition.put(new Position(7, 7), new Horse(Side.CHU));
-            piecesPosition.put(new Position(8, 6), new Horse(Side.HAN));
-
-            piecesPosition.put(new Position(9, 0), new Elephant(Side.HAN));
-            piecesPosition.put(new Position(6, 2), new Horse(Side.HAN));
-            piecesPosition.put(new Position(7, 3), new Horse(Side.CHU));
-
-            return piecesPosition;
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
-        }
+            @Override
+            public Topology getTopology() {
+                return DEFAULT_TOPOLOGY;
+            }
+        };
     }
 
     @Test
-    @DisplayName("상은 상/하/좌/우 4가지 방향으로 1 칸 이동 후 해당 방향의 대각선으로 2 칸 이동한다.")
+    @DisplayName("상은 상/하/좌/우 1칸 이동 후 대각선으로 2칸 이동한다.")
     void getPossibleMovesTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Elephant elephant = new Elephant(Side.HAN);
         Position start = new Position(4, 4);
+        Pieces pieces = piecesFrom(Map.of(start, elephant));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = elephant.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(possibleMoves).containsOnly(
-                new Position(1, 2),
-                new Position(1, 6),
-                new Position(2, 7),
-                new Position(6, 7),
-                new Position(7, 6),
-                new Position(7, 2),
-                new Position(6, 1),
-                new Position(2, 1)
+        assertThat(moves).containsOnly(
+                new Position(1, 2), new Position(1, 6),
+                new Position(2, 7), new Position(6, 7),
+                new Position(7, 6), new Position(7, 2),
+                new Position(6, 1), new Position(2, 1)
         );
     }
 
     @Test
-    @DisplayName("상은 1차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
+    @DisplayName("상은 1차 경로에 기물이 있으면 뛰어넘을 수 없다.")
     void firstMoveBlockTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Elephant elephant = new Elephant(Side.HAN);
         Position start = new Position(0, 0);
+        Pieces pieces = piecesFrom(Map.of(
+                start, elephant,
+                new Position(0, 1), new Horse(Side.CHU),
+                new Position(1, 0), new Horse(Side.HAN)
+        ));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = elephant.getPossibleMoves(start, pieces);
 
         // then
-        Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
+        assertThat(moves).isEmpty();
     }
 
     @Test
-    @DisplayName("상은 2차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
+    @DisplayName("상은 2차 경로에 기물이 있으면 뛰어넘을 수 없다.")
     void secondMoveBlockTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Elephant elephant = new Elephant(Side.HAN);
         Position start = new Position(9, 8);
+        Pieces pieces = piecesFrom(Map.of(
+                start, elephant,
+                new Position(7, 7), new Horse(Side.CHU),
+                new Position(8, 6), new Horse(Side.HAN)
+        ));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = elephant.getPossibleMoves(start, pieces);
 
         // then
-        Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
+        assertThat(moves).isEmpty();
     }
 
     @Test
     @DisplayName("상은 아군 기물이 있는 위치로 이동할 수 없다.")
-    void doesNotMoveTest() {
+    void blockedByFriendlyTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Elephant elephant = new Elephant(Side.HAN);
         Position start = new Position(9, 0);
+        Pieces pieces = piecesFrom(Map.of(
+                start, elephant,
+                new Position(6, 2), new Horse(Side.HAN)
+        ));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = elephant.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(possibleMoves).doesNotContain(new Position(6, 2));
+        assertThat(moves).doesNotContain(new Position(6, 2));
     }
 
     @Test
-    @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
+    @DisplayName("상은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Elephant elephant = new Elephant(Side.HAN);
         Position start = new Position(9, 0);
+        Pieces pieces = piecesFrom(Map.of(
+                start, elephant,
+                new Position(7, 3), new Horse(Side.CHU)
+        ));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = elephant.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(7, 3));
+        assertThat(moves).contains(new Position(7, 3));
     }
 }

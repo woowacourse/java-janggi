@@ -1,8 +1,9 @@
 package controller;
 
 import domain.Game;
-import domain.board.BoardInitializer;
+import domain.Side;
 import domain.coordinate.Position;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -12,19 +13,19 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardInitializer boardInitializer;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView, BoardInitializer boardInitializer) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardInitializer = boardInitializer;
+        this.janggiService = janggiService;
     }
 
     public void play() {
-        Game game = new Game(boardInitializer);
+        Game game = janggiService.initializeGame();
 
         while (true) {
-            outputView.printBoard(game.toSnapshot());
+            outputView.printBoard(game.getBoardSnapshot());
             Position startPosition = RetryInput.read(() -> getStartPosition(game));
 
             List<Position> possibleMoves = game.getPossibleMoves(startPosition);
@@ -34,7 +35,10 @@ public class JanggiController {
 
             outputView.printAvailablePositions(possibleMoves);
             Position destination = RetryInput.read(() -> getDestination(possibleMoves));
-            game.move(startPosition, destination);
+            janggiService.movePiece(game, startPosition, destination);
+            if (checkGameOver(game)) {
+                break;
+            }
         }
     }
 
@@ -60,5 +64,16 @@ public class JanggiController {
             throw new IllegalArgumentException("번호 중에 선택하세요.");
         }
         return possibleMoves.get(index - 1);
+    }
+
+    private boolean checkGameOver(Game game) {
+        if (game.isGameOver()) {
+            outputView.printBoard(game.getBoardSnapshot());
+            outputView.printWinner(game.getWinner());
+            outputView.printEachScores(game.calculateScore(Side.HAN), game.calculateScore(Side.CHU));
+            janggiService.resetGame();
+            return true;
+        }
+        return false;
     }
 }

@@ -1,9 +1,10 @@
 package domain.piece;
 
-import domain.board.BoardBounds;
 import domain.coordinate.Direction;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.rule.Rule;
+import domain.strategy.Strategy;
 import domain.Side;
 
 import java.util.List;
@@ -37,13 +38,21 @@ public abstract class Piece {
         return side.getForward();
     }
 
+    public List<Position> getPossibleMoves(Position start, Pieces pieces) {
+        Strategy strategy = getStrategy();
+        Rule rule = getRule();
+        List<Path> paths = strategy.getPaths(start, pieces.getTopology());
+        Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
+        return rule.getPossiblePositions(getSide(), pathPieces, paths);
+    }
+
     public abstract PieceType getType();
 
     public abstract Piece withSide(Side side);
 
     public abstract boolean isEmpty();
 
-    public abstract List<Path> getPaths(Position start, BoardBounds bounds);
+    protected abstract Strategy getStrategy();
 
-    public abstract List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths);
+    protected abstract Rule getRule();
 }

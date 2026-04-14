@@ -2,9 +2,6 @@ package domain.piece;
 
 import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
-import domain.board.BoardBounds;
-import domain.coordinate.Path;
-import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.LeapRule;
 import domain.rule.Rule;
@@ -12,7 +9,6 @@ import domain.strategy.SequenceStrategy;
 import domain.strategy.Strategy;
 
 import java.util.List;
-import java.util.Map;
 
 public final class Elephant extends Piece {
 
@@ -34,6 +30,16 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    protected Strategy getStrategy() {
+        return strategy;
+    }
+
+    @Override
+    protected Rule getRule() {
+        return rule;
+    }
+
+    @Override
     public PieceType getType() {
         return PieceType.ELEPHANT;
     }
@@ -46,15 +52,5 @@ public final class Elephant extends Piece {
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return strategy.getPaths(start, bounds);
-    }
-
-    @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
-        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

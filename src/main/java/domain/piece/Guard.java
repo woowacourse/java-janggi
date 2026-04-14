@@ -1,28 +1,29 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
-import domain.board.BoardBounds;
-import domain.coordinate.Path;
-import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.Rule;
 import domain.rule.StepRule;
+import domain.strategy.PalaceStrategy;
 import domain.strategy.StepStrategy;
 import domain.strategy.Strategy;
 
-import java.util.List;
-import java.util.Map;
-
 public final class Guard extends Piece {
 
-    private static final List<Direction> DIRECTIONS = List.of(
-            Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
-
-    private final Strategy strategy = new StepStrategy(DIRECTIONS);
+    private final Strategy strategy = new PalaceStrategy(new StepStrategy());
     private final Rule rule = new StepRule();
 
     public Guard(Side side) {
         super(side);
+    }
+
+    @Override
+    protected Strategy getStrategy() {
+        return strategy;
+    }
+
+    @Override
+    protected Rule getRule() {
+        return rule;
     }
 
     @Override
@@ -38,15 +39,5 @@ public final class Guard extends Piece {
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return strategy.getPaths(start, bounds);
-    }
-
-    @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
-        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

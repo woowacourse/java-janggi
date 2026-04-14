@@ -1,16 +1,10 @@
 package domain.piece;
 
-import domain.board.BoardBounds;
-import domain.coordinate.Path;
-import domain.coordinate.Position;
-import domain.rule.SlidingRule;
 import domain.rule.Rule;
+import domain.rule.SlidingRule;
 import domain.Side;
 import domain.strategy.LinearStrategy;
 import domain.strategy.Strategy;
-
-import java.util.List;
-import java.util.Map;
 
 public final class Chariot extends Piece {
 
@@ -19,6 +13,16 @@ public final class Chariot extends Piece {
 
     public Chariot(Side side) {
         super(side);
+    }
+
+    @Override
+    protected Strategy getStrategy() {
+        return strategy;
+    }
+
+    @Override
+    protected Rule getRule() {
+        return rule;
     }
 
     @Override
@@ -34,15 +38,5 @@ public final class Chariot extends Piece {
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return strategy.getPaths(start, bounds);
-    }
-
-    @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
-        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

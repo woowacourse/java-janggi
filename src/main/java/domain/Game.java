@@ -5,39 +5,23 @@ import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
-    private final Board board;
     private Side turn;
+    private final Board board;
+    private final GameEndJudge gameEndJudge;
+    private final ScoreCalculator scoreCalculator;
 
     public Game(BoardInitializer boardInitializer) {
-        this.board = new Board(boardInitializer.initialize());
+        this.board = new Board(boardInitializer.initialize(), boardInitializer.createTopology());
         this.turn = boardInitializer.getFirstTurnSide();
-    }
-
-    public boolean isAvailableDestination(Position destination) {
-        if (board.isInvalidRange(destination)) {
-            return false;
-        }
-
-        return isOpponentOrEmptyPiece(destination);
-    }
-
-    public boolean isOpponentPiece(Position position) {
-        return isOpponentOrEmptyPiece(position) && !board.isEmpty(position);
-    }
-
-    public boolean isCannon(Position position) {
-        return board.isInvalidRange(position) || board.isCannon(position);
-    }
-
-    public boolean isNotEmpty(Position position) {
-        return !board.isEmpty(position);
+        this.gameEndJudge = new GameEndJudge();
+        this.scoreCalculator = new ScoreCalculator();
     }
 
     public void validateStartPosition(Position start) {
-        board.validateRange(start);
         validateCurrentTurnPiece(start);
     }
 
@@ -45,6 +29,18 @@ public class Game {
         validateCurrentTurnPiece(start);
         board.move(start, destination);
         changeTurn();
+    }
+
+    public boolean isGameOver() {
+        return gameEndJudge.isGameOver(board.getBoardPiecesPosition());
+    }
+
+    public Side getWinner() {
+        return gameEndJudge.getWinner(board.getBoardPiecesPosition());
+    }
+
+    public double calculateScore(Side side) {
+        return scoreCalculator.calculate(board.getBoardPiecesPosition(), side);
     }
 
     private boolean isFriendlyPiece(Position position) {
@@ -73,7 +69,11 @@ public class Game {
         return board.getPossibleMoves(start);
     }
 
-    public CellSnapshot[][] toSnapshot() {
+    public CellSnapshot[][] getBoardSnapshot() {
         return board.toSnapshot();
+    }
+
+    public Map<Position, CellSnapshot> getBoardPiecesPosition() {
+        return board.getBoardPiecesPosition();
     }
 }

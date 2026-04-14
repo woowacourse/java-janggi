@@ -1,12 +1,11 @@
 package domain.piece;
 
-import domain.board.BoardBounds;
-import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.rule.Rule;
+import domain.strategy.Strategy;
 import domain.Side;
 
 import java.util.List;
-import java.util.Map;
 
 public class EmptyPiece extends Piece {
 
@@ -36,12 +35,17 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return List.of();
+    protected Strategy getStrategy() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
+    protected Rule getRule() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Position> getPossibleMoves(Position start, Pieces pieces) {
         return List.of();
     }
 }
