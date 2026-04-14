@@ -55,9 +55,6 @@ public class JanggiService {
         Janggi janggi = loadJanggi(gameId);
         janggi.drawGame();
         janggiRepository.update(gameId, janggi);
-        if (janggi.isOnGoing()) {
-            throw new IllegalArgumentException("게임이 종료되지 않았습니다.");
-        }
         return GameResult.fromDrawGameResult(
                 janggi.calculateTotalScore(Camp.CHO),
                 janggi.calculateTotalScore(Camp.HAN)
