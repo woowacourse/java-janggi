@@ -59,7 +59,6 @@ class GameDaoTest {
         // given
         GameEntity game = new GameEntity(null, Team.HAN, false);
         Long savedId = gameDao.save(game);
-
         GameEntity updatedGame = new GameEntity(savedId, Team.CHO, false);
 
         // when
@@ -76,17 +75,17 @@ class GameDaoTest {
     void 진행중인_게임_가져오기() {
         // given
         GameEntity game1 = new GameEntity(null, Team.HAN, false);
-        Long savedId1 = gameDao.save(game1);
+        gameDao.save(game1);
         GameEntity game2 = new GameEntity(null, Team.CHO, false);
-        Long savedId2 = gameDao.save(game2);
+        gameDao.save(game2);
         GameEntity game3 = new GameEntity(null, Team.CHO, false);
-        Long savedId3 = gameDao.save(game3);
+        gameDao.save(game3);
         GameEntity game4 = new GameEntity(null, Team.HAN, false);
-        Long savedId4 = gameDao.save(game4);
+        gameDao.save(game4);
         GameEntity game5 = new GameEntity(null, Team.CHO, false);
-        Long savedId5 = gameDao.save(game5);
+        gameDao.save(game5);
         GameEntity game6 = new GameEntity(null, Team.HAN, false);
-        Long savedId6 = gameDao.save(game6);
+        gameDao.save(game6);
 
         // when
         List<GameEntity> games = gameDao.findOngoingGames();
@@ -100,17 +99,17 @@ class GameDaoTest {
     void 진행중인_게임_가져오기_5개_미만() {
         // given
         GameEntity game1 = new GameEntity(null, Team.HAN, true);
-        Long savedId1 = gameDao.save(game1);
+        gameDao.save(game1);
         GameEntity game2 = new GameEntity(null, Team.CHO, false);
-        Long savedId2 = gameDao.save(game2);
+        gameDao.save(game2);
         GameEntity game3 = new GameEntity(null, Team.CHO, false);
-        Long savedId3 = gameDao.save(game3);
+        gameDao.save(game3);
         GameEntity game4 = new GameEntity(null, Team.HAN, true);
-        Long savedId4 = gameDao.save(game4);
+        gameDao.save(game4);
         GameEntity game5 = new GameEntity(null, Team.CHO, false);
-        Long savedId5 = gameDao.save(game5);
+        gameDao.save(game5);
         GameEntity game6 = new GameEntity(null, Team.HAN, false);
-        Long savedId6 = gameDao.save(game6);
+        gameDao.save(game6);
 
         // when
         List<GameEntity> games = gameDao.findOngoingGames();

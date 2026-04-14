@@ -36,13 +36,11 @@ public class PoMoveRule extends CommonMoveRule {
     }
 
     private boolean hasOneObstacleAndNotPo(Board board, List<Position> route) {
-        int count = 0;
         List<Piece> obstacles = route.subList(0, route.size() - 1)
                 .stream()
                 .filter(board::hasPiece)
                 .map(board::pieceAt)
                 .toList();
-
         return obstacles.size() == 1 && !obstacles.getFirst().isPo();
     }
 
