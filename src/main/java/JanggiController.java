@@ -70,22 +70,13 @@ public class JanggiController {
 
 
     private void playGame(Game game) {
-        while (true) {
-            outputView.printBoard(game.getBoard().getBoard());
-            boolean isContinue = handleMove(game);
-            outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
-
-            if (!isContinue) {
-                break;
-            }
-        }
+        game = handleMove(game);
         outputView.printGameResult(game.getStatus());
     }
 
-    private boolean handleMove(Game game) {
+    private Game handleMove(Game game) {
         try {
-            String turnName = game.getTurnDisplayName();
-            return proceedMove(game, turnName);
+            return proceedMove(game);
         } catch (IllegalArgumentException | IllegalStateException e) {
             outputView.printMessage("[ERROR] " + e.getMessage());
             return handleMove(game);
@@ -95,35 +86,37 @@ public class JanggiController {
         }
     }
 
-    private boolean proceedMove(Game game, String turnName) {
+    private Game proceedMove(Game game) {
+        outputView.printBoard(game.getBoard().getBoard());
+        String turnName = game.getTurnDisplayName();
+
         String currentInput = inputView.readPosition(turnName);
-        if (handleQuitOrStopCommand(game, turnName, currentInput)) {
-            return false;
+        if (currentInput.equals(QUIT_COMMAND)) {
+            return janggiService.forfeit(game.getId(), turnName);
+        }
+        if (currentInput.equals(STOP_COMMAND)) {
+            return game;
         }
         Position from = parsePosition(currentInput);
 
         game.validateFromPosition(from);
 
         String targetInput = inputView.readTargetPosition();
-        if (handleQuitOrStopCommand(game, turnName, targetInput)) {
-            return false;
+        if (targetInput.equals(QUIT_COMMAND)) {
+            return janggiService.forfeit(game.getId(), turnName);
         }
-
+        if (targetInput.equals(STOP_COMMAND)) {
+            return game;
+        }
         Position to = parsePosition(targetInput);
-        janggiService.move(game, from, to);
 
-        return game.getStatus() == Status.PLAYING;
-    }
+        Game movedGame = janggiService.move(game.getId(), from, to);
 
-    private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
-        if (input.equals(QUIT_COMMAND)) {
-            janggiService.forfeit(game, turn);
-            return true;
+        outputView.printScore(movedGame.calculateScore(Team.CHU), movedGame.calculateScore(Team.HAN));
+        if (movedGame.getStatus() != Status.PLAYING) {
+            return game;
         }
-        if (input.equals(STOP_COMMAND)) {
-            return true;
-        }
-        return false;
+        return proceedMove(movedGame);
     }
 
     private Position parsePosition(String input) {

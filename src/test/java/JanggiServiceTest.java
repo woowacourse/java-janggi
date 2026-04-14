@@ -75,7 +75,7 @@ class JanggiServiceTest {
                 Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
 
         // when
-        janggiService.move(savedGame, Position.of(3, 0), Position.of(4, 0));
+        janggiService.move(savedGame.getId(), Position.of(3, 0), Position.of(4, 0));
 
         Game loadedGame = janggiService.loadGame(1L);
 

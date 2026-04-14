@@ -44,45 +44,39 @@ public class JanggiService {
                 boardDao.saveBoard(con, savedGame.getId(), game.getBoard());
                 return savedGame;
             }
-
-            @Override
-            protected void afterCommit(Game savedGame) {}
         }.execute();
     }
 
-    public void move(Game game, Position from, Position to) {
-        new TransactionTemplate<MoveResult>() {
+    public Game move(Long gameId, Position from, Position to) {
+        return new TransactionTemplate<Game>() {
             @Override
-            protected MoveResult doInTransaction(Connection con) {
+            protected Game doInTransaction(Connection con) {
+                Game game = loadGame(gameId);
                 MoveResult moveResult = game.validateMove(from, to);
 
-                persistMoveResult(con, game.getId(), moveResult);
-                return moveResult;
-            }
-
-            @Override
-            protected void afterCommit(MoveResult moveResult) {
+                persistMoveResult(con, gameId, moveResult);
                 game.applyMoveResult(moveResult);
+
+                return game;
             }
         }.execute();
     }
 
-    public void forfeit(Game game, String turnName) {
-        new TransactionTemplate<Void>() {
+    public Game forfeit(Long gameId, String turnName) {
+        return new TransactionTemplate<Game>() {
             @Override
-            protected Void doInTransaction(Connection con) {
+            protected Game doInTransaction(Connection con) {
+                Game game = loadGame(gameId);
+
                 Status newStatus = Status.CHU_WIN;
                 if (turnName.equals(Team.CHU.getName())) {
                     newStatus = Status.HAN_WIN;
                 }
 
-                gameDao.update(con, game.getId(), game.getCurrentTeam().name(), newStatus.toString());
-                return null;
-            }
-
-            @Override
-            protected void afterCommit(Void result) {
+                gameDao.update(con, gameId, game.getCurrentTeam().name(), newStatus.toString());
                 game.lose(turnName);
+
+                return game;
             }
         }.execute();
     }

@@ -11,10 +11,7 @@ public abstract class TransactionTemplate<T> {
 
             try {
                 T result = doInTransaction(con);
-
                 con.commit();
-
-                afterCommit(result);
                 return result;
             } catch (Exception e) {
                 con.rollback();
@@ -26,6 +23,4 @@ public abstract class TransactionTemplate<T> {
     }
 
     protected abstract T doInTransaction(Connection con);
-
-    protected abstract void afterCommit(T result);
 }
