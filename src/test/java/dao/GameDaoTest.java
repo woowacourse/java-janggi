@@ -2,11 +2,11 @@ package dao;
 
 import config.ConnectionFactory;
 import dto.dao.InitialGamePersistDto;
-import dto.dao.LoadedGameState;
-import dto.dao.LoadedPiece;
 import dto.dao.MovePersistDto;
 import dto.dao.PiecePlacement;
-import dto.dao.ResumableGame;
+import entity.GameEntity;
+import entity.PieceEntity;
+import entity.ResumableGameEntity;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -27,7 +27,6 @@ import transaction.TransactionTemplate;
 
 @Testcontainers(disabledWithoutDocker = true)
 class GameDaoTest {
-
     @Container
     private static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.0")
             .withDatabaseName("janggi");
@@ -48,11 +47,15 @@ class GameDaoTest {
     private static void runSchema(ConnectionFactory factory) throws Exception {
         String ddl = readClasspathResource("schema.sql");
         try (Connection conn = factory.getConnection(); Statement st = conn.createStatement()) {
-            for (String statement : ddl.split(";")) {
-                String trimmed = statement.trim();
-                if (!trimmed.isEmpty()) {
-                    st.execute(trimmed);
-                }
+            executeStatements(st, ddl.split(";"));
+        }
+    }
+
+    private static void executeStatements(Statement st, String[] statements) throws SQLException {
+        for (String statement : statements) {
+            String trimmed = statement.trim();
+            if (!trimmed.isEmpty()) {
+                st.execute(trimmed);
             }
         }
     }
@@ -133,7 +136,7 @@ class GameDaoTest {
 
         Assertions.assertThat(gameDao.findPieceIdAt(gameId, 3, 3)).isEmpty();
         Assertions.assertThat(gameDao.findPieceIdAt(gameId, 4, 3)).contains(pieceId);
-        LoadedGameState state = gameDao.loadGameForResume(gameId);
+        GameEntity state = gameDao.loadGameForResume(gameId);
         Assertions.assertThat(state.turnTeam()).isEqualTo("HAN");
         Assertions.assertThat(state.choScore()).isEqualTo(1.0);
         Assertions.assertThat(state.hanScore()).isEqualTo(2.0);
@@ -153,7 +156,7 @@ class GameDaoTest {
 
         Assertions.assertThat(gameDao.findPieceIdAt(gameId, 4, 3)).contains(choId);
         Assertions.assertThat(gameDao.findPieceIdAt(gameId, 3, 3)).isEmpty();
-        List<LoadedPiece> pieces = gameDao.loadGameForResume(gameId).pieces();
+        List<PieceEntity> pieces = gameDao.loadGameForResume(gameId).pieces();
         Assertions.assertThat(pieces).hasSize(1);
     }
 
@@ -163,14 +166,14 @@ class GameDaoTest {
         long gameId = insertInitial(new InitialGamePersistDto(true, "HAN", 10.5, 20.5,
                 List.of(new PiecePlacement("CHO", "CHARIOT", 0, 0))));
 
-        LoadedGameState state = gameDao.loadGameForResume(gameId);
+        GameEntity state = gameDao.loadGameForResume(gameId);
 
         Assertions.assertThat(state.gameId()).isEqualTo(gameId);
         Assertions.assertThat(state.choScore()).isEqualTo(10.5);
         Assertions.assertThat(state.hanScore()).isEqualTo(20.5);
         Assertions.assertThat(state.turnTeam()).isEqualTo("HAN");
         Assertions.assertThat(state.pieces()).hasSize(1);
-        LoadedPiece p = state.pieces().getFirst();
+        PieceEntity p = state.pieces().getFirst();
         Assertions.assertThat(p.team()).isEqualTo("CHO");
         Assertions.assertThat(p.pieceType()).isEqualTo("CHARIOT");
         Assertions.assertThat(p.y()).isZero();
@@ -189,8 +192,35 @@ class GameDaoTest {
             );
         }
 
-        List<ResumableGame> list = gameDao.findResumableGames();
+        List<ResumableGameEntity> list = gameDao.findResumableGames();
 
-        Assertions.assertThat(list).extracting(ResumableGame::id).containsExactly(openId);
+        Assertions.assertThat(list).extracting(ResumableGameEntity::id).containsExactly(openId);
+    }
+
+    @Test
+    @DisplayName("persistMove시 승자가 정해지면 winner_team이 갱신되고 재개 목록에서 제외되어야 한다.")
+    void should_update_winner_and_exclude_from_resumable_when_game_ends() throws SQLException {
+        long gameId = insertInitial(new InitialGamePersistDto(true, "CHO", 0, 0,
+                List.of(new PiecePlacement("CHO", "SOLDIER", 3, 3))));
+        long pieceId = gameDao.findPieceIdAt(gameId, 3, 3).orElseThrow();
+
+        persistMove(new MovePersistDto(gameId, false, "HAN", 0.0, 0.0, "CHO", pieceId, 4, 3, null));
+
+        List<ResumableGameEntity> resumables = gameDao.findResumableGames();
+        Assertions.assertThat(resumables).extracting(ResumableGameEntity::id).doesNotContain(gameId);
+
+        try (Connection conn = connectionFactory.getConnection(); Statement st = conn.createStatement();
+             java.sql.ResultSet rs = st.executeQuery("SELECT winner_team FROM game WHERE id = " + gameId)) {
+            Assertions.assertThat(rs.next()).isTrue();
+            Assertions.assertThat(rs.getString("winner_team")).isEqualTo("CHO");
+        }
+    }
+
+    @Test
+    @DisplayName("존재하지 않거나 불러올 수 없는 게임 ID를 조회하면 IllegalStateException 예외가 발생한다.")
+    void should_throw_exception_when_loading_invalid_game() {
+        Assertions.assertThatThrownBy(() -> gameDao.loadGameForResume(99999L))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("재개할 수 없는 게임입니다");
     }
 }
