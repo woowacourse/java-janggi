@@ -94,6 +94,7 @@ class BoardPieceDaoTest {
     private void truncate(ConnectionManager connectionManager) throws SQLException {
         try (Connection connection = connectionManager.getConnection();
              Statement statement = connection.createStatement()) {
+            statement.execute("DELETE FROM move_log");
             statement.execute("DELETE FROM board_piece");
             statement.execute("DELETE FROM game_room");
         }

@@ -1,6 +1,7 @@
 import controller.JanggiController;
 import dao.BoardPieceDao;
 import dao.GameRoomDao;
+import dao.MoveLogDao;
 import db.ConnectionManager;
 import db.DatabaseInitializer;
 import repository.GameRepository;
@@ -15,7 +16,8 @@ public class JanggiApplication {
 
         GameRoomDao gameRoomDao = new GameRoomDao();
         BoardPieceDao boardPieceDao = new BoardPieceDao();
-        GameRepository gameRepository = new GameRepository(connectionManager, gameRoomDao, boardPieceDao);
+        MoveLogDao moveLogDao = new MoveLogDao();
+        GameRepository gameRepository = new GameRepository(connectionManager, gameRoomDao, boardPieceDao, moveLogDao);
         JanggiGameService gameService = new JanggiGameService(gameRepository);
 
         JanggiController controller = new JanggiController(new InputView(), new OutputView(), gameService);

@@ -16,3 +16,18 @@ CREATE TABLE IF NOT EXISTS board_piece (
     team         VARCHAR(10) NOT NULL,
     FOREIGN KEY (game_room_id) REFERENCES game_room(id)
 );
+
+CREATE TABLE IF NOT EXISTS move_log (
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_room_id BIGINT NOT NULL,
+    seq          INT NOT NULL,
+    type         VARCHAR(10) NOT NULL,
+    turn         VARCHAR(10) NOT NULL,
+    from_row     INT NULL,
+    from_col     INT NULL,
+    to_row       INT NULL,
+    to_col       INT NULL,
+    piece_type   VARCHAR(20) NULL,
+    CONSTRAINT uk_move_log_game_seq UNIQUE (game_room_id, seq),
+    FOREIGN KEY (game_room_id) REFERENCES game_room(id)
+);
