@@ -98,7 +98,8 @@ public class OutputView {
 
     public void printMenu() {
         System.out.println("1. 새 게임 시작");
-        System.out.println("2. 게임 종료");
+        System.out.println("2. 게임 목록 보기");
+        System.out.println("3. 게임 종료");
         System.out.print("메뉴를 선택하세요: ");
     }
 

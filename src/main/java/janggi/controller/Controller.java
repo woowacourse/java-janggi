@@ -28,7 +28,7 @@ public class Controller {
 
         String command = inputView.readMenuCommand();
 
-        if (command.equals("2")) {
+        if (command.equals("3")) {
             return false;
         }
 
