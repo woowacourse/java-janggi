@@ -4,11 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.strategy.ArrangementStrategy;
-import janggi.strategy.BoardAssembler;
+import janggi.domain.board.strategy.ArrangementStrategy;
+import janggi.domain.board.strategy.BoardAssembler;
 import janggi.support.TestArrangementStrategy;
 import janggi.support.TestPiece;
 import java.util.List;
@@ -212,35 +213,58 @@ class BoardTest {
         Assertions.assertThat(expectTestPiece).isEqualTo(testPiece);
     }
 
-    @Test
-    @DisplayName("보드에 기물이 하나라도 있으면 true를 반환한다")
-    void shouldReturnTrueForNoneEmptyBoard() {
-        // given
-        Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new TestPiece(PieceType.CHA, Side.HAN),
-                new Location(1, 2), EMPTY
-        );
-        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
-        Board board = Board.create(assembler);
+    @Nested
+    class IsNotEmptyTest {
+        @Test
+        @DisplayName("보드에 기물이 하나라도 있으면 true를 반환한다")
+        void shouldReturnTrueForNoneEmptyBoard() {
+            // given
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(PieceType.CHA, Side.HAN),
+                    new Location(1, 2), EMPTY
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
+            Board board = Board.create(assembler);
 
-        // when & then
-        Assertions.assertThat(board.isNotEmpty()).isTrue();
+            // when & then
+            Assertions.assertThat(board.isNotEmpty()).isTrue();
+        }
+
+        @Test
+        @DisplayName("보드에 기물이 존재하지 않으면 false를 반환한다.")
+        void shouldReturnTrueForEmptyBoard() {
+            // given
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), EMPTY,
+                    new Location(1, 2), EMPTY
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
+            Board board = Board.create(assembler);
+
+            // when & then
+            Assertions.assertThat(board.isNotEmpty()).isFalse();
+        }
     }
 
     @Test
-    @DisplayName("보드에 기물이 존재하지 않으면 false를 반환한다.")
-    void shouldReturnTrueForEmptyBoard() {
+    @DisplayName("보드판 위에 남아있는 기물의 목록을 반환한다.")
+    void shouldReturnListOfRemainingAlivePieces() {
         // given
+        Piece hanPiece = new TestPiece(PieceType.CHA, Side.HAN);
+        Piece choPiece = new TestPiece(PieceType.PO, Side.CHO);
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), EMPTY,
-                new Location(1, 2), EMPTY
+                new Location(1, 1), hanPiece,
+                new Location(8, 2), choPiece
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
         BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
         Board board = Board.create(assembler);
 
         // when & then
-        Assertions.assertThat(board.isNotEmpty()).isFalse();
+        AlivePieces alivePieces = board.getAlivePieces();
+        Assertions.assertThat(alivePieces.calculateScoreSum(Side.HAN)).isGreaterThan(0);
+        Assertions.assertThat(alivePieces.calculateScoreSum(Side.CHO)).isGreaterThan(0);
     }
 }

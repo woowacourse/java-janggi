@@ -2,26 +2,29 @@ package janggi.domain.board;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.strategy.BoardAssembler;
+import janggi.domain.piece.PieceInfo;
+import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Board {
 
     private static final int FIRST_ROW_INDEX = 0;
 
-    private final Map<Location, Piece> boardState;
     private final int height;
     private final int width;
+    private final Map<Location, Piece> boardState;
 
-    private Board(Map<Location, Piece> boardState, int height, int width) {
-        this.boardState = boardState;
+    private Board(int height, int width, Map<Location, Piece> boardState) {
         this.height = height;
         this.width = width;
+        this.boardState = boardState;
     }
 
     public static Board create(BoardAssembler assembler) {
@@ -35,7 +38,7 @@ public class Board {
             mapRowToBoardState(boardState, pieces[row], row);
         }
 
-        return new Board(boardState, height, width);
+        return new Board(height, width, boardState);
     }
 
     private static void mapRowToBoardState(Map<Location, Piece> boardState, Piece[] rowPieces, int row) {
@@ -65,6 +68,21 @@ public class Board {
         }
     }
 
+    private boolean isNotSameSide(Piece piece, Side side) {
+        return !piece.isSameSide(side);
+    }
+
+    public void validateLocationToMove(Location startingLocation, Location locationToMove) {
+        validateLocation(locationToMove);
+        validateMovementOccurrence(startingLocation, locationToMove);
+    }
+
+    private void validateMovementOccurrence(Location from, Location to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("기물의 도착 위치는 출발 위치와 일치할 수 없습니다.");
+        }
+    }
+
     public void move(Location from, Location to) {
         Piece piece = boardState.get(from);
         List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
@@ -85,17 +103,6 @@ public class Board {
         boardState.put(from, EmptyPiece.getInstance());
     }
 
-    public void validateLocationToMove(Location startingLocation, Location locationToMove) {
-        validateLocation(locationToMove);
-        validateMovementOccurrence(startingLocation, locationToMove);
-    }
-
-    private void validateMovementOccurrence(Location from, Location to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("기물의 도착 위치는 출발 위치와 일치할 수 없습니다.");
-        }
-    }
-
     public boolean isNotEmpty() {
         return !boardState.values().stream()
                 .allMatch(Piece::isEmpty);
@@ -104,7 +111,7 @@ public class Board {
     public List<List<Piece>> to2DArray() {
         List<List<Piece>> pieces = new ArrayList<>();
         for (int row = 0; row < height; row++) {
-            pieces.add(createRows(row)); // 메서드 분리
+            pieces.add(createRows(row));
         }
         return List.copyOf(pieces);
     }
@@ -118,7 +125,26 @@ public class Board {
         return List.copyOf(line);
     }
 
-    private boolean isNotSameSide(Piece piece, Side side) {
-        return !piece.isSameSide(side);
+    public AlivePieces getAlivePieces() {
+        List<Piece> alivePieces = boardState.values().stream().toList();
+        return AlivePieces.from(alivePieces);
+    }
+
+    public List<PieceInfo> getAlivePieceInfos() {
+        List<PieceInfo> pieceInfos = new ArrayList<>();
+        for (Entry<Location, Piece> pieceEntry : boardState.entrySet()) {
+            addIfNotEmptyPiece(pieceEntry, pieceInfos);
+        }
+        return List.copyOf(pieceInfos);
+    }
+
+    private void addIfNotEmptyPiece(Entry<Location, Piece> pieceEntry, List<PieceInfo> pieceInfos) {
+        Piece piece = pieceEntry.getValue();
+        if (piece.isEmpty()) {
+            return;
+        }
+        Location location = pieceEntry.getKey();
+        PieceInfo pieceInfo = new PieceInfo(piece.getPieceType(), piece.getSide(), location.row(), location.col());
+        pieceInfos.add(pieceInfo);
     }
 }

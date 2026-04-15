@@ -16,16 +16,16 @@ class RouteTest {
         Route route = Route.from(
                 List.of(
                         Direction.FRONT, // + (-1, 0)
-                        Direction.FRONT_LEFT, // + (1, -1)
-                        Direction.FRONT_RIGHT, // + (1, 1)
+                        Direction.FRONT_LEFT, // + (-1, -1)
+                        Direction.FRONT_RIGHT, // + (-1, 1)
                         Direction.BACK // + (1, 0)
                 )
         );
         List<Location> expected = List.of(
                 new Location(-1, 0),
-                new Location(0, -1),
-                new Location(1, 0),
-                new Location(2, 0)
+                new Location(-2, -1),
+                new Location(-3, 0),
+                new Location(-2, 0)
         );
 
         // when

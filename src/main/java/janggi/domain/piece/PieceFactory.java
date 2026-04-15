@@ -1,40 +1,45 @@
 package janggi.domain.piece;
 
-import static janggi.domain.piece.PieceType.*;
+import static janggi.domain.piece.PieceType.BYEONG;
+import static janggi.domain.piece.PieceType.CHA;
+import static janggi.domain.piece.PieceType.GUNG;
+import static janggi.domain.piece.PieceType.JOL;
+import static janggi.domain.piece.PieceType.MA;
+import static janggi.domain.piece.PieceType.PO;
+import static janggi.domain.piece.PieceType.SA;
+import static janggi.domain.piece.PieceType.SANG;
 
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
+import janggi.domain.rule.ByeongMovement;
 import janggi.domain.rule.ChaMovement;
-import janggi.domain.rule.GungMovement;
-import janggi.domain.rule.JolbyeongMovement;
+import janggi.domain.rule.GungSaMovement;
+import janggi.domain.rule.JolMovement;
 import janggi.domain.rule.MaMovement;
 import janggi.domain.rule.Movement;
 import janggi.domain.rule.PoMovement;
-import janggi.domain.rule.SaMovement;
 import janggi.domain.rule.SangMovement;
 import java.util.EnumMap;
 import java.util.Map;
 
-@SuppressWarnings("java:S6548")
 public class PieceFactory {
-
-    private static final PieceFactory INSTANCE = new PieceFactory();
 
     private final Map<PieceType, Movement> matchInfo;
 
-    private PieceFactory() {
+    private PieceFactory(GungSeong gungSeong) {
         this.matchInfo = new EnumMap<>(PieceType.class);
-        matchInfo.put(CHA, ChaMovement.getInstance());
+        matchInfo.put(CHA, ChaMovement.create(gungSeong));
         matchInfo.put(MA, MaMovement.getInstance());
         matchInfo.put(SANG, SangMovement.getInstance());
-        matchInfo.put(SA, SaMovement.getInstance());
-        matchInfo.put(GUNG, GungMovement.getInstance());
-        matchInfo.put(PO, PoMovement.getInstance());
-        matchInfo.put(JOL, JolbyeongMovement.getInstanceBySide(Side.CHO));
-        matchInfo.put(BYEONG, JolbyeongMovement.getInstanceBySide(Side.HAN));
+        matchInfo.put(SA, GungSaMovement.create(gungSeong));
+        matchInfo.put(GUNG, GungSaMovement.create(gungSeong));
+        matchInfo.put(PO, PoMovement.create(gungSeong));
+        matchInfo.put(JOL, JolMovement.create(gungSeong));
+        matchInfo.put(BYEONG, ByeongMovement.create(gungSeong));
     }
 
-    public static PieceFactory getInstance() {
-        return INSTANCE;
+    public static PieceFactory of(GungSeong gungSeong) {
+        return new PieceFactory(gungSeong);
     }
 
     public Piece createActivePiece(PieceType type, Side side) {

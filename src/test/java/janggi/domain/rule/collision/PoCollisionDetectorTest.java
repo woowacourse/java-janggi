@@ -38,6 +38,28 @@ class PoCollisionDetectorTest {
     }
 
     @Test
+    @DisplayName("이동 경로에 포가 아닌 장애물이 1개 존재하고, 도착지에 상대팀의 포가 존재하는 경우 예외를 발생시킨다.")
+    void shouldThrowExceptionWhenOneNonPoObstacleAndPoOfOtherSideOnDestination() {
+        // given
+        List<Piece> piecesOnPath = List.of(new TestPiece(PieceType.CHA, Side.CHO), EMPTY, new TestPiece(PieceType.PO, Side.HAN));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> PO_COLLISION_DETECTOR.check(Side.CHO, piecesOnPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("이동 경로에 포가 아닌 장애물이 1개 존재하고, 도착지에 우리팀 기물이 존재하는 경우 예외를 발생시킨다.")
+    void shouldThrowExceptionWhenOneNonPoObstacleAndSameSidePieceOnDestination() {
+        // given
+        List<Piece> piecesOnPath = List.of(new TestPiece(PieceType.MA, Side.CHO), EMPTY, new TestPiece(PieceType.CHA, Side.CHO));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> PO_COLLISION_DETECTOR.check(Side.CHO, piecesOnPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("이동 경로에 장애물이 2개 이상 존재하는 경우 예외를 발생시킨다.")
     void shouldThrowExceptionWhenTwoOrMorePieceOnPathExist() {
         // given
@@ -64,28 +86,6 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenPoOnPath() {
         // given
         List<Piece> piecesOnPath = List.of(EMPTY, new TestPiece(PieceType.PO, Side.HAN), new TestPiece(PieceType.CHA, Side.HAN));
-
-        // when & then
-        Assertions.assertThatThrownBy(() -> PO_COLLISION_DETECTOR.check(Side.CHO, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("도착지에 상대팀의 포가 존재하는 경우 예외를 발생시킨다.")
-    void shouldThrowExceptionWhenPoOfOtherSideOnDestination() {
-        // given
-        List<Piece> piecesOnPath = List.of(EMPTY, EMPTY, new TestPiece(PieceType.PO, Side.HAN));
-
-        // when & then
-        Assertions.assertThatThrownBy(() -> PO_COLLISION_DETECTOR.check(Side.CHO, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("도착지에 우리팀 기물이 존재하는 경우 예외를 발생시킨다.")
-    void shouldThrowExceptionWhenSameSidePieceOnDestination() {
-        // given
-        List<Piece> piecesOnPath = List.of(EMPTY, EMPTY, new TestPiece(PieceType.CHA, Side.CHO));
 
         // when & then
         Assertions.assertThatThrownBy(() -> PO_COLLISION_DETECTOR.check(Side.CHO, piecesOnPath))

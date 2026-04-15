@@ -31,8 +31,7 @@ public record Location(int row, int col) {
         return to.row - this.row;
     }
 
-    @Override
-    public String toString() {
+    public String getFormattedLocation() {
         return "(" + (row + 1) + ", " + (col + 1) + ")";
     }
 }

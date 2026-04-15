@@ -2,7 +2,8 @@ package janggi.support;
 
 import janggi.domain.Location;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
+import janggi.domain.piece.PieceFactory;
+import janggi.domain.board.strategy.ArrangementStrategy;
 import java.util.Map;
 
 public class TestArrangementStrategy implements ArrangementStrategy {
@@ -13,7 +14,7 @@ public class TestArrangementStrategy implements ArrangementStrategy {
     }
 
     @Override
-    public void place(Piece[][] arrangement) {
+    public void place(Piece[][] arrangement, PieceFactory pieceFactory) {
         placeVariablePieces(arrangement);
     }
 

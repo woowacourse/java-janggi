@@ -1,10 +1,13 @@
-package janggi.strategy;
+package janggi.domain.board.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
+import janggi.domain.board.strategy.MaSangArrangementStrategy;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +25,8 @@ class MaSangArrangementStrategyTest {
     private static final List<PieceType> MA_SANG_SANG_MA =
             List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA);
 
+    private static final PieceFactory FACTORY = PieceFactory.of(GungSeong.of(10, 9));
+
     @Test
     @DisplayName("전략의 place를 호출하면 차, 포, 궁, 사, 졸 등 '기본 기물'이 올바른 위치에 배치된다.")
     void shouldPlaceDefaultPieces() {
@@ -33,8 +38,8 @@ class MaSangArrangementStrategyTest {
         MaSangArrangementStrategy choStrategy = MaSangArrangementStrategy.of(cho, MA_SANG_MA_SANG);
 
         // when
-        hanStrategy.place(board);
-        choStrategy.place(board);
+        hanStrategy.place(board, FACTORY);
+        choStrategy.place(board, FACTORY);
 
         // then: 한팀
         Piece chaOfHan = board[0][0];
@@ -87,7 +92,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, MA_SANG_MA_SANG);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftMa = grid[0][1];
             Piece leftSang = grid[0][2];
             Piece rightMa = grid[0][6];
@@ -114,7 +119,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, MA_SANG_MA_SANG);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftMa = grid[9][1];
             Piece leftSang = grid[9][2];
             Piece rightMa = grid[9][6];
@@ -144,7 +149,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, SANG_MA_SANG_MA);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftSang = grid[0][1];
             Piece leftMa = grid[0][2];
             Piece rightSang = grid[0][6];
@@ -171,7 +176,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, SANG_MA_SANG_MA);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftSang = grid[9][1];
             Piece leftMa = grid[9][2];
             Piece rightSang = grid[9][6];
@@ -201,7 +206,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, SANG_MA_MA_SANG);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftSang = grid[0][1];
             Piece leftMa = grid[0][2];
             Piece rightMa = grid[0][6];
@@ -228,7 +233,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, SANG_MA_MA_SANG);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftSang = grid[9][1];
             Piece leftMa = grid[9][2];
             Piece rightMa = grid[9][6];
@@ -258,7 +263,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, MA_SANG_SANG_MA);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftMa = grid[0][1];
             Piece leftSang = grid[0][2];
             Piece rightSang = grid[0][6];
@@ -285,7 +290,7 @@ class MaSangArrangementStrategyTest {
             MaSangArrangementStrategy strategy = MaSangArrangementStrategy.of(side, MA_SANG_SANG_MA);
 
             // when
-            strategy.place(grid);
+            strategy.place(grid, FACTORY);
             Piece leftMa = grid[9][1];
             Piece leftSang = grid[9][2];
             Piece rightSang = grid[9][6];

@@ -32,12 +32,12 @@ public class MaMovement implements Movement {
         List<Route> possibleRoutes = List.of(
                 Route.from(List.of(FRONT, FRONT_LEFT)),
                 Route.from(List.of(FRONT, FRONT_RIGHT)),
-                Route.from(List.of(RIGHT, FRONT_RIGHT)),
-                Route.from(List.of(RIGHT, BACK_RIGHT)),
+                Route.from(List.of(BACK, BACK_LEFT)),
+                Route.from(List.of(BACK, BACK_RIGHT)),
                 Route.from(List.of(LEFT, FRONT_LEFT)),
                 Route.from(List.of(LEFT, BACK_LEFT)),
-                Route.from(List.of(BACK, BACK_LEFT)),
-                Route.from(List.of(BACK, BACK_RIGHT))
+                Route.from(List.of(RIGHT, FRONT_RIGHT)),
+                Route.from(List.of(RIGHT, BACK_RIGHT))
         );
         this.routeProvider = new DefaultRouteProvider(possibleRoutes);
         this.collisionDetector = DefaultCollisionDetector.getInstance();

@@ -1,5 +1,9 @@
 package janggi.view;
 
+import janggi.dto.FinalResultDto;
+import janggi.dto.PieceDto;
+import janggi.dto.ScoreResultDto;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,12 +29,27 @@ public class ApplicationView {
         return inputReader.readInt();
     }
 
-    public void showBoardArray(List<List<String>> stringMatrix) {
-        outputWriter.printStringMatrix(stringMatrix);
+    public void showBoardArray(List<List<PieceDto>> pieceMatrix) {
+        outputWriter.printPieceMatrix(pieceMatrix);
+    }
+
+    public void showScoreResults(ScoreResultDto scoreResultDto) {
+        outputWriter.printPromptMessage(consistScoreResult(scoreResultDto));
+    }
+
+    private String consistScoreResult(ScoreResultDto scoreResultDto) {
+        List<String> results = new ArrayList<>();
+        for (Entry<String, Double> scoreResult : scoreResultDto.scoreResults().entrySet()) {
+            String team = scoreResult.getKey();
+            double score = scoreResult.getValue();
+            String result = String.format("%s: %.1f점", team, score);
+            results.add(result);
+        }
+        return String.join(" | ", results);
     }
 
     public void showCurrentSide(String currentSide) {
-        outputWriter.printPromptMessage(currentSide + "팀의 차례입니다.");
+        outputWriter.printPromptMessage("\n" + currentSide + "팀의 차례입니다.");
     }
 
     public List<Integer> promptForLocationOfPiece() {
@@ -47,5 +66,11 @@ public class ApplicationView {
 
     public void showErrorMessage(String errorMessage) {
         outputWriter.printErrorMessage(errorMessage);
+    }
+
+    public void showFinalResult(FinalResultDto finalResultDto) {
+        ScoreResultDto scoreResultDto = finalResultDto.scoreResultDto();
+        outputWriter.printPromptMessage("[게임 결과]\n승리 팀: " + finalResultDto.winner()
+                + "\n\n[양 진영의 최종 점수] \n" + consistScoreResult(scoreResultDto));
     }
 }

@@ -1,4 +1,4 @@
-package janggi.strategy;
+package janggi.domain.board.strategy;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
@@ -10,7 +10,6 @@ import java.util.function.Function;
 public class MaSangArrangementStrategy implements ArrangementStrategy {
 
     private static final List<Integer> COLS_OF_MA_SANG = List.of(1, 2, 6, 7);
-    private static final PieceFactory FACTORY = PieceFactory.getInstance();
 
     private final Side side;
     private final List<PieceType> maSangArrangement;
@@ -25,19 +24,19 @@ public class MaSangArrangementStrategy implements ArrangementStrategy {
     }
 
     @Override
-    public void place(Piece[][] arrangement) {
-        placeDefaultPieces(arrangement, side);
-        placeVariablePieces(arrangement, side);
+    public void place(Piece[][] arrangement, PieceFactory pieceFactory) {
+        placeDefaultPieces(arrangement, pieceFactory, side);
+        placeVariablePieces(arrangement, pieceFactory, side);
     }
 
-    private void placeVariablePieces(Piece[][] arrangement, Side side) {
+    private void placeVariablePieces(Piece[][] arrangement, PieceFactory pieceFactory, Side side) {
         int boardMaxLength = arrangement.length;
         int row = calculateInitialRow(boardMaxLength, side);
 
         for (int index = 0; index < COLS_OF_MA_SANG.size(); index++) {
             int col = COLS_OF_MA_SANG.get(index);
             PieceType pieceType = maSangArrangement.get(index);
-            arrangement[row][col] = FACTORY.createActivePiece(pieceType, side);
+            arrangement[row][col] = pieceFactory.createActivePiece(pieceType, side);
         }
     }
 
@@ -51,21 +50,22 @@ public class MaSangArrangementStrategy implements ArrangementStrategy {
         throw new IllegalArgumentException("진영이 존재하지 않아 시작 행을 찾을 수 없습니다.");
     }
 
-    private void placeDefaultPieces(Piece[][] grid, Side side) {
-        for (DefaultPieceFactory factory : DefaultPieceFactory.values()) {
-            setUpPiece(grid, side, factory);
+    private void placeDefaultPieces(Piece[][] grid, PieceFactory pieceFactory, Side side) {
+        for (DefaultPiecePosition piecePosition : DefaultPiecePosition.values()) {
+            setUpPiece(grid, side, piecePosition, pieceFactory);
         }
     }
 
-    private void setUpPiece(Piece[][] grid, Side side, DefaultPieceFactory factory) {
+    private void setUpPiece(Piece[][] grid, Side side, DefaultPiecePosition piecePosition, PieceFactory pieceFactory) {
         int height = grid.length;
-        for (int col : factory.getCols()) {
-            int row = factory.getRow(side, height);
-            grid[row][col] = factory.createPiece(side);
+        for (int col : piecePosition.getCols()) {
+            int row = piecePosition.getRow(side, height);
+            PieceType pieceType = piecePosition.getPieceType(side);
+            grid[row][col] = pieceFactory.createActivePiece(pieceType, side);
         }
     }
 
-    private enum DefaultPieceFactory {
+    private enum DefaultPiecePosition {
         CHA(0, List.of(0, 8), pieceSide -> PieceType.CHA),
         SA(0, List.of(3, 5), pieceSide -> PieceType.SA),
         GUNG(1, List.of(4), pieceSide -> PieceType.GUNG),
@@ -84,14 +84,14 @@ public class MaSangArrangementStrategy implements ArrangementStrategy {
         private final List<Integer> cols;
         private final Function<Side, PieceType> pieceTypeProvider;
 
-        DefaultPieceFactory(int row, List<Integer> cols, Function<Side, PieceType> pieceTypeProvider) {
+        DefaultPiecePosition(int row, List<Integer> cols, Function<Side, PieceType> pieceTypeProvider) {
             this.row = row;
             this.cols = cols;
             this.pieceTypeProvider = pieceTypeProvider;
         }
 
-        private Piece createPiece(Side side) {
-            return FACTORY.createActivePiece(pieceTypeProvider.apply(side), side);
+        private PieceType getPieceType(Side side) {
+            return pieceTypeProvider.apply(side);
         }
 
         private int getRow(Side side, int height) {
