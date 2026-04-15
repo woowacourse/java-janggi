@@ -15,7 +15,7 @@ public class MySqlConnection implements DbConnection {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new DataAccessException("DB 연결 실패", e);
+            throw new DataAccessException("게임 데이터를 불러오는 중 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.", e);
         }
     }
 }
