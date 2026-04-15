@@ -23,6 +23,10 @@ public class Application {
         Turn turn = createTurn(choice, janggiDAO);
 
         JanggiGame janggiGame = new JanggiGame(board);
+        runGame(janggiGame, turn, janggiDAO);
+    }
+
+    private static void runGame(JanggiGame janggiGame, Turn turn, JanggiDao janggiDAO) {
         janggiGame.printInitialBoard();
         while (!turn.isFinished()) {
             turn = janggiGame.playTurn(turn);
