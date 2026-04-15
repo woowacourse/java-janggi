@@ -8,7 +8,7 @@ import janggi.domain.board.strategy.ArrangementOption;
 import janggi.domain.board.strategy.ArrangementStrategy;
 import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.Piece;
-import janggi.domain.result.ScoreResult;
+import janggi.domain.result.GameResult;
 import janggi.dto.FinalResultDto;
 import janggi.dto.PieceDto;
 import janggi.dto.GameDto;
@@ -74,7 +74,8 @@ public class JanggiFlow {
 
     private FinalResultDto convertFinalResult(Board board) {
         AlivePieces alivePieces = board.getAlivePieces();
-        return FinalResultDto.of(alivePieces.findSideWithOutGung(), ScoreResult.calculate(alivePieces));
+        GameResult gameResult = GameResult.calculate(alivePieces);
+        return FinalResultDto.of(gameResult);
     }
 
     private <T> T retry(Supplier<T> supplier) {
@@ -104,8 +105,8 @@ public class JanggiFlow {
 
     private ScoreResultDto convertScoreResult(Board board) {
         AlivePieces alivePieces = board.getAlivePieces();
-        ScoreResult scoreResult = ScoreResult.calculate(alivePieces);
-        return ScoreResultDto.from(scoreResult);
+        GameResult gameResult = GameResult.calculate(alivePieces);
+        return ScoreResultDto.from(gameResult);
     }
 
     private ArrangementStrategy repeatAskStrategyUntilSuccess(Side side) {

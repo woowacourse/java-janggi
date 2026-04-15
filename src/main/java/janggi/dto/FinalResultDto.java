@@ -1,13 +1,14 @@
 package janggi.dto;
 
 import janggi.domain.Side;
-import janggi.domain.result.ScoreResult;
+import janggi.domain.result.GameResult;
 
 public record FinalResultDto(String winner, ScoreResultDto scoreResultDto) {
 
-    public static FinalResultDto of(Side side, ScoreResult scoreResult) {
-        String winner = side.getNameFormat();
-        ScoreResultDto scoreResultDto = ScoreResultDto.from(scoreResult);
+    public static FinalResultDto of(GameResult gameResult) {
+        Side winnerSide = gameResult.getWinner();
+        String winner = winnerSide.getNameFormat();
+        ScoreResultDto scoreResultDto = ScoreResultDto.from(gameResult);
         return new FinalResultDto(winner, scoreResultDto);
     }
 }
