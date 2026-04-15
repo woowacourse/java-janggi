@@ -116,4 +116,14 @@ public class JanggiDao {
         }
         return false;
     }
+
+    public void deleteGame() {
+        String query = "DELETE FROM game";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 데이터 삭제 실패");
+        }
+    }
 }

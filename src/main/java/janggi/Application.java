@@ -23,7 +23,15 @@ public class Application {
         Turn turn = createTurn(choice, janggiDAO);
 
         JanggiGame janggiGame = new JanggiGame(board);
-        janggiGame.start(turn);
+        janggiGame.printInitialBoard();
+        while (!turn.isFinished()) {
+            turn = janggiGame.playTurn(turn);
+            if (!turn.isFinished()) {
+                janggiDAO.saveGame(turn, janggiGame.getBoard());
+            }
+        }
+        janggiGame.printWinner(turn);
+        janggiDAO.deleteGame();
     }
 
     private static String readChoice(Scanner scanner) {

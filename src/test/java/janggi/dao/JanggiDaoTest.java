@@ -10,9 +10,6 @@ import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.Turn;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,13 +25,7 @@ class JanggiDaoTest {
         DbConnection.initializeDatabase();
         janggiDAO = new JanggiDao();
 
-        String deleteQuery = "DELETE FROM game";
-        try (Connection connection = DbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException("저장소 초기화 실패");
-        }
+        janggiDAO.deleteGame();
     }
 
     @Test
