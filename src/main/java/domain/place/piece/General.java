@@ -9,7 +9,17 @@ public class General extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
+    @Override
     public PieceSymbol getSymbol() {
         return PieceSymbol.GENERAL;
+    }
+
+    @Override
+    public double getScore() {
+        return 0;
     }
 }

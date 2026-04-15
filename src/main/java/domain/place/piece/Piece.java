@@ -13,10 +13,12 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public abstract PieceSymbol getSymbol();
-
     public String getFormat() {
         return side.colorize(getSymbol().display());
+    }
+
+    public Side getSide() {
+        return side;
     }
 
     public boolean isSameSide(Piece piece) {
@@ -31,7 +33,15 @@ public abstract class Piece {
         return false;
     }
 
+    public boolean isGeneral() {
+        return false;
+    }
+
     public boolean canMove(BoardView board, Position from, Position to) {
         return moveStrategy.canMove(board, from, to);
     }
+
+    public abstract PieceSymbol getSymbol();
+
+    public abstract double getScore();
 }

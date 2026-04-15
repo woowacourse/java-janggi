@@ -1,5 +1,7 @@
 package domain.place.piece;
 
+import domain.player.Player;
+
 public enum Side {
     CHO("C", 10, -1, "\u001B[34m"),
     HAN("H", 1, 1, "\u001B[31m");
@@ -31,5 +33,12 @@ public enum Side {
 
     public int getDirection() {
         return direction;
+    }
+
+    public Player resolve(Player cho, Player han) {
+        if (this == CHO) {
+            return cho;
+        }
+        return han;
     }
 }

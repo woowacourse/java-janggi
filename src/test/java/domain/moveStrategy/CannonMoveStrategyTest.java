@@ -136,4 +136,43 @@ class CannonMoveStrategyTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    @DisplayName("포는 궁성 내에서 대각선으로 이동할 수 없다")
+    void 포_궁내_대각선_이동() {
+        //given
+        StubBoard stubBoard = new StubBoard();
+        stubBoard.put(new Position(10, 4), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(9, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        Board board = stubBoard.create();
+
+        Position from = new Position(10, 4);
+        Position to = new Position(8, 6);
+
+        // when
+        MoveStrategy moveStrategy = new CannonMoveStrategy();
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 내에서 기물이 없으면 대각선으로 이동할 수 없다")
+    void 포_궁내_기물없으면_대각선_이동_불가() {
+        //given
+        StubBoard stubBoard = new StubBoard();
+        stubBoard.put(new Position(10, 4), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        Board board = stubBoard.create();
+
+        Position from = new Position(10, 4);
+        Position to = new Position(8, 6);
+
+        // when
+        MoveStrategy moveStrategy = new CannonMoveStrategy();
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        //then
+        assertThat(result).isFalse();
+    }
 }

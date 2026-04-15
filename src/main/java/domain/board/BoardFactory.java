@@ -31,6 +31,7 @@ public class BoardFactory {
 
     public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
         Map<Position, Piece> board = new HashMap<>();
+        Palace palace = Palace.getInstance();
 
         setUpFormationHorseElephant(board, Side.CHO, cho);
         setUpFormationHorseElephant(board, Side.HAN, han);
@@ -38,7 +39,7 @@ public class BoardFactory {
         setUpFormation(board, Side.CHO);
         setUpFormation(board, Side.HAN);
 
-        return new Board(board);
+        return new Board(board, palace);
     }
 
     private static void setUpFormationHorseElephant(Map<Position, Piece> board, Side side,

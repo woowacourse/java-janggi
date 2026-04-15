@@ -12,4 +12,9 @@ public class Horse extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.HORSE;
     }
+
+    @Override
+    public double getScore() {
+        return 5;
+    }
 }

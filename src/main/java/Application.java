@@ -1,98 +1,54 @@
+import controller.GameController;
+import controller.QuitGameException;
+import data.JanggiMapper;
+import data.JdbcGameDao;
+import data.JdbcBoardDao;
+import domain.Game;
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.HorseElephantFormation;
-import domain.place.piece.Side;
-import domain.player.Player;
 import domain.player.Players;
-import domain.position.Position;
-import java.util.List;
-import parser.PlayerNameParser;
-import parser.PositionParser;
+import repository.GameRepository;
+import repository.JdbcGameRepository;
+import service.GameService;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
+    private static final String DB_URL = "jdbc:h2:~/janggi_new;INIT=RUNSCRIPT FROM 'file:src/main/resources/schema.sql'";
+    private static final String DB_USERNAME = "sa";
+    private static final String DB_PASSWORD = "";
 
     public static void main(String[] args) {
-        Players players = getPlayer();
-        Board board = getBoard();
-        Janggi janggi = new Janggi(players, board);
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+        GameRepository gameRepository = new JdbcGameRepository(
+                new JdbcGameDao(),
+                new JdbcBoardDao(),
+                new JanggiMapper(),
+                DB_URL,
+                DB_USERNAME,
+                DB_PASSWORD
+        );
+        GameService gameService = new GameService(gameRepository);
+        GameController controller = new GameController(inputView, outputView, gameService);
 
-        run(janggi);
-    }
-
-    public static void run(Janggi janggi) {
-        while (true) {
-            Player player = janggi.getCurrentPlayer();
-            OutputView.printBoard(janggi.getBoardFormat());
-
-            playTurn(player, janggi);
-        }
-    }
-
-    private static Players getPlayer() {
         while (true) {
             try {
-                OutputView.printInputPlayerNames();
-                String input = InputView.readLine();
-                List<String> names = PlayerNameParser.splitNames(input);
-                return Players.from(names);
-            } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
-            }
-        }
-    }
+                outputView.printGameId();
+                Long gameId = Long.parseLong(inputView.readLine());
 
-    private static Board getBoard() {
-        HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
-        HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
+                Game game;
+                if (gameId == 0L) {
+                    Players players = controller.getPlayer();
+                    Board board = controller.getBoard();
+                    game = gameService.startNewGame(players, board);
+                } else {
+                    game = gameService.loadGame(gameId);
+                }
 
-        return BoardFactory.create(cho, han);
-    }
-
-    private static HorseElephantFormation getHorseElephantFormation(Side side) {
-        while (true) {
-            try {
-                OutputView.printHorseElephantFormation(side);
-                String input = InputView.readLine();
-                return HorseElephantFormation.from(input);
-            } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
-            }
-        }
-    }
-
-    private static void playTurn(Player player, Janggi janggi) {
-        while (true) {
-            try {
-                Position from = getFrom(player);
-                Position to = getTo(player);
-                janggi.move(from, to);
+                controller.run(game.id());
                 break;
-            } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
-            }
-        }
-    }
-
-    private static Position getFrom(Player player) {
-        while (true) {
-            try {
-                OutputView.printPieceMove(player.getName(), player.getSide());
-                return PositionParser.parsePosition(InputView.readLine());
-            } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
-            }
-        }
-    }
-
-    private static Position getTo(Player player) {
-        while (true) {
-            try {
-                OutputView.printPositionMove(player.getName(), player.getSide());
-                return PositionParser.parsePosition(InputView.readLine());
-            } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
+            } catch (QuitGameException | IllegalArgumentException e) {
+                outputView.printMessage(e.getMessage());
             }
         }
     }

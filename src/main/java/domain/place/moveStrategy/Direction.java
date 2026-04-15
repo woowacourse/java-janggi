@@ -1,5 +1,6 @@
 package domain.place.moveStrategy;
 
+import domain.place.piece.Side;
 
 public enum Direction {
     TOP(1, 0),
@@ -27,4 +28,11 @@ public enum Direction {
         return column;
     }
 
+    public boolean isForward(Side side) {
+        if (side == Side.HAN) {
+            return this.row == 1;
+        }
+
+        return this.row == -1;
+    }
 }

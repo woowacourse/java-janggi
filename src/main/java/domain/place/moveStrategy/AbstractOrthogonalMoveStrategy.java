@@ -1,5 +1,6 @@
 package domain.place.moveStrategy;
 
+import domain.board.BoardView;
 import domain.position.Position;
 
 public abstract class AbstractOrthogonalMoveStrategy implements MoveStrategy {
@@ -21,5 +22,22 @@ public abstract class AbstractOrthogonalMoveStrategy implements MoveStrategy {
         int movedVectorSum = vectorSum + direction.getRow() + direction.getColumn();
 
         return Math.abs(vectorSum) < Math.abs(movedVectorSum);
+    }
+
+    protected boolean canReachDiagonallyInPalace(BoardView board, Position from, Position to, Direction direction) {
+        Position current = from.move(direction);
+
+        while (board.isInPalace(current)) {
+            if (current.equals(to)) {
+                return true;
+            }
+
+            if (!board.isPalaceConnected(current, direction)) {
+                return false;
+            }
+
+            current = current.move(direction);
+        }
+        return false;
     }
 }

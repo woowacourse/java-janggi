@@ -1,6 +1,7 @@
 package domain.moveStrategy;
 
 import domain.board.Board;
+import domain.board.Palace;
 import domain.place.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;
@@ -20,6 +21,6 @@ public class StubBoard {
     }
 
     public Board create() {
-        return new Board(board);
+        return new Board(board, Palace.getInstance());
     }
 }

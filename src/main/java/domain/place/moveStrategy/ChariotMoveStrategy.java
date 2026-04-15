@@ -12,6 +12,10 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
+        return canMoveOrthogonally(board, from, to) || canMoveDiagonallyInPalace(board, from, to);
+    }
+
+    private boolean canMoveOrthogonally(BoardView board, Position from, Position to) {
         if (from.isNotStraightLine(to)) {
             return false;
         }
@@ -19,6 +23,16 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
         return ORTHOGONAL_DIRECTIONS.stream()
                 .filter(d -> isAlignedWithAxis(from, to, d))
                 .filter(d -> isHeadingTowardsTarget(from, to, d))
+                .anyMatch(d -> isPathClear(board, from, to, d));
+    }
+
+    private boolean canMoveDiagonallyInPalace(BoardView board, Position from, Position to) {
+        if (!board.isInPalace(from) || !board.isInPalace(to)) {
+            return false;
+        }
+
+        return board.findAvailableDirections(from).stream()
+                .filter(direction -> canReachDiagonallyInPalace(board, from, to, direction))
                 .anyMatch(d -> isPathClear(board, from, to, d));
     }
 

@@ -127,4 +127,43 @@ class ChariotMoveStrategyTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    @DisplayName("차는 궁성 내에서는 대각선 이동이 가능하다")
+    void 차_궁성_내_대각선_이동가능() {
+        //given
+        StubBoard stubBoard = new StubBoard();
+        stubBoard.put(new Position(8, 4), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        Board board = stubBoard.create();
+
+        Position from = new Position(8, 4);
+        Position to = new Position(10, 6);
+
+        // when
+        MoveStrategy moveStrategy = new ChariotMoveStrategy();
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("차는 궁성 내 대각선 이동 시 장애물 있으면 이동 불가능하다")
+    void 차_궁성_내_장애물있을때_댁가선_이동불가능() {
+        //given
+        StubBoard stubBoard = new StubBoard();
+        stubBoard.put(new Position(8, 6), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(9, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        Board board = stubBoard.create();
+
+        Position from = new Position(8, 6);
+        Position to = new Position(10, 4);
+
+        // when
+        MoveStrategy moveStrategy = new ChariotMoveStrategy();
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        //then
+        assertThat(result).isFalse();
+    }
 }

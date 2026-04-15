@@ -12,4 +12,9 @@ public class Guard extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.GUARD;
     }
+
+    @Override
+    public double getScore() {
+        return 3;
+    }
 }

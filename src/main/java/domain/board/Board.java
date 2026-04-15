@@ -1,24 +1,29 @@
 package domain.board;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
+import static common.Constant.MAX_COLUMN;
+import static common.Constant.MAX_ROW;
+import static common.Constant.MIN_COLUMN;
+import static common.Constant.MIN_ROW;
 
+import domain.place.moveStrategy.Direction;
 import domain.place.piece.Piece;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class Board implements BoardView {
 
     private final Map<Position, Piece> board;
+    private final Palace palace;
 
-    public Board(Map<Position, Piece> board) {
+    public Board(Map<Position, Piece> board, Palace palace) {
         this.board = new HashMap<>(board);
+        this.palace = palace;
     }
 
     public void move(Position from, Position to) {
@@ -44,6 +49,13 @@ public class Board implements BoardView {
         return result;
     }
 
+    public double calculateScore(Side side) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getScore)
+                .sum();
+    }
+
     @Override
     public boolean isCannon(Position position) {
         return findPiece(position)
@@ -54,6 +66,21 @@ public class Board implements BoardView {
     @Override
     public boolean isEmpty(Position position) {
         return findPiece(position).isEmpty();
+    }
+
+    @Override
+    public boolean isInPalace(Position position) {
+        return palace.isInPalace(position);
+    }
+
+    @Override
+    public boolean isPalaceConnected(Position position, Direction direction) {
+        return palace.isConnected(position, direction);
+    }
+
+    @Override
+    public Set<Direction> findAvailableDirections(Position position) {
+        return palace.findAvailableDirections(position);
     }
 
     private List<String> getFormatRow(int row) {

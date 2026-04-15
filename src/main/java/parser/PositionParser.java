@@ -1,5 +1,6 @@
 package parser;
 
+import controller.QuitGameException;
 import domain.position.Position;
 import java.util.Arrays;
 
@@ -12,6 +13,10 @@ public class PositionParser {
     }
 
     public static Position parsePosition(String input) {
+        if (input.trim().equalsIgnoreCase("quit")) {
+            throw new QuitGameException();
+        }
+
         int[] coordinates = Arrays.stream(input.split(SEPARATOR))
                 .map(String::trim)
                 .mapToInt(PositionParser::parseInt)
