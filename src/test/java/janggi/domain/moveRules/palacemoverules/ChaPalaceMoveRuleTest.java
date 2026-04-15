@@ -26,8 +26,8 @@ class ChaPalaceMoveRuleTest {
         Piece cha = new Piece(Team.CHO, PieceType.CHA);
         customState.put(chaCurrentPosition, cha);
         MoveRule chaPalaceMoveRule = new ChaPalaceMoveRule();
-        Position chaPalaceCenter = Palace.CHO_PALACE_CENTER;
-        Position pointReflect = Palace.calculateOppositePalaceVertexPosition(chaCurrentPosition);
+        Position chaPalaceCenter = Palace.CHO.getCenter();
+        Position pointReflect = Palace.CHO.calculateOppositeVertex(chaCurrentPosition);
 
         //when
         List<Position> availablePositions = chaPalaceMoveRule.calculateAvailablePositions(chaCurrentPosition, choTeam,

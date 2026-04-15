@@ -24,7 +24,8 @@ public class KingAndSaPalaceMoveRule extends OnceMoveRule {
             if (startPosition.cannotMoveTo(direction)) {
                 continue;
             }
-            if (Direction.getDiagonalDirections().contains(direction) && !Palace.isPalaceVertexAndCenterPosition(
+            Palace palace = Palace.getPalace(startPosition);
+            if (palace != null && Direction.getDiagonalDirections().contains(direction) && !palace.isVertexOrCenter(
                     startPosition)) {
                 continue;
             }

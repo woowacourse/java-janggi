@@ -35,27 +35,24 @@ public class PoPalaceMoveRule extends PoMoveRule {
             Position position,
             Team team,
             Map<Position, Piece> state) {
-        if (Palace.isInChoPalaceVertex(position)) {
-            Position choCenter = Palace.CHO_PALACE_CENTER;
-            return availablePalacePositions(position, team, state, choCenter);
-        }
-        if (Palace.isInHanPalaceVertex(position)) {
-            Position hanCenter = Palace.HAN_PALACE_CENTER;
-            return availablePalacePositions(position, team, state, hanCenter);
+        Palace palace = Palace.getPalace(position);
+        if (palace != null && palace.isVertex(position)) {
+            return availablePalacePositions(position, team, state, palace);
         }
         return new ArrayList<>();
     }
 
     private List<Position> availablePalacePositions(Position position, Team team, Map<Position, Piece> state,
-                                                    Position center) {
+                                                    Palace palace) {
         List<Position> availablePositions = new ArrayList<>();
+        Position center = palace.getCenter();
         if (!state.containsKey(center)) {
             return availablePositions;
         }
         if (state.get(center).isPo()) {
             return availablePositions;
         }
-        Position diagonal = Palace.calculateOppositePalaceVertexPosition(position);
+        Position diagonal = palace.calculateOppositeVertex(position);
         if (state.containsKey(diagonal) && !state.get(diagonal).isEnemy(team)) {
             return availablePositions;
         }

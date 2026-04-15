@@ -25,7 +25,7 @@ class PoPalaceMoveRuleTest {
         Team hanTeam = Team.HAN;
         Piece po = new Piece(hanTeam, PieceType.PO);
         customBoard.put(poCurrentPosition, po);
-        customBoard.put(Palace.CHO_PALACE_CENTER, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(Palace.CHO.getCenter(), new Piece(Team.CHO, PieceType.ZOL));
         MoveRule poPalaceMoveRule = new PoPalaceMoveRule();
 
         //when
@@ -70,7 +70,7 @@ class PoPalaceMoveRuleTest {
         Team hanTeam = Team.HAN;
         Piece po = new Piece(hanTeam, PieceType.PO);
         customBoard.put(poCurrentPosition, po);
-        customBoard.put(Palace.CHO_PALACE_CENTER, new Piece(Team.CHO, PieceType.PO));
+        customBoard.put(Palace.CHO.getCenter(), new Piece(Team.CHO, PieceType.PO));
         MoveRule poPalaceMoveRule = new PoPalaceMoveRule();
 
         //when

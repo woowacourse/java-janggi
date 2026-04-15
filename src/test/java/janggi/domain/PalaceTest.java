@@ -2,6 +2,7 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +13,11 @@ class PalaceTest {
     void 중앙_중심으로_점대칭_반환() {
         //given
         Position currentPosition = new Position(4, 10);
+        Palace palace = Palace.getPalace(currentPosition);
 
         //when
-        Position oppositePosition = Palace.calculateOppositePalaceVertexPosition(currentPosition);
+        Assertions.assertNotNull(palace);
+        Position oppositePosition = palace.calculateOppositeVertex(currentPosition);
 
         //then
         assertThat(oppositePosition).isEqualTo(new Position(6, 8));

@@ -34,19 +34,16 @@ public class ZolPalaceMoveRule extends OnceMoveRule {
     }
 
     private List<Direction> getPalaceDiagonalDirections(Position startPosition, Team team) {
-        if (!Palace.isPalaceVertexAndCenterPosition(startPosition)) {
+        Palace currentPalace = Palace.getPalace(startPosition);
+        if (currentPalace == null || !currentPalace.isVertexOrCenter(startPosition)) {
             return new ArrayList<>();
         }
 
-        if (team.isSameTeam(Team.CHO)) {
-            if (Palace.isInHanPalaceVertex(startPosition) || startPosition.equals(Palace.HAN_PALACE_CENTER)) {
-                return List.of(Direction.NORTH_WEST, Direction.NORTH_EAST);
-            }
+        if (team.isSameTeam(Team.CHO) && currentPalace == Palace.HAN) {
+            return List.of(Direction.NORTH_WEST, Direction.NORTH_EAST);
         }
-        if (team.isSameTeam(Team.HAN)) {
-            if (Palace.isInChoPalaceVertex(startPosition) || startPosition.equals(Palace.CHO_PALACE_CENTER)) {
-                return List.of(Direction.SOUTH_WEST, Direction.SOUTH_EAST);
-            }
+        if (team.isSameTeam(Team.HAN) && currentPalace == Palace.CHO) {
+            return List.of(Direction.SOUTH_WEST, Direction.SOUTH_EAST);
         }
 
         return new ArrayList<>();

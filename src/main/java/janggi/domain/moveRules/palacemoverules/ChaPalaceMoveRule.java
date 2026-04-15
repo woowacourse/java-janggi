@@ -31,19 +31,14 @@ public class ChaPalaceMoveRule extends ChaMoveRule {
 
     private List<Position> calculateAvailablePalacePositions(Position startPosition, Team team,
                                                              Map<Position, Piece> state) {
-        if (Palace.isInChoPalaceVertex(startPosition) || startPosition.equals(Palace.CHO_PALACE_CENTER)) {
-            Position choPalaceCenter = Palace.CHO_PALACE_CENTER;
-            return availablePalacePositions(startPosition, team, state, choPalaceCenter);
-        }
-        if (Palace.isInHanPalaceVertex(startPosition) || startPosition.equals(Palace.HAN_PALACE_CENTER)) {
-            Position hanPalaceCenter = Palace.HAN_PALACE_CENTER;
-            return availablePalacePositions(startPosition, team, state, hanPalaceCenter);
+        Palace palace = Palace.getPalace(startPosition);
+        if (palace != null && palace.isVertexOrCenter(startPosition)) {
+            return availablePalacePositions(startPosition, team, state);
         }
         return new ArrayList<>();
     }
 
-    private List<Position> availablePalacePositions(Position startPosition, Team team, Map<Position, Piece> state,
-                                                    Position center) {
+    private List<Position> availablePalacePositions(Position startPosition, Team team, Map<Position, Piece> state) {
         List<Position> availablePositions = new ArrayList<>();
         for (Direction direction : Direction.getDiagonalDirections()) {
             availablePositions.addAll(findPositionsByDirection(startPosition, direction, state));

@@ -5,78 +5,46 @@ import java.util.Set;
 
 public class Palace {
 
-    private static final Set<Position> CHO_PALACE_ZONES =
+    public static final Palace CHO = new Palace(
             Set.of(
-                    new Position(4, 8),
-                    new Position(5, 8),
-                    new Position(6, 8),
-                    new Position(4, 9),
-                    new Position(5, 9),
-                    new Position(6, 9),
-                    new Position(4, 10),
-                    new Position(5, 10),
-                    new Position(6, 10)
-            );
-    private static final Set<Position> HAN_PALACE_ZONES =
+                    new Position(4, 8), new Position(5, 8), new Position(6, 8),
+                    new Position(4, 9), new Position(5, 9), new Position(6, 9),
+                    new Position(4, 10), new Position(5, 10), new Position(6, 10)
+            ),
+            List.of(
+                    new Position(4, 10), new Position(4, 8),
+                    new Position(6, 10), new Position(6, 8)
+            ),
+            new Position(5, 9)
+    );
+
+    public static final Palace HAN = new Palace(
             Set.of(
-                    new Position(4, 1),
-                    new Position(5, 1),
-                    new Position(6, 1),
-                    new Position(4, 2),
-                    new Position(5, 2),
-                    new Position(6, 2),
-                    new Position(4, 3),
-                    new Position(5, 3),
-                    new Position(6, 3)
-            );
-    private static final List<Position> CHO_PALACE_VERTEX = List.of(
-            new Position(4, 10),
-            new Position(4, 8),
-            new Position(6, 10),
-            new Position(6, 8)
+                    new Position(4, 1), new Position(5, 1), new Position(6, 1),
+                    new Position(4, 2), new Position(5, 2), new Position(6, 2),
+                    new Position(4, 3), new Position(5, 3), new Position(6, 3)
+            ),
+            List.of(
+                    new Position(4, 1), new Position(4, 3),
+                    new Position(6, 1), new Position(6, 3)
+            ),
+            new Position(5, 2)
     );
-    private static final List<Position> HAN_PALACE_VERTEX = List.of(
-            new Position(4, 1),
-            new Position(4, 3),
-            new Position(6, 1),
-            new Position(6, 3)
-    );
-    public static final Position CHO_PALACE_CENTER = new Position(5, 9);
-    public static final Position HAN_PALACE_CENTER = new Position(5, 2);
 
-    public static boolean isOutOfPalace(Position position) {
-        return !isInChoPalace(position) && !isInHanPalace(position);
+    private final Set<Position> zones;
+    private final List<Position> vertices;
+    private final Position center;
+
+    private Palace(Set<Position> zones, List<Position> vertices, Position center) {
+        this.zones = zones;
+        this.vertices = vertices;
+        this.center = center;
     }
 
-    private static boolean isInChoPalace(Position position) {
-        return CHO_PALACE_ZONES.contains(position);
-    }
-
-    private static boolean isInHanPalace(Position position) {
-        return HAN_PALACE_ZONES.contains(position);
-    }
-
-    public static boolean isInChoPalaceVertex(Position position) {
-        return CHO_PALACE_VERTEX.contains(position);
-    }
-
-    public static boolean isInHanPalaceVertex(Position position) {
-        return HAN_PALACE_VERTEX.contains(position);
-    }
-
-    public static boolean isPalaceVertexAndCenterPosition(Position position) {
-        return isInChoPalaceVertex(position) || position.equals(CHO_PALACE_CENTER)
-                || isInHanPalaceVertex(position) || position.equals(HAN_PALACE_CENTER);
-    }
-
-    public static Position calculateOppositePalaceVertexPosition(Position currentPosition) {
-        if (isInChoPalaceVertex(currentPosition)) {
-            return calculatePointReflection(currentPosition, CHO_PALACE_CENTER);
+    public Position calculateOppositeVertex(Position currentPosition) {
+        if (!isVertex(currentPosition)) {
+            throw new IllegalArgumentException("꼭짓점이 아닙니다.");
         }
-        return calculatePointReflection(currentPosition, HAN_PALACE_CENTER);
-    }
-
-    private static Position calculatePointReflection(Position currentPosition, Position center) {
         int currentColumn = currentPosition.getColumn();
         int currentRow = currentPosition.getRow();
         int centerColumn = center.getColumn();
@@ -87,4 +55,39 @@ public class Palace {
 
         return new Position(currentColumn, currentRow);
     }
+
+    public static boolean isOutOfPalace(Position position) {
+        return !CHO.contains(position) && !HAN.contains(position);
+    }
+
+    public static Palace getPalace(Position position) {
+        if (CHO.contains(position)) {
+            return CHO;
+        }
+        if (HAN.contains(position)) {
+            return HAN;
+        }
+        return null;
+    }
+
+    public boolean contains(Position position) {
+        return zones.contains(position);
+    }
+
+    public boolean isVertex(Position position) {
+        return vertices.contains(position);
+    }
+
+    public boolean isCenter(Position position) {
+        return center.equals(position);
+    }
+
+    public boolean isVertexOrCenter(Position position) {
+        return isVertex(position) || isCenter(position);
+    }
+
+    public Position getCenter() {
+        return center;
+    }
+
 }
