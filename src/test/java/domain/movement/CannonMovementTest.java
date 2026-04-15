@@ -70,4 +70,33 @@ class CannonMovementTest {
         assertThat(movement.findReachablePositions(source, targetIsCannon)).doesNotContain(
                 pos(Column.E, Row.ZERO));
     }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 가운데 기물을 넘을 수 있다")
+    void cannonCanJumpOnPalaceDiagonal() {
+        CannonMovement movement = new CannonMovement();
+        Position source = pos(Column.D, Row.ZERO);
+        BoardState board = boardWith(Map.of(
+                pos(Column.E, Row.ONE), new Piece(Team.HAN, PieceType.SOLDIER),
+                pos(Column.F, Row.TWO), new Piece(Team.CHO, PieceType.GUARD)
+        ));
+
+        List<Position> destinations = movement.findReachablePositions(source, board);
+
+        assertThat(destinations).contains(pos(Column.F, Row.TWO));
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 가운데 기물이 없으면 이동할 수 없다")
+    void cannonCannotMoveOnPalaceDiagonalWithoutBridge() {
+        CannonMovement movement = new CannonMovement();
+        Position source = pos(Column.D, Row.ZERO);
+        BoardState board = boardWith(Map.of(
+                pos(Column.F, Row.TWO), new Piece(Team.CHO, PieceType.GUARD)
+        ));
+
+        List<Position> destinations = movement.findReachablePositions(source, board);
+
+        assertThat(destinations).doesNotContain(pos(Column.F, Row.TWO));
+    }
 }

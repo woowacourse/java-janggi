@@ -1,6 +1,8 @@
 package domain.board;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import domain.setup.Arrangements;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +47,21 @@ public class Pieces {
         return pieceAt(position)
                 .filter(piece::isSameTeamAs)
                 .isEmpty();
+    }
+
+    public boolean hasGeneral(Team team) {
+        return count(team, PieceType.GENERAL) > 0;
+    }
+
+    public int count(Team team, PieceType pieceType) {
+        return (int) pieces.values().stream()
+                .filter(piece -> piece.isOwnedBy(team))
+                .filter(piece -> piece.getPieceType() == pieceType)
+                .count();
+    }
+
+    public Pieces snapshot() {
+        return new Pieces(pieces);
     }
 
 }

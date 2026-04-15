@@ -1,6 +1,7 @@
 package io;
 
 import domain.board.Row;
+import domain.game.GameResult;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -32,6 +33,12 @@ public class ConsoleFormatter {
             PieceType.HORSE, "마",
             PieceType.SOLDIER, "졸"
     );
+    private static final String RESULT_FORMAT = """
+            게임 종료
+            승리 팀: %s
+            최종 점수
+            초(CHO): %d
+            한(HAN): %d""";
 
     public String formatTurn(Team team) {
         return TURN_NAMES.get(team);
@@ -50,5 +57,14 @@ public class ConsoleFormatter {
                 + PIECE_PREFIXES.get(piece.getTeam())
                 + PIECE_TYPE_NAMES.get(piece.getPieceType())
                 + RESET;
+    }
+
+    public String formatGameResult(GameResult gameResult) {
+        return String.format(
+                RESULT_FORMAT,
+                formatTurn(gameResult.winner()),
+                gameResult.choScore(),
+                gameResult.hanScore()
+        );
     }
 }

@@ -50,4 +50,31 @@ class ChariotMovementTest {
         assertThat(destinations).contains(pos(Column.E, Row.THREE), pos(Column.E, Row.TWO));
         assertThat(destinations).doesNotContain(pos(Column.E, Row.ONE), pos(Column.E, Row.ZERO));
     }
+
+    @Test
+    @DisplayName("차는 궁성 중앙에서 대각선으로 이동할 수 있다")
+    void chariotMovesDiagonallyFromPalaceCenter() {
+        ChariotMovement movement = new ChariotMovement();
+        Position source = pos(Column.E, Row.ONE);
+
+        List<Position> destinations = movement.findReachablePositions(source, boardWith(Map.of()));
+
+        assertThat(destinations).contains(
+                pos(Column.D, Row.ZERO),
+                pos(Column.F, Row.ZERO),
+                pos(Column.D, Row.TWO),
+                pos(Column.F, Row.TWO)
+        );
+    }
+
+    @Test
+    @DisplayName("차는 궁성 꼭짓점에서 대각선으로 이동할 수 있다")
+    void chariotMovesDiagonallyFromPalaceCorner() {
+        ChariotMovement movement = new ChariotMovement();
+        Position source = pos(Column.D, Row.ZERO);
+
+        List<Position> destinations = movement.findReachablePositions(source, boardWith(Map.of()));
+
+        assertThat(destinations).contains(pos(Column.E, Row.ONE), pos(Column.F, Row.TWO));
+    }
 }

@@ -1,0 +1,181 @@
+package application;
+
+import application.port.GameSessionRepository;
+import application.port.StoredGameSession;
+import domain.board.Column;
+import domain.board.Position;
+import domain.board.Row;
+import domain.piece.Team;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@DisplayName("GameSessionService 클래스 테스트")
+class GameSessionServiceTest {
+
+    @Test
+    @DisplayName("진행 중인 게임이 없으면 새 세션을 시작한다")
+    void startStartsNewSession() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        GameSession gameSession = gameSessionService.start();
+
+        assertThat(gameSession.id()).isEqualTo(1L);
+        assertThat(gameSession.game().getTurn().getTeam()).isEqualTo(Team.HAN);
+        assertThat(repository.isNewSessionCreated()).isTrue();
+    }
+
+    @Test
+    @DisplayName("진행 중인 게임이 있으면 명령 이력을 재생해 복구한다")
+    void findInProgressRestoresStoredGame() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        repository.prepareStoredGame(3L, List.of("1", "1", "e6 e5"));
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        GameSession gameSession = gameSessionService.findInProgress().orElseThrow();
+
+        assertThat(gameSession.id()).isEqualTo(3L);
+        assertThat(gameSession.game().getTurn().getTeam()).isEqualTo(Team.HAN);
+        assertThat(gameSession.game().getBoard().isEmpty(new Position(Column.E, Row.SIX))).isTrue();
+        assertThat(gameSession.game().getBoard()
+                .findPieceByPosition(new Position(Column.E, Row.FIVE))).isPresent();
+    }
+
+    @Test
+    @DisplayName("진행 중인 게임이 없으면 빈 값을 반환한다")
+    void findInProgressReturnsEmpty() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        assertThat(gameSessionService.findInProgress()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("유효한 명령을 실행하면 명령 이력을 저장한다")
+    void executeStoresSuccessfulCommand() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+        GameSession gameSession = gameSessionService.start();
+
+        gameSessionService.execute(gameSession, "1");
+
+        assertThat(gameSession.game().getTurn().getTeam()).isEqualTo(Team.CHO);
+        assertThat(repository.savedCommands()).containsExactly(new SavedCommand(1L, "1"));
+    }
+
+    @Test
+    @DisplayName("게임이 종료되면 마지막 명령 저장 후 세션을 완료 처리한다")
+    void executeFinishesGameSession() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+        GameSession gameSession = new GameSession(3L, new StubFinishedGame());
+
+        gameSessionService.execute(gameSession, "a1 a2");
+
+        assertThat(repository.savedCommands()).containsExactly(new SavedCommand(3L, "a1 a2"));
+        assertThat(repository.finishedSessionIds()).containsExactly(3L);
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 명령은 저장하지 않는다")
+    void executeDoesNotStoreInvalidCommand() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+        GameSession gameSession = gameSessionService.start();
+
+        assertThatThrownBy(() -> gameSessionService.execute(gameSession, "5"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(repository.savedCommands()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("저장된 게임을 포기하면 새 게임을 시작한다")
+    void abandonAndStartStartsNewSession() {
+        FakeGameSessionRepository repository = new FakeGameSessionRepository();
+        repository.prepareStoredGame(7L, List.of("1"));
+        GameSessionService gameSessionService = new GameSessionService(repository, new GameReplayer());
+
+        GameSession gameSession = gameSessionService.abandonAndStart(7L);
+
+        assertThat(repository.abandonedSessionIds()).containsExactly(7L);
+        assertThat(gameSession.id()).isEqualTo(1L);
+        assertThat(repository.isNewSessionCreated()).isTrue();
+    }
+
+    private static class FakeGameSessionRepository implements GameSessionRepository {
+        private Optional<StoredGameSession> storedGameSession = Optional.empty();
+        private final List<SavedCommand> savedCommands = new ArrayList<>();
+        private final List<Long> finishedSessionIds = new ArrayList<>();
+        private final List<Long> abandonedSessionIds = new ArrayList<>();
+        private boolean newSessionCreated;
+
+        @Override
+        public Optional<StoredGameSession> findInProgress() {
+            return storedGameSession;
+        }
+
+        @Override
+        public long create() {
+            newSessionCreated = true;
+            return 1L;
+        }
+
+        @Override
+        public void appendCommand(long gameSessionId, String rawCommand) {
+            savedCommands.add(new SavedCommand(gameSessionId, rawCommand));
+        }
+
+        @Override
+        public void finish(long gameSessionId) {
+            finishedSessionIds.add(gameSessionId);
+        }
+
+        @Override
+        public void abandon(long gameSessionId) {
+            abandonedSessionIds.add(gameSessionId);
+        }
+
+        void prepareStoredGame(long id, List<String> rawCommands) {
+            storedGameSession = Optional.of(new StoredGameSession(id, rawCommands));
+        }
+
+        boolean isNewSessionCreated() {
+            return newSessionCreated;
+        }
+
+        List<SavedCommand> savedCommands() {
+            return List.copyOf(savedCommands);
+        }
+
+        List<Long> finishedSessionIds() {
+            return List.copyOf(finishedSessionIds);
+        }
+
+        List<Long> abandonedSessionIds() {
+            return List.copyOf(abandonedSessionIds);
+        }
+    }
+
+    private record SavedCommand(long gameSessionId, String rawCommand) {
+    }
+
+    private static class StubFinishedGame extends domain.game.JanggiGame {
+        private boolean finished;
+
+        @Override
+        public void processCommand(domain.setup.Command command) {
+            finished = true;
+        }
+
+        @Override
+        public boolean isFinishPhase() {
+            return finished;
+        }
+    }
+}

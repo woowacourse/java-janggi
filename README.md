@@ -83,6 +83,23 @@
     - [x] [중간 과정] 출발 좌표에 있던 기물을 도착 좌표로 옮긴다.
     - [x] [중간 과정] 턴을 넘긴다.
 
+### ✅ 2차 구현 기능 목록
+
+#### 2.1단계:
+
+- [x] **8. [중간 과정] 궁성 영역의 이동 규칙을 반영하여 기물 이동을 구현한다.**
+    - [x] [중간 과정] 궁과 사는 궁성 내부에서 상하좌우 및 대각선 한 칸으로 이동할 수 있다.
+    - [x] [중간 과정] 차는 궁성 내부 대각선 경로로 이동할 수 있다.
+    - [x] [중간 과정] 포는 궁성 대각선에서 가운데 기물을 하나 넘어 이동할 수 있다.
+    - [x] [중간 과정] 졸은 궁성 내부에서 전방 대각선으로 이동할 수 있다.
+- [x] **9. [중간 과정] 궁이 잡히면 게임을 종료한다.**
+    - [x] [중간 과정] 착수 결과 상대 궁이 제거되면 즉시 게임을 종료한다.
+- [x] **10. [중간 과정] 팀별 최종 점수를 계산한다.**
+    - [x] [중간 과정] 초기 기물 배치와 현재 기물 배치를 비교하여 팀별 점수를 계산한다.
+    - [x] [중간 과정] 제거한 상대 기물의 점수를 합산하여 최종 점수를 계산한다.
+    - [x] [중간 과정] 기물 점수는 차 13점, 포 7점, 마 5점, 사 3점, 상 3점, 졸 2점, 궁 0점으로 계산한다.
+- [x] **11. [출력] 게임 종료 메시지와 승리 팀, 최종 점수를 출력한다.**
+
 ## 3️⃣ 입출력 요구 사항
 
 ### 실행 결과 예시
@@ -149,6 +166,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 
 ```markdown
 # basic structure
+
 <type>(<scope>): <subject>
 <BLANK LINE>
 <body>
@@ -156,6 +174,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 <footer>
 
 # <type>
+
 feat (feature)
 fix (bug fix)
 docs (documentation)
@@ -165,6 +184,7 @@ test (when adding missing tests)
 chore (maintain)
 
 # <scope>
+
 console - I/O
 domain - 핵심 로직
 validation - 유효성검사

@@ -3,9 +3,11 @@ package domain.state;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.game.GameResult;
 import domain.game.JanggiGame;
 import domain.piece.Team;
 import domain.setup.Command;
+import domain.setup.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,6 +61,18 @@ class PlayingStateTest {
     }
 
     @Test
+    @DisplayName("궁이 제거되면 FinishState로 전환하고 턴을 넘기지 않는다")
+    void handleReturnsFinishStateWhenGeneralIsCaptured() {
+        StubFinishedGame game = new StubFinishedGame();
+        PlayingState state = new PlayingState();
+
+        GameState nextState = state.handle(game, new Command("e6 e5"));
+
+        assertThat(nextState).isInstanceOf(FinishState.class);
+        assertThat(game.isTurnChanged()).isFalse();
+    }
+
+    @Test
     @DisplayName("유효하지 않은 좌표 형식은 예외를 던진다")
     void invalidCoordinateFormatThrowsException() {
         assertThatThrownBy(() -> game.processCommand(new Command("invalid")))
@@ -84,5 +98,32 @@ class PlayingStateTest {
     void invalidMovePathThrowsException() {
         assertThatThrownBy(() -> game.processCommand(new Command("e6 e7")))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    private static class StubFinishedGame extends JanggiGame {
+        private boolean turnChanged;
+
+        @Override
+        public void move(Coordinate coordinate) {
+        }
+
+        @Override
+        public boolean isFinished() {
+            return true;
+        }
+
+        @Override
+        public GameResult createGameResult() {
+            return new GameResult(Team.CHO, 3, 5);
+        }
+
+        @Override
+        public void nextTurn() {
+            turnChanged = true;
+        }
+
+        private boolean isTurnChanged() {
+            return turnChanged;
+        }
     }
 }

@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.game.GameResult;
 import domain.game.Turn;
 
 public class OutputView {
@@ -13,6 +14,7 @@ public class OutputView {
             2. 마-상-상-마 (Horse-Elephant-Elephant-Horse)
             3. 상-마-마-상 (Elephant-Horse-Horse-Elephant)
             4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)""";
+    private static final String REQUEST_RESTORE = "진행중이던 게임이 있습니다. 불러오시겠습니까? y/n";
     private static final String REQUEST_MOVE = "[%s 진영] {출발 좌표} {도착 좌표} 형식으로 입력해 수를 두세요. (ex. e6 e5)";
     private final ConsoleFormatter formatter = new ConsoleFormatter();
 
@@ -23,6 +25,10 @@ public class OutputView {
 
     public void printErrorMessage(String message) {
         System.out.println(message);
+    }
+
+    public void printRestoreGamePrompt() {
+        System.out.println(REQUEST_RESTORE);
     }
 
     public void printBoard(Board board, Turn turn) {
@@ -65,5 +71,9 @@ public class OutputView {
 
     public void printPieceMovement(Turn turn) {
         System.out.printf((REQUEST_MOVE) + "%n", formatter.formatTurn(turn.getTeam()));
+    }
+
+    public void printGameResult(GameResult gameResult) {
+        System.out.println(formatter.formatGameResult(gameResult));
     }
 }

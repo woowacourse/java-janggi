@@ -2,5 +2,6 @@ package domain.state;
 
 public enum GamePhase {
     READY,
-    PLAYING
+    PLAYING,
+    FINISH
 }

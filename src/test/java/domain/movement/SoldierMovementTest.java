@@ -69,4 +69,38 @@ class SoldierMovementTest {
                 pos(Column.F, Row.FOUR)
         );
     }
+
+    @Test
+    @DisplayName("궁성 중앙의 HAN 졸은 전방 대각선으로 이동할 수 있다")
+    void hanSoldierCanMoveForwardDiagonallyInsidePalace() {
+        SoldierMovement movement = new SoldierMovement(Team.HAN);
+        Position source = pos(Column.E, Row.ONE);
+
+        List<Position> destinations = movement.findReachablePositions(source, emptyBoard());
+
+        assertThat(destinations).containsExactlyInAnyOrder(
+                pos(Column.E, Row.TWO),
+                pos(Column.D, Row.ONE),
+                pos(Column.F, Row.ONE),
+                pos(Column.D, Row.TWO),
+                pos(Column.F, Row.TWO)
+        );
+    }
+
+    @Test
+    @DisplayName("궁성 중앙의 CHO 졸은 전방 대각선으로 이동할 수 있다")
+    void choSoldierCanMoveForwardDiagonallyInsidePalace() {
+        SoldierMovement movement = new SoldierMovement(Team.CHO);
+        Position source = pos(Column.E, Row.EIGHT);
+
+        List<Position> destinations = movement.findReachablePositions(source, emptyBoard());
+
+        assertThat(destinations).containsExactlyInAnyOrder(
+                pos(Column.E, Row.SEVEN),
+                pos(Column.D, Row.EIGHT),
+                pos(Column.F, Row.EIGHT),
+                pos(Column.D, Row.SEVEN),
+                pos(Column.F, Row.SEVEN)
+        );
+    }
 }
