@@ -76,6 +76,10 @@ public class JanggiGame {
             outputView.printMoveInfo();
             Position position = inputView.readMovePosition();
 
+            if (position == null) {
+                return null;
+            }
+
             turn.validateIsNull(board.getPiece(position));
             turn.validateTurn(board.getPiece(position));
             board.findAvailablePositions(position);
