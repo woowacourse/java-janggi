@@ -2,7 +2,6 @@ package janggi;
 
 import static janggi.Application.retry;
 
-import janggi.dao.JanggiDao;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
@@ -17,22 +16,22 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final Board board;
-    private final JanggiDao janggiDAO = new JanggiDao();
 
     public JanggiGame(Board board) {
         this.board = board;
     }
 
-    public void start(Turn currentTurn) {
+    public void printInitialBoard() {
         outputView.printBoard(board.getBoard());
         outputView.printInitialNotice();
-        while (!currentTurn.isFinished()) {
-            currentTurn = playTurn(currentTurn);
-        }
-        outputView.printWinner(currentTurn.getTeam());
     }
 
-    private Turn playTurn(Turn currentTurn) {
+    public void printWinner(Turn turn) {
+        outputView.printWinner(turn.getTeam());
+    }
+
+
+    public Turn playTurn(Turn currentTurn) {
         outputView.printTurnMessage(currentTurn.getTeam());
 
         Position sourcePosition = choosePieceToMove(currentTurn);
@@ -47,7 +46,6 @@ public class JanggiGame {
         Position targetPosition = chooseTargetPosition(sourcePosition);
         Turn nextTurn = currentTurn.move(sourcePosition, targetPosition, board);
         outputView.printBoard(board.getBoard());
-        janggiDAO.saveGame(nextTurn, board);
 
         return nextTurn;
     }
@@ -61,7 +59,6 @@ public class JanggiGame {
         }
         return new GameOverTurn(Team.HAN);
     }
-
 
     private Position chooseTargetPosition(Position movePiecePosition) {
         return retry(() -> {
@@ -84,5 +81,9 @@ public class JanggiGame {
             board.findAvailablePositions(position);
             return position;
         });
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }
