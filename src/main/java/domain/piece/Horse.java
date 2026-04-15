@@ -1,12 +1,15 @@
 package domain.piece;
 
 import domain.game.Team;
+import domain.position.Movement;
 import domain.position.Position;
 import java.util.List;
 
-public class Horse extends ActivePiece {
-    private static final List<Integer> dx = List.of(1, 2, 2, 1, -1, -2, -2, -1);
-    private static final List<Integer> dy = List.of(2, 1, -1, -2, -2, -1, 1, 2);
+public class Horse extends Piece {
+    private static final List<Movement> MOVEMENTS = List.of(
+            new Movement(1, 2), new Movement(2, 1), new Movement(2, -1), new Movement(1, -2),
+            new Movement(-1, -2), new Movement(-2, -1), new Movement(-2, 1), new Movement(-1, 2)
+    );
 
     public Horse(Team team) {
         super(team, PieceDefinition.MA);
@@ -17,8 +20,8 @@ public class Horse extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+        for (Movement movement : MOVEMENTS) {
+            if (movement.row() == rowDiff && movement.col() == colDiff) {
                 return true;
             }
         }
@@ -28,17 +31,14 @@ public class Horse extends ActivePiece {
     @Override
     public List<Position> searchRoute(Position source, Position target) {
         if (source.columnDiff(target) == -2) {
-            return List.of(source.addPosition(0, 1));
+            return List.of(source.add(new Movement(0, 1)));
         }
-
         if (source.columnDiff(target) == 2) {
-            return List.of(source.addPosition(0, -1));
+            return List.of(source.add(new Movement(0, -1)));
         }
-
         if (source.rowDiff(target) == -2) {
-            return List.of(source.addPosition(1, 0));
+            return List.of(source.add(new Movement(1, 0)));
         }
-
-        return List.of(source.addPosition(-1, 0));
+        return List.of(source.add(new Movement(-1, 0)));
     }
 }

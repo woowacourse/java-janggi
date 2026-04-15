@@ -1,6 +1,6 @@
 package domain.position;
 
-public class Row {
+public final class Row {
     private final int value;
 
     public Row(int value) {
@@ -14,12 +14,20 @@ public class Row {
         }
     }
 
-    public int min(Row other) {
-        return Math.min(other.value, value);
+    public Row min(Row other) {
+        return new Row(Math.min(other.value, value));
     }
 
-    public int max(Row other) {
-        return Math.max(other.value, value);
+    public Row max(Row other) {
+        return new Row(Math.max(other.value, value));
+    }
+
+    public Row next() {
+        return new Row(this.value + 1);
+    }
+
+    public boolean isLessThan(Row other) {
+        return this.value < other.value;
     }
 
     public int diff(Row other) {
@@ -32,6 +40,10 @@ public class Row {
 
     public Row divide(Row row) {
         return new Row((this.value + row.value) / 2);
+    }
+
+    public int getValue() {
+        return value;
     }
 
     @Override

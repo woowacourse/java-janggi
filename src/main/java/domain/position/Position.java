@@ -13,17 +13,17 @@ public class Position {
         this.column = new Column(column);
     }
 
+    public Position(Row row, Column column) {
+        this.row = row;
+        this.column = column;
+    }
+
     public static Position from(String row, String column) {
         try {
             return new Position(Integer.parseInt(row), Integer.parseInt(column));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("위치는 숫자로 입력해주세요.");
         }
-    }
-
-    public Position(Row row, Column column) {
-        this.row = row;
-        this.column = column;
     }
 
     public boolean isSameRow(Position other) {
@@ -42,32 +42,40 @@ public class Position {
         return this.column.diff(other.column);
     }
 
-    public List<Position> makeColStraightRoute(Position other) {
+    public List<Position> betweenSameRow(Position other) {
         List<Position> routes = new ArrayList<>();
-        int start = other.column.min(this.column);
-        int dest = other.column.max(this.column);
-        for (int i = start + 1; i < dest; i++) {
-            routes.add(new Position(other.row, new Column(i)));
+        Column start = other.column.min(this.column);
+        Column dest = other.column.max(this.column);
+        for (Column column = start.next(); column.isLessThan(dest); column = column.next()) {
+            routes.add(new Position(other.row, column));
         }
         return routes;
     }
 
-    public List<Position> makeRowStraightRoute(Position other) {
+    public List<Position> betweenSameCol(Position other) {
         List<Position> routes = new ArrayList<>();
-        int start = other.row.min(this.row);
-        int dest = other.row.max(this.row);
-        for (int i = start + 1; i < dest; i++) {
-            routes.add(new Position(new Row(i), other.column));
+        Row start = other.row.min(this.row);
+        Row dest = other.row.max(this.row);
+        for (Row row = start.next(); row.isLessThan(dest); row = row.next()) {
+            routes.add(new Position(row, other.column));
         }
         return routes;
     }
 
-    public Position addPosition(int x, int y) {
-        return new Position(this.row.add(x), this.column.add(y));
+    public Position add(Movement movement) {
+        return new Position(this.row.add(movement.row()), this.column.add(movement.col()));
     }
 
     public Position middlePosition(Position other) {
         return new Position(this.row.divide(other.row), this.column.divide(other.column));
+    }
+
+    public int getRow() {
+        return row.getValue();
+    }
+
+    public int getColumn() {
+        return column.getValue();
     }
 
     @Override

@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class ChariotTest {
-
     @Test
     void 차는_직선_운동한다() {
         Piece cha = new Chariot(Team.HAN);
@@ -26,6 +25,33 @@ class ChariotTest {
         Piece cha = new Chariot(Team.HAN);
         assertThat(cha.canMove(new Position(5, 5), new Position(3, 3))).isFalse();
 
+    }
+
+    @Test
+    void 차는_궁성_안에서_대각선_이동한다() {
+        Piece cha = new Chariot(Team.CHO);
+        assertThat(cha.canMove(new Position(1, 4), new Position(2, 5))).isTrue();
+        assertThat(cha.canMove(new Position(2, 5), new Position(3, 6))).isTrue();
+        assertThat(cha.canMove(new Position(1, 4), new Position(3, 6))).isTrue();
+    }
+
+    @Test
+    void 차는_궁성_밖에서_대각선_이동하지_못한다() {
+        Piece cha = new Chariot(Team.CHO);
+        assertThat(cha.canMove(new Position(5, 5), new Position(6, 6))).isFalse();
+    }
+
+    @Test
+    void 차는_궁성_대각선_1칸_이동_경로는_비어있다() {
+        Chariot cha = new Chariot(Team.CHO);
+        assertThat(cha.searchRoute(new Position(1, 4), new Position(2, 5))).isEmpty();
+    }
+
+    @Test
+    void 차는_궁성_대각선_2칸_이동_경로는_중앙이다() {
+        Chariot cha = new Chariot(Team.CHO);
+        List<Position> route = cha.searchRoute(new Position(1, 4), new Position(3, 6));
+        assertThat(route).containsExactly(new Position(2, 5));
     }
 
     @Test

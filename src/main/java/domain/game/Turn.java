@@ -11,6 +11,10 @@ public class Turn {
         return new Turn(Team.CHO);
     }
 
+    public static Turn of(Team team) {
+        return new Turn(team);
+    }
+
     public Turn next() {
         if (current == Team.CHO) {
             return new Turn(Team.HAN);
@@ -25,4 +29,5 @@ public class Turn {
     public Team current() {
         return current;
     }
+    
 }

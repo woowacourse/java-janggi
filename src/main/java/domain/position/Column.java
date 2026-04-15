@@ -1,6 +1,6 @@
 package domain.position;
 
-public class Column {
+public final class Column {
     private final int value;
 
     public Column(int value) {
@@ -18,12 +18,20 @@ public class Column {
         return new Column((this.value + col.value) / 2);
     }
 
-    public int min(Column other) {
-        return Math.min(other.value, value);
+    public Column min(Column other) {
+        return new Column(Math.min(other.value, value));
     }
 
-    public int max(Column other) {
-        return Math.max(other.value, value);
+    public Column max(Column other) {
+        return new Column(Math.max(other.value, value));
+    }
+
+    public Column next() {
+        return new Column(this.value + 1);
+    }
+
+    public boolean isLessThan(Column other) {
+        return this.value < other.value;
     }
 
     public int diff(Column other) {
@@ -32,6 +40,10 @@ public class Column {
 
     public Column add(int measure) {
         return new Column(this.value + measure);
+    }
+
+    public int getValue() {
+        return value;
     }
 
     @Override

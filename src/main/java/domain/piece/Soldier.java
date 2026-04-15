@@ -1,12 +1,14 @@
 package domain.piece;
 
 import domain.game.Team;
+import domain.position.Movement;
 import domain.position.Position;
 import java.util.List;
 
-public class Soldier extends ActivePiece {
-    private static final List<Integer> dx = List.of(-1, 1);
-    private static final List<Integer> dy = List.of(0, 0);
+public class Soldier extends Piece {
+    private static final List<Movement> SIDE_MOVEMENTS = List.of(
+            new Movement(0, -1), new Movement(0, 1)
+    );
 
     public Soldier(Team team) {
         super(team, PieceDefinition.BYEONG);
@@ -24,8 +26,8 @@ public class Soldier extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == colDiff && dy.get(i) == rowDiff) {
+        for (Movement movement : SIDE_MOVEMENTS) {
+            if (movement.row() == rowDiff && movement.col() == colDiff) {
                 return true;
             }
         }

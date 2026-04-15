@@ -3,7 +3,6 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -26,7 +25,7 @@ class HorseTest {
 
     @Test
     void 마_직선1칸_대각선_1칸_경로_출력() {
-        ActivePiece horse = new Horse(Team.HAN);
+        Piece horse = new Horse(Team.HAN);
         Position src = new Position(3, 3);
         Position mid = new Position(4, 3);
         Position dest = new Position(5, 4);

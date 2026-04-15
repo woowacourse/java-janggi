@@ -3,38 +3,47 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
 import domain.piece.PalacePiece;
 import domain.piece.Piece;
-import domain.position.Column;
 import domain.position.Position;
-import domain.position.Row;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class GuardTest {
 
     @Test
-    void 사_이동_범위는_직선이어야한다() {
+    void 궁_안에서_직선_이동_가능() {
         Piece guard = PalacePiece.guard(Team.HAN);
-        assertThat(guard.canMove(new Position(5, 5), new Position(6, 5))).isTrue();
+        assertThat(guard.canMove(new Position(9, 5), new Position(9, 6))).isTrue();
     }
 
     @Test
-    void 사_이동_범위가_직선이_아니면_거짓() {
+    void 궁_코너에서_대각선_이동_가능() {
         Piece guard = PalacePiece.guard(Team.HAN);
-        assertThat(guard.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
+        assertThat(guard.canMove(new Position(8, 4), new Position(9, 5))).isTrue();
     }
 
     @Test
-    void 사는_인접_이동_시_중간_경로_위치가_없다() {
-        ActivePiece guard = PalacePiece.guard(Team.HAN);
+    void 궁_변에서_대각선_이동_불가() {
+        Piece guard = PalacePiece.guard(Team.HAN);
+        assertThat(guard.canMove(new Position(8, 5), new Position(9, 6))).isFalse();
+    }
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
-        List<Position> routes = new ArrayList<>();
+    @Test
+    void 궁_밖으로_이동_불가() {
+        Piece guard = PalacePiece.guard(Team.HAN);
+        assertThat(guard.canMove(new Position(9, 5), new Position(7, 5))).isFalse();
+    }
 
-        assertThat(guard.searchRoute(src, dest)).isEqualTo(routes);
+    @Test
+    void 두_칸_이동_불가() {
+        Piece guard = PalacePiece.guard(Team.HAN);
+        assertThat(guard.canMove(new Position(8, 4), new Position(10, 4))).isFalse();
+    }
+
+    @Test
+    void 이동_시_중간_경로_위치가_없다() {
+        Piece guard = PalacePiece.guard(Team.HAN);
+        assertThat(guard.searchRoute(new Position(9, 5), new Position(9, 6))).isEqualTo(List.of());
     }
 }

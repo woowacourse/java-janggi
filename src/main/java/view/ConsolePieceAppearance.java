@@ -1,6 +1,7 @@
-package domain.piece;
+package view;
 
 import domain.game.Team;
+import domain.piece.PieceDefinition;
 import java.util.Map;
 
 public class ConsolePieceAppearance implements PieceAppearance {

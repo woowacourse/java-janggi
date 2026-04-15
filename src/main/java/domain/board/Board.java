@@ -1,13 +1,18 @@
 package domain.board;
 
+import domain.game.Score;
+import domain.game.Scores;
+import domain.game.Team;
 import domain.piece.CannonRule;
-import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.PieceDefinition;
 import domain.position.Position;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
     private final Map<Position, Piece> pieces;
@@ -16,62 +21,100 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void move(Position src, Position dest) {
-        Piece piece = pieces.get(src);
-        validateCanMove(piece, src, dest);
+    public void move(Position src, Position dest, Team team) {
+        Piece piece = findPiece(src)
+                .orElseThrow(() -> new IllegalArgumentException("이동할 기물이 없는 위치입니다."));
+        validateMove(src, dest, team, piece);
+        Optional<Piece> destPiece = findPiece(dest);
+        destPiece.ifPresent(piece::validateDestination);
+        applyMove(src, dest, piece);
+    }
+
+    private void validateMove(Position src, Position dest, Team team, Piece piece) {
+        piece.validateSameTurnAndPiece(team);
+        piece.validateCanMove(src, dest);
         List<Position> route = piece.searchRoute(src, dest);
+        validateRoute(dest, piece, route);
+    }
+
+    private void validateRoute(Position dest, Piece piece, List<Position> route) {
         if (piece instanceof CannonRule cannonRule) {
             validateCannonRoute(route, dest, cannonRule);
-        } else {
-            validateIntermediateRoute(route);
+            return;
         }
-        validateDestination(dest, piece);
-        applyMove(src, dest, piece);
+        validateIntermediateRoute(route);
     }
 
     private void validateCannonRoute(List<Position> route, Position dest, CannonRule cannonRule) {
         int count = 0;
         for (Position position : route) {
-            Piece piece = findPiece(position);
-            if (piece.isNotEmpty()) {
-                cannonRule.validateJumpOver(piece);
+            Optional<Piece> piece = findPiece(position);
+            if (piece.isPresent()) {
+                cannonRule.validateJumpOver(piece.get());
                 count++;
             }
         }
         cannonRule.validateJumpCount(count);
-        cannonRule.validateCaptureDest(findPiece(dest));
-    }
-
-    private void validateCanMove(Piece piece, Position src, Position dest) {
-        if (!piece.canMove(src, dest)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
+        Optional<Piece> destPiece = findPiece(dest);
+        destPiece.ifPresent(cannonRule::validateCaptureDest);
     }
 
     private void validateIntermediateRoute(List<Position> route) {
         for (Position position : route) {
-            if (findPiece(position).isNotEmpty()) {
+            if (findPiece(position).isPresent()) {
                 throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
             }
         }
     }
 
-    private void validateDestination(Position dest, Piece movingPiece) {
-        if (findPiece(dest).isAlly(movingPiece)) {
-            throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
-        }
-    }
-
     private void applyMove(Position src, Position dest, Piece piece) {
         pieces.put(dest, piece);
-        pieces.put(src, new EmptyPiece());
+        pieces.remove(src);
     }
 
-    private Piece findPiece(Position position) {
-        return pieces.getOrDefault(position, new EmptyPiece());
+    private Optional<Piece> findPiece(Position position) {
+        return Optional.ofNullable(pieces.get(position));
     }
 
-    public Map<Position, Piece> currentPieces() {
+    public Map<Position, Piece> getState() {
         return Collections.unmodifiableMap(pieces);
+    }
+
+    public Optional<Piece> findPieceAt(int row, int col) {
+        return Optional.ofNullable(pieces.get(new Position(row, col)));
+    }
+
+    public boolean hasPieceAt(Position position) {
+        return pieces.containsKey(position);
+    }
+
+    public boolean isGeneralAlive() {
+        int generalCount = 0;
+        for (Piece piece : pieces.values()) {
+            if (piece.getType() == PieceDefinition.GENERAL) {
+                generalCount++;
+            }
+        }
+        return generalCount == 2;
+    }
+
+    public Scores calculateScore() {
+        Map<Team, Score> scores = new EnumMap<>(Team.class);
+        for (Team team : Team.values()) {
+            scores.put(team, team.getInitialScore());
+        }
+        for (Piece piece : pieces.values()) {
+            scores.merge(piece.getTeam(), piece.getScore(), Score::add);
+        }
+        return new Scores(scores);
+    }
+
+    public boolean decideWinner() {
+        for (Piece piece : pieces.values()) {
+            if (piece.getType() == PieceDefinition.GENERAL) {
+                return piece.isChoTeam();
+            }
+        }
+        throw new IllegalStateException("장군이 없습니다.");
     }
 }
