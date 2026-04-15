@@ -79,10 +79,9 @@ public class GungSeong {
         int fromIndex = diagonalPath.indexOf(from);
         int toIndex = diagonalPath.indexOf(to);
         if (fromIndex > toIndex) {
-            diagonalPath = new ArrayList<>(diagonalPath);
-            Collections.reverse(diagonalPath);
-            fromIndex = diagonalPath.indexOf(from);
-            toIndex = diagonalPath.indexOf(to);
+            List<Location> reversedPath = new ArrayList<>(diagonalPath.subList(toIndex, fromIndex));
+            Collections.reverse(reversedPath);
+            return Optional.of(reversedPath);
         }
         return Optional.of(List.copyOf(diagonalPath.subList(fromIndex + 1, toIndex + 1)));
     }
