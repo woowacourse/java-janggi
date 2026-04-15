@@ -3,6 +3,7 @@ package janggi.domain.board.strategy;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.piece.PieceType;
 import java.util.List;
 

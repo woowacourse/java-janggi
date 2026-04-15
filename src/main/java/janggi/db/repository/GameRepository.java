@@ -9,7 +9,7 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.BoardAssembler;
 import janggi.domain.board.strategy.DbRestoreArrangementStrategy;
-import janggi.domain.board.strategy.PieceInfo;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.piece.PieceType;
 import janggi.dto.GameDto;
 import janggi.exception.DataAccessException;

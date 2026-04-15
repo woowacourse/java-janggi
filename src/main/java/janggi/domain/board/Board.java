@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.strategy.BoardAssembler;
-import janggi.domain.board.strategy.PieceInfo;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.piece.AlivePieces;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;

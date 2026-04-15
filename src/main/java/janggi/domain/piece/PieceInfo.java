@@ -1,7 +1,6 @@
-package janggi.domain.board.strategy;
+package janggi.domain.piece;
 
 import janggi.domain.Side;
-import janggi.domain.piece.PieceType;
 
 public record PieceInfo(
         PieceType type,
