@@ -18,4 +18,12 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 좌표는 숫자 조합이어야 합니다. (예: 1 7)");
         }
     }
+
+    public Position readMovePosition() {
+        String input = readString();
+        if (input.equals("점수계산")) {
+            return null;
+        }
+        return parsePosition(input);
+    }
 }

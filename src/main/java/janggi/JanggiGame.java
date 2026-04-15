@@ -77,13 +77,7 @@ public class JanggiGame {
     private Position choosePieceToMove(Turn turn) {
         return retry(() -> {
             outputView.printMoveInfo();
-            String input = inputView.readString();
-
-            if (input.equals("점수계산")) {
-                return null;
-            }
-
-            Position position = inputView.parsePosition(input);
+            Position position = inputView.readMovePosition();
 
             turn.validateIsNull(board.getPiece(position));
             turn.validateTurn(board.getPiece(position));
