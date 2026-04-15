@@ -27,7 +27,7 @@ public class Game {
     }
 
     public boolean isGameEnd() {
-        return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
+        return board.hasKing(Side.CHO) && board.hasKing(Side.HAN);
     }
 
     public Side getCurrentTurn() {
