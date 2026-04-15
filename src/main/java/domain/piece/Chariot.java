@@ -1,39 +1,23 @@
 package domain.piece;
 
-import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
-import java.util.List;
+import domain.piece.rule.ChariotRule;
+import domain.piece.rule.PieceRule;
 
 public class Chariot extends Piece {
+
+    private static final PieceRule RULE = new ChariotRule();
 
     public Chariot(Team team) {
         super(team);
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
-        validateLocation(from, to);
-    }
-
-    private void validateLocation(Coordination from, Coordination to) {
-        boolean movable = from.isSameRowDifferentColumn(to) || from.isSameColumnDifferentRow(to);
-        if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
+    public PieceType pieceType() {
+        return PieceType.CHARIOT;
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
-        if (from.isSameColumnDifferentRow(to)) {
-            return from.betweenRowCoordination(to);
-        }
-        return from.betweenColumnCoordination(to);
-    }
-
-    @Override
-    public void validatePath(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.isEmpty()) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
+    protected PieceRule rule() {
+        return RULE;
     }
 }

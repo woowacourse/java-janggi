@@ -15,18 +15,15 @@ class GeneralTest {
     @ParameterizedTest
     @CsvSource(value = {
             "5,7",
-            "4,8",
-            "6,8",
+            "4,7",
+            "6,7",
     })
     void 초_기물에서_이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         General general = new General(Team.CHO);
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> general.validateMovable(from, to, board))
+        assertThatThrownBy(() -> general.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -35,17 +32,15 @@ class GeneralTest {
             "5,8",
             "6,9",
             "4,9",
-            "5,10",
+            "4,8",
+            "6,8",
     })
     void 초_기물에서_이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         General general = new General(Team.CHO);
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> general.validateMovable(from, to, board))
+        assertThatCode(() -> general.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -60,10 +55,9 @@ class GeneralTest {
                 .map();
 
         General general = new General(Team.HAN);
-        Coordination from = Coordination.of(5, 1);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> general.validateMovable(from, to, board))
+        assertThatThrownBy(() -> general.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }

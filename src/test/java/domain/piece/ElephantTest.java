@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
@@ -22,14 +23,11 @@ class ElephantTest {
             "4,7"
     })
     void 이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Elephant elephant = new Elephant(Team.CHO);
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -41,15 +39,11 @@ class ElephantTest {
             "6,9"
     })
     void 이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .moveIgnoringValidation(Coordination.of(3, 10), Coordination.of(4, 6))
-                .map();
-
         Elephant elephant = new Elephant(Team.CHO);
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> elephant.validateMovable(from, to, board))
+        assertThatCode(() -> elephant.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -68,7 +62,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validatePath(piecesOnPath(elephant, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -86,7 +80,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 5);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> elephant.validateMovable(from, to, board))
+        assertThatCode(() -> elephant.validatePath(piecesOnPath(elephant, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -101,10 +95,9 @@ class ElephantTest {
                 .map();
 
         Elephant elephant = new Elephant(Team.HAN);
-        Coordination from = Coordination.of(5, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }

@@ -1,6 +1,7 @@
 package fixture;
 
-import domain.board.formation.PlacementOption;
+import view.FormationType;
+import domain.board.formation.PlacementStrategyRegistry;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
@@ -14,8 +15,8 @@ public class BoardFixtureFactory {
         Map<Coordination, Piece> board = new HashMap<>();
 
         placeEmpty(board);
-        board.putAll(PlacementOption.hanFrom(hanOption).place());
-        board.putAll(PlacementOption.choFrom(choOption).place());
+        board.putAll(PlacementStrategyRegistry.forHan(FormationType.from(hanOption)).place());
+        board.putAll(PlacementStrategyRegistry.forCho(FormationType.from(choOption)).place());
 
         return new BoardFixture(board);
     }

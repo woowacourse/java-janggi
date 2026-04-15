@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS games (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    current_turn VARCHAR(10) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE IF NOT EXISTS game_pieces (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id BIGINT NOT NULL,
+    col_no INT NOT NULL,
+    row_no INT NOT NULL,
+    piece_type VARCHAR(30) NOT NULL,
+    team VARCHAR(10) NOT NULL,
+    CONSTRAINT uk_game_piece_position UNIQUE (game_id, col_no, row_no),
+    CONSTRAINT fk_game_pieces_game
+    FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+    );

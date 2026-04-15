@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.board.formation.FormationType;
+import view.FormationType;
 import domain.board.formation.PlacementStrategyRegistry;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;

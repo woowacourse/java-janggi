@@ -64,6 +64,14 @@ public class Coordination {
         return List.of(column.index(), row.index());
     }
 
+    public boolean isInRange(int minColumn, int maxColumn, int minRow, int maxRow) {
+        int columnIndex = column.index();
+        int rowIndex = row.index();
+        return columnIndex >= minColumn
+                && columnIndex <= maxColumn
+                && rowIndex >= minRow
+                && rowIndex <= maxRow;
+    }
 
     public List<Coordination> betweenRowCoordination(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
@@ -93,7 +101,9 @@ public class Coordination {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Coordination that = (Coordination) o;
         return Objects.equals(column, that.column) && Objects.equals(row, that.row);
     }

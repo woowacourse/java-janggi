@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
@@ -20,14 +21,11 @@ class HorseTest {
             "4,9",
     })
     void 이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Horse horse = new Horse(Team.CHO);
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -43,15 +41,11 @@ class HorseTest {
             "6,7",
     })
     void 이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .moveIgnoringValidation(Coordination.of(3, 10), Coordination.of(4, 6))
-                .map();
-
         Horse horse = new Horse(Team.CHO);
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> horse.validateMovable(from, to, board))
+        assertThatCode(() -> horse.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -71,7 +65,7 @@ class HorseTest {
         Coordination from = Coordination.of(2, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validatePath(piecesOnPath(horse, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -89,7 +83,7 @@ class HorseTest {
         Coordination from = Coordination.of(2, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> horse.validateMovable(from, to, board))
+        assertThatCode(() -> horse.validatePath(piecesOnPath(horse, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -104,10 +98,9 @@ class HorseTest {
                 .map();
 
         Horse horse = new Horse(Team.HAN);
-        Coordination from = Coordination.of(5, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }

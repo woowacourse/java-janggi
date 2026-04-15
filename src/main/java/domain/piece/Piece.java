@@ -2,8 +2,8 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
+import domain.piece.rule.PieceRule;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Piece {
 
@@ -41,19 +41,23 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract void validateRule(Coordination from, Coordination to);
+    public abstract PieceType pieceType();
 
-    public abstract List<Coordination> resolvePath(Coordination from, Coordination to);
-
-    public abstract void validatePath(List<Piece> piecesOnPath);
-
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        validateRule(from, to);
-        List<Piece> piecesOnPath = resolvePath(from, to).stream()
-                .map(board::get)
-                .filter(piece -> !piece.isEmpty())
-                .toList();
-        validatePath(piecesOnPath);
-        validateNotSameTeam(board.get(to));
+    public int score() {
+        return pieceType().score();
     }
+
+    public void validateRule(Coordination from, Coordination to) {
+        rule().validate(from, to, team);
+    }
+
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        return rule().resolvePath(from, to, team);
+    }
+
+    public void validatePath(List<Piece> piecesOnPath) {
+        rule().validatePath(piecesOnPath);
+    }
+
+    protected abstract PieceRule rule();
 }

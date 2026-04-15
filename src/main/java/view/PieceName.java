@@ -1,39 +1,35 @@
 package view;
 
+import domain.piece.Piece;
 import domain.piece.Team;
-
-import java.util.Arrays;
+import java.util.Map;
+import java.util.function.UnaryOperator;
 
 public enum PieceName {
 
-    CHARIOT("Chariot", "차"),
-    HORSE("Horse", "마"),
-    ELEPHANT("Elephant", "상"),
-    GUARD("Guard", "사"),
-    KING("General", "궁"),
-    CANNON("Cannon", "포"),
-    SOLDIER("Soldier", "졸"),
-    EMPTY("EmptyPiece", "ㆍ");
+    CHARIOT("차"),
+    HORSE("마"),
+    ELEPHANT("상"),
+    GUARD("사"),
+    GENERAL("궁"),
+    CANNON("포"),
+    SOLDIER("졸"),
+    EMPTY("ㆍ");
 
-    private static final String ERROR_INVALID_PIECE = "알 수 없는 기물입니다: ";
+    private static final Map<Team, UnaryOperator<String>> TEAM_TEXT_STYLES = Map.of(
+            Team.CHO, value -> ConsoleColor.GREEN + value + ConsoleColor.RESET,
+            Team.HAN, value -> ConsoleColor.RED + value + ConsoleColor.RESET,
+            Team.NONE, UnaryOperator.identity()
+    );
 
-    private final String className;
     private final String name;
 
-    PieceName(String className, String name) {
-        this.className = className;
+    PieceName(String name) {
         this.name = name;
     }
 
-    public static String from(String className, Team team) {
-        String name = Arrays.stream(values())
-                .filter(pieceName -> pieceName.className.equals(className))
-                .map(pieceName -> pieceName.name)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ERROR_INVALID_PIECE + className));
-
-        if (team == Team.HAN) return ConsoleColor.RED + name + ConsoleColor.RESET;
-        if (team == Team.CHO) return ConsoleColor.GREEN + name + ConsoleColor.RESET;
-        return name;
+    public static String from(Piece piece) {
+        return TEAM_TEXT_STYLES.get(piece.team())
+                .apply(PieceName.valueOf(piece.pieceType().name()).name);
     }
 }
