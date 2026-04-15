@@ -53,8 +53,8 @@ public class JanggiGame {
     }
 
     private Turn decideWinnerByScore() {
-        double choScore = board.calculateScore(Team.CHO);
-        double hanScore = board.calculateScore(Team.HAN) + 1.5;
+        double choScore = board.calculateScore(Team.CHO) + Team.CHO.getHandicap();
+        double hanScore = board.calculateScore(Team.HAN) + Team.HAN.getHandicap();
 
         if (choScore > hanScore) {
             return new GameOverTurn(Team.CHO);
