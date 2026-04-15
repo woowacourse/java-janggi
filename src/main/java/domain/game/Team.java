@@ -21,6 +21,16 @@ public enum Team {
         return this != NONE && this == team;
     }
 
+    public Team opposite() {
+        if (this == CHO) {
+            return HAN;
+        }
+        if (this == HAN) {
+            return CHO;
+        }
+        return NONE;
+    }
+
     @Override
     public String toString() {
         return teamName;

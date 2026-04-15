@@ -1,6 +1,6 @@
 package controller;
 
-import domain.board.FormationType;
+import domain.board.formation.FormationType;
 
 public final class FormationConverter {
 

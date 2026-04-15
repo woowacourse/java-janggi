@@ -27,6 +27,10 @@ public class Row {
         }
     }
 
+    public int value() {
+        return value;
+    }
+
     public int min(Row other) {
         return Math.min(other.value, value);
     }

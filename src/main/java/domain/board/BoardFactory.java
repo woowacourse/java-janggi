@@ -1,5 +1,7 @@
 package domain.board;
 
+import domain.board.formation.AbstractFormationFactory;
+import domain.board.formation.FormationType;
 import domain.game.Team;
 import domain.piece.Piece;
 import domain.position.Position;

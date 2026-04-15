@@ -38,6 +38,14 @@ public class Position {
         this.column = column;
     }
 
+    public int row() {
+        return row.value();
+    }
+
+    public int column() {
+        return column.value();
+    }
+
     public boolean isSameRow(Position other) {
         return other.row.equals(this.row);
     }
