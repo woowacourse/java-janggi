@@ -1,5 +1,6 @@
 package janggi.domain.common;
 
+import janggi.domain.board.Palace;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +41,13 @@ public class Position {
         List<Position> result = new ArrayList<>();
         int nextX = x + dx;
         int nextY = y + dy;
-        while (isInsideBoundary(nextX, nextY)) {
-            result.add(new Position(nextX, nextY));
-            continuousRoute.put(new Position(nextX, nextY), new ArrayList<>(result));
+
+        boolean isDiagonal = (dx != 0 && dy != 0);
+        while (isInsideBoundary(nextX, nextY) && (!isDiagonal || Palace.isInAnyPalace(new Position(nextX, nextY)))) {
+            Position nextPosition = new Position(nextX, nextY);
+
+            result.add(nextPosition);
+            continuousRoute.put(nextPosition, new ArrayList<>(result));
             nextX += dx;
             nextY += dy;
         }

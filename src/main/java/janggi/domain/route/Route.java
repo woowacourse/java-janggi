@@ -18,23 +18,28 @@ public class Route {
 
     public List<Position> applyDirections(Position position) {
         List<Position> routePositions = new ArrayList<>();
-        Position startPosition = position;
+        Optional<Position> currentPosition = Optional.of(position);
         for (Direction direction : routes) {
-            Optional<Position> nextPosition = direction.nextPosition(startPosition);
-            if (nextPosition.isEmpty()) {
-                return new ArrayList<>();
-            }
-            startPosition = nextPosition.get();
-            routePositions.add(startPosition);
+            currentPosition = currentPosition.flatMap(direction::nextPosition);
+            currentPosition.ifPresent(routePositions::add);
         }
         return routePositions;
     }
 
-    public void applyContinuousDirections(Position position, Map<Position, List<Position>> continuousRoutes) {
-        Position startPosition = position;
+    public void applyContinuousDirections(Position startPosition, Map<Position, List<Position>> continuousRoutes) {
         for (Direction direction : routes) {
             direction.nextContinuousPosition(startPosition, continuousRoutes);
         }
+    }
+
+    public boolean isDownDiagonal() {
+        Direction startDirection = routes.getFirst();
+        return startDirection.isDownDiagonal();
+    }
+
+    public boolean isUpDiagonal() {
+        Direction startDirection = routes.getFirst();
+        return startDirection.isUpDiagonal();
     }
 
     @Override

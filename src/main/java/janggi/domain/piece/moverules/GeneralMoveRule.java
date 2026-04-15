@@ -16,24 +16,25 @@ public abstract class GeneralMoveRule extends CommonMoveRule {
     }
 
     private boolean hasObstacleOnRoute(Board board, List<Position> route) {
-        for (int i = 0; i < route.size() - 1; i++) {
-            if (board.hasPiece(route.get(i))) {
-                return true;
-            }
-        }
-        return false;
+        return route.subList(0, route.size() - 1)
+                .stream()
+                .anyMatch(board::hasPiece);
     }
 
     @Override
     protected Map<Position, List<Position>> convertToPositions(Position position, List<Route> routes) {
         Map<Position, List<Position>> result = new HashMap<>();
         for (Route route : routes) {
-            List<Position> positionRoute = route.applyDirections(position);
-            if (positionRoute.isEmpty()) {
-                continue;
-            }
-            result.put(positionRoute.getLast(), positionRoute);
+            addValidRoute(position, route, result);
         }
         return result;
+    }
+
+    private void addValidRoute(Position position, Route route, Map<Position, List<Position>> result) {
+        List<Position> positionRoute = route.applyDirections(position);
+        if (positionRoute.isEmpty()) {
+            return;
+        }
+        result.put(positionRoute.getLast(), positionRoute);
     }
 }

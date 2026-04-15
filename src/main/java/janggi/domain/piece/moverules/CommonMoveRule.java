@@ -1,6 +1,7 @@
 package janggi.domain.piece.moverules;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Palace;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
@@ -22,24 +23,29 @@ public abstract class CommonMoveRule implements MoveRule {
     public List<Position> findMovablePositions(Board board, Position position, Team team) {
         Piece piece = board.pieceAt(position);
 
-        List<Position> availablePositions = calculateAvailablePositions(board, piece,
-                convertToPositions(position, findRoutes(team)));
-        
-        return availablePositions;
+        List<Route> routes = new ArrayList<>(findRoutes(team));
+        routes.addAll(addPalaceRoutes(position, team));
+
+        return calculateAvailablePositions(board, piece, convertToPositions(position, routes));
     }
 
     private List<Position> calculateAvailablePositions(Board board, Piece piece,
                                                        Map<Position, List<Position>> routePositions) {
-        List<Position> result = new ArrayList<>();
-        for (Map.Entry<Position, List<Position>> entry : routePositions.entrySet()) {
-            Position destination = entry.getKey();
-            List<Position> route = entry.getValue();
+        return routePositions.entrySet()
+                .stream()
+                .filter(entry -> canMove(board, piece, entry.getValue(), entry.getKey()))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
 
-            if (canMove(board, piece, route, destination)) {
-                result.add(destination);
-            }
+    protected List<Route> addPalaceRoutes(Position position, Team team) {
+        if (Palace.CHO.isInPalace(position)) {
+            return Palace.CHO.findDiagonalRoutes(position);
         }
-        return result;
+        if (Palace.HAN.isInPalace(position)) {
+            return Palace.HAN.findDiagonalRoutes(position);
+        }
+        return List.of();
     }
 
     protected abstract boolean canMove(Board board, Piece movePiece, List<Position> route, Position destination);

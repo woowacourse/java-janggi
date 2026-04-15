@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Palace;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import java.util.List;
@@ -14,6 +15,14 @@ public class Piece {
     public Piece(Team team, PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public String getTeamName() {
@@ -36,12 +45,31 @@ public class Piece {
         return pieceType == PieceType.PO;
     }
 
+    public boolean isKing() {
+        return pieceType == PieceType.KING;
+    }
+
     public boolean isSameTeam(Piece other) {
         return team == other.team;
     }
 
+    public boolean isMyTeamPiece(Team turn) {
+        return team == turn;
+    }
+
     public List<Position> findMovablePositions(Board board, Position position) {
         return pieceType.findMovablePositions(board, position, team);
+    }
+
+    public Palace selectPalace() {
+        return team.selectPalace();
+    }
+
+    public double addScore(Team currentTeam, double currentTotalScore) {
+        if (currentTeam == team) {
+            return pieceType.addScore(currentTotalScore);
+        }
+        return currentTotalScore;
     }
 
     @Override

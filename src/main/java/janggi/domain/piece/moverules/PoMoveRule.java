@@ -6,7 +6,6 @@ import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Route;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +36,12 @@ public class PoMoveRule extends CommonMoveRule {
     }
 
     private boolean hasOneObstacleAndNotPo(Board board, List<Position> route) {
-        int count = 0;
-        List<Piece> obstacles = new ArrayList<>();
-        for (int i = 0; i < route.size() - 1; i++) {
-            if (board.hasPiece(route.get(i))) {
-                count += 1;
-                obstacles.add(board.pieceAt(route.get(i)));
-            }
-        }
-        return count == 1 && !obstacles.getFirst().isPo();
+        List<Piece> obstacles = route.subList(0, route.size() - 1)
+                .stream()
+                .filter(board::hasPiece)
+                .map(board::pieceAt)
+                .toList();
+        return obstacles.size() == 1 && !obstacles.getFirst().isPo();
     }
 
     @Override

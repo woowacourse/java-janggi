@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.common.Position;
+import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,10 @@ public class Board {
         board.put(destination, piece);
     }
 
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
+
     public Piece pieceAt(Position position) {
         return board.get(position);
     }
@@ -37,10 +42,9 @@ public class Board {
         return piece.findMovablePositions(this, position);
     }
 
-    public void validateMovePiecePosition(Position movePiecePosition) {
-        if (!hasPiece(movePiecePosition)) {
-            throw new IllegalArgumentException("[ERROR] 빈 칸을 선택하셨습니다.");
-        }
+    public void validateMovePiecePosition(Position movePiecePosition, Team team) {
+        validateEmptyPosition(movePiecePosition);
+        validateMyTeamPiece(movePiecePosition, team);
     }
 
     public void validateDestination(Position movePiecePosition, Position destination) {
@@ -53,6 +57,60 @@ public class Board {
     public void validateAvailablePositions(List<Position> positions) {
         if (positions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 있는 좌표가 없습니다.");
+        }
+    }
+
+    public Map<Team, Double> calculateScore() {
+        Map<Team, Double> teamScores = new HashMap<>();
+        for (Team team : Team.values()) {
+            double totalScore = calculateScoreByTeam(team);
+            teamScores.put(team, totalScore);
+        }
+        return teamScores;
+    }
+
+    public boolean isKingDead() {
+        int kingCount = 0;
+        for (Piece piece : board.values()) {
+            kingCount = calculateKingCount(piece, kingCount);
+        }
+        return kingCount < 2;
+    }
+
+    public Team findWinner() {
+        boolean isChoKingAlive = board.values()
+                .stream()
+                .anyMatch(piece -> piece.isKing() && piece.isCho());
+        if (isChoKingAlive) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    private int calculateKingCount(Piece piece, int kingCount) {
+        if (piece.isKing()) {
+            kingCount++;
+        }
+        return kingCount;
+    }
+
+    private double calculateScoreByTeam(Team team) {
+        double totalScore = team.selectStartScoreByTeam();
+        for (Piece piece : board.values()) {
+            totalScore = piece.addScore(team, totalScore);
+        }
+        return totalScore;
+    }
+
+    private void validateEmptyPosition(Position movePiecePosition) {
+        if (!hasPiece(movePiecePosition)) {
+            throw new IllegalArgumentException("[ERROR] 빈 칸을 선택하셨습니다.");
+        }
+    }
+
+    private void validateMyTeamPiece(Position movePiecePosition, Team team) {
+        if (!pieceAt(movePiecePosition).isMyTeamPiece(team)) {
+            throw new IllegalArgumentException("[ERROR] 상대편 기물을 선택하셨습니다. 본인 팀 기물을 선택하세요.");
         }
     }
 }

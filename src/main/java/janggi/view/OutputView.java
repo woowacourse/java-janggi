@@ -3,9 +3,12 @@ package janggi.view;
 import janggi.domain.board.BoardFormation;
 import janggi.domain.common.Position;
 import janggi.dto.BoardResponse;
+import janggi.dto.GameResponse;
 import janggi.dto.PieceResponse;
 import janggi.dto.PositionResponse;
+import janggi.dto.ScoreResponse;
 import janggi.dto.TeamResponse;
+import java.util.List;
 
 public class OutputView {
 
@@ -57,5 +60,26 @@ public class OutputView {
             System.out.print(piece.getDisplayPiece());
         }
         System.out.println();
+    }
+
+    public void printTeamScore(ScoreResponse teamScores) {
+        System.out.println(teamScores.getHanName() + " " + teamScores.getHanScore());
+        System.out.println(teamScores.getChoName() + " " + teamScores.getChoScore() + "\n");
+    }
+
+    public void printWinner(TeamResponse winner) {
+        System.out.println("승자는 " + winner.getName() + "입니다.");
+        System.out.println("축하합니다!");
+    }
+
+    public void printStartOption() {
+        System.out.println("게임 옵션을 선택해주세요.");
+        System.out.println("1. 새로하기 2. 이어하기");
+    }
+
+    public void printOngoingGames(List<GameResponse> gameResponses) {
+        for (GameResponse gameResponse : gameResponses) {
+            System.out.println("게임 ID: " + gameResponse.getId() + " / 차례: " + gameResponse.getTurn());
+        }
     }
 }

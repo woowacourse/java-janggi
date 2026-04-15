@@ -23,4 +23,12 @@ public enum Direction {
     public void nextContinuousPosition(Position position, Map<Position, List<Position>> continuousRoute) {
         position.applyContinuousDirection(x, y, continuousRoute);
     }
+
+    public boolean isDownDiagonal() {
+        return this == DOWN_LEFT || this == DOWN_RIGHT;
+    }
+
+    public boolean isUpDiagonal() {
+        return this == UP_LEFT || this == UP_RIGHT;
+    }
 }
