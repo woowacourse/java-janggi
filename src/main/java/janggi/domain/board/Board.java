@@ -33,15 +33,7 @@ public class Board {
 
     public void validateDestination(Position movePiecePosition, Position destination) {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
-        boolean hasPosition = false;
-        for (Position position : availablePositions) {
-            if (position.equals(destination)) {
-                hasPosition = true;
-                break;
-            }
-        }
-
-        if (!hasPosition) {
+        if (!availablePositions.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }
     }
