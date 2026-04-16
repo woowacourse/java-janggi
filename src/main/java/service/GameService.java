@@ -12,15 +12,27 @@ import repository.game_record.GameRecordRepository;
 import repository.game_record.dto.GameRecord;
 import repository.move_record.MoveRecordRepository;
 import repository.move_record.dto.MoveRecord;
+import transaction.NonTransactionalManager;
+import transaction.TransactionManager;
 
 public class GameService {
 
     private final MoveRecordRepository moveRecordRepository;
     private final GameRecordRepository gameRecordRepository;
+    private final TransactionManager transactionManager;
 
     public GameService(MoveRecordRepository moveRecordRepository, GameRecordRepository gameRecordRepository) {
+        this(moveRecordRepository, gameRecordRepository, NonTransactionalManager.INSTANCE);
+    }
+
+    public GameService(
+        MoveRecordRepository moveRecordRepository,
+        GameRecordRepository gameRecordRepository,
+        TransactionManager transactionManager
+    ) {
         this.moveRecordRepository = moveRecordRepository;
         this.gameRecordRepository = gameRecordRepository;
+        this.transactionManager = transactionManager;
     }
 
     public boolean existsGame() {
@@ -42,24 +54,33 @@ public class GameService {
     }
 
     public Game finishGamesAndCreateGame(Formation choFormation, Formation hanFormation) {
-        finishInProgressGames();
-        gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
-        Board board = BoardFactory.createBoard(choFormation, hanFormation);
-        return new Game(board);
+        return transactionManager.execute(() -> {
+            finishInProgressGames();
+            gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
+            Board board = BoardFactory.createBoard(choFormation, hanFormation);
+            return new Game(board);
+        });
     }
 
     public void moveAndSave(Game game, Position sourcePosition, Position targetPosition) {
-        GameRecord gameRecord = findInProgressGameRecord();
-        Side movingSide = game.getCurrentTurn();
-        game.move(sourcePosition, targetPosition);
+        transactionManager.execute(() -> {
+            GameRecord gameRecord = findInProgressGameRecord();
+            Side movingSide = game.getCurrentTurn();
+            game.move(sourcePosition, targetPosition);
 
-        moveRecordRepository.save(gameRecord.id(),
-            new MoveRecord(sourcePosition.getX(), sourcePosition.getY(), targetPosition.getX(), targetPosition.getY(),
-                movingSide));
+            moveRecordRepository.save(gameRecord.id(),
+                new MoveRecord(
+                    sourcePosition.getX(),
+                    sourcePosition.getY(),
+                    targetPosition.getX(),
+                    targetPosition.getY(),
+                    movingSide
+                ));
 
-        if (game.isGameEnd()) {
-            finishInProgressGames();
-        }
+            if (game.isGameEnd()) {
+                finishInProgressGames();
+            }
+        });
     }
 
     private GameRecord findInProgressGameRecord() {
