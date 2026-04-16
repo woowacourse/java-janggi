@@ -10,6 +10,7 @@ import domain.piece.Empty;
 import domain.piece.Side;
 import domain.piece.Soldier;
 import domain.vo.Position;
+import fixture.BoardFixture;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +190,7 @@ class GameServiceTest {
             moveRecordRepository.save(2L, new MoveRecord(3, 7, 3, 6, Side.CHO));
             moveRecordRepository.save(3L, new MoveRecord(4, 7, 4, 6, Side.CHO));
             GameService gameService = new GameService(moveRecordRepository, gameRecordRepository);
-            Game game = new Game(BoardFactory.createTestBoard());
+            Game game = new Game(BoardFixture.createGameEndBoard());
             Position source = Position.of(5, 7);
             Position target = Position.of(5, 6);
 
