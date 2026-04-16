@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class TestFixture implements PieceProvider {
 
-
     private final Map<Position, Piece> pieces = new HashMap<>();
 
     public void setPiece(Position position, Piece piece) {

@@ -3,7 +3,6 @@ package domain.piece;
 import domain.TestFixture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

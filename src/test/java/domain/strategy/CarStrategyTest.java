@@ -2,8 +2,6 @@ package domain.strategy;
 
 import domain.TestFixture;
 import domain.Team;
-import domain.board.PieceProvider;
-import domain.piece.Blank;
 import domain.piece.Car;
 import domain.position.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +11,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CarStrategyTest {
 
