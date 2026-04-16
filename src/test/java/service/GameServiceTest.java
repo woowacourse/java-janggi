@@ -59,9 +59,9 @@ class GameServiceTest {
             assertThat(actual).isFalse();
         }
 
-        @DisplayName("진행 중인 게임이 두 개 이상이면 모두 FINISHED로 바꾸고 false를 반환한다.")
+        @DisplayName("진행 중인 게임이 두 개 이상이면 false를 반환한다.")
         @Test
-        void 진행_중인_게임이_두_개_이상이면_모두_FINISHED로_바꾸고_false를_반환한다() {
+        void 진행_중인_게임이_두_개_이상이면_false를_반환한다() {
             FakeMoveRecordRepository moveRecordRepository = new FakeMoveRecordRepository();
             FakeGameRecordRepository gameRecordRepository = new FakeGameRecordRepository();
             gameRecordRepository.storedGameRecords.add(
@@ -75,9 +75,8 @@ class GameServiceTest {
             boolean actual = gameService.existsGame();
 
             assertThat(actual).isFalse();
-            assertThat(gameRecordRepository.updateGameStatusesCallCount).isEqualTo(1);
-            assertThat(gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.IN_PROGRESS)).isEmpty();
-            assertThat(gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.FINISHED)).hasSize(2);
+            assertThat(gameRecordRepository.updateGameStatusesCallCount).isZero();
+            assertThat(gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.IN_PROGRESS)).hasSize(2);
         }
     }
 
@@ -96,7 +95,7 @@ class GameServiceTest {
             moveRecordRepository.save(1L, new MoveRecord(1, 7, 1, 6, Side.CHO));
             GameService gameService = new GameService(moveRecordRepository, gameRecordRepository);
 
-            Game game = gameService.createGame(Formation.from("1"), Formation.from("2"));
+            Game game = gameService.finishGamesAndCreateGame(Formation.from("1"), Formation.from("2"));
 
             assertThat(gameRecordRepository.updateGameStatusesCallCount).isEqualTo(1);
             assertThat(gameRecordRepository.saveCallCount).isEqualTo(1);
