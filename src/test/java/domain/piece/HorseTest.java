@@ -35,7 +35,7 @@ public class HorseTest {
         Position targetPosition = new Position(3, 4);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setPiece(new Position(4, 5), new Pawn(Team.CHO));
 
         boolean isCanMove = horse.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCanMove).isFalse();

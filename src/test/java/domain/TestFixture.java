@@ -16,17 +16,8 @@ public class TestFixture implements PieceProvider {
         pieces.put(position, piece);
     }
 
-    public void setBlank(Position pos) {
-        pieces.put(pos, new Blank());
-    }
-
     public void setAllBlank() {
         pieces.clear();
-    }
-
-    @Override
-    public boolean isBlank(Position position) {
-        return !pieces.containsKey(position);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class CarTest {
         Position targetPosition = new Position(7, 5);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(6, 5));
+        testBoard.setPiece(new Position(6, 5), new Pawn(Team.CHO));
 
         boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
 

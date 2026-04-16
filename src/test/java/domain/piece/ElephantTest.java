@@ -36,7 +36,7 @@ public class ElephantTest {
         Position targetPosition = new Position(3, 8);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(5, 6));
+        testBoard.setPiece(new Position(5,6), new Pawn(Team.CHO));
 
         boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCanMove).isFalse();
