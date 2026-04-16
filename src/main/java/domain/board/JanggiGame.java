@@ -27,8 +27,8 @@ public class JanggiGame {
         return janggiBoard.isGameOver();
     }
 
-    public JanggiBoardDto getBoardDto() {
-        return JanggiBoardDto.from(janggiBoard);
+    public JanggiBoard getJanggiBoard() {
+        return janggiBoard;
     }
 
     public Team getTurn() {

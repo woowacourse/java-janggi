@@ -47,12 +47,8 @@ public class JanggiService {
 
     public void play(Position from, Position to) {
         janggiGame.playTurn(from, to);
-
-        // 영속화
         repository.updateMove(boardId, from.row(), from.col(), to.row(), to.col());
         repository.updateTurn(boardId, janggiGame.getTurn().name());
-
-        // 게임 종료 체크
         if (janggiGame.isGameOver()) {
             repository.finish(boardId);
         }
@@ -63,7 +59,7 @@ public class JanggiService {
     }
 
     public JanggiBoardDto getBoardDto() {
-        return janggiGame.getBoardDto();
+        return JanggiBoardDto.from(janggiGame.getJanggiBoard());
     }
 
     public double calculateScore(Team team) {
