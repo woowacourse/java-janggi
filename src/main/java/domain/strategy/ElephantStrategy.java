@@ -34,9 +34,9 @@ public class ElephantStrategy implements Strategy {
                                            Direction straight, List<Position> candidates) {
         for (Direction diag : getDiagonalsFor(straight)) {
             Position secondMyeok = firstMyeok.next(diag.getRowOffset(team), diag.getColOffset(team));
-            if (!board.getPiece(secondMyeok).isBlank()) return;
+            if (!board.getPiece(secondMyeok).isBlank()) break;
             Position target = secondMyeok.next(diag.getRowOffset(team), diag.getColOffset(team));
-            if (!board.getPiece(target).isBlank()) return;
+            if (!board.getPiece(target).isBlank()) break;
             candidates.add(target);
         }
     }
