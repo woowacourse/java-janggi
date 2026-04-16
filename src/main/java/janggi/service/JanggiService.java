@@ -34,23 +34,38 @@ public class JanggiService {
         for (Map.Entry<Position, janggi.domain.Piece> entry : pieces.entrySet()) {
             Position pos = entry.getKey();
             janggi.domain.Piece piece = entry.getValue();
-            pieceDao.savePiece(gameId, pos.getRowValue(), pos.getColumnValue(), piece.getName(), piece.getTeam().name());
+            pieceDao.savePiece(gameId, pos.getRowValue(), pos.getColumnValue(), piece.getName(),
+                    piece.getTeam().name());
         }
     }
 
     public void movePiece(int gameId, Board board, Position from, Position to, Team team) {
         boolean isCapture = board.hasPieceAt(to);
-
         board.move(from, to, team);
 
+        handlePieceDatabaseUpdate(gameId, from, to, isCapture);
+
+        String status = determineGameStatus(board);
+        double choScore = board.calculateScore(Team.CHO);
+        double hanScore = board.calculateScore(Team.HAN);
+
+        Team nextTeam = team.switchTeam();
+
+        gameDao.updateGameMetadata(gameId, nextTeam.name(), status, choScore, hanScore);
+    }
+
+    private void handlePieceDatabaseUpdate(int gameId, Position from, Position to, boolean isCapture) {
         if (isCapture) {
             pieceDao.deleteCapturedPiece(gameId, to.getRowValue(), to.getColumnValue());
         }
+        pieceDao.updatePiecePosition(gameId, from.getRowValue(), from.getColumnValue(), to.getRowValue(),
+                to.getColumnValue());
+    }
 
-        pieceDao.updatePiecePosition(gameId, from.getRowValue(), from.getColumnValue(), to.getRowValue(), to.getColumnValue());
-
-        double choScore = board.calculateScore(Team.CHO);
-        double hanScore = board.calculateScore(Team.HAN);
-        gameDao.updateGameStatus(gameId, team.switchTeam().name(), choScore, hanScore);
+    private String determineGameStatus(Board board) {
+        if (board.isKingCaptured()) {
+            return "FINISHED";
+        }
+        return "PLAYING";
     }
 }
