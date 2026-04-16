@@ -1,6 +1,8 @@
 package janggi.domain.turn;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
@@ -44,9 +46,33 @@ public class HanTurnTest {
 
         Position emptySource = new Position(1, 6);
         Position target = new Position(1, 4);
+
         //when && then
         assertThatThrownBy(() -> hanTurn.move(emptySource, target, emptyBoard))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 빈 칸을 선택할 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("한나라 턴에서 초나라 왕을 잡았을 시 GameOverTurn반환 후 게임 종료")
+    void 한나라_턴에서_초나라_왕_잡을_시_게임_종료() {
+        //given
+        Map<Position, Piece> state = new HashMap<>();
+        Position choKingPosition = new Position(5, 10);
+        Position hanChaPosition = new Position(5, 9);
+        state.put(choKingPosition, new Piece(Team.CHO, PieceType.KING));
+        state.put(hanChaPosition, new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(state);
+        Turn choTurn = new HanTurn();
+
+        //when
+        Turn nextTurn = choTurn.move(hanChaPosition, choKingPosition, board);
+
+        //then
+        assertAll(
+                () -> assertThat(nextTurn).isInstanceOf(GameOverTurn.class),
+                () -> assertThat(nextTurn.isFinished()).isTrue(),
+                () -> assertThat(nextTurn.getTeam()).isEqualTo(Team.HAN)
+        );
     }
 }

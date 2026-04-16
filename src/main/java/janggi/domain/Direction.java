@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.List;
+
 public enum Direction {
     NORTH(0, -1),
     SOUTH(0, 1),
@@ -11,6 +13,16 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     ;
 
+    private static final List<Direction> STRAIGHT_DIRECTIONS = List.of(
+            NORTH, SOUTH, WEST, EAST
+    );
+    private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
+            NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST
+    );
+    private static final List<Direction> ALL_DIRECTIONS = List.of(
+            NORTH, SOUTH, WEST, EAST,
+            NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST
+    );
     private final int column;
     private final int row;
 
@@ -23,8 +35,16 @@ public enum Direction {
         return new Position(this.column + position.getColumn(), this.row + position.getRow());
     }
 
-    public boolean isStraight() {
-        return (column == 0 || row == 0);
+    public static List<Direction> getStraightDirections() {
+        return STRAIGHT_DIRECTIONS;
+    }
+
+    public static List<Direction> getAllDirections() {
+        return ALL_DIRECTIONS;
+    }
+
+    public static List<Direction> getDiagonalDirections() {
+        return DIAGONAL_DIRECTIONS;
     }
 
     public int getColumn() {

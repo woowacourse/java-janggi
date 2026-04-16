@@ -11,6 +11,10 @@ public class HanTurn extends Turn {
         Piece piece = board.getPiece(source);
         validateIsNull(piece);
         board.movePiece(source, target);
+
+        if (board.isKingDead(Team.CHO)) {
+            return new GameOverTurn(Team.HAN);
+        }
         return new ChoTurn();
     }
 

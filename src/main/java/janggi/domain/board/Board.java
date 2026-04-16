@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Piece;
 import janggi.domain.Position;
+import janggi.domain.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,8 @@ public class Board {
         }
         Piece currentPiece = board.get(position);
         List<Position> availablePositions = currentPiece.findAvailableDestinations(position, board);
-        List<Position> filteredPositions = availablePositions.stream()
-                .filter(targetPosition -> {
-                    Piece targetPiece = board.get(targetPosition);
-                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
-                })
-                .toList();
-        validateCantMovePiece(filteredPositions);
-        return filteredPositions;
+        validateCantMovePiece(availablePositions);
+        return availablePositions;
     }
 
     public void movePiece(Position movePiecePosition, Position destination) {
@@ -38,20 +33,12 @@ public class Board {
 
     public void validateDestination(Position movePiecePosition, Position destination) {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
-        boolean hasPosition = false;
-        for (Position position : availablePositions) {
-            if (position.equals(destination)) {
-                hasPosition = true;
-                break;
-            }
-        }
-
-        if (!hasPosition) {
+        if (!availablePositions.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }
     }
 
-    private static void validateCantMovePiece(List<Position> availablePositions) {
+    private void validateCantMovePiece(List<Position> availablePositions) {
         if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
         }
@@ -63,5 +50,17 @@ public class Board {
 
     public Piece getPiece(Position position) {
         return board.get(position);
+    }
+
+    public boolean isKingDead(Team team) {
+        return board.values().stream()
+                .noneMatch(piece -> piece.isSameTeam(team) && piece.isKing());
+    }
+
+    public double calculateScore(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getPieceScore)
+                .sum();
     }
 }

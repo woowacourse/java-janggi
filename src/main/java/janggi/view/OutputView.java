@@ -34,12 +34,19 @@ public class OutputView {
         System.out.println(color + "\n" + name + "나라 차례입니다" + RESET);
     }
 
+    public void printWinner(Team team) {
+        String color = TEAM_COLORS.get(team);
+        String name = TEAM_NAMES.get(team);
+        System.out.println();
+        System.out.println(color + name + "나라 승리! 게임이 종료되었습니다!" + RESET);
+    }
+
     public void printMoveInfo() {
-        System.out.println("이동하고 싶은 기물의 좌표를 입력하세요.");
+        System.out.println("이동하고 싶은 기물의 좌표를 입력하세요. (예시: 1 7)");
     }
 
     public void printMoveChoiceInfo() {
-        System.out.println("이동하고자 하는 목표 지점의 좌표를 입력하세요.");
+        System.out.println("이동하고자 하는 목표 지점의 좌표를 입력하세요. (예시: 1 7)");
     }
 
     private static final Map<PieceType, String> PIECE_NAMES = Map.of(
@@ -107,5 +114,9 @@ public class OutputView {
         String color = TEAM_COLORS.get(piece.getTeam());
         String name = PIECE_NAMES.get(piece.getPieceType());
         return color + name + RESET + " ";
+    }
+
+    public void printInitialNotice() {
+        System.out.println("\u001B[35m" + "\n\"점수계산\"을 입력하면 점수합계 및 승자 출력 후 게임이 종료됩니다.");
     }
 }

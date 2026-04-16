@@ -1,4 +1,4 @@
-package janggi.domain.moveRules;
+package janggi.domain.moveRules.outofpalacemoverules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,6 +6,7 @@ import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import janggi.domain.moveRules.MoveRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +87,7 @@ class ChaMoveRuleTest {
         state.put(position, new Piece(Team.CHO, PieceType.CHA));
         state.put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
         List<Position> northRoutes = List.of(
-                new Position(1, 9), new Position(1, 8), new Position(1, 7)
+                new Position(1, 9), new Position(1, 8)
         );
 
         List<Position> eastRoutes = List.of(
@@ -103,7 +104,7 @@ class ChaMoveRuleTest {
         List<Position> chaRoutesPositions = chaMoveRul.calculateAvailablePositions(position, choTeam, state);
 
         //then
-        assertThat(chaRoutesPositions).hasSize(11)
+        assertThat(chaRoutesPositions).hasSize(10)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }

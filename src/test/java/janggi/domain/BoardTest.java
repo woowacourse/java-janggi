@@ -245,15 +245,13 @@ public class BoardTest {
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 9);
         Position maPos3 = new Position(5, 10);
-        Position maPos4 = new Position(3, 9);
-        Position maPos5 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(maRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -268,20 +266,18 @@ public class BoardTest {
         Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4);
+        List<Position> rightAnswer = List.of(maPos1, maPos2);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(4)
+        assertThat(maRoutesPositions).hasSize(2)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
     @Test
-    @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
+    @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다")
     void 사_목적지에_적군_존재시_이동_가능() {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
@@ -291,16 +287,14 @@ public class BoardTest {
         Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
         Position maPos5 = new Position(5, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos5);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(maRoutesPositions).hasSize(3)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -497,5 +491,39 @@ public class BoardTest {
         //then
         assertThat(chaRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("보드에 왕이 없으면 IsKingDead가 true를 반환한다")
+    void 보드에_왕이_없을_때() {
+        //given
+        Map<Position, Piece> state = new HashMap<>();
+        state.put(new Position(1, 1), new Piece(Team.CHO, PieceType.ZOL));
+        Board customBoard = new Board(state);
+
+        //when
+        boolean isKingDead = customBoard.isKingDead(Team.CHO);
+
+        //then
+        assertThat(isKingDead).isTrue();
+    }
+
+    @Test
+    @DisplayName("보드에 초나라 차 1개와 상2개 있으면 19.0점을 반환한다")
+    void 보드에_차1개와_상2개_점수_반환() {
+        //given
+        Map<Position, Piece> state = new HashMap<>();
+        Team choTeam = Team.CHO;
+        state.put(new Position(1, 10), new Piece(choTeam, PieceType.CHA));
+        state.put(new Position(2, 10), new Piece(choTeam, PieceType.SANG));
+        state.put(new Position(3, 10), new Piece(choTeam, PieceType.SANG));
+        state.put(new Position(1, 1), new Piece(Team.HAN, PieceType.CHA));
+        Board customBoard = new Board(state);
+
+        //when
+        double totalScore = customBoard.calculateScore(choTeam);
+
+        //then
+        assertThat(totalScore).isEqualTo(19.0);
     }
 }

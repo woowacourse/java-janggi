@@ -1,4 +1,4 @@
-package janggi.domain.moveRules;
+package janggi.domain.moveRules.outofpalacemoverules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,6 +6,7 @@ import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import janggi.domain.moveRules.MoveRule;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
