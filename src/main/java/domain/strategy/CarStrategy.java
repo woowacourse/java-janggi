@@ -6,8 +6,6 @@ import domain.board.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import view.OutputView;
 
 public class CarStrategy implements Strategy {
 
@@ -27,17 +25,22 @@ public class CarStrategy implements Strategy {
 
     private void addPathCandidates(Position from, Direction direction, PieceProvider board, Team team,
                                    List<Position> candidatePositions) {
-        Position next = from.next(direction.getRowOffset(team), direction.getColOffset(team));
+        int rowOffset = direction.getRowOffset(team);
+        int colOffset = direction.getColOffset(team);
+        Position next = from;
 
-        while (!next.isInvalid()) {
+        while (next.canMoveNext(rowOffset, colOffset)) {
+            next = next.next(rowOffset, colOffset);
+
             if (board.getPiece(next).isBlank()) {
                 candidatePositions.add(next);
-                next = next.next(direction.getRowOffset(team), direction.getColOffset(team));
                 continue;
             }
+
             if (board.getPiece(next).isOtherTeam(team)) {
                 candidatePositions.add(next);
             }
+
             break;
         }
     }
