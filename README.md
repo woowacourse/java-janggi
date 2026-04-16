@@ -129,3 +129,68 @@ src/main/java
     └── OutputView.java
 
 ```
+
+## 🐳 Docker Compose 실행
+
+### 방법 1. 앱과 MySQL을 함께 Docker로 실행
+
+아래 명령으로 앱 컨테이너와 MySQL 컨테이너를 함께 실행할 수 있습니다.
+`app` 서비스에는 DB 환경변수가 Docker Compose에서 자동으로 주입되므로 별도 `export`가 필요하지 않습니다.
+
+```bash
+docker compose run --rm --build app
+```
+
+앱 컨테이너 내부에서 사용되는 DB 설정은 아래와 같습니다.
+
+- URL: `jdbc:mysql://mysql:3306/JANGGI?serverTimezone=Asia/Seoul`
+- USER: `janggi`
+- PASSWORD: `janggi1234`
+
+### 방법 2. MySQL만 Docker로 실행하고 앱은 로컬에서 실행
+
+먼저 MySQL 컨테이너만 실행합니다.
+
+```bash
+docker compose up -d mysql
+```
+
+상태를 확인하려면 아래 명령을 사용합니다.
+
+```bash
+docker compose ps
+```
+
+로컬 JVM에서 실행할 때는 `DatabaseProperties`가 환경변수만 읽으므로 아래 값을 먼저 설정해야 합니다.
+
+```bash
+export JANGGI_DB_URL='jdbc:mysql://127.0.0.1:13306/JANGGI?serverTimezone=Asia/Seoul'
+export JANGGI_DB_USER='janggi'
+export JANGGI_DB_PASSWORD='janggi1234'
+```
+
+IntelliJ를 사용하면 Run Configuration의 `Environment variables`에 같은 값을 넣으면 됩니다.
+
+그 다음 IntelliJ에서 `Main`을 실행하면 됩니다.
+
+### 빠른 정리
+
+- 앱과 MySQL을 모두 Docker로 실행: `docker compose run --rm --build app`
+- MySQL만 Docker로 실행: `docker compose up -d mysql`
+- MySQL 상태 확인: `docker compose ps`
+
+### 종료 및 초기화
+
+MySQL 컨테이너를 내리려면 아래 명령을 사용합니다.
+
+```bash
+docker compose down
+```
+
+최초 컨테이너 생성 시 [docker/mysql/init.sql](/Users/yeoli/git/java-janggi/docker/mysql/init.sql)가 실행되어 `game_record`, `move_record` 테이블을 생성합니다.
+
+기존 볼륨까지 지우고 처음부터 다시 만들려면 아래 명령을 사용합니다.
+
+```bash
+docker compose down -v
+```
