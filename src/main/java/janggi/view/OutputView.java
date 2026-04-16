@@ -3,7 +3,9 @@ package janggi.view;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.BoardDto.CoordinateDto;
+import janggi.dto.GameRoomDto;
 import janggi.dto.PieceDto;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -97,9 +99,12 @@ public class OutputView {
     }
 
     public void printMenu() {
+        System.out.println("[메뉴]");
+        System.out.println("━━━━━━━━━━━━━━━━━━");
         System.out.println("1. 새 게임 시작");
         System.out.println("2. 게임 목록 보기");
         System.out.println("3. 게임 종료");
+        System.out.println("━━━━━━━━━━━━━━━━━━");
         System.out.print("메뉴를 선택하세요: ");
     }
 
@@ -126,5 +131,21 @@ public class OutputView {
         System.out.println("┌─────────────────────────────────────────────────────────┐");
         System.out.printf("  장군입니다! %s나라 왕이 위험합니다! 기물을 움직여 궁을 살리세요.%n", team.getName());
         System.out.println("└─────────────────────────────────────────────────────────┘");
+    }
+
+    public void printGameList(List<GameRoomDto> games) {
+        System.out.println("\n[저장된 게임 목록]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        for (GameRoomDto game : games) {
+            System.out.printf("ID: %d | 생성일: %s | 상태: %s | 순서: %s | 초: %.1f 한: %.1f%n",
+                    game.getId(),
+                    game.getCreatedAt(),
+                    game.getStatus(),
+                    game.getCurrentTurn(),
+                    game.getChoScore(),
+                    game.getHanScore());
+        }
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println();
     }
 }

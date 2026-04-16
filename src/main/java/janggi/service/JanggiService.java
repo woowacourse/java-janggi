@@ -4,8 +4,10 @@ import janggi.domain.Board;
 import janggi.domain.BoardFactory;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import janggi.dto.GameRoomDto;
 import janggi.repository.GameDao;
 import janggi.repository.PieceDao;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiService {
@@ -67,5 +69,9 @@ public class JanggiService {
             return "FINISHED";
         }
         return "PLAYING";
+    }
+
+    public List<GameRoomDto> findAllGames() {
+        return gameDao.findAll();
     }
 }

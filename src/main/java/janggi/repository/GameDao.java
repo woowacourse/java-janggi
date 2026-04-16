@@ -1,11 +1,15 @@
 package janggi.repository;
 
+import janggi.dto.GameRoomDto;
 import janggi.exception.DataAccessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDao {
     public int createGame(String currentTurn, String status, double choScore, double hanScore) {
@@ -51,5 +55,33 @@ public class GameDao {
         } catch (SQLException e) {
             throw new DataAccessException("게임 메타데이터 업데이트 중 오류가 발생했습니다.", e);
         }
+    }
+
+    public List<GameRoomDto> findAll() {
+        String query = "SELECT * FROM game_room ORDER BY created_at DESC";
+        List<GameRoomDto> games = new ArrayList<>();
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                games.add(createGameRoomDto(rs));
+            }
+            return games;
+        } catch (SQLException e) {
+            throw new DataAccessException("게임 목록을 조회하는 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    private GameRoomDto createGameRoomDto(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
+        String currentTurn = rs.getString("current_turn");
+        String status = rs.getString("status");
+        double choScore = rs.getDouble("cho_score");
+        double hanScore = rs.getDouble("han_score");
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+
+        return new GameRoomDto(id, currentTurn, status, choScore, hanScore, createdAt);
     }
 }

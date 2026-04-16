@@ -4,11 +4,13 @@ import janggi.domain.Board;
 import janggi.domain.BoardFactory;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
+import janggi.dto.GameRoomDto;
 import janggi.exception.BusinessException;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.InputView.MoveCommand;
 import janggi.view.OutputView;
+import java.util.List;
 
 public class Controller {
     private final InputView inputView;
@@ -31,11 +33,19 @@ public class Controller {
 
         String command = inputView.readMenuCommand();
 
+        if (command.equals("1")) {
+            startNewGame();
+            return true;
+        }
+        if (command.equals("2")) {
+            showGameList();
+            return true;
+        }
         if (command.equals("3")) {
             return false;
         }
 
-        startNewGame();
+        outputView.printErrorMessage("\n[!] 잘못된 메뉴 번호입니다. 1~3 사이의 번호를 다시 입력해주세요. (입력한 값: " + command + ")\n");
         return true;
     }
 
@@ -44,6 +54,17 @@ public class Controller {
         int gameId = janggiService.createNewGame();
         Board board = new Board(BoardFactory.generate());
         playGame(gameId, board);
+    }
+
+    private void showGameList() {
+        List<GameRoomDto> games = janggiService.findAllGames();
+
+        if (games.isEmpty()) {
+            outputView.printErrorMessage("\n[!] 저장된 게임이 없습니다.\n");
+            return;
+        }
+
+        outputView.printGameList(games);
     }
 
     private void playGame(int gameId, Board board) {
