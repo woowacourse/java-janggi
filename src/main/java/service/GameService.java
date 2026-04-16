@@ -25,14 +25,7 @@ public class GameService {
 
     public boolean existsGame() {
         List<GameRecord> inProgressGames = gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.IN_PROGRESS);
-
-        if (inProgressGames.size() == 1) {
-            return true;
-        }
-        if (inProgressGames.size() > 1) {
-            finishInProgressGames();
-        }
-        return false;
+        return inProgressGames.size() == 1;
     }
 
     public Game loadGame() {
@@ -48,11 +41,10 @@ public class GameService {
         return game;
     }
 
-    public Game createGame(Formation choFormation, Formation hanFormation) {
+    public Game finishGamesAndCreateGame(Formation choFormation, Formation hanFormation) {
         finishInProgressGames();
         gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
         Board board = BoardFactory.createBoard(choFormation, hanFormation);
-
         return new Game(board);
     }
 

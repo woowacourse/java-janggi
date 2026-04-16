@@ -42,7 +42,7 @@ public class GameConsole {
     private Game initGame() {
         Formation choformation = readChoFormation();
         Formation hanformation = readHanFormation();
-        Game game = gameService.createGame(choformation, hanformation);
+        Game game = gameService.finishGamesAndCreateGame(choformation, hanformation);
         outputView.printBoardStatus(game.getBoard());
         return game;
     }
