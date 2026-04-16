@@ -26,7 +26,7 @@ public class CannonStrategy implements Strategy {
     private List<Position> addCannonCandidates(Position from, Team team, Direction direction, PieceProvider board) {
         Position myeok = findObstacle(from,team, direction, board);
 
-        if (board.getPiece(myeok).isOtherTeam(team) || board.getPiece(myeok).isCannon()) {
+        if (board.getPiece(myeok).isCannon()) {
             return Collections.emptyList();
         }
 
@@ -34,27 +34,39 @@ public class CannonStrategy implements Strategy {
     }
 
     private Position findObstacle(Position from, Team team, Direction direction, PieceProvider board) {
-        Position obstacle = from.next(direction.getRowOffset(team), direction.getColOffset(team));
-        while (!obstacle.isInvalid() && board.getPiece(from).isBlank()) {
-            obstacle = obstacle.next(direction.getRowOffset(team), direction.getColOffset(team));
+        int rowOffset = direction.getRowOffset(team);
+        int colOffset = direction.getColOffset(team);
+        Position obstacle = from;
+
+        while (obstacle.canMoveNext(rowOffset, colOffset)) {
+            obstacle = obstacle.next(rowOffset, colOffset);
+
+            if (!board.getPiece(obstacle).isBlank()) {
+                return obstacle;
+            }
         }
+
         return obstacle;
     }
 
     private List<Position> collectTargets(Position obstacle, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Position target = obstacle.next(direction.getRowOffset(team), direction.getColOffset(team));
+        int rowOffset = direction.getRowOffset(team);
+        int colOffset = direction.getColOffset(team);
+        Position target = obstacle;
 
-        while (!target.isInvalid()) {
+        while (target.canMoveNext(rowOffset, colOffset)) {
+            target = target.next(rowOffset, colOffset);
+
             if (board.getPiece(target).isBlank()) {
                 candidates.add(target);
-                target = target.next(direction.getRowOffset(team), direction.getColOffset(team));
                 continue;
             }
 
             if (board.getPiece(target).isOtherTeam(team) && !board.getPiece(target).isCannon()) {
                 candidates.add(target);
             }
+
             break;
         }
 
