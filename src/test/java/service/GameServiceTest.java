@@ -172,18 +172,22 @@ class GameServiceTest {
             assertThat(gameRecordRepository.updateGameStatusCallCount).isZero();
         }
 
-        @DisplayName("게임이 종료되면 마지막 이동을 저장하고 현재 게임만 FINISHED로 변경한다.")
+        @DisplayName("게임이 종료되면 마지막 이동을 저장하고 진행 중인 게임을 모두 FINISHED로 변경한다.")
         @Test
-        void 게임이_종료되면_마지막_이동을_저장하고_현재_게임만_FINISHED로_변경한다() {
+        void 게임이_종료되면_마지막_이동을_저장하고_진행_중인_게임을_모두_FINISHED로_변경한다() {
             FakeMoveRecordRepository moveRecordRepository = new FakeMoveRecordRepository();
             FakeGameRecordRepository gameRecordRepository = new FakeGameRecordRepository();
             gameRecordRepository.storedGameRecords.add(
                 new GameRecord(1L, Formation.from("1"), Formation.from("1"), GameStatus.IN_PROGRESS)
             );
             gameRecordRepository.storedGameRecords.add(
-                new GameRecord(2L, Formation.from("2"), Formation.from("2"), GameStatus.FINISHED)
+                new GameRecord(2L, Formation.from("2"), Formation.from("2"), GameStatus.IN_PROGRESS)
+            );
+            gameRecordRepository.storedGameRecords.add(
+                new GameRecord(3L, Formation.from("3"), Formation.from("3"), GameStatus.FINISHED)
             );
             moveRecordRepository.save(2L, new MoveRecord(3, 7, 3, 6, Side.CHO));
+            moveRecordRepository.save(3L, new MoveRecord(4, 7, 4, 6, Side.CHO));
             GameService gameService = new GameService(moveRecordRepository, gameRecordRepository);
             Game game = new Game(BoardFactory.createTestBoard());
             Position source = Position.of(5, 7);
@@ -197,11 +201,21 @@ class GameServiceTest {
             assertThat(moveRecordRepository.findAllByGameRecordId(2L)).containsExactly(
                 new MoveRecord(3, 7, 3, 6, Side.CHO)
             );
-            assertThat(gameRecordRepository.updateGameStatusCallCount).isEqualTo(1);
-            assertThat(gameRecordRepository.updatedGameRecordId).isEqualTo(1L);
+            assertThat(moveRecordRepository.findAllByGameRecordId(3L)).containsExactly(
+                new MoveRecord(4, 7, 4, 6, Side.CHO)
+            );
+            assertThat(gameRecordRepository.updateGameStatusCallCount).isZero();
+            assertThat(gameRecordRepository.updateGameStatusesCallCount).isEqualTo(1);
+            assertThat(gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.IN_PROGRESS)).isEmpty();
             assertThat(gameRecordRepository.findAllGameRecordsByGameStatus(GameStatus.FINISHED))
                 .anySatisfy(gameRecord -> assertThat(gameRecord).isEqualTo(
                     new GameRecord(1L, Formation.from("1"), Formation.from("1"), GameStatus.FINISHED)
+                ))
+                .anySatisfy(gameRecord -> assertThat(gameRecord).isEqualTo(
+                    new GameRecord(2L, Formation.from("2"), Formation.from("2"), GameStatus.FINISHED)
+                ))
+                .anySatisfy(gameRecord -> assertThat(gameRecord).isEqualTo(
+                    new GameRecord(3L, Formation.from("3"), Formation.from("3"), GameStatus.FINISHED)
                 ));
         }
     }
