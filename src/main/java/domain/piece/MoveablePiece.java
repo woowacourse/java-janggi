@@ -28,7 +28,7 @@ public abstract class MoveablePiece extends Piece {
     }
 
     public void validateTarget(Piece targetPiece) {
-        if (targetPiece.getTeam() == team) {
+        if (!targetPiece.isOtherTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 팀의 기물은 잡을 수 없습니다.");
         }
     }
