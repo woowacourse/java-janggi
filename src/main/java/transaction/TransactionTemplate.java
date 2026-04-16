@@ -11,10 +11,11 @@ public final class TransactionTemplate {
         this.connectionFactory = connectionFactory;
     }
 
-    private static void rollbackQuietly(Connection conn) {
+    private static void rollback(Connection conn, Throwable exception) {
         try {
             conn.rollback();
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            exception.addSuppressed(e);
         }
     }
 
@@ -27,10 +28,10 @@ public final class TransactionTemplate {
                 conn.commit();
                 return result;
             } catch (SQLException e) {
-                rollbackQuietly(conn);
+                rollback(conn, e);
                 throw new IllegalStateException("트랜잭션 실패", e);
             } catch (RuntimeException e) {
-                rollbackQuietly(conn);
+                rollback(conn, e);
                 throw e;
             } finally {
                 conn.setAutoCommit(previousAutoCommit);
