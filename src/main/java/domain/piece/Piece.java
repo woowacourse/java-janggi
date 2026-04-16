@@ -28,10 +28,6 @@ public class Piece {
         return this.team.isSameTeam(team);
     }
 
-    public boolean isCho() {
-        return this.team == Team.CHO;
-    }
-
     public boolean isSamePiece(PieceType pieceType) {
         return this.pieceType == pieceType;
     }

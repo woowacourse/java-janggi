@@ -29,9 +29,26 @@ public class JanggiBoard {
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = fillEmptyIntersections();
         this.moveRules = setMoveRules();
-        for (Intersection intersection : intersectionGenerator.makeIntersections()) {
+
+        for (Intersection intersection : intersectionGenerator.makePieceIntersections()) {
             intersections.put(intersection.getPoint(), intersection);
         }
+    }
+
+    private static IntStream range(int maxRange) {
+        return IntStream.range(0, maxRange);
+    }
+
+    private static List<MoveRule> setMoveRules() {
+        return List.of(
+                new ChariotMoveRule(),
+                new GeneralMoveRule(),
+                new GuardMoveRule(),
+                new ElephantMoveRule(),
+                new SoldierMoveRule(),
+                new CannonMoveRule(),
+                new HorseMoveRule()
+        );
     }
 
     private Map<Point, Intersection> fillEmptyIntersections() {
@@ -42,22 +59,6 @@ public class JanggiBoard {
     private Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
                 .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
-    }
-
-    private IntStream range(int maxRange) {
-        return IntStream.range(0, maxRange);
-    }
-
-    private List<MoveRule> setMoveRules() {
-        return List.of(
-                new ChariotMoveRule(),
-                new GeneralMoveRule(),
-                new GuardMoveRule(),
-                new ElephantMoveRule(),
-                new SoldierMoveRule(),
-                new CannonMoveRule(),
-                new HorseMoveRule()
-        );
     }
 
     public void tryToMove(Point start, Point end) {
@@ -71,7 +72,6 @@ public class JanggiBoard {
     public Intersection findIntersection(Point point) {
         return intersections.get(point);
     }
-
 
     private void validateMoveRule(Intersection from, Intersection to) {
         MoveRule moveRule = findMoveRule(from);
@@ -106,16 +106,10 @@ public class JanggiBoard {
     }
 
     public boolean isGameRunning() {
-        int generalCount = 0;
-        for (Intersection intersection : intersections.values()) {
-            if (intersection.isSamePiece(PieceType.GENERAL)) {
-                generalCount++;
-            }
-        }
-        if (generalCount == 2) {
-            return true;
-        }
-        return false;
+        int generalCount = (int) intersections.values().stream()
+                .filter(intersection -> intersection.isSamePiece(PieceType.GENERAL))
+                .count();
+        return generalCount == 2;
     }
 
     private List<Intersection> findPath(List<Point> possiblePoints) {

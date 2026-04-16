@@ -30,6 +30,6 @@ class GeneralMoveInfoRuleTest {
         Assertions.assertThatThrownBy(() -> {
                     generalMoveRule.validateMoveRule(from, List.of(to));
                 }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 같은 팀의 위치로 이동할 수 없습니다.");
     }
 }

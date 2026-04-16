@@ -16,10 +16,10 @@ import java.util.List;
 
 public class HorseMoveRule extends MoveRule {
     public HorseMoveRule() {
-        super(PieceType.HORSE, initializeDirections());
+        super(PieceType.HORSE);
     }
 
-    public static Directions initializeDirections() {
+    private Directions defaultDirection() {
         return new Directions(List.of(
                 new Direction(List.of(UP, LEFT_UP)),
                 new Direction(List.of(UP, RIGHT_UP)),
@@ -37,7 +37,12 @@ public class HorseMoveRule extends MoveRule {
     }
 
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
+        Directions directions = makeDirections(from, to);
         return directions.findPoints(from.getPoint(), to.getPoint());
+    }
+
+    protected Directions makeDirections(Intersection from, Intersection to) {
+        return defaultDirection();
     }
 
     public void validateMoveRule(Intersection from, List<Intersection> path) {
@@ -53,7 +58,7 @@ public class HorseMoveRule extends MoveRule {
                 .anyMatch(Intersection::hasPiece);
 
         if (hasObstacle) {
-            throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
+            throw new exception.ObstacleInPathException();
         }
     }
 }

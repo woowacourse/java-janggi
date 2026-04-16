@@ -24,6 +24,19 @@
 - [x] 같은 팀 기물이 있는 칸으로는 이동할 수 없다.
 - [x] `JanggiBoard.tryToMove()` 수행 시 도착지는 출발 기물로 갱신되고, 출발지는 빈 칸이 된다.
 
+#### step 2
+- [x] `Point`에서 궁성(`isPalace`)·궁성 대각 허용 칸(`isPalaceDiagonal`)을 판별한다.
+- [x] `Directions.merge`로 이동 방향 집합을 합쳐, 궁성 안 직선·대각 경로를 조합한다.
+- [x] `MoveRule`이 출발/목적 칸에 따라 `makeDirections`로 이동 가능 방향을 동적으로 만든다.
+- [x] 장군·사는 궁성 안에서만 이동하며, 대각 칸끼리는 1칸 대각 이동을 추가로 허용한다.
+- [x] 차·포는 출발·목적이 모두 궁 대각 칸일 때 대각 직선 이동을 기존 직선 이동에 합친다.
+- [x] 졸은 진영별 기본 이동에 더해, 궁 대각 칸에서는 팀에 맞는 대각 한 칸 이동을 추가한다.
+- [x] MySQL에 `game`·`piece` 테이블을 두고, classpath의 `jdbc.properties`와 `DriverManager`로 연결을 열어 `ConnectionFactory`로 감싼다.
+- [x] 신규 게임 시 `game` 행과 초기 `piece` 행을 한 트랜잭션으로 저장하고, 생성된 `game id`를 사용한다.
+- [x] 매 수마다 DB의 `piece id`(좌표 기준 조회)로 이동·포획을 반영하고 `game` 정보(차례·점수·진행·승자)를 갱신한다.
+- [x] 미종료 게임 목록을 보여 주고, 선택 시 DB에서 로드해 `Game`·보드를 복원한다.
+- [x] 도메인 `Game`·`Piece`는 persistence 식별자를 갖지 않으며, id 생성·보관은 DB가 담당한다.
+
 ### 주요 로직 요약
 
 #### step 1
@@ -46,17 +59,32 @@
 - **실제 이동 반영**
     - 검증 통과 시 도착지 `arrive(from)`, 출발지 `leave()` 순서로 상태를 갱신한다.
 
+#### step 2
+- **궁성 이동**
+    - `Point`가 궁 3×3과 “대각 한 칸이 허용되는 궁 안 칸”을 구분한다.
+    - 규칙 클래스는 `defaultDirection`(기존 직선·곡선 패턴)과 `palaceDirection`(궁 전용)을 필요 시 `merge`한다.
+    - 장·사는 `findPossiblePoints` 단계에서 출발/목적이 모두 궁 안일 때만 후보를 계산하고, 궁 밖이면 예외로 막는다.
+- **DB 저장**
+    - `Application`이 `DatabaseConfig.createConnectionFactory()`로 연결 팩토리를 만들고, `TransactionTemplate`·`GameDao`·`JanggiController`를 조립한다.
+    - 트랜잭션 경계는 `TransactionTemplate`이 담당하고, `GameDao`는 전달받은 `Connection`으로 SQL만 실행한다.
+    - `game`: 진행 여부·차례·양 팀 점수·승자(null이면 재개 가능)·타임스탬프.
+    - `piece`: `game_id` FK, 팀·기물 종류·좌표; 게임 삭제 시 CASCADE.
+    - 컨트롤러는 `game id`를 유지하고, 이동 전 DB에서 `piece id`를 조회한 뒤 `TransactionTemplate.executeInTransaction` 안에서 `GameDao.persistMove(conn, MovePersistDto)`로 반영한다.
+    - 재개 시 `LoadedGameState`·`LoadedPiece`로 읽어 `SavedPiecesGenerator`·`Game.restored`로 메모리 상태를 맞춘다.
+
 ### 기물별 이동 규칙 정리
 
 - **차(`Chariot`)**
     - 상/하/좌/우 직선 다칸 이동
     - 도착지 아군 금지
     - 경로 중간 장애물 금지
+    - (step 2) 출발·목적이 모두 궁 대각 칸이면 대각 방향 직선 이동을 직선 이동에 합친다.
 - **포(`Cannon`)**
     - 상/하/좌/우 직선 이동
     - 중간 장애물 정확히 1개 필요
     - 장애물/도착지가 포인 경우 금지
     - 도착지 아군 금지
+    - (step 2) 출발·목적이 모두 궁 대각 칸이면 대각 직선 패턴을 기존 직선 패턴에 합친다.
 - **마(`Horse`)**
     - 1칸 직선 + 1칸 대각(총 2스텝)
     - 중간 경유 칸 장애물 금지
@@ -68,8 +96,9 @@
 - **장군/사(`General`/`Guard`)**
     - 1칸 상하좌우 이동
     - 도착지 아군 금지
-    - (궁성 내부/대각 특수 규칙 미반영)
+    - (step 2) 궁성 밖으로는 이동할 수 없고, 궁 안 대각 칸끼리는 1칸 대각 이동이 추가된다.
 - **졸(`Soldier`)**
     - 좌/우 + 전진 이동
     - CHO는 위쪽(UP), HAN은 아래쪽(DOWN) 전진
     - 도착지 아군 금지
+    - (step 2) 궁 대각 칸에서는 진영에 따라 대각 한 칸 이동이 추가된다.
