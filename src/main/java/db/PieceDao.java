@@ -10,32 +10,12 @@ import java.util.List;
 
 public class PieceDao {
 
-    // 기물 저장
-    public void save(long boardId, int row, int col, String pieceType, String team) {
-        String sql = "INSERT INTO piece (board_id, `row`, `col`, piece_type, team) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setLong(1, boardId);
-            stmt.setInt(2, row);
-            stmt.setInt(3, col);
-            stmt.setString(4, pieceType);
-            stmt.setString(5, team);
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("기물 저장 실패", e);
-        }
-    }
-
-
     // 기물 전체 저장 (게임 시작 시)
     public void saveAll(long boardId, JanggiBoardDto boardDto) {
         String sql = "INSERT INTO piece (board_id, `row`, `col`, piece_type, team) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             for (PieceDto pieceDto : boardDto.getPieces()) {
                 if (pieceDto.pieceType() == PieceType.BLANK) continue; // Blank는 저장 안 함
@@ -109,12 +89,13 @@ public class PieceDao {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, boardId);
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                PieceType pieceType = PieceType.valueOf(rs.getString("piece_type"));
-                Team team = Team.valueOf(rs.getString("team"));
-                pieces.add(new PieceDto(rs.getInt("row"), rs.getInt("col"), team, pieceType));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    PieceType pieceType = PieceType.valueOf(rs.getString("piece_type"));
+                    Team team = Team.valueOf(rs.getString("team"));
+                    pieces.add(new PieceDto(rs.getInt("row"), rs.getInt("col"), team, pieceType));
+                }
             }
 
         } catch (SQLException e) {
