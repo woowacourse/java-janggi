@@ -66,7 +66,7 @@ public class GameService {
                 movingSide));
 
         if (game.isGameEnd()) {
-            gameRecordRepository.updateGameStatus(gameRecord.id(), GameStatus.FINISHED);
+            finishInProgressGames();
         }
     }
 
