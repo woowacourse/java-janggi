@@ -5,6 +5,7 @@ import janggi.domain.BoardFactory;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
 import janggi.exception.BusinessException;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.InputView.MoveCommand;
 import janggi.view.OutputView;
@@ -12,10 +13,12 @@ import janggi.view.OutputView;
 public class Controller {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public Controller(InputView inputView, OutputView outputView) {
+    public Controller(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -38,16 +41,17 @@ public class Controller {
 
     private void startNewGame() {
         outputView.printStartMessage();
+        int gameId = janggiService.createNewGame();
         Board board = new Board(BoardFactory.generate());
-        playGame(board);
+        playGame(gameId, board);
     }
 
-    private void playGame(Board board) {
+    private void playGame(int gameId, Board board) {
         Team currentTeam = Team.CHO;
 
         while (!isGameOver(board)) {
             printCurrentState(board);
-            playTurn(board, currentTeam);
+            playTurn(gameId, board, currentTeam);
             currentTeam = currentTeam.switchTeam();
         }
 
@@ -61,11 +65,11 @@ public class Controller {
         outputView.printScore(choScore, hanScore);
     }
 
-    private void playTurn(Board board, Team team) {
+    private void playTurn(int gameId, Board board, Team team) {
         boolean isSuccess = false;
 
         while (!isSuccess) {
-            isSuccess = attemptMove(board, team);
+            isSuccess = attemptMove(gameId, board, team);
         }
 
         if (board.isKingCaptured()) {
@@ -75,10 +79,10 @@ public class Controller {
         notifyAnyCheck(board);
     }
 
-    private boolean attemptMove(Board board, Team team) {
+    private boolean attemptMove(int gameId, Board board, Team team) {
         try {
             MoveCommand command = inputView.readMoveCommand(team.getTeam());
-            board.move(command.fromPosition(), command.toPosition(), team);
+            janggiService.movePiece(gameId, board, command.fromPosition(), command.toPosition(), team);
             return true;
         } catch (BusinessException e) {
             outputView.printErrorMessage(e.getMessage());
