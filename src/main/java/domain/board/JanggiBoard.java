@@ -17,8 +17,8 @@ public class JanggiBoard implements PieceProvider {
         turn = Team.CHO;
     }
 
-    public JanggiBoard(JanggiBoardLoader loader, Team turn) {
-        this.janggiBoard = loader.init();
+    public JanggiBoard(BoardInitializer initializer, Team turn) {
+        this.janggiBoard = initializer.init();
         this.turn = turn;
     }
 

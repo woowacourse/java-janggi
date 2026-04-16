@@ -1,32 +1,33 @@
 package controller;
 
-import db.BoardDao;
-import domain.board.JanggiGame;
 import domain.Team;
 import domain.position.Position;
 import java.util.List;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        JanggiGame janggiGame = createGame();
+        janggiService.startOrLoadGame();
         boolean isRunning = true;
         while (isRunning) {
             try {
-                outputView.printBoard(janggiGame.getBoardDto());
+                outputView.printBoard(janggiService.getBoardDto());
                 Position from = createPosition(inputView.inputMovePiece());
                 Position to = createPosition(inputView.inputTargetPosition());
-                janggiGame.playTurn(from, to);
-                if (janggiGame.isGameOver()) {
+                janggiService.play(from, to);
+                if (janggiService.isGameOver()) {
                     isRunning = false;
                 }
             } catch (IllegalArgumentException e) {
@@ -34,19 +35,9 @@ public class JanggiController {
             }
         }
         outputView.printResult(
-                janggiGame.calculateScore(Team.CHO),
-                janggiGame.calculateScore(Team.HAN)
+                janggiService.calculateScore(Team.CHO),
+                janggiService.calculateScore(Team.HAN)
         );
-    }
-
-    private JanggiGame createGame() {
-        long latestId = new BoardDao().findLatestPlaying();
-        if (latestId != -1) {
-            System.out.println("이전 게임을 불러옵니다.");
-            return new JanggiGame(latestId);
-        }
-        System.out.println("새 게임을 시작합니다.");
-        return new JanggiGame();
     }
 
     private Position createPosition(List<Integer> coordinates) {
