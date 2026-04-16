@@ -1,14 +1,13 @@
 package domain.piece;
 
-import domain.vo.Position;
 import domain.path.Paths;
 import domain.strategy.PieceMoveStrategy;
+import domain.vo.Position;
 import java.util.List;
 
 public class Horse extends Piece {
 
     private static final String NAME = "마";
-    private static final int SCORE = 5;
 
     public Horse(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -26,6 +25,6 @@ public class Horse extends Piece {
 
     @Override
     public int getScore() {
-        return SCORE;
+        return PieceType.HORSE.score;
     }
 }

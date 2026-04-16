@@ -1,14 +1,13 @@
 package domain.piece;
 
-import domain.vo.Position;
 import domain.path.Paths;
 import domain.strategy.PieceMoveStrategy;
+import domain.vo.Position;
 import java.util.List;
 
 public class Guard extends Piece {
 
     private static final String NAME = "사";
-    private static final int SCORE = 3;
 
     public Guard(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -26,6 +25,6 @@ public class Guard extends Piece {
 
     @Override
     public int getScore() {
-        return SCORE;
+        return PieceType.GUARD.score;
     }
 }

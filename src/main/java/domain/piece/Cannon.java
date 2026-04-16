@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.vo.Position;
 import domain.path.Paths;
 import domain.strategy.PieceMoveStrategy;
+import domain.vo.Position;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -11,7 +11,6 @@ public class Cannon extends Piece {
     private static final String CANNOT_CAPTURE_CANNON_WITH_CANNON = "포는 포끼리 잡을 수 없습니다.";
 
     private static final String NAME = "포";
-    private static final int SCORE = 7;
 
     public Cannon(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -56,8 +55,6 @@ public class Cannon extends Piece {
 
     @Override
     public int getScore() {
-        return SCORE;
+        return PieceType.CANNON.score;
     }
-
-
 }
