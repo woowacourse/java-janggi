@@ -3,8 +3,6 @@ package domain.position;
 import static domain.Index.BOARD_COLUMNS;
 import static domain.Index.BOARD_ROWS;
 
-import domain.Team;
-
 public record Position(int row, int col) {
     private final static int PALACE_ROW_HAN = 2;
     private final static int PALACE_ROW_CHO = 7;

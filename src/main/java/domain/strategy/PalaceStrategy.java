@@ -4,7 +4,6 @@ import domain.Team;
 import domain.position.Position;
 import domain.board.PieceProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

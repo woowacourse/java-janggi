@@ -39,7 +39,6 @@ public class JanggiGame {
         return new ScoreCalculator().calculateScore(JanggiBoardDto.from(janggiBoard), team);
     }
 
-    // 검증 로직들은 기존과 동일하게 유지
     private void validateNotBlank(Position from) {
         if (janggiBoard.getPiece(from).isBlank()) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
