@@ -1,12 +1,15 @@
 package domain.piece;
 
-import domain.Position;
+import domain.vo.Position;
 import java.util.List;
 
 public class Empty extends Piece {
 
+    private static final String NAME = ". ";
+    private static final int SCORE = 0;
+
     public Empty() {
-        super(null, null);
+        super(null, null, null);
     }
 
     @Override
@@ -16,6 +19,10 @@ public class Empty extends Piece {
 
     @Override
     public String getName() {
-        return "．";
+        return NAME;
+    }
+    
+    public int getScore() {
+        return SCORE;
     }
 }

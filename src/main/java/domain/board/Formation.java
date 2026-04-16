@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import domain.piece.PieceType;
 import java.util.List;
@@ -30,6 +30,10 @@ public enum Formation {
 
     public List<PieceType> getPieceTypes() {
         return pieceTypes;
+    }
+
+    public String getOption() {
+        return option;
     }
 
     public String toDisplayString() {

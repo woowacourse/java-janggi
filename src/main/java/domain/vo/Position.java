@@ -1,4 +1,4 @@
-package domain;
+package domain.vo;
 
 import constant.BoardSpec;
 import java.util.HashMap;
@@ -39,5 +39,13 @@ public class Position {
         if (!((BoardSpec.MIN_X <= x && x <= BoardSpec.MAX_X) && (BoardSpec.MIN_Y <= y && y <= BoardSpec.MAX_Y))) {
             throw new IllegalArgumentException(INVALID_POSITION_RANGE);
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

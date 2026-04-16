@@ -1,8 +1,10 @@
-package domain;
+package domain.board;
 
 import domain.piece.Empty;
 import domain.piece.King;
 import domain.piece.Piece;
+import domain.piece.Side;
+import domain.vo.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +39,23 @@ public class Board {
     public boolean hasKing(Side side) {
         for (Piece piece : board.values()) {
             if (piece instanceof King && piece.isSameSide(side)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    public double calculateTotalScore(Side side) {
+        double totalScore = 0;
+        if (side == Side.HAN) {
+            totalScore += 1.5;
+        }
+        for (Piece piece : board.values()) {
+            if (piece.isSameSide(side)) {
+                totalScore += piece.getScore();
+            }
+        }
+        return totalScore;
     }
 
     public Map<Position, Piece> getBoard() {

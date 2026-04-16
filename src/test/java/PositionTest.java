@@ -1,4 +1,4 @@
-import domain.Position;
+import domain.vo.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;

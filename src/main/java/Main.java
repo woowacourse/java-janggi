@@ -1,10 +1,11 @@
-import controller.JanggiController;
-import view.InputView;
-import view.OutputView;
+import config.AppConfig;
+import console.GameConsole;
 
 public class Main {
+
     public static void main(String[] args) {
-        JanggiController janggiController = new JanggiController(new InputView(), new OutputView());
-        janggiController.run();
+        AppConfig appConfig = new AppConfig();
+        GameConsole gameConsole = appConfig.gameConsole();
+        gameConsole.run();
     }
 }

@@ -1,14 +1,14 @@
-package domain.strategy;
+package domain.movement;
 
-import domain.Direction;
-import domain.Position;
+import domain.path.Direction;
+import domain.vo.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathMovement extends MovementStrategy {
+public class PathMovement implements Movement {
 
     @Override
-    protected List<Position> buildRoute(List<Direction> path, Position source, Position target) {
+    public List<Position> buildRoute(List<Direction> path, Position source, Position target) {
         List<Position> route = new ArrayList<>();
         Position current = source;
 

@@ -1,7 +1,7 @@
-package domain;
+package domain.path;
 
 public enum Direction {
-    UP(0,-1),
+    UP(0, -1),
     DOWN(0, 1),
     LEFT(-1, 0),
     RIGHT(1, 0),
@@ -16,6 +16,10 @@ public enum Direction {
     Direction(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public boolean isDiagonal() {
+        return this == UP_LEFT || this == UP_RIGHT || this == DOWN_LEFT || this == DOWN_RIGHT;
     }
 
     public int getX() {

@@ -1,38 +1,34 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Position;
-import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.path.Paths;
+import domain.strategy.PieceMoveStrategy;
+import domain.vo.Position;
 import java.util.List;
 
 public class Soldier extends Piece {
 
-    private final List<List<Direction>> paths;
+    private static final String CHO_NAME = "졸";
+    private static final String HAN_NAME = "병";
 
-    public Soldier(Side side, MovementStrategy movementStrategy) {
-        super(side, movementStrategy);
-        if (Side.CHO == side) {
-            paths = List.of(
-                List.of(Direction.UP), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-            );
-            return;
-        }
-        paths = List.of(
-            List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-        );
+    public Soldier(Side side, Paths paths, PieceMoveStrategy strategy) {
+        super(side, paths, strategy);
     }
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movementStrategy.findRoute(paths, sourcePosition, targetPosition);
+        return strategy.findRoute(paths.getPaths(sourcePosition), sourcePosition, targetPosition);
     }
 
     @Override
     public String getName() {
         if (isSameSide(Side.CHO)) {
-            return "졸";
+            return CHO_NAME;
         }
-        return "병";
+        return HAN_NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return PieceType.SOLDIER.score;
     }
 }

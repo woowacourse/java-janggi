@@ -1,36 +1,48 @@
-package controller;
+package console;
 
-import domain.Board;
-import domain.BoardFactory;
-import domain.Formation;
-import domain.Game;
-import domain.Position;
-import domain.Side;
+import domain.board.Formation;
+import domain.game.Game;
+import domain.piece.Side;
+import domain.vo.LoadGameDecision;
+import domain.vo.Position;
+import service.GameService;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
-public class JanggiController {
+public class GameConsole {
+
+    private final GameService gameService;
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public GameConsole(GameService gameService, InputView inputView, OutputView outputView) {
+        this.gameService = gameService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
+        if (gameService.existsGame() && readLoadGame()) {
+            Game game = loadGame();
+            processMove(game);
+            return;
+        }
         Game game = initGame();
         processMove(game);
+    }
+
+    private Game loadGame() {
+        Game game = gameService.loadGame();
+        outputView.printBoardStatus(game.getBoard());
+        return game;
     }
 
     private Game initGame() {
         Formation choformation = readChoFormation();
         Formation hanformation = readHanFormation();
-
-        Board board = BoardFactory.createBoard(choformation, hanformation);
-        Game game = new Game(board);
+        Game game = gameService.finishGamesAndCreateGame(choformation, hanformation);
         outputView.printBoardStatus(game.getBoard());
         return game;
     }
@@ -38,16 +50,18 @@ public class JanggiController {
     private void processMove(Game game) {
         while (!game.isGameEnd()) {
             Side currentTurn = game.getCurrentTurn();
+            outputView.printCurrentTotalScore(game.calculateTotalScore(Side.CHO), game.calculateTotalScore(Side.HAN));
             outputView.printCurrentTurn(currentTurn);
             Position sourcePosition = readSourcePosition();
             Position targetPosition = readTargetPosition();
             try {
-                game.move(sourcePosition, targetPosition);
+                gameService.moveAndSave(game, sourcePosition, targetPosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
             outputView.printBoardStatus(game.getBoard());
         }
+        outputView.printResult(game.getCurrentTurn());
     }
 
     private Position readSourcePosition() {
@@ -90,6 +104,17 @@ public class JanggiController {
             try {
                 String hanFormation = inputView.readHanFormation();
                 return Formation.from(hanFormation);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private boolean readLoadGame() {
+        while (true) {
+            try {
+                String input = inputView.readLoadGame();
+                return LoadGameDecision.from(input).shouldLoad();
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }

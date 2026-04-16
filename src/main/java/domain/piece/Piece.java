@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Position;
-import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.vo.Position;
+import domain.path.Paths;
+import domain.strategy.PieceMoveStrategy;
 import java.util.List;
 
 public abstract class Piece {
@@ -13,11 +13,13 @@ public abstract class Piece {
     protected static final String INVALID_TARGET_POSITION = "이동할 수 없는 목적지입니다.";
 
     protected final Side side;
-    protected final MovementStrategy movementStrategy;
+    protected final PieceMoveStrategy strategy;
+    protected final Paths paths;
 
-    protected Piece(Side side, MovementStrategy movementStrategy) {
+    protected Piece(Side side, Paths paths, PieceMoveStrategy strategy) {
         this.side = side;
-        this.movementStrategy = movementStrategy;
+        this.paths = paths;
+        this.strategy = strategy;
     }
 
     public void validateMovement(Side currentTurn, Piece targetPiece) {
@@ -52,4 +54,6 @@ public abstract class Piece {
     public abstract List<Position> findRoute(Position sourcePosition, Position targetPosition);
 
     public abstract String getName();
+
+    public abstract int getScore();
 }

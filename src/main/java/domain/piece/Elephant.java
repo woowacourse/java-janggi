@@ -1,35 +1,30 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Position;
-import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.path.Paths;
+import domain.strategy.PieceMoveStrategy;
+import domain.vo.Position;
 import java.util.List;
 
 public class Elephant extends Piece {
 
-    private final List<List<Direction>> paths = List.of(
-        List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
-        List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
-        List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT),
-        List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
-        List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
-        List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
-        List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT),
-        List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT)
-    );
+    private static final String NAME = "상";
 
-    public Elephant(Side side, MovementStrategy movementStrategy) {
-        super(side, movementStrategy);
+    public Elephant(Side side, Paths paths, PieceMoveStrategy strategy) {
+        super(side, paths, strategy);
     }
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movementStrategy.findRoute(paths, sourcePosition, targetPosition);
+        return strategy.findRoute(paths.getPaths(sourcePosition), sourcePosition, targetPosition);
     }
 
     @Override
     public String getName() {
-        return "상";
+        return NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return PieceType.ELEPHANT.score;
     }
 }

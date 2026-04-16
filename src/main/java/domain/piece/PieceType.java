@@ -1,52 +1,62 @@
 package domain.piece;
 
-import domain.Side;
-import domain.strategy.LinearMovement;
-import domain.strategy.PathMovement;
+import domain.path.ElephantPaths;
+import domain.path.HoresePaths;
+import domain.path.LinearPiecePaths;
+import domain.path.PalacePiecePaths;
+import domain.path.SoliderPaths;
+import domain.strategy.LinearMovementStrategy;
+import domain.strategy.PathMovementStrategy;
 
 public enum PieceType {
-    ELEPHANT {
+    ELEPHANT(3) {
         @Override
         public Piece create(Side side) {
-            return new Elephant(side, new PathMovement());
+            return new Elephant(side, new ElephantPaths(), new PathMovementStrategy());
         }
     },
-    CANNON {
+    CANNON(7) {
         @Override
         public Piece create(Side side) {
-            return new Cannon(side, new LinearMovement());
+            return new Cannon(side, new LinearPiecePaths(), new LinearMovementStrategy());
         }
     },
-    CHARIOT {
+    CHARIOT(13) {
         @Override
         public Piece create(Side side) {
-            return new Chariot(side, new LinearMovement());
+            return new Chariot(side, new LinearPiecePaths(), new LinearMovementStrategy());
         }
     },
-    GUARD {
+    GUARD(3) {
         @Override
         public Piece create(Side side) {
-            return new Guard(side, new PathMovement());
+            return new Guard(side, new PalacePiecePaths(), new PathMovementStrategy());
         }
     },
-    HORSE {
+    HORSE(5) {
         @Override
         public Piece create(Side side) {
-            return new Horse(side, new PathMovement());
+            return new Horse(side, new HoresePaths(), new PathMovementStrategy());
         }
     },
-    KING {
+    KING(0) {
         @Override
         public Piece create(Side side) {
-            return new King(side, new PathMovement());
+            return new King(side, new PalacePiecePaths(), new PathMovementStrategy());
         }
     },
-    SOLDIER {
+    SOLDIER(2) {
         @Override
         public Piece create(Side side) {
-            return new Soldier(side, new PathMovement());
+            return new Soldier(side, new SoliderPaths(side), new PathMovementStrategy());
         }
     };
+
+    public final int score;
+
+    PieceType(int score) {
+        this.score = score;
+    }
 
     public abstract Piece create(Side side);
 }

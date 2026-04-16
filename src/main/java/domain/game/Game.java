@@ -1,7 +1,10 @@
-package domain;
+package domain.game;
 
 import constant.BoardSpec;
+import domain.board.Board;
 import domain.piece.Piece;
+import domain.piece.Side;
+import domain.vo.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +21,13 @@ public class Game {
     public void move(Position sourcePosition, Position targetPosition) {
         validateMovement(sourcePosition, targetPosition);
         board.movePiece(sourcePosition, targetPosition);
-        turn.next();
+        if (!isGameEnd()) {
+            turn.next();
+        }
     }
 
     public boolean isGameEnd() {
-        return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
+        return !board.hasKing(Side.CHO) || !board.hasKing(Side.HAN);
     }
 
     public Side getCurrentTurn() {
@@ -31,6 +36,10 @@ public class Game {
 
     public Map<Position, Piece> getBoard() {
         return board.getBoard();
+    }
+
+    public double calculateTotalScore(Side side) {
+        return board.calculateTotalScore(side);
     }
 
     private void validateMovement(Position sourcePosition, Position targetPosition) {

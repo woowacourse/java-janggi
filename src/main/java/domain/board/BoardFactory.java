@@ -1,6 +1,8 @@
-package domain;
+package domain.board;
 
 import constant.BoardSpec;
+import domain.vo.Position;
+import domain.piece.Side;
 import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -23,12 +25,7 @@ public class BoardFactory {
     private static final List<Integer> FORMATION_X = List.of(2, 3, 7, 8);
 
     public static Board createBoard(Formation choFormation, Formation hanFormation) {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
-            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
-                placePiece(board, Position.of(x, y), new Empty());
-            }
-        }
+        Map<Position, Piece> board = createEmptyBoard();
         placePieces(board, choFormation, Side.CHO);
         placePieces(board, hanFormation, Side.HAN);
 
@@ -54,6 +51,16 @@ public class BoardFactory {
 
     private static void placePiece(Map<Position, Piece> board, Position position, Piece piece) {
         board.put(position, piece);
+    }
+
+    private static Map<Position, Piece> createEmptyBoard() {
+        Map<Position, Piece> board = new HashMap<>();
+        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
+            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
+                placePiece(board, Position.of(x, y), new Empty());
+            }
+        }
+        return board;
     }
 
     private static void placePiece(Map<Position, Piece> board, List<Integer> xPositions, int y, PieceType pieceType,
