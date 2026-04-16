@@ -32,14 +32,6 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    public static Board createTestBoard() {
-        Map<Position, Piece> board = createEmptyBoard();
-        placePiece(board, Position.of(5, 9), PieceType.KING.create(Side.CHO));
-        placePiece(board, Position.of(5, 6), PieceType.KING.create(Side.HAN));
-        placePiece(board, Position.of(5, 7), PieceType.SOLDIER.create(Side.CHO));
-        return new Board(board);
-    }
-
     private static void placePieces(Map<Position, Piece> board, Formation formation, Side side) {
         List<Integer> rows = getRowForSide(side);
         placePiece(board, CANNON_X, rows.get(CANNON_Y), PieceType.CANNON, side);
