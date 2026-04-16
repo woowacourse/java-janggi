@@ -8,7 +8,19 @@ import domain.team.Team;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public record PieceEntity(String team, String pieceType, int y, int x) {
+public final class PieceEntity {
+    private final String team;
+    private final String pieceType;
+    private final int y;
+    private final int x;
+
+    private PieceEntity(String team, String pieceType, int y, int x) {
+        this.team = team;
+        this.pieceType = pieceType;
+        this.y = y;
+        this.x = x;
+    }
+
     public static PieceEntity fromRow(ResultSet rs) throws SQLException {
         return new PieceEntity(
                 rs.getString("team"),
@@ -23,5 +35,21 @@ public record PieceEntity(String team, String pieceType, int y, int x) {
                 new Point(y, x),
                 new Piece(Team.valueOf(team), PieceType.valueOf(pieceType))
         );
+    }
+
+    public String team() {
+        return team;
+    }
+
+    public String pieceType() {
+        return pieceType;
+    }
+
+    public int y() {
+        return y;
+    }
+
+    public int x() {
+        return x;
     }
 }
