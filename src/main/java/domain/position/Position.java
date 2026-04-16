@@ -31,6 +31,13 @@ public record Position(int row, int col) {
                 col < 0 || col >= BOARD_COLUMNS.getIndex();
     }
 
+    public boolean canMoveNext(int rowOffset, int colOffset) {
+        int nextRow = row + rowOffset;
+        int nextCol = col + colOffset;
+        return nextRow >= 0 && nextRow < BOARD_ROWS.getIndex() &&
+                nextCol >= 0 && nextCol < BOARD_COLUMNS.getIndex();
+    }
+
     public boolean isInPalace() {
         return (row <= PALACE_ROW_HAN || row >= PALACE_ROW_CHO) &&
                 (col >= PALACE_COL_MIN && col <= PALACE_COL_MAX);
