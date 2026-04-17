@@ -1,9 +1,8 @@
-package boardSetting.PieceTest;
+package domain.piece;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +10,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElephantTest {
 
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
     private Elephant elephant;
 
     @BeforeEach
     void setUp() {
         elephant = new Elephant(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test
@@ -36,7 +35,7 @@ public class ElephantTest {
         Position targetPosition = new Position(3, 8);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(5, 6));
+        testBoard.setPiece(new Position(5,6), new Pawn(Team.CHO));
 
         boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCanMove).isFalse();

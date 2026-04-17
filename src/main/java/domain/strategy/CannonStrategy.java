@@ -2,7 +2,7 @@ package domain.strategy;
 
 import domain.Team;
 import domain.position.Position;
-import domain.PieceProvider;
+import domain.board.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,54 +18,58 @@ public class CannonStrategy implements Strategy {
 
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
-
         return getDirections().stream()
                 .flatMap(direction -> addCannonCandidates(from, team, direction, board).stream())
                 .collect(Collectors.toList());
     }
 
     private List<Position> addCannonCandidates(Position from, Team team, Direction direction, PieceProvider board) {
-        Position bridge = findFirstPiece(from,team, direction, board);
-        boolean isCannon = board.isCannon(bridge);
+        Position myeok = findObstacle(from,team, direction, board);
 
-        if (bridge.isInvalid() || isCannon) {
+        if (board.getPiece(myeok).isCannon()) {
             return Collections.emptyList();
         }
 
-        return collectTargets(bridge, team, direction, board);
+        return collectTargets(myeok, team, direction, board);
     }
 
-    private Position findFirstPiece(Position from, Team team, Direction direction, PieceProvider board) {
-        Position nextPosition = getNext(from, team, direction);
-        while (!nextPosition.isInvalid() && board.isBlank(nextPosition)) {
-            nextPosition = getNext(nextPosition, team, direction);
+    private Position findObstacle(Position from, Team team, Direction direction, PieceProvider board) {
+        int rowOffset = direction.getRowOffset(team);
+        int colOffset = direction.getColOffset(team);
+        Position obstacle = from;
+
+        while (obstacle.canMoveNext(rowOffset, colOffset)) {
+            obstacle = obstacle.next(rowOffset, colOffset);
+
+            if (!board.getPiece(obstacle).isBlank()) {
+                return obstacle;
+            }
         }
-        return nextPosition;
+
+        return obstacle;
     }
 
-    private Position getNext(Position from, Team team, Direction direction) {
-        int nextRows = from.row() + direction.getRowOffset(team);
-        int nextColumns = from.col() + direction.getColOffset(team);
-        return new Position(nextRows, nextColumns);
-    }
-
-    private List<Position> collectTargets(Position bridge, Team team, Direction direction, PieceProvider board) {
+    private List<Position> collectTargets(Position obstacle, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Position target = getNext(bridge, team, direction);
+        int rowOffset = direction.getRowOffset(team);
+        int colOffset = direction.getColOffset(team);
+        Position target = obstacle;
 
-        while (!target.isInvalid()) {
-            if (board.isBlank(target)) {
+        while (target.canMoveNext(rowOffset, colOffset)) {
+            target = target.next(rowOffset, colOffset);
+
+            if (board.getPiece(target).isBlank()) {
                 candidates.add(target);
-                target = getNext(target, team, direction);
                 continue;
             }
 
-            if (board.getPiece(target).getTeam() != team && !board.isCannon(target)) {
+            if (board.getPiece(target).isOtherTeam(team) && !board.getPiece(target).isCannon()) {
                 candidates.add(target);
             }
 
             break;
         }
+
         return candidates;
     }
 }

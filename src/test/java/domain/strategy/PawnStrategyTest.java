@@ -1,9 +1,8 @@
-package boardSetting.strategyTest;
+package domain.strategy;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.Team;
 import domain.position.Position;
-import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PawnStrategyTest {
 
     private PawnStrategy pawnStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     void setUp() {
         pawnStrategy = new PawnStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

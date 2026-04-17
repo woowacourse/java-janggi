@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.Team;
 import domain.piece.*;
 
 import domain.position.Position;
@@ -11,15 +12,26 @@ public class JanggiBoard implements PieceProvider {
     private final Map<Position, Piece> janggiBoard;
     private Team turn;
 
-    public JanggiBoard(JanggiBoardInitializer initializer) {
+    public JanggiBoard(BoardInitializer initializer) {
         this.janggiBoard = initializer.init();
         turn = Team.CHO;
+    }
+
+    public JanggiBoard(BoardInitializer initializer, Team turn) {
+        this.janggiBoard = initializer.init();
+        this.turn = turn;
     }
 
     public void move(Position from, Position to, Piece currentPiece) {
         janggiBoard.put(to, currentPiece);
         janggiBoard.put(from, new Blank());
         changeTurn();
+    }
+
+    public boolean isGameOver() {
+        return janggiBoard.values().stream()
+                .filter(Piece::isKing)
+                .count() < 2;
     }
 
     public Map<Position, Piece> getJanggiBoard() {
@@ -36,19 +48,6 @@ public class JanggiBoard implements PieceProvider {
             return;
         }
         turn = Team.CHO;
-    }
-
-
-    @Override
-    public boolean isBlank(Position position) {
-        Piece piece = janggiBoard.get(position);
-        return piece instanceof Blank;
-    }
-
-    @Override
-    public boolean isCannon(Position position) {
-        Piece piece = janggiBoard.get(position);
-        return piece instanceof Cannon;
     }
 
     @Override

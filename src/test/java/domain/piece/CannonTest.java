@@ -1,9 +1,8 @@
-package boardSetting.PieceTest;
+package domain.piece;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +11,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CannonTest {
 
     private Cannon cannon;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     public void setUp() {
         cannon = new Cannon(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

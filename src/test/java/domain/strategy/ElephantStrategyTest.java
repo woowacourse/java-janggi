@@ -1,9 +1,9 @@
-package boardSetting.strategyTest;
+package domain.strategy;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.Team;
+import domain.piece.Pawn;
 import domain.position.Position;
-import domain.strategy.ElephantStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ElephantStrategyTest {
 
     private ElephantStrategy elephantStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     public void setUp() {
         elephantStrategy = new ElephantStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test
@@ -44,7 +44,7 @@ public class ElephantStrategyTest {
         testBoard.setAllBlank();
 
         // 북쪽 멱 위치를 막힌 상태로 설정
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setPiece(new Position(4, 5), new Pawn(Team.CHO));
         List<Position> candidates = elephantStrategy.getMoveCandidates(source, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
@@ -56,7 +56,7 @@ public class ElephantStrategyTest {
         Position position = new Position(5, 5);
         testBoard.setAllBlank();
 
-        testBoard.setBlank(new Position(6, 5));
+        testBoard.setPiece(new Position(6, 5), new Pawn(Team.CHO));
         List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
@@ -68,7 +68,7 @@ public class ElephantStrategyTest {
         Position position = new Position(5, 5);
         testBoard.setAllBlank();
 
-        testBoard.setBlank(new Position(5, 4));
+        testBoard.setPiece(new Position(5, 4), new Pawn(Team.CHO));
         List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
@@ -80,7 +80,7 @@ public class ElephantStrategyTest {
         Position position = new Position(5, 5);
         testBoard.setAllBlank();
 
-        testBoard.setBlank(new Position(5, 6));
+        testBoard.setPiece(new Position(5, 6), new Pawn(Team.CHO));
         List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)

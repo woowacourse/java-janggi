@@ -1,22 +1,21 @@
-package boardSetting.PieceTest;
+package domain.piece;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.Horse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class HorseTest {
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
     private Horse horse;
 
     @BeforeEach
     void setUp() {
         horse = new Horse(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test
@@ -35,7 +34,7 @@ public class HorseTest {
         Position targetPosition = new Position(3, 4);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setPiece(new Position(4, 5), new Pawn(Team.CHO));
 
         boolean isCanMove = horse.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCanMove).isFalse();

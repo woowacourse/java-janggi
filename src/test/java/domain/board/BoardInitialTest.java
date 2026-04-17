@@ -1,9 +1,7 @@
-package boardSetting;
+package domain.board;
 
-import domain.JanggiBoard;
-import domain.JanggiBoardInitializer;
-import domain.position.Position;
 import domain.Team;
+import domain.position.Position;
 import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

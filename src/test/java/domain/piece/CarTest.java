@@ -1,9 +1,8 @@
-package boardSetting.PieceTest;
+package domain.piece;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +11,12 @@ import static org.assertj.core.api.Assertions.*;
 public class CarTest {
 
     private Car car;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     public void setUp() {
         car = new Car(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test
@@ -36,7 +35,7 @@ public class CarTest {
         Position targetPosition = new Position(7, 5);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(6, 5));
+        testBoard.setPiece(new Position(6, 5), new Pawn(Team.CHO));
 
         boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
 

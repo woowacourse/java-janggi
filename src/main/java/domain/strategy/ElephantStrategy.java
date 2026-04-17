@@ -2,7 +2,7 @@ package domain.strategy;
 
 import domain.Team;
 import domain.position.Position;
-import domain.PieceProvider;
+import domain.board.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +25,20 @@ public class ElephantStrategy implements Strategy {
 
     private void addCandidatesForStraight(Position from, Team team, PieceProvider board,
                                           Direction straight, List<Position> candidates) {
-        Position myeok1 = move(from, straight, team);
-        if (!board.isBlank(myeok1)) return;
-        addCandidatesForDiagonals(myeok1, team, board, straight, candidates);
+        Position firstMyeok = from.next(straight.getRowOffset(team), straight.getColOffset(team));
+        if (!board.getPiece(firstMyeok).isBlank()) return;
+        addCandidatesForDiagonals(firstMyeok, team, board, straight, candidates);
     }
 
-    private void addCandidatesForDiagonals(Position myeok1, Team team, PieceProvider board,
+    private void addCandidatesForDiagonals(Position firstMyeok, Team team, PieceProvider board,
                                            Direction straight, List<Position> candidates) {
         for (Direction diag : getDiagonalsFor(straight)) {
-            Position myeok2 = move(myeok1, diag, team);
-            if (!board.isBlank(myeok2)) continue;
-            candidates.add(move(myeok2, diag, team));
+            Position secondMyeok = firstMyeok.next(diag.getRowOffset(team), diag.getColOffset(team));
+            if (!board.getPiece(secondMyeok).isBlank()) break;
+            Position target = secondMyeok.next(diag.getRowOffset(team), diag.getColOffset(team));
+            if (!board.getPiece(target).isBlank()) break;
+            candidates.add(target);
         }
-    }
-
-    private Position move(Position pos, Direction dir, Team team) {
-        return new Position(
-                pos.row() + dir.getRowOffset(team),
-                pos.col() + dir.getColOffset(team)
-        );
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {

@@ -1,25 +1,36 @@
-package boardSetting.strategyTest;
+package domain.strategy;
 
-import boardSetting.TestFIxture;
+import domain.TestFixture;
 import domain.Team;
+import domain.piece.Car;
 import domain.position.Position;
-import domain.strategy.CarStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class CarStrategyTest {
 
     private CarStrategy carStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     void setUp() {
         carStrategy = new CarStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
+    }
+
+    @Test
+    void 차가_북쪽_끝에_있을_때_북쪽_후보는_없어야_하고_시스템은_터지지_않아야_한다() {
+        Position position = new Position(0, 4);
+
+        assertThatCode(() -> {
+            List<Position> candidates = carStrategy.getMoveCandidates(position, Team.CHO, testBoard);
+            assertThat(candidates).noneMatch(p -> p.row() < 0);
+        }).doesNotThrowAnyException();
     }
 
     @Test
@@ -42,7 +53,7 @@ public class CarStrategyTest {
         testBoard.setAllBlank();
 
         Position obstacle = new Position(3, 4);
-        testBoard.setBlank(obstacle);
+        testBoard.setPiece(obstacle, new Car(Team.HAN));
 
         List<Position> candidates = carStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
