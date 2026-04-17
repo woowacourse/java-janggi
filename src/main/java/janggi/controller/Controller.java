@@ -53,26 +53,82 @@ public class Controller {
         outputView.printStartMessage();
         int gameId = janggiService.createNewGame();
         Board board = new Board(BoardFactory.generate());
-        playGame(gameId, board);
+        playGame(gameId, board, Team.CHO);
     }
 
     private void showGameList() {
         List<GameRoomDto> games = janggiService.findAllGames();
 
         if (games.isEmpty()) {
-            outputView.printErrorMessage("\n[!] 저장된 게임이 없습니다.\n");
+            outputView.printEmptyListMessage();
             return;
         }
 
         outputView.printGameList(games);
+        handleListAction();
     }
 
-    private void playGame(int gameId, Board board) {
-        Team currentTeam = Team.CHO;
+    private void handleListAction() {
+        try {
+            String input = inputView.readListAction();
+            processCommand(input);
+        } catch (BusinessException e) {
+            outputView.printErrorMessage(e.getMessage());
+            handleListAction();
+        }
+    }
 
+    private void processCommand(String input) {
+        if (input.equals("back")) {
+            return;
+        }
+        String[] tokens = input.split(" ");
+        validateCommandFormat(tokens);
+
+        String action = tokens[0];
+        int gameId = Integer.parseInt(tokens[1]);
+
+        executeAction(action, gameId);
+    }
+
+    private void executeAction(String action, int gameId) {
+        if (action.equals("play")) {
+            resumeGame(gameId);
+        }
+        if (action.equals("delete")) {
+            janggiService.deleteGame(gameId);
+            outputView.printDeleteSuccess();
+        }
+    }
+
+    private void resumeGame(int gameId) {
+        GameRoomDto gameRoom = janggiService.getGameRoom(gameId);
+        validateGamePlayable(gameRoom);
+
+        outputView.printResumeMessage();
+        Board board = janggiService.loadBoard(gameId);
+        Team currentTeam = Team.valueOf(gameRoom.getCurrentTurn());
+
+        playGame(gameId, board, currentTeam);
+    }
+
+    private void validateGamePlayable(GameRoomDto gameRoom) {
+        if (gameRoom.getStatus().equals("FINISHED")) {
+            throw new BusinessException("종료된 게임에는 입장할 수 없습니다. (목록에서 삭제만 가능합니다.)");
+        }
+    }
+
+    private void validateCommandFormat(String[] tokens) {
+        if (tokens.length != 2) {
+            throw new BusinessException("올바른 명령어 형식이 아닙니다. (예: play 1)");
+        }
+    }
+
+    private void playGame(int gameId, Board board, Team currentTeam) {
         while (!isGameOver(board)) {
             printCurrentState(board);
             playTurn(gameId, board, currentTeam);
+
             currentTeam = currentTeam.switchTeam();
         }
 

@@ -99,6 +99,7 @@ public class OutputView {
     }
 
     public void printMenu() {
+        System.out.println();
         System.out.println("[메뉴]");
         System.out.println("━━━━━━━━━━━━━━━━━━");
         System.out.println("1. 새 게임 시작");
@@ -133,6 +134,10 @@ public class OutputView {
         System.out.println("└─────────────────────────────────────────────────────────┘");
     }
 
+    public void printEmptyListMessage() {
+        System.out.println("\n[!] 저장된 게임이 없습니다.");
+    }
+
     public void printGameList(List<GameRoomDto> games) {
         System.out.println("\n[저장된 게임 목록]");
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -146,6 +151,13 @@ public class OutputView {
                     game.getHanScore());
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println();
+    }
+
+    public void printDeleteSuccess() {
+        System.out.println("\n게임이 삭제되었습니다.");
+    }
+
+    public void printResumeMessage() {
+        System.out.println("\n게임을 이어서 진행합니다.");
     }
 }

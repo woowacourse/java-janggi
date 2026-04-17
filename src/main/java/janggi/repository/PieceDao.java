@@ -1,9 +1,18 @@
 package janggi.repository;
 
+import janggi.domain.Column;
+import janggi.domain.Piece;
+import janggi.domain.PieceFactory;
+import janggi.domain.Position;
+import janggi.domain.Row;
+import janggi.domain.Team;
 import janggi.exception.DataAccessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PieceDao {
     public void savePiece(int gameId, int rowIndex, int colIndex, String pieceType, String team) {
@@ -57,5 +66,33 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new DataAccessException("포획된 기물 삭제 중 오류가 발생했습니다.", e);
         }
+    }
+
+    public Map<Position, Piece> findAllByGameId(int gameId) {
+        String query = "SELECT * FROM piece_position WHERE game_id = ?";
+        Map<Position, Piece> pieces = new HashMap<>();
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, gameId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    addPieceFromResultSet(pieces, rs);
+                }
+            }
+            return pieces;
+        } catch (SQLException e) {
+            throw new DataAccessException("기물 목록을 불러오는 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    private void addPieceFromResultSet(Map<Position, Piece> pieces, ResultSet rs) throws SQLException {
+        int row = rs.getInt("row_index");
+        int col = rs.getInt("col_index");
+        String type = rs.getString("piece_type");
+        String team = rs.getString("team");
+
+        Position position = Position.of(Row.of(row), Column.of(col));
+        Piece piece = PieceFactory.create(type, Team.valueOf(team));
+        pieces.put(position, piece);
     }
 }

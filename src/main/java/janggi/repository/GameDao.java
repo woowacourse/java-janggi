@@ -84,4 +84,31 @@ public class GameDao {
 
         return new GameRoomDto(id, currentTurn, status, choScore, hanScore, createdAt);
     }
+
+    public GameRoomDto findById(int id) {
+        String query = "SELECT * FROM game_room WHERE id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return createGameRoomDto(rs);
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("게임을 찾는 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    public void deleteById(int id) {
+        String query = "DELETE FROM game_room WHERE id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException("게임 삭제 중 오류가 발생했습니다.", e);
+        }
+    }
 }

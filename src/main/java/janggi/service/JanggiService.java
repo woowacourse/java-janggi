@@ -2,9 +2,11 @@ package janggi.service;
 
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
+import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.dto.GameRoomDto;
+import janggi.exception.DataAccessException;
 import janggi.repository.GameDao;
 import janggi.repository.PieceDao;
 import java.util.List;
@@ -73,5 +75,22 @@ public class JanggiService {
 
     public List<GameRoomDto> findAllGames() {
         return gameDao.findAll();
+    }
+
+    public Board loadBoard(int gameId) {
+        Map<Position, Piece> pieces = pieceDao.findAllByGameId(gameId);
+        return new Board(pieces);
+    }
+
+    public void deleteGame(int gameId) {
+        gameDao.deleteById(gameId);
+    }
+
+    public GameRoomDto getGameRoom(int gameId) {
+        GameRoomDto gameRoom = gameDao.findById(gameId);
+        if (gameRoom == null) {
+            throw new DataAccessException("해당 ID의 게임이 존재하지 않습니다.");
+        }
+        return gameRoom;
     }
 }
