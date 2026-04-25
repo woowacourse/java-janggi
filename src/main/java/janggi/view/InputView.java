@@ -86,4 +86,21 @@ public class InputView {
             return Position.from(to);
         }
     }
+
+    public String readListAction() {
+        System.out.println("\n명령어를 입력하세요.");
+        System.out.println("입장: play [ID] / 삭제: delete [ID] / 이전 메뉴: back");
+        System.out.print("(예: play 1 혹은 delete 1 혹은 back) : ");
+
+        String input = sc.nextLine();
+        validateNotEmpty(input);
+
+        return input;
+    }
+
+    private void validateNotEmpty(String input) {
+        if (input == null || input.isBlank()) {
+            throw new EmptyInputException();
+        }
+    }
 }

@@ -20,4 +20,8 @@ public enum Team {
     public String getTeam() {
         return name;
     }
+
+    public String getName() {
+        return name;
+    }
 }

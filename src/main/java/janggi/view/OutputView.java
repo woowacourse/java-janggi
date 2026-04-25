@@ -3,15 +3,15 @@ package janggi.view;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.BoardDto.CoordinateDto;
+import janggi.dto.GameRoomDto;
 import janggi.dto.PieceDto;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
     private static final int BOARD_WIDTH = 9;
     private static final int BOARD_HEIGHT = 10;
-    private static final int NODE_CHARS = 10;
-    private static final String EMPTY_NODE = "[　]";
+    private static final String EMPTY_CHAR = "　";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -26,108 +26,138 @@ public class OutputView {
 
     public void printBoard(BoardDto boardDto) {
         String[][] boardView = generateBoardView(boardDto);
-        printXCoordinates();
+
+        System.out.println();
+        printXAxis();
         printRows(boardView);
         System.out.println();
     }
 
     private void printRows(String[][] boardView) {
         for (int y = 0; y < BOARD_HEIGHT; y++) {
-            printNodeRow(boardView[y], y);
-            printSpacerIfNecessary(y);
+            printRow(y, boardView[y]);
         }
     }
 
+    private void printRow(int y, String[] row) {
+        System.out.printf("%d ", y);
+        for (String cell : row) {
+            System.out.print(cell);
+        }
+        System.out.println();
+    }
+
     private String[][] generateBoardView(BoardDto boardDto) {
-        String[][] boardView = initializeEmptyBoard();
+        String[][] boardView = createEmptyBoard();
         fillPieces(boardView, boardDto.getPieces());
         return boardView;
     }
 
-    private String[][] initializeEmptyBoard() {
+    private String[][] createEmptyBoard() {
         String[][] boardView = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int y = 0; y < BOARD_HEIGHT; y++) {
-            Arrays.fill(boardView[y], EMPTY_NODE);
+            fillEmptyRow(boardView[y]);
         }
         return boardView;
     }
 
-    private void fillPieces(String[][] boardView, Map<CoordinateDto, PieceDto> pieces) {
-        for (Map.Entry<CoordinateDto, PieceDto> entry : pieces.entrySet()) {
-            CoordinateDto coord = entry.getKey();
-            PieceDto piece = entry.getValue();
-            String factionColor = determineFactionColor(piece.team());
-
-            boardView[coord.column()][coord.row()] = String.format("[%s%s%s]", factionColor, piece.name(), ANSI_RESET);
+    private void fillEmptyRow(String[] row) {
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            row[x] = String.format("[%s]", EMPTY_CHAR);
         }
     }
 
-    private String determineFactionColor(Team team) {
+    private void fillPieces(String[][] boardView, Map<CoordinateDto, PieceDto> pieces) {
+        for (Map.Entry<CoordinateDto, PieceDto> entry : pieces.entrySet()) {
+            placePiece(boardView, entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void placePiece(String[][] boardView, CoordinateDto coord, PieceDto piece) {
+        String color = decideColor(piece.team());
+        boardView[coord.column()][coord.row()] = String.format("[%s%s%s]", color, piece.name(), ANSI_RESET);
+    }
+
+    private String decideColor(Team team) {
         if (team == Team.HAN) {
             return ANSI_RED;
         }
         return ANSI_GREEN;
     }
 
-    private void printXCoordinates() {
-        StringBuilder xAxis = new StringBuilder("   ");
+    private void printXAxis() {
+        System.out.print("  ");
         for (int x = 0; x < BOARD_WIDTH; x++) {
-            xAxis.append(" ").append((char) ('\uFF10' + x)).append("        ");
+            printFullWidthDigit(x);
         }
-        System.out.println(xAxis + "\n");
+        System.out.println();
     }
 
-    private void printNodeRow(String[] rowNodes, int y) {
-        String rowContent = String.join("-------", rowNodes);
-        System.out.printf("%d  %s%n", y, rowContent);
-    }
-
-    private void printSpacerIfNecessary(int y) {
-        if (y < BOARD_HEIGHT - 1) {
-            printSpacerRows(y);
-        }
-    }
-
-    private void printSpacerRows(int y) {
-        int[] diagonalOffsets = {2, 5, 8};
-        for (int offset : diagonalOffsets) {
-            printSingleSpacerLine(y, offset);
-        }
-    }
-
-    private void printSingleSpacerLine(int y, int offset) {
-        char[] spacer = createVerticalLines();
-        addPalaceDiagonals(spacer, y, offset);
-        System.out.println("   " + new String(spacer));
-    }
-
-    private char[] createVerticalLines() {
-        char[] spacer = new char[BOARD_WIDTH * NODE_CHARS];
-        Arrays.fill(spacer, ' ');
-        for (int x = 0; x < BOARD_WIDTH; x++) {
-            spacer[x * NODE_CHARS + 1] = 'ㅣ';
-        }
-        return spacer;
-    }
-
-    private void addPalaceDiagonals(char[] spacer, int y, int offset) {
-        int x3 = 3 * NODE_CHARS + 1;
-        int x4 = 4 * NODE_CHARS + 1;
-        int x5 = 5 * NODE_CHARS + 1;
-
-        if (y == 0 || y == 7) {
-            spacer[x3 + offset] = '\\';
-            spacer[x5 - offset] = '/';
-        }
-        if (y == 1 || y == 8) {
-            spacer[x4 - offset] = '/';
-            spacer[x4 + offset] = '\\';
-        }
+    private void printFullWidthDigit(int digit) {
+        char fullWidthDigit = (char) ('\uFF10' + digit);
+        System.out.print(" " + fullWidthDigit + " ");
     }
 
     public void printMenu() {
+        System.out.println();
+        System.out.println("[메뉴]");
+        System.out.println("━━━━━━━━━━━━━━━━━━");
         System.out.println("1. 새 게임 시작");
-        System.out.println("2. 게임 종료");
+        System.out.println("2. 게임 목록 보기");
+        System.out.println("3. 게임 종료");
+        System.out.println("━━━━━━━━━━━━━━━━━━");
         System.out.print("메뉴를 선택하세요: ");
+    }
+
+    public void printScore(double choscore, double hanscore) {
+        System.out.println("[기물 점수]");
+        System.out.printf("초나라: %.1f점%n", choscore);
+        System.out.printf("한나라: %.1f점%n", hanscore);
+    }
+
+    public void printFinalResult(Team winner, double choScore, double hanScore) {
+        System.out.println();
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.printf(" 왕(궁)이 잡혔습니다! %s나라의 승리입니다!%n", winner.getName());
+        System.out.println();
+        System.out.println(" [최종 점수]");
+        System.out.printf(" 초나라 : %.1f점%n", choScore);
+        System.out.printf(" 한나라 : %.1f점%n", hanScore);
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println();
+    }
+
+    public void printCheckMessage(Team team) {
+        System.out.println();
+        System.out.println("┌─────────────────────────────────────────────────────────┐");
+        System.out.printf("  장군입니다! %s나라 왕이 위험합니다! 기물을 움직여 궁을 살리세요.%n", team.getName());
+        System.out.println("└─────────────────────────────────────────────────────────┘");
+    }
+
+    public void printEmptyListMessage() {
+        System.out.println("\n[!] 저장된 게임이 없습니다.");
+    }
+
+    public void printGameList(List<GameRoomDto> games) {
+        System.out.println("\n[저장된 게임 목록]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        for (GameRoomDto game : games) {
+            System.out.printf("ID: %d | 생성일: %s | 상태: %s | 순서: %s | 초: %.1f 한: %.1f%n",
+                    game.getId(),
+                    game.getCreatedAt(),
+                    game.getStatus(),
+                    game.getCurrentTurn(),
+                    game.getChoScore(),
+                    game.getHanScore());
+        }
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    }
+
+    public void printDeleteSuccess() {
+        System.out.println("\n게임이 삭제되었습니다.");
+    }
+
+    public void printResumeMessage() {
+        System.out.println("\n게임을 이어서 진행합니다.");
     }
 }

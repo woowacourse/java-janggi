@@ -30,3 +30,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### MySQL data directory ###
+mysql_data/
+
+### specific database files ###
+*.sock
+*.index
+ib_buffer_pool

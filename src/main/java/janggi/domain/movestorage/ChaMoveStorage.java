@@ -1,50 +1,47 @@
 package janggi.domain.movestorage;
 
 import janggi.domain.BoardView;
-import janggi.domain.Column;
 import janggi.domain.Position;
-import janggi.domain.Row;
-import java.util.stream.IntStream;
+import java.util.List;
 
 public class ChaMoveStorage implements MoveStorage {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView boardView) {
-        if (isNotStraight(from, to)) {
+        if (isStraight(from, to)) {
+            return !isStraightPathBlocked(from, to, boardView);
+        }
+
+        if (isValidPalaceDiagonalMove(from, to)) {
+            return !isDiagonalPathBlocked(from, to, boardView);
+        }
+
+        return false;
+    }
+
+    private boolean isStraight(Position from, Position to) {
+        return from.isSameRow(to) || from.isSameColumn(to);
+    }
+
+    private boolean isStraightPathBlocked(Position from, Position to, BoardView boardView) {
+        List<Position> path = from.getStraightPathTo(to);
+        return path.stream().anyMatch(boardView::hasPieceAt);
+    }
+
+    private boolean isValidPalaceDiagonalMove(Position from, Position to) {
+        if (!from.isInPalace() || !to.isInPalace()) {
             return false;
         }
 
-        return !isPathBlocked(from, to, boardView);
+        return from.isOnSameDiagonal(to);
     }
 
-    private boolean isNotStraight(Position from, Position to) {
-        return from.getRowValue() != to.getRowValue() && from.getColumnValue() != to.getColumnValue();
-    }
-
-    private boolean isPathBlocked(Position from, Position to, BoardView boardView) {
-        if (from.getRowValue() == to.getRowValue()) {
-             return isHorizontalPathBlocked(from, to, boardView);
+    private boolean isDiagonalPathBlocked(Position from, Position to, BoardView boardView) {
+        if (from.calculateDistance(to) == 2) {
+            Position middle = from.getMiddlePosition(to);
+            return boardView.hasPieceAt(middle);
         }
-        return isVerticalPathBlocked(from, to, boardView);
-    }
 
-    private boolean isHorizontalPathBlocked(Position from, Position to, BoardView boardView) {
-        int row = from.getRowValue();
-        int start = Math.min(from.getColumnValue(), to.getColumnValue()) + 1;
-        int end = Math.max(from.getColumnValue(), to.getColumnValue());
-
-        return IntStream.range(start, end)
-                .mapToObj(column -> Position.of(Row.of(row), Column.of(column)))
-                .anyMatch(boardView::hasPieceAt);
-    }
-
-    private boolean isVerticalPathBlocked(Position from, Position to, BoardView boardView) {
-        int column = from.getColumnValue();
-        int start = Math.min(from.getRowValue(), to.getRowValue()) + 1;
-        int end = Math.max(from.getRowValue(), to.getRowValue());
-
-        return IntStream.range(start, end)
-                .mapToObj(row -> Position.of(Row.of(row), Column.of(column)))
-                .anyMatch(boardView::hasPieceAt);
+        return false;
     }
 }
